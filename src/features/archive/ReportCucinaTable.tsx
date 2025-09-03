@@ -1,5 +1,3 @@
-"use client";
-
 import {
   Table,
   TableBody,
@@ -11,7 +9,7 @@ import {
 
 export default function ReportTable({ data: report }: any) {
   return (
-    <div className="py-4 px-2 border border-gray-200 rounded-md md:p-4 grid grid-cols-1 md:grid-cols-[33%_33%_33%] gap-4">
+    <div className="py-4 px-2 border border-gray-200 rounded-md md:p-4 grid grid-cols-1 mx:auto xl:grid-cols-[33%_33%_33%] gap-4">
       <div className="flex flex-col gap-4">
         <Table className="md:w-120 table-fixed">
           <TableHeader>

@@ -11,7 +11,6 @@ import {
 } from "@/components/ui/accordion";
 import React, { useEffect, useState } from "react";
 import { format } from "date-fns";
-// import { useApi } from "@/hooks/useApi";
 import { useAbility } from "@/providers/AbilityProvider";
 import { Label } from "@radix-ui/react-label";
 import {
@@ -21,7 +20,6 @@ import {
   RemarkReport,
 } from "@/generated/prisma";
 import { ArchiveData, useArchive } from "@/hooks/useApiArchive";
-import { useApi } from "@/hooks/useApi";
 import { useArchiveMutations } from "@/hooks/useApiActions";
 
 type ApiDataMap = {
@@ -52,7 +50,7 @@ export const ArhiveListTable = <T extends keyof ApiDataMap>({
   >([]);
 
   const [openItem, setOpenItem] = useState<string | null>(null);
-  const { data, isLoading, error, invalidate } = useArchive();
+  const { data, invalidate } = useArchive();
   const { deleteMutation } = useArchiveMutations({
     endpoint: nameTag,
   });

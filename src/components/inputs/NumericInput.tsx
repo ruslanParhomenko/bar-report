@@ -51,12 +51,12 @@ function NumericInput({
                 />
               </FormControl>
             </PopoverTrigger>
-            <PopoverContent className="w-50 p-2 grid grid-cols-3 gap-2 border-none bg-[#e5e7eb]">
+            <PopoverContent className="w-50 p-2 grid grid-cols-3 gap-2 border-none bg-bl">
               {Array.from({ length: 9 }, (_, i) => i + 1).map((num) => (
                 <Button
                   key={num}
                   variant="outline"
-                  className="h-10 text-xl bg-[#e5e7eb]"
+                  className="h-10 text-xl bg-white"
                   onClick={() => onChange((value ?? "") + num)}
                 >
                   {num}
@@ -64,21 +64,21 @@ function NumericInput({
               ))}
               <Button
                 variant="outline"
-                className="h-10 text-xl text-rd bg-[#e5e7eb]"
+                className="h-10 text-xl text-rd bg-white"
                 onClick={() => onChange((value ?? "").slice(0, -1))}
               >
                 X
               </Button>
               <Button
                 variant="outline"
-                className="h-10 text-xl bg-[#e5e7eb]"
+                className="h-10 text-xl bg-white"
                 onClick={() => onChange((value ?? "") + "0")}
               >
                 0
               </Button>
               <Button
                 variant="outline"
-                className="h-10 text-xl bg-[#e5e7eb]"
+                className="h-10 text-xl bg-white"
                 onClick={() => {
                   if (!(value ?? "").includes(".")) {
                     onChange((value ?? "") + ".");
@@ -89,7 +89,7 @@ function NumericInput({
               </Button>
               <Button
                 variant="outline"
-                className="h-10 text-xl col-span-3 border-[#e5e7eb] text-bl bg-[#e5e7eb]"
+                className="h-10 text-xl col-span-3  bg-white"
                 onClick={() => setOpen(false)}
               >
                 ok

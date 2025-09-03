@@ -16,7 +16,7 @@ import {
   schemaReportCucina,
 } from "./schema";
 import { SendResetButton } from "@/components/buttons/SendResetButton";
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import {
   CUCINA_EMPLOYEES,
   OVER_HOURS,
@@ -39,7 +39,6 @@ import { useLocalStorageForm } from "@/hooks/use-local-storage";
 import { yupResolver } from "@hookform/resolvers/yup";
 import toast from "react-hot-toast";
 import { useAbility } from "@/providers/AbilityProvider";
-import { useSession } from "next-auth/react";
 import { FetchDataButton } from "@/components/buttons/FetchDataButton";
 import RenderTableCucina from "./RenderTableByFields";
 import { useEmployees } from "@/providers/EmployeeProvider";
@@ -73,7 +72,7 @@ export default function DailyReportForm() {
   //realtime
   const { sendRealTime, fetchRealTime } = useDataSupaBase({
     localStorageKey: LOCAL_STORAGE_KEY,
-    apiKey: REPORT_CUCINA_REALTIME_ENDPOINT
+    apiKey: REPORT_CUCINA_REALTIME_ENDPOINT,
   });
 
   //localstorage
