@@ -60,7 +60,7 @@ export const tobaccoDefault = LIST_TOBACCO.map((name) => ({
   stock: "0",
   incoming: "",
   outgoing: "",
-  finalStock: "",
+  finalStock: "0",
 }));
 
 // cash verify

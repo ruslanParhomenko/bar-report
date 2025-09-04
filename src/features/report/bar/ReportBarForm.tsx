@@ -64,8 +64,8 @@ export function ReportBarForm() {
     const currentValues = form.getValues();
     const resetTobacco = currentValues?.tobacco?.map((item) => ({
       ...item,
-      incoming: null,
-      outgoing: null,
+      incoming: "",
+      outgoing: "",
     }));
 
     form.reset({
