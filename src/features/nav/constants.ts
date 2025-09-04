@@ -62,4 +62,10 @@ export const SIDEBAR_NAVIGATION = [
     url2: "/meniu-vip",
     icon: List,
   },
+  {
+    title: "meniuRating",
+    url: "/meniu-staff",
+    url2: "/meniu-staff",
+    icon: List,
+  },
 ];

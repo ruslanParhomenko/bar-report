@@ -105,7 +105,8 @@
     "role": "Rol",
     "chooseItem": "Alege data",
     "users": "Utilizatori",
-    "meniuVip": "Meniu VIP"
+    "meniuVip": "Meniu VIP",
+    "meniuRating": "Evaluare meniu"
   },
   "Meniu": {
     "menu": "MENIU",

@@ -105,7 +105,8 @@
     "role": "Роль",
     "chooseItem": "Выберите дату",
     "users": "Пользователи",
-    "meniuVip": "Меню VIP"
+    "meniuVip": "Меню VIP",
+    "meniuRating": "Оценка питания"
   },
   "Meniu": {
     "menu": "МЕНЮ",
