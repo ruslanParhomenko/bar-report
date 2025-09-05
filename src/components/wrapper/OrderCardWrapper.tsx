@@ -1,11 +1,10 @@
 "use client";
-import SelectInput from "../inputs/SelectInput";
 import { Label } from "../ui/label";
-import { QUANTITY_SELECT } from "@/features/order-list/constants";
 import { Separator } from "../ui/separator";
 import { useAbility } from "@/providers/AbilityProvider";
 import { useFormContext, useWatch } from "react-hook-form";
-import { Minus } from "lucide-react";
+
+import NumericInput from "../inputs/NumericInput";
 
 export function OrderCardWrapper({
   data,
@@ -25,17 +24,25 @@ export function OrderCardWrapper({
         const value = useWatch({ control, name: item });
         return (
           <div key={index}>
-            <div className="grid-cols-[95%_5%] grid">
-              <SelectInput
+            <div className="grid-cols-[65%_25%_10%] grid">
+              <Label className={`text-sm ${value ? "text-rd" : ""}`}>
+                {item}
+              </Label>
+              <NumericInput
+                fieldName={item}
+                disabled={isObserver}
+                className="w-16! text-center h-7!"
+              />
+              {/* <SelectInput
                 fieldName={item}
                 fieldLabel={item}
                 data={QUANTITY_SELECT}
                 disabled={isObserver}
-              />
+              /> */}
               {value && (
                 <button
                   type="button"
-                  className=" text-red-600 front-bold"
+                  className=" text-rd front-bold cursor-pointer"
                   onClick={() => setValue(item, "")}
                 >
                   X

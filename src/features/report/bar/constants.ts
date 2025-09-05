@@ -238,6 +238,9 @@ export const PRODUCTS = [
   ...APIFERA,
   ...DAVIDAN,
   ...SAMPAREX,
+  "молоко бар",
+  "сливки бар",
+  "молоко стафф",
 ];
 
 export const PRODUCTS_CUCINA = [

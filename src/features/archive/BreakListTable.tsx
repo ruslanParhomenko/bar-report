@@ -9,14 +9,13 @@ export default function BreakListTable({ data }: { data: any }) {
           <Table>
             <TableBody>
               {data?.rows?.map((row: any) => {
-                // Собираем все часы из полей, начинающихся с 'h_'
                 const hoursEntries = Object.entries(row)
                   .filter(([key]) => key.startsWith("h_"))
                   .map(([key, value]) => ({
-                    hour: key.substring(2), // Убираем 'h_' префикс
+                    hour: key.substring(2),
                     value: value as string,
                   }))
-                  .filter(({ value }) => value && value !== "X"); // Фильтруем пустые и "X"
+                  .filter(({ value }) => value && value !== "X");
 
                 return (
                   <TableRow key={row.id}>

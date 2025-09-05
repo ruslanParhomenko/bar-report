@@ -41,7 +41,7 @@ export const BreakListTable = () => {
           <TableHead></TableHead>
           <TableHead></TableHead>
           {TIME_LABELS.map((h, i) => {
-            const isCurrentHour = Number(h) === currentHour;
+            const isCurrentHour = Number(h === "24" ? "00" : h) === currentHour;
             return (
               <TableHead
                 key={i}
