@@ -41,6 +41,7 @@ import {
   SPICES_2,
   VEGETABLES,
   VITAFOR,
+  SAMPAREX,
 } from "@/features/order-list/constants";
 
 export const WAREHOUSES = [
@@ -233,6 +234,7 @@ export const PRODUCTS = [
   ...FRUITBOX,
   ...APIFERA,
   ...DAVIDAN,
+  ...SAMPAREX,
 ];
 
 export const PRODUCTS_CUCINA = [

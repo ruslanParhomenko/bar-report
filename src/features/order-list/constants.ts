@@ -264,7 +264,7 @@ export const UBFB = [
   "Baileys",
   "вино PICINI белое",
   "вино PICINI красное",
-
+  "Jagermeister",
   "Heineken",
   "Martini Bianco",
   "Martini prosecco",
