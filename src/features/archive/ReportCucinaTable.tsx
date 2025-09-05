@@ -9,14 +9,14 @@ import {
 
 export default function ReportTable({ data: report }: any) {
   return (
-    <div className="py-4 px-2 border border-gray-200 rounded-md md:p-4 grid grid-cols-1 mx:auto xl:grid-cols-[33%_33%_33%] gap-4">
+    <div className="py-4 px-2 border border-gray-200 rounded-md md:p-4 grid grid-cols-1 mx:auto xl:grid-cols-[24%_24%_24%_24%] gap-4">
       <div className="flex flex-col gap-4">
-        <Table className="md:w-120 table-fixed">
+        <Table className="md:w-100 table-fixed border-r border-gray-200">
           <TableHeader>
             <TableRow>
-              <TableHead className="text-blue-600 w-55">Employees</TableHead>
-              <TableHead className="text-blue-600 w-15">Time</TableHead>
-              <TableHead className="text-blue-600 w-15">Over</TableHead>
+              <TableHead className="text-blue-600 w-30">Employees</TableHead>
+              <TableHead className="text-blue-600 w-10">Time</TableHead>
+              <TableHead className="text-blue-600 w-10">Over</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -29,12 +29,12 @@ export default function ReportTable({ data: report }: any) {
             ))}
           </TableBody>
         </Table>
-        <Table className="md:w-120 table-fixed">
+        <Table className="md:w-100 table-fixed border-r border-gray-200">
           <TableHeader>
             <TableRow>
-              <TableHead className="text-blue-600 w-55">Remains</TableHead>
-              <TableHead className="text-blue-600 w-15">p.</TableHead>
-              <TableHead className="text-blue-600 w-15">w.</TableHead>
+              <TableHead className="text-blue-600 w-30">Remains</TableHead>
+              <TableHead className="text-blue-600 w-10">p.</TableHead>
+              <TableHead className="text-blue-600 w-10">w.</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -49,12 +49,12 @@ export default function ReportTable({ data: report }: any) {
         </Table>
       </div>
       <div className="flex flex-col gap-4">
-        <Table className="md:w-120 table-fixed">
+        <Table className="md:w-100 table-fixed border-r border-gray-200">
           <TableHeader>
             <TableRow>
               <TableHead className="text-blue-600 w-30">Transfer</TableHead>
               <TableHead className="text-blue-600 w-30"></TableHead>
-              <TableHead className="text-blue-600 w-15">w.</TableHead>
+              <TableHead className="text-blue-600 w-10">w.</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -67,12 +67,12 @@ export default function ReportTable({ data: report }: any) {
             ))}
           </TableBody>
         </Table>
-        <Table className="md:w-120 table-fixed">
+        <Table className="md:w-100 table-fixed border-r border-gray-200">
           <TableHeader>
             <TableRow>
-              <TableHead className="text-blue-600 w-55">Write-off</TableHead>
-              <TableHead className="text-blue-600 w-15">w.</TableHead>
-              <TableHead className="text-blue-600 w-15">reason</TableHead>
+              <TableHead className="text-blue-600 w-30">Write-off</TableHead>
+              <TableHead className="text-blue-600 w-10">w.</TableHead>
+              <TableHead className="text-blue-600 w-10">reason</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -87,7 +87,7 @@ export default function ReportTable({ data: report }: any) {
         </Table>
       </div>
       <div className="flex flex-col gap-4">
-        <Table className="md:w-120 table-fixed w-full">
+        <Table className="md:w-100 table-fixed w-full border-r border-gray-200">
           <TableHeader>
             <TableRow>
               <TableHead className="text-blue-600 w-30">Prepared</TableHead>
@@ -116,7 +116,9 @@ export default function ReportTable({ data: report }: any) {
               ))}
           </TableBody>
         </Table>
-        <Table className="md:w-120 table-fixed">
+      </div>
+      <div className="flex flex-col gap-4">
+        <Table className="md:w-100 table-fixed border-r border-gray-200">
           <TableHeader>
             <TableRow>
               <TableHead className="text-blue-600 w-30">Staff</TableHead>
