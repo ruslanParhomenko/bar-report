@@ -128,16 +128,18 @@ export default function MeniuRatingTable() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {items?.map((row, idx) => {
-                const { avg, count } = getRatingStats(row.ratings);
-                return (
-                  <TableRow key={idx}>
-                    <TableCell>{row.item}</TableCell>
-                    <TableCell className="text-center">{avg}</TableCell>
-                    <TableCell className="text-center">{count}</TableCell>
-                  </TableRow>
-                );
-              })}
+              {items
+                ?.filter((item) => item.item)
+                .map((row, idx) => {
+                  const { avg, count } = getRatingStats(row.ratings);
+                  return (
+                    <TableRow key={idx}>
+                      <TableCell>{row.item}</TableCell>
+                      <TableCell className="text-center">{avg}</TableCell>
+                      <TableCell className="text-center">{count}</TableCell>
+                    </TableRow>
+                  );
+                })}
             </TableBody>
           </Table>
         </div>
