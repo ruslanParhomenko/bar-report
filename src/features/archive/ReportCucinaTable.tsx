@@ -78,8 +78,8 @@ export default function ReportTable({ data: report }: any) {
           <TableBody>
             {report.writeOff?.map((item: any) => (
               <TableRow key={item.id}>
-                <TableCell>{item.product}</TableCell>
-                <TableCell>{item.weight}</TableCell>
+                <TableCell className="text-rd">{item.product}</TableCell>
+                <TableCell className="text-rd">{item.weight}</TableCell>
                 <TableCell>{item.reason}</TableCell>
               </TableRow>
             ))}
@@ -106,12 +106,14 @@ export default function ReportTable({ data: report }: any) {
               ?.filter((item) => item.product)
               .map((item: any, index) => (
                 <TableRow key={`${item.id}-${index}`}>
-                  <TableCell className="truncate">
+                  <TableCell className="truncate font-bold">
                     {item.product || "-"}
                   </TableCell>
-                  <TableCell>{item.portions || "-"}</TableCell>
+                  <TableCell className="font-bold">
+                    {item.portions || "-"}
+                  </TableCell>
                   <TableCell>{item.weight || "-"}</TableCell>
-                  <TableCell className="text-red-600">{item.time}</TableCell>
+                  <TableCell>{item.time}</TableCell>
                 </TableRow>
               ))}
           </TableBody>
