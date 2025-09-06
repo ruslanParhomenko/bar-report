@@ -1,5 +1,7 @@
 "use client";
+import { defaultStopList } from "@/features/stop-list/schema";
 import { useSession } from "next-auth/react";
+import { date } from "yup";
 
 export const useDataSupaBase = ({
   localStorageKey,
@@ -14,8 +16,8 @@ export const useDataSupaBase = ({
   };
   const session = useSession();
   const sendRealTime = async (formData?: any) => {
-    const dataToSend = formData || localStorage.getItem(localStorageKey);
-    console.log("dataToSend", dataToSend);
+    const dataToSend = localStorage.getItem(localStorageKey);
+    console.log("dataToSend", formData);
     if (!dataToSend) return;
     try {
       const res = await fetch(`/api/${apiKey}`, {
@@ -23,7 +25,7 @@ export const useDataSupaBase = ({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           user_email: session?.data?.user?.email,
-          form_data: JSON.parse(dataToSend),
+          form_data: formData ? formData : JSON.parse(dataToSend),
         }),
       });
 
@@ -52,10 +54,7 @@ export const useDataSupaBase = ({
       };
 
       if (resetData) {
-        // localStorage.setItem(
-        //   localStorageKey,
-        //   JSON.stringify(resetData)
-        // );
+        localStorage.setItem(localStorageKey, JSON.stringify(resetData));
         return resetData;
       }
       return null;

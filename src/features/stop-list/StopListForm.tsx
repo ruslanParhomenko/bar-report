@@ -73,7 +73,9 @@ export default function StopListForm() {
       }
       if (!isBar) return;
       if (!syncedRows.current[idx] && item.product && item.date) {
-        sendRealTime(watchStopList);
+        sendRealTime({
+          stopList: watchStopList,
+        });
         syncedRows.current[idx] = true;
       }
     });
@@ -93,8 +95,9 @@ export default function StopListForm() {
       if (!isCucina) return;
       console.log("ref", syncedRows.current[idx]);
       if (!syncedRows.current[idx] && item.product && item.date) {
-        console.log("effect", watchStopListCucina);
-        sendRealTime(watchStopListCucina);
+        sendRealTime({
+          stopListCucina: watchStopListCucina,
+        });
         syncedRows.current[idx] = true;
       }
     });
@@ -103,8 +106,8 @@ export default function StopListForm() {
   const fetchSupaBaseData = async () => {
     const data = await fetchRealTime();
     const resetData = {
-      stopList: data?.bar?.stopList || [],
-      stopListCucina: data?.cucina.stopListCucina || [],
+      stopList: data?.bar?.stopList || [{ ...defaultStopList }],
+      stopListCucina: data?.cucina.stopListCucina || [{ ...defaultStopList }],
     };
     if (resetData) {
       form.reset({
