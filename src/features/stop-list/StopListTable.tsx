@@ -26,9 +26,14 @@ type StopLitTableProps = {
     "stopList" | "stopListCucina"
   >;
   nameTag: "bar" | "cucina";
+  sendData: (data: StopListSchemaType) => void;
 };
 
-export const StopListTable = ({ formFields, nameTag }: StopLitTableProps) => {
+export const StopListTable = ({
+  formFields,
+  nameTag,
+  sendData,
+}: StopLitTableProps) => {
   const t = useTranslations("Home");
   const { isObserver, isCucina, isBar, isUser } = useAbility();
 
@@ -83,6 +88,7 @@ export const StopListTable = ({ formFields, nameTag }: StopLitTableProps) => {
                   item={item.product}
                   disabled={DISABLED[nameTag]}
                   defaultValues={defaultStopList}
+                  sendData={sendData}
                 />
               </TableCell>
             </TableRow>

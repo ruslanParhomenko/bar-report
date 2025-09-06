@@ -9,6 +9,7 @@ type ActionsButtonProps = {
   item: any;
   disabled: boolean;
   defaultValues: any;
+  sendData?: (data: any) => void;
 };
 
 export const ActionsButton = ({
@@ -17,6 +18,7 @@ export const ActionsButton = ({
   item,
   disabled,
   defaultValues,
+  sendData,
 }: ActionsButtonProps) => {
   const handleRemove = () => {
     if (formFields.fields.length === 1) {
@@ -25,6 +27,7 @@ export const ActionsButton = ({
     } else {
       formFields.remove(idx);
     }
+    sendData && sendData(formFields?.fields[0]);
   };
 
   const handleAdd = () => {

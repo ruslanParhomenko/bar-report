@@ -127,8 +127,16 @@ export default function StopListForm() {
     <Form {...form}>
       <form className="space-y-2">
         <div className="grid xl:grid-cols-2 gap-5 pb-5">
-          <StopListTable formFields={stopListValues} nameTag="bar" />
-          <StopListTable formFields={stopListCucinaValues} nameTag="cucina" />
+          <StopListTable
+            formFields={stopListValues}
+            nameTag="bar"
+            sendData={sendRealTime}
+          />
+          <StopListTable
+            formFields={stopListCucinaValues}
+            nameTag="cucina"
+            sendData={sendRealTime}
+          />
         </div>
         <FetchDataButton
           fetchData={fetchSupaBaseData}
