@@ -29,7 +29,8 @@ import TableProductsTransfer from "./TableProductsTransfer";
 
 export function ReportBarForm() {
   const STORAGE_KEY = "report-bar";
-  const { isBar, isAdmin, isUser } = useAbility();
+  const { isBar, isAdmin, isUser, isCucina, isObserver } = useAbility();
+  const isDisabled = isObserver || isCucina || isBar;
   const session = useSession();
 
   const { createMutation } = useApi<DailyReport>({
@@ -203,7 +204,10 @@ export function ReportBarForm() {
         <div className="flex items-center gap-4 justify-between">
           <DatePickerInput fieldName="date" />
           {(isAdmin || isUser) && (
-            <FetchDataButton fetchData={fetchSupaBaseData} />
+            <FetchDataButton
+              fetchData={fetchSupaBaseData}
+              isDisabled={isDisabled}
+            />
           )}
         </div>
 

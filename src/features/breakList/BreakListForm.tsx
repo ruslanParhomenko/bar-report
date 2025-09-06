@@ -23,7 +23,8 @@ import { BreakListFormValues, defaultValuesBrakeList } from "./schema";
 const BreakList = () => {
   const LOCAL_STORAGE_KEY = BREAK_LIST_ENDPOINT;
 
-  const { isBar } = useAbility();
+  const { isBar, isCucina, isUser, isAdmin, isObserver } = useAbility();
+  const isDisabled = isObserver || isCucina || isBar;
 
   //create
   const { createMutation } = useApi<BreakeList>({
@@ -104,7 +105,10 @@ const BreakList = () => {
         <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-2">
           <div className="flex items-center gap-4 justify-between">
             <DatePickerInput fieldName="date" />
-            <FetchDataButton fetchData={fetchSupaBaseData} />
+            <FetchDataButton
+              fetchData={fetchSupaBaseData}
+              isDisabled={isDisabled}
+            />
           </div>
           <BreakListTable />
           <SendResetButton resetForm={resetForm} />

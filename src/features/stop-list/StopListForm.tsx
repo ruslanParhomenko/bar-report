@@ -4,6 +4,7 @@ import { useFieldArray, useForm, useWatch } from "react-hook-form";
 import { useEffect, useRef } from "react";
 import { formatNowData } from "@/utils/formatNow";
 import {
+  defaultStopList,
   defaultStopListSchema,
   stopListSchema,
   StopListSchemaType,
@@ -17,14 +18,15 @@ import { useAbility } from "@/providers/AbilityProvider";
 import { FetchDataButton } from "@/components/buttons/FetchDataButton";
 
 export default function StopListForm() {
-  const { isBar, isCucina } = useAbility();
+  const { isBar, isCucina, isUser, isAdmin, isObserver } = useAbility();
+  const isDisabled = isObserver || isCucina;
   const LOCAL_STORAGE_KEY = STOP_LIST_REALTIME;
   const { getValue, setValue: setLocalStorage } =
     useLocalStorageForm<StopListSchemaType>(LOCAL_STORAGE_KEY);
 
   const { sendRealTime, fetchRealTime } = useDataSupaBase({
     localStorageKey: LOCAL_STORAGE_KEY,
-    apiKey: STOP_LIST_REALTIME
+    apiKey: STOP_LIST_REALTIME,
   });
 
   const form = useForm<StopListSchemaType>({
@@ -48,12 +50,14 @@ export default function StopListForm() {
     name: "stopListCucina",
   });
 
-  const watchStopList = useWatch({ control: form.control, name: "stopList" }) ?? [];
-  console.log(watchStopList)
-  const watchStopListCucina = useWatch({
-    control: form.control,
-    name: "stopListCucina",
-  }) ?? [];
+  const watchStopList =
+    useWatch({ control: form.control, name: "stopList" }) ?? [];
+  console.log(watchStopList);
+  const watchStopListCucina =
+    useWatch({
+      control: form.control,
+      name: "stopListCucina",
+    }) ?? [];
 
   const syncedRows = useRef<Record<number, boolean>>({});
 
@@ -91,6 +95,8 @@ export default function StopListForm() {
       if (!syncedRows.current[idx] && item.product && item.date) {
         sendRealTime();
         syncedRows.current[idx] = true;
+      } else {
+        sendRealTime(defaultStopList);
       }
     });
   }, [watchStopListCucina, stopListCucinaValues.fields.length]);
@@ -123,7 +129,10 @@ export default function StopListForm() {
           <StopListTable formFields={stopListValues} nameTag="bar" />
           <StopListTable formFields={stopListCucinaValues} nameTag="cucina" />
         </div>
-        <FetchDataButton fetchData={fetchSupaBaseData} />
+        <FetchDataButton
+          fetchData={fetchSupaBaseData}
+          isDisabled={isDisabled}
+        />
       </form>
     </Form>
   );

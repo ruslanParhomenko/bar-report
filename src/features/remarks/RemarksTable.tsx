@@ -131,7 +131,10 @@ export default function RemarksTable() {
         </Label>
         <div className="flex items-center gap-4 justify-between">
           <DatePickerInput fieldName="date" />
-          <FetchDataButton fetchData={fetchSupaBaseData} />
+          <FetchDataButton
+            fetchData={fetchSupaBaseData}
+            isDisabled={isDisabled}
+          />
         </div>
         <Table className="[&_th]:text-center [&_td]:text-center table-fixed md:w-300 hidden md:block">
           <TableHeader>

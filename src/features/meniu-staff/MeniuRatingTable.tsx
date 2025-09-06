@@ -1,5 +1,4 @@
 "use client";
-
 import { FetchDataButton } from "@/components/buttons/FetchDataButton";
 import { DatePickerRange } from "@/components/inputs/DatePickerRange";
 import { Form } from "@/components/ui/form";
@@ -14,6 +13,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { useAbility } from "@/providers/AbilityProvider";
 
 type InputData = {
   form_data: {
@@ -78,6 +78,7 @@ function getRatingStats(ratings: number[]) {
 }
 
 export default function MeniuRatingTable() {
+  const { isObserver } = useAbility();
   const LOCAL_STORAGE_KEY = "meniu-staff";
 
   const { getValue, setValue: setLocalStorage } =
@@ -115,7 +116,10 @@ export default function MeniuRatingTable() {
       <form>
         <div className="flex w-full justify-between md:px-10 gap-4 p-4">
           <DatePickerRange />
-          <FetchDataButton fetchData={fetchSupaBaseData} />
+          <FetchDataButton
+            fetchData={fetchSupaBaseData}
+            isDisabled={isObserver}
+          />
         </div>
 
         <div className="p-6">

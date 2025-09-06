@@ -54,7 +54,8 @@ export default function DailyReportForm() {
   const t = useTranslations("Home");
   const LOCAL_STORAGE_KEY = REPORT_CUCINA_ENDPOINT;
 
-  const { isCucina, isObserver } = useAbility();
+  const { isCucina, isObserver, isUser, isAdmin, isBar } = useAbility();
+  const isDisabled = isObserver || isCucina || isBar;
 
   //employees
   const { employees } = useEmployees();
@@ -144,7 +145,10 @@ export default function DailyReportForm() {
         <div className="w-full md:px-10 md:mx-auto md:max-w-5xl">
           <div className="flex items-center gap-4 justify-between">
             <DatePickerInput fieldName="date" />
-            <FetchDataButton fetchData={fetchSupaBaseData} />
+            <FetchDataButton
+              fetchData={fetchSupaBaseData}
+              isDisabled={isDisabled}
+            />
           </div>
 
           {selectedEmployees.length > 0 && (
