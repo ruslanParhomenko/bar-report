@@ -93,12 +93,11 @@ export default function StopListForm() {
         });
       }
       if (!isCucina) return;
-      console.log("ref", syncedRows.current[idx]);
-      if (!syncedRows.current[idx] && item.product && item.date) {
+      if (item.product && item.date) {
+        console.log(watchStopListCucina);
         sendRealTime({
           stopListCucina: watchStopListCucina,
         });
-        syncedRows.current[idx] = true;
       }
     });
   }, [watchStopListCucina, stopListCucinaValues.fields.length]);
@@ -117,12 +116,12 @@ export default function StopListForm() {
     }
   };
   useEffect(() => {
-    if (!isBar) return;
+    if (!isBar && !isCucina) return;
     const timeout = setTimeout(() => {
       fetchSupaBaseData();
     }, 1000);
     return () => clearTimeout(timeout);
-  }, [isBar]);
+  }, [isBar, isCucina]);
 
   return (
     <Form {...form}>
