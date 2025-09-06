@@ -52,7 +52,6 @@ export default function StopListForm() {
 
   const watchStopList =
     useWatch({ control: form.control, name: "stopList" }) ?? [];
-  console.log(watchStopList);
   const watchStopListCucina =
     useWatch({
       control: form.control,
@@ -74,7 +73,7 @@ export default function StopListForm() {
       }
       if (!isBar) return;
       if (!syncedRows.current[idx] && item.product && item.date) {
-        sendRealTime();
+        sendRealTime(watchStopList);
         syncedRows.current[idx] = true;
       }
     });
@@ -92,11 +91,11 @@ export default function StopListForm() {
         });
       }
       if (!isCucina) return;
+      console.log("ref", syncedRows.current[idx]);
       if (!syncedRows.current[idx] && item.product && item.date) {
-        sendRealTime();
+        console.log("effect", watchStopListCucina);
+        sendRealTime(watchStopListCucina);
         syncedRows.current[idx] = true;
-      } else {
-        sendRealTime(defaultStopList);
       }
     });
   }, [watchStopListCucina, stopListCucinaValues.fields.length]);
@@ -115,12 +114,12 @@ export default function StopListForm() {
     }
   };
   useEffect(() => {
-    if (!isBar && !isCucina) return;
+    if (!isBar) return;
     const timeout = setTimeout(() => {
       fetchSupaBaseData();
     }, 1000);
     return () => clearTimeout(timeout);
-  }, [isBar, isCucina]);
+  }, [isBar]);
 
   return (
     <Form {...form}>
