@@ -106,7 +106,8 @@
     "chooseItem": "Выберите дату",
     "users": "Пользователи",
     "meniuVip": "Меню VIP",
-    "meniuRating": "Оценка питания"
+    "meniuRating": "Оценка питания",
+    "info": "Информация"
   },
   "Meniu": {
     "menu": "МЕНЮ",
