@@ -88,9 +88,13 @@ export function EmployeesListTable() {
             <TableRow>
               <TableHead className="w-15">date</TableHead>
               <TableHead className="w-25 truncate">name</TableHead>
-              <TableHead className="truncate w-12">position</TableHead>
-              <TableHead className="truncate w-8">vacation</TableHead>
-              <TableHead className="w-10">rate</TableHead>
+              <TableHead className="truncate w-12 text-center">
+                position
+              </TableHead>
+              <TableHead className="truncate w-8 text-center">
+                vacation
+              </TableHead>
+              <TableHead className="w-10 text-center">rate</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -116,11 +120,13 @@ export function EmployeesListTable() {
                   >
                     {emp.name}
                   </TableCell>
-                  <TableCell className="text-muted-foreground">
+                  <TableCell className="text-muted-foreground text-center">
                     {emp.position}
                   </TableCell>
-                  <TableCell>{emp.date ? emp.vacation : "-"}</TableCell>
-                  <TableCell className="text-muted-foreground">
+                  <TableCell className="text-center">
+                    {emp.date ? emp.vacation : "-"}
+                  </TableCell>
+                  <TableCell className="text-muted-foreground text-center">
                     {isAdmin ? emp.rate : "-"}
                   </TableCell>
                 </TableRow>
