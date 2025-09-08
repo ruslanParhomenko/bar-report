@@ -16,3 +16,8 @@ export const ORDER_TTN_NAV_ITEMS = [
   { title: "cucina", href: "ttn-cucina" },
   { title: "bar", href: "ttn-bar" },
 ];
+
+export const INFO_ORDER_LIST = [
+  { title: "employee", href: "employee" },
+  { title: "standard-kitchen", href: "standard-kitchen" },
+];

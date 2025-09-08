@@ -107,7 +107,9 @@
     "users": "Пользователи",
     "meniuVip": "Меню VIP",
     "meniuRating": "Оценка питания",
-    "info": "Информация"
+    "info": "Информация",
+    "employee": "Сотрудники",
+    "standard-kitchen": "Стандарт хранения"
   },
   "Meniu": {
     "menu": "МЕНЮ",

@@ -107,7 +107,9 @@
     "users": "Utilizatori",
     "meniuVip": "Meniu VIP",
     "meniuRating": "Evaluare meniu",
-    "info": "Informatii"
+    "info": "Informatii",
+    "employee": "Angajat",
+    "standard-kitchen": "Standard kitchen"
   },
   "Meniu": {
     "menu": "MENIU",

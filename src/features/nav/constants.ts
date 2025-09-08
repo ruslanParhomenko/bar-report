@@ -40,8 +40,8 @@ export const SIDEBAR_NAVIGATION = [
   },
   {
     title: "info",
-    url: "/info",
-    url2: "/info",
+    url: "/info/employee",
+    url2: "/info/employee",
     icon: List,
   },
   {
