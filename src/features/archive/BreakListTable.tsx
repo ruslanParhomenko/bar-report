@@ -1,7 +1,6 @@
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 
 export default function BreakListTable({ data }: { data: any }) {
-  console.log("BreakListTable data:", data);
   return (
     <>
       <div className="w-full border overflow-auto border-gray-200 rounded-md p-1">

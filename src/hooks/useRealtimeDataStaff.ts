@@ -36,8 +36,6 @@ export const useDataSupaBaseStaff = ({
       const res = await fetch(`/api/${apiKey}`);
       const allData = await res.json();
 
-      console.log("Fetched SupaBase data:", allData);
-
       if (allData) {
         // localStorage.setItem(
         //   localStorageKey,
@@ -47,7 +45,6 @@ export const useDataSupaBaseStaff = ({
       }
       return null;
     } catch (err) {
-      console.error("Error fetching SupaBase data:", err);
       return null;
     }
   };

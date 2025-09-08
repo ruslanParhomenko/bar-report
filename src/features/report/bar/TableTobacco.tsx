@@ -27,8 +27,6 @@ export default function TableTobacco() {
     (useWatch({ name: "tobacco", control }) as TobaccoSchemaType) ||
     tobaccoDefault;
 
-  console.log("Tobacco data:", tobacco); // Debugging line
-
   return (
     <div className="w-full">
       <Label className="text-lg font-semibold pb-7 text-bl">Tobacco</Label>

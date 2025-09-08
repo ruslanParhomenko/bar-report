@@ -1,6 +1,6 @@
 "use client";
-import { useEffect } from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { use, useEffect } from "react";
+import { useForm, SubmitHandler, useWatch } from "react-hook-form";
 import toast from "react-hot-toast";
 
 import { useAbility } from "@/providers/AbilityProvider";
@@ -50,7 +50,9 @@ const BreakList = () => {
   const form = useForm<BreakListFormValues>({
     defaultValues: parsedSavedData || defaultValuesBrakeList,
   });
-  const watchAllFields = form.watch();
+  const watchAllFields = useWatch({
+    control: form.control,
+  });
 
   //set local supaBase
   useEffect(() => {

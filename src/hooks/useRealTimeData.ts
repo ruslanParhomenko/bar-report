@@ -17,7 +17,6 @@ export const useDataSupaBase = ({
   const session = useSession();
   const sendRealTime = async (formData?: any) => {
     const dataToSend = localStorage.getItem(localStorageKey);
-    console.log("dataToSend", formData);
     if (!dataToSend) return;
     try {
       const res = await fetch(`/api/${apiKey}`, {
@@ -52,7 +51,6 @@ export const useDataSupaBase = ({
         bar: dataBar[0] || [],
         cucina: dataCucina[0] || [],
       };
-
       if (resetData) {
         localStorage.setItem(localStorageKey, JSON.stringify(resetData));
         return resetData;
