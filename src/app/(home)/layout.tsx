@@ -8,11 +8,11 @@ const NavPage = ({
   children: React.ReactNode;
 }>) => {
   return (
-    <div className="flex w-full flex-col  bg-gray-50 ">
+    <div className="flex w-full flex-col  bg-background ">
       <SidebarProvider>
         <SidebarNav />
         <section className="h-full w-full p-2">
-          <div className="rounded-2xl bg-white p-2 ">
+          <div className="rounded-2xl bg-background p-2 ">
             {children}
             <SpeedInsights />
           </div>

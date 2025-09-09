@@ -13,6 +13,8 @@ import { AbilityProvider } from "@/providers/AbilityProvider";
 import ReactQueryProvider from "@/providers/ReactQueryProvider";
 import { EmployeesProvider } from "@/providers/EmployeeProvider";
 
+import { ThemeProvider } from "next-themes";
+
 const lora = Lora({
   variable: "--font-lora",
   subsets: ["latin"],
@@ -37,16 +39,18 @@ export default async function RootLayout({
         className={`${lora.variable} antialiased`}
         suppressHydrationWarning={true}
       >
-        <SessionProviders>
-          <NextIntlClientProvider>
-            <ReactQueryProvider>
-              <AbilityProvider>
-                <EmployeesProvider>{children}</EmployeesProvider>
-              </AbilityProvider>
-            </ReactQueryProvider>
-          </NextIntlClientProvider>
-        </SessionProviders>
-        <Toaster position="bottom-right" />
+        <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
+          <SessionProviders>
+            <NextIntlClientProvider>
+              <ReactQueryProvider>
+                <AbilityProvider>
+                  <EmployeesProvider>{children}</EmployeesProvider>
+                </AbilityProvider>
+              </ReactQueryProvider>
+            </NextIntlClientProvider>
+          </SessionProviders>
+          <Toaster position="bottom-right" />
+        </ThemeProvider>
       </body>
     </html>
   );

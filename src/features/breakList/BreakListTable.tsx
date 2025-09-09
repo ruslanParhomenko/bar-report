@@ -93,7 +93,7 @@ export const BreakListTable = () => {
               <TableCell
                 className={`${
                   isMobile
-                    ? "sticky left-0 z-10 text-left bg-white/90"
+                    ? "sticky left-0 z-10 text-left bg-background/90"
                     : "text-left"
                 }`}
               >
@@ -139,7 +139,9 @@ export const BreakListTable = () => {
                       disabled={isDisabled}
                       className={`${
                         isTrue ? "!text-rd font-bold text-[18px]" : ""
-                      } ${selectedValue === "X" ? "bg-[#727171]" : "bg-white"}`}
+                      } ${
+                        selectedValue === "X" ? "bg-[#727171]" : "bg-background"
+                      }`}
                     />
                   </TableCell>
                 );

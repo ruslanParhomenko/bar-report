@@ -53,12 +53,12 @@ export function ScheduleTable({ dataRange }: { dataRange: any }) {
                     className={`
                   h-10 w-9
                   ${noBorderRow ? "" : "border"}
-                  ${noBorderRow ? "" : "border-[#e5e7eb]"}
+                  ${noBorderRow ? "" : "border-border"}
                   ${isBlueColor ? "text-bl" : ""}
                   ${isSelected ? "text-bl" : ""}
                   ${
                     j === 4
-                      ? "min-w-[30px] sticky left-0 z-5 text-left bg-white/90"
+                      ? "min-w-[30px] sticky left-0 z-5 text-left bg-background"
                       : "text-center"
                   }
                   ${isHighlighted ? "font-bold  text-rd" : ""}

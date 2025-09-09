@@ -9,16 +9,12 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useRouter } from "@/i18n/navigation";
+import { Globe } from "lucide-react";
 
 export const LANGUAGES_LIST = [
   { label: "romanian", lang: "ro" },
   { label: "russian", lang: "ru" },
 ];
-
-export const LANGUAGES_FLAG: Record<string, string> = {
-  ro: "romanian.png",
-  ru: "russian.png",
-};
 
 export default function LanguageSwitcher() {
   const locale = useLocale();
@@ -35,13 +31,7 @@ export default function LanguageSwitcher() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <button className="relative flex h-8 w-8 items-center justify-center overflow-hidden rounded-full focus:outline-none">
-          <Image
-            src={`/languageFlag/${LANGUAGES_FLAG[locale]}`}
-            alt={locale}
-            fill
-            className="object-cover"
-            sizes="32px"
-          />
+          <Globe className="text-bl size-6 transition duration-300 ease-in-out hover:scale-110 hover:text-bl" />
         </button>
       </DropdownMenuTrigger>
 
@@ -54,7 +44,7 @@ export default function LanguageSwitcher() {
             <DropdownMenuItem
               key={lang}
               onSelect={() => changeLanguage(lang)}
-              className="cursor-pointer px-4 py-2 text-sm hover:bg-[#175CD340] hover:text-white focus:bg-[#347AE2] focus:text-white"
+              className="cursor-pointer px-2 py-2 text-sm hover:bg-[#175CD340] hover:text-white focus:bg-[#347AE2] focus:text-white"
             >
               {t(label)}
             </DropdownMenuItem>

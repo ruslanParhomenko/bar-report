@@ -16,8 +16,8 @@ import LanguageSwitcher from "../../components/switches/LanguageSwitch";
 import { SIDEBAR_NAVIGATION } from "./constants";
 import { useSidebar } from "../../components/ui/sidebar";
 import { SidebarToggleButton } from "@/components/switches/SidebarToggleButton";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { useAbility } from "@/providers/AbilityProvider";
+import { ThemeSwitcher } from "@/components/switches/ThemeSwitcher";
 
 const SidebarNav = () => {
   const { toggleSidebar, isMobile } = useSidebar();
@@ -48,13 +48,7 @@ const SidebarNav = () => {
       </div>
       <Sidebar className="border-none">
         <SidebarContent>
-          <div className="flex justify-center pt-2">
-            <Avatar className="w-full">
-              <AvatarFallback className="text-sm text-rd">
-                {roleLabel}
-              </AvatarFallback>
-            </Avatar>
-          </div>
+          <div className="flex justify-center pt-2 text-rd">{roleLabel}</div>
           <SidebarMenu className="flex h-full flex-col gap-4 pt-5">
             {SIDEBAR_NAVIGATION.map((item) => {
               const isActivePath =
@@ -78,13 +72,14 @@ const SidebarNav = () => {
           </SidebarMenu>
         </SidebarContent>
         <SidebarFooter className="pb-20">
-          <SidebarMenu className="flex flex-row justify-between items-center gap-4 px-6">
+          <SidebarMenu className="flex flex-row justify-between items-center gap-2 px-2">
             <div
               className="cursor-pointer"
               onClick={() => signOut({ callbackUrl: "/" })}
             >
               <LogOut className="rotate-180 text-bl" />
             </div>
+            <ThemeSwitcher />
             <LanguageSwitcher />
           </SidebarMenu>
         </SidebarFooter>
