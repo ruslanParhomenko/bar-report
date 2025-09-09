@@ -89,6 +89,7 @@ export const reportBarSchema = yup.object().shape({
   tobacco: tobaccoSchema,
   cashVerify: cashVerifySchema,
   productTransfer: productTransferSchema,
+  notes: yup.string().nullable().default(""),
 });
 
 export type ReportBarFormValues = yup.InferType<typeof reportBarSchema>;

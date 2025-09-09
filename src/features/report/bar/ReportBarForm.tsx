@@ -26,6 +26,7 @@ import { FetchDataButton } from "@/components/buttons/FetchDataButton";
 import { useApi } from "@/hooks/useApi";
 import { DailyReport } from "@/generated/prisma";
 import TableProductsTransfer from "./TableProductsTransfer";
+import { Textarea } from "@/components/ui/textarea";
 
 export function ReportBarForm() {
   const STORAGE_KEY = "report-bar";
@@ -76,6 +77,7 @@ export function ReportBarForm() {
       cashVerify: cashVerifyDefault,
       expenses: expensesDefault,
       productTransfer: productTransferDefault,
+      notes: "",
     });
 
     removeValue();
@@ -98,6 +100,7 @@ export function ReportBarForm() {
       cashVerify: data.cashVerify?.filter((item) => item.value),
       expenses: data.expenses?.filter((item) => item.name),
       productTransfer: data.productTransfer?.filter((item) => item.name),
+      notes: data.notes,
     };
     createMutation.mutate(formateData);
 
@@ -200,8 +203,8 @@ export function ReportBarForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(handleSubmit)}>
-        <div className="flex items-center gap-4 justify-between">
+      <form onSubmit={form.handleSubmit(handleSubmit)} className="md:pl-2">
+        <div className="flex items-center gap-4 justify-between ">
           <DatePickerInput fieldName="date" />
           {(isAdmin || isUser) && (
             <FetchDataButton
@@ -210,12 +213,24 @@ export function ReportBarForm() {
             />
           )}
         </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-[40%_20%_30%] md:gap-20 md:pr-20 pt-4">
+        <div className="grid grid-cols-1 md:grid-cols-[32%_62%] md:gap-15  pt-4">
           <TableTobacco />
-          <TableExpenses />
-          <TableProductsTransfer />
+          <div>
+            <div className="grid  md:grid-cols-[30%_60%] md:gap-10 px-1 pb-6">
+              <TableExpenses />
+              <TableProductsTransfer />
+            </div>
+            <div className="px-4 pr-12 ">
+              <Textarea
+                placeholder="notes ..."
+                {...form.register("notes")}
+                disabled={isObserver}
+                className="resize-none"
+              />
+            </div>
+          </div>
         </div>
+
         <TableCashVerify />
         <SendResetButton resetForm={resetForm} />
       </form>

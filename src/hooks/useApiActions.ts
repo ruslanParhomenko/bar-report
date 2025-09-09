@@ -1,6 +1,7 @@
 "use client";
 
 import { useMutation } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 
 export type ArchiveDataItem = any;
 
@@ -31,6 +32,7 @@ export function useArchiveMutations({
     mutationFn: async (id: number | string) => {
       const res = await fetch(`${api}/${id}`, { method: "DELETE" });
       if (!res.ok) throw new Error("Failed to delete archive item");
+      toast.success("Запись удалена");
       return res.json();
     },
   });

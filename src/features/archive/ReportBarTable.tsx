@@ -90,6 +90,16 @@ export const ReportBarTable = ({ data }: { data: any }) => {
               <Table>
                 <TableBody>
                   <TableRow>
+                    <TableCell className="font-bold">notes:</TableCell>
+                    <TableCell>{data.notes}</TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </div>
+            <div className="mt-auto">
+              <Table>
+                <TableBody>
+                  <TableRow>
                     <TableCell className="font-bold">hours:</TableCell>
                     {data.cashVerify
                       ?.filter((c: CashVerify) => c.value !== "0")
