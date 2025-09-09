@@ -8,12 +8,17 @@ import {
 import { useState } from "react";
 import { usePathname } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
-import { selectMonthBar, selectMonthCucina } from "./constants";
+import {
+  selectMonthBar,
+  selectMonthCucina,
+  selectMonthDish,
+} from "./constants";
 import { ScheduleTable } from "./ScheduleTable";
 
 const SELECT_DATA = {
   cucina: selectMonthCucina,
   bar: selectMonthBar,
+  dish: selectMonthDish,
 };
 
 export const SelectDataRange = () => {

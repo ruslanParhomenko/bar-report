@@ -6,6 +6,7 @@ export const ORDER_NAV_ITEMS = [
 export const SHEDULE_NAV_ITEMS = [
   { title: "cucina", href: "cucina" },
   { title: "bar", href: "bar" },
+  { title: "dish", href: "dish" },
 ];
 export const REPORT_NAV_ITEMS = [
   { title: "cucina", href: "cucina" },
