@@ -1,10 +1,10 @@
 "use client";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useMeniuData } from "@/hooks/useDataMeniuData";
 import ButtonNavigationPage from "@/components/meniu/ButtonNavigationPage";
 import { useSwipeable } from "react-swipeable";
+import { Dot } from "lucide-react";
 
 export default function DailyMenuForm() {
   const { data, isLoading } = useMeniuData();
@@ -27,9 +27,9 @@ export default function DailyMenuForm() {
     >
       <ButtonNavigationPage leftPage="/meniu-vip" rightPage="/meniu-vip" />
       <h1 className="flex justify-center items-center font-bold text-[20px] py-5 ">
-        <Image src="../dot.svg" width={16} height={16} priority alt="dot" />
+        <Dot />
         {t("Salds & Appetixers")}
-        <Image src="../dot.svg" width={16} height={16} priority alt="dot" />
+        <Dot />
       </h1>
       <div className="flex flex-col w-full justify-center items-center gap-4 text-[16px] pt-1 ">
         <ul className="list-none flex flex-col items-center justify-center">
@@ -41,9 +41,9 @@ export default function DailyMenuForm() {
         </ul>
       </div>
       <h1 className="flex justify-center items-center font-bold text-[20px] py-5">
-        <Image src="../dot.svg" width={16} height={16} priority alt="dot" />
+        <Dot />
         {t("Second Courses")}
-        <Image src="../dot.svg" width={16} height={16} priority alt="dot" />
+        <Dot />
       </h1>
       <div className="flex flex-col w-full justify-center items-center gap-4 text-[16px] pt-1 ">
         <ul className="list-none  flex flex-col items-center justify-center">
@@ -55,9 +55,9 @@ export default function DailyMenuForm() {
         </ul>
       </div>
       <h1 className="flex justify-center items-center font-bold text-[20px] py-5">
-        <Image src="../dot.svg" width={16} height={16} priority alt="dot" />
+        <Dot />
         {t("Soups")}
-        <Image src="../dot.svg" width={16} height={16} priority alt="dot" />
+        <Dot />
       </h1>
       <div className="flex flex-col w-full justify-center items-center gap-4 text-[16px] pt-1 ">
         <ul className="list-none w-1/2 flex flex-col items-center justify-center">
@@ -69,14 +69,14 @@ export default function DailyMenuForm() {
         </ul>
       </div>
       <h1 className="flex justify-center items-center font-bold text-[20px] py-5">
-        <Image src="../dot.svg" width={16} height={16} priority alt="dot" />
+        <Dot />
         {t("Side Dishes")}
-        <Image src="../dot.svg" width={16} height={16} priority alt="dot" />
+        <Dot />
       </h1>
       <h1 className="flex justify-center items-center font-bold text-[20px] py-5">
-        <Image src="../dot.svg" width={16} height={16} priority alt="dot" />
+        <Dot />
         {t("Desserts")}
-        <Image src="../dot.svg" width={16} height={16} priority alt="dot" />
+        <Dot />
       </h1>
       <div className="flex flex-col w-full justify-center items-center gap-4 text-[16px] pt-1 ">
         <ul className="list-none w-1/2 flex flex-col items-center justify-center">

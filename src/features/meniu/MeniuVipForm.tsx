@@ -2,9 +2,9 @@
 import { useMeniuData } from "@/hooks/useDataMeniuData";
 import { useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
-import Image from "next/image";
 import ButtonNavigationPage from "@/components/meniu/ButtonNavigationPage";
 import { useSwipeable } from "react-swipeable";
+import { Dot } from "lucide-react";
 
 export function RenderItemMeniu({ item, leftPage, rightPage }: any) {
   const { data, isLoading } = useMeniuData();
@@ -33,9 +33,9 @@ export function RenderItemMeniu({ item, leftPage, rightPage }: any) {
       {arrData?.map((el: any, index: number) => (
         <div key={index}>
           <h1 className="flex justify-center items-center font-bold text-[18px] py-5">
-            <Image src="../dot.svg" width={16} height={16} priority alt="dot" />
+            <Dot />
             {t(el.title)}
-            <Image src="../dot.svg" width={16} height={16} priority alt="dot" />
+            <Dot />
           </h1>
           <div className="flex  gap-4 text-[14px] pt-1 ">
             <ul className="list-none w-1/2">
