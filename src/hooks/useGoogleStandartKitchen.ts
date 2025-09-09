@@ -8,6 +8,7 @@ async function fetchStandartKitchen() {
   const response = await fetch(GOOGLE_SHEET_SK_URL, {
     method: "GET",
     headers: { Accept: "application/json" },
+    next: { revalidate: 3600 },
   });
   return response.json();
 }
@@ -16,7 +17,12 @@ export function useStandartKitchen() {
   const { data, isLoading, error } = useQuery({
     queryKey: ["standartKitchen"],
     queryFn: fetchStandartKitchen,
-    staleTime: 1000 * 60 * 5,
+    staleTime: Infinity,
+    gcTime: 1000 * 60 * 60 * 24,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+    refetchOnMount: false,
+    retry: 1,
   });
 
   return { data, isLoading, error };

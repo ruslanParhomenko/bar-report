@@ -19,12 +19,14 @@ import {
 import { useAbility } from "@/providers/AbilityProvider";
 import { useEmployees } from "@/providers/EmployeeProvider";
 import { format, parseISO } from "date-fns";
+import { useSidebar } from "@/components/ui/sidebar";
 
 type DateFilter = "all" | "registered" | "nonregistered";
 type PositionFilter = "all" | "barmen" | "waiters" | "cook" | "admin";
 
 export function EmployeesListTable() {
   const { isAdmin } = useAbility();
+  const { isMobile } = useSidebar();
   const { employees } = useEmployees();
 
   const [dateFilter, setDateFilter] = useState<DateFilter>("all");
@@ -87,8 +89,8 @@ export function EmployeesListTable() {
           <TableHeader>
             <TableRow>
               <TableHead className="w-15">date</TableHead>
-              <TableHead className="w-25 truncate">name</TableHead>
-              <TableHead className="truncate w-12 text-center">
+              <TableHead className="w-30 truncate">name</TableHead>
+              <TableHead className="truncate w-8 text-center">
                 position
               </TableHead>
               <TableHead className="truncate w-8 text-center">
@@ -121,7 +123,7 @@ export function EmployeesListTable() {
                     {emp.name}
                   </TableCell>
                   <TableCell className="text-muted-foreground text-center">
-                    {emp.position}
+                    {isMobile ? emp.position.slice(0, 1) : emp.position}
                   </TableCell>
                   <TableCell className="text-center">
                     {emp.date ? emp.vacation : "-"}

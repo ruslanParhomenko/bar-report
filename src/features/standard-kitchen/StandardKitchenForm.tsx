@@ -22,11 +22,11 @@ export function StandardKitchenForm() {
         <Table className="table-fixed w-full">
           <TableHeader>
             <TableRow>
-              <TableHead className="w-15">ПФ</TableHead>
-              <TableHead className="w-12 text-center truncate">
+              <TableHead className="w-20">ПФ</TableHead>
+              <TableHead className="w-10 text-center truncate">
                 холодильник +2…+3°C
               </TableHead>
-              <TableHead className="truncate w-12 text-center">
+              <TableHead className="truncate w-10 text-center">
                 морозилка -18°C
               </TableHead>
             </TableRow>
@@ -46,8 +46,8 @@ export function StandardKitchenForm() {
                 ?.filter((emp: any, idx: number) => idx > 0)
                 .map((emp: any, idx: number) => (
                   <TableRow key={`${emp.date}-${idx}`}>
-                    <TableCell>{emp.name}</TableCell>
-                    <TableCell className=" text-center">
+                    <TableCell className="truncate">{emp.name}</TableCell>
+                    <TableCell className=" text-center truncate">
                       {emp.timePlus ?? "-"}
                     </TableCell>
                     <TableCell className="text-center">
