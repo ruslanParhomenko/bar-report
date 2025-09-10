@@ -1,4 +1,6 @@
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { useTheme } from "next-themes";
 import { UseFieldArrayReturn } from "react-hook-form";
 
 export function AddRemoveFieldsButton({
@@ -12,6 +14,7 @@ export function AddRemoveFieldsButton({
   index: number;
   disabled?: boolean;
 }) {
+  const { theme } = useTheme();
   const isOnlyOne = formField.fields.length === 1;
   const isLast = index === formField.fields.length - 1;
 
@@ -29,7 +32,10 @@ export function AddRemoveFieldsButton({
         type="button"
         variant={"outline"}
         size="icon"
-        className="border-rd border-1 text-rd"
+        className={cn(
+          "border-rd border-1 text-rd",
+          theme === "dark" ? "border-0" : ""
+        )}
         onClick={handleRemove}
         disabled={disabled}
       >
@@ -41,7 +47,10 @@ export function AddRemoveFieldsButton({
           type="button"
           variant="outline"
           size="icon"
-          className="text-bl border-bl border-1"
+          className={cn(
+            "text-bl border-bl border-1",
+            theme === "dark" ? "border-0" : ""
+          )}
           onClick={() => formField.append(defaultValues)}
           disabled={disabled}
         >

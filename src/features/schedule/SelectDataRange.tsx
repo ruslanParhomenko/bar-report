@@ -14,6 +14,8 @@ import {
   selectMonthDish,
 } from "./constants";
 import { ScheduleTable } from "./ScheduleTable";
+import { useTheme } from "next-themes";
+import { cn } from "@/lib/utils";
 
 const SELECT_DATA = {
   cucina: selectMonthCucina,
@@ -22,6 +24,7 @@ const SELECT_DATA = {
 };
 
 export const SelectDataRange = () => {
+  const { theme } = useTheme();
   const t = useTranslations("Home");
   const pathname = usePathname()?.split("/")[2] || "bar";
   const LOKAL_KEY = `lokal-month-${pathname}`;
@@ -46,7 +49,9 @@ export const SelectDataRange = () => {
     <>
       <div className="md:w-1/5 w-full pb-3">
         <Select value={currentValue} onValueChange={handleChange}>
-          <SelectTrigger className="w-[200px]">
+          <SelectTrigger
+            className={cn("w-[200px]", theme === "dark" ? "border-0" : "")}
+          >
             <SelectValue placeholder={t("selectMonth")} />
           </SelectTrigger>
           <SelectContent>

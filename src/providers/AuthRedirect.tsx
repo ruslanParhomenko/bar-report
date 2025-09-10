@@ -1,28 +1,30 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useSession } from "next-auth/react";
 
-const AuthRedirect = ({ children }: { children: React.ReactNode }) => {
+const SignInRedirect = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
-  const [isCheckingAuth, setIsCheckingAuth] = useState(false);
-
-  const { data: session } = useSession();
+  const { status } = useSession();
 
   useEffect(() => {
-    if (session === undefined) return;
+    if (status === "loading") return;
 
-    if (session?.user) {
+    if (status === "authenticated") {
       router.replace("/schedule/bar");
-    } else {
-      setIsCheckingAuth(true);
     }
-  }, [session, router]);
+  }, [status, router]);
 
-  if (!isCheckingAuth) return <div>Loading...</div>;
+  if (status === "loading") {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <span>Loading...</span>
+      </div>
+    );
+  }
 
   return <>{children}</>;
 };
 
-export default AuthRedirect;
+export default SignInRedirect;

@@ -14,6 +14,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useTheme } from "next-themes";
+import { th } from "date-fns/locale";
+import { cn } from "@/lib/utils";
 
 type Props = {
   fieldName: string;
@@ -32,6 +35,7 @@ function SelectField({
   className,
   style,
 }: Props) {
+  const { theme } = useTheme();
   const { control } = useFormContext();
 
   const options = data?.map((item) => ({ label: item, value: item }));
@@ -54,7 +58,12 @@ function SelectField({
                 <FormControl className="w-full">
                   <SelectTrigger
                     data-placeholder=""
-                    className={`${className} flex justify-center min-w-12   [&>svg]:hidden`}
+                    // className={`${className} flex justify-center min-w-12   [&>svg]:hidden`}
+                    className={cn(
+                      "flex justify-center min-w-12   [&>svg]:hidden",
+                      className,
+                      theme === "dark" ? "border-0" : ""
+                    )}
                     style={style}
                   >
                     <SelectValue placeholder={placeHolder} />

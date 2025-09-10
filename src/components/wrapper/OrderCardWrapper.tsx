@@ -5,6 +5,7 @@ import { useAbility } from "@/providers/AbilityProvider";
 import { useFormContext, useWatch } from "react-hook-form";
 
 import NumericInput from "../inputs/NumericInput";
+import { useTheme } from "next-themes";
 
 export function OrderCardWrapper({
   data,
@@ -13,6 +14,7 @@ export function OrderCardWrapper({
   data: string[];
   name: string;
 }) {
+  const { theme } = useTheme();
   const { isObserver } = useAbility();
   const { setValue, control } = useFormContext();
   return (
@@ -31,14 +33,10 @@ export function OrderCardWrapper({
               <NumericInput
                 fieldName={item}
                 disabled={isObserver}
-                className="w-16! text-center h-7!"
+                className={`w-16! text-center h-7! ${
+                  theme === "dark" ? "border-0" : ""
+                }`}
               />
-              {/* <SelectInput
-                fieldName={item}
-                fieldLabel={item}
-                data={QUANTITY_SELECT}
-                disabled={isObserver}
-              /> */}
               {value && (
                 <button
                   type="button"
@@ -49,7 +47,11 @@ export function OrderCardWrapper({
                 </button>
               )}
             </div>
-            {data.length - 1 !== index && <Separator className="my-1" />}
+            {data.length - 1 !== index && (
+              <Separator
+                className={`${theme === "dark" ? "my-1 bg-black" : "my-1"}`}
+              />
+            )}
           </div>
         );
       })}

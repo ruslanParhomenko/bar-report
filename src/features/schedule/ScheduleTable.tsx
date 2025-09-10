@@ -1,8 +1,11 @@
+"use client";
 import { useEffect, useState } from "react";
 import { useSheetData } from "@/hooks/use-schedule-data-google";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
+import { useTheme } from "next-themes";
 
 export function ScheduleTable({ dataRange }: { dataRange: any }) {
+  const { theme } = useTheme();
   const { data } = useSheetData({ range: dataRange as string });
   const [selectedColumn, setSelectedColumn] = useState<number | null>(null);
   const todayDay = new Date().getDate();
@@ -53,7 +56,11 @@ export function ScheduleTable({ dataRange }: { dataRange: any }) {
                     className={`
                   h-10 w-9
                   ${noBorderRow ? "" : "border"}
-                  ${noBorderRow ? "" : "border-border"}
+                  ${
+                    noBorderRow
+                      ? ""
+                      : `${theme === "dark" ? "border-black" : "border-border"}`
+                  }
                   ${isBlueColor ? "text-bl" : ""}
                   ${isSelected ? "text-bl" : ""}
                   ${

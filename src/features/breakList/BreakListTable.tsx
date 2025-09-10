@@ -1,3 +1,4 @@
+"use client";
 import {
   Table,
   TableBody,
@@ -19,12 +20,14 @@ import { useAbility } from "@/providers/AbilityProvider";
 import { useSidebar } from "@/components/ui/sidebar";
 import { useEmployees } from "@/providers/EmployeeProvider";
 import { BreakListFormValues } from "./schema";
+import { useTheme } from "next-themes";
 
 const BAR_EMPLOYEES = ["waiters", "barmen"];
 export const BreakListTable = () => {
   const { isObserver, isCucina, isUser } = useAbility();
   const isDisabled = isObserver || isCucina || isUser;
   const { isMobile } = useSidebar();
+  const { theme } = useTheme();
 
   const { employees } = useEmployees();
   const selectedEmployees = employees
@@ -140,7 +143,13 @@ export const BreakListTable = () => {
                       className={`${
                         isTrue ? "!text-rd font-bold text-[18px]" : ""
                       } ${
-                        selectedValue === "X" ? "bg-[#727171]" : "bg-background"
+                        selectedValue === "X"
+                          ? `${
+                              theme === "dark"
+                                ? "!bg-black !text-black border-0"
+                                : "bg-[#727171]"
+                            }`
+                          : "bg-background"
                       }`}
                     />
                   </TableCell>

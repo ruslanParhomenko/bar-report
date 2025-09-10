@@ -10,6 +10,8 @@ import {
 } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import { useTheme } from "next-themes";
+import { cn } from "@/lib/utils";
 
 type NumericInputProps = {
   fieldName: string;
@@ -28,6 +30,7 @@ function NumericInput({
   disabled,
   className,
 }: NumericInputProps) {
+  const { theme } = useTheme();
   const { control } = useFormContext();
   const [open, setOpen] = useState(false);
 
@@ -47,7 +50,10 @@ function NumericInput({
                   readOnly
                   disabled={disabled}
                   onClick={() => setOpen(true)}
-                  className={`cursor-pointer text-center ${className ?? ""}`}
+                  className={cn(
+                    `cursor-pointer text-center ${className ?? ""}`,
+                    theme === "dark" ? "border-0" : ""
+                  )}
                 />
               </FormControl>
             </PopoverTrigger>

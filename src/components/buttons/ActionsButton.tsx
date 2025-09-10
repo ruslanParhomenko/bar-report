@@ -1,6 +1,8 @@
 "use client";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import { Minus, Plus } from "lucide-react";
+import { useTheme } from "next-themes";
 import { UseFieldArrayReturn } from "react-hook-form";
 
 type ActionsButtonProps = {
@@ -20,6 +22,7 @@ export const ActionsButton = ({
   defaultValues,
   sendData,
 }: ActionsButtonProps) => {
+  const { theme } = useTheme();
   const handleRemove = () => {
     if (formFields.fields.length === 1) {
       console.log("Removing index:", idx, "Item:", formFields.fields);
@@ -45,7 +48,10 @@ export const ActionsButton = ({
           variant="outline"
           onClick={handleRemove}
           disabled={disabled}
-          className="border-rd border-1 text-rd"
+          className={cn(
+            "border-rd border-1 text-rd",
+            theme === "dark" ? "border-0" : ""
+          )}
         >
           <Minus />
         </Button>
@@ -56,7 +62,10 @@ export const ActionsButton = ({
           variant="outline"
           onClick={handleAdd}
           disabled={disabled || !item}
-          className="border-bl border-1 text-bl"
+          className={cn(
+            "border-bl border-1 text-bl",
+            theme === "dark" ? "border-0" : ""
+          )}
         >
           <Plus />
         </Button>

@@ -2,6 +2,7 @@
 import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
 import { Link, usePathname } from "@/i18n/navigation";
+import { useTheme } from "next-themes";
 
 export type PageNavType = {
   title: string;
@@ -15,6 +16,7 @@ function PageNav({
   navItems: PageNavType[];
   mainRoute: string;
 }) {
+  const { theme } = useTheme();
   const pathname = usePathname();
 
   const t = useTranslations("Home");
@@ -29,7 +31,12 @@ function PageNav({
 
   return (
     <div className="pb-4 pt-2 px-2 sticky top-0 z-10 bg-background">
-      <div className="flex flex-row justify-end md:justify-start gap-6 border-b border-border">
+      <div
+        className={cn(
+          "flex flex-row justify-end md:justify-start gap-6",
+          theme === "dark" ? "border-b border-black" : "border-b border-border"
+        )}
+      >
         {navItems
           .filter((page) => page.href !== "#")
           .map((page) => {

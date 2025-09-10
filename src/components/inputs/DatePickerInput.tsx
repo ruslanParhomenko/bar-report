@@ -20,8 +20,10 @@ import { cn } from "@/lib/utils";
 import { Calendar } from "@/components/ui/calendar";
 
 import React, { useState, useEffect } from "react";
+import { useTheme } from "next-themes";
 
 function DatePickerInput({ fieldName }: { fieldName: string }) {
+  const { theme } = useTheme();
   const t = useTranslations("Home");
   const locale = useLocale();
   const locales: Record<string, Locale> = {
@@ -49,7 +51,8 @@ function DatePickerInput({ fieldName }: { fieldName: string }) {
                     variant={"outline"}
                     className={cn(
                       "p-4 text-center font-normal",
-                      !field.value && "text-muted-foreground"
+                      !field.value && "text-muted-foreground",
+                      theme === "dark" && "border-0"
                     )}
                   >
                     {field.value && isClient ? (

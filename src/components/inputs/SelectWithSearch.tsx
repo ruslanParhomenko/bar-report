@@ -27,6 +27,7 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
+import { useTheme } from "next-themes";
 
 type Props = {
   fieldName: string;
@@ -43,6 +44,7 @@ function SelectFieldWithSearch({
   disabled,
   className,
 }: Props) {
+  const { theme } = useTheme();
   const { control } = useFormContext();
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState("");
@@ -74,7 +76,8 @@ function SelectFieldWithSearch({
                         field.value
                           ? "text-base overflow-hidden text-ellipsis whitespace-nowrap"
                           : "text-gray-300 text-base",
-                        className
+                        className,
+                        theme === "dark" ? "border-0 bg-background" : ""
                       )}
                       disabled={disabled}
                     >
