@@ -46,11 +46,14 @@
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
 
-  --color-bl: #1da1f2;
-  --color-rd: #e0245e;
+  --color-bl: var(--bl);
+  --color-rd: var(--rd);
 }
 
 :root {
+  --bl: #1da1f2;
+  --rd: #e0245e;
+
   --radius: 0.625rem;
 
   --background: #ffffff;
@@ -97,19 +100,22 @@
 }
 
 .dark {
-  --background: #18181b; /* общий фон */
-  --foreground: #f9fafb; /* текст */
+  --bl: #2563eb;
+  --rd: #dc2626;
 
-  --card: #27272a; /* карточки */
+  --background: #18181b;
+  --foreground: #f9fafb;
+
+  --card: #27272a;
   --card-foreground: #f9fafb;
 
-  --popover: #27272a; /* попапы */
+  --popover: #27272a;
   --popover-foreground: #f9fafb;
 
-  --primary: #818cf8; /* акцент */
+  --primary: #818cf8;
   --primary-foreground: #18181b;
 
-  --secondary: #3f3f46; /* второй слой */
+  --secondary: #3f3f46;
   --secondary-foreground: #f9fafb;
 
   --muted: #3f3f46;
@@ -118,7 +124,7 @@
   --accent: #3f3f46;
   --accent-foreground: #f9fafb;
 
-  --destructive: #ef4444; /* красный для ошибок */
+  --destructive: #ef4444;
 
   --border: #5c5c68;
   --input: #3f3f46;
@@ -130,7 +136,7 @@
   --chart-4: #a78bfa;
   --chart-5: #f87171;
 
-  --sidebar: #1f2937; /* sidebar — более тёмный */
+  --sidebar: #1f2937;
   --sidebar-foreground: #f9fafb;
   --sidebar-primary: #818cf8;
   --sidebar-primary-foreground: #18181b;

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useSheetData } from "@/hooks/use-schedule-data-google";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { useTheme } from "next-themes";
+import { cn } from "@/lib/utils";
 
 export function ScheduleTable({ dataRange }: { dataRange: any }) {
   const { theme } = useTheme();
@@ -31,7 +32,13 @@ export function ScheduleTable({ dataRange }: { dataRange: any }) {
           const noBorderRow = i === 0 || !row[3];
 
           return (
-            <TableRow key={i} className="border-0 text-sm">
+            <TableRow
+              key={i}
+              className={cn(
+                "border-0 text-sm",
+                theme === "dark" ? "text-foreground/45" : "text-bl"
+              )}
+            >
               {row.map((cell: any, j: number) => {
                 const isSelected = j === 4 || j === 2;
                 const isBlueColor =
@@ -59,19 +66,47 @@ export function ScheduleTable({ dataRange }: { dataRange: any }) {
                   ${
                     noBorderRow
                       ? ""
-                      : `${theme === "dark" ? "border-black" : "border-border"}`
+                      : `${
+                          theme === "dark"
+                            ? "border-border/40"
+                            : "border-border"
+                        }`
                   }
-                  ${isBlueColor ? "text-bl" : ""}
-                  ${isSelected ? "text-bl" : ""}
+                  ${
+                    isBlueColor
+                      ? `${theme === "dark" ? "text-foreground/45" : "text-bl"}`
+                      : ""
+                  }
+                  ${
+                    isSelected
+                      ? `${theme === "dark" ? "text-foreground/45" : "text-bl"}`
+                      : ""
+                  }
                   ${
                     j === 4
                       ? "min-w-[30px] sticky left-0 z-5 text-left bg-background"
                       : "text-center"
                   }
-                  ${isHighlighted ? "font-bold  text-rd" : ""}
+                  ${
+                    isHighlighted
+                      ? `${
+                          theme === "dark"
+                            ? "text-foreground font-bold"
+                            : "font-bold text-rd"
+                        }`
+                      : ""
+                  }
                   
                   ${i === 0 ? "cursor-pointer" : ""}
-                  ${shouldEmphasize ? "font-bold text-rd" : ""}
+                  ${
+                    shouldEmphasize
+                      ? `${
+                          theme === "dark"
+                            ? "text-foreground font-bold"
+                            : "font-bold text-rd"
+                        }`
+                      : ""
+                  }
                 `}
                   >
                     {cell}
