@@ -57,7 +57,12 @@ function NumericInput({
                 />
               </FormControl>
             </PopoverTrigger>
-            <PopoverContent className="w-50 p-2 grid grid-cols-3 gap-2 border-none bg-bl">
+            <PopoverContent
+              className={cn(
+                "w-50 p-2 grid grid-cols-3 gap-2 border-none bg-bl",
+                theme === "dark" ? "bg-black" : ""
+              )}
+            >
               {Array.from({ length: 9 }, (_, i) => i + 1).map((num) => (
                 <Button
                   key={num}
@@ -70,11 +75,16 @@ function NumericInput({
               ))}
               <Button
                 variant="outline"
-                className="h-10 text-xl text-rd bg-background"
-                onClick={() => onChange((value ?? "").slice(0, -1))}
+                className="h-10 text-xl   bg-background"
+                onClick={() => {
+                  if (!(value ?? "").includes(".")) {
+                    onChange("-" + (value ?? ""));
+                  }
+                }}
               >
-                X
+                -
               </Button>
+
               <Button
                 variant="outline"
                 className="h-10 text-xl bg-background"
@@ -95,7 +105,15 @@ function NumericInput({
               </Button>
               <Button
                 variant="outline"
-                className="h-10 text-xl col-span-3  bg-background"
+                className="h-10 text-xl text-rd bg-background"
+                onClick={() => onChange((value ?? "").slice(0, -1))}
+              >
+                x
+              </Button>
+
+              <Button
+                variant="outline"
+                className="h-10 text-xl col-span-2  bg-background"
                 onClick={() => setOpen(false)}
               >
                 ok
