@@ -232,7 +232,10 @@ export function ReportBarForm() {
         </div>
 
         <TableCashVerify />
-        <SendResetButton resetForm={resetForm} disabledReset={false} />
+        <SendResetButton
+          resetForm={resetForm}
+          disabledReset={isAdmin && true}
+        />
       </form>
     </Form>
   );

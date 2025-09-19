@@ -1,4 +1,5 @@
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
+import { cn } from "@/lib/utils";
 
 export default function BreakListTable({ data }: { data: any }) {
   return (
@@ -20,6 +21,15 @@ export default function BreakListTable({ data }: { data: any }) {
                   <TableRow key={row.id}>
                     <TableCell>{row.externalId}</TableCell>
                     <TableCell>{row.name ?? "-"}</TableCell>
+                    <TableCell
+                      className={cn(
+                        hoursEntries.length === 7
+                          ? "font-bold"
+                          : "font-bold text-rd"
+                      )}
+                    >
+                      = {hoursEntries.length}
+                    </TableCell>
                     {hoursEntries.map(({ hour, value }) => (
                       <TableCell
                         key={`${row.id}-${hour}`}

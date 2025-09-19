@@ -1,8 +1,5 @@
 "use client";
-import { defaultStopList } from "@/features/stop-list/schema";
 import { useSession } from "next-auth/react";
-import { date } from "yup";
-
 export const useDataSupaBase = ({
   localStorageKey,
   apiKey,
@@ -39,7 +36,6 @@ export const useDataSupaBase = ({
     try {
       const res = await fetch(`/api/${apiKey}`);
       const allData = await res.json();
-
       const dataBar = allData
         .filter((item: any) => fetchMail.bar.includes(item.user_email))
         .map((item: any) => item.form_data);

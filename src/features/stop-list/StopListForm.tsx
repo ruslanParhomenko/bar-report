@@ -104,6 +104,7 @@ export default function StopListForm() {
 
   const fetchSupaBaseData = async () => {
     const data = await fetchRealTime();
+    console.log(data);
     const resetData = {
       stopList: data?.bar?.stopList || [{ ...defaultStopList }],
       stopListCucina: data?.cucina.stopListCucina || [{ ...defaultStopList }],

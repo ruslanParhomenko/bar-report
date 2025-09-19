@@ -13,7 +13,7 @@ export const ReportBarTable = ({ data }: { data: any }) => {
   return (
     <>
       <div className="border border-gray-200 rounded-md md:p-4">
-        <div className="grid grid-cols-1 md:grid-cols-[40%_60%]  pb-4">
+        <div className="grid grid-cols-1 md:grid-cols-[35%_65%]  pb-4">
           <Table>
             <TableHeader>
               <TableRow>
@@ -45,7 +45,7 @@ export const ReportBarTable = ({ data }: { data: any }) => {
             </TableBody>
           </Table>
 
-          <div className="flex flex-col items-start justify-between gap-4 w-full md:pl-30">
+          <div className="flex flex-col items-start justify-between gap-4 w-full md:pl-15">
             <div className="grid md:grid-cols-2 gap-20 pt-10 md:pt-0">
               <Table>
                 <TableHeader>

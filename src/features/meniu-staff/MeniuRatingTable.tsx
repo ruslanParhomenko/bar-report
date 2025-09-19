@@ -14,6 +14,9 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useAbility } from "@/providers/AbilityProvider";
+import { useState } from "react";
+import { cn } from "@/lib/utils";
+import { se } from "date-fns/locale";
 
 type InputData = {
   form_data: {
@@ -78,6 +81,7 @@ function getRatingStats(ratings: number[]) {
 }
 
 export default function MeniuRatingTable() {
+  const [selected, setSelected] = useState<string | null>(null);
   const { isObserver } = useAbility();
   const LOCAL_STORAGE_KEY = "meniu-staff";
 
@@ -113,8 +117,8 @@ export default function MeniuRatingTable() {
 
   return (
     <Form {...form}>
-      <form>
-        <div className="flex w-full justify-between md:px-10 gap-4 p-4">
+      <form className="md:px-90">
+        <div className="flex w-full justify-between  gap-4 p-4">
           <DatePickerRange />
           <FetchDataButton
             fetchData={fetchSupaBaseData}
@@ -137,7 +141,15 @@ export default function MeniuRatingTable() {
                 .map((row, idx) => {
                   const { avg, count } = getRatingStats(row.ratings);
                   return (
-                    <TableRow key={idx}>
+                    <TableRow
+                      key={idx}
+                      onClick={() => {
+                        setSelected(selected === row.item ? null : row.item);
+                      }}
+                      className={cn("cursor-pointer", {
+                        "text-rd font-bold": selected === row.item,
+                      })}
+                    >
                       <TableCell>{row.item}</TableCell>
                       <TableCell className="text-center">{avg}</TableCell>
                       <TableCell className="text-center">{count}</TableCell>

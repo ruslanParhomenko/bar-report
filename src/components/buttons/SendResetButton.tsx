@@ -14,7 +14,7 @@ import {
 
 export function SendResetButton({
   resetForm,
-  disabledReset = true,
+  disabledReset = false,
 }: {
   resetForm: () => void;
   disabledReset?: boolean;
