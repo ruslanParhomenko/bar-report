@@ -26,10 +26,19 @@ export function OrderCardWrapper({
         const value = useWatch({ control, name: item });
         return (
           <div key={index}>
-            <div className="grid-cols-[65%_25%_10%] grid">
+            <div className="grid-cols-[65%_10%_25%] grid">
               <Label className={`text-sm ${value ? "text-rd" : ""}`}>
                 {item}
               </Label>
+
+              <button
+                type="button"
+                className=" text-rd front-bold cursor-pointer"
+                onClick={() => setValue(item, "")}
+              >
+                {value ? "X" : ""}
+              </button>
+
               <NumericInput
                 fieldName={item}
                 disabled={isObserver}
@@ -37,15 +46,6 @@ export function OrderCardWrapper({
                   theme === "dark" ? "border-0" : ""
                 }`}
               />
-              {value && (
-                <button
-                  type="button"
-                  className=" text-rd front-bold cursor-pointer"
-                  onClick={() => setValue(item, "")}
-                >
-                  X
-                </button>
-              )}
             </div>
             {data.length - 1 !== index && (
               <Separator
