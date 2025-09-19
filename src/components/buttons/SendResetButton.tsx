@@ -12,7 +12,13 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 
-export function SendResetButton({ resetForm }: { resetForm: () => void }) {
+export function SendResetButton({
+  resetForm,
+  disabledReset = true,
+}: {
+  resetForm: () => void;
+  disabledReset?: boolean;
+}) {
   const { isObserver, isUser } = useAbility();
   const isDisabled = isObserver || isUser;
   const t = useTranslations("Home");
@@ -47,15 +53,17 @@ export function SendResetButton({ resetForm }: { resetForm: () => void }) {
             {t("save")}
           </Button>
 
-          <Button
-            type="button"
-            variant="secondary"
-            className="hover:bg-rd text-bl hover:text-black"
-            disabled={isDisabled}
-            onClick={() => setOpenModal("reset")}
-          >
-            {t("reset")}
-          </Button>
+          {disabledReset && (
+            <Button
+              type="button"
+              variant="secondary"
+              className="hover:bg-rd text-bl hover:text-black"
+              disabled={isDisabled}
+              onClick={() => setOpenModal("reset")}
+            >
+              {t("reset")}
+            </Button>
+          )}
         </div>
       </div>
 
