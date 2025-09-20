@@ -48,9 +48,9 @@ export const tobaccoSchema = yup.array(
     name: yup
       .string()
       .oneOf(LIST_TOBACCO, "Name must be one of the predefined list"),
-    stock: yup.string(),
-    incoming: yup.string(),
-    outgoing: yup.string(),
+    stock: yup.number(),
+    incoming: yup.number(),
+    outgoing: yup.number(),
     finalStock: yup.string(),
   })
 );
