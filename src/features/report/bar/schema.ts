@@ -57,9 +57,9 @@ export const tobaccoSchema = yup.array(
 export type TobaccoSchemaType = yup.InferType<typeof tobaccoSchema>;
 export const tobaccoDefault = LIST_TOBACCO.map((name) => ({
   name,
-  stock: "0",
-  incoming: "",
-  outgoing: "",
+  stock: 0,
+  incoming: 0,
+  outgoing: 0,
   finalStock: "0",
 }));
 

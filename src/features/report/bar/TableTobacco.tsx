@@ -1,5 +1,4 @@
 "use client";
-
 import {
   Table,
   TableBody,
@@ -8,11 +7,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-
 import { Label } from "@/components/ui/label";
 import { tobaccoDefault, TobaccoSchemaType } from "./schema";
-import SelectField from "@/components/inputs/SelectField";
-import { SELECT_COUNT } from "./constants";
 import { useFormContext, useWatch } from "react-hook-form";
 import { useAbility } from "@/providers/AbilityProvider";
 import NumericInput from "@/components/inputs/NumericInput";
