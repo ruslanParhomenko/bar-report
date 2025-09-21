@@ -18,7 +18,9 @@ import {
   BREAK_LIST_ENDPOINT,
   BREAK_LIST_REALTIME_ENDPOINT,
 } from "@/constants/endpoint-tag";
-import { BreakListFormValues, defaultValuesBrakeList } from "./schema";
+import { BreakRemarksData, dataSchema, defaultValuesBrakeList } from "./schema";
+import RemarksTable from "./RemarksTable";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 const BreakList = () => {
   const LOCAL_STORAGE_KEY = BREAK_LIST_ENDPOINT;
@@ -47,7 +49,8 @@ const BreakList = () => {
   const parsedSavedData = savedData ? JSON.parse(savedData) : null;
 
   //form
-  const form = useForm<BreakListFormValues>({
+  const form = useForm<BreakRemarksData>({
+    resolver: yupResolver(dataSchema),
     defaultValues: parsedSavedData || defaultValuesBrakeList,
   });
   const watchAllFields = useWatch({
@@ -65,21 +68,21 @@ const BreakList = () => {
     return () => clearTimeout(timeout);
   }, [watchAllFields]);
 
-  const handleSubmit: SubmitHandler<BreakListFormValues> = (data) => {
+  const handleSubmit: SubmitHandler<BreakRemarksData> = (data) => {
     console.log("Submitting data:", data);
-    if (!data.date) {
-      toast.error("Дата не выбрана");
-      return;
-    }
-    try {
-      createMutation.mutate({
-        ...data,
-        date: new Date(data.date),
-      });
-      toast.success("Брейк-лист успешно сохранён !");
-    } catch (e) {
-      toast.error("Ошибка при сохранении брейк-листа");
-    }
+    // if (!data.date) {
+    //   toast.error("Дата не выбрана");
+    //   return;
+    // }
+    // try {
+    //   createMutation.mutate({
+    //     ...data,
+    //     date: new Date(data.date),
+    //   });
+    //   toast.success("Брейк-лист успешно сохранён !");
+    // } catch (e) {
+    //   toast.error("Ошибка при сохранении брейк-листа");
+    // }
   };
 
   //reset
@@ -113,7 +116,8 @@ const BreakList = () => {
             />
           </div>
           <BreakListTable />
-          <SendResetButton resetForm={resetForm} />
+          <RemarksTable />
+          <SendResetButton resetForm={resetForm} disabledReset={true} />
         </form>
       </Form>
     </div>
