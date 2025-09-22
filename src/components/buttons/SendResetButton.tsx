@@ -30,7 +30,6 @@ export function SendResetButton({
   const handleConfirm = () => {
     if (openModal === "save") {
       document.querySelector<HTMLFormElement>("form")?.requestSubmit();
-      resetForm();
     } else if (openModal === "reset") {
       resetForm();
     }

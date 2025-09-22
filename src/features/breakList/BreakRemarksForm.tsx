@@ -91,6 +91,7 @@ const BreakList = () => {
         date: new Date(data.date),
       });
       toast.success("Брейк-лист успешно сохранён !");
+      resetForm();
     } catch (e) {
       toast.error("Ошибка при сохранении брейк-листа");
     }

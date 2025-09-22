@@ -1,6 +1,4 @@
-import { BreakListItem } from "./schema";
-
-export const BREAK_LIST_DEFAULT: BreakListItem[] = [
+export const BREAK_LIST_DEFAULT: any[] = [
   {
     id: "8-20",
     name: "",
