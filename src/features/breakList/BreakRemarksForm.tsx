@@ -116,22 +116,26 @@ const BreakList = () => {
     }
   };
   return (
-    <div className="w-full">
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-2">
-          <div className="flex items-center gap-4 justify-between">
-            <DatePickerInput fieldName="date" />
-            <FetchDataButton
-              fetchData={fetchSupaBaseData}
-              isDisabled={isDisabled}
-            />
-          </div>
+    <Form {...form}>
+      <form
+        onSubmit={form.handleSubmit(handleSubmit)}
+        className="flex flex-col md:min-h-[95vh]"
+      >
+        <div className="flex items-center justify-between pb-5">
+          <DatePickerInput fieldName="date" />
+          <FetchDataButton
+            fetchData={fetchSupaBaseData}
+            isDisabled={isDisabled}
+          />
+        </div>
+        <div className="flex-1 flex flex-col gap-4">
           <BreakListTable employees={employees || []} />
           <RemarksTable fields={remarks} employees={employees || []} />
-          <SendResetButton resetForm={resetForm} disabledReset={true} />
-        </form>
-      </Form>
-    </div>
+        </div>
+
+        <SendResetButton resetForm={resetForm} disabledReset={true} />
+      </form>
+    </Form>
   );
 };
 

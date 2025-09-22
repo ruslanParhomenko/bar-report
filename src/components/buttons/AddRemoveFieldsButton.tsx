@@ -8,11 +8,13 @@ export function AddRemoveFieldsButton({
   defaultValues,
   index,
   disabled,
+  className,
 }: {
   formField: UseFieldArrayReturn<any>;
   defaultValues: any;
   index: number;
   disabled?: boolean;
+  className?: string;
 }) {
   const { theme } = useTheme();
   const isOnlyOne = formField.fields?.length === 1;
@@ -27,7 +29,7 @@ export function AddRemoveFieldsButton({
   };
 
   return (
-    <div className="flex gap-1 justify-center items-center">
+    <div className={cn("flex gap-1 justify-center items-center", className)}>
       <Button
         type="button"
         variant={"outline"}

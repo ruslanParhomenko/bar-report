@@ -40,18 +40,18 @@ export default function RemarksTable({
 
   return (
     <>
-      <Label className="text-lg font-semibold text-bl">Remarks</Label>
+      <Label className="text-lg font-semibold text-bl table-fixed">
+        Remarks
+      </Label>
       <Table className="md:w-full hidden md:block">
         <TableHeader>
-          <TableRow className="h-10 ">
-            <TableCell className="text-center md:w-80  w-12">Name</TableCell>
-            <TableCell className="text-center md:w-20 w-5">day hours</TableCell>
-            <TableCell className="text-center md:w-20 w-5">
-              night hours
-            </TableCell>
+          <TableRow className="h-10">
+            <TableCell className="text-center md:w-80 w-12"></TableCell>
+            <TableCell className="text-center md:w-20 w-5">day</TableCell>
+            <TableCell className="text-center md:w-20 w-5">night</TableCell>
             <TableCell className="text-center md:w-40 w-8">penality</TableCell>
-            <TableCell className="text-center md:w-80 w-8">reason</TableCell>
-            <TableCell className="text-center md:w-20 w-5">actions</TableCell>
+            <TableCell className="text-center md:w-90 w-8">reason</TableCell>
+            <TableCell className="text-center md:w-40 w-5">actions</TableCell>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -98,6 +98,7 @@ export default function RemarksTable({
                   defaultValues={defaultRemarks}
                   index={idx}
                   disabled={isDisabled}
+                  className="!gap-5"
                 />
               </TableCell>
             </TableRow>
