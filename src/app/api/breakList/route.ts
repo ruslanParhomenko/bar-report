@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   const body = await req.json();
-  const { date, rows } = body;
+  const { date, rows, remarks } = body;
 
   // Фильтруем rows, оставляя только те, у которых есть name
   const rowsWithName = rows.filter(
@@ -39,9 +39,20 @@ export async function POST(req: Request) {
           return rowData;
         }),
       },
+      remarks: {
+        create: remarks.map((remark: any) => ({
+          name: remark.name,
+          dayHours: remark.dayHours,
+          nightHours: remark.nightHours,
+          reason: remark.reason,
+          penality: remark.penality,
+          reasonPenality: remark.reasonPenality,
+        })),
+      },
     },
     include: {
       rows: true,
+      remarks: true,
     },
   });
 

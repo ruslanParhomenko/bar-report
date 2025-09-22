@@ -15,12 +15,12 @@ export function AddRemoveFieldsButton({
   disabled?: boolean;
 }) {
   const { theme } = useTheme();
-  const isOnlyOne = formField.fields.length === 1;
-  const isLast = index === formField.fields.length - 1;
+  const isOnlyOne = formField.fields?.length === 1;
+  const isLast = index === formField.fields?.length - 1;
 
   const handleRemove = () => {
     if (isOnlyOne) {
-      formField.replace(defaultValues);
+      formField.replace([defaultValues]);
     } else {
       formField.remove(index);
     }

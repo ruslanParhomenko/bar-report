@@ -7,7 +7,6 @@ import {
 } from "@/components/ui/table";
 
 export default function RemarksTable({ data }: { data: any }) {
-  console.log(data);
   return (
     <div className="p-4 border rounded-md shadow-md ">
       <Table>

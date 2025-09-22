@@ -1,6 +1,11 @@
 "use client";
-import { use, useEffect } from "react";
-import { useForm, SubmitHandler, useWatch } from "react-hook-form";
+import { useEffect } from "react";
+import {
+  useForm,
+  SubmitHandler,
+  useWatch,
+  useFieldArray,
+} from "react-hook-form";
 import toast from "react-hot-toast";
 
 import { useAbility } from "@/providers/AbilityProvider";
@@ -11,7 +16,7 @@ import { Form } from "../../components/ui/form";
 import DatePickerInput from "@/components/inputs/DatePickerInput";
 import { SendResetButton } from "../../components/buttons/SendResetButton";
 import { FetchDataButton } from "../../components/buttons/FetchDataButton";
-import { BreakListTable } from "./BreakListTable";
+import { BreakListTable } from "./BreakTable";
 
 import { BreakeList } from "@/generated/prisma";
 import {
@@ -21,11 +26,13 @@ import {
 import { BreakRemarksData, dataSchema, defaultValuesBrakeList } from "./schema";
 import RemarksTable from "./RemarksTable";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useEmployees } from "@/providers/EmployeeProvider";
 
 const BreakList = () => {
+  const { employees } = useEmployees();
   const LOCAL_STORAGE_KEY = BREAK_LIST_ENDPOINT;
 
-  const { isBar, isCucina, isUser, isAdmin, isObserver } = useAbility();
+  const { isBar, isCucina, isObserver } = useAbility();
   const isDisabled = isObserver || isCucina || isBar;
 
   //create
@@ -57,6 +64,11 @@ const BreakList = () => {
     control: form.control,
   });
 
+  const remarks = useFieldArray({
+    control: form.control,
+    name: "remarks",
+  });
+
   //set local supaBase
   useEffect(() => {
     if (!watchAllFields) return;
@@ -69,20 +81,19 @@ const BreakList = () => {
   }, [watchAllFields]);
 
   const handleSubmit: SubmitHandler<BreakRemarksData> = (data) => {
-    console.log("Submitting data:", data);
-    // if (!data.date) {
-    //   toast.error("Дата не выбрана");
-    //   return;
-    // }
-    // try {
-    //   createMutation.mutate({
-    //     ...data,
-    //     date: new Date(data.date),
-    //   });
-    //   toast.success("Брейк-лист успешно сохранён !");
-    // } catch (e) {
-    //   toast.error("Ошибка при сохранении брейк-листа");
-    // }
+    if (!data.date) {
+      toast.error("Дата не выбрана");
+      return;
+    }
+    try {
+      createMutation.mutate({
+        ...data,
+        date: new Date(data.date),
+      });
+      toast.success("Брейк-лист успешно сохранён !");
+    } catch (e) {
+      toast.error("Ошибка при сохранении брейк-листа");
+    }
   };
 
   //reset
@@ -103,7 +114,6 @@ const BreakList = () => {
       localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(resetData));
     }
   };
-
   return (
     <div className="w-full">
       <Form {...form}>
@@ -115,8 +125,8 @@ const BreakList = () => {
               isDisabled={isDisabled}
             />
           </div>
-          <BreakListTable />
-          <RemarksTable />
+          <BreakListTable employees={employees || []} />
+          <RemarksTable fields={remarks} employees={employees || []} />
           <SendResetButton resetForm={resetForm} disabledReset={true} />
         </form>
       </Form>

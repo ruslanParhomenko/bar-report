@@ -9,57 +9,42 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { OVER_HOURS, REASON } from "../remarks/constants";
+
 import NumericInput from "@/components/inputs/NumericInput";
 import { AddRemoveFieldsButton } from "@/components/buttons/AddRemoveFieldsButton";
 import { useAbility } from "@/providers/AbilityProvider";
-import { useFieldArray, useForm, useFormContext } from "react-hook-form";
-import {
-  defaultRemarks,
-  defaultRemarksForm,
-  RemarksForm,
-} from "../remarks/schema";
-import { useLocalStorageForm } from "@/hooks/use-local-storage";
-import { useTranslations } from "next-intl";
-import { REMARKS_ENDPOINT } from "@/constants/endpoint-tag";
-import { useEmployees } from "@/providers/EmployeeProvider";
+import { UseFieldArrayReturn } from "react-hook-form";
 
-export default function RemarksTable() {
+import { useTranslations } from "next-intl";
+
+import { OVER_HOURS, REASON } from "./constant";
+import { defaultRemarks } from "./schema";
+
+export default function RemarksTable({
+  fields,
+  employees,
+}: {
+  fields: UseFieldArrayReturn<any>;
+  employees: { name: string }[];
+}) {
   const t = useTranslations("Home");
-  const LOCAL_STORAGE_KEY = REMARKS_ENDPOINT;
   const { isObserver, isBar, isCucina, isUser } = useAbility();
   const isDisabled = isObserver || isCucina || isUser;
 
   //employees
-  const { employees } = useEmployees();
-  const selectedEmployees = employees.map((employee) => ({
+
+  const selectedEmployees = employees?.map((employee) => ({
     label: employee.name,
     value: employee.name,
   }));
 
-  //localStorage
-  const {
-    getValue,
-    setValue: setLocalStorage,
-    removeValue,
-  } = useLocalStorageForm<RemarksForm>(LOCAL_STORAGE_KEY);
-  const localData = getValue();
-
-  //form
-  const form = useFormContext();
-  const remarks = useFieldArray({
-    control: form.control,
-    name: "remarks",
-  });
   return (
     <>
-      <Label className="text-lg font-semibold pb-7 text-bl">
-        Employee Remarks
-      </Label>
-      <Table className="[&_th]:text-center [&_td]:text-center table-fixed md:w-300 hidden md:block">
+      <Label className="text-lg font-semibold text-bl">Remarks</Label>
+      <Table className="md:w-full hidden md:block">
         <TableHeader>
           <TableRow className="h-10 ">
-            <TableCell className="text-center md:w-80 w-12">Name</TableCell>
+            <TableCell className="text-center md:w-80  w-12">Name</TableCell>
             <TableCell className="text-center md:w-20 w-5">day hours</TableCell>
             <TableCell className="text-center md:w-20 w-5">
               night hours
@@ -70,8 +55,8 @@ export default function RemarksTable() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {remarks?.fields?.map((item, idx) => (
-            <TableRow key={idx}>
+          {fields.fields?.map((item, idx) => (
+            <TableRow key={item.id}>
               <TableCell>
                 <SelectInput
                   fieldName={`remarks.${idx}.name`}
@@ -109,7 +94,7 @@ export default function RemarksTable() {
               </TableCell>
               <TableCell>
                 <AddRemoveFieldsButton
-                  formField={remarks}
+                  formField={fields}
                   defaultValues={defaultRemarks}
                   index={idx}
                   disabled={isDisabled}
@@ -120,7 +105,7 @@ export default function RemarksTable() {
         </TableBody>
       </Table>
       <div className="flex flex-col gap-2 md:hidden">
-        {remarks?.fields?.map((item, idx) => (
+        {fields.fields?.map((item, idx) => (
           <div
             key={item.id ?? idx}
             className="border rounded-lg p-2 shadow-sm bg-white"
@@ -172,7 +157,7 @@ export default function RemarksTable() {
 
             <div className="flex justify-end mt-2">
               <AddRemoveFieldsButton
-                formField={remarks}
+                formField={fields}
                 defaultValues={defaultRemarks}
                 index={idx}
                 disabled={isDisabled}

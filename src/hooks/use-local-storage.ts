@@ -25,6 +25,7 @@ export const useLocalStorageForm = <T>(key: string) => {
   );
 
   const removeValue = useCallback(() => {
+    console.log("remove", key);
     if (!isClient) return;
     try {
       window.localStorage.removeItem(key);

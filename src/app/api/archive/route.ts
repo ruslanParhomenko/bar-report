@@ -41,6 +41,7 @@ export async function GET() {
         take: 31,
         include: {
           rows: true,
+          remarks: true,
         },
         orderBy: { date: "desc" },
       }),

@@ -1,6 +1,6 @@
-import BreakList from "@/features/breakList/BreakListForm";
+import BreakRemarksForm from "@/features/breakList/BreakRemarksForm";
 
 const Page = () => {
-  return <BreakList />;
+  return <BreakRemarksForm />;
 };
 export default Page;

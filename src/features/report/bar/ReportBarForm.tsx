@@ -113,8 +113,8 @@ export function ReportBarForm() {
       return {
         ...item,
         stock: finalStock,
-        incoming: null,
-        outgoing: null,
+        incoming: 0,
+        outgoing: 0,
       };
     });
 

@@ -57,12 +57,6 @@ export const SIDEBAR_NAVIGATION = [
     icon: List,
   },
   {
-    title: "employeeRemarks",
-    url: "/employee-remarks",
-    url2: "/employee-remarks",
-    icon: List,
-  },
-  {
     title: "meniuVip",
     url: "/meniu-vip",
     url2: "/meniu-vip",
