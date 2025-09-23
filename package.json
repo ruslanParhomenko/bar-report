@@ -63,18 +63,5 @@
     "tailwindcss": "^4",
     "tw-animate-css": "^1.3.6",
     "typescript": "^5"
-  },
-  "browserslist": {
-    "production": [
-      "chrome >= 100",
-      "last 2 versions",
-      "not dead"
-    ],
-    "development": [
-      "chrome >= 100"
-    ]
-  },
-  "engines": {
-    "node": ">=18"
   }
 }
