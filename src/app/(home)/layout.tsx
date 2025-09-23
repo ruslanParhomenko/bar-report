@@ -11,8 +11,8 @@ const NavPage = ({
     <div className="flex w-full flex-col  bg-background ">
       <SidebarProvider>
         <SidebarNav />
-        <section className="h-full w-full p-2">
-          <div className="rounded-2xl bg-background p-2 ">
+        <section className="h-full w-full">
+          <div className=" bg-background  ">
             {children}
             <SpeedInsights />
           </div>

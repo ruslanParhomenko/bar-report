@@ -1,8 +1,8 @@
 "use client";
 
-import { Link, usePathname } from "@/i18n/navigation";
+import { Link, usePathname, useRouter } from "@/i18n/navigation";
 import { signOut } from "next-auth/react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import {
   Sidebar,
   SidebarContent,
@@ -17,9 +17,15 @@ import { useSidebar } from "../../components/ui/sidebar";
 import { SidebarToggleButton } from "@/components/switches/SidebarToggleButton";
 import { useAbility } from "@/providers/AbilityProvider";
 import { ThemeSwitcher } from "@/components/switches/ThemeSwitcher";
-import { SignOut } from "phosphor-react";
+import { Globe, MoonStars, SignOut, Sun } from "phosphor-react";
+import { useTheme } from "next-themes";
 
 const SidebarNav = () => {
+  const locale = useLocale();
+  const router = useRouter();
+
+  const { theme, setTheme } = useTheme();
+
   const { toggleSidebar, isMobile } = useSidebar();
   const pathname = usePathname();
   const t = useTranslations("Home");
@@ -29,6 +35,11 @@ const SidebarNav = () => {
     if (isMobile) {
       toggleSidebar();
     }
+  };
+  const changeLanguage = () => {
+    const lang = locale === "ru" ? "ro" : "ru";
+    document.cookie = `NEXT_LOCALE_BAR=${lang}; path=/; expires=Fri, 31 Dec 9999 23:59:59 GMT;`;
+    router.refresh();
   };
 
   const roleLabel = isAdmin
@@ -46,10 +57,10 @@ const SidebarNav = () => {
       <div className="flex items-center lg:hidden">
         <SidebarToggleButton />
       </div>
-      <Sidebar className="border-none">
+      <Sidebar className="border-none" variant="inset">
         <SidebarContent>
-          <div className="flex justify-center pt-2 text-rd">{roleLabel}</div>
-          <SidebarMenu className="flex h-full flex-col gap-6 pt-5">
+          <div className="flex justify-center  text-rd">{roleLabel}</div>
+          <SidebarMenu className="flex h-full flex-col gap-2">
             {SIDEBAR_NAVIGATION.map((item) => {
               const isActivePath =
                 pathname.split("/")[1] === item.url.split("/")[1];
@@ -60,7 +71,7 @@ const SidebarNav = () => {
                   <Link
                     href={isCucina ? item.url2 : item.url}
                     onClick={handleMenuClick}
-                    className={cn("flex items-center w-full rounded-md", {
+                    className={cn("flex items-center w-full", {
                       "bg-bl! text-base hover:bg-bl  [&>span]:text-[#ffff]":
                         isActivePath,
                     })}
@@ -71,32 +82,51 @@ const SidebarNav = () => {
                       })}
                       style={{ width: "18px", height: "18px" }}
                     />
-                    <span>{t(item.title)}</span>
+                    <span className="ml-2">{t(item.title)}</span>
                   </Link>
                 </SidebarMenuButton>
               );
             })}
-
-            <ThemeSwitcher />
-
-            <SidebarMenuButton asChild>
-              <Link
-                href={"/"}
-                onClick={() => signOut({ callbackUrl: "/" })}
-                className={cn("flex items-center w-full rounded-md")}
-              >
-                <SignOut
-                  style={{ width: "18px", height: "18px" }}
-                  className="text-bl"
-                />
-                <span>Sigout</span>
-              </Link>
-            </SidebarMenuButton>
           </SidebarMenu>
         </SidebarContent>
-        <SidebarFooter className="p-4">
-          <SidebarMenu className="flex flex-row w-full items-center justify-end gap-2">
-            <LanguageSwitcher />
+        <SidebarFooter>
+          <SidebarMenu className="flex  w-full items-center  gap-2">
+            <>
+              <SidebarMenuButton
+                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+              >
+                {theme === "dark" ? (
+                  <Sun
+                    style={{ width: "18px", height: "18px" }}
+                    className={cn("text-bl")}
+                  />
+                ) : (
+                  <MoonStars
+                    style={{ width: "18px", height: "18px" }}
+                    className="text-bl"
+                  />
+                )}
+                <span className="ml-2">Theme</span>
+              </SidebarMenuButton>
+              <SidebarMenuButton onClick={changeLanguage}>
+                <Globe className="text-bl size-6 transition duration-300 ease-in-out hover:scale-110 hover:text-bl" />
+                <span className="ml-2">Language</span>
+              </SidebarMenuButton>
+
+              <SidebarMenuButton asChild>
+                <Link
+                  href={"/"}
+                  onClick={() => signOut({ callbackUrl: "/" })}
+                  className={cn("flex items-center w-full")}
+                >
+                  <SignOut
+                    style={{ width: "18px", height: "18px" }}
+                    className="text-bl"
+                  />
+                  <span className="ml-2">Signout</span>
+                </Link>
+              </SidebarMenuButton>
+            </>
           </SidebarMenu>
         </SidebarFooter>
       </Sidebar>

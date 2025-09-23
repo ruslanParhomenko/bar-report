@@ -29,17 +29,19 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   const locale = await getLocale();
   return (
-    <html lang={locale}>
-      <body
-        className={`${lora.variable} antialiased`}
-        suppressHydrationWarning={true}
-      >
-        <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
+    <html lang={locale} suppressHydrationWarning>
+      <body className={`${lora.variable} antialiased`}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
           <SessionProviders>
             <NextIntlClientProvider>
               <ReactQueryProvider>
