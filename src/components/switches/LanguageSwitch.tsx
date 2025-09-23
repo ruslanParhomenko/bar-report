@@ -1,7 +1,5 @@
 "use client";
 import { useLocale, useTranslations } from "next-intl";
-
-import Image from "next/image";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,7 +7,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useRouter } from "@/i18n/navigation";
-import { Globe } from "lucide-react";
+import { Globe } from "phosphor-react";
 
 export const LANGUAGES_LIST = [
   { label: "romanian", lang: "ro" },

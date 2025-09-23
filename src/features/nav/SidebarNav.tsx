@@ -1,6 +1,5 @@
 "use client";
 
-import { LogOut } from "lucide-react";
 import { Link, usePathname } from "@/i18n/navigation";
 import { signOut } from "next-auth/react";
 import { useTranslations } from "next-intl";
@@ -18,6 +17,7 @@ import { useSidebar } from "../../components/ui/sidebar";
 import { SidebarToggleButton } from "@/components/switches/SidebarToggleButton";
 import { useAbility } from "@/providers/AbilityProvider";
 import { ThemeSwitcher } from "@/components/switches/ThemeSwitcher";
+import { SignOut } from "phosphor-react";
 
 const SidebarNav = () => {
   const { toggleSidebar, isMobile } = useSidebar();
@@ -49,37 +49,53 @@ const SidebarNav = () => {
       <Sidebar className="border-none">
         <SidebarContent>
           <div className="flex justify-center pt-2 text-rd">{roleLabel}</div>
-          <SidebarMenu className="flex h-full flex-col gap-4 pt-5">
+          <SidebarMenu className="flex h-full flex-col gap-6 pt-5">
             {SIDEBAR_NAVIGATION.map((item) => {
               const isActivePath =
                 pathname.split("/")[1] === item.url.split("/")[1];
+              const Icon = item.icon;
 
               return (
                 <SidebarMenuButton key={item.title} asChild>
                   <Link
                     href={isCucina ? item.url2 : item.url}
                     onClick={handleMenuClick}
-                    className={cn("flex items-center w-full p-4 rounded-md", {
+                    className={cn("flex items-center w-full rounded-md", {
                       "bg-bl! text-base hover:bg-bl  [&>span]:text-[#ffff]":
                         isActivePath,
                     })}
                   >
-                    <span className="text-base">{t(item.title)}</span>
+                    <Icon
+                      className={cn("text-bl", {
+                        "text-[#000000]": isActivePath,
+                      })}
+                      style={{ width: "18px", height: "18px" }}
+                    />
+                    <span>{t(item.title)}</span>
                   </Link>
                 </SidebarMenuButton>
               );
             })}
+
+            <ThemeSwitcher />
+
+            <SidebarMenuButton asChild>
+              <Link
+                href={"/"}
+                onClick={() => signOut({ callbackUrl: "/" })}
+                className={cn("flex items-center w-full rounded-md")}
+              >
+                <SignOut
+                  style={{ width: "18px", height: "18px" }}
+                  className="text-bl"
+                />
+                <span>Sigout</span>
+              </Link>
+            </SidebarMenuButton>
           </SidebarMenu>
         </SidebarContent>
-        <SidebarFooter className="pb-20">
-          <SidebarMenu className="flex flex-row justify-between items-center gap-2 px-2">
-            <div
-              className="cursor-pointer"
-              onClick={() => signOut({ callbackUrl: "/" })}
-            >
-              <LogOut className="rotate-180 text-bl" />
-            </div>
-            <ThemeSwitcher />
+        <SidebarFooter className="p-4">
+          <SidebarMenu className="flex flex-row w-full items-center justify-end gap-2">
             <LanguageSwitcher />
           </SidebarMenu>
         </SidebarFooter>

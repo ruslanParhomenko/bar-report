@@ -1,71 +1,82 @@
-import { BarChart2, LineChart, List, Pause } from "lucide-react";
+import {
+  Calendar,
+  ChartBar,
+  Pause,
+  ListBullets,
+  Gear,
+  Info,
+  Archive,
+  Prohibit,
+  Star,
+  ThumbsUp,
+  CheckCircle,
+} from "phosphor-react";
 
 export const SIDEBAR_NAVIGATION = [
   {
     title: "schedule",
     url: "/schedule/bar",
     url2: "/schedule/cucina",
-    icon: LineChart,
+    icon: Calendar,
   },
   {
     title: "report",
     url: "/report/bar",
     url2: "/report/cucina",
-    icon: BarChart2,
+    icon: ChartBar, // отчёты/статистика
   },
-
   {
     title: "breakList",
     url: "/breakList",
     url2: "/breakList",
-    icon: Pause,
+    icon: Pause, // паузы/брейки
   },
   {
     title: "ordersList",
     url: "/orders-list-ttn/ttn-bar",
     url2: "/orders-list-ttn/ttn-cucina",
-    icon: List,
+    icon: ListBullets, // список заказов
   },
   {
     title: "orderListBar",
     url: "/orders-list/zn-bar",
     url2: "/orders-list/zn-cucina",
-    icon: List,
+    icon: ListBullets,
   },
   {
     title: "settings",
     url: "/settings",
     url2: "/settings",
-    icon: List,
+    icon: Gear, // ⚙️ настройки
   },
   {
     title: "info",
     url: "/info/employee",
     url2: "/info/employee",
-    icon: List,
+    icon: Info, // ℹ️ инфо
   },
   {
     title: "archive",
     url: "/archive",
     url2: "/archive",
-    icon: List,
+    icon: Archive, // 🗂 архив
   },
   {
     title: "stopList",
     url: "/stop-list",
     url2: "/stop-list",
-    icon: List,
+    icon: Prohibit, // ⛔ стоп-лист
   },
   {
     title: "meniuVip",
     url: "/meniu-vip",
     url2: "/meniu-vip",
-    icon: List,
+    icon: Star, // ⭐️ VIP меню
   },
   {
     title: "meniuRating",
     url: "/meniu-staff",
     url2: "/meniu-staff",
-    icon: List,
+    icon: ThumbsUp, // 👍 рейтинг
   },
 ];

@@ -52,9 +52,7 @@ export const StopListTable = ({
 
   return (
     <div className="xl:px-5">
-      <Label className="text-lg font-semibold pb-7 text-bl">
-        {t(LABEL[nameTag])}
-      </Label>
+      <Label className="text-lg font-semibold pb-7 text-bl">{t(nameTag)}</Label>
       <Table className="[&_th]:text-center [&_td]:text-center table-fixed md:w-160 ">
         <TableHeader>
           <TableRow className="h-10">

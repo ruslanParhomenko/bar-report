@@ -61,7 +61,7 @@ export function ScheduleTable({ dataRange }: { dataRange: any }) {
                       }
                     }}
                     className={`
-                  h-10 w-9
+                  h-9 w-9
                   ${noBorderRow ? "" : "border"}
                   ${
                     noBorderRow

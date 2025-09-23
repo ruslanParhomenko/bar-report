@@ -94,7 +94,7 @@ export const BreakListTable = ({
             return (
               <TableRow key={`${row.id}-${rowIndex}`}>
                 <TableCell>
-                  <input value={row.id} disabled className="w-10 text-center" />
+                  <input value={row.id} disabled className="w-9 text-center" />
                 </TableCell>
 
                 <TableCell
@@ -108,7 +108,7 @@ export const BreakListTable = ({
                     fieldName={`rows[${rowIndex}].name`}
                     data={selectedEmployees}
                     disabled={isDisabled}
-                    className={`!min-w-[120px] md:w-[160px] text-base ${
+                    className={`!min-w-[120px] md:w-[150px] text-base ${
                       rowHasTrue ? "!text-rd" : ""
                     }`}
                   />

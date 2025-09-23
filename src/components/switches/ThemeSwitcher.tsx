@@ -1,7 +1,7 @@
 "use client";
 
 import { useTheme } from "next-themes";
-import { Sun, Moon } from "lucide-react";
+import { Sun, MoonStars, Moon } from "phosphor-react";
 import { Button } from "@/components/ui/button";
 
 export function ThemeSwitcher() {
@@ -12,12 +12,20 @@ export function ThemeSwitcher() {
       variant="ghost"
       size="icon"
       onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+      className="cursor-pointer w-full justify-start pl-2 items-center text-black"
     >
       {theme === "dark" ? (
-        <Sun className="w-5 h-5" />
+        <Sun
+          style={{ width: "18px", height: "18px" }}
+          className="text-[#ffffff]"
+        />
       ) : (
-        <Moon className="w-5 h-5" />
+        <MoonStars
+          style={{ width: "18px", height: "18px" }}
+          className="text-bl"
+        />
       )}
+      Theme
     </Button>
   );
 }
