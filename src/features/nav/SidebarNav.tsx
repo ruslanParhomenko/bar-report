@@ -57,10 +57,10 @@ const SidebarNav = () => {
       <div className="flex items-center lg:hidden">
         <SidebarToggleButton />
       </div>
-      <Sidebar className="border-none" variant="inset">
+      <Sidebar className="border-none">
         <SidebarContent>
           <div className="flex justify-center  text-rd">{roleLabel}</div>
-          <SidebarMenu className="flex h-full flex-col gap-2">
+          <SidebarMenu className="flex h-full flex-col gap-4">
             {SIDEBAR_NAVIGATION.map((item) => {
               const isActivePath =
                 pathname.split("/")[1] === item.url.split("/")[1];

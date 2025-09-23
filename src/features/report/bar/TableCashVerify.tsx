@@ -32,7 +32,7 @@ export default function TableCashVerify() {
               <TableCell key={hour}>
                 <NumericInput
                   fieldName={`cashVerify.${idx}.value`}
-                  className="w-12! text-center"
+                  className="w-10! text-center"
                   disabled={isDisabled}
                 />
               </TableCell>
