@@ -34,18 +34,21 @@ export function ReportBarForm() {
   const isDisabled = isObserver || isCucina || isBar;
   const session = useSession();
 
+  // create
   const { createMutation } = useApi<DailyReport>({
     endpoint: "report",
     queryKey: "report",
     fetchInit: false,
   });
 
+  // local storage
   const {
     getValue,
     setValue: setLocalStorage,
     removeValue,
   } = useLocalStorageForm<ReportBarFormValues>(STORAGE_KEY);
 
+  //form
   const form = useForm<ReportBarFormValues>({
     defaultValues: {
       ...defaultValuesReportBar,
@@ -55,6 +58,7 @@ export function ReportBarForm() {
       reportBarSchema
     ) as unknown as Resolver<ReportBarFormValues>,
   });
+
   useEffect(() => {
     const subscription = form.watch((value) => {
       setLocalStorage(value as ReportBarFormValues);
@@ -62,6 +66,7 @@ export function ReportBarForm() {
     return () => subscription.unsubscribe();
   }, [form.watch, setLocalStorage]);
 
+  //reset
   const resetForm = () => {
     const currentValues = form.getValues();
     const resetTobacco = currentValues?.tobacco?.map((item) => ({
@@ -106,15 +111,15 @@ export function ReportBarForm() {
 
     const updatedTobacco = data?.tobacco?.map((item) => {
       const finalStock =
-        Number(item.stock || 0) +
+        Number(item.stock ?? 0) +
         Number(item.incoming ?? 0) -
         Number(item.outgoing ?? 0);
 
       return {
         ...item,
-        stock: finalStock,
-        incoming: 0,
-        outgoing: 0,
+        stock: String(finalStock),
+        incoming: "",
+        outgoing: "",
       };
     });
 

@@ -57,7 +57,7 @@ export default function TableTobacco() {
               </TableCell>
               <TableCell className="px-2">
                 {(
-                  Number(item.stock || 0) +
+                  Number(item.stock ?? 0) +
                   Number(item.incoming ?? 0) -
                   Number(item.outgoing ?? 0)
                 ).toString()}

@@ -48,18 +48,18 @@ export const tobaccoSchema = yup.array(
     name: yup
       .string()
       .oneOf(LIST_TOBACCO, "Name must be one of the predefined list"),
-    stock: yup.number(),
-    incoming: yup.number(),
-    outgoing: yup.number(),
+    stock: yup.string(),
+    incoming: yup.string(),
+    outgoing: yup.string(),
     finalStock: yup.string(),
   })
 );
 export type TobaccoSchemaType = yup.InferType<typeof tobaccoSchema>;
 export const tobaccoDefault = LIST_TOBACCO.map((name) => ({
   name,
-  stock: 0,
-  incoming: 0,
-  outgoing: 0,
+  stock: "0",
+  incoming: "",
+  outgoing: "",
   finalStock: "0",
 }));
 
