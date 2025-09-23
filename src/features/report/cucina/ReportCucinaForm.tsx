@@ -103,6 +103,11 @@ export default function DailyReportForm() {
     }, 1000);
     return () => clearTimeout(timeout);
   }, [watchAllFields]);
+  //reset
+  const resetForm = () => {
+    form.reset(defaultReportCucina);
+    removeValue();
+  };
 
   const handleSubmit: SubmitHandler<ReportCucinaType> = (data) => {
     const invalidShift = data.shifts.some((shift) => !shift.employees?.trim());
@@ -117,16 +122,12 @@ export default function DailyReportForm() {
         date: new Date(data.date),
       });
 
+      resetForm();
+
       toast.success("Форма успешно отправлена!");
     } catch (error: any) {
       toast.error(error?.message || "Произошла ошибка");
     }
-  };
-
-  //reset
-  const resetForm = () => {
-    form.reset(defaultReportCucina);
-    removeValue();
   };
 
   //fetch realtime
