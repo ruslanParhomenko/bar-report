@@ -270,6 +270,7 @@ export const UBFB = [
   "Heineken",
   "Martini Bianco",
   "Martini prosecco",
+  "Glenmorange",
 ];
 export const UBFB2 = [
   "Боржоми 0,5 пластик уп",
