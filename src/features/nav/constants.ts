@@ -1,16 +1,16 @@
 import {
   Calendar,
-  ChartBar,
+  BarChart3, // вместо ChartBar
   Pause,
-  ListBullets,
-  Gear,
+  List, // вместо ListBullets
+  Settings, // вместо Gear
   Info,
   Archive,
-  Prohibit,
+  Ban, // вместо Prohibit
   Star,
   ThumbsUp,
   CheckCircle,
-} from "phosphor-react";
+} from "lucide-react";
 
 export const SIDEBAR_NAVIGATION = [
   {
@@ -23,7 +23,7 @@ export const SIDEBAR_NAVIGATION = [
     title: "report",
     url: "/report/bar",
     url2: "/report/cucina",
-    icon: ChartBar,
+    icon: BarChart3,
   },
   {
     title: "breakList",
@@ -35,13 +35,13 @@ export const SIDEBAR_NAVIGATION = [
     title: "ordersList",
     url: "/orders-list-ttn/ttn-bar",
     url2: "/orders-list-ttn/ttn-cucina",
-    icon: ListBullets,
+    icon: List,
   },
   {
     title: "orderListBar",
     url: "/orders-list/zn-bar",
     url2: "/orders-list/zn-cucina",
-    icon: ListBullets,
+    icon: List,
   },
   {
     title: "info",
@@ -59,7 +59,7 @@ export const SIDEBAR_NAVIGATION = [
     title: "stopList",
     url: "/stop-list",
     url2: "/stop-list",
-    icon: Prohibit,
+    icon: Ban,
   },
   {
     title: "meniuVip",

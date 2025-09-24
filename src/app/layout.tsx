@@ -6,9 +6,6 @@ import { NextIntlClientProvider } from "next-intl";
 import { getLocale } from "next-intl/server";
 import { SessionProviders } from "@/providers/SessionProviders";
 import { Toaster } from "react-hot-toast";
-
-import "core-js/stable";
-import "regenerator-runtime/runtime";
 import { AbilityProvider } from "@/providers/AbilityProvider";
 import ReactQueryProvider from "@/providers/ReactQueryProvider";
 

@@ -57,7 +57,7 @@ export function ScheduleTable({ dataRange }: { dataRange: any }) {
                     className={cn(
                       noBorder
                         ? "border-x border-t border-b !p-0"
-                        : "border-x border-t border-b !p-1.5",
+                        : "border-x border-t border-b ",
                       theme === "dark"
                         ? "border-border/40 text-foreground/40"
                         : "border-border text-bl",

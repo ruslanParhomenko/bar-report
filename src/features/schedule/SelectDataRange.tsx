@@ -48,7 +48,7 @@ export const SelectDataRange = () => {
 
   return (
     <>
-      <div className="md:w-1/5 w-full pb-3">
+      <div className="md:w-1/5 w-full py-4">
         <Select value={currentValue} onValueChange={handleChange}>
           <SelectTrigger
             className={cn("w-[200px]", theme === "dark" ? "border-0" : "")}

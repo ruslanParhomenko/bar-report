@@ -1,5 +1,4 @@
 "use client";
-
 import { Link, usePathname, useRouter } from "@/i18n/navigation";
 import { signOut } from "next-auth/react";
 import { useLocale, useTranslations } from "next-intl";
@@ -17,8 +16,8 @@ import { useSidebar } from "../../components/ui/sidebar";
 import { SidebarToggleButton } from "@/components/switches/SidebarToggleButton";
 import { useAbility } from "@/providers/AbilityProvider";
 
-import { Globe, MoonStars, SignOut, Sun } from "phosphor-react";
 import { useTheme } from "next-themes";
+import { Globe, LogOut, Moon, Signpost, Sun } from "lucide-react";
 
 const SidebarNav = () => {
   const locale = useLocale();
@@ -60,7 +59,7 @@ const SidebarNav = () => {
       <Sidebar className="border-none">
         <SidebarContent>
           <div className="flex justify-center  text-rd">{roleLabel}</div>
-          <SidebarMenu className="flex h-full flex-col gap-4">
+          <SidebarMenu className="flex h-full flex-col gap-4 pt-2">
             {SIDEBAR_NAVIGATION.map((item) => {
               const isActivePath =
                 pathname.split("/")[1] === item.url.split("/")[1];
@@ -80,7 +79,7 @@ const SidebarNav = () => {
                       className={cn("text-bl", {
                         "text-[#000000]": isActivePath,
                       })}
-                      style={{ width: "18px", height: "18px" }}
+                      style={{ width: "20px", height: "20px" }}
                     />
                     <span className="ml-2">{t(item.title)}</span>
                   </Link>
@@ -90,25 +89,28 @@ const SidebarNav = () => {
           </SidebarMenu>
         </SidebarContent>
         <SidebarFooter>
-          <SidebarMenu className="flex flex-row  w-full items-center  gap-2">
+          <SidebarMenu className="flex flex-row  w-full items-center  gap-1">
             <>
               <SidebarMenuButton
                 onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
               >
                 {theme === "dark" ? (
                   <Sun
-                    style={{ width: "18px", height: "18px" }}
+                    style={{ width: "20px", height: "20px" }}
                     className={cn("text-bl")}
                   />
                 ) : (
-                  <MoonStars
-                    style={{ width: "18px", height: "18px" }}
+                  <Moon
+                    style={{ width: "20px", height: "20px" }}
                     className="text-bl"
                   />
                 )}
               </SidebarMenuButton>
               <SidebarMenuButton onClick={changeLanguage}>
-                <Globe className="text-bl size-6 transition duration-300 ease-in-out hover:scale-110 hover:text-bl" />
+                <Globe
+                  className="text-bl"
+                  style={{ width: "20px", height: "20px" }}
+                />
               </SidebarMenuButton>
 
               <SidebarMenuButton asChild>
@@ -117,8 +119,8 @@ const SidebarNav = () => {
                   onClick={() => signOut({ callbackUrl: "/" })}
                   className={cn("flex items-center w-full")}
                 >
-                  <SignOut
-                    style={{ width: "18px", height: "18px" }}
+                  <LogOut
+                    style={{ width: "20px", height: "20px" }}
                     className="text-bl"
                   />
                 </Link>

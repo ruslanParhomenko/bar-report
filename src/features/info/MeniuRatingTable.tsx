@@ -118,7 +118,7 @@ export default function MeniuRatingTable() {
 
   return (
     <Form {...form}>
-      <form className="md:px-90">
+      <form className="w-full">
         <div className="flex w-full justify-between  gap-4 p-4">
           <DatePickerRange />
           <FetchDataButton

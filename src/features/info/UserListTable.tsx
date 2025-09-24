@@ -8,10 +8,13 @@ export function UserListTable() {
   const { query } = useAbility();
 
   return (
-    <div className="w-full p-1 py-4">
+    <>
       {query &&
         query?.map((emp, idx: number) => (
-          <div key={`${emp.id}-${idx}`} className="flex justify-between py-2">
+          <div
+            key={`${emp.id}-${idx}`}
+            className="flex justify-between py-2 w-full"
+          >
             <Label className="min-w-1/9">{emp.id}</Label>
             <Label className="min-w-5/9">{emp.mail}</Label>
             <Label className="text-muted-foreground min-w-2/9">
@@ -22,6 +25,6 @@ export function UserListTable() {
             </Label>
           </div>
         ))}
-    </div>
+    </>
   );
 }

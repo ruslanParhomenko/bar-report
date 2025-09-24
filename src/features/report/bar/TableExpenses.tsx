@@ -7,7 +7,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Label } from "@radix-ui/react-dropdown-menu";
+
 import NumericInput from "@/components/inputs/NumericInput";
 import SelectField from "@/components/inputs/SelectField";
 import { useAbility } from "@/providers/AbilityProvider";
@@ -15,6 +15,7 @@ import { expensesDefault } from "./schema";
 import { RECIPIENTS } from "./constants";
 import { useFormContext } from "react-hook-form";
 import { Button } from "@/components/ui/button";
+import { Label } from "@radix-ui/react-label";
 
 export default function TableExpenses() {
   const { isObserver, isUser } = useAbility();

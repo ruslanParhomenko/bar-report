@@ -81,7 +81,7 @@ export const ArhiveListTable = <T extends keyof ApiDataMap>({
     <Accordion
       type="single"
       collapsible
-      className="mb-8"
+      className="py-2"
       value={openItem ?? ""}
       onValueChange={(val) => setOpenItem(val)}
     >
