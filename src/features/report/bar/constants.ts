@@ -56,6 +56,8 @@ export const WAREHOUSES = [
   "HR",
   "SECURITY",
   "CLEANING",
+  "PARKING",
+  "SCHOOL",
   "OTHER",
 ];
 export const RECIPIENTS = ["NBM", "BAR", "NORI", "DISHES", "BN", "OTHER"];
