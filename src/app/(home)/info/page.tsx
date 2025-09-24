@@ -1,11 +1,11 @@
 "use client";
-import SettingsForm from "@/features/settings/SettingsForm";
 import { InsufficientRights } from "@/components/wrapper/InsufficientRights";
 import { useAbility } from "@/providers/AbilityProvider";
+import InfoTable from "@/features/info/InfoTable";
 
 const Page = () => {
-  const { isAdmin } = useAbility();
-  return isAdmin ? <SettingsForm /> : <InsufficientRights />;
+  const { isObserver } = useAbility();
+  return isObserver ? <InsufficientRights /> : <InfoTable />;
 };
 
 export default Page;

@@ -21,7 +21,7 @@ import { OrderCardWrapper } from "@/components/wrapper/OrderCardWrapper";
 
 export const OrderListTTNBar = () => {
   return (
-    <div className="flex flex-col gap-6 w-full justify-start md:mx-5 sm:flex-row">
+    <div className="flex flex-col gap-6 w-full justify-start  sm:flex-row">
       <InputWrapper>
         <OrderCardWrapper data={AQUATRADE} name="AQUATRADE" />
         <OrderCardWrapper data={BUCURIA} name="BUCURIA" />

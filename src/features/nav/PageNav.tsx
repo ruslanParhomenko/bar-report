@@ -30,7 +30,7 @@ function PageNav({
   };
 
   return (
-    <div className="pb-4 pt-2 px-2 sticky top-0 z-10 bg-background">
+    <div className="pb-2 pt-1 px-2 sticky top-0 z-10 bg-background">
       <div
         className={cn(
           "flex flex-row justify-end md:justify-start gap-6",
@@ -47,7 +47,7 @@ function PageNav({
                 className={cn(
                   "text-nowrap hover:text-bl",
                   isActive(page.href)
-                    ? "border-b-[3px] border-bl pb-4 font-bold text-bl"
+                    ? "border-b-[3px] border-bl pb-2 font-bold text-bl"
                     : ""
                 )}
               >

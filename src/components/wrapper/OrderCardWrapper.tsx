@@ -26,7 +26,7 @@ export function OrderCardWrapper({
         const value = useWatch({ control, name: item });
         return (
           <div key={index}>
-            <div className="grid-cols-[65%_10%_25%] grid">
+            <div className="grid-cols-[68%_10%_16%] grid">
               <Label className={`text-sm ${value ? "text-rd" : ""}`}>
                 {item}
               </Label>
@@ -42,7 +42,7 @@ export function OrderCardWrapper({
               <NumericInput
                 fieldName={item}
                 disabled={isObserver}
-                className={`w-16! text-center h-7! ${
+                className={`w-12! text-center h-7! ${
                   theme === "dark" ? "border-0" : ""
                 }`}
               />

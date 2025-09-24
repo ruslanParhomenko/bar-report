@@ -1,6 +1,6 @@
 "use client";
 
-import { useGoogleEmployees, User } from "@/hooks/useGoogleEmploeey";
+import { useGoogleData, User } from "@/hooks/useGoogleData";
 import { useSession } from "next-auth/react";
 import React, {
   createContext,
@@ -17,20 +17,14 @@ type AbilityContextType = {
   isObserver: boolean;
   isUser: boolean;
   query: User[];
-  // createMutation: (data: Omit<User, "id" | "createdAt">) => void;
-  // deleteMutation: (id: number) => void;
 };
 
 const AbilityContext = createContext<AbilityContextType | null>(null);
 
 export function AbilityProvider({ children }: { children: React.ReactNode }) {
   const { data } = useSession();
-  // const { query, createMutation, deleteMutation } = useApi<User>({
-  //   endpoint: "user",
-  //   queryKey: "users",
-  // });
 
-  const { data: user, isLoading, invalidate } = useGoogleEmployees({});
+  const { users, isLoading } = useGoogleData();
 
   const [ability, setAbility] = useState({
     isAdmin: false,
@@ -41,8 +35,9 @@ export function AbilityProvider({ children }: { children: React.ReactNode }) {
   });
 
   useEffect(() => {
+    if (isLoading) return;
     const email = data?.user?.email;
-    const userData = user?.users || [];
+    const userData = users || [];
 
     if (!email) return;
 
@@ -66,14 +61,12 @@ export function AbilityProvider({ children }: { children: React.ReactNode }) {
       isObserver: !isAdmin && !isBar && !isCucina && !isUser,
       isUser,
     });
-  }, [data?.user?.email, user?.users]);
+  }, [data?.user?.email, isLoading, users]);
 
   const value = useMemo(
     () => ({
       ...ability,
-      query: user?.users || [],
-      // createMutation: createMutation.mutate,
-      // deleteMutation: deleteMutation.mutate,
+      query: users || [],
     }),
     [ability]
   );

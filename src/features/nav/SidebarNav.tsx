@@ -11,12 +11,12 @@ import {
   SidebarMenuButton,
 } from "../../components/ui/sidebar";
 import { cn } from "@/lib/utils";
-import LanguageSwitcher from "../../components/switches/LanguageSwitch";
+
 import { SIDEBAR_NAVIGATION } from "./constants";
 import { useSidebar } from "../../components/ui/sidebar";
 import { SidebarToggleButton } from "@/components/switches/SidebarToggleButton";
 import { useAbility } from "@/providers/AbilityProvider";
-import { ThemeSwitcher } from "@/components/switches/ThemeSwitcher";
+
 import { Globe, MoonStars, SignOut, Sun } from "phosphor-react";
 import { useTheme } from "next-themes";
 
@@ -90,7 +90,7 @@ const SidebarNav = () => {
           </SidebarMenu>
         </SidebarContent>
         <SidebarFooter>
-          <SidebarMenu className="flex  w-full items-center  gap-2">
+          <SidebarMenu className="flex flex-row  w-full items-center  gap-2">
             <>
               <SidebarMenuButton
                 onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
@@ -106,11 +106,9 @@ const SidebarNav = () => {
                     className="text-bl"
                   />
                 )}
-                <span className="ml-2">Theme</span>
               </SidebarMenuButton>
               <SidebarMenuButton onClick={changeLanguage}>
                 <Globe className="text-bl size-6 transition duration-300 ease-in-out hover:scale-110 hover:text-bl" />
-                <span className="ml-2">Language</span>
               </SidebarMenuButton>
 
               <SidebarMenuButton asChild>
@@ -123,7 +121,6 @@ const SidebarNav = () => {
                     style={{ width: "18px", height: "18px" }}
                     className="text-bl"
                   />
-                  <span className="ml-2">Signout</span>
                 </Link>
               </SidebarMenuButton>
             </>

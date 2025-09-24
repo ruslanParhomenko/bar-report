@@ -3,7 +3,6 @@ import { FetchDataButton } from "@/components/buttons/FetchDataButton";
 import { DatePickerRange } from "@/components/inputs/DatePickerRange";
 import { Form } from "@/components/ui/form";
 import { useLocalStorageForm } from "@/hooks/use-local-storage";
-import { useDataSupaBaseStaff } from "@/hooks/useRealtimeDataStaff";
 import { useForm, useWatch } from "react-hook-form";
 import {
   Table,
@@ -16,7 +15,7 @@ import {
 import { useAbility } from "@/providers/AbilityProvider";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
-import { se } from "date-fns/locale";
+import { useDataSupaBase } from "@/hooks/useRealTimeData";
 
 type InputData = {
   form_data: {
@@ -95,7 +94,7 @@ export default function MeniuRatingTable() {
     },
   });
 
-  const { fetchRealTime } = useDataSupaBaseStaff({
+  const { fetchRealTimeMeniuStaff: fetchRealTime } = useDataSupaBase({
     localStorageKey: LOCAL_STORAGE_KEY,
     apiKey: "meniu-staff",
   });
@@ -114,6 +113,8 @@ export default function MeniuRatingTable() {
     control: form.control,
     name: "items",
   });
+
+  console.log(items);
 
   return (
     <Form {...form}>

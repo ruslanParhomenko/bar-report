@@ -1,13 +1,13 @@
 "use client";
-import { useMeniuData } from "@/hooks/useDataMeniuData";
 import { useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import ButtonNavigationPage from "@/components/meniu/ButtonNavigationPage";
 import { useSwipeable } from "react-swipeable";
 import { Dot } from "lucide-react";
+import { useGoogleData } from "@/hooks/useGoogleData";
 
 export function RenderItemMeniu({ item, leftPage, rightPage }: any) {
-  const { data, isLoading } = useMeniuData();
+  const { menu: data, isLoading } = useGoogleData();
   const t = useTranslations("Meniu");
   const left = `/${leftPage}`;
   const right = `/${rightPage}`;

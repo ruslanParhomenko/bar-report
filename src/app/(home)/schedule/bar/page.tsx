@@ -1,7 +1,7 @@
-import { ScheduleForm } from "@/features/schedule/ScheduleFormComponent";
+import { SelectDataRange } from "@/features/schedule/SelectDataRange";
 
 const Page = () => {
-  return <ScheduleForm />;
+  return <SelectDataRange />;
 };
 
 export default Page;

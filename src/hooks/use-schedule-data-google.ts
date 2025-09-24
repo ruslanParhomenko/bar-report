@@ -12,8 +12,8 @@ export function useSheetData({ range }: { range: string }) {
 
   const pathname = usePathname().split("/")[2];
   const TABLE_ROWS = {
-    cucina: 12,
-    bar: 22,
+    cucina: 11,
+    bar: 21,
   };
 
   useEffect(() => {

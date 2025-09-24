@@ -23,19 +23,19 @@ export const SIDEBAR_NAVIGATION = [
     title: "report",
     url: "/report/bar",
     url2: "/report/cucina",
-    icon: ChartBar, // отчёты/статистика
+    icon: ChartBar,
   },
   {
     title: "breakList",
     url: "/breakList",
     url2: "/breakList",
-    icon: Pause, // паузы/брейки
+    icon: Pause,
   },
   {
     title: "ordersList",
     url: "/orders-list-ttn/ttn-bar",
     url2: "/orders-list-ttn/ttn-cucina",
-    icon: ListBullets, // список заказов
+    icon: ListBullets,
   },
   {
     title: "orderListBar",
@@ -44,39 +44,27 @@ export const SIDEBAR_NAVIGATION = [
     icon: ListBullets,
   },
   {
-    title: "settings",
-    url: "/settings",
-    url2: "/settings",
-    icon: Gear, // ⚙️ настройки
-  },
-  {
     title: "info",
-    url: "/info/employee",
-    url2: "/info/employee",
-    icon: Info, // ℹ️ инфо
+    url: "/info",
+    url2: "/info",
+    icon: Info,
   },
   {
     title: "archive",
     url: "/archive",
     url2: "/archive",
-    icon: Archive, // 🗂 архив
+    icon: Archive,
   },
   {
     title: "stopList",
     url: "/stop-list",
     url2: "/stop-list",
-    icon: Prohibit, // ⛔ стоп-лист
+    icon: Prohibit,
   },
   {
     title: "meniuVip",
     url: "/meniu-vip",
     url2: "/meniu-vip",
-    icon: Star, // ⭐️ VIP меню
-  },
-  {
-    title: "meniuRating",
-    url: "/meniu-staff",
-    url2: "/meniu-staff",
-    icon: ThumbsUp, // 👍 рейтинг
+    icon: Star,
   },
 ];

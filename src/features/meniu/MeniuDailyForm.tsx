@@ -1,13 +1,13 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { useMeniuData } from "@/hooks/useDataMeniuData";
 import ButtonNavigationPage from "@/components/meniu/ButtonNavigationPage";
 import { useSwipeable } from "react-swipeable";
 import { Dot } from "lucide-react";
+import { useGoogleData } from "@/hooks/useGoogleData";
 
 export default function DailyMenuForm() {
-  const { data, isLoading } = useMeniuData();
+  const { menu: data, isLoading } = useGoogleData();
   const dataDaily = data && data.daily;
   const t = useTranslations("Meniu");
   const router = useRouter();

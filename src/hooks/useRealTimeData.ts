@@ -58,5 +58,19 @@ export const useDataSupaBase = ({
     }
   };
 
-  return { sendRealTime, fetchRealTime };
+  const fetchRealTimeMeniuStaff = async () => {
+    try {
+      const res = await fetch(`/api/${apiKey}`);
+      const allData = await res.json();
+
+      if (allData) {
+        return allData;
+      }
+      return null;
+    } catch (err) {
+      return null;
+    }
+  };
+
+  return { sendRealTime, fetchRealTime, fetchRealTimeMeniuStaff };
 };

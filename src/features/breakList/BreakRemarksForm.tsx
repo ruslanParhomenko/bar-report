@@ -26,7 +26,7 @@ import {
 import { BreakRemarksData, dataSchema, defaultValuesBrakeList } from "./schema";
 import RemarksTable from "./RemarksTable";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useEmployees } from "@/providers/EmployeeProvider";
+import { useEmployees } from "@/providers/GoogleSheetsProvider";
 
 const BreakList = () => {
   const { employees } = useEmployees();

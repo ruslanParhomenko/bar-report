@@ -23,31 +23,25 @@ export function ScheduleTable({ dataRange }: { dataRange: any }) {
     }
   }, [data, todayDay]);
   return (
-    <Table className="border-collapse border-0">
+    <Table>
       <TableBody>
         {data.map((row: any, i: number) => {
           const hasValueInSelected =
             selectedColumn !== null && row[selectedColumn];
 
-          const noBorderRow = i === 0 || !row[3];
-
           return (
             <TableRow
               key={i}
               className={cn(
-                "border-0 text-sm",
-                theme === "dark" ? "text-foreground/45" : "text-bl"
+                theme === "dark" ? "text-foreground/45" : "",
+                "border-border",
+                (i === 0 || i === 1) && "cursor-pointer  border-0 "
               )}
             >
               {row.map((cell: any, j: number) => {
+                const noBorder = cell === "";
                 const isSelected = j === 4 || j === 2;
-                const isBlueColor =
-                  i === 0 ||
-                  i === 1 ||
-                  i === data.length - 1 ||
-                  j === 0 ||
-                  j === 1 ||
-                  j === 2;
+
                 const isHighlighted = selectedColumn === j;
                 const shouldEmphasize =
                   isSelected && hasValueInSelected && i !== 0;
@@ -60,54 +54,26 @@ export function ScheduleTable({ dataRange }: { dataRange: any }) {
                         setSelectedColumn((prev) => (prev === j ? null : j));
                       }
                     }}
-                    className={`
-                  h-9 w-9
-                  ${noBorderRow ? "" : "border"}
-                  ${
-                    noBorderRow
-                      ? ""
-                      : `${
-                          theme === "dark"
-                            ? "border-border/40"
-                            : "border-border"
-                        }`
-                  }
-                  ${
-                    isBlueColor
-                      ? `${theme === "dark" ? "text-foreground/45" : "text-bl"}`
-                      : ""
-                  }
-                  ${
-                    isSelected
-                      ? `${theme === "dark" ? "text-foreground/45" : "text-bl"}`
-                      : ""
-                  }
-                  ${
-                    j === 4
-                      ? "min-w-[30px] sticky left-0 z-5 text-left bg-background"
-                      : "text-center"
-                  }
-                  ${
-                    isHighlighted
-                      ? `${
-                          theme === "dark"
-                            ? "text-foreground font-bold"
-                            : "font-bold text-rd"
-                        }`
-                      : ""
-                  }
-                  
-                  ${i === 0 ? "cursor-pointer" : ""}
-                  ${
-                    shouldEmphasize
-                      ? `${
-                          theme === "dark"
-                            ? "text-foreground font-bold"
-                            : "font-bold text-rd"
-                        }`
-                      : ""
-                  }
-                `}
+                    className={cn(
+                      noBorder
+                        ? "border-x border-t border-b !p-0"
+                        : "border-x border-t border-b !p-1.5",
+                      theme === "dark"
+                        ? "border-border/40 text-foreground/40"
+                        : "border-border text-bl",
+                      j === 4
+                        ? "min-w-[30px] sticky left-0 z-5 text-left bg-background"
+                        : "text-center",
+                      isHighlighted &&
+                        (theme === "dark"
+                          ? "text-foreground font-bold"
+                          : "font-bold text-rd"),
+                      (i === 0 || i === 1) && "cursor-pointer border-0 !p-1",
+                      shouldEmphasize &&
+                        (theme === "dark"
+                          ? "text-foreground font-bold"
+                          : "font-bold text-rd")
+                    )}
                   >
                     {cell}
                   </TableCell>

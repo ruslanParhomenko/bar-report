@@ -8,17 +8,13 @@ const NavPage = ({
   children: React.ReactNode;
 }>) => {
   return (
-    <div className="flex w-full flex-col  bg-background ">
-      <SidebarProvider>
-        <SidebarNav />
-        <section className="h-full w-full">
-          <div className=" bg-background  ">
-            {children}
-            <SpeedInsights />
-          </div>
-        </section>
-      </SidebarProvider>
-    </div>
+    <SidebarProvider>
+      <SidebarNav />
+      <section className="bg-background p-2 w-full">
+        {children}
+        <SpeedInsights />
+      </section>
+    </SidebarProvider>
   );
 };
 

@@ -11,9 +11,9 @@ import "core-js/stable";
 import "regenerator-runtime/runtime";
 import { AbilityProvider } from "@/providers/AbilityProvider";
 import ReactQueryProvider from "@/providers/ReactQueryProvider";
-import { EmployeesProvider } from "@/providers/EmployeeProvider";
 
 import { ThemeProvider } from "next-themes";
+import { GoogleSheetsProvider } from "@/providers/GoogleSheetsProvider";
 
 const lora = Lora({
   variable: "--font-lora",
@@ -46,7 +46,7 @@ export default async function RootLayout({
             <NextIntlClientProvider>
               <ReactQueryProvider>
                 <AbilityProvider>
-                  <EmployeesProvider>{children}</EmployeesProvider>
+                  <GoogleSheetsProvider>{children}</GoogleSheetsProvider>
                 </AbilityProvider>
               </ReactQueryProvider>
             </NextIntlClientProvider>

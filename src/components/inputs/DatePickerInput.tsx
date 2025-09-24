@@ -50,7 +50,7 @@ function DatePickerInput({ fieldName }: { fieldName: string }) {
                   <Button
                     variant={"outline"}
                     className={cn(
-                      "p-4 text-center font-normal",
+                      "p-2 text-center font-normal",
                       !field.value && "text-muted-foreground",
                       theme === "dark" && "border-0"
                     )}
