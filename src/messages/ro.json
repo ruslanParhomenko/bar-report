@@ -110,7 +110,8 @@
     "info": "Informatii",
     "employee": "Angajat",
     "standardKitchen": "Standard kitchen",
-    "dish": "Stewarding"
+    "dish": "Stewarding",
+    "StatusMenu": "Meniu status"
   },
   "Meniu": {
     "menu": "MENIU",
