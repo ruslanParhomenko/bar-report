@@ -15,7 +15,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useTheme } from "next-themes";
-import { th } from "date-fns/locale";
 import { cn } from "@/lib/utils";
 
 type Props = {

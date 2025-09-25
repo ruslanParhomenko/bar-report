@@ -1,15 +1,12 @@
 import {
   Calendar,
-  BarChart3, // вместо ChartBar
+  BarChart3,
   Pause,
-  List, // вместо ListBullets
-  Settings, // вместо Gear
+  List,
   Info,
   Archive,
-  Ban, // вместо Prohibit
+  Ban,
   Star,
-  ThumbsUp,
-  CheckCircle,
 } from "lucide-react";
 
 export const SIDEBAR_NAVIGATION = [

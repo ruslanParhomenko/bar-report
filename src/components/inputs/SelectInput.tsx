@@ -20,10 +20,10 @@ import { Label } from "../ui/label";
 type Props = {
   fieldName: string;
   fieldLabel?: string;
-
   placeHolder?: string;
   data: { label: string; value: string }[];
   disabled?: boolean;
+  className?: string;
 };
 
 function SelectInput({
@@ -32,6 +32,7 @@ function SelectInput({
   data,
   disabled,
   fieldLabel,
+  className,
 }: Props) {
   const { control, watch } = useFormContext();
 
@@ -44,55 +45,54 @@ function SelectInput({
         <FormField
           control={control}
           name={fieldName}
-          render={() => {
-            return (
-              <FormItem
-                className={`${fieldLabel ? "flex gap-x-4 max-h-6" : ""}`}
+          render={() => (
+            <FormItem
+              className={`${fieldLabel ? "flex gap-x-4 max-h-6" : ""} ${
+                className ?? ""
+              }`} // применяем className
+            >
+              {fieldLabel && (
+                <Label
+                  className={`${fieldLabel ? "w-3/4" : ""} ${
+                    field.value && field.value !== 0
+                      ? "text-blue-600 font-bold"
+                      : ""
+                  }`}
+                >
+                  {fieldLabel}
+                </Label>
+              )}
+              <Select
+                onValueChange={field.onChange}
+                value={field.value}
+                disabled={disabled ?? field.value === "X" ? true : false}
               >
-                {fieldLabel && (
-                  <Label
-                    className={`${fieldLabel ? "w-3/4" : ""} ${
-                      field.value && field.value !== 0
-                        ? "text-blue-600 font-bold"
-                        : ""
+                <FormControl
+                  className={` ${fieldLabel ? "max-h-6" : "w-full"}`}
+                >
+                  <SelectTrigger
+                    className={`flex justify-center min-w-12 text-base [&>svg]:hidden ${
+                      field.value === "X" ? "bg-gray-600" : ""
                     }`}
                   >
-                    {fieldLabel}
-                  </Label>
-                )}
-                <Select
-                  onValueChange={field.onChange}
-                  value={field.value}
-                  disabled={disabled ?? field.value === "X" ? true : false}
-                >
-                  <FormControl
-                    className={` ${fieldLabel ? "max-h-6" : "w-full"}`}
-                  >
-                    <SelectTrigger
-                      className={`flex  justify-center min-w-12 text-base [&>svg]:hidden ${
-                        field.value === "X" ? "bg-gray-600" : ""
-                      }`}
-                    >
-                      <SelectValue placeholder={placeHolder} />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    {data?.map((item) => {
-                      return (
-                        <SelectItem key={item.label} value={item.label}>
-                          {item.value}
-                        </SelectItem>
-                      );
-                    })}
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            );
-          }}
+                    <SelectValue placeholder={placeHolder} />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {data?.map((item) => (
+                    <SelectItem key={item.label} value={item.label}>
+                      {item.value}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
         />
       )}
     />
   );
 }
+
 export default SelectInput;
