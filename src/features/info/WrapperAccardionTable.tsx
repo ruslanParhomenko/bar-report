@@ -4,14 +4,17 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 
 export function WrapperAccordionTable({
   children,
   nameTag,
+  className,
 }: {
   children: React.ReactNode;
   nameTag?: string;
+  className?: string;
 }) {
   const t = useTranslations("Home");
   return (
@@ -21,7 +24,12 @@ export function WrapperAccordionTable({
           {t(nameTag ?? "")}
         </AccordionTrigger>
         <AccordionContent>
-          <div className="w-full md:w-2/3 mx-auto p-2 flex flex-col items-center space-y-4 ">
+          <div
+            className={cn(
+              "w-full  mx-auto p-2 md:px-10 flex flex-col items-center space-y-4 ",
+              className
+            )}
+          >
             {children}
           </div>
         </AccordionContent>

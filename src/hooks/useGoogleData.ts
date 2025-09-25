@@ -7,7 +7,7 @@ const GOOGLE_SHEET_URL_EMPLOYEES =
 const GOOGLE_SHEET_URL_SK =
   "https://script.google.com/macros/s/AKfycbx9e6tBAsTpDg2augJ7CBaYIocKoSD5n1kWUhpLv1Ntkwd5GGnjpEXIP_Nw_KLYPMDWtw/exec";
 const GOOGLE_SHEET_URL_MENIU =
-  "https://script.google.com/macros/s/AKfycbwqxcEmovwsYhWQ5-hTsNuubAiAWgAedzyJNVFfb_C0lhdglvXjPuiXF8FcD0KyFmthRw/exec";
+  "https://script.google.com/macros/s/AKfycbzujtXxjZ7aRrVl6_Jb8jV0G3un4hxl2NQvUKHKcxuCTFKy2I9A_syGCFxG0MV2i1lIKg/exec";
 export type Employee = {
   rate: number;
   date: string;
@@ -46,6 +46,12 @@ export type VipMeniu = {
 export type Menu = {
   daily: DailyMeniu;
   vip: [VipMeniu[], VipMeniu[], VipMeniu[]];
+  statusMenu: {
+    platinum: string[];
+    gold: string[];
+    silver: string[];
+    loyal: string[];
+  };
 };
 
 type EmployeesUsers = {
@@ -108,11 +114,14 @@ export function useGoogleData() {
     qc.invalidateQueries({ queryKey: ["google", GOOGLE_SHEET_URL_MENIU] });
   };
 
+  console.log(menuQuery.data);
+
   return {
     employees: employeesQuery.data?.employees || [],
     users: employeesQuery.data?.user || [],
     sk: skQuery.data || [],
     menu: menuQuery.data,
+    statusMenu: menuQuery.data?.statusMenu,
     isLoading: employeesQuery.isLoading || skQuery.isLoading,
     invalidate,
   };

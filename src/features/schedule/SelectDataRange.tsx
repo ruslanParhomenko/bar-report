@@ -49,7 +49,11 @@ export const SelectDataRange = () => {
   return (
     <>
       <div className="md:w-1/5 w-full py-4">
-        <Select value={currentValue} onValueChange={handleChange}>
+        <Select
+          value={currentValue}
+          onValueChange={handleChange}
+          defaultValue="1"
+        >
           <SelectTrigger
             className={cn("w-[200px]", theme === "dark" ? "border-0" : "")}
           >

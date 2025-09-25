@@ -5,6 +5,7 @@ import { UserListTable } from "./UserListTable";
 import { StandardKitchenTable } from "./StandardKitchenTable";
 import MeniuRatingTable from "./MeniuRatingTable";
 import { WrapperAccordionTable } from "./WrapperAccardionTable";
+import StatusMenu from "./StatusMenu";
 
 export default function InfoTable() {
   const t = useTranslations("Home");
@@ -22,6 +23,9 @@ export default function InfoTable() {
       </WrapperAccordionTable>
       <WrapperAccordionTable nameTag="meniuRating">
         <MeniuRatingTable />
+      </WrapperAccordionTable>
+      <WrapperAccordionTable nameTag="StatusMenu">
+        <StatusMenu />
       </WrapperAccordionTable>
     </>
   );
