@@ -1,7 +1,5 @@
-"use client";
 import {
   BAKERY,
-  EMPTY,
   FRUITS_CUISINE,
   GREEN,
   MEAT,
@@ -12,16 +10,12 @@ import {
   SPICES_2,
   VEGETABLES,
 } from "./constants";
-import { Input } from "@/components/ui/input";
-import { useFormContext } from "react-hook-form";
 import { InputWrapper } from "@/components/wrapper/InputWrapper";
 import { OrderCardWrapper } from "@/components/wrapper/OrderCardWrapper";
-import { Label } from "@/components/ui/label";
+import OrderPageWrapper from "@/components/wrapper/OrderPageWrapper";
 export const OrderListCuisine = () => {
-  const form = useFormContext();
-  const { register } = form;
   return (
-    <div className="flex flex-col gap-10 w-full justify-start md:mx-5 sm:flex-row">
+    <OrderPageWrapper>
       <InputWrapper>
         <OrderCardWrapper data={VEGETABLES} name="VEGETABLES" />
         <OrderCardWrapper data={GREEN} name="GREEN" />
@@ -37,24 +31,7 @@ export const OrderListCuisine = () => {
       <InputWrapper>
         <OrderCardWrapper data={MEAT} name="MEAT" />
         <OrderCardWrapper data={SPICES_2} name="SPICES_2" />
-        <div className="flex flex-col w-full justify-center items-center py-2">
-          <Label className="py-2  font-bold text-blue-600">EMPTY</Label>
-        </div>
-        {EMPTY.map((item, index) => {
-          return (
-            <div key={index} className="flex justify-between gap-2">
-              <Input
-                className="w-2/4 mb-1"
-                {...register(`EMPTY.${index}.name`)}
-              />
-              <Input
-                className="w-1/4 pr-2"
-                {...register(`EMPTY.${index}.quantity`)}
-              />
-            </div>
-          );
-        })}
       </InputWrapper>
-    </div>
+    </OrderPageWrapper>
   );
 };

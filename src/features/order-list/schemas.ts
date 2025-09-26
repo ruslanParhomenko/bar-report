@@ -13,7 +13,6 @@ import {
   DAVIDAN,
   DELPHI,
   DINOVA,
-  EMPTY,
   ETALONUS,
   FORWARD,
   FORWARD_CUCINE,
@@ -105,7 +104,6 @@ const allFieldsCucina = [
   ...MILK,
   ...OTHER,
   ...BAKERY,
-  ...EMPTY,
 ];
 
 export const defaultValuesZNCucina = Object.fromEntries(

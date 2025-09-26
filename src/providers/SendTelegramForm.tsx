@@ -74,7 +74,6 @@ export const OrderListTelegramForm = ({
   };
 
   const sendTextTelegram: SubmitHandler<OrderListFormType> = async (data) => {
-    console.log("data", data);
     sendTelegramMessage(
       data,
       URL_TELEGRAM[url as keyof typeof URL_TELEGRAM],

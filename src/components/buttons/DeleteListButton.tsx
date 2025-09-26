@@ -11,7 +11,6 @@ export const DeleteListButton = ({
   data: { id: number; date: string };
   nameTag: string;
 }) => {
-  console.log(data);
   const { isAdmin } = useAbility();
   const t = useTranslations("Home");
   const dataFormat =

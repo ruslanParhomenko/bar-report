@@ -18,10 +18,11 @@ import {
 } from "./constants";
 import { InputWrapper } from "@/components/wrapper/InputWrapper";
 import { OrderCardWrapper } from "@/components/wrapper/OrderCardWrapper";
+import OrderPageWrapper from "@/components/wrapper/OrderPageWrapper";
 
 export const OrderListTTNBar = () => {
   return (
-    <div className="flex flex-col gap-6 w-full justify-start  sm:flex-row">
+    <OrderPageWrapper>
       <InputWrapper>
         <OrderCardWrapper data={AQUATRADE} name="AQUATRADE" />
         <OrderCardWrapper data={BUCURIA} name="BUCURIA" />
@@ -50,6 +51,6 @@ export const OrderListTTNBar = () => {
         <OrderCardWrapper data={FRUITBOX} name="FRUITBOX" />
         <OrderCardWrapper data={SAMPAREX} name="SAMPAREX " />
       </InputWrapper>
-    </div>
+    </OrderPageWrapper>
   );
 };

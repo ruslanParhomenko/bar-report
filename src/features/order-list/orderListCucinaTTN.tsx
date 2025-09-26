@@ -15,9 +15,10 @@ import {
 } from "./constants";
 import { InputWrapper } from "@/components/wrapper/InputWrapper";
 import { OrderCardWrapper } from "@/components/wrapper/OrderCardWrapper";
+import OrderPageWrapper from "@/components/wrapper/OrderPageWrapper";
 export const OrderListTTNCucine = () => {
   return (
-    <div className="flex flex-col gap-10 w-full justify-start md:mx-5 sm:flex-row">
+    <OrderPageWrapper>
       <InputWrapper>
         <OrderCardWrapper data={ROGOB} name="ROGOB" />
         <OrderCardWrapper data={BLUESHARK} name="BLUESHARK" />
@@ -37,6 +38,6 @@ export const OrderListTTNCucine = () => {
         <OrderCardWrapper data={FRUITBOX} name="FRUITBOX" />
         <OrderCardWrapper data={FRUITBOX_C} name="FRUITBOX_C" />
       </InputWrapper>
-    </div>
+    </OrderPageWrapper>
   );
 };

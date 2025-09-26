@@ -207,8 +207,6 @@ export const OTHER = [
   "ланчбоксы",
 ];
 
-export const EMPTY = [" ", " ", " ", " "];
-
 // bar ttn
 
 export const AQUATRADE = [

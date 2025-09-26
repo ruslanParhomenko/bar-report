@@ -1,4 +1,3 @@
-"use client";
 import {
   CHEMICALS,
   FRUITS,
@@ -9,9 +8,10 @@ import {
 } from "./constants";
 import { InputWrapper } from "@/components/wrapper/InputWrapper";
 import { OrderCardWrapper } from "@/components/wrapper/OrderCardWrapper";
+import OrderPageWrapper from "@/components/wrapper/OrderPageWrapper";
 export const OrderListBar = () => {
   return (
-    <div className="flex flex-col gap-10 w-full justify-start md:mx-5 sm:flex-row">
+    <OrderPageWrapper>
       <InputWrapper>
         <OrderCardWrapper data={FRUITS} name="FRUITS" />
         <OrderCardWrapper data={GROCERIES} name="GROCERIES" />
@@ -22,6 +22,6 @@ export const OrderListBar = () => {
         <OrderCardWrapper data={OFFICE} name="OFFICE" />
         <OrderCardWrapper data={CHEMICALS} name="CHEMICALS" />
       </InputWrapper>
-    </div>
+    </OrderPageWrapper>
   );
 };
