@@ -43,9 +43,19 @@ export type VipMeniu = {
   listItem: string[];
   listPrice: number[];
 };
+export type StaffMenu = {
+  monday: string[];
+  tuesday: string[];
+  wednesday: string[];
+  thursday: string[];
+  friday: string[];
+  saturday: string[];
+  sunday: string[];
+};
 export type Menu = {
   daily: DailyMeniu;
   vip: [VipMeniu[], VipMeniu[], VipMeniu[]];
+  staff: StaffMenu;
   statusMenu: {
     platinum: string[];
     gold: string[];

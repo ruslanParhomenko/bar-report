@@ -25,6 +25,10 @@ export default function Home() {
           page={`/meniu-vip/daily-meniu`}
           text={t("Daily Menu")}
         />
+        <ButtonStartMeniu
+          page={`/meniu-vip/staff-menu`}
+          text={t("Staff Menu")}
+        />
       </div>
     </>
   );
