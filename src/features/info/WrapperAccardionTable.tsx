@@ -26,7 +26,7 @@ export function WrapperAccordionTable({
         <AccordionContent>
           <div
             className={cn(
-              "w-full  mx-auto p-2 md:px-10 flex flex-col items-center space-y-4 ",
+              "w-full  mx-auto p-2 flex flex-col items-center space-y-4 ",
               className
             )}
           >

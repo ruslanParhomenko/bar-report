@@ -7,7 +7,7 @@ const GOOGLE_SHEET_URL_EMPLOYEES =
 const GOOGLE_SHEET_URL_SK =
   "https://script.google.com/macros/s/AKfycbx9e6tBAsTpDg2augJ7CBaYIocKoSD5n1kWUhpLv1Ntkwd5GGnjpEXIP_Nw_KLYPMDWtw/exec";
 const GOOGLE_SHEET_URL_MENIU =
-  "https://script.google.com/macros/s/AKfycbzujtXxjZ7aRrVl6_Jb8jV0G3un4hxl2NQvUKHKcxuCTFKy2I9A_syGCFxG0MV2i1lIKg/exec";
+  "https://script.google.com/macros/s/AKfycbzlPabIGpSVf9qdFqbz7bWF8CKHgJlyQ8SirrANVZA7JCG2hchE-l7JnG1Y7eQY3OVG-Q/exec";
 export type Employee = {
   rate: number;
   date: string;
@@ -113,8 +113,6 @@ export function useGoogleData() {
     qc.invalidateQueries({ queryKey: ["google", GOOGLE_SHEET_URL_SK] });
     qc.invalidateQueries({ queryKey: ["google", GOOGLE_SHEET_URL_MENIU] });
   };
-
-  console.log(menuQuery.data);
 
   return {
     employees: employeesQuery.data?.employees || [],
