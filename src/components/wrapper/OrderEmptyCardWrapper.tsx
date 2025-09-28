@@ -19,7 +19,7 @@ export function OrderEmptyCardWrapper({
   const { control } = useFormContext();
 
   return (
-    <div>
+    <div className=" px-2">
       <div className="flex flex-col w-full justify-center items-center py-2">
         <Label className="py-2 font-bold text-bl">{name}</Label>
       </div>
@@ -52,6 +52,7 @@ function EmptyField({ fieldName }: { fieldName: number }) {
           }`}
         />
       </div>
+      <Separator className="mb-2" />
     </div>
   );
 }
