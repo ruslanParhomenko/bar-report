@@ -4,6 +4,7 @@ import { useFormContext } from "react-hook-form";
 import { FormControl, FormField, FormItem, FormMessage } from "../ui/form";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
+import { cn } from "@/lib/utils";
 
 type TextInputProps = {
   fieldName: string;
@@ -43,7 +44,7 @@ function TextInput({
 
             <div className="w-full">
               <div className="flex gap-2">
-                <FormControl className="w-full">
+                <FormControl className={cn("w-full ", className)}>
                   <Input placeholder={placeholder} type={type} {...field} />
                 </FormControl>
 

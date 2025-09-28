@@ -1,5 +1,6 @@
 import {
   BAKERY,
+  EMPTY,
   FRUITS_CUISINE,
   GREEN,
   MEAT,
@@ -12,6 +13,7 @@ import {
 } from "./constants";
 import { InputWrapper } from "@/components/wrapper/InputWrapper";
 import { OrderCardWrapper } from "@/components/wrapper/OrderCardWrapper";
+import { OrderEmptyCardWrapper } from "@/components/wrapper/OrderEmptyCardWrapper";
 import OrderPageWrapper from "@/components/wrapper/OrderPageWrapper";
 export const OrderListCuisine = () => {
   return (
@@ -31,6 +33,7 @@ export const OrderListCuisine = () => {
       <InputWrapper>
         <OrderCardWrapper data={MEAT} name="MEAT" />
         <OrderCardWrapper data={SPICES_2} name="SPICES_2" />
+        <OrderEmptyCardWrapper data={EMPTY} name="EMPTY" />
       </InputWrapper>
     </OrderPageWrapper>
   );
