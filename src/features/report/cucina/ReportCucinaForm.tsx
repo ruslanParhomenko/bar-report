@@ -4,6 +4,7 @@ import { Textarea } from "@/components/ui/textarea";
 import DatePickerInput from "@/components/inputs/DatePickerInput";
 import { Form } from "@/components/ui/form";
 import {
+  defaultMovement,
   defaultProductsCutting,
   defaultProductsDesserts,
   defaultProductsSalad,
@@ -12,6 +13,7 @@ import {
   defaultReportCucina,
   defaultShift,
   defaultStaff,
+  defaultWriteOff,
   ReportCucinaType,
   schemaReportCucina,
 } from "./schema";
@@ -108,6 +110,7 @@ export default function DailyReportForm() {
     form.reset(defaultReportCucina);
     removeValue();
   };
+  const value = getValue() as ReportCucinaType;
 
   const handleSubmit: SubmitHandler<ReportCucinaType> = (data) => {
     const invalidShift = data.shifts.some((shift) => !shift.employees?.trim());
@@ -259,7 +262,7 @@ export default function DailyReportForm() {
             }}
             dataArrayField1={PRODUCTS_INGREDIENTS}
             dataArrayField2={PRODUCTS_INGREDIENTS}
-            defaultValue={defaultStaff}
+            defaultValue={defaultMovement}
           />
 
           <RenderTableCucina
@@ -272,7 +275,7 @@ export default function DailyReportForm() {
             }}
             dataArrayField1={PRODUCTS_INGREDIENTS}
             dataArrayField3={REASON}
-            defaultValue={defaultProductsSeconds}
+            defaultValue={defaultWriteOff}
           />
           <Label className="font-semibold py-4 text-md text-bl">
             {t("notes")}
