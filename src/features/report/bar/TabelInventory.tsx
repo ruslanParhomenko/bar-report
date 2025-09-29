@@ -1,4 +1,8 @@
 "use client";
+import NumericInput from "@/components/inputs/NumericInput";
+import SelectField from "@/components/inputs/SelectField";
+import SelectFieldWithSearch from "@/components/inputs/SelectWithSearch";
+import { Label } from "@/components/ui/label";
 import {
   Table,
   TableBody,
@@ -7,60 +11,57 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-
-import NumericInput from "@/components/inputs/NumericInput";
-import SelectField from "@/components/inputs/SelectField";
+import { inventoryDefault } from "./schema";
+import { INVENTORY_DATA, PRODUCTS } from "./constants";
 import { useAbility } from "@/providers/AbilityProvider";
-import { expensesDefault } from "./schema";
-import { RECIPIENTS } from "./constants";
 import { useFormContext } from "react-hook-form";
 import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
 
-export default function TableExpenses() {
+export default function TabelInventory() {
   const { isObserver, isUser } = useAbility();
   const isDisabled = isObserver || isUser;
   const form = useFormContext();
 
   const reset = (idx: number) => {
-    const current = form.getValues("expenses");
-    current[idx] = expensesDefault[0];
-    form.setValue("expenses", current);
+    const current = form.getValues("inventory");
+    current[idx] = inventoryDefault[idx];
+    form.setValue("inventory", current);
   };
-  const fieldsValues = form.watch("expenses");
-
+  const fieldsValues = form.watch("inventory");
   return (
     <div className="w-full">
-      <Label className="text-lg font-semibold pb-7 text-bl">Expenses</Label>
-      <Table className="[&_th]:text-center [&_td]:text-center w-full">
+      <Label className="text-lg font-semibold pb-7 text-bl">Inventory</Label>
+      <Table className="w-full [&_th]:text-center [&_td]:text-center">
         <TableHeader>
           <TableRow className="h-10">
-            <TableHead>recipent</TableHead>
-            <TableHead>sum</TableHead>
+            <TableHead>product</TableHead>
+            <TableHead>quantity</TableHead>
             <TableHead>action</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {new Array(7).fill(expensesDefault)?.map((_, idx) => (
+          {INVENTORY_DATA?.map((_, idx) => (
             <TableRow key={idx}>
               <TableCell>
-                <SelectField
-                  data={RECIPIENTS}
-                  fieldName={`expenses.${idx}.name`}
+                <SelectFieldWithSearch
+                  data={PRODUCTS}
+                  fieldName={`inventory.${idx}.name`}
                   disabled={isDisabled}
-                  className="w-full h-8!"
+                  className="h-8 w-full text-center min-w-30!"
                 />
               </TableCell>
               <TableCell className="flex items-center justify-center">
                 <NumericInput
-                  fieldName={`expenses.${idx}.sum`}
+                  fieldName={`inventory.${idx}.quantity`}
                   disabled={isDisabled}
-                  className="w-20! h-8! text-center"
+                  className="w-12! text-center h-8!"
                 />
               </TableCell>
-              <TableCell className="px-2">
-                {fieldsValues[idx].name && (
+
+              <TableCell>
+                {fieldsValues?.[idx].name && (
                   <Button
+                    type="button"
                     variant={"destructive"}
                     className="h-8 cursor-pointer"
                     onClick={() => reset(idx)}

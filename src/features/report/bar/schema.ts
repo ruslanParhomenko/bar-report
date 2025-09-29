@@ -1,4 +1,5 @@
 import * as yup from "yup";
+import { INVENTORY_DATA } from "./constants";
 //products transfer
 export const productTransferSchema = yup.array(
   yup.object().shape({
@@ -16,6 +17,19 @@ export const productTransferDefault = new Array(7).fill({
   quantity: "",
   destination: "",
 });
+
+// inventory
+export const inventorySchema = yup.array(
+  yup.object().shape({
+    name: yup.string().default(""),
+    quantity: yup.string().default(""),
+  })
+);
+export type InventorySchemaType = yup.InferType<typeof inventorySchema>;
+export const inventoryDefault = INVENTORY_DATA.map((item) => ({
+  name: item,
+  quantity: "",
+}));
 
 //expenses
 export const expenseSchema = yup.array(
@@ -89,6 +103,7 @@ export const reportBarSchema = yup.object().shape({
   tobacco: tobaccoSchema,
   cashVerify: cashVerifySchema,
   productTransfer: productTransferSchema,
+  inventory: inventorySchema,
   notes: yup.string().nullable().default(""),
 });
 

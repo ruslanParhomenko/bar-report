@@ -471,3 +471,15 @@ export const foodProducts = [
   // APIFERA
   "мед кг",
 ];
+
+// inventory data
+
+export const INVENTORY_DATA = [
+  "Виски Macallan, л",
+  "Foss Marai",
+  "Moet and Shandon",
+  "Ruinart Blanc",
+  "Скатерть",
+  "",
+  "",
+];

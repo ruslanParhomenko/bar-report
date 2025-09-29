@@ -70,7 +70,16 @@ model DailyReport {
   expenses        Expense[]
   tobacco         Tobacco[]
   productTransfer ProductTransfer[]
+  inventory       Inventory[]
   notes           String?
+}
+
+model Inventory {
+  id       Int         @id @default(autoincrement())
+  name     String
+  quntity  String
+  reportId Int
+  report   DailyReport @relation(fields: [reportId], references: [id], onDelete: Cascade)
 }
 
 model ProductTransfer {

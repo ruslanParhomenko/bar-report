@@ -12,6 +12,7 @@ import {
   cashVerifyDefault,
   defaultValuesReportBar,
   expensesDefault,
+  inventoryDefault,
   LIST_TOBACCO,
   productTransferDefault,
   ReportBarFormValues,
@@ -27,6 +28,7 @@ import { useApi } from "@/hooks/useApi";
 import { DailyReport } from "@/generated/prisma";
 import TableProductsTransfer from "./TableProductsTransfer";
 import { Textarea } from "@/components/ui/textarea";
+import TabelInventory from "./TabelInventory";
 
 export function ReportBarForm() {
   const STORAGE_KEY = "report-bar";
@@ -82,6 +84,7 @@ export function ReportBarForm() {
       cashVerify: cashVerifyDefault,
       expenses: expensesDefault,
       productTransfer: productTransferDefault,
+      inventory: inventoryDefault,
       notes: "",
     });
 
@@ -105,6 +108,7 @@ export function ReportBarForm() {
       cashVerify: data.cashVerify?.filter((item) => item.value),
       expenses: data.expenses?.filter((item) => item.name),
       productTransfer: data.productTransfer?.filter((item) => item.name),
+      inventory: data.inventory?.filter((item) => item.name),
       notes: data.notes,
     };
     createMutation.mutate(formateData);
@@ -130,6 +134,8 @@ export function ReportBarForm() {
       cashVerify: cashVerifyDefault,
       expenses: expensesDefault,
       productTransfer: productTransferDefault,
+      inventory: inventoryDefault,
+      notes: "",
     };
 
     form.reset(updatedData);
@@ -218,12 +224,13 @@ export function ReportBarForm() {
             />
           )}
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-[32%_62%] md:gap-15  pt-4">
+        <div className="grid grid-cols-1 md:grid-cols-[25%_72%] md:gap-15  pt-4">
           <TableTobacco />
           <div>
-            <div className="grid  md:grid-cols-[30%_60%] md:gap-10 px-1 pb-6">
+            <div className="grid  md:grid-cols-[28%_35%_28%] md:gap-10 px-1 pb-6">
               <TableExpenses />
               <TableProductsTransfer />
+              <TabelInventory />
             </div>
             <div className="px-4 pr-12 ">
               <Textarea
