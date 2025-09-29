@@ -9,7 +9,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
 
@@ -33,6 +33,13 @@ function NumericInput({
   const { theme } = useTheme();
   const { control } = useFormContext();
   const [open, setOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
 
   return (
     <FormField
@@ -45,9 +52,7 @@ function NumericInput({
               <FormControl>
                 <Input
                   id={id}
-                  placeholder={placeholder}
-                  value={value ?? ""}
-                  readOnly
+                  value={value ? value : placeholder ?? ""}
                   disabled={disabled}
                   onClick={() => setOpen(true)}
                   className={cn(

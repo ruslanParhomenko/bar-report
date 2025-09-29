@@ -115,7 +115,7 @@ const RenderTableCucina = ({
                   fieldName={`${name}.${index}.${field2}`}
                   placeholder={field2 ? t(field2) : ""}
                   disabled={isDisabled}
-                  className="md:w-30 w-16"
+                  className="md:w-30 w-16 text-black"
                 />
               )}
               {field3 && dataArrayField3 ? (
