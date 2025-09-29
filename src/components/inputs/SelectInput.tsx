@@ -49,7 +49,7 @@ function SelectInput({
             <FormItem
               className={`${fieldLabel ? "flex gap-x-4 max-h-6" : ""} ${
                 className ?? ""
-              }`} // применяем className
+              }`}
             >
               {fieldLabel && (
                 <Label
@@ -64,7 +64,7 @@ function SelectInput({
               )}
               <Select
                 onValueChange={field.onChange}
-                value={field.value}
+                value={field.value || ""}
                 disabled={disabled ?? field.value === "X" ? true : false}
               >
                 <FormControl

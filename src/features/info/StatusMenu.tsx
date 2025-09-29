@@ -17,8 +17,6 @@ export default function StatusMenu() {
     "Вторые блюда",
     "Снеки ",
   ];
-
-  console.log(data);
   return (
     <div className="grid grid-cols-1 xl:grid-cols-4 gap-1 w-full">
       {columns.map((col) => (

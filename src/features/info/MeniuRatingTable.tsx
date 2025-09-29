@@ -108,13 +108,10 @@ export default function MeniuRatingTable() {
     }
   };
 
-  // следим за items
   const items = useWatch({
     control: form.control,
     name: "items",
   });
-
-  console.log(items);
 
   return (
     <Form {...form}>

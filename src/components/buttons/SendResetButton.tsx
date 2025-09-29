@@ -7,6 +7,7 @@ import { useTranslations } from "next-intl";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -76,6 +77,9 @@ export function SendResetButton({
             <DialogTitle>
               {openModal === "save" ? t("confirmSave") : t("confirmReset")}
             </DialogTitle>
+            <DialogDescription>
+              {openModal === "save" ? t("confirmSave") : t("confirmReset")}
+            </DialogDescription>
           </DialogHeader>
           <DialogFooter className="flex justify-end gap-2">
             <Button variant="outline" onClick={() => setOpenModal(null)}>
