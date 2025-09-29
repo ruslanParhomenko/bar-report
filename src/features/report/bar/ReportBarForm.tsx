@@ -111,6 +111,8 @@ export function ReportBarForm() {
       inventory: data.inventory?.filter((item) => item.name),
       notes: data.notes,
     };
+
+    console.log("formateData", formateData);
     createMutation.mutate(formateData);
 
     const updatedTobacco = data?.tobacco?.map((item) => {

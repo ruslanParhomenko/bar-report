@@ -31,6 +31,7 @@ export async function GET(
       tobacco: true,
       expenses: true,
       productTransfer: true,
+      inventory: true,
     },
   });
 
