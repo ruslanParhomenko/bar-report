@@ -282,10 +282,7 @@ export default function DailyReportForm() {
             {...form.register("notes")}
             disabled={isObserver}
           />
-          <SendResetButton
-            resetForm={resetForm}
-            disabledReset={isAdmin && true}
-          />
+          <SendResetButton resetForm={resetForm} disabledReset={true} />
         </div>
       </form>
     </Form>
