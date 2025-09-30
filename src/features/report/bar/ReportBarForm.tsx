@@ -108,7 +108,7 @@ export function ReportBarForm() {
       cashVerify: data.cashVerify?.filter((item) => item.value),
       expenses: data.expenses?.filter((item) => item.name),
       productTransfer: data.productTransfer?.filter((item) => item.name),
-      inventory: data.inventory?.filter((item) => item.name),
+      inventory: data.inventory?.filter((item) => item.quantity),
       notes: data.notes,
     };
 
@@ -226,22 +226,24 @@ export function ReportBarForm() {
             />
           )}
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-[25%_72%] md:gap-15  pt-4">
+        <div className="grid grid-cols-1 md:grid-cols-[25%_70%] md:gap-15  pt-2">
           <TableTobacco />
-          <div>
-            <div className="grid  md:grid-cols-[28%_35%_28%] md:gap-10 px-1 pb-6">
-              <TableExpenses />
-              <TableProductsTransfer />
-              <TabelInventory />
+          <div className="grid md:grid-cols-[65%_30%] gap-2">
+            <div>
+              <div className="grid  md:grid-cols-[40%_55%] md:gap-4 px-1 pb-2">
+                <TableExpenses />
+                <TableProductsTransfer />
+              </div>
+              <div className="px-4 py-4">
+                <Textarea
+                  placeholder="notes ..."
+                  {...form.register("notes")}
+                  disabled={isObserver}
+                  className="resize-none"
+                />
+              </div>
             </div>
-            <div className="px-4 pr-12 ">
-              <Textarea
-                placeholder="notes ..."
-                {...form.register("notes")}
-                disabled={isObserver}
-                className="resize-none"
-              />
-            </div>
+            <TabelInventory />
           </div>
         </div>
 

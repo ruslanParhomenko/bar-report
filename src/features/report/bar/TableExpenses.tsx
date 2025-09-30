@@ -31,13 +31,13 @@ export default function TableExpenses() {
 
   return (
     <div className="w-full">
-      <Label className="text-lg font-semibold pb-7 text-bl">Expenses</Label>
+      <Label className="text-lg font-semibold pb-4 text-bl">Expenses</Label>
       <Table className="[&_th]:text-center [&_td]:text-center w-full">
         <TableHeader>
-          <TableRow className="h-10">
+          <TableRow className="!h-8">
             <TableHead>recipent</TableHead>
             <TableHead>sum</TableHead>
-            <TableHead>action</TableHead>
+            <TableHead></TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -48,14 +48,14 @@ export default function TableExpenses() {
                   data={RECIPIENTS}
                   fieldName={`expenses.${idx}.name`}
                   disabled={isDisabled}
-                  className="w-full h-8!"
+                  className="w-full !h-8"
                 />
               </TableCell>
               <TableCell className="flex items-center justify-center">
                 <NumericInput
                   fieldName={`expenses.${idx}.sum`}
                   disabled={isDisabled}
-                  className="w-20! h-8! text-center"
+                  className="!w-20 !h-8 text-center"
                 />
               </TableCell>
               <TableCell className="px-2">

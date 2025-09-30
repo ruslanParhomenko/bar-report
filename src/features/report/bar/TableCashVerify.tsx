@@ -16,8 +16,8 @@ export default function TableCashVerify() {
   const { isObserver, isUser } = useAbility();
   const isDisabled = isObserver || isUser;
   return (
-    <div className="w-full py-4">
-      <Label className="text-lg font-semibold pb-7 text-bl">Cash Verify</Label>
+    <div className="w-full py-2">
+      <Label className="text-lg font-semibold pb-4 text-bl">Cash Verify</Label>
       <Table className="[&_th]:text-center [&_td]:text-center">
         <TableHeader>
           <TableRow>

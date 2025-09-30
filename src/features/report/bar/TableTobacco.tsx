@@ -25,10 +25,10 @@ export default function TableTobacco() {
 
   return (
     <div className="w-full">
-      <Label className="text-lg font-semibold pb-7 text-bl">Tobacco</Label>
+      <Label className="text-lg font-semibold pb-4 text-bl">Tobacco</Label>
       <Table className="w-full [&_th]:text-center [&_td]:text-center">
         <TableHeader>
-          <TableRow className="h-10">
+          <TableRow>
             <TableHead className="md:w-40 w-30"></TableHead>
             <TableHead className="w-30">stock</TableHead>
             <TableHead className="w-20">+</TableHead>
@@ -38,21 +38,21 @@ export default function TableTobacco() {
         </TableHeader>
         <TableBody>
           {tobacco?.map((item, idx) => (
-            <TableRow key={idx} className="h-10">
+            <TableRow key={idx} className="!h-8">
               <TableCell className="px-2">{item.name}</TableCell>
               <TableCell className="px-2">{item.stock}</TableCell>
               <TableCell className="px-2">
                 <NumericInput
                   fieldName={`tobacco.${idx}.incoming`}
                   disabled={isDisabled}
-                  className="h-8!"
+                  className="h-8"
                 />
               </TableCell>
               <TableCell className="px-2">
                 <NumericInput
                   fieldName={`tobacco.${idx}.outgoing`}
                   disabled={isDisabled}
-                  className="h-8!"
+                  className="h-8"
                 />
               </TableCell>
               <TableCell className="px-2">

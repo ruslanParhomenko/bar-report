@@ -30,13 +30,13 @@ export default function TabelInventory() {
   const fieldsValues = form.watch("inventory");
   return (
     <div className="w-full">
-      <Label className="text-lg font-semibold pb-7 text-bl">Inventory</Label>
+      <Label className="text-lg font-semibold pb-4 text-bl">Inventory</Label>
       <Table className="w-full [&_th]:text-center [&_td]:text-center">
         <TableHeader>
           <TableRow className="h-10">
             <TableHead>product</TableHead>
             <TableHead>quantity</TableHead>
-            <TableHead>action</TableHead>
+            <TableHead></TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -59,7 +59,7 @@ export default function TabelInventory() {
               </TableCell>
 
               <TableCell>
-                {fieldsValues?.[idx].name && (
+                {fieldsValues?.[idx]?.name && (
                   <Button
                     type="button"
                     variant={"destructive"}

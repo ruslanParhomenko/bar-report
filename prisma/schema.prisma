@@ -77,7 +77,7 @@ model DailyReport {
 model Inventory {
   id       Int         @id @default(autoincrement())
   name     String
-  quntity  String
+  quantity String
   reportId Int
   report   DailyReport @relation(fields: [reportId], references: [id], onDelete: Cascade)
 }

@@ -479,7 +479,9 @@ export const INVENTORY_DATA = [
   "Foss Marai",
   "Moet and Shandon",
   "Ruinart Blanc",
-  "Скатерть",
+  "Скатерть чистые",
+  "Прачка - скатерть",
+  "",
   "",
   "",
 ];

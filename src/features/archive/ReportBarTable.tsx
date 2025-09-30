@@ -20,17 +20,14 @@ export const ReportBarTable = ({ data }: { data: any }) => {
           <React.Fragment key={item.id || index}>
             <DeleteListButton data={item} nameTag={REPORT_BAR_ENDPOINT} />
 
-            <div className="border border-gray-200 rounded-md md:p-4">
-              <div className="grid grid-cols-1 md:grid-cols-[35%_65%] pb-4">
-                {/* Таблица табака */}
+            <div className="border border-border rounded-md md:p-4">
+              <div className="grid grid-cols-1 md:grid-cols-[30%_70%] pb-4">
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>Tobacco</TableHead>
-                      <TableHead className="text-center"></TableHead>
-                      <TableHead className="text-center">in</TableHead>
-                      <TableHead className="text-center">out</TableHead>
-                      <TableHead className="text-center"></TableHead>
+                      <TableHead className="text-center text-bl font-bold">
+                        Tobacco
+                      </TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -53,16 +50,14 @@ export const ReportBarTable = ({ data }: { data: any }) => {
                     ))}
                   </TableBody>
                 </Table>
-
-                {/* Правая колонка */}
-                <div className="flex flex-col items-start justify-between gap-4 w-full md:pl-15">
-                  <div className="grid md:grid-cols-2 gap-20 pt-10 md:pt-0">
-                    {/* Expenses */}
+                <div className="flex flex-col w-full px-10">
+                  <div className="grid md:grid-cols-[15%_30%_30%] gap-25 pt-10 md:pt-0">
                     <Table>
                       <TableHeader>
                         <TableRow>
-                          <TableHead>expenses</TableHead>
-                          <TableHead>sum</TableHead>
+                          <TableHead className="text-center text-bl font-bold">
+                            expenses
+                          </TableHead>
                         </TableRow>
                       </TableHeader>
                       <TableBody>
@@ -76,14 +71,12 @@ export const ReportBarTable = ({ data }: { data: any }) => {
                           ))}
                       </TableBody>
                     </Table>
-
-                    {/* Product transfer */}
                     <Table>
                       <TableHeader>
                         <TableRow>
-                          <TableHead>product</TableHead>
-                          <TableHead>quantity</TableHead>
-                          <TableHead>destination</TableHead>
+                          <TableHead className="text-center text-bl font-bold">
+                            transfer
+                          </TableHead>
                         </TableRow>
                       </TableHeader>
                       <TableBody>
@@ -98,26 +91,53 @@ export const ReportBarTable = ({ data }: { data: any }) => {
                           ))}
                       </TableBody>
                     </Table>
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead className="text-center text-bl font-bold">
+                            inventory
+                          </TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {item?.inventory?.map((e: any, idx: number) => (
+                          <TableRow key={idx}>
+                            <TableCell>{e.name || "—"}</TableCell>
+                            <TableCell className="flex items-center justify-center">
+                              {e.quantity || "0"}
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
                   </div>
-
-                  {/* Notes */}
                   <div className="mt-auto">
                     <Table>
                       <TableBody>
                         <TableRow>
-                          <TableCell className="font-bold">notes:</TableCell>
+                          <TableCell className="font-bold text-bl">
+                            notes:
+                          </TableCell>
                           <TableCell>{item.notes}</TableCell>
                         </TableRow>
                       </TableBody>
                     </Table>
                   </div>
-
-                  {/* Hours & Values */}
                   <div className="mt-auto">
                     <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead
+                            colSpan={item.cashVerify?.length || 1}
+                            className="text-bl font-bold"
+                          >
+                            cash verify
+                          </TableHead>
+                        </TableRow>
+                      </TableHeader>
+
                       <TableBody>
                         <TableRow>
-                          <TableCell className="font-bold">hours:</TableCell>
                           {item.cashVerify
                             ?.filter((c: CashVerify) => c.value !== "0")
                             .map((c: CashVerify) => (
@@ -127,7 +147,6 @@ export const ReportBarTable = ({ data }: { data: any }) => {
                             ))}
                         </TableRow>
                         <TableRow>
-                          <TableCell className="font-bold">value:</TableCell>
                           {item.cashVerify
                             ?.filter((c: CashVerify) => c.value !== "0")
                             .map((c: CashVerify) => (
