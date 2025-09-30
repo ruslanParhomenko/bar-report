@@ -7,7 +7,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import { format } from "date-fns";
 import {
   BreakeList,
@@ -17,6 +17,8 @@ import {
 } from "@/generated/prisma";
 import { ArchiveData, useArchive } from "@/hooks/useApiArchive";
 import SelectArchiveById from "@/components/buttons/SelectArchiveById";
+import SelectFilterArchive from "./SelectFilterArchive";
+import { DATA_FILTER } from "./constant";
 
 type ApiDataMap = {
   breakList: BreakeList[];
@@ -39,6 +41,7 @@ export const ArhiveListTable = <T extends keyof ApiDataMap>({
   children: (data: ApiDataMap[T]) => React.ReactNode;
   nameTag: T;
 }) => {
+  const [filteredData, setFilteredData] = React.useState<any[]>([]);
   const t = useTranslations("Home");
   const [dataSelect, setDataSelect] = useState<
     { label: string; value: string }[]
@@ -67,6 +70,18 @@ export const ArhiveListTable = <T extends keyof ApiDataMap>({
     setDataSelect([{ label: "all", value: "all" }, ...formattedData]);
   }, [data, nameTag]);
 
+  useEffect(() => {
+    const selectedData =
+      id === "all"
+        ? arrayToFormat
+        : arrayToFormat.find((item: any) => item.id === Number(id))
+        ? [arrayToFormat.find((item: any) => item.id === Number(id))]
+        : [];
+    setFilteredData(selectedData);
+  }, [id]);
+
+  console.log("filteredData", filteredData);
+
   return (
     <Accordion type="single" collapsible className="py-2">
       <AccordionItem value={nameTag}>
@@ -75,9 +90,18 @@ export const ArhiveListTable = <T extends keyof ApiDataMap>({
         </AccordionTrigger>
 
         <AccordionContent>
-          <SelectArchiveById dataSelect={dataSelect} nameTag={nameTag} />
+          <div className="flex flex-col md:flex-row md:justify-start gap-4 md:items-center mb-4">
+            <SelectArchiveById dataSelect={dataSelect} nameTag={nameTag} />
+            {id === "all" && (
+              <SelectFilterArchive
+                dataSelect={DATA_FILTER[nameTag]}
+                data={arrayToFormat}
+                setFilteredData={setFilteredData}
+              />
+            )}
+          </div>
 
-          {children(selectedData as ApiDataMap[T])}
+          {children(filteredData ?? (selectedData as ApiDataMap[T]))}
         </AccordionContent>
       </AccordionItem>
     </Accordion>

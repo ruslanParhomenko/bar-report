@@ -30,7 +30,9 @@ import TableProductsTransfer from "./TableProductsTransfer";
 import { Textarea } from "@/components/ui/textarea";
 import TabelInventory from "./TabelInventory";
 
-export function ReportBarForm() {
+import dynamic from "next/dynamic";
+
+export function ReportBar() {
   const STORAGE_KEY = "report-bar";
   const { isBar, isAdmin, isUser, isCucina, isObserver } = useAbility();
   const isDisabled = isObserver || isCucina || isBar;
@@ -253,3 +255,9 @@ export function ReportBarForm() {
     </Form>
   );
 }
+
+const ReportBarForm = dynamic(() => Promise.resolve(ReportBar), {
+  ssr: false,
+});
+
+export default ReportBarForm;
