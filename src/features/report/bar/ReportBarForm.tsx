@@ -31,6 +31,7 @@ import { Textarea } from "@/components/ui/textarea";
 import TabelInventory from "./TabelInventory";
 
 import dynamic from "next/dynamic";
+import { set } from "date-fns";
 
 export function ReportBar() {
   const STORAGE_KEY = "report-bar";
@@ -90,7 +91,17 @@ export function ReportBar() {
       notes: "",
     });
 
-    removeValue();
+    setLocalStorage({
+      ...currentValues,
+      date: new Date().toDateString(),
+      tobacco: resetTobacco as TobaccoSchemaType,
+      cashVerify: cashVerifyDefault,
+      expenses: expensesDefault,
+      productTransfer: productTransferDefault,
+      inventory: inventoryDefault,
+      notes: "",
+    });
+    toast.success("Форма успешно сброшена !");
   };
   const handleSubmit: SubmitHandler<ReportBarFormValues> = (data) => {
     const formateData = {
@@ -114,7 +125,6 @@ export function ReportBar() {
       notes: data.notes,
     };
 
-    console.log("formateData", formateData);
     createMutation.mutate(formateData);
 
     const updatedTobacco = data?.tobacco?.map((item) => {
