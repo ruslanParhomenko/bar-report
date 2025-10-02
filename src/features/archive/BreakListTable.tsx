@@ -1,85 +1,29 @@
 import { DeleteListButton } from "@/components/buttons/DeleteListButton";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import BreakTable from "@/components/table/BreakListTable";
+import RemarksTable from "@/components/table/RemarksTable";
 import { BREAK_LIST_ENDPOINT } from "@/constants/endpoint-tag";
-import { cn } from "@/lib/utils";
+import { Remarks, Row } from "@/generated/prisma";
 import React from "react";
 
-export default function BreakListTable({ data }: { data: any }) {
+export default function BreakListTable({
+  data,
+  invalidate,
+}: {
+  data: { rows: Row[]; remarks: Remarks[] }[];
+  invalidate?: () => void;
+}) {
   return (
     <>
-      {data.length > 0 &&
-        data.map((item: any, index: number) => (
+      {data?.length > 0 &&
+        data.map((item, index) => (
           <React.Fragment key={index}>
-            <DeleteListButton data={item} nameTag={BREAK_LIST_ENDPOINT} />
-            {item?.rows && (
-              <div className="p-4 border rounded-md shadow-xs mb-4">
-                <Table>
-                  <TableBody>
-                    {item.rows.map((row: any) => {
-                      const hoursEntries = Object.entries(row)
-                        .filter(([key]) => key.startsWith("h_"))
-                        .map(([key, value]) => ({
-                          hour: key.substring(2),
-                          value: value as string,
-                        }))
-                        .filter(({ value }) => value && value !== "X");
-
-                      return (
-                        <TableRow key={row.id}>
-                          <TableCell>{row.externalId}</TableCell>
-                          <TableCell>{row.name ?? "-"}</TableCell>
-
-                          {hoursEntries.map(({ hour, value }) => (
-                            <TableCell
-                              key={`${row.id}-${hour}`}
-                              className="text-center"
-                            >
-                              {hour}:{value}
-                            </TableCell>
-                          ))}
-                        </TableRow>
-                      );
-                    })}
-                  </TableBody>
-                </Table>
-              </div>
-            )}
-
-            {data?.remarks && (
-              <div className="p-4 border rounded-md shadow-xs">
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableCell>name</TableCell>
-                      <TableCell>day hours</TableCell>
-                      <TableCell>night hours</TableCell>
-                      <TableCell>penality</TableCell>
-                      <TableCell>reason</TableCell>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {item?.remarks?.map((remark: any) => {
-                      if (!remark.name) return null;
-                      return (
-                        <TableRow key={remark.id}>
-                          <TableCell>{remark.name || "-"}</TableCell>
-                          <TableCell>{remark.dayHours || "-"}</TableCell>
-                          <TableCell>{remark.nightHours || "-"}</TableCell>
-                          <TableCell>{remark.penality || "-"}</TableCell>
-                          <TableCell>{remark.reason || "-"}</TableCell>
-                        </TableRow>
-                      );
-                    })}
-                  </TableBody>
-                </Table>
-              </div>
-            )}
+            <DeleteListButton
+              data={item as any}
+              nameTag={BREAK_LIST_ENDPOINT}
+              invalidate={invalidate}
+            />
+            <BreakTable data={item.rows} />
+            <RemarksTable data={item.remarks} />
           </React.Fragment>
         ))}
     </>

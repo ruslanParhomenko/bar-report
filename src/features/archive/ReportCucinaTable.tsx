@@ -12,7 +12,13 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 import React from "react";
 
-export default function ReportTable({ data }: { data: any }) {
+export default function ReportTable({
+  data,
+  invalidate,
+}: {
+  data: any;
+  invalidate?: () => void;
+}) {
   const isMobile = useIsMobile();
 
   const classTable = cn("md:w-100 table-fixed", {
@@ -30,7 +36,11 @@ export default function ReportTable({ data }: { data: any }) {
         ];
         return (
           <React.Fragment key={report.id || index}>
-            <DeleteListButton data={report} nameTag={REPORT_CUCINA_ENDPOINT} />
+            <DeleteListButton
+              data={report}
+              nameTag={REPORT_CUCINA_ENDPOINT}
+              invalidate={invalidate}
+            />
 
             <div className="py-4 px-2 border border-gray-200 rounded-md md:p-4 grid grid-cols-1 mx:auto xl:grid-cols-[24%_24%_24%_24%] gap-4">
               <div className="flex flex-col gap-4">

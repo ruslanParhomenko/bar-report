@@ -38,7 +38,7 @@ export const ArhiveListTable = <T extends keyof ApiDataMap>({
   children,
   nameTag,
 }: {
-  children: (data: ApiDataMap[T]) => React.ReactNode;
+  children: (data: ApiDataMap[T], invalidate: () => void) => React.ReactNode;
   nameTag: T;
 }) => {
   const [filteredData, setFilteredData] = React.useState<any[]>([]);
@@ -47,7 +47,7 @@ export const ArhiveListTable = <T extends keyof ApiDataMap>({
     { label: string; value: string }[]
   >([]);
 
-  const { data } = useArchive();
+  const { data, invalidate } = useArchive();
 
   const id = useWatch({ name: `selectDataId_${nameTag}` });
   const dataKey = dataObjectApi[nameTag] as keyof ArchiveData;
@@ -78,9 +78,7 @@ export const ArhiveListTable = <T extends keyof ApiDataMap>({
         ? [arrayToFormat.find((item: any) => item.id === Number(id))]
         : [];
     setFilteredData(selectedData);
-  }, [id]);
-
-  console.log("filteredData", filteredData);
+  }, [id, data]);
 
   return (
     <Accordion type="single" collapsible className="py-2">
@@ -101,7 +99,10 @@ export const ArhiveListTable = <T extends keyof ApiDataMap>({
             )}
           </div>
 
-          {children(filteredData ?? (selectedData as ApiDataMap[T]))}
+          {children(
+            filteredData ?? (selectedData as ApiDataMap[T]),
+            invalidate
+          )}
         </AccordionContent>
       </AccordionItem>
     </Accordion>

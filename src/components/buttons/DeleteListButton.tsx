@@ -7,9 +7,11 @@ import { useTranslations } from "next-intl";
 export const DeleteListButton = ({
   data,
   nameTag,
+  invalidate,
 }: {
   data: { id: number; date: string };
   nameTag: string;
+  invalidate?: () => void;
 }) => {
   const { isAdmin } = useAbility();
   const t = useTranslations("Home");
@@ -24,6 +26,9 @@ export const DeleteListButton = ({
 
   const removeItem = () => {
     deleteMutation.mutate(Number(data.id));
+    if (invalidate) {
+      invalidate();
+    }
   };
   return (
     <div className="flex w-full justify-between items-center p-4 pt-4">

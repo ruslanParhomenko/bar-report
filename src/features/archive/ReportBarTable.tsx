@@ -12,16 +12,26 @@ import { REPORT_BAR_ENDPOINT } from "@/constants/endpoint-tag";
 import { CashVerify } from "@/generated/prisma";
 import React from "react";
 
-export const ReportBarTable = ({ data }: { data: any }) => {
+export const ReportBarTable = ({
+  data,
+  invalidate,
+}: {
+  data: any;
+  invalidate?: () => void;
+}) => {
   return (
     <>
       {data.length > 0 &&
         data.map((item: any, index: number) => (
           <React.Fragment key={item.id || index}>
-            <DeleteListButton data={item} nameTag={REPORT_BAR_ENDPOINT} />
+            <DeleteListButton
+              data={item}
+              nameTag={REPORT_BAR_ENDPOINT}
+              invalidate={invalidate}
+            />
 
             <div className="border border-border rounded-md md:p-4">
-              <div className="grid grid-cols-1 md:grid-cols-[30%_70%] pb-4">
+              <div className="grid grid-cols-1 md:grid-cols-[25%_75%] pb-4">
                 {item?.tobacco ? (
                   <Table>
                     <TableHeader>
@@ -55,7 +65,7 @@ export const ReportBarTable = ({ data }: { data: any }) => {
                   <div></div>
                 )}
                 <div className="flex flex-col w-full px-10">
-                  <div className="grid md:grid-cols-[15%_45%_30%] gap-25 pt-10 md:pt-0">
+                  <div className="grid md:grid-cols-[15%_30%_30%] gap-25 pt-10 md:pt-0">
                     {item?.expenses ? (
                       <Table>
                         <TableHeader>
