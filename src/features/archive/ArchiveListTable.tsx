@@ -14,6 +14,7 @@ import {
   DailyReport,
   DailyReportCucina,
   RemarkReport,
+  Row,
 } from "@/generated/prisma";
 import { ArchiveData, useArchive } from "@/hooks/useApiArchive";
 import SelectArchiveById from "@/components/buttons/SelectArchiveById";
@@ -21,7 +22,12 @@ import SelectFilterArchive from "./SelectFilterArchive";
 import { DATA_FILTER } from "./constant";
 
 type ApiDataMap = {
-  breakList: BreakeList[];
+  breakList: {
+    rows: Row[];
+    remarks: RemarkReport[];
+    date: string;
+    id: number;
+  }[];
   report: DailyReport[];
   "report-cucina": DailyReportCucina[];
   remarks: RemarkReport[];

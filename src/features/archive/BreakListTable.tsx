@@ -2,14 +2,13 @@ import { DeleteListButton } from "@/components/buttons/DeleteListButton";
 import BreakTable from "@/components/table/BreakListTable";
 import RemarksTable from "@/components/table/RemarksTable";
 import { BREAK_LIST_ENDPOINT } from "@/constants/endpoint-tag";
-import { Remarks, Row } from "@/generated/prisma";
 import React from "react";
 
 export default function BreakListTable({
   data,
   invalidate,
 }: {
-  data: { rows: Row[]; remarks: Remarks[] }[];
+  data: any[];
   invalidate?: () => void;
 }) {
   return (
