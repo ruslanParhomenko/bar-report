@@ -20,6 +20,7 @@ import { ArchiveData, useArchive } from "@/hooks/useApiArchive";
 import SelectArchiveById from "@/components/buttons/SelectArchiveById";
 import SelectFilterArchive from "./SelectFilterArchive";
 import { DATA_FILTER } from "./constant";
+import { useEmployees } from "@/providers/GoogleSheetsProvider";
 
 type ApiDataMap = {
   breakList: {
@@ -47,6 +48,9 @@ export const ArhiveListTable = <T extends keyof ApiDataMap>({
   children: (data: ApiDataMap[T], invalidate: () => void) => React.ReactNode;
   nameTag: T;
 }) => {
+  const { employees } = useEmployees();
+
+  console.log("employees", employees);
   const [filteredData, setFilteredData] = React.useState<any[]>([]);
   const t = useTranslations("Home");
   const [dataSelect, setDataSelect] = useState<

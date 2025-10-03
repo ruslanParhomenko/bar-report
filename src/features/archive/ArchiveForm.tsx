@@ -4,7 +4,6 @@ import { useForm } from "react-hook-form";
 import { Form } from "@/components/ui/form";
 import BreakListTable from "./BreakListTable";
 import ReportTable from "./ReportCucinaTable";
-import RemarkTable from "./RemarkTable";
 import { ReportBarTable } from "./ReportBarTable";
 import {
   BREAK_LIST_ENDPOINT,
@@ -12,6 +11,7 @@ import {
   REPORT_BAR_ENDPOINT,
   REPORT_CUCINA_ENDPOINT,
 } from "@/constants/endpoint-tag";
+import Remarks from "./Remarks";
 
 export const ArchiveForm = () => {
   const form = useForm();
@@ -34,7 +34,9 @@ export const ArchiveForm = () => {
         )}
       </ArhiveListTable>
       <ArhiveListTable nameTag={REMARKS_ENDPOINT}>
-        {(remarks, invalidate) => <RemarkTable data={remarks} />}
+        {(remarks, invalidate) => (
+          <Remarks data={remarks} invalidate={invalidate} />
+        )}
       </ArhiveListTable>
     </Form>
   );

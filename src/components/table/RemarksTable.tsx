@@ -1,5 +1,11 @@
 import { Remarks } from "@/generated/prisma";
-import { Table, TableBody, TableCell, TableRow } from "../ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHeader,
+  TableRow,
+} from "../ui/table";
 
 export default function RemarksTable({ data }: { data: Remarks[] }) {
   const filtered = data?.filter(
@@ -15,13 +21,15 @@ export default function RemarksTable({ data }: { data: Remarks[] }) {
   return (
     <div className="p-4 border rounded-md shadow-xs">
       <Table>
-        <TableRow className="text-gr">
-          <TableCell>name</TableCell>
-          <TableCell>day</TableCell>
-          <TableCell>night</TableCell>
-          <TableCell>penality</TableCell>
-          <TableCell>reason</TableCell>
-        </TableRow>
+        <TableHeader>
+          <TableRow className="text-gr">
+            <TableCell>name</TableCell>
+            <TableCell>day</TableCell>
+            <TableCell>night</TableCell>
+            <TableCell>penality</TableCell>
+            <TableCell>reason</TableCell>
+          </TableRow>
+        </TableHeader>
 
         <TableBody>
           {filtered.map((remark) => (
