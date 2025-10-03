@@ -1,4 +1,3 @@
-// /app/api/archive/route.ts
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
@@ -8,7 +7,7 @@ export async function GET() {
   const [dailyReportCucina, dailyReport, remarkReport, breakeList] =
     await prisma.$transaction([
       prisma.dailyReportCucina.findMany({
-        take: 31,
+        take: 62,
         include: {
           shifts: true,
           remains: true,
@@ -23,7 +22,7 @@ export async function GET() {
         orderBy: { date: "desc" },
       }),
       prisma.dailyReport.findMany({
-        take: 31,
+        take: 62,
         include: {
           cashVerify: true,
           tobacco: true,
@@ -34,12 +33,12 @@ export async function GET() {
         orderBy: { date: "desc" },
       }),
       prisma.remarkReport.findMany({
-        take: 31,
+        take: 62,
         include: { remarks: true },
         orderBy: { date: "desc" },
       }),
       prisma.breakeList.findMany({
-        take: 31,
+        take: 62,
         include: {
           rows: true,
           remarks: true,

@@ -17,11 +17,10 @@ import DatePickerInput from "@/components/inputs/DatePickerInput";
 import { SendResetButton } from "../../components/buttons/SendResetButton";
 import { FetchDataButton } from "../../components/buttons/FetchDataButton";
 import { BreakListTable } from "./BreakTable";
-
-import { BreakeList } from "@/generated/prisma";
 import {
   BREAK_LIST_ENDPOINT,
   BREAK_LIST_REALTIME_ENDPOINT,
+  REMARKS_ENDPOINT,
 } from "@/constants/endpoint-tag";
 import { BreakRemarksData, dataSchema, defaultValuesBrakeList } from "./schema";
 import RemarksTable from "./RemarksTable";
@@ -36,9 +35,17 @@ const BreakList = () => {
   const isDisabled = isObserver || isCucina || isBar;
 
   //create
-  const { createMutation } = useApi<BreakeList>({
+  const { createMutation: createBreakeList } = useApi<BreakRemarksData>({
     endpoint: BREAK_LIST_ENDPOINT,
     queryKey: BREAK_LIST_ENDPOINT,
+    fetchInit: false,
+  });
+
+  const { createMutation: createRemarks } = useApi<
+    Omit<BreakRemarksData, "rows">
+  >({
+    endpoint: REMARKS_ENDPOINT,
+    queryKey: REMARKS_ENDPOINT,
     fetchInit: false,
   });
 
@@ -80,16 +87,24 @@ const BreakList = () => {
     return () => clearTimeout(timeout);
   }, [watchAllFields]);
 
-  const handleSubmit: SubmitHandler<BreakRemarksData> = (data) => {
+  const handleSubmit: SubmitHandler<BreakRemarksData> = async (data) => {
+    console.log("data", data);
     if (!data.date) {
       toast.error("Дата не выбрана");
       return;
     }
     try {
-      createMutation.mutate({
-        ...data,
-        date: new Date(data.date),
-      });
+      await Promise.all([
+        createBreakeList.mutateAsync({
+          date: new Date(data.date),
+          rows: data.rows,
+          remarks: [],
+        }),
+        createRemarks.mutateAsync({
+          date: new Date(data.date),
+          remarks: data.remarks,
+        }),
+      ]);
       toast.success("Брейк-лист успешно сохранён !");
       resetForm();
     } catch (e) {
