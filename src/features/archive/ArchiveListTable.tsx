@@ -7,10 +7,9 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import React, { use, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { format } from "date-fns";
 import {
-  BreakeList,
   DailyReport,
   DailyReportCucina,
   RemarkReport,
@@ -20,12 +19,10 @@ import { ArchiveData, useArchive } from "@/hooks/useApiArchive";
 import SelectArchiveById from "@/components/buttons/SelectArchiveById";
 import SelectFilterArchive from "./SelectFilterArchive";
 import { DATA_FILTER } from "./constant";
-import { useEmployees } from "@/providers/GoogleSheetsProvider";
 
 type ApiDataMap = {
   breakList: {
     rows: Row[];
-    remarks: RemarkReport[];
     date: string;
     id: number;
   }[];
@@ -48,9 +45,6 @@ export const ArhiveListTable = <T extends keyof ApiDataMap>({
   children: (data: ApiDataMap[T], invalidate: () => void) => React.ReactNode;
   nameTag: T;
 }) => {
-  const { employees } = useEmployees();
-
-  console.log("employees", employees);
   const [filteredData, setFilteredData] = React.useState<any[]>([]);
   const t = useTranslations("Home");
   const [dataSelect, setDataSelect] = useState<
@@ -68,6 +62,22 @@ export const ArhiveListTable = <T extends keyof ApiDataMap>({
       : arrayToFormat.find((item: any) => item.id === Number(id))
       ? [arrayToFormat.find((item: any) => item.id === Number(id))]
       : [];
+  function getRemarksOptions(data: any[], tag: string) {
+    const names = new Set<string>();
+
+    data.forEach((report) => {
+      report?.[tag]?.forEach((remark: any) => {
+        if (remark.name) {
+          names.add(remark.name);
+        }
+      });
+    });
+
+    return [
+      { label: "all", value: "all" },
+      ...Array.from(names).map((name) => ({ label: name, value: name })),
+    ];
+  }
 
   useEffect(() => {
     if (!data) return;
@@ -93,7 +103,7 @@ export const ArhiveListTable = <T extends keyof ApiDataMap>({
   return (
     <Accordion type="single" collapsible className="py-2">
       <AccordionItem value={nameTag}>
-        <AccordionTrigger className="text-base bg-bl cursor-pointer w-full  px-4 py-2 hover:no-underline hover:text-amber-50">
+        <AccordionTrigger className="text-base bg-bl cursor-pointer w-full px-4 py-2 hover:no-underline hover:text-amber-50">
           {t(nameTag as string)}
         </AccordionTrigger>
 
@@ -102,17 +112,25 @@ export const ArhiveListTable = <T extends keyof ApiDataMap>({
             <SelectArchiveById dataSelect={dataSelect} nameTag={nameTag} />
             {id === "all" && (
               <SelectFilterArchive
-                dataSelect={DATA_FILTER[nameTag]}
+                dataSelect={
+                  nameTag === "remarks"
+                    ? getRemarksOptions(data?.remarkReport || [], "remarks")
+                    : nameTag === "breakList"
+                    ? getRemarksOptions(data?.breakeList || [], "rows")
+                    : DATA_FILTER[nameTag]
+                }
                 data={arrayToFormat}
                 setFilteredData={setFilteredData}
+                nameTag={nameTag}
               />
             )}
           </div>
-
-          {children(
-            filteredData ?? (selectedData as ApiDataMap[T]),
-            invalidate
-          )}
+          <div className="max-h-[80vh] overflow-y-auto">
+            {children(
+              filteredData ?? (selectedData as ApiDataMap[T]),
+              invalidate
+            )}
+          </div>
         </AccordionContent>
       </AccordionItem>
     </Accordion>

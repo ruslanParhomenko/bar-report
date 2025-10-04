@@ -7,24 +7,36 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Label } from "@radix-ui/react-label";
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function SelectFilterArchive({
   dataSelect,
   data,
   setFilteredData,
+  nameTag,
 }: {
   dataSelect: { label: string; value: string }[];
   data: any[];
   setFilteredData: (data: any[]) => void;
+  nameTag: string;
 }) {
   const [selectedType, setSelectedType] = useState<string>(dataSelect[0].value);
-  console.log("selectedType", selectedType);
-  console.log("data", data);
   useEffect(() => {
     const filtered =
       selectedType === "all"
         ? data
+        : nameTag === "remarks"
+        ? data.map((item) => ({
+            date: item.date,
+            remarks: item?.remarks?.filter(
+              (remark: any) => remark.name === selectedType
+            ),
+          }))
+        : nameTag === "breakList"
+        ? data.map((item) => ({
+            date: item.date,
+            rows: item?.rows?.filter((row: any) => row.name === selectedType),
+          }))
         : data.map((item) => ({
             date: item.date,
             [selectedType]: item[selectedType],

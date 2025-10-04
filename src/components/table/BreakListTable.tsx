@@ -19,9 +19,14 @@ export default function BreakTable({ data }: { data: Row[] }) {
               .filter(({ value }) => value && value !== "X");
 
             return (
-              <TableRow key={row.id}>
-                <TableCell>{row.externalId}</TableCell>
-                <TableCell>{row.name ?? "-"}</TableCell>
+              <TableRow key={row.id} className="hover:bg-bl/30 cursor-pointer">
+                <TableCell className=" font-bold md:w-3xs">
+                  {row.name ?? "-"}
+                </TableCell>
+                <TableCell className="text-sm text-gr font-bold md:w-xs">
+                  {row.externalId}
+                </TableCell>
+                <TableCell className="w-2 border-l" />
 
                 {hoursEntries.map(({ hour, value }) => (
                   <TableCell key={`${row.id}-${hour}`} className="text-center">

@@ -2,7 +2,6 @@
 import { ArhiveListTable } from "./ArchiveListTable";
 import { useForm } from "react-hook-form";
 import { Form } from "@/components/ui/form";
-import BreakListTable from "./BreakListTable";
 import ReportTable from "./ReportCucinaTable";
 import { ReportBarTable } from "./ReportBarTable";
 import {
@@ -12,15 +11,16 @@ import {
   REPORT_CUCINA_ENDPOINT,
 } from "@/constants/endpoint-tag";
 import Remarks from "./Remarks";
+import BreakList from "./BreakList";
 
 export const ArchiveForm = () => {
   const form = useForm();
 
   return (
     <Form {...form}>
-      <ArhiveListTable nameTag={BREAK_LIST_ENDPOINT}>
-        {(breakList, invalidate) => (
-          <BreakListTable data={breakList} invalidate={invalidate} />
+      <ArhiveListTable nameTag={REPORT_CUCINA_ENDPOINT}>
+        {(report, invalidate) => (
+          <ReportTable data={report} invalidate={invalidate} />
         )}
       </ArhiveListTable>
       <ArhiveListTable nameTag={REPORT_BAR_ENDPOINT}>
@@ -28,14 +28,14 @@ export const ArchiveForm = () => {
           <ReportBarTable data={report} invalidate={invalidate} />
         )}
       </ArhiveListTable>
-      <ArhiveListTable nameTag={REPORT_CUCINA_ENDPOINT}>
-        {(report, invalidate) => (
-          <ReportTable data={report} invalidate={invalidate} />
-        )}
-      </ArhiveListTable>
       <ArhiveListTable nameTag={REMARKS_ENDPOINT}>
         {(remarks, invalidate) => (
           <Remarks data={remarks} invalidate={invalidate} />
+        )}
+      </ArhiveListTable>
+      <ArhiveListTable nameTag={BREAK_LIST_ENDPOINT}>
+        {(breakList, invalidate) => (
+          <BreakList data={breakList} invalidate={invalidate} />
         )}
       </ArhiveListTable>
     </Form>

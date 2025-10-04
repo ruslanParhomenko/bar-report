@@ -14,16 +14,19 @@ export default function Remarks({
   if (!data?.length) return null;
   return (
     <>
-      {data.map((item: any, index: number) => (
-        <React.Fragment key={index}>
-          <DeleteListButton
-            data={item}
-            nameTag={REMARKS_ENDPOINT}
-            invalidate={invalidate}
-          />
-          <RemarksTable data={item.remarks} />
-        </React.Fragment>
-      ))}
+      {data.map((item: any, index: number) => {
+        if (!item.remarks?.length) return null;
+        return (
+          <React.Fragment key={index}>
+            <DeleteListButton
+              data={item}
+              nameTag={REMARKS_ENDPOINT}
+              invalidate={invalidate}
+            />
+            <RemarksTable data={item.remarks} />
+          </React.Fragment>
+        );
+      })}
     </>
   );
 }

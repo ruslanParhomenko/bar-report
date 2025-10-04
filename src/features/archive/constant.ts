@@ -21,7 +21,6 @@ export const DATA_FILTER = {
   ],
   breakList: [
     { label: "all", value: "all" },
-    { label: "remarks", value: "remarks" },
     { label: "rows", value: "rows" },
   ],
   remarks: [
