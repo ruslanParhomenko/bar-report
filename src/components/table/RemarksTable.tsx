@@ -1,4 +1,4 @@
-import { Remarks } from "@/generated/prisma";
+import { Remark } from "@/generated/prisma";
 import {
   Table,
   TableBody,
@@ -7,7 +7,7 @@ import {
   TableRow,
 } from "../ui/table";
 
-export default function RemarksTable({ data }: { data: Remarks[] }) {
+export default function RemarksTable({ data }: { data: Remark[] }) {
   const filtered = data?.filter(
     (remark) =>
       remark.name?.trim() ||
