@@ -19,7 +19,7 @@ export default function BreakTable({ data }: { data: Row[] }) {
               .filter(({ value }) => value && value !== "X");
 
             return (
-              <TableRow key={row.id} className="hover:bg-bl/30 cursor-pointer">
+              <TableRow key={row.id} className="hover:text-rd  cursor-pointer">
                 <TableCell className=" font-bold md:w-3xs">
                   {row.name ?? "-"}
                 </TableCell>
