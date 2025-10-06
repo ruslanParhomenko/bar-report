@@ -7,6 +7,7 @@ import {
   Archive,
   Ban,
   Star,
+  Settings,
 } from "lucide-react";
 
 export const SIDEBAR_NAVIGATION = [
@@ -63,5 +64,11 @@ export const SIDEBAR_NAVIGATION = [
     url: "/meniu-vip",
     url2: "/meniu-vip",
     icon: Star,
+  },
+  {
+    title: "settings",
+    url: "/settings",
+    url2: "/settings",
+    icon: Settings,
   },
 ];
