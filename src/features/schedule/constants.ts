@@ -13,7 +13,7 @@ export const selectMonthBar = [
   { value: "Waiters!D29:AM49", label: "July 2025" },
   { value: "Waiters!D57:AM77", label: "August 2025" },
   { value: "Waiters!D85:AM106", label: "September 2025" },
-  { value: "Waiters!D112:AM133", label: "October 2025" },
+  // { value: "Waiters!D112:AM133", label: "October 2025" },
   { value: "Waiters!D139:AM159", label: "November 2025" },
   { value: "Waiters!D166:AM186", label: "December 2025" },
 ];
