@@ -31,6 +31,8 @@ export function useApi<T>({
     enabled: fetchInit,
   });
 
+  console.log("query", query);
+
   const createMutation = useMutation({
     mutationFn: (data: TCreate) =>
       fetcher(api, {
