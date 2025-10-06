@@ -25,7 +25,6 @@ export const ActionsButton = ({
   const { theme } = useTheme();
   const handleRemove = () => {
     if (formFields.fields.length === 1) {
-      console.log("Removing index:", idx, "Item:", formFields.fields);
       formFields.replace([defaultValues]);
     } else {
       formFields.remove(idx);

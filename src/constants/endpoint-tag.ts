@@ -14,3 +14,4 @@ export const SEND_TELEGRAM_ZN_ENDPOINT = "send-telegram-zn";
 
 export const STOPLIST_ENDPOINT = "stop-list";
 export const USER_ENDPOINT = "user";
+export const USERS_FIREBOX_ENDPOINT = "users";

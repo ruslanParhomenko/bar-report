@@ -30,9 +30,6 @@ export function useApi<T>({
     gcTime: gcTime,
     enabled: fetchInit,
   });
-
-  console.log("query", query);
-
   const createMutation = useMutation({
     mutationFn: (data: TCreate) =>
       fetcher(api, {
@@ -46,7 +43,7 @@ export function useApi<T>({
       }),
   });
   const deleteMutation = useMutation({
-    mutationFn: (id: number) => fetcher(`${api}/${id}`, { method: "DELETE" }),
+    mutationFn: (id: any) => fetcher(`${api}/${id}`, { method: "DELETE" }),
     onSuccess: () =>
       queryClient.invalidateQueries({
         queryKey: Array.isArray(queryKey) ? queryKey : [queryKey],

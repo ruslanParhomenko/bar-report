@@ -1,5 +1,6 @@
 "use client";
 
+import { useApi } from "@/hooks/useApi";
 import { useGoogleData, User } from "@/hooks/useGoogleData";
 import { useSession } from "next-auth/react";
 import React, {
@@ -24,7 +25,9 @@ const AbilityContext = createContext<AbilityContextType | null>(null);
 export function AbilityProvider({ children }: { children: React.ReactNode }) {
   const { data } = useSession();
 
-  const { users, isLoading } = useGoogleData();
+  // const { users, isLoading } = useGoogleData();
+  const { query } = useApi<User>({ endpoint: "users", queryKey: "users" });
+  const { data: users, isLoading } = query;
 
   const [ability, setAbility] = useState({
     isAdmin: false,
@@ -36,23 +39,17 @@ export function AbilityProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (isLoading) return;
-    const email = data?.user?.email;
+    const mail = data?.user?.email;
     const userData = users || [];
 
-    if (!email) return;
+    if (!mail) return;
 
-    const isAdmin =
-      email === "parhomenkogm@gmail.com" ||
-      userData.some((u) => u.role === "ADMIN" && u.mail === email);
-    const isBar =
-      email === "cng.nv.rstrnt@gmail.com" ||
-      userData.some((u) => u.role === "BAR" && u.mail === email);
-    const isCucina =
-      email === "cng.nv.kitchen@gmail.com" ||
-      userData.some((u) => u.role === "CUCINA" && u.mail === email);
-    const isUser =
-      email === "cng.srvlnc@gmail.com" ||
-      userData.some((u) => u.role === "USER" && u.mail === email);
+    const isAdmin = userData.some((u) => u.role === "ADMIN" && u.mail === mail);
+    const isBar = userData.some((u) => u.role === "BAR" && u.mail === mail);
+    const isCucina = userData.some(
+      (u) => u.role === "CUCINA" && u.mail === mail
+    );
+    const isUser = userData.some((u) => u.role === "USER" && u.mail === mail);
 
     setAbility({
       isAdmin,

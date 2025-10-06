@@ -1,6 +1,6 @@
-import AddUsersForm from "@/features/settings/AddUsersForm";
+import SettingsPage from "@/features/settings/SettingsPage";
 
 const Page = () => {
-  return <AddUsersForm />;
+  return <SettingsPage />;
 };
 export default Page;

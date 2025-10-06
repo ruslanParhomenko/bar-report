@@ -1,7 +1,6 @@
 "use client";
 import { useTranslations } from "next-intl";
 import { EmployeesListTable } from "./EmployeesListTable";
-import { UserListTable } from "./UserListTable";
 import { StandardKitchenTable } from "./StandardKitchenTable";
 import MeniuRatingTable from "./MeniuRatingTable";
 import { WrapperAccordionTable } from "./WrapperAccardionTable";
@@ -14,9 +13,6 @@ export default function InfoTable() {
     <>
       <WrapperAccordionTable nameTag="employees">
         <EmployeesListTable />
-      </WrapperAccordionTable>
-      <WrapperAccordionTable nameTag="users">
-        <UserListTable />
       </WrapperAccordionTable>
       <WrapperAccordionTable nameTag="standardKitchen">
         <StandardKitchenTable />
