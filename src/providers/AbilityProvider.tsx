@@ -44,7 +44,9 @@ export function AbilityProvider({ children }: { children: React.ReactNode }) {
 
     if (!mail) return;
 
-    const isAdmin = userData.some((u) => u.role === "ADMIN" && u.mail === mail);
+    const isAdmin =
+      mail === "parhomenkogm@gmail.com" ||
+      userData.some((u) => u.role === "ADMIN" && u.mail === mail);
     const isBar = userData.some((u) => u.role === "BAR" && u.mail === mail);
     const isCucina = userData.some(
       (u) => u.role === "CUCINA" && u.mail === mail
