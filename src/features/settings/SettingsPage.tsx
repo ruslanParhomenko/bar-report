@@ -1,5 +1,4 @@
 "use client";
-import { useState, useEffect } from "react";
 import { useApi } from "@/hooks/useApi";
 import { USERS_FIREBOX_ENDPOINT } from "@/constants/endpoint-tag";
 import { WrapperAccordionTable } from "../info/WrapperAccardionTable";

@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import toast from "react-hot-toast";
 import { USERS_FIREBOX_ENDPOINT } from "@/constants/endpoint-tag";
 import { useApi } from "@/hooks/useApi";
-import { Delete, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 import { useAbility } from "@/providers/AbilityProvider";
 
 export default function AddUsersForm() {
@@ -39,34 +39,39 @@ export default function AddUsersForm() {
       toast.error("Error adding user");
     }
   };
+  const values = form.watch();
+  const isFormDirty =
+    values.mail !== defaultUser.mail || values.role !== defaultUser.role;
   return (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(handleSubmit)}
-        className="flex justify-between  w-full  py-4"
+        className="flex flex-col md:flex-row justify-between gap-10 py-5"
       >
-        <div className="flex gap-1 md:gap-20">
+        <div className="flex md:gap-20 gap-3">
           <TextInput
             fieldName="mail"
             type="mail"
-            className="md:min-w-xs truncate"
+            className=" truncate"
             placeholder="Enter mail"
           />
           <SelectField
             data={ROLES}
             fieldName="role"
-            className="truncate md:min-w-xs"
+            className="truncate w-[100]"
             placeHolder="Select role"
           />
+          {isFormDirty && (
+            <Button
+              type="button"
+              variant={"secondary"}
+              onClick={() => resetForm()}
+            >
+              reset
+            </Button>
+          )}
         </div>
-        <div className="flex flex-col md:flex-row gap-1 md:gap-4">
-          <Button
-            type="button"
-            variant={"secondary"}
-            onClick={() => resetForm()}
-          >
-            <Delete />
-          </Button>
+        <div className="flex  md:flex-row  gap-4 justify-end ">
           <Button type="submit" disabled={!isAdmin}>
             <Plus />
           </Button>
