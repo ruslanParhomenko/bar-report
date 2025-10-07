@@ -47,11 +47,15 @@ export function AbilityProvider({ children }: { children: React.ReactNode }) {
     const isAdmin =
       mail === "parhomenkogm@gmail.com" ||
       userData.some((u) => u.role === "ADMIN" && u.mail === mail);
-    const isBar = userData.some((u) => u.role === "BAR" && u.mail === mail);
-    const isCucina = userData.some(
-      (u) => u.role === "CUCINA" && u.mail === mail
-    );
-    const isUser = userData.some((u) => u.role === "USER" && u.mail === mail);
+    const isBar =
+      mail === "cng.nv.rstrnt@gmail.com" ||
+      userData.some((u) => u.role === "BAR" && u.mail === mail);
+    const isCucina =
+      mail === "cng.nv.kitchen@gmail.com" ||
+      userData.some((u) => u.role === "CUCINA" && u.mail === mail);
+    const isUser =
+      mail === "cng.srvlnc@gmail.com" ||
+      userData.some((u) => u.role === "USER" && u.mail === mail);
 
     setAbility({
       isAdmin,
