@@ -163,12 +163,13 @@ function PenaltyPage() {
     <Form {...form}>
       <div className="p-6 space-y-6">
         <div className="flex flex-wrap items-center gap-4">
-          <h2 className="text-lg font-semibold">Отчёты по штрафам</h2>
-
           {/* Селект месяца */}
           <Select value={selectedMonth} onValueChange={setSelectedMonth}>
             <SelectTrigger
-              className={cn("w-[200px]", theme === "dark" ? "border-0" : "")}
+              className={cn(
+                "md:w-[200px] w-full",
+                theme === "dark" ? "border-0" : ""
+              )}
             >
               <SelectValue placeholder="Выберите месяц" />
             </SelectTrigger>
@@ -184,7 +185,10 @@ function PenaltyPage() {
           {/* Селект сотрудника */}
           <Select value={selectedEmployee} onValueChange={setSelectedEmployee}>
             <SelectTrigger
-              className={cn("w-[250px]", theme === "dark" ? "border-0" : "")}
+              className={cn(
+                "md:w-[250px] w-full",
+                theme === "dark" ? "border-0" : ""
+              )}
             >
               <SelectValue placeholder="Выберите сотрудника" />
             </SelectTrigger>
@@ -198,7 +202,7 @@ function PenaltyPage() {
           </Select>
         </div>
 
-        <Card className="shadow-md border rounded-2xl">
+        <Card className="shadow-md border rounded-2xl md:px-10">
           <CardHeader>
             <CardTitle>Все штрафы</CardTitle>
           </CardHeader>
@@ -212,10 +216,14 @@ function PenaltyPage() {
                 <TableHeader>
                   <TableRow>
                     <TableHead className="w-[130px]">Дата</TableHead>
-                    <TableHead className="w-[200px]">Сотрудник</TableHead>
-                    <TableHead>Дневные часы</TableHead>
-                    <TableHead>Ночные часы</TableHead>
-                    <TableHead>Причина</TableHead>
+                    <TableHead className="w-[250px]">Сотрудник</TableHead>
+                    <TableHead className="w-[160px] truncate">
+                      Дневные часы
+                    </TableHead>
+                    <TableHead className="w-[160px] truncate">
+                      Ночные часы
+                    </TableHead>
+                    <TableHead className="md:w-[500px]">Причина</TableHead>
                     <TableHead>Штраф</TableHead>
                   </TableRow>
                 </TableHeader>

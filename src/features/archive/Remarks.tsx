@@ -1,8 +1,5 @@
-import { DeleteListButton } from "@/components/buttons/DeleteListButton";
 import RemarksTable from "@/components/table/RemarksTable";
-import { REMARKS_ENDPOINT } from "@/constants/endpoint-tag";
 import { RemarkReport } from "@/generated/prisma";
-import React from "react";
 
 export default function Remarks({
   data,
@@ -15,17 +12,8 @@ export default function Remarks({
   return (
     <>
       {data.map((item: any, index: number) => {
-        // if (!item.remarks?.length) return null;
-        return (
-          <React.Fragment key={index}>
-            <DeleteListButton
-              data={item}
-              nameTag={REMARKS_ENDPOINT}
-              invalidate={invalidate}
-            />
-            <RemarksTable data={item.remarks} />
-          </React.Fragment>
-        );
+        if (!item.remarks?.length) return null;
+        return <RemarksTable key={index} data={item} invalidate={invalidate} />;
       })}
     </>
   );

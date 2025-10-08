@@ -37,11 +37,12 @@ export const DeleteListButton = ({
     router.push(`/breakList/remark/${data.id}`);
   };
   return (
-    <div className="flex w-full justify-between items-center p-4 pt-4">
+    <div className="flex w-full justify-between items-center">
       <div className="text-lg font-semibold text-bl">{dataFormat}</div>
       <div className="flex gap-2 items-center">
         <Button
           onClick={() => editForm()}
+          variant={"ghost"}
           className="cursor-pointer"
           disabled={!isAdmin && !isMngr}
         >
@@ -49,7 +50,7 @@ export const DeleteListButton = ({
         </Button>
         <Button
           type="button"
-          variant={"default"}
+          variant={"destructive"}
           onClick={() => removeItem()}
           disabled={!isAdmin && !isMngr}
           className="bg-bl hover:bg-rd"
