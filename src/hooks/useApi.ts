@@ -20,6 +20,7 @@ export function useApi<T>({
   const queryClient = useQueryClient();
 
   type TCreate = Omit<T, "id" | "createdAt">;
+  type TUpdate = Partial<Omit<T, "id" | "createdAt">> & { id: string | number };
 
   const api = `/api/${endpoint}`;
 
@@ -50,9 +51,23 @@ export function useApi<T>({
       }),
   });
 
+  const updateMutation = useMutation({
+    mutationFn: ({ id, ...data }: TUpdate) =>
+      fetcher(`${api}/${id}`, {
+        method: "PUT",
+        body: JSON.stringify(data),
+        headers: { "Content-Type": "application/json" },
+      }),
+    onSuccess: () =>
+      queryClient.invalidateQueries({
+        queryKey: Array.isArray(queryKey) ? queryKey : [queryKey],
+      }),
+  });
+
   return {
     query,
     createMutation,
     deleteMutation,
+    updateMutation,
   };
 }

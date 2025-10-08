@@ -45,6 +45,8 @@ export const remarksSchema = yup.object().shape({
   reason: yup.string(),
 });
 
+export type RemarksSchemaType = yup.InferType<typeof remarksSchema>;
+
 export const defaultRemarks = {
   name: "",
   dayHours: "",

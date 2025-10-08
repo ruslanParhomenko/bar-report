@@ -15,7 +15,7 @@ export default function Remarks({
   return (
     <>
       {data.map((item: any, index: number) => {
-        if (!item.remarks?.length) return null;
+        // if (!item.remarks?.length) return null;
         return (
           <React.Fragment key={index}>
             <DeleteListButton

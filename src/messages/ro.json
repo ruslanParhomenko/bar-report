@@ -111,7 +111,8 @@
     "employee": "Angajat",
     "standardKitchen": "Standard kitchen",
     "dish": "Stewarding",
-    "StatusMenu": "Meniu status"
+    "StatusMenu": "Meniu status",
+    "penalty": "Penalizari"
   },
   "Meniu": {
     "menu": "MENIU",

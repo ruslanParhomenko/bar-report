@@ -50,3 +50,48 @@ export async function GET(
     );
   }
 }
+
+//update
+export async function PUT(
+  req: Request,
+  { params }: { params: { id: string } }
+) {
+  try {
+    const { id } = params;
+    const data = await req.json();
+
+    const updatedReport = await prisma.remarkReport.update({
+      where: { id: Number(id) },
+      data: {
+        remarks: {
+          upsert: data.remarks.map((remark: any) => ({
+            where: { id: remark.id || 0 },
+            update: {
+              name: remark.name,
+              dayHours: remark.dayHours,
+              nightHours: remark.nightHours,
+              reason: remark.reason,
+              penality: remark.penality,
+            },
+            create: {
+              name: remark.name,
+              dayHours: remark.dayHours,
+              nightHours: remark.nightHours,
+              reason: remark.reason,
+              penality: remark.penality,
+            },
+          })),
+        },
+      },
+      include: { remarks: true },
+    });
+
+    return NextResponse.json(updatedReport);
+  } catch (error) {
+    console.error("PUT /api/remarks/[id] error:", error);
+    return NextResponse.json(
+      { error: "Failed to update report" },
+      { status: 500 }
+    );
+  }
+}

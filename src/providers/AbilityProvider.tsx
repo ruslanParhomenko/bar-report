@@ -1,7 +1,7 @@
 "use client";
 
 import { useApi } from "@/hooks/useApi";
-import { useGoogleData, User } from "@/hooks/useGoogleData";
+import { User } from "@/hooks/useGoogleData";
 import { useSession } from "next-auth/react";
 import React, {
   createContext,
@@ -17,6 +17,7 @@ type AbilityContextType = {
   isCucina: boolean;
   isObserver: boolean;
   isUser: boolean;
+  isMngr: boolean;
   query: User[];
 };
 
@@ -35,6 +36,7 @@ export function AbilityProvider({ children }: { children: React.ReactNode }) {
     isCucina: false,
     isObserver: true,
     isUser: false,
+    isMngr: false,
   });
 
   useEffect(() => {
@@ -56,6 +58,9 @@ export function AbilityProvider({ children }: { children: React.ReactNode }) {
     const isUser =
       mail === "cng.srvlnc@gmail.com" ||
       userData.some((u) => u.role === "USER" && u.mail === mail);
+    const isMngr =
+      mail === "cng.nv.rstrnt.mngr13@gmail.com" ||
+      userData.some((u) => u.role === "MNGR" && u.mail === mail);
 
     setAbility({
       isAdmin,
@@ -63,6 +68,7 @@ export function AbilityProvider({ children }: { children: React.ReactNode }) {
       isCucina,
       isObserver: !isAdmin && !isBar && !isCucina && !isUser,
       isUser,
+      isMngr,
     });
   }, [data?.user?.email, isLoading, users]);
 

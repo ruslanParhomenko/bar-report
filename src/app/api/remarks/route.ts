@@ -26,6 +26,9 @@ export async function POST(req: Request) {
 }
 
 export async function GET() {
-  const reports = await prisma.remarkReport.findMany();
+  const reports = await prisma.remarkReport.findMany({
+    include: { remarks: true },
+    orderBy: { date: "desc" },
+  });
   return NextResponse.json(reports);
 }

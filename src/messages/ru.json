@@ -111,7 +111,8 @@
     "employee": "Сотрудники",
     "standardKitchen": "Стандарт хранения",
     "dish": "Стьюардинг",
-    "StatusMenu": "Статус меню"
+    "StatusMenu": "Статус меню",
+    "penalty": "Штрафы"
   },
   "Meniu": {
     "menu": "МЕНЮ",

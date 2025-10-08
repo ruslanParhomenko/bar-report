@@ -87,8 +87,9 @@ const BreakList = () => {
     return () => clearTimeout(timeout);
   }, [watchAllFields]);
 
+  //submit
+
   const handleSubmit: SubmitHandler<BreakRemarksData> = async (data) => {
-    console.log("data", data);
     if (!data.date) {
       toast.error("Дата не выбрана");
       return;

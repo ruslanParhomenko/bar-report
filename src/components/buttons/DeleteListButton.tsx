@@ -2,7 +2,9 @@ import { Button } from "@/components/ui/button";
 import { useArchiveMutations } from "@/hooks/useApiActions";
 import { useAbility } from "@/providers/AbilityProvider";
 import { format, isValid } from "date-fns";
+import { Pencil } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { useRouter } from "next/navigation";
 
 export const DeleteListButton = ({
   data,
@@ -13,7 +15,8 @@ export const DeleteListButton = ({
   nameTag: string;
   invalidate?: () => void;
 }) => {
-  const { isAdmin } = useAbility();
+  const router = useRouter();
+  const { isAdmin, isMngr } = useAbility();
   const t = useTranslations("Home");
   const dataFormat =
     data.date && isValid(new Date(data.date))
@@ -30,18 +33,30 @@ export const DeleteListButton = ({
       invalidate();
     }
   };
+  const editForm = () => {
+    router.push(`/breakList/remark/${data.id}`);
+  };
   return (
     <div className="flex w-full justify-between items-center p-4 pt-4">
       <div className="text-lg font-semibold text-bl">{dataFormat}</div>
-      <Button
-        type="button"
-        variant={"default"}
-        onClick={() => removeItem()}
-        disabled={!isAdmin}
-        className="bg-bl hover:bg-rd"
-      >
-        {t("delete")}
-      </Button>
+      <div className="flex gap-2 items-center">
+        <Button
+          onClick={() => editForm()}
+          className="cursor-pointer"
+          disabled={!isAdmin && !isMngr}
+        >
+          <Pencil />
+        </Button>
+        <Button
+          type="button"
+          variant={"default"}
+          onClick={() => removeItem()}
+          disabled={!isAdmin && !isMngr}
+          className="bg-bl hover:bg-rd"
+        >
+          {t("delete")}
+        </Button>
+      </div>
     </div>
   );
 };

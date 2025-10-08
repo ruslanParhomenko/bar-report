@@ -8,6 +8,7 @@ import {
   Ban,
   Star,
   Settings,
+  ShieldAlert,
 } from "lucide-react";
 
 export const SIDEBAR_NAVIGATION = [
@@ -70,5 +71,11 @@ export const SIDEBAR_NAVIGATION = [
     url: "/settings",
     url2: "/settings",
     icon: Settings,
+  },
+  {
+    title: "penalty",
+    url: "/penalty",
+    url2: "/penalty",
+    icon: ShieldAlert,
   },
 ];

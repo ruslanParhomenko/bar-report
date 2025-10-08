@@ -28,7 +28,7 @@ export default function RemarksTable({
   employees: { name: string }[];
 }) {
   const t = useTranslations("Home");
-  const { isObserver, isBar, isCucina, isUser } = useAbility();
+  const { isObserver, isBar, isCucina, isUser, isMngr } = useAbility();
   const isDisabled = isObserver || isCucina || isUser;
 
   //employees
@@ -43,7 +43,7 @@ export default function RemarksTable({
       <Label className="text-lg font-semibold text-bl table-fixed">
         Remarks
       </Label>
-      <Table className="md:w-full hidden md:block">
+      <Table className="md:w-full">
         <TableHeader>
           <TableRow className="h-10">
             <TableCell className="text-center md:w-80 w-12"></TableCell>
@@ -105,68 +105,6 @@ export default function RemarksTable({
           ))}
         </TableBody>
       </Table>
-      <div className="flex flex-col gap-2 md:hidden">
-        {fields.fields?.map((item, idx) => (
-          <div
-            key={item.id ?? idx}
-            className="border rounded-lg p-2 shadow-sm bg-white"
-          >
-            <div className="grid grid-cols-[40%_60%] gap-1 mb-2">
-              <span className="text-base">Name:</span>
-              <SelectInput
-                fieldName={`remarks.${idx}.name`}
-                fieldLabel=""
-                data={selectedEmployees}
-                disabled={isDisabled}
-              />
-            </div>
-
-            <div className="grid grid-cols-[40%_60%] gap-1 mb-2">
-              <span className="text-base">Day Hours:</span>
-              <SelectField
-                fieldName={`remarks.${idx}.dayHours`}
-                data={OVER_HOURS}
-                disabled={isDisabled}
-              />
-            </div>
-
-            <div className="grid grid-cols-[40%_60%] gap-1 mb-2">
-              <span className="text-base">Night Hours:</span>
-              <SelectField
-                fieldName={`remarks.${idx}.nightHours`}
-                data={OVER_HOURS}
-                disabled={isDisabled}
-              />
-            </div>
-
-            <div className="grid grid-cols-[40%_60%] gap-1 mb-2">
-              <span className="text-base">Penality:</span>
-              <NumericInput
-                fieldName={`remarks.${idx}.penality`}
-                disabled={isDisabled}
-              />
-            </div>
-
-            <div className="grid grid-cols-[40%_60%] gap-1 mb-2">
-              <span className="text-base">Reason:</span>
-              <SelectField
-                fieldName={`remarks.${idx}.reason`}
-                data={REASON}
-                disabled={isDisabled}
-              />
-            </div>
-
-            <div className="flex justify-end mt-2">
-              <AddRemoveFieldsButton
-                formField={fields}
-                defaultValues={defaultRemarks}
-                index={idx}
-                disabled={isDisabled}
-              />
-            </div>
-          </div>
-        ))}
-      </div>
     </>
   );
 }
