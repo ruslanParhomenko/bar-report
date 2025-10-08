@@ -85,7 +85,7 @@ export const OrderListTelegramForm = ({
     <Form {...form}>
       <form onSubmit={form.handleSubmit(sendTextTelegram)}>
         {children}
-        <SendResetButton resetForm={resetForm} disabledReset={true} />
+        <SendResetButton resetForm={resetForm} reset={true} />
       </form>
     </Form>
   );

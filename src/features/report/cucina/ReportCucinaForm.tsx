@@ -51,8 +51,9 @@ import {
   REPORT_CUCINA_REALTIME_ENDPOINT,
 } from "@/constants/endpoint-tag";
 import { useDataSupaBase } from "@/hooks/useRealTimeData";
+import dynamic from "next/dynamic";
 
-export default function DailyReportForm() {
+function ReportCucina() {
   const t = useTranslations("Home");
   const LOCAL_STORAGE_KEY = REPORT_CUCINA_ENDPOINT;
 
@@ -95,6 +96,7 @@ export default function DailyReportForm() {
   });
 
   const watchAllFields = form.watch();
+
   //set locale supaBase
   useEffect(() => {
     if (!watchAllFields) return;
@@ -108,7 +110,7 @@ export default function DailyReportForm() {
   //reset
   const resetForm = () => {
     form.reset(defaultReportCucina);
-    removeValue();
+    // removeValue();
   };
   const value = getValue() as ReportCucinaType;
 
@@ -125,7 +127,7 @@ export default function DailyReportForm() {
         date: new Date(data.date),
       });
 
-      resetForm();
+      form.reset(defaultReportCucina);
 
       toast.success("Форма успешно отправлена!");
     } catch (error: any) {
@@ -167,7 +169,7 @@ export default function DailyReportForm() {
               dataArrayField1={selectedEmployees}
               dataArrayField2={SELECT_TIME}
               dataArrayField3={OVER_HOURS}
-              defaultValue={defaultShift}
+              defaultValue={defaultShift[0]}
             />
           )}
 
@@ -180,7 +182,7 @@ export default function DailyReportForm() {
               field3: "weight",
             }}
             dataArrayField1={REMAINS_PRODUCTS}
-            defaultValue={defaultRemains}
+            defaultValue={defaultRemains[0]}
           />
 
           <RenderTableCucina
@@ -197,7 +199,7 @@ export default function DailyReportForm() {
               ...PRODUCTS_SALAD,
               ...PRODUCTS_SOUP,
             ]}
-            defaultValue={defaultProductsSalad}
+            defaultValue={defaultProductsSalad[0]}
           />
 
           <RenderTableCucina
@@ -210,7 +212,7 @@ export default function DailyReportForm() {
               field4: "time",
             }}
             dataArrayField1={PRODUCTS_MEAT}
-            defaultValue={defaultProductsSeconds}
+            defaultValue={defaultProductsSeconds[0]}
           />
 
           <RenderTableCucina
@@ -223,7 +225,7 @@ export default function DailyReportForm() {
               field4: "time",
             }}
             dataArrayField1={PRODUCTS_DESSERT}
-            defaultValue={defaultProductsDesserts}
+            defaultValue={defaultProductsDesserts[0]}
           />
 
           <RenderTableCucina
@@ -236,7 +238,7 @@ export default function DailyReportForm() {
               field4: "time",
             }}
             dataArrayField1={[...PRODUCTS_SEMIFINISHED, ...PRODUCTS_MEAT_FISH]}
-            defaultValue={defaultProductsCutting}
+            defaultValue={defaultProductsCutting[0]}
           />
 
           <RenderTableCucina
@@ -249,7 +251,7 @@ export default function DailyReportForm() {
               field4: "time",
             }}
             dataArrayField1={PRODUCTS_STAFF}
-            defaultValue={defaultStaff}
+            defaultValue={defaultStaff[0]}
           />
 
           <RenderTableCucina
@@ -262,7 +264,7 @@ export default function DailyReportForm() {
             }}
             dataArrayField1={PRODUCTS_INGREDIENTS}
             dataArrayField2={PRODUCTS_INGREDIENTS}
-            defaultValue={defaultMovement}
+            defaultValue={defaultMovement[0]}
           />
 
           <RenderTableCucina
@@ -275,7 +277,7 @@ export default function DailyReportForm() {
             }}
             dataArrayField1={PRODUCTS_INGREDIENTS}
             dataArrayField3={REASON}
-            defaultValue={defaultWriteOff}
+            defaultValue={defaultWriteOff[0]}
           />
           <Label className="font-semibold py-4 text-md text-bl">
             {t("notes")}
@@ -285,9 +287,15 @@ export default function DailyReportForm() {
             {...form.register("notes")}
             disabled={isObserver}
           />
-          <SendResetButton resetForm={resetForm} disabledReset={true} />
+          <SendResetButton resetForm={resetForm} reset={isAdmin} />
         </div>
       </form>
     </Form>
   );
 }
+
+const ReportCucinaForm = dynamic(() => Promise.resolve(ReportCucina), {
+  ssr: false,
+});
+
+export default ReportCucinaForm;

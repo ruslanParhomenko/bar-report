@@ -31,9 +31,8 @@ import { Textarea } from "@/components/ui/textarea";
 import TabelInventory from "./TabelInventory";
 
 import dynamic from "next/dynamic";
-import { set } from "date-fns";
 
-export function ReportBar() {
+function ReportBar() {
   const STORAGE_KEY = "report-bar";
   const { isBar, isAdmin, isUser, isCucina, isObserver } = useAbility();
   const isDisabled = isObserver || isCucina || isBar;
@@ -260,7 +259,7 @@ export function ReportBar() {
         </div>
 
         <TableCashVerify />
-        <SendResetButton resetForm={resetForm} disabledReset={true} />
+        <SendResetButton resetForm={resetForm} reset={true} />
       </form>
     </Form>
   );

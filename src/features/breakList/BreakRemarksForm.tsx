@@ -148,7 +148,7 @@ const BreakList = () => {
           <RemarksTable fields={remarks} employees={employees || []} />
         </div>
 
-        <SendResetButton resetForm={resetForm} disabledReset={true} />
+        <SendResetButton resetForm={resetForm} reset={true} />
       </form>
     </Form>
   );

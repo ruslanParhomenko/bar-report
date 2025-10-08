@@ -15,10 +15,10 @@ import {
 
 export function SendResetButton({
   resetForm,
-  disabledReset = false,
+  reset = false,
 }: {
   resetForm: () => void;
-  disabledReset?: boolean;
+  reset?: boolean;
 }) {
   const { isObserver, isUser } = useAbility();
   const isDisabled = isObserver || isUser;
@@ -54,7 +54,7 @@ export function SendResetButton({
             {t("save")}
           </Button>
 
-          {disabledReset && (
+          {reset && (
             <Button
               type="button"
               variant="secondary"
