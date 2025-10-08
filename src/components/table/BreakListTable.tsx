@@ -29,7 +29,7 @@ export default function BreakTable({
       <CardContent>
         <Table>
           <TableBody>
-            {filtered.map((row) => {
+            {filtered.map((row: Row) => {
               const hoursEntries = Object.entries(row)
                 .filter(([key]) => key.startsWith("h_"))
                 .map(([key, value]) => ({
