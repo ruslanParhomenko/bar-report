@@ -53,12 +53,12 @@ export async function GET(
 
 //update
 export async function PUT(
-  req: Request,
-  { params }: { params: { id: string } }
+  _req: Request,
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params;
-    const data = await req.json();
+    const { id } = await params;
+    const data = await _req.json();
 
     const updatedReport = await prisma.remarkReport.update({
       where: { id: Number(id) },
