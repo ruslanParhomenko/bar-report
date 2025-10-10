@@ -11,10 +11,7 @@ export async function GET() {
         include: {
           shifts: true,
           remains: true,
-          preparedSalads: true,
-          preparedSeconds: true,
-          preparedDesserts: true,
-          cutting: true,
+          prepared: true,
           staff: true,
           movement: true,
           writeOff: true,

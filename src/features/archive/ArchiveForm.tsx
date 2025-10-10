@@ -19,9 +19,9 @@ export const ArchiveForm = () => {
 
   return (
     <Form {...form}>
-      <ArhiveListTable nameTag={REPORT_CUCINA_ENDPOINT}>
-        {(report, invalidate) => (
-          <ReportCucina data={report} invalidate={invalidate} />
+      <ArhiveListTable nameTag={BREAK_LIST_ENDPOINT}>
+        {(breakList, invalidate) => (
+          <BreakList data={breakList} invalidate={invalidate} />
         )}
       </ArhiveListTable>
       <ArhiveListTable nameTag={REPORT_BAR_ENDPOINT}>
@@ -29,14 +29,14 @@ export const ArchiveForm = () => {
           <ReportBar data={report} invalidate={invalidate} />
         )}
       </ArhiveListTable>
+      <ArhiveListTable nameTag={REPORT_CUCINA_ENDPOINT}>
+        {(report, invalidate) => (
+          <ReportCucina data={report} invalidate={invalidate} />
+        )}
+      </ArhiveListTable>
       <ArhiveListTable nameTag={REMARKS_ENDPOINT}>
         {(remarks, invalidate) => (
           <Remarks data={remarks} invalidate={invalidate} />
-        )}
-      </ArhiveListTable>
-      <ArhiveListTable nameTag={BREAK_LIST_ENDPOINT}>
-        {(breakList, invalidate) => (
-          <BreakList data={breakList} invalidate={invalidate} />
         )}
       </ArhiveListTable>
     </Form>

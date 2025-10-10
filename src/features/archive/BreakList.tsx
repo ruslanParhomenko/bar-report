@@ -1,10 +1,11 @@
 import BreakTable from "@/components/table/BreakListTable";
+import { BreakListData } from "@/constants/type";
 
 export default function BreakListTable({
   data,
   invalidate,
 }: {
-  data: any[];
+  data: BreakListData[];
   invalidate?: () => void;
 }) {
   return (

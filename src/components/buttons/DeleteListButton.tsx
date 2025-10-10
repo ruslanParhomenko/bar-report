@@ -1,27 +1,30 @@
 import { Button } from "@/components/ui/button";
 import { useArchiveMutations } from "@/hooks/useApiActions";
 import { useAbility } from "@/providers/AbilityProvider";
-import { format, isValid } from "date-fns";
+import { formatDataForInput } from "@/utils/formatNow";
 import { Pencil } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 
-export const DeleteListButton = ({
+type BaseData = {
+  id: number;
+  date: Date;
+};
+
+type DeleteListButtonProps<T extends BaseData> = {
+  data: T;
+  nameTag: string;
+  invalidate?: () => void;
+};
+
+export const DeleteListButton = <T extends BaseData>({
   data,
   nameTag,
   invalidate,
-}: {
-  data: { id: number; date: string };
-  nameTag: string;
-  invalidate?: () => void;
-}) => {
+}: DeleteListButtonProps<T>) => {
   const router = useRouter();
   const { isAdmin, isMngr } = useAbility();
   const t = useTranslations("Home");
-  const dataFormat =
-    data.date && isValid(new Date(data.date))
-      ? format(new Date(data.date), "dd.MM.yy")
-      : "-";
 
   const { deleteMutation } = useArchiveMutations({
     endpoint: nameTag,
@@ -38,7 +41,9 @@ export const DeleteListButton = ({
   };
   return (
     <div className="flex w-full justify-between items-center">
-      <div className="text-lg font-semibold text-bl">{dataFormat}</div>
+      <div className="text-lg font-semibold text-bl">
+        {formatDataForInput({ date: data.date })}
+      </div>
       <div className="flex gap-2 items-center">
         <Button
           onClick={() => editForm()}

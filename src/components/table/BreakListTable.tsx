@@ -3,12 +3,13 @@ import { Table, TableBody, TableCell, TableRow } from "../ui/table";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { DeleteListButton } from "../buttons/DeleteListButton";
 import { BREAK_LIST_ENDPOINT } from "@/constants/endpoint-tag";
+import { BreakListData } from "@/constants/type";
 
 export default function BreakTable({
   data,
   invalidate,
 }: {
-  data: any;
+  data: BreakListData;
   invalidate?: () => void;
 }) {
   const filtered = data?.rows?.filter((row: Row) => row.name?.trim());

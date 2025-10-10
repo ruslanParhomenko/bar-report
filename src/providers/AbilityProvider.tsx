@@ -66,7 +66,7 @@ export function AbilityProvider({ children }: { children: React.ReactNode }) {
       isAdmin,
       isBar,
       isCucina,
-      isObserver: !isAdmin && !isBar && !isCucina && !isUser,
+      isObserver: !isAdmin && !isBar && !isCucina && !isUser && !isMngr,
       isUser,
       isMngr,
     });

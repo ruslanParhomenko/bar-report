@@ -9,15 +9,13 @@ export const DATA_FILTER = {
   ],
   "report-cucina": [
     { label: "all", value: "all" },
-    { label: "cutting", value: "cutting" },
     { label: "movement", value: "movement" },
-    { label: "preparedDesserts", value: "preparedDesserts" },
-    { label: "preparedSalads", value: "preparedSalads" },
-    { label: "preparedSeconds", value: "preparedSeconds" },
+    { label: "prepared", value: "prepared" },
     { label: "remains", value: "remains" },
-    { label: "shifts", value: "shifts" },
+    { label: "employee", value: "shifts" },
     { label: "staff", value: "staff" },
     { label: "writeOff", value: "writeOff" },
+    { label: "notes", value: "notes" },
   ],
   breakList: [
     { label: "all", value: "all" },

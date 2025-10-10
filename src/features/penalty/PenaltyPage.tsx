@@ -2,9 +2,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { useTheme } from "next-themes";
-import { useTranslations } from "next-intl";
-import { useForm, FormProvider as Form } from "react-hook-form";
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 
 import {
@@ -14,40 +12,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-
-import { Card, CardHeader, CardContent, CardTitle } from "@/components/ui/card";
-
-const months = [
-  "Январь",
-  "Февраль",
-  "Март",
-  "Апрель",
-  "Май",
-  "Июнь",
-  "Июль",
-  "Август",
-  "Сентябрь",
-  "Октябрь",
-  "Ноябрь",
-  "Декабрь",
-];
+import PenaltyTable from "./PenaltyTable";
+import { months } from "./constants";
 
 const staleTime = 1000 * 60 * 60 * 12;
 const gcTime = 1000 * 60 * 60 * 12;
 
 function PenaltyPage() {
   const { theme } = useTheme();
-  const t = useTranslations("Home");
-  const form = useForm();
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ["remarks"],
@@ -147,112 +119,51 @@ function PenaltyPage() {
     setFilteredRows(filtered);
   }, [data, selectedMonth, selectedEmployee]);
 
-  // Подсчёт итоговой суммы штрафов
-  const totalPenalty = useMemo(() => {
-    return filteredRows.reduce((acc, r) => {
-      const val = Number(r.penality);
-      return acc + (isNaN(val) ? 0 : val);
-    }, 0);
-  }, [filteredRows]);
-
   if (isLoading) return <div className="p-4">Загрузка...</div>;
-  if (isError)
-    return <div className="p-4 text-red-500">Ошибка загрузки данных</div>;
 
   return (
-    <Form {...form}>
-      <div className="p-6 space-y-6">
-        <div className="flex flex-wrap items-center gap-4">
-          {/* Селект месяца */}
-          <Select value={selectedMonth} onValueChange={setSelectedMonth}>
-            <SelectTrigger
-              className={cn(
-                "md:w-[200px] w-full",
-                theme === "dark" ? "border-0" : ""
-              )}
-            >
-              <SelectValue placeholder="Выберите месяц" />
-            </SelectTrigger>
-            <SelectContent>
-              {monthsList.map((m) => (
-                <SelectItem key={m.value} value={m.value}>
-                  {m.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-
-          {/* Селект сотрудника */}
-          <Select value={selectedEmployee} onValueChange={setSelectedEmployee}>
-            <SelectTrigger
-              className={cn(
-                "md:w-[250px] w-full",
-                theme === "dark" ? "border-0" : ""
-              )}
-            >
-              <SelectValue placeholder="Выберите сотрудника" />
-            </SelectTrigger>
-            <SelectContent>
-              {employeesList.map((e) => (
-                <SelectItem key={e.value} value={e.value}>
-                  {e.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-
-        <Card className="shadow-md border rounded-2xl md:px-10">
-          <CardHeader>
-            <CardTitle>Все штрафы</CardTitle>
-          </CardHeader>
-          <CardContent>
-            {filteredRows.length === 0 ? (
-              <div className="text-sm text-gray-500 py-4">
-                Нет данных за выбранный фильтр
-              </div>
-            ) : (
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead className="w-[130px]">Дата</TableHead>
-                    <TableHead className="w-[250px]">Сотрудник</TableHead>
-                    <TableHead className="w-[160px] truncate">
-                      Дневные часы
-                    </TableHead>
-                    <TableHead className="w-[160px] truncate">
-                      Ночные часы
-                    </TableHead>
-                    <TableHead className="md:w-[500px]">Причина</TableHead>
-                    <TableHead>Штраф</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {filteredRows.map((row, index) => (
-                    <TableRow key={index}>
-                      <TableCell>{row.date}</TableCell>
-                      <TableCell>{row.name}</TableCell>
-                      <TableCell>{row.dayHours || "-"}</TableCell>
-                      <TableCell>{row.nightHours || "-"}</TableCell>
-                      <TableCell>{row.reason || "-"}</TableCell>
-                      <TableCell>{row.penality || "-"}</TableCell>
-                    </TableRow>
-                  ))}
-
-                  {/* Итоговая строка */}
-                  <TableRow className="font-semibold bg-muted/50">
-                    <TableCell colSpan={5} className="text-right">
-                      Общая сумма штрафов:
-                    </TableCell>
-                    <TableCell>{totalPenalty}</TableCell>
-                  </TableRow>
-                </TableBody>
-              </Table>
+    <div className="md:p-6 space-y-6">
+      <div className="flex flex-wrap items-center gap-4">
+        {/* Селект месяца */}
+        <Select value={selectedMonth} onValueChange={setSelectedMonth}>
+          <SelectTrigger
+            className={cn(
+              "md:w-[200px] w-full",
+              theme === "dark" ? "border-0" : ""
             )}
-          </CardContent>
-        </Card>
+          >
+            <SelectValue placeholder="Выберите месяц" />
+          </SelectTrigger>
+          <SelectContent>
+            {monthsList.map((m) => (
+              <SelectItem key={m.value} value={m.value}>
+                {m.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+
+        {/* Селект сотрудника */}
+        <Select value={selectedEmployee} onValueChange={setSelectedEmployee}>
+          <SelectTrigger
+            className={cn(
+              "md:w-[250px] w-full",
+              theme === "dark" ? "border-0" : ""
+            )}
+          >
+            <SelectValue placeholder="Выберите сотрудника" />
+          </SelectTrigger>
+          <SelectContent>
+            {employeesList.map((e) => (
+              <SelectItem key={e.value} value={e.value}>
+                {e.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </div>
-    </Form>
+      <PenaltyTable data={filteredRows} />
+    </div>
   );
 }
 

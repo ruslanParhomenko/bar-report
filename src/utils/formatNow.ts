@@ -1,3 +1,5 @@
+import { format, isValid } from "date-fns";
+
 export const formatNow = (): string => {
   const now = new Date();
 
@@ -16,4 +18,11 @@ export const formatNowData = (): string => {
   const minutes = now.getMinutes().toString().padStart(2, "0");
 
   return `${day}.${month} ${hours}:${minutes}`;
+};
+
+export const formatDataForInput = ({ date }: { date: Date }): string => {
+  const formatDate =
+    date && isValid(new Date(date)) ? format(new Date(date), "dd.MM.yy") : "-";
+
+  return formatDate;
 };

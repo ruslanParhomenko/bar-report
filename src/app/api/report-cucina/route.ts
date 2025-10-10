@@ -1,3 +1,4 @@
+import { Movement, Remain, Shift, Staff, WriteOff } from "@/generated/prisma";
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
@@ -16,6 +17,12 @@ export async function POST(req: Request) {
     movement = [],
     writeOff = [],
   } = body;
+  const prepared = [
+    ...(preparedSalads || []),
+    ...(preparedSeconds || []),
+    ...(preparedDesserts || []),
+    ...(cutting || []),
+  ];
 
   const report = await prisma.dailyReportCucina.create({
     data: {
@@ -23,108 +30,62 @@ export async function POST(req: Request) {
       notes: notes || null,
 
       shifts: {
-        create: shifts.map(
-          (s: { name: any; time: any; over: any; employees: any }) => ({
-            name: s.name,
-            time: s.time,
-            over: s.over,
-            employees: s.employees,
-          })
-        ),
+        create: shifts.map((s: Shift) => ({
+          name: s.name,
+          time: s.time,
+          over: s.over,
+          employees: s.employees,
+        })),
       },
 
       remains: {
-        create: remains.map(
-          (r: { product: any; portions: any; weight: any }) => ({
-            product: r.product,
-            portions: r.portions,
-            weight: r.weight,
-          })
-        ),
+        create: remains.map((r: Remain) => ({
+          product: r.product,
+          portions: r.portions,
+          weight: r.weight,
+        })),
       },
 
-      preparedSalads: {
-        create: preparedSalads.map(
+      prepared: {
+        create: prepared.map(
           (p: { product: any; portions: any; weight: any; time: any }) => ({
             product: p.product,
             portions: p.portions,
             weight: p.weight,
             time: p.time,
-          })
-        ),
-      },
-
-      preparedSeconds: {
-        create: preparedSeconds.map(
-          (p: { product: any; portions: any; weight: any; time: any }) => ({
-            product: p.product,
-            portions: p.portions,
-            weight: p.weight,
-            time: p.time,
-          })
-        ),
-      },
-
-      preparedDesserts: {
-        create: preparedDesserts.map(
-          (p: { product: any; portions: any; weight: any; time: any }) => ({
-            product: p.product,
-            portions: p.portions,
-            weight: p.weight,
-            time: p.time,
-          })
-        ),
-      },
-
-      cutting: {
-        create: cutting.map(
-          (c: { product: any; portions: any; weight: any; time: any }) => ({
-            product: c.product,
-            portions: c.portions,
-            weight: c.weight,
-            time: c.time,
           })
         ),
       },
 
       staff: {
-        create: staff.map(
-          (s: { product: any; portions: any; weight: any; time: any }) => ({
-            product: s.product,
-            portions: s.portions,
-            weight: s.weight,
-            time: s.time,
-          })
-        ),
+        create: staff.map((s: Staff) => ({
+          product: s.product,
+          portions: s.portions,
+          weight: s.weight,
+          time: s.time,
+        })),
       },
 
       movement: {
-        create: movement.map(
-          (m: { nameOutside: any; nameInside: any; weight: any }) => ({
-            nameOutside: m.nameOutside,
-            nameInside: m.nameInside,
-            weight: m.weight,
-          })
-        ),
+        create: movement.map((m: Movement) => ({
+          nameOutside: m.nameOutside,
+          nameInside: m.nameInside,
+          weight: m.weight,
+        })),
       },
 
       writeOff: {
-        create: writeOff.map(
-          (w: { product: any; weight: any; reason: any }) => ({
-            product: w.product,
-            weight: w.weight,
-            reason: w.reason,
-          })
-        ),
+        create: writeOff.map((w: WriteOff) => ({
+          product: w.product,
+          weight: w.weight,
+          reason: w.reason,
+        })),
       },
     },
     include: {
       shifts: true,
       remains: true,
-      preparedSalads: true,
-      preparedSeconds: true,
-      preparedDesserts: true,
-      cutting: true,
+      prepared: true,
       staff: true,
       movement: true,
       writeOff: true,

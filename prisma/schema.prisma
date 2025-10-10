@@ -129,15 +129,12 @@ model DailyReportCucina {
   date  DateTime
   notes String?
 
-  shifts           Shift[]           @relation("DailyReportCucinaShifts")
-  remains          Remain[]          @relation("DailyReportCucinaRemains")
-  preparedSalads   PreparedSalad[]   @relation("DailyReportCucinaPreparedSalads")
-  preparedSeconds  PreparedSecond[]  @relation("DailyReportCucinaPreparedSeconds")
-  preparedDesserts PreparedDessert[] @relation("DailyReportCucinaPreparedDesserts")
-  cutting          Cutting[]         @relation("DailyReportCucinaCutting")
-  staff            Staff[]           @relation("DailyReportCucinaStaff")
-  movement         Movement[]        @relation("DailyReportCucinaMovement")
-  writeOff         WriteOff[]        @relation("DailyReportCucinaWriteOff")
+  shifts   Shift[]    @relation("DailyReportCucinaShifts")
+  remains  Remain[]   @relation("DailyReportCucinaRemains")
+  prepared Prepared[] @relation("DailyReportCucinaPreparedSalads")
+  staff    Staff[]    @relation("DailyReportCucinaStaff")
+  movement Movement[] @relation("DailyReportCucinaMovement")
+  writeOff WriteOff[] @relation("DailyReportCucinaWriteOff")
 }
 
 model Shift {
@@ -159,43 +156,13 @@ model Remain {
   reportId Int
 }
 
-model PreparedSalad {
+model Prepared {
   id       Int               @id @default(autoincrement())
   product  String
   portions String
   weight   String
   time     String?
   report   DailyReportCucina @relation("DailyReportCucinaPreparedSalads", fields: [reportId], references: [id], onDelete: Cascade)
-  reportId Int
-}
-
-model PreparedSecond {
-  id       Int               @id @default(autoincrement())
-  product  String
-  portions String
-  weight   String
-  time     String?
-  report   DailyReportCucina @relation("DailyReportCucinaPreparedSeconds", fields: [reportId], references: [id], onDelete: Cascade)
-  reportId Int
-}
-
-model PreparedDessert {
-  id       Int               @id @default(autoincrement())
-  product  String
-  portions String
-  weight   String
-  time     String?
-  report   DailyReportCucina @relation("DailyReportCucinaPreparedDesserts", fields: [reportId], references: [id], onDelete: Cascade)
-  reportId Int
-}
-
-model Cutting {
-  id       Int               @id @default(autoincrement())
-  product  String
-  portions String?
-  weight   String
-  time     String?
-  report   DailyReportCucina @relation("DailyReportCucinaCutting", fields: [reportId], references: [id], onDelete: Cascade)
   reportId Int
 }
 

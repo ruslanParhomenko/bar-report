@@ -1,16 +1,17 @@
-import ReportCucinaTable from "@/components/table/ReportCucinaTable";
+import ReportCucinaTable from "@/components/table/report-cucina-table/ReportCucinaTable";
+import { ReportCucinaData } from "@/constants/type";
+
 export default function ReportCucina({
   data,
   invalidate,
 }: {
-  data: any;
+  data: ReportCucinaData[];
   invalidate?: () => void;
 }) {
-  console.log("data cucina", data);
   return (
     <>
       {data.length > 0 &&
-        data.map((report: any, index: number) => (
+        data.map((report, index: number) => (
           <ReportCucinaTable
             key={index}
             data={report}

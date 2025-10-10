@@ -9,12 +9,13 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { DeleteListButton } from "../buttons/DeleteListButton";
 import { REMARKS_ENDPOINT } from "@/constants/endpoint-tag";
+import { RemarkData } from "@/constants/type";
 
 export default function RemarksTable({
   data,
   invalidate,
 }: {
-  data: any;
+  data: RemarkData;
   invalidate?: () => void;
 }) {
   const filtered = data?.remarks?.filter(

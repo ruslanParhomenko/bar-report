@@ -9,26 +9,22 @@ import {
 } from "@/components/ui/accordion";
 import React, { useEffect, useState } from "react";
 import { format } from "date-fns";
-import {
-  DailyReport,
-  DailyReportCucina,
-  RemarkReport,
-  Row,
-} from "@/generated/prisma";
 import { ArchiveData, useArchive } from "@/hooks/useApiArchive";
 import SelectArchiveById from "@/components/buttons/SelectArchiveById";
 import SelectFilterArchive from "./SelectFilterArchive";
 import { DATA_FILTER } from "./constant";
+import {
+  BreakListData,
+  RemarkData,
+  ReportBarData,
+  ReportCucinaData,
+} from "@/constants/type";
 
 type ApiDataMap = {
-  breakList: {
-    rows: Row[];
-    date: string;
-    id: number;
-  }[];
-  report: DailyReport[];
-  "report-cucina": DailyReportCucina[];
-  remarks: RemarkReport[];
+  breakList: BreakListData[];
+  report: ReportBarData[];
+  "report-cucina": ReportCucinaData[];
+  remarks: RemarkData[];
 };
 
 const dataObjectApi: Record<keyof ApiDataMap, keyof ArchiveData> = {
@@ -62,7 +58,7 @@ export const ArhiveListTable = <T extends keyof ApiDataMap>({
       : arrayToFormat.find((item: any) => item.id === Number(id))
       ? [arrayToFormat.find((item: any) => item.id === Number(id))]
       : [];
-  function getRemarksOptions(data: any[], tag: string) {
+  function getSelectByName(data: any[], tag: string) {
     const names = new Set<string>();
 
     data.forEach((report) => {
@@ -114,9 +110,9 @@ export const ArhiveListTable = <T extends keyof ApiDataMap>({
               <SelectFilterArchive
                 dataSelect={
                   nameTag === "remarks"
-                    ? getRemarksOptions(data?.remarkReport || [], "remarks")
+                    ? getSelectByName(data?.remarkReport || [], "remarks")
                     : nameTag === "breakList"
-                    ? getRemarksOptions(data?.breakeList || [], "rows")
+                    ? getSelectByName(data?.breakeList || [], "rows")
                     : DATA_FILTER[nameTag]
                 }
                 data={arrayToFormat}
