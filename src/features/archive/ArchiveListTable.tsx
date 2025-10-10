@@ -7,7 +7,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { format } from "date-fns";
 import { ArchiveData, useArchive } from "@/hooks/useApiArchive";
 import SelectArchiveById from "@/components/buttons/SelectArchiveById";
@@ -34,13 +34,24 @@ const dataObjectApi: Record<keyof ApiDataMap, keyof ArchiveData> = {
   remarks: "remarkReport",
 };
 
-export const ArhiveListTable = <T extends keyof ApiDataMap>({
+export const ArchiveListTable = <T extends keyof ApiDataMap>({
   children,
   nameTag,
 }: {
   children: (data: ApiDataMap[T], invalidate: () => void) => React.ReactNode;
   nameTag: T;
 }) => {
+
+  const accordionRef = useRef<HTMLDivElement>(null);
+  const handleScrollTop = () => {
+    setTimeout(() => {
+      if (accordionRef.current) {
+        const scrollTop = accordionRef.current.getBoundingClientRect().top + window.scrollY;
+        window.scrollTo({ top: scrollTop, behavior: "smooth" });
+      }
+    }, 300); 
+  };
+  
   const [filteredData, setFilteredData] = React.useState<any[]>([]);
   const t = useTranslations("Home");
   const [dataSelect, setDataSelect] = useState<
@@ -98,8 +109,8 @@ export const ArhiveListTable = <T extends keyof ApiDataMap>({
 
   return (
     <Accordion type="single" collapsible className="py-2">
-      <AccordionItem value={nameTag}>
-        <AccordionTrigger className="text-base bg-bl cursor-pointer w-full px-4 py-2 hover:no-underline hover:text-amber-50">
+      <AccordionItem value={nameTag} ref={accordionRef}>
+        <AccordionTrigger onClick={handleScrollTop} className="text-base bg-bl cursor-pointer w-full px-4 py-2 hover:no-underline hover:text-amber-50">
           {t(nameTag as string)}
         </AccordionTrigger>
 

@@ -48,6 +48,7 @@ export function AbilityProvider({ children }: { children: React.ReactNode }) {
 
     const isAdmin =
       mail === "parhomenkogm@gmail.com" ||
+      mail === "lavandavazat5@gmail.com" ||
       userData.some((u) => u.role === "ADMIN" && u.mail === mail);
     const isBar =
       mail === "cng.nv.rstrnt@gmail.com" ||

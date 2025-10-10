@@ -36,7 +36,6 @@ export default function ReportCucinaTable({
   ]
     .filter(Boolean)
     .length.toString();
-  console.log(visibleTables);
   return (
     <Card className="shadow-md border rounded-2xl md:p-4 mb-4">
       <CardHeader>

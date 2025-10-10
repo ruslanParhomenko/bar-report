@@ -1,5 +1,5 @@
 "use client";
-import { ArhiveListTable } from "./ArchiveListTable";
+import { ArchiveListTable } from "./ArchiveListTable";
 import { useForm } from "react-hook-form";
 import { Form } from "@/components/ui/form";
 
@@ -19,26 +19,26 @@ export const ArchiveForm = () => {
 
   return (
     <Form {...form}>
-      <ArhiveListTable nameTag={BREAK_LIST_ENDPOINT}>
+      <ArchiveListTable nameTag={BREAK_LIST_ENDPOINT}>
         {(breakList, invalidate) => (
           <BreakList data={breakList} invalidate={invalidate} />
         )}
-      </ArhiveListTable>
-      <ArhiveListTable nameTag={REPORT_BAR_ENDPOINT}>
+      </ArchiveListTable>
+      <ArchiveListTable nameTag={REPORT_BAR_ENDPOINT}>
         {(report, invalidate) => (
           <ReportBar data={report} invalidate={invalidate} />
         )}
-      </ArhiveListTable>
-      <ArhiveListTable nameTag={REPORT_CUCINA_ENDPOINT}>
+      </ArchiveListTable>
+      <ArchiveListTable nameTag={REPORT_CUCINA_ENDPOINT}>
         {(report, invalidate) => (
           <ReportCucina data={report} invalidate={invalidate} />
         )}
-      </ArhiveListTable>
-      <ArhiveListTable nameTag={REMARKS_ENDPOINT}>
+      </ArchiveListTable>
+      <ArchiveListTable nameTag={REMARKS_ENDPOINT}>
         {(remarks, invalidate) => (
           <Remarks data={remarks} invalidate={invalidate} />
         )}
-      </ArhiveListTable>
+      </ArchiveListTable>
     </Form>
   );
 };

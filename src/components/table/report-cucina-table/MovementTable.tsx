@@ -10,7 +10,6 @@ import { Movement } from "@/generated/prisma";
 import { classNameRowBorder } from "../report-bar-table/ReportBarTable";
 
 export default function MovementTable({ data }: { data: Movement[] }) {
-  console.log("MovementTable", data);
   return (
     data && (
       <Table>
