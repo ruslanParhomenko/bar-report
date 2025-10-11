@@ -15,6 +15,7 @@ import WriteOffTable from "./WriteOffTable";
 import PreparedTable from "./PreparedTable";
 import StaffTable from "./StaffTable";
 import NotesTable from "./NotesTable";
+import { vi } from "date-fns/locale";
 
 export const classNameHeadCucina = "text-shadow-muted-foreground font-bold";
 export const classNameRowBorderCucina = "border-b-bl";
@@ -31,11 +32,14 @@ export default function ReportCucinaTable({
     data.writeOff,
     data.prepared,
     data.staff,
+    data.remains,
     data.movement,
     data.notes,
-  ]
-    .filter(Boolean)
-    .length.toString();
+  ].filter(Boolean).length;
+
+  const gridCols = visibleTables === 1 ? "md:grid-cols-1" : "md:grid-cols-4";
+  const gridColsFooter =
+    visibleTables === 1 ? "md:grid-cols-1" : "md:grid-cols-[30%_70%]";
   return (
     <Card className="shadow-md border rounded-2xl md:p-4 mb-4">
       <CardHeader>
@@ -47,11 +51,7 @@ export default function ReportCucinaTable({
           />
         </CardTitle>
       </CardHeader>
-      <CardContent
-        className={`gap-6 grid grid-cols-1 md:grid-cols-${
-          visibleTables === "1" ? "1" : "4"
-        }`}
-      >
+      <CardContent className={`gap-6 grid grid-cols-1 ${gridCols}`}>
         <div>
           <ShiftsTable data={data.shifts} />
           <RemainsTable data={data.remains} />
@@ -60,11 +60,7 @@ export default function ReportCucinaTable({
         <PreparedTable data={data.prepared} />
         <StaffTable data={data.staff} />
       </CardContent>
-      <CardFooter
-        className={`grid grid-cols-1 md:grid-cols-${
-          visibleTables === "1" ? "1" : "[30%_70%]"
-        } gap-6`}
-      >
+      <CardFooter className={`grid grid-cols-1 ${gridColsFooter} gap-6`}>
         <MovementTable data={data.movement} />
 
         <NotesTable data={data.notes as string} />

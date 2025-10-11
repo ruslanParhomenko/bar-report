@@ -18,6 +18,18 @@ export default function ReportBarTable({
   data: ReportBarData;
   invalidate?: () => void;
 }) {
+  const visibleTables = [
+    data.tobacco,
+    data.expenses,
+    data.productTransfer,
+    data.inventory,
+    data.notes,
+    data.cashVerify,
+  ].filter(Boolean).length;
+  const gridCols =
+    visibleTables === 1 ? "md:grid-cols-1" : "md:grid-cols-[25%_75%]";
+  const gridColsFooter =
+    visibleTables === 1 ? "md:grid-cols-1" : "md:grid-cols-3";
   return (
     <Card className="shadow-md border rounded-2xl md:p-4 mb-4">
       <CardHeader>
@@ -29,22 +41,21 @@ export default function ReportBarTable({
           />
         </CardTitle>
       </CardHeader>
-      <CardContent className="grid grid-cols-1  md:grid-cols-[25%_75%] gap-4">
+      <CardContent className={`grid grid-cols-1  ${gridCols} gap-4`}>
         <TobaccoTable data={data?.tobacco} />
         <div className="flex flex-col w-full">
-          <div className="grid md:grid-cols-3 gap-4">
+          <div className={`grid ${gridColsFooter} gap-4`}>
             <ExpensesTable data={data?.expenses} />
             <ProductTransferTable data={data?.productTransfer} />
             <InventoryTable data={data?.inventory} />
           </div>
-          <div className="mt-auto">
-            <NotesTable data={data?.notes as string} />
-          </div>
+          <div className="mt-auto"></div>
           <div className="mt-auto">
             <CashVerifyTable data={data?.cashVerify} />
           </div>
         </div>
       </CardContent>
+      <NotesTable data={data?.notes as string} />
     </Card>
   );
 }

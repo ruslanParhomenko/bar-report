@@ -41,17 +41,17 @@ export const ArchiveListTable = <T extends keyof ApiDataMap>({
   children: (data: ApiDataMap[T], invalidate: () => void) => React.ReactNode;
   nameTag: T;
 }) => {
-
   const accordionRef = useRef<HTMLDivElement>(null);
   const handleScrollTop = () => {
     setTimeout(() => {
       if (accordionRef.current) {
-        const scrollTop = accordionRef.current.getBoundingClientRect().top + window.scrollY;
-        window.scrollTo({ top: scrollTop, behavior: "smooth" });
+        const y =
+          accordionRef.current.getBoundingClientRect().top + window.scrollY - 5;
+        window.scrollTo({ top: y, behavior: "smooth" });
       }
-    }, 300); 
+    }, 350);
   };
-  
+
   const [filteredData, setFilteredData] = React.useState<any[]>([]);
   const t = useTranslations("Home");
   const [dataSelect, setDataSelect] = useState<
@@ -109,37 +109,44 @@ export const ArchiveListTable = <T extends keyof ApiDataMap>({
 
   return (
     <Accordion type="single" collapsible className="py-2">
-      <AccordionItem value={nameTag} ref={accordionRef}>
-        <AccordionTrigger onClick={handleScrollTop} className="text-base bg-bl cursor-pointer w-full px-4 py-2 hover:no-underline hover:text-amber-50">
-          {t(nameTag as string)}
-        </AccordionTrigger>
+      <div ref={accordionRef}>
+        <AccordionItem value={nameTag}>
+          <AccordionTrigger
+            onClick={() => {
+              handleScrollTop();
+            }}
+            className="text-base bg-bl cursor-pointer w-full px-4 py-2 hover:no-underline hover:text-amber-50"
+          >
+            {t(nameTag as string)}
+          </AccordionTrigger>
 
-        <AccordionContent>
-          <div className="flex flex-col md:flex-row md:justify-start gap-4 md:items-center mb-4">
-            <SelectArchiveById dataSelect={dataSelect} nameTag={nameTag} />
-            {id === "all" && (
-              <SelectFilterArchive
-                dataSelect={
-                  nameTag === "remarks"
-                    ? getSelectByName(data?.remarkReport || [], "remarks")
-                    : nameTag === "breakList"
-                    ? getSelectByName(data?.breakeList || [], "rows")
-                    : DATA_FILTER[nameTag]
-                }
-                data={arrayToFormat}
-                setFilteredData={setFilteredData}
-                nameTag={nameTag}
-              />
-            )}
-          </div>
-          <div className="max-h-[80vh] overflow-y-auto">
-            {children(
-              filteredData ?? (selectedData as ApiDataMap[T]),
-              invalidate
-            )}
-          </div>
-        </AccordionContent>
-      </AccordionItem>
+          <AccordionContent>
+            <div className="flex flex-col md:flex-row md:justify-start gap-4 md:items-center mb-4">
+              <SelectArchiveById dataSelect={dataSelect} nameTag={nameTag} />
+              {id === "all" && (
+                <SelectFilterArchive
+                  dataSelect={
+                    nameTag === "remarks"
+                      ? getSelectByName(data?.remarkReport || [], "remarks")
+                      : nameTag === "breakList"
+                      ? getSelectByName(data?.breakeList || [], "rows")
+                      : DATA_FILTER[nameTag]
+                  }
+                  data={arrayToFormat}
+                  setFilteredData={setFilteredData}
+                  nameTag={nameTag}
+                />
+              )}
+            </div>
+            <div className="max-h-[80vh] overflow-y-auto">
+              {children(
+                filteredData ?? (selectedData as ApiDataMap[T]),
+                invalidate
+              )}
+            </div>
+          </AccordionContent>
+        </AccordionItem>
+      </div>
     </Accordion>
   );
 };

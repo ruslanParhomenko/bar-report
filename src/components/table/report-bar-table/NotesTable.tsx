@@ -6,8 +6,9 @@ export default function NotesTable({ data }: { data: string }) {
     <Table>
       <TableBody>
         <TableRow>
-          <TableCell className={classNameHead}>notes:</TableCell>
-          <TableCell>{data}</TableCell>
+          <TableCell className={classNameHead}>
+            notes: <span className="text-rd text-xs px-4">{data}</span>
+          </TableCell>
         </TableRow>
       </TableBody>
     </Table>

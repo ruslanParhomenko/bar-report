@@ -6,6 +6,7 @@ export const DATA_FILTER = {
     { label: "expenses", value: "expenses" },
     { label: "productTransfer", value: "productTransfer" },
     { label: "inventory", value: "inventory" },
+    { label: "notes", value: "notes" },
   ],
   "report-cucina": [
     { label: "all", value: "all" },
