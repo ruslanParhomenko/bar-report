@@ -6,8 +6,8 @@ import TobaccoTable from "./TobaccoTable";
 import ExpensesTable from "./ExpensesTable";
 import ProductTransferTable from "./ProductTransferTable";
 import InventoryTable from "./InventoryTable";
-import NotesTable from "./NotesTable";
 import CashVerifyTable from "./CashVerifyTable";
+import NotesTable from "../NotesTable";
 
 export const classNameHead = "text-shadow-muted-foreground font-bold";
 export const classNameRowBorder = "border-b-bl";

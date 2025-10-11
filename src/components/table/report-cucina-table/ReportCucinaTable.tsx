@@ -1,12 +1,6 @@
 import { REPORT_CUCINA_ENDPOINT } from "@/constants/endpoint-tag";
 import { DeleteListButton } from "@/components/buttons/DeleteListButton";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ReportCucinaData } from "@/constants/type";
 import ShiftsTable from "./ShiftsTable";
 import RemainsTable from "./RemainsTable";
@@ -14,8 +8,7 @@ import MovementTable from "./MovementTable";
 import WriteOffTable from "./WriteOffTable";
 import PreparedTable from "./PreparedTable";
 import StaffTable from "./StaffTable";
-import NotesTable from "./NotesTable";
-import { vi } from "date-fns/locale";
+import NotesTable from "../NotesTable";
 
 export const classNameHeadCucina = "text-shadow-muted-foreground font-bold";
 export const classNameRowBorderCucina = "border-b-bl";
@@ -55,16 +48,13 @@ export default function ReportCucinaTable({
         <div>
           <ShiftsTable data={data.shifts} />
           <RemainsTable data={data.remains} />
+          <MovementTable data={data.movement} />
         </div>
         <WriteOffTable data={data.writeOff} />
         <PreparedTable data={data.prepared} />
         <StaffTable data={data.staff} />
       </CardContent>
-      <CardFooter className={`grid grid-cols-1 ${gridColsFooter} gap-6`}>
-        <MovementTable data={data.movement} />
-
-        <NotesTable data={data.notes as string} />
-      </CardFooter>
+      <NotesTable data={data.notes as string} />
     </Card>
   );
 }

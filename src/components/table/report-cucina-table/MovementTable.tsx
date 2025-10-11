@@ -21,8 +21,11 @@ export default function MovementTable({ data }: { data: Movement[] }) {
         <TableBody>
           {data?.map((item: any) => (
             <TableRow key={item.id}>
-              <TableCell>
-                {item.nameOutside} → {item.nameInside} = {item.weight}
+              <TableCell className="flex flex-wrap">
+                <span>{item.nameOutside} →</span>
+                <span>
+                  {item.nameInside} = {item.weight}
+                </span>
               </TableCell>
             </TableRow>
           ))}
