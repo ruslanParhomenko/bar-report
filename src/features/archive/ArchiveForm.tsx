@@ -29,7 +29,7 @@ export type ApiDataMap = {
   [DataObjectApi.Remarks]: RemarkData[];
 };
 
-export const ArchiveForm = ({
+export const ArchivePage = ({
   data,
   onInvalidate,
 }: {

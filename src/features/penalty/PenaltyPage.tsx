@@ -1,8 +1,7 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
 import { useState, useMemo } from "react";
-import PenaltyTable from "./PenaltyTable";
+import PenaltyTable, { PenaltyTableProps } from "./PenaltyTable";
 import { months } from "./constants";
 import SelectFilter from "./SelectFilter";
 import { useUniqueOptions } from "@/hooks/useUniqueOptions";
@@ -10,18 +9,9 @@ import { isValid } from "date-fns";
 import { RemarkData } from "@/constants/type";
 import { Remark } from "@/generated/prisma";
 
-const HALF_DAY = 1000 * 60 * 60 * 12;
-
-function PenaltyPage() {
-  const { data = [], isLoading } = useQuery({
-    queryKey: ["remarks"],
-    queryFn: () => fetch("/api/remarks").then((res) => res.json()),
-    staleTime: HALF_DAY,
-    gcTime: HALF_DAY,
-  });
-
+export const PenaltyPage = ({ data }: { data: RemarkData[] }) => {
   const employeesList = useUniqueOptions<Remark>({
-    data: data.flatMap((r: RemarkData) => r.remarks || []),
+    data: data.flatMap((r) => r.remarks ?? []),
     getValue: (r) => r.name,
     allLabel: "Все сотрудники",
   });
@@ -29,8 +19,8 @@ function PenaltyPage() {
   const monthsList = useUniqueOptions<RemarkData>({
     data,
     getValue: (item) => {
-      if (!isValid(new Date(item?.date))) return undefined;
-      return new Date(item.date).getMonth();
+      const date = new Date(item?.date);
+      return isValid(date) ? date.getMonth().toString() : undefined;
     },
     getLabel: (monthIndex) => months[Number(monthIndex)],
     allLabel: "Все месяцы",
@@ -40,36 +30,35 @@ function PenaltyPage() {
   const [selectedEmployee, setSelectedEmployee] = useState("all");
 
   const filteredRows = useMemo(() => {
-    if (!data?.length) return [];
-
-    return data.flatMap((report: RemarkData) => {
+    return data.flatMap((report) => {
       const date = new Date(report.date);
-      const formattedDate = `${String(date.getDate()).padStart(
-        2,
-        "0"
-      )}.${String(date.getMonth() + 1).padStart(2, "0")}.${date.getFullYear()}`;
+      if (!isValid(date)) return [];
 
-      return (report.remarks || [])
-        .map((r) => ({
-          date: formattedDate,
-          name: r.name,
-          dayHours: r.dayHours,
-          nightHours: r.nightHours,
-          reason: r.reason,
-          penality: r.penality,
-          month: date.getMonth().toString(),
-        }))
-        .filter((row) => {
-          const matchMonth =
-            selectedMonth === "all" || row.month === selectedMonth;
-          const matchEmployee =
-            selectedEmployee === "all" || row.name === selectedEmployee;
-          return matchMonth && matchEmployee;
-        });
+      const formattedDate = date.toLocaleDateString("ru-RU", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+      });
+
+      return (report.remarks ?? [])
+        .map(
+          (r): Omit<PenaltyTableProps, "id" | "reportId"> => ({
+            date: formattedDate,
+            name: r.name,
+            dayHours: r.dayHours,
+            nightHours: r.nightHours,
+            reason: r.reason,
+            penality: r.penality,
+            month: date.getMonth().toString(),
+          })
+        )
+        .filter(
+          (row) =>
+            (selectedMonth === "all" || row.month === selectedMonth) &&
+            (selectedEmployee === "all" || row.name === selectedEmployee)
+        );
     });
   }, [data, selectedMonth, selectedEmployee]);
-
-  if (isLoading) return <div className="p-4">Загрузка...</div>;
 
   return (
     <div className="md:p-6 space-y-6">
@@ -89,6 +78,4 @@ function PenaltyPage() {
       <PenaltyTable data={filteredRows} />
     </div>
   );
-}
-
-export default PenaltyPage;
+};

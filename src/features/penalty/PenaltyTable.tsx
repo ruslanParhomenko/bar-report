@@ -9,7 +9,10 @@ import {
 } from "@/components/ui/table";
 import { Remark } from "@/generated/prisma";
 import { useMemo } from "react";
-type PenaltyTableProps = Remark & { date?: string };
+export type PenaltyTableProps = Omit<Remark, "id" | "reportId"> & {
+  date?: string;
+  month: string;
+};
 
 export default function PenaltyTable({ data }: { data: PenaltyTableProps[] }) {
   const totalPenalty = useMemo(() => {
