@@ -1,15 +1,18 @@
-"use client";
-import { InsufficientRights } from "@/components/wrapper/InsufficientRights";
+import { getArchive, invalidateArchive } from "@/app/actions/getArchive";
 import { ArchiveForm } from "@/features/archive/ArchiveForm";
-import { useAbility } from "@/providers/AbilityProvider";
 
-const Page = () => {
-  const { isAdmin, isUser, isCucina, isBar, isMngr } = useAbility();
-  return isAdmin || isUser || isCucina || isBar || isMngr ? (
-    <ArchiveForm />
-  ) : (
-    <InsufficientRights />
+export const revalidate = 43200;
+export const fetchCache = "force-cache";
+
+export default async function ArchivePage() {
+  const data = await getArchive();
+  return (
+    <ArchiveForm
+      data={data}
+      onInvalidate={async () => {
+        "use server";
+        await invalidateArchive();
+      }}
+    />
   );
-};
-
-export default Page;
+}

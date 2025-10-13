@@ -1,9 +1,9 @@
-import { NextResponse } from "next/server";
+"use server";
+
 import { prisma } from "@/lib/prisma";
+import { revalidateTag } from "next/cache";
 
-export const revalidate = 43200;
-
-export async function GET() {
+export async function getArchive() {
   const [dailyReportCucina, dailyReport, remarkReport, breakeList] =
     await prisma.$transaction([
       prisma.dailyReportCucina.findMany({
@@ -36,19 +36,14 @@ export async function GET() {
       }),
       prisma.breakeList.findMany({
         take: 62,
-        include: {
-          rows: true,
-        },
+        include: { rows: true },
         orderBy: { date: "desc" },
       }),
     ]);
 
-  return NextResponse.json(
-    { dailyReportCucina, dailyReport, remarkReport, breakeList },
-    {
-      headers: {
-        "Cache-Control": "s-maxage=43200, stale-while-revalidate=59",
-      },
-    }
-  );
+  return { dailyReportCucina, dailyReport, remarkReport, breakeList };
+}
+
+export async function invalidateArchive() {
+  revalidateTag("archive");
 }
