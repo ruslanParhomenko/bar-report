@@ -8,16 +8,24 @@ import { useUniqueOptions } from "@/hooks/useUniqueOptions";
 import { isValid } from "date-fns";
 import { RemarkData } from "@/constants/type";
 import { Remark } from "@/generated/prisma";
+import { useApi } from "@/hooks/useApi";
+import { REMARKS_ENDPOINT } from "@/constants/endpoint-tag";
 
-export const PenaltyPage = ({ data }: { data: RemarkData[] }) => {
+export const PenaltyPage = () => {
+  const { query } = useApi<RemarkData>({
+    endpoint: REMARKS_ENDPOINT,
+    queryKey: REMARKS_ENDPOINT,
+    fetchInit: true,
+  });
+  const { data } = query;
   const employeesList = useUniqueOptions<Remark>({
-    data: data.flatMap((r) => r.remarks ?? []),
+    data: data?.flatMap((r) => r?.remarks ?? []) ?? [],
     getValue: (r) => r.name,
     allLabel: "Все сотрудники",
   });
 
   const monthsList = useUniqueOptions<RemarkData>({
-    data,
+    data: data ?? [],
     getValue: (item) => {
       const date = new Date(item?.date);
       return isValid(date) ? date.getMonth().toString() : undefined;
@@ -30,7 +38,7 @@ export const PenaltyPage = ({ data }: { data: RemarkData[] }) => {
   const [selectedEmployee, setSelectedEmployee] = useState("all");
 
   const filteredRows = useMemo(() => {
-    return data.flatMap((report) => {
+    return data?.flatMap((report) => {
       const date = new Date(report.date);
       if (!isValid(date)) return [];
 
@@ -75,7 +83,7 @@ export const PenaltyPage = ({ data }: { data: RemarkData[] }) => {
         />
       </div>
 
-      <PenaltyTable data={filteredRows} />
+      <PenaltyTable data={filteredRows ?? []} />
     </div>
   );
 };

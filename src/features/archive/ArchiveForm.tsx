@@ -1,13 +1,11 @@
+"use client";
 import {
   BREAK_LIST_ENDPOINT,
   REMARKS_ENDPOINT,
   REPORT_BAR_ENDPOINT,
   REPORT_CUCINA_ENDPOINT,
 } from "@/constants/endpoint-tag";
-import Remarks from "./Remarks";
-import BreakList from "./BreakList";
-import ReportBar from "./ReportBar";
-import ReportCucina from "./ReportCucina";
+
 import {
   BreakListData,
   RemarkData,
@@ -15,6 +13,13 @@ import {
   ReportCucinaData,
 } from "@/constants/type";
 import AccordionWrapper from "@/components/wrapper/AccordionWrapper";
+import dynamic from "next/dynamic";
+import { useArchive } from "@/hooks/useApiArchive";
+
+const BreakList = dynamic(() => import("@/features/archive/BreakList"));
+const ReportBar = dynamic(() => import("@/features/archive/ReportBar"));
+const ReportCucina = dynamic(() => import("@/features/archive/ReportCucina"));
+const Remarks = dynamic(() => import("@/features/archive/Remarks"));
 
 export enum DataObjectApi {
   BreakList = "breakeList",
@@ -29,13 +34,9 @@ export type ApiDataMap = {
   [DataObjectApi.Remarks]: RemarkData[];
 };
 
-export const ArchivePage = ({
-  data,
-  onInvalidate,
-}: {
-  data: ApiDataMap;
-  onInvalidate: () => void;
-}) => {
+export const ArchivePage = () => {
+  const { data, invalidate: onInvalidate } = useArchive();
+  if (!data) return null;
   return (
     <>
       <AccordionWrapper nameTag={BREAK_LIST_ENDPOINT}>
