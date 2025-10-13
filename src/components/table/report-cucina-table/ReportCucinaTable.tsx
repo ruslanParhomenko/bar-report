@@ -1,6 +1,12 @@
 import { REPORT_CUCINA_ENDPOINT } from "@/constants/endpoint-tag";
 import { DeleteListButton } from "@/components/buttons/DeleteListButton";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { ReportCucinaData } from "@/constants/type";
 import ShiftsTable from "./ShiftsTable";
 import RemainsTable from "./RemainsTable";
@@ -44,7 +50,7 @@ export default function ReportCucinaTable({
           />
         </CardTitle>
       </CardHeader>
-      <CardContent className={`gap-6 grid grid-cols-1 ${gridCols}`}>
+      <CardContent className={`gap-6  grid grid-cols-1 ${gridCols}`}>
         <div>
           <ShiftsTable data={data.shifts} />
           <RemainsTable data={data.remains} />
@@ -54,7 +60,9 @@ export default function ReportCucinaTable({
         <PreparedTable data={data.prepared} />
         <StaffTable data={data.staff} />
       </CardContent>
-      <NotesTable data={data.notes as string} />
+      <CardFooter>
+        <NotesTable data={data.notes as string} />
+      </CardFooter>
     </Card>
   );
 }

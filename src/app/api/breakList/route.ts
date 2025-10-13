@@ -8,7 +8,7 @@ export async function POST(req: Request) {
     (row: any) => row.name && row.name.trim() !== ""
   );
 
-  const breakeList = await prisma.breakeList.create({
+  const breakList = await prisma.breakList.create({
     data: {
       date: new Date(date),
       rows: {
@@ -37,10 +37,10 @@ export async function POST(req: Request) {
     },
   });
 
-  return NextResponse.json(breakeList);
+  return NextResponse.json(breakList);
 }
 
 export async function GET() {
-  const breakeList = await prisma.breakeList.findMany();
-  return NextResponse.json(breakeList);
+  const breakList = await prisma.breakList.findMany();
+  return NextResponse.json(breakList);
 }

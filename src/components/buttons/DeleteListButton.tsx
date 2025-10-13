@@ -1,6 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { useArchiveMutations } from "@/hooks/useApiActions";
+import { useApi } from "@/hooks/useApi";
 import { useAbility } from "@/providers/AbilityProvider";
 import { formatDataForInput } from "@/utils/formatNow";
 import { Pencil } from "lucide-react";
@@ -27,8 +27,10 @@ export const DeleteListButton = <T extends BaseData>({
   const { isAdmin, isMngr } = useAbility();
   const t = useTranslations("Home");
 
-  const { deleteMutation } = useArchiveMutations({
-    endpoint: nameTag,
+  const { deleteMutation } = useApi({
+    endpoint: nameTag as string,
+    queryKey: nameTag as string,
+    fetchInit: false,
   });
 
   const removeItem = () => {

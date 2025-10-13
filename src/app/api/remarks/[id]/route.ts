@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { Remark } from "@/generated/prisma";
 
 export async function DELETE(
   _req: Request,
@@ -60,32 +61,31 @@ export async function PUT(
     const { id } = await params;
     const data = await _req.json();
 
-    const updatedReport = await prisma.remarkReport.update({
-      where: { id: Number(id) },
-      data: {
-        remarks: {
-          upsert: data.remarks.map((remark: any) => ({
-            where: { id: remark.id || 0 },
-            update: {
-              name: remark.name,
-              dayHours: remark.dayHours,
-              nightHours: remark.nightHours,
-              reason: remark.reason,
-              penality: remark.penality,
-            },
-            create: {
-              name: remark.name,
-              dayHours: remark.dayHours,
-              nightHours: remark.nightHours,
-              reason: remark.reason,
-              penality: remark.penality,
-            },
-          })),
-        },
-      },
-      include: { remarks: true },
-    });
+    const reportId = Number(id);
+    if (isNaN(reportId)) {
+      return NextResponse.json({ error: "Invalid report id" }, { status: 400 });
+    }
 
+    const updatedReport = await prisma.$transaction(async (tx) => {
+      await tx.remark.deleteMany({ where: { reportId } });
+
+      const remark = await tx.remarkReport.update({
+        where: { id: reportId },
+        data: {
+          remarks: {
+            create: data.remarks.map((remark: Remark) => ({
+              name: remark.name || "",
+              dayHours: remark.dayHours || "",
+              nightHours: remark.nightHours || "",
+              reason: remark.reason || "",
+              penality: remark.penality || "",
+            })),
+          },
+        },
+        include: { remarks: true },
+      });
+      return remark;
+    });
     return NextResponse.json(updatedReport);
   } catch (error) {
     console.error("PUT /api/remarks/[id] error:", error);

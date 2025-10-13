@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   Table,
   TableBody,
@@ -23,16 +23,15 @@ export default function PenaltyTable({ data }: { data: PenaltyTableProps[] }) {
   }, [data]);
   return (
     <Card className="shadow-md border rounded-2xl md:px-10">
-      <CardHeader>
-        <CardTitle>Все штрафы</CardTitle>
-      </CardHeader>
       <CardContent>
         {data && (
           <Table>
             <TableHeader>
               <TableRow>
                 <TableHead>Дата</TableHead>
-                <TableHead>Сотрудник</TableHead>
+                <TableHead className="sticky left-0 bg-background/90">
+                  Сотрудник
+                </TableHead>
                 <TableHead className="text-center">Дневные часы</TableHead>
                 <TableHead className="text-center">Ночные часы</TableHead>
                 <TableHead>Причина</TableHead>
@@ -48,7 +47,9 @@ export default function PenaltyTable({ data }: { data: PenaltyTableProps[] }) {
                     className="hover:text-rd hover:bg-accent"
                   >
                     <TableCell>{row.date}</TableCell>
-                    <TableCell>{row.name}</TableCell>
+                    <TableCell className="sticky left-0 bg-background/90">
+                      {row.name}
+                    </TableCell>
                     <TableCell className="text-center">
                       {row.dayHours}
                     </TableCell>

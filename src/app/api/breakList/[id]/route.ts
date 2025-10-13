@@ -7,7 +7,7 @@ export async function DELETE(
 ) {
   const { id } = await params;
   try {
-    await prisma.breakeList.delete({
+    await prisma.breakList.delete({
       where: { id: Number(id) },
     });
 
@@ -26,7 +26,7 @@ export async function GET(
   try {
     const { id } = await params;
 
-    const report = await prisma.breakeList.findUnique({
+    const report = await prisma.breakList.findUnique({
       where: { id: Number(id) },
       include: { rows: true },
     });

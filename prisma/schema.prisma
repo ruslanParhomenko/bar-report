@@ -8,7 +8,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model BreakeList {
+model BreakList {
   id   Int      @id @default(autoincrement())
   date DateTime @unique
   rows Row[]
@@ -21,7 +21,7 @@ model Row {
   externalId String
   name       String?
   scheduleId Int
-  schedule   BreakeList @relation(fields: [scheduleId], references: [id], onDelete: Cascade)
+  schedule   BreakList @relation(fields: [scheduleId], references: [id], onDelete: Cascade)
 
   h_9  String? @db.Char(2)
   h_10 String? @db.Char(2)

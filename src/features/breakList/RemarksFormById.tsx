@@ -72,6 +72,7 @@ export default function RemarksFormByIdClient() {
   const handleSubmit: SubmitHandler<Omit<BreakRemarksData, "rows">> = async (
     data
   ) => {
+    console.log(data);
     if (!id) return;
     await updateMutation.mutate({ id, remarks: data.remarks });
     toast.success("Remarks updated successfully");

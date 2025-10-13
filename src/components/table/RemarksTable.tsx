@@ -54,7 +54,9 @@ export default function RemarksTable({
           <TableBody>
             {filtered.map((remark: Remark) => (
               <TableRow key={remark.id}>
-                <TableCell className="md:min-w-2/8">{remark.name}</TableCell>
+                <TableCell className="md:min-w-2/8 sticky left-0 bg-background/90">
+                  {remark.name}
+                </TableCell>
                 <TableCell className="md:w-1/8">{remark.dayHours}</TableCell>
                 <TableCell className="md:w-1/8">{remark.nightHours}</TableCell>
                 <TableCell className="md:w-1/8">{remark.penality}</TableCell>

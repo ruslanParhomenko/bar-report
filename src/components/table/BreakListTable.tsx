@@ -44,7 +44,7 @@ export default function BreakTable({
                   key={row.id}
                   className="hover:text-rd  cursor-pointer"
                 >
-                  <TableCell className=" font-bold md:w-3xs">
+                  <TableCell className=" font-bold md:w-3xs sticky left-0 bg-background/90">
                     {row.name ?? "-"}
                   </TableCell>
                   <TableCell className="text-sm text-gr font-bold md:w-xs">

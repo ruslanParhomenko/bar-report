@@ -1,5 +1,5 @@
 import {
-  BreakeList,
+  BreakList,
   CashVerify,
   DailyReport,
   DailyReportCucina,
@@ -19,7 +19,7 @@ import {
 } from "@/generated/prisma";
 
 export type RemarkData = RemarkReport & { remarks: Remark[] };
-export type BreakListData = BreakeList & { rows: Row[] };
+export type BreakListData = BreakList & { rows: Row[] };
 export type ReportBarData = DailyReport & {
   tobacco: Tobacco[];
   cashVerify: CashVerify[];
@@ -34,4 +34,11 @@ export type ReportCucinaData = DailyReportCucina & {
   staff: Staff[];
   movement: Movement[];
   writeOff: WriteOff[];
+};
+
+export type ArchiveData = {
+  dailyReportCucina: ReportCucinaData[];
+  dailyReport: ReportBarData[];
+  remarkReport: RemarkData[];
+  breakList: BreakListData[];
 };

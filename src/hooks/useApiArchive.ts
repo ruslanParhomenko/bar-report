@@ -2,13 +2,7 @@
 
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { fetcher } from "@/lib/fetcher";
-
-export type ArchiveData = {
-  dailyReportCucina: any[];
-  dailyReport: any[];
-  remarkReport: any[];
-  breakeList: any[];
-};
+import { ArchiveData } from "@/constants/type";
 
 type UseArchiveOptions = {
   staleTime?: number;

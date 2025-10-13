@@ -22,7 +22,7 @@ const ReportCucina = dynamic(() => import("@/features/archive/ReportCucina"));
 const Remarks = dynamic(() => import("@/features/archive/Remarks"));
 
 export enum DataObjectApi {
-  BreakList = "breakeList",
+  BreakList = "breakList",
   Report = "dailyReport",
   ReportCucina = "dailyReportCucina",
   Remarks = "remarkReport",
@@ -40,7 +40,7 @@ export const ArchivePage = () => {
   return (
     <>
       <AccordionWrapper nameTag={BREAK_LIST_ENDPOINT}>
-        <BreakList data={data.breakeList} invalidate={onInvalidate} />
+        <BreakList data={data.breakList} invalidate={onInvalidate} />
       </AccordionWrapper>
 
       <AccordionWrapper nameTag={REPORT_BAR_ENDPOINT}>

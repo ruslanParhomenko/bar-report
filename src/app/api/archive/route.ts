@@ -4,7 +4,7 @@ import { prisma } from "@/lib/prisma";
 export const revalidate = 43200;
 
 export async function GET() {
-  const [dailyReportCucina, dailyReport, remarkReport, breakeList] =
+  const [dailyReportCucina, dailyReport, remarkReport, breakList] =
     await prisma.$transaction([
       prisma.dailyReportCucina.findMany({
         take: 62,
@@ -34,7 +34,7 @@ export async function GET() {
         include: { remarks: true },
         orderBy: { date: "desc" },
       }),
-      prisma.breakeList.findMany({
+      prisma.breakList.findMany({
         take: 62,
         include: {
           rows: true,
@@ -44,7 +44,7 @@ export async function GET() {
     ]);
 
   return NextResponse.json(
-    { dailyReportCucina, dailyReport, remarkReport, breakeList },
+    { dailyReportCucina, dailyReport, remarkReport, breakList },
     {
       headers: {
         "Cache-Control": "s-maxage=43200, stale-while-revalidate=59",
