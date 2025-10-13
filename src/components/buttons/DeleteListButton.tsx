@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import { useArchiveMutations } from "@/hooks/useApiActions";
 import { useAbility } from "@/providers/AbilityProvider";

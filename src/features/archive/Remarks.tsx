@@ -1,5 +1,10 @@
+"use client";
 import RemarksTable from "@/components/table/RemarksTable";
 import { RemarkData } from "@/constants/type";
+import { useState } from "react";
+import FilterArchiveData from "./FilterArchiveData";
+import { formatSelectData, getSelectByName } from "./helpers";
+import { REMARKS_ENDPOINT } from "@/constants/endpoint-tag";
 
 export default function Remarks({
   data,
@@ -8,10 +13,18 @@ export default function Remarks({
   data: RemarkData[];
   invalidate?: () => void;
 }) {
-  if (!data?.length) return null;
+  const [filteredData, setFilteredData] = useState<any[]>([]);
+
   return (
     <>
-      {data.map((item, index: number) => {
+      <FilterArchiveData
+        options={getSelectByName(data || [], "remarks")}
+        dateSelect={formatSelectData(data)}
+        setFilteredData={setFilteredData}
+        data={data}
+        nameTag={REMARKS_ENDPOINT}
+      />
+      {filteredData.map((item, index: number) => {
         if (!item.remarks?.length) return null;
         return <RemarksTable key={index} data={item} invalidate={invalidate} />;
       })}

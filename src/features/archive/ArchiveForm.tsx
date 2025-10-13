@@ -1,8 +1,3 @@
-"use client";
-import { ArchiveListTable } from "./ArchiveListTable";
-import { useForm } from "react-hook-form";
-import { Form } from "@/components/ui/form";
-
 import {
   BREAK_LIST_ENDPOINT,
   REMARKS_ENDPOINT,
@@ -13,57 +8,51 @@ import Remarks from "./Remarks";
 import BreakList from "./BreakList";
 import ReportBar from "./ReportBar";
 import ReportCucina from "./ReportCucina";
-import { getSelectByName } from "./helpers";
-import { DATA_FILTER } from "./constant";
+import {
+  BreakListData,
+  RemarkData,
+  ReportBarData,
+  ReportCucinaData,
+} from "@/constants/type";
+import AccordionWrapper from "@/components/wrapper/AccordionWrapper";
 
-enum dataObjectApi {
-  breakList = "breakeList",
-  report = "dailyReport",
-  "report-cucina" = "dailyReportCucina",
-  remarks = "remarkReport",
+export enum DataObjectApi {
+  BreakList = "breakeList",
+  Report = "dailyReport",
+  ReportCucina = "dailyReportCucina",
+  Remarks = "remarkReport",
 }
+export type ApiDataMap = {
+  [DataObjectApi.BreakList]: BreakListData[];
+  [DataObjectApi.Report]: ReportBarData[];
+  [DataObjectApi.ReportCucina]: ReportCucinaData[];
+  [DataObjectApi.Remarks]: RemarkData[];
+};
 
 export const ArchiveForm = ({
   data,
   onInvalidate,
 }: {
-  data: any;
+  data: ApiDataMap;
   onInvalidate: () => void;
 }) => {
-  const form = useForm();
-
   return (
-    <Form {...form}>
-      <ArchiveListTable
-        nameTag={BREAK_LIST_ENDPOINT}
-        data={data[dataObjectApi[BREAK_LIST_ENDPOINT]]}
-        options={getSelectByName(data?.breakeList || [], "rows")}
-      >
-        {(breakList) => (
-          <BreakList data={breakList} invalidate={onInvalidate} />
-        )}
-      </ArchiveListTable>
-      <ArchiveListTable
-        nameTag={REPORT_BAR_ENDPOINT}
-        data={data[dataObjectApi[REPORT_BAR_ENDPOINT]]}
-        options={DATA_FILTER[REPORT_BAR_ENDPOINT]}
-      >
-        {(report) => <ReportBar data={report} invalidate={onInvalidate} />}
-      </ArchiveListTable>
-      <ArchiveListTable
-        nameTag={REPORT_CUCINA_ENDPOINT}
-        data={data[dataObjectApi[REPORT_CUCINA_ENDPOINT]]}
-        options={DATA_FILTER[REPORT_CUCINA_ENDPOINT]}
-      >
-        {(report) => <ReportCucina data={report} invalidate={onInvalidate} />}
-      </ArchiveListTable>
-      <ArchiveListTable
-        nameTag={REMARKS_ENDPOINT}
-        data={data[dataObjectApi[REMARKS_ENDPOINT]]}
-        options={getSelectByName(data?.remarkReport || [], "remarks")}
-      >
-        {(remarks) => <Remarks data={remarks} invalidate={onInvalidate} />}
-      </ArchiveListTable>
-    </Form>
+    <>
+      <AccordionWrapper nameTag={BREAK_LIST_ENDPOINT}>
+        <BreakList data={data.breakeList} invalidate={onInvalidate} />
+      </AccordionWrapper>
+
+      <AccordionWrapper nameTag={REPORT_BAR_ENDPOINT}>
+        <ReportBar data={data.dailyReport} invalidate={onInvalidate} />
+      </AccordionWrapper>
+
+      <AccordionWrapper nameTag={REPORT_CUCINA_ENDPOINT}>
+        <ReportCucina data={data.dailyReportCucina} invalidate={onInvalidate} />
+      </AccordionWrapper>
+
+      <AccordionWrapper nameTag={REMARKS_ENDPOINT}>
+        <Remarks data={data.remarkReport} invalidate={onInvalidate} />
+      </AccordionWrapper>
+    </>
   );
 };

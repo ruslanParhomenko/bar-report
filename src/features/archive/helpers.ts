@@ -1,6 +1,6 @@
 import { format } from "date-fns";
 
-//select by name|field
+//select by name
 export function getSelectByName<T extends Record<string, any>>(
   data: T[],
   tag: keyof T
@@ -23,6 +23,31 @@ export function getSelectByName<T extends Record<string, any>>(
       value: name,
     })),
   ];
+}
+
+// select by fields
+
+export function getFilterKeys(
+  obj: Record<string, any>
+): { label: string; value: string }[] {
+  if (!obj || typeof obj !== "object") return [{ label: "all", value: "all" }];
+
+  const excludeKeys = ["id", "date", "createdAt"];
+  const renameMap: Record<string, string> = {
+    shifts: "employee",
+  };
+
+  const keys = Object.keys(obj).filter((key) => !excludeKeys.includes(key));
+
+  const result = [
+    { label: "all", value: "all" },
+    ...keys.map((key) => ({
+      label: renameMap[key] ?? key,
+      value: key,
+    })),
+  ];
+
+  return result;
 }
 
 // select by date
