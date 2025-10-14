@@ -15,6 +15,7 @@ export async function POST(req: Request) {
           nightHours: remark.nightHours,
           reason: remark.reason,
           penality: remark.penality,
+          bonus: remark.bonus,
           reasonPenality: remark.reasonPenality,
         })),
       },

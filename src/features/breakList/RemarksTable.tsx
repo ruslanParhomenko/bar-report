@@ -19,6 +19,7 @@ import { useTranslations } from "next-intl";
 
 import { OVER_HOURS, REASON } from "./constant";
 import { defaultRemarks } from "./schema";
+import SelectWithInput from "@/components/inputs/SelectWithInput";
 
 export default function RemarksTable({
   fields,
@@ -50,6 +51,8 @@ export default function RemarksTable({
             <TableCell className="text-center md:w-20 w-5">day</TableCell>
             <TableCell className="text-center md:w-20 w-5">night</TableCell>
             <TableCell className="text-center md:w-40 w-8">penality</TableCell>
+            <TableCell className="text-center md:w-40 w-8">bonus</TableCell>
+
             <TableCell className="text-center md:w-90 w-8">reason</TableCell>
             <TableCell className="text-center md:w-40 w-5">actions</TableCell>
           </TableRow>
@@ -86,7 +89,13 @@ export default function RemarksTable({
                 />
               </TableCell>
               <TableCell>
-                <SelectField
+                <NumericInput
+                  fieldName={`remarks.${idx}.bonus`}
+                  disabled={isDisabled}
+                />
+              </TableCell>
+              <TableCell>
+                <SelectWithInput
                   fieldName={`remarks.${idx}.reason`}
                   data={REASON}
                   disabled={isDisabled}

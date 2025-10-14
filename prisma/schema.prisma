@@ -17,7 +17,7 @@ model BreakList {
 }
 
 model Row {
-  id         Int        @id @default(autoincrement())
+  id         Int       @id @default(autoincrement())
   externalId String
   name       String?
   scheduleId Int
@@ -119,6 +119,7 @@ model Remark {
   dayHours   String       @default("")
   nightHours String       @default("")
   reason     String       @default("")
+  bonus      String       @default("")
   penality   String       @default("")
   reportId   Int
   report     RemarkReport @relation(fields: [reportId], references: [id], onDelete: Cascade)

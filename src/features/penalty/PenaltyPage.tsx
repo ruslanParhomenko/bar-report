@@ -10,8 +10,13 @@ import { RemarkData } from "@/constants/type";
 import { Remark } from "@/generated/prisma";
 import { useApi } from "@/hooks/useApi";
 import { REMARKS_ENDPOINT } from "@/constants/endpoint-tag";
+import { Button } from "@/components/ui/button";
+import TotalPenalty from "./TotalPenalty";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
 
 export const PenaltyPage = () => {
+  const [isOpenTotal, setIsOpenTotal] = useState(false);
   const { query } = useApi<RemarkData>({
     endpoint: REMARKS_ENDPOINT,
     queryKey: REMARKS_ENDPOINT,
@@ -34,7 +39,7 @@ export const PenaltyPage = () => {
     allLabel: "Все месяцы",
   });
 
-  const [selectedMonth, setSelectedMonth] = useState("all");
+  const [selectedMonth, setSelectedMonth] = useState("");
   const [selectedEmployee, setSelectedEmployee] = useState("all");
 
   const filteredRows = useMemo(() => {
@@ -57,6 +62,7 @@ export const PenaltyPage = () => {
             nightHours: r.nightHours,
             reason: r.reason,
             penality: r.penality,
+            bonus: r.bonus,
             month: date.getMonth().toString(),
           })
         )
@@ -66,7 +72,7 @@ export const PenaltyPage = () => {
             (selectedEmployee === "all" || row.name === selectedEmployee)
         );
     });
-  }, [data, selectedMonth, selectedEmployee]);
+  }, [selectedMonth, selectedEmployee]);
 
   return (
     <div className="md:p-6 space-y-6">
@@ -81,9 +87,33 @@ export const PenaltyPage = () => {
           value={selectedEmployee}
           setValue={setSelectedEmployee}
         />
+        <Button
+          variant={"secondary"}
+          className="text-rd"
+          onClick={() => {
+            setSelectedMonth("");
+            setSelectedEmployee("all");
+          }}
+        >
+          reset
+        </Button>
+        <div className="flex items-center space-x-2">
+          <Switch
+            id="toggle-total"
+            checked={isOpenTotal}
+            onCheckedChange={(checked) => setIsOpenTotal(checked)}
+          />
+          <Label htmlFor="toggle-total">
+            {isOpenTotal ? "Подробно" : "Итоговый"}
+          </Label>
+        </div>
       </div>
 
-      <PenaltyTable data={filteredRows ?? []} />
+      {isOpenTotal ? (
+        <TotalPenalty data={filteredRows ?? []} />
+      ) : (
+        <PenaltyTable data={filteredRows ?? []} />
+      )}
     </div>
   );
 };

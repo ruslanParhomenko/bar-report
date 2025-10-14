@@ -35,7 +35,9 @@ const BreakList = () => {
   const isDisabled = isObserver || isCucina || isBar;
 
   //create
-  const { createMutation: createBreakeList } = useApi<BreakRemarksData>({
+  const { createMutation: createBreakeList } = useApi<
+    Omit<BreakRemarksData, "remarks">
+  >({
     endpoint: BREAK_LIST_ENDPOINT,
     queryKey: BREAK_LIST_ENDPOINT,
     fetchInit: false,
@@ -99,7 +101,6 @@ const BreakList = () => {
         createBreakeList.mutateAsync({
           date: new Date(data.date),
           rows: data.rows,
-          remarks: [],
         }),
         createRemarks.mutateAsync({
           date: new Date(data.date),

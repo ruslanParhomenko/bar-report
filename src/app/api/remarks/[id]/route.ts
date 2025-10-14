@@ -79,6 +79,7 @@ export async function PUT(
               nightHours: remark.nightHours || "",
               reason: remark.reason || "",
               penality: remark.penality || "",
+              bonus: remark.bonus || "",
             })),
           },
         },

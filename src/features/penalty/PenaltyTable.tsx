@@ -35,6 +35,7 @@ export default function PenaltyTable({ data }: { data: PenaltyTableProps[] }) {
                 <TableHead className="text-center">Дневные часы</TableHead>
                 <TableHead className="text-center">Ночные часы</TableHead>
                 <TableHead>Причина</TableHead>
+                <TableHead className="text-center">Бонус</TableHead>
                 <TableHead className="text-center">Штраф</TableHead>
               </TableRow>
             </TableHeader>
@@ -58,12 +59,15 @@ export default function PenaltyTable({ data }: { data: PenaltyTableProps[] }) {
                     </TableCell>
                     <TableCell>{row.reason}</TableCell>
                     <TableCell className="text-center">
+                      {row.bonus || "-"}
+                    </TableCell>
+                    <TableCell className="text-center">
                       {row.penality || "-"}
                     </TableCell>
                   </TableRow>
                 ))}
               <TableRow className="font-semibold bg-muted/50">
-                <TableCell colSpan={5} className="text-right">
+                <TableCell colSpan={6} className="text-right">
                   Общая сумма штрафов:
                 </TableCell>
                 <TableCell>{totalPenalty}</TableCell>

@@ -100,6 +100,7 @@ export default function RemarksFormByIdClient() {
               <TableCell className="text-center md:w-40 w-8">
                 penality
               </TableCell>
+              <TableCell className="text-center md:w-40 w-8">bonus</TableCell>
               <TableCell className="text-center md:w-90 w-8">reason</TableCell>
               <TableCell className="text-center md:w-40 w-5">actions</TableCell>
             </TableRow>
@@ -128,6 +129,9 @@ export default function RemarksFormByIdClient() {
                 </TableCell>
                 <TableCell>
                   <NumericInput fieldName={`remarks.${idx}.penality`} />
+                </TableCell>
+                <TableCell>
+                  <NumericInput fieldName={`remarks.${idx}.bonus`} />
                 </TableCell>
                 <TableCell>
                   <TextInput

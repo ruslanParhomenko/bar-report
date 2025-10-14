@@ -43,6 +43,7 @@ export const remarksSchema = yup.object().shape({
   nightHours: yup.string(),
   penality: yup.string(),
   reason: yup.string(),
+  bonus: yup.string(),
 });
 
 export type RemarksSchemaType = yup.InferType<typeof remarksSchema>;
@@ -53,6 +54,7 @@ export const defaultRemarks = {
   nightHours: "",
   penality: "",
   reason: "",
+  bonus: "",
 };
 
 export const dataSchema = yup.object({
