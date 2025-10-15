@@ -3,6 +3,7 @@ import { useAbility } from "@/providers/AbilityProvider";
 import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
 import {
   defaultEmployee,
+  defaultVacationPay,
   employeesSchema,
   EmployeesSchemaTypeData,
 } from "./schema";
@@ -19,7 +20,7 @@ import { EMPLOYEES_ROLE } from "./constants";
 import NumericInput from "@/components/inputs/NumericInput";
 import { DatePickerRange } from "@/components/inputs/DatePickerRange";
 import DatePickerInput from "@/components/inputs/DatePickerInput";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent} from "@/components/ui/card";
 import { Label } from "@radix-ui/react-label";
 
 type FormData = EmployeesSchemaTypeData;
@@ -31,7 +32,7 @@ export default function AddEmployeesForm() {
     defaultValues: defaultEmployee,
   });
 
-  const { fields, append, remove } = useFieldArray({
+  const { fields, append, remove,replace } = useFieldArray({
     control: form.control,
     name: "vacationPay",
   });
@@ -66,60 +67,43 @@ export default function AddEmployeesForm() {
   const values = form.watch();
   const isFormDirty =
     values.name !== defaultEmployee.name ||
-    values.role !== defaultEmployee.role;
+    values.role !== defaultEmployee.role ||
+    values.rate !== defaultEmployee.rate ||
+    values.employmentDate !== defaultEmployee.employmentDate ||
+    values.vacationPay.length !== defaultEmployee.vacationPay.length;
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handleSubmit)}>
-        <Card className="shadow-md border rounded-2xl md:px-4">
-          <CardHeader>
-            <CardTitle className="text-bl">Add Employee</CardTitle>
-          </CardHeader>
-
+        <Card className="shadow-md border rounded-2xl md:p-4">
           <CardContent>
             <Label className="text-base font-bold">name</Label>
-            <TextInput fieldName="name" type="text" className="w-full my-4" />
+            <TextInput fieldName="name" type="text" className="w-full my-4 h-10" />
             <Label className="text-base font-bold">role</Label>
             <SelectField
               data={EMPLOYEES_ROLE}
               fieldName="role"
-              className="truncate w-full my-4"
+              className="truncate w-full my-4 h-10"
             />
             <Label className="text-base font-bold">rate</Label>
-            <TextInput fieldName="rate" className="my-6" />
+            <TextInput fieldName="rate" className="my-4" />
             <Label className="text-base font-bold">employmentDate</Label>
             <DatePickerInput
               fieldName="employmentDate"
-              className="my-6 w-full"
+              className="my-4 w-full h-10"
             />
-            {isFormDirty && (
-              <Button
-                type="button"
-                variant={"secondary"}
-                onClick={() => resetForm()}
-              >
-                Reset
-              </Button>
-            )}
+         
 
-            <div className="flex flex-col gap-2 mt-4 md:mt-0">
-              <div className="flex items-center gap-2 mb-2">
-                <span className="font-semibold">Vacation Pays:</span>
-                <Button
-                  type="button"
-                  size="sm"
-                  onClick={() =>
-                    append({ startDate: "", endDate: "", countDays: "" })
-                  }
-                >
-                  <Plus size={16} />
-                </Button>
-              </div>
+            
+                <Label className="font-bold text-base">Vacation Pays:</Label>
+             
+        
 
               {fields.map((field, index) => (
                 <div
                   key={field.id}
-                  className="flex gap-2 items-center flex-wrap md:flex-nowrap"
+                  className="flex flex-col gap-4 w-full my-4"
                 >
+                  <div className="flex justify-between gap-2 w-full">
                   <DatePickerRange
                     onDataChange={(range) => {
                       if (range?.from && range?.to) {
@@ -144,27 +128,51 @@ export default function AddEmployeesForm() {
                       }
                     }}
                     resetTrigger={false}
+                    className="w-50 h-10"
+          
                   />
-
                   <NumericInput
                     fieldName={`vacationPay.${index}.countDays`}
                     placeholder="Days"
-                    className="w-20"
+                    className="w-20 h-10 "
                   />
-
-                  <Button
+                      <Button
                     type="button"
                     variant="destructive"
-                    size="sm"
-                    onClick={() => remove(index)}
+                    className="h-10"
+                    onClick={() =>fields.length === 1 ? replace(defaultVacationPay) : remove(index)}
                   >
                     <Trash size={16} />
                   </Button>
+
+                  </div>
+
+                  <div className="w-full flex justify-end">
+
+              
+                {fields.length -1  === index &&<Button
+                  type="button"
+                  onClick={() =>
+                    append(defaultVacationPay)
+                  }
+                >
+                  <Plus size={16} />
+                </Button>}
+                  </div>
                 </div>
               ))}
-            </div>
+            
 
-            <div className="flex md:flex-row gap-4 justify-end mt-4 md:mt-0">
+            <div className="flex md:flex-row gap-4 justify-between my-4 ">
+              <Button
+                type="button"
+                variant={"secondary"}
+                onClick={() => resetForm()}
+                disabled={!isFormDirty}
+              >
+                Reset
+              </Button>
+        
               <Button type="submit" disabled={!isAdmin}>
                 <Plus /> Add Employee
               </Button>

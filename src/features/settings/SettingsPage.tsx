@@ -49,7 +49,7 @@ export default function SettingsPage() {
         )}
       </WrapperAccordionTable>
       <WrapperAccordionTable nameTag="employees" className="md:flex-row">
-        <div className="grid grid-cols-1 md:grid-cols-[30%_70%] w-full">
+        <div className="grid grid-cols-1 md:grid-cols-[30%_68%] w-full pt-4 md:gap-4">
           <AddEmployeesForm />
           {!isLoadingEmployees && (
             <EmployeesTable

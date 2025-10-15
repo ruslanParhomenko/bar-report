@@ -41,5 +41,9 @@ export const defaultEmployee = {
   role: "",
   rate: "",
   employmentDate: "",
-  vacationPay: [] as (typeof defaultVacationPay)[],
+  vacationPay: [{
+    startDate: "",
+    endDate: "",
+    countDays: "",
+  }],
 };

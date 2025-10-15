@@ -3,6 +3,7 @@ import { EmployeesSchemaTypeData } from "../../features/settings/schema";
 import { Button } from "../ui/button";
 import { Minus } from "lucide-react";
 import { format } from "date-fns";
+import { Card } from "../ui/card";
 
 export function EmployeesTable({
   data,
@@ -15,7 +16,7 @@ export function EmployeesTable({
     remove(id);
   };
   return (
-    <>
+    <Card className="shadow-md border rounded-2xl md:p-6">
       {data?.map((emp, idx: number) => {
         return (
           <div
@@ -38,6 +39,6 @@ export function EmployeesTable({
           </div>
         );
       })}
-    </>
+    </Card>
   );
 }

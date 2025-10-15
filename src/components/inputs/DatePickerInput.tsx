@@ -49,20 +49,19 @@ function DatePickerInput({
       name={fieldName}
       render={({ field }) => {
         return (
-          <FormItem className="px-2">
+          <FormItem >
             <Popover>
               <PopoverTrigger asChild className={cn(className)}>
                 <FormControl>
                   <Button
                     variant={"outline"}
                     className={cn(
-                      "p-2 text-center font-normal",
                       !field.value && "text-muted-foreground",
                       theme === "dark" && "border-0"
                     )}
                   >
                     {field.value && isClient ? (
-                      format(new Date(field.value), "LLL dd,   y", {
+                      format(new Date(field.value), "dd. MM. yy", {
                         locale: locales[locale],
                       })
                     ) : (

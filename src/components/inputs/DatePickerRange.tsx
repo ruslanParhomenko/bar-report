@@ -1,10 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
-
-import { CalendarIcon } from "lucide-react";
 import { format, Locale } from "date-fns";
-import { de, enUS, fr, ru } from "date-fns/locale";
+import { ru, ro } from "date-fns/locale";
 import { DateRange } from "react-day-picker";
 
 import { Button } from "@/components/ui/button";
@@ -19,6 +17,7 @@ import { cn } from "@/lib/utils";
 type DateRangeProps = {
   onDataChange?: (date: DateRange | undefined) => void;
   resetTrigger?: boolean;
+  className?:string
 };
 
 type stepType = "from" | "to";
@@ -26,14 +25,13 @@ type stepType = "from" | "to";
 export const DatePickerRange = ({
   onDataChange,
   resetTrigger,
+  className
 }: DateRangeProps) => {
   const tDate = useTranslations("Home");
   const locale = useLocale();
   const locales: Record<string, Locale> = {
     ru: ru,
-    de: de,
-    fr: fr,
-    en: enUS,
+    ro: ro
   };
   const [open, setOpen] = useState(false);
   const [from, setFrom] = useState<Date | undefined>(undefined);
@@ -60,13 +58,13 @@ export const DatePickerRange = ({
 
   const displayText =
     from && to
-      ? `${format(from, "LLL dd, y", { locale: locales[locale] })} - ${format(
+      ? `${format(from, "dd. MM.  y", { locale: locales[locale] })} - ${format(
           to,
-          "LLL dd, y",
+          "dd. MM. y",
           { locale: locales[locale] }
         )}`
       : from
-      ? `${format(from, "LLL dd, y", { locale: locales[locale] })} →`
+      ? `${format(from, "dd. MM. y", { locale: locales[locale] })} →`
       : tDate("pickADate");
 
   useEffect(() => {
@@ -77,7 +75,7 @@ export const DatePickerRange = ({
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger asChild className="h-10 md:w-70 w-40 rounded-md">
+      <PopoverTrigger asChild className={cn(className)}>
         <Button
           id="date"
           variant={"outline"}
@@ -86,18 +84,16 @@ export const DatePickerRange = ({
             !from && "text-muted-foreground"
           )}
         >
-          <span className="mr-2">{displayText}</span>
-          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+          <span>{displayText}</span>
         </Button>
       </PopoverTrigger>
 
-      <PopoverContent className="w-auto p-0" align="start">
+      <PopoverContent  align="start">
         <Calendar
           mode="single"
           selected={step === "from" ? from : to}
           onSelect={handleSelect}
           defaultMonth={from || new Date()}
-          initialFocus
           locale={locales[locale]}
         />
       </PopoverContent>
