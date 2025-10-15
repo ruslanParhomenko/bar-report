@@ -19,9 +19,9 @@ export const SIDEBAR_NAVIGATION = [
     icon: Calendar,
   },
   {
-    title: "report",
-    url: "/report/bar",
-    url2: "/report/cucina",
+    title: "reports",
+    url: "/reports/bar",
+    url2: "/reports/cucina",
     icon: BarChart3,
   },
   {

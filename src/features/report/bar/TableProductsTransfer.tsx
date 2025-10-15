@@ -66,7 +66,7 @@ export default function TableProductsTransfer() {
                 />
               </TableCell>
               <TableCell>
-                {fieldsValues[idx].name && (
+                {fieldsValues?.[idx]?.name && (
                   <Button
                     variant={"destructive"}
                     className="h-8 cursor-pointer"

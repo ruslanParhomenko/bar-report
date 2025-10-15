@@ -18,16 +18,6 @@ export default function RemarksTable({
   data: RemarkData;
   invalidate?: () => void;
 }) {
-  const filtered = data?.remarks?.filter(
-    (remark: Remark) =>
-      remark.name?.trim() ||
-      remark.dayHours?.trim() ||
-      remark.nightHours?.trim() ||
-      remark.penality?.trim() ||
-      remark.reason?.trim()
-  );
-
-  if (!filtered?.length) return null;
   return (
     <Card className="shadow-md border rounded-2xl md:p-4 mb-4">
       <CardHeader>
@@ -53,7 +43,7 @@ export default function RemarksTable({
           </TableHeader>
 
           <TableBody>
-            {filtered.map((remark: Remark) => (
+            {data.remarks.map((remark: Remark) => (
               <TableRow key={remark.id}>
                 <TableCell className="md:min-w-2/8 sticky left-0 bg-background/90">
                   {remark.name}

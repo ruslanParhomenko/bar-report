@@ -59,7 +59,7 @@ export default function TableExpenses() {
                 />
               </TableCell>
               <TableCell className="px-2">
-                {fieldsValues[idx].name && (
+                {fieldsValues?.[idx]?.name && (
                   <Button
                     variant={"destructive"}
                     className="h-8 cursor-pointer"

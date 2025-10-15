@@ -21,6 +21,12 @@ export default function PenaltyTable({ data }: { data: PenaltyTableProps[] }) {
       return acc + (isNaN(val) ? 0 : val);
     }, 0);
   }, [data]);
+  const totalBonus = useMemo(() => {
+    return data.reduce((acc, r) => {
+      const val = Number(r.bonus);
+      return acc + (isNaN(val) ? 0 : val);
+    }, 0);
+  }, [data]);
   return (
     <Card className="shadow-md border rounded-2xl md:px-10">
       <CardContent>
@@ -29,7 +35,7 @@ export default function PenaltyTable({ data }: { data: PenaltyTableProps[] }) {
             <TableHeader>
               <TableRow>
                 <TableHead>Дата</TableHead>
-                <TableHead className="sticky left-0 bg-background/90">
+                <TableHead className="sticky left-0 bg-background/90 md:bg-inherit z-20">
                   Сотрудник
                 </TableHead>
                 <TableHead className="text-center">Дневные часы</TableHead>
@@ -48,7 +54,7 @@ export default function PenaltyTable({ data }: { data: PenaltyTableProps[] }) {
                     className="hover:text-rd hover:bg-accent"
                   >
                     <TableCell>{row.date}</TableCell>
-                    <TableCell className="sticky left-0 bg-background/90">
+                    <TableCell className="sticky left-0 bg-background/90 md:bg-inherit z-20">
                       {row.name}
                     </TableCell>
                     <TableCell className="text-center">
@@ -66,11 +72,12 @@ export default function PenaltyTable({ data }: { data: PenaltyTableProps[] }) {
                     </TableCell>
                   </TableRow>
                 ))}
-              <TableRow className="font-semibold bg-muted/50">
-                <TableCell colSpan={6} className="text-right">
-                  Общая сумма штрафов:
+              <TableRow className="font-semibold ">
+                <TableCell className="text-right" colSpan={5}>
+                  Итог:
                 </TableCell>
-                <TableCell>{totalPenalty}</TableCell>
+                <TableCell className="text-center">{totalBonus}</TableCell>
+                <TableCell className="text-center">{totalPenalty}</TableCell>
               </TableRow>
             </TableBody>
           </Table>

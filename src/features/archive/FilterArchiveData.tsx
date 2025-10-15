@@ -53,7 +53,7 @@ export default function FilterArchiveData({
             [selectedType]: item[selectedType],
           }));
     setFilteredData(filtered);
-  }, [selectedType, selectedDate]);
+  }, [selectedType, selectedDate, data]);
   return (
     <div className="flex flex-col md:flex-row md:justify-start gap-6 md:items-center my-4">
       <Select

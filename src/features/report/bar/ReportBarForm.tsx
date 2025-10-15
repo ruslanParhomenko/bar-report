@@ -224,7 +224,6 @@ function ReportBar() {
       console.error("Error fetching  data:", err);
     }
   };
-
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handleSubmit)} className="md:pl-2">

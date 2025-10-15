@@ -40,7 +40,7 @@ export const DeleteListButton = <T extends BaseData>({
     }
   };
   const editForm = () => {
-    router.push(`/breakList/remark/${data.id}`);
+    router.push(`/${nameTag}/${data.id}`);
   };
   return (
     <div className="flex w-full justify-between items-center">
