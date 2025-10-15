@@ -1,33 +1,62 @@
 "use client";
 import { useApi } from "@/hooks/useApi";
-import { USERS_FIREBOX_ENDPOINT } from "@/constants/endpoint-tag";
+import {
+  EMPLOYEES_FIREBOX_ENDPOINT,
+  USERS_FIREBOX_ENDPOINT,
+} from "@/constants/endpoint-tag";
 import { WrapperAccordionTable } from "../info/WrapperAccardionTable";
 import { UsersTable } from "../../components/table/UsersTable";
 import AddUsersForm from "./AddUsersForm";
-import { UsersSchemaTypeData } from "./schema";
+import { EmployeesSchemaTypeData, UsersSchemaTypeData } from "./schema";
+import AddEmployeesForm from "./AddEmployees";
+import { EmployeesTable } from "@/components/table/EmployeesTable";
 
 export default function SettingsPage() {
+  // users
   const { deleteMutation: deleteUser } = useApi<any>({
     endpoint: USERS_FIREBOX_ENDPOINT,
     queryKey: USERS_FIREBOX_ENDPOINT,
     fetchInit: false,
   });
-  const { query } = useApi<UsersSchemaTypeData>({
+  const { query: queryUser } = useApi<UsersSchemaTypeData>({
     endpoint: USERS_FIREBOX_ENDPOINT,
     queryKey: USERS_FIREBOX_ENDPOINT,
     fetchInit: true,
   });
-  const { data, isLoading } = query;
+  // employees
+  const { deleteMutation: deleteEmployee } = useApi<any>({
+    endpoint: EMPLOYEES_FIREBOX_ENDPOINT,
+    queryKey: EMPLOYEES_FIREBOX_ENDPOINT,
+    fetchInit: false,
+  });
+  const { query: queryEmployee } = useApi<EmployeesSchemaTypeData>({
+    endpoint: EMPLOYEES_FIREBOX_ENDPOINT,
+    queryKey: EMPLOYEES_FIREBOX_ENDPOINT,
+    fetchInit: true,
+  });
+  const { data: users, isLoading: isLoadingUsers } = queryUser;
+  const { data: employees, isLoading: isLoadingEmployees } = queryEmployee;
 
   return (
-    <WrapperAccordionTable nameTag="users" className="md:px-12">
-      <AddUsersForm />
-      {!isLoading && (
-        <UsersTable
-          data={data as UsersSchemaTypeData[]}
-          remove={deleteUser.mutateAsync}
-        />
-      )}
-    </WrapperAccordionTable>
+    <>
+      <WrapperAccordionTable nameTag="users" className="md:px-12">
+        <AddUsersForm />
+        {!isLoadingUsers && (
+          <UsersTable
+            data={users as UsersSchemaTypeData[]}
+            remove={deleteUser.mutateAsync}
+          />
+        )}
+      </WrapperAccordionTable>
+      <WrapperAccordionTable nameTag="employees" className="md:px-12">
+        <AddEmployeesForm />
+        {!isLoadingEmployees && (
+          <EmployeesTable
+            data={employees as EmployeesSchemaTypeData[]}
+            remove={deleteEmployee.mutateAsync}
+          />
+        )}
+      </WrapperAccordionTable>
+    </>
   );
 }
