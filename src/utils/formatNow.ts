@@ -20,7 +20,11 @@ export const formatNowData = (): string => {
   return `${day}.${month} ${hours}:${minutes}`;
 };
 
-export const formatDataForInput = ({ date }: { date: Date }): string => {
+export const formatDataForInput = ({
+  date,
+}: {
+  date: Date | string;
+}): string => {
   const formatDate =
     date && isValid(new Date(date)) ? format(new Date(date), "dd.MM.yy") : "-";
 

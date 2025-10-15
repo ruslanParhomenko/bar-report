@@ -43,23 +43,23 @@ export default function AddEmployeesForm() {
 
   const handleSubmit: SubmitHandler<FormData> = async (data) => {
     console.log(data);
-    // try {
-    //   AddEmployees.mutateAsync({
-    //     name: data.name,
-    //     role: data.role,
-    //     rate: data.rate,
-    //     employmentDate: data.employmentDate,
-    //     vacationPay: data.vacationPay.map((pay) => ({
-    //       startDate: pay.startDate,
-    //       endDate: pay.endDate,
-    //       countDays: pay.countDays,
-    //     })),
-    //   }),
-    //     toast.success("Employee is added !");
-    //   resetForm();
-    // } catch (e) {
-    //   toast.error("Error adding Employee");
-    // }
+    try {
+      AddEmployees.mutateAsync({
+        name: data.name,
+        role: data.role,
+        rate: data.rate,
+        employmentDate: new Date(data.employmentDate).toISOString(),
+        vacationPay: data.vacationPay.map((pay) => ({
+          startDate: pay.startDate,
+          endDate: pay.endDate,
+          countDays: pay.countDays,
+        })),
+      }),
+        toast.success("Employee is added !");
+      resetForm();
+    } catch (e) {
+      toast.error("Error adding Employee");
+    }
   };
   const values = form.watch();
   const isFormDirty =
