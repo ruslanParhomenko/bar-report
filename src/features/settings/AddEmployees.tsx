@@ -19,6 +19,8 @@ import { EMPLOYEES_ROLE } from "./constants";
 import NumericInput from "@/components/inputs/NumericInput";
 import { DatePickerRange } from "@/components/inputs/DatePickerRange";
 import DatePickerInput from "@/components/inputs/DatePickerInput";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Label } from "@radix-ui/react-label";
 
 type FormData = EmployeesSchemaTypeData;
 
@@ -67,104 +69,108 @@ export default function AddEmployeesForm() {
     values.role !== defaultEmployee.role;
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(handleSubmit)}
-        className="flex flex-col md:flex-row justify-between gap-10 py-5"
-      >
-        <div className="flex md:gap-20 gap-3 flex-col md:flex-row">
-          <TextInput
-            fieldName="name"
-            type="text"
-            className="truncate"
-            placeholder="Enter name"
-          />
-          <SelectField
-            data={EMPLOYEES_ROLE}
-            fieldName="role"
-            className="truncate w-[100]"
-            placeHolder="Select role"
-          />
-          <NumericInput fieldName="rate" placeholder="Enter rate" />
-          <DatePickerInput fieldName="employmentDate" />
-          {isFormDirty && (
-            <Button
-              type="button"
-              variant={"secondary"}
-              onClick={() => resetForm()}
-            >
-              Reset
-            </Button>
-          )}
-        </div>
+      <form onSubmit={form.handleSubmit(handleSubmit)}>
+        <Card className="shadow-md border rounded-2xl md:px-4">
+          <CardHeader>
+            <CardTitle className="text-bl">Add Employee</CardTitle>
+          </CardHeader>
 
-        <div className="flex flex-col gap-2 mt-4 md:mt-0">
-          <div className="flex items-center gap-2 mb-2">
-            <span className="font-semibold">Vacation Pays:</span>
-            <Button
-              type="button"
-              size="sm"
-              onClick={() =>
-                append({ startDate: "", endDate: "", countDays: "" })
-              }
-            >
-              <Plus size={16} />
-            </Button>
-          </div>
-
-          {fields.map((field, index) => (
-            <div
-              key={field.id}
-              className="flex gap-2 items-center flex-wrap md:flex-nowrap"
-            >
-              <DatePickerRange
-                onDataChange={(range) => {
-                  if (range?.from && range?.to) {
-                    const diffTime = Math.abs(
-                      range.to.getTime() - range.from.getTime()
-                    );
-                    const diffDays =
-                      Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
-
-                    form.setValue(
-                      `vacationPay.${index}.startDate`,
-                      range.from.toISOString()
-                    );
-                    form.setValue(
-                      `vacationPay.${index}.endDate`,
-                      range.to.toISOString()
-                    );
-                    form.setValue(
-                      `vacationPay.${index}.countDays`,
-                      diffDays.toString()
-                    );
-                  }
-                }}
-                resetTrigger={false}
-              />
-
-              <NumericInput
-                fieldName={`vacationPay.${index}.countDays`}
-                placeholder="Days"
-                className="w-20"
-              />
-
+          <CardContent>
+            <Label className="text-base font-bold">name</Label>
+            <TextInput fieldName="name" type="text" className="w-full my-4" />
+            <Label className="text-base font-bold">role</Label>
+            <SelectField
+              data={EMPLOYEES_ROLE}
+              fieldName="role"
+              className="truncate w-full my-4"
+            />
+            <Label className="text-base font-bold">rate</Label>
+            <TextInput fieldName="rate" className="my-6" />
+            <Label className="text-base font-bold">employmentDate</Label>
+            <DatePickerInput
+              fieldName="employmentDate"
+              className="my-6 w-full"
+            />
+            {isFormDirty && (
               <Button
                 type="button"
-                variant="destructive"
-                size="sm"
-                onClick={() => remove(index)}
+                variant={"secondary"}
+                onClick={() => resetForm()}
               >
-                <Trash size={16} />
+                Reset
+              </Button>
+            )}
+
+            <div className="flex flex-col gap-2 mt-4 md:mt-0">
+              <div className="flex items-center gap-2 mb-2">
+                <span className="font-semibold">Vacation Pays:</span>
+                <Button
+                  type="button"
+                  size="sm"
+                  onClick={() =>
+                    append({ startDate: "", endDate: "", countDays: "" })
+                  }
+                >
+                  <Plus size={16} />
+                </Button>
+              </div>
+
+              {fields.map((field, index) => (
+                <div
+                  key={field.id}
+                  className="flex gap-2 items-center flex-wrap md:flex-nowrap"
+                >
+                  <DatePickerRange
+                    onDataChange={(range) => {
+                      if (range?.from && range?.to) {
+                        const diffTime = Math.abs(
+                          range.to.getTime() - range.from.getTime()
+                        );
+                        const diffDays =
+                          Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
+
+                        form.setValue(
+                          `vacationPay.${index}.startDate`,
+                          range.from.toISOString()
+                        );
+                        form.setValue(
+                          `vacationPay.${index}.endDate`,
+                          range.to.toISOString()
+                        );
+                        form.setValue(
+                          `vacationPay.${index}.countDays`,
+                          diffDays.toString()
+                        );
+                      }
+                    }}
+                    resetTrigger={false}
+                  />
+
+                  <NumericInput
+                    fieldName={`vacationPay.${index}.countDays`}
+                    placeholder="Days"
+                    className="w-20"
+                  />
+
+                  <Button
+                    type="button"
+                    variant="destructive"
+                    size="sm"
+                    onClick={() => remove(index)}
+                  >
+                    <Trash size={16} />
+                  </Button>
+                </div>
+              ))}
+            </div>
+
+            <div className="flex md:flex-row gap-4 justify-end mt-4 md:mt-0">
+              <Button type="submit" disabled={!isAdmin}>
+                <Plus /> Add Employee
               </Button>
             </div>
-          ))}
-        </div>
-
-        <div className="flex md:flex-row gap-4 justify-end mt-4 md:mt-0">
-          <Button type="submit" disabled={!isAdmin}>
-            <Plus /> Add Employee
-          </Button>
-        </div>
+          </CardContent>
+        </Card>
       </form>
     </Form>
   );

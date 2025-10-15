@@ -48,7 +48,7 @@ function SelectField({
           control={control}
           name={fieldName}
           render={() => (
-            <FormItem className="">
+            <FormItem>
               <Select
                 onValueChange={field.onChange}
                 value={field.value}
@@ -59,7 +59,7 @@ function SelectField({
                     data-placeholder=""
                     // className={`${className} flex justify-center min-w-12   [&>svg]:hidden`}
                     className={cn(
-                      "flex justify-center min-w-12   [&>svg]:hidden",
+                      "flex justify-start  min-w-12   [&>svg]:hidden",
                       className,
                       theme === "dark" ? "border-0" : ""
                     )}

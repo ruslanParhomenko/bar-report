@@ -22,7 +22,13 @@ import { Calendar } from "@/components/ui/calendar";
 import React, { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
 
-function DatePickerInput({ fieldName }: { fieldName: string }) {
+function DatePickerInput({
+  fieldName,
+  className,
+}: {
+  fieldName: string;
+  className?: string;
+}) {
   const { theme } = useTheme();
   const t = useTranslations("Home");
   const locale = useLocale();
@@ -43,10 +49,10 @@ function DatePickerInput({ fieldName }: { fieldName: string }) {
       name={fieldName}
       render={({ field }) => {
         return (
-          <FormItem className="w-3xs">
+          <FormItem className="px-2">
             <Popover>
-              <PopoverTrigger asChild>
-                <FormControl className="w-full">
+              <PopoverTrigger asChild className={cn(className)}>
+                <FormControl>
                   <Button
                     variant={"outline"}
                     className={cn(
@@ -65,7 +71,7 @@ function DatePickerInput({ fieldName }: { fieldName: string }) {
                   </Button>
                 </FormControl>
               </PopoverTrigger>
-              <PopoverContent className="w-3xs " align="center">
+              <PopoverContent align="center">
                 <Calendar
                   mode="single"
                   selected={field.value}
