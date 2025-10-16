@@ -43,7 +43,6 @@ import toast from "react-hot-toast";
 import { useAbility } from "@/providers/AbilityProvider";
 import { FetchDataButton } from "@/components/buttons/FetchDataButton";
 import RenderTableCucina from "./RenderTableByFields";
-import { useEmployees } from "@/providers/GoogleSheetsProvider";
 import { useApi } from "@/hooks/useApi";
 import { DailyReportCucina } from "@/generated/prisma";
 import {
@@ -52,6 +51,7 @@ import {
 } from "@/constants/endpoint-tag";
 import { useDataSupaBase } from "@/hooks/useRealTimeData";
 import dynamic from "next/dynamic";
+import { useEmployees } from "@/providers/EmployeesProvider";
 
 function ReportCucina() {
   const t = useTranslations("Home");
@@ -61,9 +61,9 @@ function ReportCucina() {
   const isDisabled = isObserver || isCucina || isBar;
 
   //employees
-  const { employees } = useEmployees();
+  const employees = useEmployees();
   const selectedEmployees = employees
-    .filter((emp) => CUCINA_EMPLOYEES.includes(emp.position))
+    .filter((emp) => CUCINA_EMPLOYEES.includes(emp.role))
     .map((emp) => emp.name);
 
   //create

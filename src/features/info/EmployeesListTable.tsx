@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import React, { useMemo, useState } from "react";
 import {
   Table,
   TableBody,
@@ -17,105 +17,208 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useAbility } from "@/providers/AbilityProvider";
-import { useEmployees } from "@/providers/GoogleSheetsProvider";
-import { format, parseISO } from "date-fns";
-import { useSidebar } from "@/components/ui/sidebar";
 
-type DateFilter = "all" | "registered" | "nonregistered";
-type PositionFilter = "all" | "barmen" | "waiters" | "cook" | "admin";
+import { differenceInMonths, format } from "date-fns";
+import { useSidebar } from "@/components/ui/sidebar";
+import { useEmployees } from "@/providers/EmployeesProvider";
+import { Switch } from "@/components/ui/switch";
+import { EMPLOYEES_ROLE } from "../settings/constants";
+import { Card } from "@/components/ui/card";
+import { useRouter } from "@/i18n/navigation";
+import { useSearchParams } from "next/navigation";
+import { useTranslations } from "next-intl";
+import { cn } from "@/lib/utils";
+import { VacationPaySchemaType } from "../settings/schema";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { Arrow } from "@radix-ui/react-tooltip";
+import { ArrowRight } from "lucide-react";
 
 export function EmployeesListTable() {
   const { isAdmin } = useAbility();
   const { isMobile } = useSidebar();
-  const { employees } = useEmployees();
+  const employees = useEmployees();
+  const t = useTranslations("Home");
 
-  const [dateFilter, setDateFilter] = useState<DateFilter>("all");
-  const [positionFilter, setPositionFilter] = useState<PositionFilter>("all");
+  const [sortByName, setSortByName] = useState(false);
+  const [expandedRows, setExpandedRows] = useState<string[]>([]);
 
-  const filteredEmployees = employees.filter((emp) => {
-    if (dateFilter === "registered" && !emp.date) return false;
-    if (dateFilter === "nonregistered" && emp.date) return false;
-    if (positionFilter !== "all" && emp.position !== positionFilter)
-      return false;
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const roleFilter = searchParams.get("role") || "all";
 
-    return true;
-  });
+  const handleRoleChange = (value: string) => {
+    const params = new URLSearchParams(searchParams);
+    if (value === "all") params.delete("role");
+    else params.set("role", value);
+    router.replace(`?${params.toString()}`);
+  };
+
+  const toggleRow = (id: string) => {
+    setExpandedRows((prev) =>
+      prev.includes(id) ? prev.filter((rowId) => rowId !== id) : [...prev, id]
+    );
+  };
+
+  const filteredData = useMemo(() => {
+    if (roleFilter === "all") return employees;
+    return employees?.filter((emp) => emp.role === roleFilter);
+  }, [employees, roleFilter]);
+
+  const sortedData = useMemo(() => {
+    if (!sortByName) return filteredData;
+    return [...filteredData].sort((a, b) =>
+      a.name.localeCompare(b.name, "ro", { sensitivity: "base" })
+    );
+  }, [filteredData, sortByName]);
 
   return (
-    <Table className="table-fixed w-full">
-      <TableHeader>
-        <TableRow>
-          <TableHead className="w-15">
-            <Select
-              value={dateFilter}
-              onValueChange={(val: DateFilter) => setDateFilter(val)}
-            >
-              <SelectTrigger className="w-full border-0">
-                <SelectValue placeholder="Filter by Date" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">all</SelectItem>
-                <SelectItem value="registered">registered</SelectItem>
-                <SelectItem value="nonregistered">not Registered</SelectItem>
-              </SelectContent>
-            </Select>
-          </TableHead>
-          <TableHead className="w-30 truncate">
-            <Select
-              value={positionFilter}
-              onValueChange={(val: PositionFilter) => setPositionFilter(val)}
-            >
-              <SelectTrigger className="w-full border-0">
-                <SelectValue placeholder="Filter by Position" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">all</SelectItem>
-                <SelectItem value="barmen">barmen</SelectItem>
-                <SelectItem value="waiters">waiters</SelectItem>
-                <SelectItem value="cook">cook</SelectItem>
-                <SelectItem value="admin">admin</SelectItem>
-              </SelectContent>
-            </Select>
-          </TableHead>
-          <TableHead className="truncate w-8 text-center">position</TableHead>
-          <TableHead className="truncate w-8 text-center">vacation</TableHead>
-          <TableHead className="w-10 text-center">rate</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {filteredEmployees.length === 0 ? (
-          <TableRow>
-            <TableCell
-              colSpan={5}
-              className="text-center text-muted-foreground"
-            >
-              No employees found
-            </TableCell>
+    <Card className="shadow-md border rounded-2xl overflow-hidden md:p-8">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4 gap-2">
+        <h2 className="text-lg font-semibold">{t("employeesList")}</h2>
+
+        <div className="flex items-center gap-2">
+          <span className="text-sm text-muted-foreground px-3">
+            {t("filterByRole")}:
+          </span>
+          <Select value={roleFilter} onValueChange={handleRoleChange}>
+            <SelectTrigger className="w-[150px] border-0">
+              <SelectValue placeholder="Select role" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">{t("all")}</SelectItem>
+              {EMPLOYEES_ROLE.map((role) => (
+                <SelectItem key={role} value={role}>
+                  {t(role)}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
+
+      <Table>
+        <TableHeader>
+          <TableRow className="text-gr">
+            <TableHead>#</TableHead>
+            <TableHead>{t("employmentDate")}</TableHead>
+            <TableHead className="flex items-center gap-6 sticky left-0">
+              {t("name")}
+              <Switch
+                checked={sortByName}
+                onCheckedChange={setSortByName}
+                aria-label="Sort by name"
+              />
+            </TableHead>
+            <TableHead>{t("role")}</TableHead>
+            <TableHead>{t("vacationDays")}</TableHead>
+            <TableHead>{t("usedVacationDays")}</TableHead>
+            <TableHead>{t("remainingVacationDays")}</TableHead>
+            <TableHead>{t("rate")}</TableHead>
+            <TableHead className="text-center">Action</TableHead>
           </TableRow>
-        ) : (
-          filteredEmployees.map((emp, idx) => (
-            <TableRow key={`${emp.date}-${idx}`}>
-              <TableCell>
-                {emp.date ? format(parseISO(emp.date), "dd.MM.yy") : "-"}
-              </TableCell>
-              <TableCell
-                className={`truncate ${!emp.date ? "text-rd font-bold" : ""}`}
-              >
-                {emp.name}
-              </TableCell>
-              <TableCell className="text-muted-foreground text-center">
-                {isMobile ? emp.position.slice(0, 1) : emp.position}
-              </TableCell>
-              <TableCell className="text-center">
-                {emp.date ? emp.vacation : "-"}
-              </TableCell>
-              <TableCell className="text-muted-foreground text-center">
-                {isAdmin ? emp.rate : "-"}
-              </TableCell>
-            </TableRow>
-          ))
-        )}
-      </TableBody>
-    </Table>
+        </TableHeader>
+
+        <TableBody>
+          {sortedData?.map((emp, idx) => {
+            const monthsWorked = emp?.employmentDate
+              ? differenceInMonths(new Date(), emp.employmentDate)
+              : 0;
+
+            const vacationDays = Math.round(monthsWorked * 2.33);
+            const usedVacationDays =
+              emp.vacationPay?.reduce(
+                (acc: number, r: VacationPaySchemaType) =>
+                  acc + Number(r.countDays),
+                0
+              ) ?? 0;
+
+            const remainingVacationDays = vacationDays - usedVacationDays;
+            const isExpanded = expandedRows.includes(emp.id);
+
+            return (
+              <React.Fragment key={emp.id}>
+                <TableRow
+                  className={cn(
+                    "hover:text-bl cursor-pointer",
+                    !emp.employmentDate && "text-rd font-bold"
+                  )}
+                >
+                  <TableCell className="font-medium">{idx + 1}</TableCell>
+                  <TableCell>
+                    {emp.employmentDate
+                      ? format(emp.employmentDate, "dd.MM.yy")
+                      : "-"}
+                  </TableCell>
+                  <TableCell
+                    className={cn(
+                      "sticky left-0",
+                      isMobile ? "bg-background/90" : ""
+                    )}
+                  >
+                    {emp.name}
+                  </TableCell>
+                  <TableCell>{emp.role}</TableCell>
+                  <TableCell>{vacationDays}</TableCell>
+                  <TableCell>{usedVacationDays}</TableCell>
+                  <TableCell>{remainingVacationDays}</TableCell>
+                  <TableCell>{isAdmin ? Number(emp.rate) : "-"}</TableCell>
+                  <TableCell className="flex gap-2 justify-center">
+                    <Button
+                      size="sm"
+                      variant="secondary"
+                      className="text-sm cursor-pointer"
+                      onClick={() => toggleRow(emp.id)}
+                    >
+                      {isExpanded ? t("hide") : t("details")}
+                    </Button>
+                  </TableCell>
+                </TableRow>
+
+                {isExpanded && emp.vacationPay?.length > 0 && (
+                  <TableRow className="border-0">
+                    <TableCell colSpan={8}>
+                      <div className="flex flex-col gap-2 px-10 text-bl">
+                        {emp.vacationPay.map(
+                          (v: VacationPaySchemaType, i: number) => {
+                            if (v.countDays === "0")
+                              return (
+                                <Label className="text-rd">
+                                  отпусктных дней не использовано
+                                </Label>
+                              );
+                            const start = v.startDate && new Date(v.startDate);
+                            const end = new Date(v.endDate || "");
+                            return (
+                              <div
+                                key={i}
+                                className="grid grid-cols-[15%_15%_15%]"
+                              >
+                                <Label>
+                                  {start && start.getFullYear()} __
+                                  {start ? format(start, "MMMM") : "-"}
+                                </Label>
+
+                                <Label>
+                                  {start && start.getDate()} →
+                                  {end && end.getDate()}
+                                </Label>
+                                <Label>
+                                  {t("days")} = {v.countDays}
+                                </Label>
+                              </div>
+                            );
+                          }
+                        )}
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                )}
+              </React.Fragment>
+            );
+          })}
+        </TableBody>
+      </Table>
+    </Card>
   );
 }

@@ -11,11 +11,10 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Remark } from "@/generated/prisma";
-import { useMemo, useRef } from "react";
+import { useMemo } from "react";
 import { Printer } from "lucide-react";
-import { useReactToPrint } from "react-to-print";
-import toast from "react-hot-toast";
 import { usePrint } from "@/hooks/useToPrint";
+import { useTranslations } from "next-intl";
 
 export type PenaltyTableProps = Omit<Remark, "id" | "reportId"> & {
   date?: string;
@@ -29,6 +28,7 @@ interface GroupedData {
 }
 
 export default function TotalPenalty({ data }: { data: PenaltyTableProps[] }) {
+  const t = useTranslations("Home");
   const { formattedData, totalBonus, totalPenalty } = useMemo(() => {
     const grouped: Record<string, GroupedData> = {};
 
@@ -82,7 +82,7 @@ export default function TotalPenalty({ data }: { data: PenaltyTableProps[] }) {
             className="flex items-center gap-2 print:hidden my-4"
           >
             <Printer className="w-4 h-4" />
-            Печать
+            {t("print")}
           </Button>
         </div>
         <div ref={componentRef}>
@@ -90,12 +90,12 @@ export default function TotalPenalty({ data }: { data: PenaltyTableProps[] }) {
             <TableHeader>
               <TableRow>
                 <TableHead className="sticky left-0 bg-background/90 md:bg-inherit z-20">
-                  Сотрудник
+                  {t("name")}
                 </TableHead>
-                <TableHead className="text-center">Дневные часы</TableHead>
-                <TableHead className="text-center">Ночные часы</TableHead>
-                <TableHead className="text-center">Бонус</TableHead>
-                <TableHead className="text-center">Штраф</TableHead>
+                <TableHead className="text-center">{t("dayHours")}</TableHead>
+                <TableHead className="text-center">{t("nightHours")}</TableHead>
+                <TableHead className="text-center">{t("bonus")}</TableHead>
+                <TableHead className="text-center">{t("penalty")}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -114,7 +114,7 @@ export default function TotalPenalty({ data }: { data: PenaltyTableProps[] }) {
               ))}
               <TableRow className="font-semibold">
                 <TableCell className="text-right" colSpan={3}>
-                  Итог:
+                  {t("total")}:
                 </TableCell>
                 <TableCell className="text-center">{totalBonus}</TableCell>
                 <TableCell className="text-center">{totalPenalty}</TableCell>

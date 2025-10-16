@@ -8,6 +8,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Remark } from "@/generated/prisma";
+import { useTranslations } from "next-intl";
 import { useMemo } from "react";
 export type PenaltyTableProps = Omit<Remark, "id" | "reportId"> & {
   date?: string;
@@ -15,6 +16,7 @@ export type PenaltyTableProps = Omit<Remark, "id" | "reportId"> & {
 };
 
 export default function PenaltyTable({ data }: { data: PenaltyTableProps[] }) {
+  const t = useTranslations("Home");
   const totalPenalty = useMemo(() => {
     return data.reduce((acc, r) => {
       const val = Number(r.penality);
@@ -34,15 +36,15 @@ export default function PenaltyTable({ data }: { data: PenaltyTableProps[] }) {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Дата</TableHead>
+                <TableHead>{t("date")}</TableHead>
                 <TableHead className="sticky left-0 bg-background/90 md:bg-inherit z-20">
-                  Сотрудник
+                  {t("employee")}
                 </TableHead>
-                <TableHead className="text-center">Дневные часы</TableHead>
-                <TableHead className="text-center">Ночные часы</TableHead>
-                <TableHead>Причина</TableHead>
-                <TableHead className="text-center">Бонус</TableHead>
-                <TableHead className="text-center">Штраф</TableHead>
+                <TableHead className="text-center">{t("dayHours")}</TableHead>
+                <TableHead className="text-center">{t("nightHours")}</TableHead>
+                <TableHead>{t("reason")}</TableHead>
+                <TableHead className="text-center">{t("bonus")}</TableHead>
+                <TableHead className="text-center">{t("penalty")}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -74,7 +76,7 @@ export default function PenaltyTable({ data }: { data: PenaltyTableProps[] }) {
                 ))}
               <TableRow className="font-semibold ">
                 <TableCell className="text-right" colSpan={5}>
-                  Итог:
+                  {t("total")}:
                 </TableCell>
                 <TableCell className="text-center">{totalBonus}</TableCell>
                 <TableCell className="text-center">{totalPenalty}</TableCell>

@@ -10,7 +10,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { fetcher } from "@/lib/fetcher";
-import { useEmployees } from "@/providers/GoogleSheetsProvider";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
 import { OVER_HOURS, REASON } from "./constant";
@@ -26,10 +25,11 @@ import { useApi } from "@/hooks/useApi";
 import { useRouter } from "@/i18n/navigation";
 import TextInput from "@/components/inputs/TextInput";
 import toast from "react-hot-toast";
+import { useEmployees } from "@/providers/EmployeesProvider";
 
 export default function RemarksFormByIdClient() {
   const router = useRouter();
-  const { employees } = useEmployees();
+  const employees = useEmployees();
   //employees
 
   const selectedEmployees = employees?.map((employee) => ({

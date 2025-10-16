@@ -1,0 +1,73 @@
+"use client";
+import { Form } from "@/components/ui/form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { SubmitHandler, useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+import { USERS_FIREBOX_ENDPOINT } from "@/constants/endpoint-tag";
+import { useApi } from "@/hooks/useApi";
+import { useAbility } from "@/providers/AbilityProvider";
+import { useTranslations } from "next-intl";
+import { defaultUser, usersSchema, UsersSchemaTypeData } from "../schema";
+import CardFormUsers from "./CardFormUsers";
+import { UsersTable } from "./CardTableUsers";
+
+type FormData = UsersSchemaTypeData;
+
+export default function AddUsers() {
+  const t = useTranslations("Home");
+  const { isAdmin } = useAbility();
+  const form = useForm<FormData>({
+    resolver: yupResolver(usersSchema),
+    defaultValues: defaultUser,
+  });
+  const { reset: resetForm } = form;
+
+  const {
+    createMutation: addUser,
+    deleteMutation: deleteUser,
+    updateMutation: updateUser,
+    query: queryUsers,
+  } = useApi<FormData>({
+    endpoint: USERS_FIREBOX_ENDPOINT,
+    queryKey: USERS_FIREBOX_ENDPOINT,
+    fetchInit: false,
+  });
+  const { data: users } = queryUsers;
+
+  const handleSubmit: SubmitHandler<FormData> = async (data) => {
+    try {
+      if (data.id) {
+        await updateUser.mutateAsync({
+          id: data.id,
+          mail: data.mail,
+          role: data.role,
+        });
+        toast.success("User is updated !");
+      } else {
+        await addUser.mutateAsync({
+          mail: data.mail,
+          role: data.role,
+        });
+        toast.success("User is added !");
+      }
+      resetForm();
+    } catch (e) {
+      toast.error("Error adding user");
+    }
+  };
+
+  return (
+    <Form {...form}>
+      <form
+        onSubmit={form.handleSubmit(handleSubmit)}
+        className="grid grid-cols-1 md:grid-cols-[30%_68%] w-full pt-4 md:gap-4"
+      >
+        <CardFormUsers disabled={!isAdmin} />
+        <UsersTable
+          data={users as UsersSchemaTypeData[]}
+          remove={deleteUser.mutateAsync}
+        />
+      </form>
+    </Form>
+  );
+}

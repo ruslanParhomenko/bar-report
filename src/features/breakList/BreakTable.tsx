@@ -26,7 +26,7 @@ const BAR_EMPLOYEES = ["waiters", "barmen"];
 export const BreakListTable = ({
   employees,
 }: {
-  employees: { name: string; position: string }[];
+  employees: { name: string; role: string }[];
 }) => {
   const { isObserver, isCucina, isUser } = useAbility();
   const isDisabled = isObserver || isCucina || isUser;
@@ -34,7 +34,7 @@ export const BreakListTable = ({
   const { theme } = useTheme();
 
   const selectedEmployees = employees
-    .filter((emp) => BAR_EMPLOYEES.includes(emp.position))
+    .filter((emp) => BAR_EMPLOYEES.includes(emp.role))
     .map((employee) => employee.name);
 
   const currentHour = new Date().getHours();

@@ -24,14 +24,7 @@ export function WrapperAccordionTable({
           {t(nameTag ?? "")}
         </AccordionTrigger>
         <AccordionContent>
-          <div
-            className={cn(
-              "w-full  mx-auto p-2 flex flex-col items-center space-y-4 ",
-              className
-            )}
-          >
-            {children}
-          </div>
+          <div className={cn("w-full p-4", className)}>{children}</div>
         </AccordionContent>
       </AccordionItem>
     </Accordion>

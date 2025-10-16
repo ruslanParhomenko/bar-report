@@ -25,9 +25,14 @@ export async function DELETE(
   }
 }
 
-export async function PUT(req: Request) {
+export async function PUT(
+  req: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const { id } = await params;
   const body = await req.json();
-  const { id, name, role, rate, employmentDate, newVacation } = body;
+  console.log(body);
+  const { name, role, rate, employmentDate, newVacation } = body;
 
   const employeeRef = doc(db, "employees", id);
 

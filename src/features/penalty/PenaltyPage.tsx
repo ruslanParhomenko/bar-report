@@ -14,8 +14,10 @@ import { Button } from "@/components/ui/button";
 import TotalPenalty from "./TotalPenalty";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
+import { useTranslations } from "next-intl";
 
 export const PenaltyPage = () => {
+  const t = useTranslations("Home");
   const [isOpenTotal, setIsOpenTotal] = useState(false);
   const { query } = useApi<RemarkData>({
     endpoint: REMARKS_ENDPOINT,
@@ -26,17 +28,17 @@ export const PenaltyPage = () => {
   const employeesList = useUniqueOptions<Remark>({
     data: data?.flatMap((r) => r?.remarks ?? []) ?? [],
     getValue: (r) => r.name,
-    allLabel: "Все сотрудники",
+    allLabel: t("all"),
   });
 
   const monthsList = useUniqueOptions<RemarkData>({
     data: data ?? [],
     getValue: (item) => {
       const date = new Date(item?.date);
-      return isValid(date) ? date.getMonth().toString() : undefined;
+      return isValid(date) ? date.getMonth().toLocaleString() : undefined;
     },
-    getLabel: (monthIndex) => months[Number(monthIndex)],
-    allLabel: "Все месяцы",
+    getLabel: (monthIndex) => t(months[Number(monthIndex)]),
+    allLabel: t("all"),
   });
 
   const [selectedMonth, setSelectedMonth] = useState("");
@@ -95,7 +97,7 @@ export const PenaltyPage = () => {
             setSelectedEmployee("all");
           }}
         >
-          reset
+          {t("reset")}
         </Button>
         <div className="flex items-center space-x-2">
           <Switch
@@ -104,7 +106,7 @@ export const PenaltyPage = () => {
             onCheckedChange={(checked) => setIsOpenTotal(checked)}
           />
           <Label htmlFor="toggle-total">
-            {isOpenTotal ? "Подробно" : "Итоговый"}
+            {isOpenTotal ? t("details") : t("general")}
           </Label>
         </div>
       </div>

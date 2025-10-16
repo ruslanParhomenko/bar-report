@@ -10,7 +10,8 @@ import { AbilityProvider } from "@/providers/AbilityProvider";
 import ReactQueryProvider from "@/providers/ReactQueryProvider";
 
 import { ThemeProvider } from "next-themes";
-import { GoogleSheetsProvider } from "@/providers/GoogleSheetsProvider";
+import { getEmployees } from "./actions/getEmploees";
+import { EmployeesProvider } from "@/providers/EmployeesProvider";
 
 const lora = Lora({
   variable: "--font-lora",
@@ -30,6 +31,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const locale = await getLocale();
+  const employees = await getEmployees();
   return (
     <html lang={locale} suppressHydrationWarning>
       <body className={`${lora.variable} antialiased`}>
@@ -43,7 +45,9 @@ export default async function RootLayout({
             <NextIntlClientProvider>
               <ReactQueryProvider>
                 <AbilityProvider>
-                  <GoogleSheetsProvider>{children}</GoogleSheetsProvider>
+                  <EmployeesProvider employees={employees}>
+                    {children}
+                  </EmployeesProvider>
                 </AbilityProvider>
               </ReactQueryProvider>
             </NextIntlClientProvider>

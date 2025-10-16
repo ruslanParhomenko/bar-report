@@ -25,10 +25,10 @@ import {
 import { BreakRemarksData, dataSchema, defaultValuesBrakeList } from "./schema";
 import RemarksTable from "./RemarksTable";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useEmployees } from "@/providers/GoogleSheetsProvider";
+import { useEmployees } from "@/providers/EmployeesProvider";
 
 const BreakList = () => {
-  const { employees } = useEmployees();
+  const employees = useEmployees();
   const LOCAL_STORAGE_KEY = BREAK_LIST_ENDPOINT;
 
   const { isBar, isCucina, isObserver } = useAbility();

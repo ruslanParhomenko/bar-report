@@ -15,16 +15,16 @@ export const defaultUser = {
 
 //employees
 export const vacationPaySchema = yup.object({
-  startDate: yup.string().required("Start date is required"),
-  endDate: yup.string().required("End date is required"),
-  countDays: yup.string().required("Number of days is required"),
+  startDate: yup.string(),
+  endDate: yup.string(),
+  countDays: yup.string(),
 });
-
+export type VacationPaySchemaType = yup.InferType<typeof vacationPaySchema>;
 export const employeesSchema = yup.object({
   name: yup.string().required("Name is required"),
   role: yup.string().required("Role is required"),
   rate: yup.string().required("Rate is required"),
-  employmentDate: yup.string().required("Employment date is required"),
+  employmentDate: yup.string().default(""),
   vacationPay: yup.array().of(vacationPaySchema).default([]),
 });
 
@@ -41,9 +41,11 @@ export const defaultEmployee = {
   role: "",
   rate: "",
   employmentDate: "",
-  vacationPay: [{
-    startDate: "",
-    endDate: "",
-    countDays: "",
-  }],
+  vacationPay: [
+    {
+      startDate: "",
+      endDate: "",
+      countDays: "",
+    },
+  ],
 };

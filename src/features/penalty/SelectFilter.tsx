@@ -6,6 +6,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 import { useTheme } from "next-themes";
 
 export default function SelectFilter({
@@ -17,6 +18,7 @@ export default function SelectFilter({
   value: string;
   setValue: (value: string) => void;
 }) {
+  const t = useTranslations("Home");
   const { theme } = useTheme();
 
   return (
@@ -27,7 +29,7 @@ export default function SelectFilter({
           theme === "dark" ? "border-0" : ""
         )}
       >
-        <SelectValue placeholder="Выберите..." />
+        <SelectValue placeholder={t("select")} />
       </SelectTrigger>
       <SelectContent>
         {data.map((m) => (
