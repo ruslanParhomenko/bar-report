@@ -10,6 +10,7 @@ import { useTranslations } from "next-intl";
 import { defaultUser, usersSchema, UsersSchemaTypeData } from "../schema";
 import CardFormUsers from "./CardFormUsers";
 import { UsersTable } from "./CardTableUsers";
+import { createUser, updateUser } from "@/app/actions/users/userAction";
 
 type FormData = UsersSchemaTypeData;
 
@@ -22,29 +23,30 @@ export default function AddUsers() {
   });
   const { reset: resetForm } = form;
 
-  const {
-    createMutation: addUser,
-    deleteMutation: deleteUser,
-    updateMutation: updateUser,
-    query: queryUsers,
-  } = useApi<FormData>({
-    endpoint: USERS_FIREBOX_ENDPOINT,
-    queryKey: USERS_FIREBOX_ENDPOINT,
-    fetchInit: false,
-  });
-  const { data: users } = queryUsers;
+  // const {
+  //   createMutation: addUser,
+  //   deleteMutation: deleteUser,
+  //   updateMutation: updateUser,
+  //   query: queryUsers,
+  // } = useApi<FormData>({
+  //   endpoint: USERS_FIREBOX_ENDPOINT,
+  //   queryKey: USERS_FIREBOX_ENDPOINT,
+  //   fetchInit: false,
+  // });
+  // const { data: users } = queryUsers;
+
+  const { query: users } = useAbility();
 
   const handleSubmit: SubmitHandler<FormData> = async (data) => {
     try {
       if (data.id) {
-        await updateUser.mutateAsync({
-          id: data.id,
+        await updateUser(data.id, {
           mail: data.mail,
           role: data.role,
         });
         toast.success("User is updated !");
       } else {
-        await addUser.mutateAsync({
+        await createUser({
           mail: data.mail,
           role: data.role,
         });
@@ -63,10 +65,7 @@ export default function AddUsers() {
         className="grid grid-cols-1 md:grid-cols-[30%_68%] w-full pt-4 md:gap-4"
       >
         <CardFormUsers disabled={!isAdmin} />
-        <UsersTable
-          data={users as UsersSchemaTypeData[]}
-          remove={deleteUser.mutateAsync}
-        />
+        <UsersTable data={users as UsersSchemaTypeData[]} />
       </form>
     </Form>
   );

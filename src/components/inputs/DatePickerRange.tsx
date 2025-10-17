@@ -14,29 +14,43 @@ import {
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 
-type DateRangeProps = {
+type DatePickerRangeProps = {
+  value?: DateRange;
   onDataChange?: (date: DateRange | undefined) => void;
   resetTrigger?: boolean;
-  className?:string
+  className?: string;
 };
 
-type stepType = "from" | "to";
+type StepType = "from" | "to";
 
 export const DatePickerRange = ({
+  value,
   onDataChange,
   resetTrigger,
-  className
-}: DateRangeProps) => {
+  className,
+}: DatePickerRangeProps) => {
   const tDate = useTranslations("Home");
   const locale = useLocale();
   const locales: Record<string, Locale> = {
     ru: ru,
-    ro: ro
+    ro: ro,
   };
+
   const [open, setOpen] = useState(false);
-  const [from, setFrom] = useState<Date | undefined>(undefined);
-  const [to, setTo] = useState<Date | undefined>(undefined);
-  const [step, setStep] = useState<stepType>("from");
+  const [from, setFrom] = useState<Date | undefined>(value?.from);
+  const [to, setTo] = useState<Date | undefined>(value?.to);
+  const [step, setStep] = useState<StepType>("from");
+
+  useEffect(() => {
+    setFrom(value?.from);
+    setTo(value?.to);
+  }, [value]);
+
+  useEffect(() => {
+    setFrom(undefined);
+    setTo(undefined);
+    setStep("from");
+  }, [resetTrigger]);
 
   const handleSelect = (date: Date | undefined) => {
     if (step === "from") {
@@ -48,8 +62,9 @@ export const DatePickerRange = ({
         setTo(date);
         setStep("from");
 
-        onDataChange?.({ from, to: date });
+        const range = { from, to: date };
         setOpen(false);
+        onDataChange?.(range);
       } else {
         setTo(undefined);
       }
@@ -58,20 +73,14 @@ export const DatePickerRange = ({
 
   const displayText =
     from && to
-      ? `${format(from, "dd. MM.  y", { locale: locales[locale] })} - ${format(
+      ? `${format(from, "dd.MM.y", { locale: locales[locale] })} - ${format(
           to,
-          "dd. MM. y",
+          "dd.MM.y",
           { locale: locales[locale] }
         )}`
       : from
-      ? `${format(from, "dd. MM. y", { locale: locales[locale] })} →`
+      ? `${format(from, "dd.MM.y", { locale: locales[locale] })} →`
       : tDate("pickADate");
-
-  useEffect(() => {
-    setFrom(undefined);
-    setTo(undefined);
-    setStep("from");
-  }, [resetTrigger]);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -79,16 +88,13 @@ export const DatePickerRange = ({
         <Button
           id="date"
           variant={"outline"}
-          className={cn(
-            "pl-3 text-left font-normal",
-            !from && "text-muted-foreground"
-          )}
+          className={cn("font-normal", !from && "text-muted-foreground")}
         >
           <span>{displayText}</span>
         </Button>
       </PopoverTrigger>
 
-      <PopoverContent  align="start">
+      <PopoverContent align="start">
         <Calendar
           mode="single"
           selected={step === "from" ? from : to}

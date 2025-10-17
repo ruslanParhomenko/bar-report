@@ -14,18 +14,13 @@ import { Minus, Pencil } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { UsersSchemaTypeData } from "@/features/settings/schema";
 import { useFormContext } from "react-hook-form";
+import { deleteUser } from "@/app/actions/users/userAction";
 
-export function UsersTable({
-  data,
-  remove,
-}: {
-  data: UsersSchemaTypeData[];
-  remove: (id: string) => void;
-}) {
+export function UsersTable({ data }: { data: UsersSchemaTypeData[] }) {
   const t = useTranslations("Home");
   const form = useFormContext<UsersSchemaTypeData>();
 
-  const handleDeleteUser = (id: string) => remove(id);
+  const handleDeleteUser = (id: string) => deleteUser(id);
 
   return (
     <Card className="shadow-md border rounded-2xl overflow-hidden py-6 px-2 md:px-6">

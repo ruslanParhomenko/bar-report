@@ -7,12 +7,15 @@ import {
   EmployeesSchemaTypeData,
 } from "../schema";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useApi } from "@/hooks/useApi";
-import { EMPLOYEES_FIREBOX_ENDPOINT } from "@/constants/endpoint-tag";
 import toast from "react-hot-toast";
 import { Form } from "@/components/ui/form";
 import CardFormEmployees from "./CardFormEmployees";
 import { EmployeesTable } from "./CardTableEmployees";
+import { useEmployees } from "@/providers/EmployeesProvider";
+import {
+  createEmployee,
+  updateEmployee,
+} from "@/app/actions/employees/employeeAction";
 
 type FormData = EmployeesSchemaTypeData;
 
@@ -23,30 +26,19 @@ export default function AddEmployees() {
     defaultValues: defaultEmployee,
   });
 
-  const {
-    createMutation: AddEmployees,
-    deleteMutation: deleteEmployee,
-    updateMutation: updateEmployee,
-    query: queryEmployees,
-  } = useApi<FormData>({
-    endpoint: EMPLOYEES_FIREBOX_ENDPOINT,
-    queryKey: EMPLOYEES_FIREBOX_ENDPOINT,
-  });
-
-  const { data: employees } = queryEmployees;
+  const employees = useEmployees();
 
   const handleSubmit: SubmitHandler<FormData> = async (data) => {
     try {
       if (data.id) {
         const payloadUpdate = {
-          id: data.id,
           name: data.name,
           role: data.role,
           rate: data.rate,
           employmentDate: data.employmentDate
             ? new Date(data.employmentDate).toISOString()
             : "",
-          newVacation: data.vacationPay
+          vacationPay: data.vacationPay
             .filter((pay) => pay.startDate && pay.endDate)
             .map((pay) => ({
               startDate: pay.startDate,
@@ -54,7 +46,7 @@ export default function AddEmployees() {
               countDays: pay.countDays || "0",
             })),
         };
-        await updateEmployee.mutateAsync(payloadUpdate);
+        await updateEmployee(data.id, payloadUpdate);
         toast.success("Employee updated!");
       } else {
         const payloadCreate = {
@@ -72,7 +64,7 @@ export default function AddEmployees() {
               countDays: pay.countDays || "0",
             })),
         };
-        await AddEmployees.mutateAsync(payloadCreate);
+        await createEmployee(payloadCreate);
         toast.success("Employee added!");
       }
       form.reset(defaultEmployee);
@@ -88,10 +80,7 @@ export default function AddEmployees() {
         className="grid grid-cols-1 md:grid-cols-[27%_72%] w-full gap-4 mt-4"
       >
         <CardFormEmployees nameTag="vacationPay" disabled={!isAdmin} />
-        <EmployeesTable
-          data={employees as EmployeesSchemaTypeData[]}
-          remove={deleteEmployee.mutateAsync}
-        />
+        <EmployeesTable data={employees as EmployeesSchemaTypeData[]} />
       </form>
     </Form>
   );

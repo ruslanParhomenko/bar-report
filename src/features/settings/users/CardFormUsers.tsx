@@ -42,7 +42,7 @@ export default function CardFormUsers({ disabled }: { disabled?: boolean }) {
             t("update")
           ) : (
             <>
-              <Plus className="inline mr-1" /> {t("addUsers")}
+              <Plus className="inline mr-1" /> {t("add")}
             </>
           )}
         </Button>

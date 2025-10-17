@@ -28,16 +28,11 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { EmployeesSchemaTypeData } from "@/features/settings/schema";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useAbility } from "@/providers/AbilityProvider";
+import { deleteEmployee } from "@/app/actions/employees/employeeAction";
 
 export const EMPLOYEES_ROLE = ["barmen", "waiters", "cook", "mngr", "dish"];
 
-export function EmployeesTable({
-  data,
-  remove,
-}: {
-  data: EmployeesSchemaTypeData[];
-  remove: (id: string) => void;
-}) {
+export function EmployeesTable({ data }: { data: EmployeesSchemaTypeData[] }) {
   const { isAdmin, isMngr } = useAbility();
   const isDisabled = !isAdmin && !isMngr;
   const t = useTranslations("Home");
@@ -49,7 +44,7 @@ export function EmployeesTable({
   const searchParams = useSearchParams();
   const roleFilter = searchParams.get("role") || "all";
 
-  const handleDeleteUser = (id: string) => remove(id);
+  const handleDeleteUser = (id: string) => deleteEmployee(id);
 
   const handleRoleChange = (value: string) => {
     const params = new URLSearchParams(searchParams);

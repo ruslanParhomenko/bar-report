@@ -99,7 +99,7 @@
     "position": "Должность",
     "requiredField": "Обязательное поле",
     "employees": "Сотрудники",
-    "addEmployee": "Добавить сотрудника",
+    "add": "Добавить",
     "insufficientRights": "Доступ закрыт",
     "addEmployees": "Добавить сотрудников",
     "rate": "Ставка",

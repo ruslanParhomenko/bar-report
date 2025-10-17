@@ -1,7 +1,6 @@
 "use client";
 
-import { useApi } from "@/hooks/useApi";
-import { User } from "@/hooks/useGoogleData";
+import { UsersSchemaTypeData } from "@/features/settings/schema";
 import { useSession } from "next-auth/react";
 import React, {
   createContext,
@@ -18,18 +17,19 @@ type AbilityContextType = {
   isObserver: boolean;
   isUser: boolean;
   isMngr: boolean;
-  query: User[];
+  query: UsersSchemaTypeData[];
 };
 
 const AbilityContext = createContext<AbilityContextType | null>(null);
 
-export function AbilityProvider({ children }: { children: React.ReactNode }) {
+export function AbilityProvider({
+  children,
+  users,
+}: {
+  children: React.ReactNode;
+  users: any[];
+}) {
   const { data } = useSession();
-
-  // const { users, isLoading } = useGoogleData();
-  const { query } = useApi<User>({ endpoint: "users", queryKey: "users" });
-  const { data: users, isLoading } = query;
-
   const [ability, setAbility] = useState({
     isAdmin: false,
     isBar: false,
@@ -40,28 +40,21 @@ export function AbilityProvider({ children }: { children: React.ReactNode }) {
   });
 
   useEffect(() => {
-    if (isLoading) return;
     const mail = data?.user?.email;
+    if (!mail) return;
     const userData = users || [];
 
     if (!mail) return;
 
     const isAdmin =
       mail === "parhomenkogm@gmail.com" ||
-      mail === "lavandavazat5@gmail.com" ||
       userData.some((u) => u.role === "ADMIN" && u.mail === mail);
-    const isBar =
-      mail === "cng.nv.rstrnt@gmail.com" ||
-      userData.some((u) => u.role === "BAR" && u.mail === mail);
-    const isCucina =
-      mail === "cng.nv.kitchen@gmail.com" ||
-      userData.some((u) => u.role === "CUCINA" && u.mail === mail);
-    const isUser =
-      mail === "cng.srvlnc@gmail.com" ||
-      userData.some((u) => u.role === "USER" && u.mail === mail);
-    const isMngr =
-      mail === "cng.nv.rstrnt.mngr13@gmail.com" ||
-      userData.some((u) => u.role === "MNGR" && u.mail === mail);
+    const isBar = userData.some((u) => u.role === "BAR" && u.mail === mail);
+    const isCucina = userData.some(
+      (u) => u.role === "CUCINA" && u.mail === mail
+    );
+    const isUser = userData.some((u) => u.role === "USER" && u.mail === mail);
+    const isMngr = userData.some((u) => u.role === "MNGR" && u.mail === mail);
 
     setAbility({
       isAdmin,
@@ -71,14 +64,14 @@ export function AbilityProvider({ children }: { children: React.ReactNode }) {
       isUser,
       isMngr,
     });
-  }, [data?.user?.email, isLoading, users]);
+  }, [data?.user?.email, users]);
 
   const value = useMemo(
     () => ({
       ...ability,
       query: users || [],
     }),
-    [ability]
+    [ability, users]
   );
 
   return (

@@ -1,5 +1,4 @@
 "use client";
-import { EmployeesSchemaTypeData } from "@/features/settings/schema";
 import { createContext, useContext } from "react";
 
 const EmployeesContext = createContext<any[]>([]);
