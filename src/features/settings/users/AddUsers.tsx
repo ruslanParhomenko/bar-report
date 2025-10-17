@@ -2,7 +2,7 @@
 import { Form } from "@/components/ui/form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { SubmitHandler, useForm } from "react-hook-form";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
 import { USERS_FIREBOX_ENDPOINT } from "@/constants/endpoint-tag";
 import { useApi } from "@/hooks/useApi";
 import { useAbility } from "@/providers/AbilityProvider";

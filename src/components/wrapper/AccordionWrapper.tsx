@@ -29,7 +29,7 @@ export default function AccordionWrapper({
             onClick={() => {
               handleScrollTop({ accordionRef });
             }}
-            className="text-base bg-bl cursor-pointer w-full px-4 py-3 hover:no-underline hover:text-amber-50"
+            className="text-base bg-bl cursor-pointer w-full px-4 py-2 hover:no-underline hover:text-amber-50"
           >
             {t(nameTag as string)}
           </AccordionTrigger>

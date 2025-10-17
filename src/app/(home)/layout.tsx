@@ -9,7 +9,7 @@ const NavPage = ({
   return (
     <SidebarProvider>
       <SidebarNav />
-      <section className="bg-background p-2 w-full">{children}</section>
+      <section className="bg-background py-2 px-4 w-full ">{children}</section>
     </SidebarProvider>
   );
 };

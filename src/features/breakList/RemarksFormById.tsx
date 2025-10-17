@@ -24,7 +24,7 @@ import { Button } from "@/components/ui/button";
 import { useApi } from "@/hooks/useApi";
 import { useRouter } from "@/i18n/navigation";
 import TextInput from "@/components/inputs/TextInput";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
 import { useEmployees } from "@/providers/EmployeesProvider";
 
 export default function RemarksFormByIdClient() {

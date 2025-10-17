@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { useReactToPrint } from "react-to-print";
-import { toast } from "react-hot-toast";
+import { toast } from "sonner";
 
 interface UsePrintOptions {
   title?: string;
@@ -20,7 +20,7 @@ export const usePrint = ({
     documentTitle: title,
     pageStyle: `
   @page {
-    size: A4 landscape; /* Ландшафт */
+    size: A4 landscape; 
     margin: 4mm;
   }
 
@@ -32,19 +32,15 @@ export const usePrint = ({
     .no-print {
       display: none !important;
     }
-
-    /* Контейнер не разрывать */
     .print-area {
       page-break-inside: avoid !important;
       display: flex;
       flex-wrap: wrap;
       width: 100%;
     }
-
-    /* Карточки не разрывать */
     .print-card {
       page-break-inside: avoid !important;
-      flex: 1 1 22%; /* 4 карточки в ряд */
+      flex: 1 1 22%; 
       min-width: 22%;
     }
   }

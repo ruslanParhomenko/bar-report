@@ -6,7 +6,6 @@ import {
   useWatch,
   useFieldArray,
 } from "react-hook-form";
-import toast from "react-hot-toast";
 
 import { useAbility } from "@/providers/AbilityProvider";
 import { useDataSupaBase } from "@/hooks/useRealTimeData";
@@ -26,6 +25,7 @@ import { BreakRemarksData, dataSchema, defaultValuesBrakeList } from "./schema";
 import RemarksTable from "./RemarksTable";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useEmployees } from "@/providers/EmployeesProvider";
+import { toast } from "sonner";
 
 const BreakList = () => {
   const employees = useEmployees();

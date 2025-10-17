@@ -39,7 +39,7 @@ import { Label } from "@/components/ui/label";
 import { useTranslations } from "next-intl";
 import { useLocalStorageForm } from "@/hooks/use-local-storage";
 import { yupResolver } from "@hookform/resolvers/yup";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
 import { useAbility } from "@/providers/AbilityProvider";
 import { FetchDataButton } from "@/components/buttons/FetchDataButton";
 import RenderTableCucina from "./RenderTableByFields";

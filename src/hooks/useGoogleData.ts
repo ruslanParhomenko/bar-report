@@ -1,28 +1,13 @@
 "use client";
 
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 
-const GOOGLE_SHEET_URL_EMPLOYEES =
-  "https://script.google.com/macros/s/AKfycbzRbakMVlKXM_oDNnCLlY7gHhNPnEdNh6RaeI4U7fw7Z1vFiaHR9_w1MhbjBC8TPjjH/exec";
+// const GOOGLE_SHEET_URL_EMPLOYEES =
+//   "https://script.google.com/macros/s/AKfycbzRbakMVlKXM_oDNnCLlY7gHhNPnEdNh6RaeI4U7fw7Z1vFiaHR9_w1MhbjBC8TPjjH/exec";
 const GOOGLE_SHEET_URL_SK =
   "https://script.google.com/macros/s/AKfycbx9e6tBAsTpDg2augJ7CBaYIocKoSD5n1kWUhpLv1Ntkwd5GGnjpEXIP_Nw_KLYPMDWtw/exec";
 const GOOGLE_SHEET_URL_MENIU =
   "https://script.google.com/macros/s/AKfycbzlPabIGpSVf9qdFqbz7bWF8CKHgJlyQ8SirrANVZA7JCG2hchE-l7JnG1Y7eQY3OVG-Q/exec";
-export type Employee = {
-  rate: number;
-  date: string;
-  name: string;
-  position: string;
-  totalVacation: number;
-  vacation: number;
-};
-
-export type User = {
-  id: number;
-  mail: string;
-  role: string;
-  isActive: boolean;
-};
 
 export type StandartKitchen = {
   name: string;
@@ -64,11 +49,6 @@ export type Menu = {
   };
 };
 
-type EmployeesUsers = {
-  employees: Employee[];
-  user: User[];
-};
-
 async function fetchGoogle<T>(endpoint: string): Promise<T> {
   const res = await fetch(endpoint, {
     cache: "no-store",
@@ -81,18 +61,18 @@ async function fetchGoogle<T>(endpoint: string): Promise<T> {
 }
 
 export function useGoogleData() {
-  const qc = useQueryClient();
-  const employeesQuery = useQuery({
-    queryKey: ["google", GOOGLE_SHEET_URL_EMPLOYEES],
-    queryFn: () => fetchGoogle<EmployeesUsers>(GOOGLE_SHEET_URL_EMPLOYEES),
-    enabled: true,
-    staleTime: Infinity,
-    gcTime: 1000 * 60 * 60 * 24,
-    refetchOnWindowFocus: false,
-    refetchOnReconnect: false,
-    refetchOnMount: false,
-    retry: 1,
-  });
+  // const qc = useQueryClient();
+  // const employeesQuery = useQuery({
+  //   queryKey: ["google", GOOGLE_SHEET_URL_EMPLOYEES],
+  //   queryFn: () => fetchGoogle<EmployeesUsers>(GOOGLE_SHEET_URL_EMPLOYEES),
+  //   enabled: true,
+  //   staleTime: Infinity,
+  //   gcTime: 1000 * 60 * 60 * 24,
+  //   refetchOnWindowFocus: false,
+  //   refetchOnReconnect: false,
+  //   refetchOnMount: false,
+  //   retry: 1,
+  // });
 
   const skQuery = useQuery({
     queryKey: ["google", GOOGLE_SHEET_URL_SK],
@@ -118,19 +98,18 @@ export function useGoogleData() {
     retry: 1,
   });
 
-  const invalidate = () => {
-    qc.invalidateQueries({ queryKey: ["google", GOOGLE_SHEET_URL_EMPLOYEES] });
-    qc.invalidateQueries({ queryKey: ["google", GOOGLE_SHEET_URL_SK] });
-    qc.invalidateQueries({ queryKey: ["google", GOOGLE_SHEET_URL_MENIU] });
-  };
+  // const invalidate = () => {
+  //   qc.invalidateQueries({ queryKey: ["google", GOOGLE_SHEET_URL_EMPLOYEES] });
+  //   qc.invalidateQueries({ queryKey: ["google", GOOGLE_SHEET_URL_SK] });
+  //   qc.invalidateQueries({ queryKey: ["google", GOOGLE_SHEET_URL_MENIU] });
+  // };
 
   return {
-    employees: employeesQuery.data?.employees || [],
-    users: employeesQuery.data?.user || [],
+    // employees: employeesQuery.data?.employees || [],
+    // users: employeesQuery.data?.user || [],
     sk: skQuery.data || [],
     menu: menuQuery.data,
     statusMenu: menuQuery.data?.statusMenu,
-    isLoading: employeesQuery.isLoading || skQuery.isLoading,
-    invalidate,
+    isLoading: skQuery.isLoading,
   };
 }

@@ -149,6 +149,29 @@
   --sidebar-ring: #6366f1;
 }
 
+/* Скрывает полосу прокрутки глобально, но сохраняет скролл */
+html,
+body {
+  -ms-overflow-style: none; /* IE и Edge */
+  scrollbar-width: none; /* Firefox */
+  overflow-y: scroll; /* важно для стабильной вёрстки */
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none; /* Chrome, Safari */
+}
+
+/* скрывает полосу прокрутки во всех браузерах */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none; /* IE и Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

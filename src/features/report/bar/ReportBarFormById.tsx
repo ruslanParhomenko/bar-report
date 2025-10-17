@@ -3,7 +3,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { Form } from "@/components/ui/form";
 import { useEffect } from "react";
 import DatePickerInput from "@/components/inputs/DatePickerInput";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
 import TableTobacco from "./TableTobacco";
 import TableExpenses from "./TableExpenses";
 import TableCashVerify from "./TableCashVerify";

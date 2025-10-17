@@ -7,7 +7,7 @@ import {
   EmployeesSchemaTypeData,
 } from "../schema";
 import { yupResolver } from "@hookform/resolvers/yup";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
 import { Form } from "@/components/ui/form";
 import CardFormEmployees from "./CardFormEmployees";
 import { EmployeesTable } from "./CardTableEmployees";

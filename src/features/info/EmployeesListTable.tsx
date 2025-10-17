@@ -75,8 +75,6 @@ export function EmployeesListTable() {
   return (
     <Card className="shadow-md border rounded-2xl overflow-hidden md:p-8">
       <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4 gap-2">
-        <h2 className="text-lg font-semibold">{t("employeesList")}</h2>
-
         <div className="flex items-center gap-2">
           <span className="text-sm text-muted-foreground px-3">
             {t("filterByRole")}:

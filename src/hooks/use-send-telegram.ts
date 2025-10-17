@@ -1,7 +1,7 @@
 import { useSession } from "next-auth/react";
 import { format } from "date-fns";
-import { toast } from "react-hot-toast";
 import { useCallback } from "react";
+import { toast } from "sonner";
 
 export const useSendTelegram = () => {
   const session = useSession();
