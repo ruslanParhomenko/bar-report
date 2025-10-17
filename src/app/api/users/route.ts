@@ -5,7 +5,10 @@ import { NextResponse } from "next/server";
 export async function POST(req: Request) {
   const body = await req.json();
 
-  const users = await addDoc(collection(db, "users"), {});
+  const users = await addDoc(collection(db, "users"), {
+    mail: body.mail,
+    role: body.role,
+  });
 
   return NextResponse.json(users);
 }

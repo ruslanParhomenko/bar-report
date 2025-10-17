@@ -31,11 +31,11 @@ import { cn } from "@/lib/utils";
 import { VacationPaySchemaType } from "../settings/schema";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { Arrow } from "@radix-ui/react-tooltip";
-import { ArrowRight } from "lucide-react";
 
 export function EmployeesListTable() {
-  const { isAdmin } = useAbility();
+  const { isAdmin, isMngr } = useAbility();
+
+  const isDisabled = !isAdmin && !isMngr;
   const { isMobile } = useSidebar();
   const employees = useEmployees();
   const t = useTranslations("Home");
@@ -162,7 +162,7 @@ export function EmployeesListTable() {
                   <TableCell>{vacationDays}</TableCell>
                   <TableCell>{usedVacationDays}</TableCell>
                   <TableCell>{remainingVacationDays}</TableCell>
-                  <TableCell>{isAdmin ? Number(emp.rate) : "-"}</TableCell>
+                  <TableCell>{isDisabled ? "-" : Number(emp.rate)}</TableCell>
                   <TableCell className="flex gap-2 justify-center">
                     <Button
                       size="sm"
@@ -183,7 +183,7 @@ export function EmployeesListTable() {
                           (v: VacationPaySchemaType, i: number) => {
                             if (v.countDays === "0")
                               return (
-                                <Label className="text-rd">
+                                <Label className="text-rd" key={i}>
                                   отпусктных дней не использовано
                                 </Label>
                               );

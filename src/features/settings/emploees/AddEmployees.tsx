@@ -91,7 +91,6 @@ export default function AddEmployees() {
         <EmployeesTable
           data={employees as EmployeesSchemaTypeData[]}
           remove={deleteEmployee.mutateAsync}
-          disabled={!isAdmin}
         />
       </form>
     </Form>

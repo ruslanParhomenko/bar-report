@@ -26,9 +26,9 @@ export async function PUT(
 ) {
   const { id } = await params;
   const body = await req.json();
-  const { name, role } = body;
+  const { mail, role } = body;
 
-  if (!name && !role) {
+  if (!mail && !role) {
     return NextResponse.json(
       { error: "No data provided to update" },
       { status: 400 }
@@ -37,7 +37,7 @@ export async function PUT(
 
   const userRef = doc(db, "users", id);
   await updateDoc(userRef, {
-    ...(name !== undefined && { name }),
+    ...(mail !== undefined && { mail }),
     ...(role !== undefined && { role }),
   });
 

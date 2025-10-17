@@ -27,18 +27,19 @@ import { cn } from "@/lib/utils";
 import { useSearchParams, useRouter } from "next/navigation";
 import { EmployeesSchemaTypeData } from "@/features/settings/schema";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useAbility } from "@/providers/AbilityProvider";
 
 export const EMPLOYEES_ROLE = ["barmen", "waiters", "cook", "mngr", "dish"];
 
 export function EmployeesTable({
   data,
   remove,
-  disabled,
 }: {
   data: EmployeesSchemaTypeData[];
   remove: (id: string) => void;
-  disabled?: boolean;
 }) {
+  const { isAdmin, isMngr } = useAbility();
+  const isDisabled = !isAdmin && !isMngr;
   const t = useTranslations("Home");
   const isMobile = useIsMobile();
   const form = useFormContext<EmployeesSchemaTypeData>();
@@ -152,7 +153,7 @@ export function EmployeesTable({
                 <TableCell>{emp.role}</TableCell>
                 <TableCell>{vacationDays}</TableCell>
                 <TableCell>{usedVacationDays}</TableCell>
-                <TableCell>{!disabled ? Number(emp.rate) : "-"}</TableCell>
+                <TableCell>{isDisabled ? "-" : Number(emp.rate)}</TableCell>
                 <TableCell className="flex gap-2 justify-center">
                   <Button
                     className="cursor-pointer hover:bg-bl"
@@ -169,7 +170,7 @@ export function EmployeesTable({
                     size={"sm"}
                     type="button"
                     onClick={() => handleDeleteUser(emp.id as string)}
-                    disabled={disabled}
+                    disabled={isDisabled}
                   >
                     <Minus className="text-rd" />
                   </Button>
