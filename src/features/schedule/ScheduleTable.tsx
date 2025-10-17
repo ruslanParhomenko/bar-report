@@ -24,7 +24,7 @@ export function ScheduleTable({ dataRange }: { dataRange: any }) {
     }
   }, [data, todayDay]);
   return (
-    <Card className="rounded-2xl shadow-sm p-2">
+    <Card className="rounded-2xl shadow-sm  py-6">
       <Table>
         <TableBody>
           {data.map((row: any, i: number) => {
