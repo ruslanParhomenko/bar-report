@@ -19,19 +19,51 @@ export const usePrint = ({
     contentRef: componentRef,
     documentTitle: title,
     pageStyle: `
-      @page {
-        size: auto;
-        margin: 10mm;
-      }
-      @media print {
-        body {
-          -webkit-print-color-adjust: exact;
-        }
-        .no-print {
-          display: none !important;
-        }
-      }
-    `,
+  @page {
+    size: A4 landscape; /* Ландшафт */
+    margin: 4mm;
+  }
+
+  @media print {
+    body {
+      -webkit-print-color-adjust: exact;
+    }
+
+    .no-print {
+      display: none !important;
+    }
+
+    /* Контейнер не разрывать */
+    .print-area {
+      page-break-inside: avoid !important;
+      display: flex;
+      flex-wrap: wrap;
+      width: 100%;
+    }
+
+    /* Карточки не разрывать */
+    .print-card {
+      page-break-inside: avoid !important;
+      flex: 1 1 22%; /* 4 карточки в ряд */
+      min-width: 22%;
+    }
+  }
+`,
+
+    // pageStyle: `
+    //   @page {
+    //     size: auto;
+    //     margin: 10mm;
+    //   }
+    //   @media print {
+    //     body {
+    //       -webkit-print-color-adjust: exact;
+    //     }
+    //     .no-print {
+    //       display: none !important;
+    //     }
+    //   }
+    // `,
     onAfterPrint: () => toast.success(onSuccessMessage),
     onPrintError: () => toast.error(onErrorMessage),
   });

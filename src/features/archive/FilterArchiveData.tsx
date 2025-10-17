@@ -25,7 +25,7 @@ export default function FilterArchiveData({
 }) {
   const t = useTranslations("Home");
   const [selectedType, setSelectedType] = useState<string>(options?.[0].value);
-  const [selectedDate, setSelectedDate] = useState<string>("");
+  const [selectedDate, setSelectedDate] = useState<string>("all");
   useEffect(() => {
     const selectedData =
       selectedDate === "all"

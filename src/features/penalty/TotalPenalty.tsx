@@ -15,6 +15,7 @@ import { useMemo } from "react";
 import { Printer } from "lucide-react";
 import { usePrint } from "@/hooks/useToPrint";
 import { useTranslations } from "next-intl";
+import PrintButton from "@/components/buttons/PrintButton";
 
 export type PenaltyTableProps = Omit<Remark, "id" | "reportId"> & {
   date?: string;
@@ -75,16 +76,7 @@ export default function TotalPenalty({ data }: { data: PenaltyTableProps[] }) {
   return (
     <Card className="shadow-md border rounded-2xl md:px-10">
       <CardContent className="space-y-4">
-        <div className="flex justify-end">
-          <Button
-            variant="outline"
-            onClick={handlePrint}
-            className="flex items-center gap-2 print:hidden my-4"
-          >
-            <Printer className="w-4 h-4" />
-            {t("print")}
-          </Button>
-        </div>
+        <PrintButton onPrint={handlePrint} />
         <div ref={componentRef}>
           <Table>
             <TableHeader>

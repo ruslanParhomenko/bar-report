@@ -1,28 +1,25 @@
-"use client";
-import { useTranslations } from "next-intl";
 import { EmployeesListTable } from "./EmployeesListTable";
 import { StandardKitchenTable } from "./StandardKitchenTable";
 import MeniuRatingTable from "./MeniuRatingTable";
-import { WrapperAccordionTable } from "./WrapperAccardionTable";
+
 import StatusMenu from "./StatusMenu";
+import AccordionWrapper from "@/components/wrapper/AccordionWrapper";
 
 export default function InfoTable() {
-  const t = useTranslations("Home");
-
   return (
     <>
-      <WrapperAccordionTable nameTag="employees">
+      <AccordionWrapper nameTag="employees">
         <EmployeesListTable />
-      </WrapperAccordionTable>
-      <WrapperAccordionTable nameTag="standardKitchen">
+      </AccordionWrapper>
+      <AccordionWrapper nameTag="standardKitchen">
         <StandardKitchenTable />
-      </WrapperAccordionTable>
-      <WrapperAccordionTable nameTag="meniuRating">
+      </AccordionWrapper>
+      <AccordionWrapper nameTag="meniuRating">
         <MeniuRatingTable />
-      </WrapperAccordionTable>
-      <WrapperAccordionTable nameTag="StatusMenu">
+      </AccordionWrapper>
+      <AccordionWrapper nameTag="StatusMenu">
         <StatusMenu />
-      </WrapperAccordionTable>
+      </AccordionWrapper>
     </>
   );
 }

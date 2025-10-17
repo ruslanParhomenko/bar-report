@@ -1,8 +1,13 @@
 "use client";
+import PrintButton from "@/components/buttons/PrintButton";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useGoogleData } from "@/hooks/useGoogleData";
+import { usePrint } from "@/hooks/useToPrint";
+import { useTranslations } from "next-intl";
 
 export default function StatusMenu() {
+  const t = useTranslations("Home");
   const columns = [
     { key: "platinum", title: "Platinum" },
     { key: "gold", title: "Gold" },
@@ -17,35 +22,45 @@ export default function StatusMenu() {
     "Вторые блюда",
     "Снеки ",
   ];
+  const { componentRef, handlePrint } = usePrint({ title: "Table status" });
   return (
-    <div className="grid grid-cols-1 xl:grid-cols-4 gap-1 w-full">
-      {columns.map((col) => (
-        <Card key={col.key} className="rounded-2xl shadow-sm">
-          <CardHeader>
-            <CardTitle className="text-center font-bold text-md">
-              {col.title}
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <ul className="space-y-1 text-sm">
-              {data &&
-                data[col.key].map((item, idx) => (
-                  <li
-                    key={idx}
-                    className={
-                      label.includes(item)
-                        ? "font-bold text-bl text-center pb-2"
-                        : "truncate"
-                    }
-                  >
-                    {item === "-" ? <span> .</span> : item}
-                  </li>
-                ))}
-            </ul>
-          </CardContent>
-        </Card>
-      ))}
-    </div>
+    <>
+      <PrintButton onPrint={handlePrint} />
+      <div
+        ref={componentRef}
+        className="flex flex-wrap gap-4 w-full  print:h-[200mm]" // A4 height
+      >
+        {columns.map((col) => (
+          <Card
+            key={col.key}
+            className="rounded-2xl shadow-sm flex-1 min-w-[23%]"
+          >
+            <CardHeader>
+              <CardTitle className="text-center font-bold text-md">
+                {col.title}
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ul className="space-y-1 text-sm">
+                {data &&
+                  data[col.key].map((item, idx) => (
+                    <li
+                      key={idx}
+                      className={
+                        label.includes(item)
+                          ? "font-bold text-bl text-center pb-1"
+                          : "truncate"
+                      }
+                    >
+                      {item === "-" ? <span> .</span> : item}
+                    </li>
+                  ))}
+              </ul>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+    </>
   );
 }
 

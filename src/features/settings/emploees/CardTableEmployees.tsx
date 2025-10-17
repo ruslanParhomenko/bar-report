@@ -29,8 +29,7 @@ import { EmployeesSchemaTypeData } from "@/features/settings/schema";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useAbility } from "@/providers/AbilityProvider";
 import { deleteEmployee } from "@/app/actions/employees/employeeAction";
-
-export const EMPLOYEES_ROLE = ["barmen", "waiters", "cook", "mngr", "dish"];
+import { EMPLOYEES_ROLE } from "../constants";
 
 export function EmployeesTable({ data }: { data: EmployeesSchemaTypeData[] }) {
   const { isAdmin, isMngr } = useAbility();
