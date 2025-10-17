@@ -1,5 +1,8 @@
 {
   "Home": {
+    "semifabricat": "Semifabricat",
+    "fridge": "Refrigerator",
+    "freezer": "Congelator",
     "buyer": "Cumparator",
     "close": "Inchide",
     "open": "Deschide",

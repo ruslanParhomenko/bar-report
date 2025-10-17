@@ -15,6 +15,7 @@ import {
 import AccordionWrapper from "@/components/wrapper/AccordionWrapper";
 import dynamic from "next/dynamic";
 import { useArchive } from "@/hooks/useApiArchive";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const BreakList = dynamic(() => import("@/features/archive/BreakList"));
 const ReportBar = dynamic(() => import("@/features/archive/ReportBar"));
@@ -36,7 +37,14 @@ export type ApiDataMap = {
 
 export const ArchivePage = () => {
   const { data, invalidate: onInvalidate } = useArchive();
-  if (!data) return null;
+  if (!data) {
+    return (
+      <div className="space-y-3">
+        <Skeleton className="h-8 w-1/3 rounded-lg" />
+        <Skeleton className="h-24 w-full rounded-xl" />
+      </div>
+    );
+  }
   return (
     <>
       <AccordionWrapper nameTag={BREAK_LIST_ENDPOINT}>

@@ -1,24 +1,14 @@
 import PrintButton from "@/components/buttons/PrintButton";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Spinner } from "@/components/ui/spinner";
 import { useGoogleData } from "@/hooks/useGoogleData";
 import { usePrint } from "@/hooks/useToPrint";
+import { columns, LABELS } from "./constants";
 
 export default function StatusMenu() {
-  const columns = [
-    { key: "platinum", title: "Platinum" },
-    { key: "gold", title: "Gold" },
-    { key: "silver", title: "Silver" },
-    { key: "loyal", title: "Loyal" },
-  ] as const;
   const { statusMenu: data } = useGoogleData();
-  const label = [
-    "Безалкогольная продукция",
-    "Завтраки и десерты",
-    "Салаты и закуски",
-    "Вторые блюда",
-    "Снеки ",
-  ];
   const { componentRef, handlePrint } = usePrint({ title: "Table status" });
+
   return (
     <>
       <PrintButton onPrint={handlePrint} />
@@ -38,19 +28,22 @@ export default function StatusMenu() {
             </CardHeader>
             <CardContent>
               <ul className="space-y-1 text-sm">
-                {data &&
+                {data ? (
                   data[col.key].map((item, idx) => (
                     <li
                       key={idx}
                       className={
-                        label.includes(item)
+                        LABELS.includes(item)
                           ? "font-bold text-bl text-center pb-1"
                           : "truncate"
                       }
                     >
                       {item === "-" ? <span> .</span> : item}
                     </li>
-                  ))}
+                  ))
+                ) : (
+                  <Spinner />
+                )}
               </ul>
             </CardContent>
           </Card>

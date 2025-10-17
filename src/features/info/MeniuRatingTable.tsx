@@ -16,6 +16,7 @@ import { useAbility } from "@/providers/AbilityProvider";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { useDataSupaBase } from "@/hooks/useRealTimeData";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
 type InputData = {
   form_data: {
@@ -74,7 +75,7 @@ function getRatingStats(ratings: number[]) {
   const avg = count > 0 ? ratings.reduce((sum, r) => sum + r, 0) / count : 0;
 
   return {
-    avg: Number(avg.toFixed(2)),
+    avg: Math.round(avg),
     count,
   };
 }
@@ -114,50 +115,46 @@ export default function MeniuRatingTable() {
   });
 
   return (
-    <Form {...form}>
-      <form className="w-full">
-        <div className="flex w-full justify-between  gap-4 p-4">
-          <DatePickerRange />
-          <FetchDataButton
-            fetchData={fetchSupaBaseData}
-            isDisabled={isObserver}
-          />
-        </div>
+    <Card className="rounded-2xl shadow-sm pt-2 px-10 h-screen flex flex-col">
+      <FetchDataButton fetchData={fetchSupaBaseData} isDisabled={isObserver} />
+      <CardHeader>
+        <Table className="table-fixed">
+          <TableHeader>
+            <TableRow>
+              <TableHead></TableHead>
+              <TableHead className="text-center">avg</TableHead>
+              <TableHead className="text-center">votes</TableHead>
+            </TableRow>
+          </TableHeader>
+        </Table>
+      </CardHeader>
 
-        <div className="p-6">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>product</TableHead>
-                <TableHead className="text-center">avg</TableHead>
-                <TableHead className="text-center">votes</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {items
-                ?.filter((item) => item.item)
-                .map((row, idx) => {
-                  const { avg, count } = getRatingStats(row.ratings);
-                  return (
-                    <TableRow
-                      key={idx}
-                      onClick={() => {
-                        setSelected(selected === row.item ? null : row.item);
-                      }}
-                      className={cn("cursor-pointer", {
-                        "text-rd font-bold": selected === row.item,
-                      })}
-                    >
-                      <TableCell>{row.item}</TableCell>
-                      <TableCell className="text-center">{avg}</TableCell>
-                      <TableCell className="text-center">{count}</TableCell>
-                    </TableRow>
-                  );
-                })}
-            </TableBody>
-          </Table>
-        </div>
-      </form>
-    </Form>
+      <CardContent className="overflow-y-auto no-scrollbar">
+        <Table className="table-fixed w-full">
+          <TableBody>
+            {items
+              ?.filter((item) => item.item)
+              .map((row, idx) => {
+                const { avg, count } = getRatingStats(row.ratings);
+                return (
+                  <TableRow
+                    key={idx}
+                    onClick={() => {
+                      setSelected(selected === row.item ? null : row.item);
+                    }}
+                    className={cn("cursor-pointer", {
+                      "text-rd font-bold": selected === row.item,
+                    })}
+                  >
+                    <TableCell>{row.item}</TableCell>
+                    <TableCell className="text-center">{avg}</TableCell>
+                    <TableCell className="text-center">{count}</TableCell>
+                  </TableRow>
+                );
+              })}
+          </TableBody>
+        </Table>
+      </CardContent>
+    </Card>
   );
 }

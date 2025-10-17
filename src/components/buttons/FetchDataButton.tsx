@@ -3,12 +3,14 @@ import { Button } from "@/components/ui/button";
 export const FetchDataButton = ({
   fetchData,
   isDisabled,
+  className,
 }: {
   fetchData?: () => void;
   isDisabled?: boolean;
+  className?: string;
 }) => {
   return (
-    <>
+    <div className={className}>
       {fetchData && (
         <Button
           type="button"
@@ -20,6 +22,6 @@ export const FetchDataButton = ({
           fetch data
         </Button>
       )}
-    </>
+    </div>
   );
 };
