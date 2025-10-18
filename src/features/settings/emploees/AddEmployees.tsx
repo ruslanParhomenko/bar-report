@@ -16,10 +16,13 @@ import {
   createEmployee,
   updateEmployee,
 } from "@/app/actions/employees/employeeAction";
+import { useSession } from "next-auth/react";
+import { sendNotificationEmail } from "@/app/actions/mail/sendNotificationEmail";
 
 type FormData = EmployeesSchemaTypeData;
 
 export default function AddEmployees() {
+  const { data: session } = useSession();
   const { isAdmin } = useAbility();
   const form = useForm<FormData>({
     resolver: yupResolver(employeesSchema),
@@ -30,7 +33,11 @@ export default function AddEmployees() {
 
   const handleSubmit: SubmitHandler<FormData> = async (data) => {
     try {
+      const userName = session?.user?.name || "Unknown user";
       if (data.id) {
+        const old = employees.find((e) => e.id === data.id);
+        if (!old) throw new Error("Employee not found");
+
         const payloadUpdate = {
           name: data.name,
           role: data.role,
@@ -48,6 +55,27 @@ export default function AddEmployees() {
         };
         await updateEmployee(data.id, payloadUpdate);
         toast.success("Employee updated!");
+
+        const changes: string[] = [];
+        for (const key of Object.keys(payloadUpdate)) {
+          const newValue = (payloadUpdate as any)[key];
+          const oldValue = (old as any)[key];
+          if (JSON.stringify(newValue) !== JSON.stringify(oldValue)) {
+            changes.push(`${key}: "${oldValue}" → "${newValue}"`);
+          }
+        }
+        // отправка email
+        if (changes.length > 0) {
+          await sendNotificationEmail({
+            type: "update",
+            userName,
+            subject: "Employee updated",
+            text: `${userName} - обновил данные сотрудника:
+                   ID: ${data.name}
+                   Changes: ${changes.join("\n")}
+                  `,
+          });
+        }
       } else {
         const payloadCreate = {
           name: data.name,
@@ -66,6 +94,20 @@ export default function AddEmployees() {
         };
         await createEmployee(payloadCreate);
         toast.success("Employee added!");
+
+        await sendNotificationEmail({
+          type: "create",
+          userName,
+          subject: "New employee created",
+          text: `
+                 ${userName} добавил нового сотрудника:
+
+                 Name: ${payloadCreate.name}
+                 Role: ${payloadCreate.role}
+                 Rate: ${payloadCreate.rate}
+                 Employment Date: ${payloadCreate.employmentDate}
+          `,
+        });
       }
       form.reset(defaultEmployee);
     } catch (e) {

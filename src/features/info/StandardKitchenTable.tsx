@@ -1,5 +1,6 @@
 "use client";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Spinner } from "@/components/ui/spinner";
 import {
   Table,
   TableBody,
@@ -36,7 +37,7 @@ export function StandardKitchenTable() {
       <CardContent className="flex-1 overflow-y-auto no-scrollbar">
         <Table className="table-fixed w-full">
           <TableBody>
-            {data &&
+            {data ? (
               data
                 ?.filter((_emp: any, idx: number) => idx !== 0)
                 .map((emp: any, idx: number) => (
@@ -49,7 +50,10 @@ export function StandardKitchenTable() {
                       {emp.timeMinus ?? "-"}
                     </TableCell>
                   </TableRow>
-                ))}
+                ))
+            ) : (
+              <Spinner />
+            )}
           </TableBody>
         </Table>
       </CardContent>
