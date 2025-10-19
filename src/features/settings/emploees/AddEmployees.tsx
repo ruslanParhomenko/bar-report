@@ -57,22 +57,69 @@ export default function AddEmployees() {
         toast.success("Employee updated!");
 
         const changes: string[] = [];
+
         for (const key of Object.keys(payloadUpdate)) {
           const newValue = (payloadUpdate as any)[key];
           const oldValue = (old as any)[key];
-          if (JSON.stringify(newValue) !== JSON.stringify(oldValue)) {
+
+          // Сравнение массивов
+          if (Array.isArray(newValue) && Array.isArray(oldValue)) {
+            if (JSON.stringify(newValue) !== JSON.stringify(oldValue)) {
+              const added = newValue.filter(
+                (item) =>
+                  !oldValue.some(
+                    (oldItem) =>
+                      JSON.stringify(oldItem) === JSON.stringify(item)
+                  )
+              );
+              const removed = oldValue.filter(
+                (item) =>
+                  !newValue.some(
+                    (newItem) =>
+                      JSON.stringify(newItem) === JSON.stringify(item)
+                  )
+              );
+
+              if (added.length > 0)
+                changes.push(
+                  `${key}: добавлено → ${JSON.stringify(added, null, 2)}`
+                );
+              if (removed.length > 0)
+                changes.push(
+                  `${key}: удалено → ${JSON.stringify(removed, null, 2)}`
+                );
+            }
+            continue;
+          }
+
+          // Сравнение объектов
+          if (
+            typeof newValue === "object" &&
+            newValue !== null &&
+            typeof oldValue === "object" &&
+            oldValue !== null
+          ) {
+            if (JSON.stringify(newValue) !== JSON.stringify(oldValue)) {
+              changes.push(`${key}: изменено`);
+            }
+            continue;
+          }
+
+          // Простое сравнение примитивов
+          if (newValue !== oldValue) {
             changes.push(`${key}: "${oldValue}" → "${newValue}"`);
           }
         }
+
         if (changes.length > 0) {
           await sendNotificationEmail({
             type: "update",
             userName,
             subject: "Employee updated",
             text: `${userName} - обновил данные сотрудника:
-                   ID: ${data.name}
-                   Changes: ${changes.join("\n")}
-                  `,
+           ID: ${data.name}
+           Changes:\n${changes.join("\n")}
+          `,
           });
         }
       } else {
