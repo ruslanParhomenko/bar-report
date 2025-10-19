@@ -13,7 +13,7 @@ const _getEmployees = async () => {
 };
 
 export const getEmployees = unstable_cache(_getEmployees, ["employees"], {
-  revalidate: 60 * 60 * 24,
+  revalidate: false,
   tags: ["employees"],
 });
 

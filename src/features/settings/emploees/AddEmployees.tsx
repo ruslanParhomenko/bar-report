@@ -64,7 +64,6 @@ export default function AddEmployees() {
             changes.push(`${key}: "${oldValue}" → "${newValue}"`);
           }
         }
-        // отправка email
         if (changes.length > 0) {
           await sendNotificationEmail({
             type: "update",
