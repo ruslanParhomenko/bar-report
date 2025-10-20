@@ -24,7 +24,7 @@ export function ScheduleTable({ dataRange }: { dataRange: any }) {
     }
   }, [data, todayDay]);
   return (
-    <Card className="w-[90vw] md:pr-12">
+    <Card className="w-[85vw] md:pr-12">
       <Table>
         <TableBody>
           {data.map((row: any, i: number) => {
@@ -64,7 +64,7 @@ export function ScheduleTable({ dataRange }: { dataRange: any }) {
                           ? "border-border/40 text-foreground/40"
                           : "border-border text-bl",
                         j === 4
-                          ? "min-w-[30px] sticky left-0 z-5 text-left bg-background"
+                          ? "min-w-[30px] sticky left-0 z-5 text-left bg-card"
                           : "text-center",
                         isHighlighted &&
                           (theme === "dark"
