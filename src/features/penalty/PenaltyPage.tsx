@@ -8,23 +8,17 @@ import { useUniqueOptions } from "@/hooks/useUniqueOptions";
 import { isValid } from "date-fns";
 import { RemarkData } from "@/constants/type";
 import { Remark } from "@/generated/prisma";
-import { useApi } from "@/hooks/useApi";
-import { REMARKS_ENDPOINT } from "@/constants/endpoint-tag";
 import { Button } from "@/components/ui/button";
 import TotalPenalty from "./TotalPenalty";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { useTranslations } from "next-intl";
 
-export const PenaltyPage = () => {
+export const PenaltyPage = ({ data }: { data: RemarkData[] }) => {
   const t = useTranslations("Home");
   const [isOpenTotal, setIsOpenTotal] = useState(false);
-  const { query } = useApi<RemarkData>({
-    endpoint: REMARKS_ENDPOINT,
-    queryKey: REMARKS_ENDPOINT,
-    fetchInit: true,
-  });
-  const { data } = query;
+
+  console.log("server", data);
   const employeesList = useUniqueOptions<Remark>({
     data: data?.flatMap((r) => r?.remarks ?? []) ?? [],
     getValue: (r) => r.name,

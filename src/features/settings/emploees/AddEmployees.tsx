@@ -19,7 +19,7 @@ import {
 import { useSession } from "next-auth/react";
 import { sendNotificationEmail } from "@/app/actions/mail/sendNotificationEmail";
 
-type FormData = EmployeesSchemaTypeData;
+type FormData = EmployeesSchemaTypeData & { id?: string };
 
 export default function AddEmployees() {
   const { data: session } = useSession();
@@ -168,7 +168,7 @@ export default function AddEmployees() {
         className="grid grid-cols-1 md:grid-cols-[27%_72%] w-full gap-4 mt-4"
       >
         <CardFormEmployees nameTag="vacationPay" disabled={!isAdmin} />
-        <EmployeesTable data={employees as EmployeesSchemaTypeData[]} />
+        <EmployeesTable data={employees} />
       </form>
     </Form>
   );

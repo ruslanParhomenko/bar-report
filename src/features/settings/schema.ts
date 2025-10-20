@@ -28,9 +28,7 @@ export const employeesSchema = yup.object({
   vacationPay: yup.array().of(vacationPaySchema).default([]),
 });
 
-export type EmployeesSchemaTypeData = yup.InferType<typeof employeesSchema> & {
-  id?: string;
-};
+export type EmployeesSchemaTypeData = yup.InferType<typeof employeesSchema>;
 export const defaultVacationPay = {
   startDate: "",
   endDate: "",

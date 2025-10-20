@@ -1,7 +1,6 @@
 "use client";
 
 import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -74,7 +73,7 @@ export default function TotalPenalty({ data }: { data: PenaltyTableProps[] }) {
 
   const { componentRef, handlePrint } = usePrint({ title: "Table penalty" });
   return (
-    <Card className="shadow-md border rounded-2xl md:px-10">
+    <Card>
       <CardContent className="space-y-4">
         <PrintButton onPrint={handlePrint} />
         <div ref={componentRef}>

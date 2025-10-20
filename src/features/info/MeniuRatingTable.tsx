@@ -115,7 +115,7 @@ export default function MeniuRatingTable() {
   });
 
   return (
-    <Card className="rounded-2xl shadow-sm pt-2 px-10 h-screen flex flex-col">
+    <Card className="h-[80vh] flex flex-col">
       <FetchDataButton fetchData={fetchSupaBaseData} isDisabled={isObserver} />
       <CardHeader>
         <Table className="table-fixed">

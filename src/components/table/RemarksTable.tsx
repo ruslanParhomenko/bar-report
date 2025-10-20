@@ -19,7 +19,7 @@ export default function RemarksTable({
   invalidate?: () => void;
 }) {
   return (
-    <Card className="shadow-md border rounded-2xl md:p-4 mb-4">
+    <Card>
       <CardHeader>
         <CardTitle>
           <DeleteListButton
@@ -45,7 +45,7 @@ export default function RemarksTable({
           <TableBody>
             {data.remarks.map((remark: Remark) => (
               <TableRow key={remark.id}>
-                <TableCell className="md:min-w-2/8 sticky left-0 bg-background/90">
+                <TableCell className="md:min-w-2/8 sticky left-0 z-10 bg-card">
                   {remark.name}
                 </TableCell>
                 <TableCell className="md:w-1/8">{remark.dayHours}</TableCell>

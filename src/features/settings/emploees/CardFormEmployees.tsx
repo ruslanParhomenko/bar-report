@@ -31,8 +31,8 @@ export default function CardFormEmployees({
   });
 
   return (
-    <Card className="shadow-md border rounded-2xl py-4">
-      <CardContent>
+    <Card className="h-[80vh] flex flex-col overflow-hidden">
+      <CardContent className="overflow-y-auto no-scrollbar flex-1 pt-4">
         <Label className="text-base font-bold">{t("name")}</Label>
         <TextInput fieldName="name" type="text" className="w-full my-4 h-10" />
         <Label className="text-base font-bold">{t("role")}</Label>

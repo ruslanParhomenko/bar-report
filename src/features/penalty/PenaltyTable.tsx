@@ -30,7 +30,7 @@ export default function PenaltyTable({ data }: { data: PenaltyTableProps[] }) {
     }, 0);
   }, [data]);
   return (
-    <Card className="shadow-md border rounded-2xl md:px-10">
+    <Card>
       <CardContent>
         {data && (
           <Table>
@@ -66,11 +66,9 @@ export default function PenaltyTable({ data }: { data: PenaltyTableProps[] }) {
                       {row.nightHours}
                     </TableCell>
                     <TableCell>{row.reason}</TableCell>
+                    <TableCell className="text-center">{row.bonus}</TableCell>
                     <TableCell className="text-center">
-                      {row.bonus || "-"}
-                    </TableCell>
-                    <TableCell className="text-center">
-                      {row.penality || "-"}
+                      {row.penality}
                     </TableCell>
                   </TableRow>
                 ))}

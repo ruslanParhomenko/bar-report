@@ -40,7 +40,7 @@ export default function ReportCucinaTable({
   const gridColsFooter =
     visibleTables === 1 ? "md:grid-cols-1" : "md:grid-cols-[30%_70%]";
   return (
-    <Card className="shadow-md border rounded-2xl md:p-4 mb-4">
+    <Card>
       <CardHeader>
         <CardTitle>
           <DeleteListButton

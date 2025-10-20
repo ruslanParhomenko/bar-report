@@ -10,7 +10,10 @@ import ReactQueryProvider from "@/providers/ReactQueryProvider";
 
 import { ThemeProvider } from "next-themes";
 import { getEmployees } from "./actions/employees/getEmployees";
-import { EmployeesProvider } from "@/providers/EmployeesProvider";
+import {
+  EmployeesContextValue,
+  EmployeesProvider,
+} from "@/providers/EmployeesProvider";
 import { getUsers } from "./actions/users/getUsers";
 import { Toaster } from "@/components/ui/sonner";
 
@@ -49,7 +52,9 @@ export default async function RootLayout({
             <NextIntlClientProvider>
               <ReactQueryProvider>
                 <AbilityProvider users={users}>
-                  <EmployeesProvider employees={employees}>
+                  <EmployeesProvider
+                    employees={employees as EmployeesContextValue[]}
+                  >
                     {children}
                   </EmployeesProvider>
                 </AbilityProvider>

@@ -16,7 +16,7 @@ export default function BreakTable({
 
   if (!filtered?.length) return null;
   return (
-    <Card className="shadow-md border rounded-2xl md:p-4 mb-4">
+    <Card>
       <CardHeader>
         <CardTitle>
           <DeleteListButton
@@ -44,7 +44,7 @@ export default function BreakTable({
                   key={row.id}
                   className="hover:text-rd  cursor-pointer"
                 >
-                  <TableCell className=" font-bold md:w-3xs sticky left-0 bg-background/90">
+                  <TableCell className=" font-bold md:w-3xs sticky left-0 bg-card">
                     {row.name ?? "-"}
                   </TableCell>
                   <TableCell className="text-sm text-gr font-bold md:w-xs">

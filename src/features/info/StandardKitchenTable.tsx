@@ -17,7 +17,7 @@ export function StandardKitchenTable() {
   const { sk: data } = useGoogleData();
 
   return (
-    <Card className="rounded-2xl shadow-sm py-6 px-10 h-screen flex flex-col">
+    <Card className="h-screen flex flex-col">
       <CardHeader className="flex-shrink-0">
         <Table className="table-fixed w-full">
           <TableHeader>

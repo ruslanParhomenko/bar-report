@@ -26,6 +26,7 @@ import RemarksTable from "./RemarksTable";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useEmployees } from "@/providers/EmployeesProvider";
 import { toast } from "sonner";
+import { invalidateRemarks } from "@/app/actions/remarks/getRemarks";
 
 const BreakList = () => {
   const employees = useEmployees();
@@ -108,6 +109,7 @@ const BreakList = () => {
         }),
       ]);
       toast.success("Брейк-лист успешно сохранён !");
+      invalidateRemarks();
       resetForm();
     } catch (e) {
       toast.error("Ошибка при сохранении брейк-листа");

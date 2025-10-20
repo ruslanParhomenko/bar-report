@@ -9,12 +9,17 @@ import { Globe, LogOut, Moon, Sun } from "lucide-react";
 import { signOut } from "next-auth/react";
 import { useLocale } from "next-intl";
 import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
 
 export default function SidebarFooterButtons() {
   const locale = useLocale();
   const router = useRouter();
   const { theme, setTheme } = useTheme();
-  const ThemeIcon = theme === "dark" ? Sun : Moon;
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const changeLanguage = () => {
     const lang = locale === "ru" ? "ro" : "ru";
@@ -30,6 +35,12 @@ export default function SidebarFooterButtons() {
     width: "20px",
     height: "20px",
   };
+
+  if (!mounted) {
+    return null;
+  }
+
+  const ThemeIcon = theme === "dark" ? Sun : Moon;
 
   return (
     <SidebarFooter>

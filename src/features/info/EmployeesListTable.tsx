@@ -23,7 +23,7 @@ import { useSidebar } from "@/components/ui/sidebar";
 import { useEmployees } from "@/providers/EmployeesProvider";
 import { Switch } from "@/components/ui/switch";
 import { EMPLOYEES_ROLE } from "../settings/constants";
-import { Card } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { useRouter } from "@/i18n/navigation";
 import { useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
@@ -36,7 +36,6 @@ export function EmployeesListTable() {
   const { isAdmin, isMngr } = useAbility();
 
   const isDisabled = !isAdmin && !isMngr;
-  const { isMobile } = useSidebar();
   const employees = useEmployees();
   const t = useTranslations("Home");
 
@@ -73,7 +72,7 @@ export function EmployeesListTable() {
   }, [filteredData, sortByName]);
 
   return (
-    <Card className="shadow-md border rounded-2xl overflow-hidden md:p-8">
+    <Card className="h-[80vh] flex flex-col overflow-hidden">
       <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4 gap-2">
         <div className="flex items-center gap-2">
           <span className="text-sm text-muted-foreground px-3">
@@ -95,90 +94,89 @@ export function EmployeesListTable() {
         </div>
       </div>
 
-      <Table>
-        <TableHeader>
-          <TableRow className="text-gr">
-            <TableHead>#</TableHead>
-            <TableHead>{t("employmentDate")}</TableHead>
-            <TableHead className="flex items-center gap-6 sticky left-0">
-              {t("name")}
-              <Switch
-                checked={sortByName}
-                onCheckedChange={setSortByName}
-                aria-label="Sort by name"
-              />
-            </TableHead>
-            <TableHead>{t("role")}</TableHead>
-            <TableHead>{t("vacationDays")}</TableHead>
-            <TableHead>{t("usedVacationDays")}</TableHead>
-            <TableHead>{t("remainingVacationDays")}</TableHead>
-            <TableHead>{t("rate")}</TableHead>
-            <TableHead className="text-center">Action</TableHead>
-          </TableRow>
-        </TableHeader>
+      <CardHeader className="flex-shrink-0 p-0">
+        <Table className="table-fixed">
+          <TableHeader>
+            <TableRow className="text-gr">
+              <TableHead>#</TableHead>
+              <TableHead>{t("employmentDate")}</TableHead>
+              <TableHead className="flex items-center gap-10 sticky left-0 bg-card z-10">
+                {t("name")}
+                <Switch
+                  checked={sortByName}
+                  onCheckedChange={setSortByName}
+                  aria-label="Sort by name"
+                />
+              </TableHead>
+              <TableHead>{t("role")}</TableHead>
+              <TableHead>{t("vacationDays")}</TableHead>
+              <TableHead>{t("usedVacationDays")}</TableHead>
+              <TableHead>{t("remainingVacationDays")}</TableHead>
+              <TableHead>{t("rate")}</TableHead>
+              <TableHead>Action</TableHead>
+            </TableRow>
+          </TableHeader>
+        </Table>
+      </CardHeader>
 
-        <TableBody>
-          {sortedData?.map((emp, idx) => {
-            const monthsWorked = emp?.employmentDate
-              ? differenceInMonths(new Date(), emp.employmentDate)
-              : 0;
+      <CardContent className="overflow-y-auto no-scrollbar flex-1 p-0">
+        <Table className="table-fixed">
+          <TableBody>
+            {sortedData?.map((emp, idx) => {
+              const monthsWorked = emp?.employmentDate
+                ? differenceInMonths(new Date(), emp.employmentDate)
+                : 0;
 
-            const vacationDays = Math.round(monthsWorked * 2.33);
-            const usedVacationDays =
-              emp.vacationPay?.reduce(
-                (acc: number, r: VacationPaySchemaType) =>
-                  acc + Number(r.countDays),
-                0
-              ) ?? 0;
+              const vacationDays = Math.round(monthsWorked * 2.33);
+              const usedVacationDays =
+                emp.vacationPay?.reduce(
+                  (acc: number, r: VacationPaySchemaType) =>
+                    acc + Number(r.countDays),
+                  0
+                ) ?? 0;
 
-            const remainingVacationDays = vacationDays - usedVacationDays;
-            const isExpanded = expandedRows.includes(emp.id);
+              const remainingVacationDays = vacationDays - usedVacationDays;
+              const isExpanded = expandedRows.includes(emp.id);
 
-            return (
-              <React.Fragment key={emp.id}>
-                <TableRow
-                  className={cn(
-                    "hover:text-bl cursor-pointer",
-                    !emp.employmentDate && "text-rd font-bold"
-                  )}
-                >
-                  <TableCell className="font-medium">{idx + 1}</TableCell>
-                  <TableCell>
-                    {emp.employmentDate
-                      ? format(emp.employmentDate, "dd.MM.yy")
-                      : "-"}
-                  </TableCell>
-                  <TableCell
+              return (
+                <React.Fragment key={emp.id}>
+                  <TableRow
                     className={cn(
-                      "sticky left-0",
-                      isMobile ? "bg-background/90" : ""
+                      "hover:text-bl cursor-pointer",
+                      !emp.employmentDate && "text-rd font-bold"
                     )}
                   >
-                    {emp.name}
-                  </TableCell>
-                  <TableCell>{emp.role}</TableCell>
-                  <TableCell>{vacationDays}</TableCell>
-                  <TableCell>{usedVacationDays}</TableCell>
-                  <TableCell>{remainingVacationDays}</TableCell>
-                  <TableCell>{isDisabled ? "-" : Number(emp.rate)}</TableCell>
-                  <TableCell className="flex gap-2 justify-center">
-                    <Button
-                      size="sm"
-                      variant="secondary"
-                      className="text-sm cursor-pointer"
-                      onClick={() => toggleRow(emp.id)}
-                    >
-                      {isExpanded ? t("hide") : t("details")}
-                    </Button>
-                  </TableCell>
-                </TableRow>
+                    <TableCell className="font-medium">{idx + 1}</TableCell>
+                    <TableCell>
+                      {emp.employmentDate
+                        ? format(emp.employmentDate, "dd.MM.yy")
+                        : "-"}
+                    </TableCell>
+                    <TableCell className="sticky left-0 bg-card z-5">
+                      {emp.name}
+                    </TableCell>
+                    <TableCell>{emp.role}</TableCell>
+                    <TableCell>{vacationDays}</TableCell>
+                    <TableCell>{usedVacationDays}</TableCell>
+                    <TableCell>{remainingVacationDays}</TableCell>
+                    <TableCell>{isDisabled ? "-" : Number(emp.rate)}</TableCell>
+                    <TableCell className="flex justify-start">
+                      <Button
+                        size="sm"
+                        variant="secondary"
+                        className="text-sm cursor-pointer"
+                        onClick={() => toggleRow(emp.id)}
+                      >
+                        {isExpanded ? t("hide") : t("details")}
+                      </Button>
+                    </TableCell>
+                  </TableRow>
 
-                {isExpanded && emp.vacationPay?.length > 0 && (
-                  <TableRow className="border-0">
-                    <TableCell colSpan={8}>
-                      <div className="flex flex-col gap-2 px-10 text-bl">
-                        {emp.vacationPay.map(
-                          (v: VacationPaySchemaType, i: number) => {
+                  {isExpanded && emp.vacationPay?.length > 0 && (
+                    <TableRow className="border-0">
+                      <TableCell colSpan={9}>
+                        <div className="flex flex-col gap-2 px-10 text-bl">
+                          {emp.vacationPay.map((v, i) => {
                             if (v.countDays === "0")
                               return (
                                 <Label className="text-rd" key={i}>
@@ -206,17 +204,17 @@ export function EmployeesListTable() {
                                 </Label>
                               </div>
                             );
-                          }
-                        )}
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                )}
-              </React.Fragment>
-            );
-          })}
-        </TableBody>
-      </Table>
+                          })}
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  )}
+                </React.Fragment>
+              );
+            })}
+          </TableBody>
+        </Table>
+      </CardContent>
     </Card>
   );
 }

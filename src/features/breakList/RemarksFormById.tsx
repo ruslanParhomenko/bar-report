@@ -26,6 +26,7 @@ import { useRouter } from "@/i18n/navigation";
 import TextInput from "@/components/inputs/TextInput";
 import { toast } from "sonner";
 import { useEmployees } from "@/providers/EmployeesProvider";
+import { invalidateRemarks } from "@/app/actions/remarks/getRemarks";
 
 export default function RemarksFormByIdClient() {
   const router = useRouter();
@@ -75,6 +76,7 @@ export default function RemarksFormByIdClient() {
     console.log(data);
     if (!id) return;
     await updateMutation.mutate({ id, remarks: data.remarks });
+    invalidateRemarks();
     toast.success("Remarks updated successfully");
     router.back();
   };
