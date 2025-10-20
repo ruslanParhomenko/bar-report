@@ -3,22 +3,20 @@
 import { useEffect, useMemo } from "react";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { ArrowDown, ArrowUp, Plus, RotateCcw, Trash2 } from "lucide-react";
+import { Plus, RotateCcw, Trash2 } from "lucide-react";
 import { useEmployees } from "@/providers/EmployeesProvider";
 import { useFieldArray, useForm, useWatch } from "react-hook-form";
 import { Form } from "@/components/ui/form";
 import SelectField from "@/components/inputs/SelectField";
-import { MonthYearPicker } from "@/components/inputs/MonthYearPicker";
+import { YearPicker } from "@/components/inputs/YearPicker";
 import {
+  MONTHS,
   SHIFT_HOURS_MAP_DAY,
   SHIFT_HOURS_MAP_NIGHT,
   SHIFT_OPTIONS,
-  WAITER_EMPLOYEES,
 } from "../constants";
 import { useTranslations } from "next-intl";
 
-type Department = keyof typeof EMPLOYEE_ROLES_BY_DEPARTMENT;
-type EmployeeRole = (typeof EMPLOYEE_ROLES_BY_DEPARTMENT)[Department][number];
 const EMPLOYEE_ROLES_BY_DEPARTMENT = {
   restaurant: ["barmen", "waiters", "mngr"],
   cucina: ["cook"],
@@ -48,8 +46,11 @@ export function ScheduleTable() {
       : null;
   const parsedSavedData = savedData ? JSON.parse(savedData) : null;
 
+  console.log(parsedSavedData);
+
   const form = useForm({
     defaultValues: parsedSavedData || {
+      year: "",
       month: "",
       role: "",
       rowShifts: [] as ShiftRow[],
@@ -62,6 +63,7 @@ export function ScheduleTable() {
   });
 
   const month = form.watch("month");
+  const year = form.watch("year");
   const role = form.watch("role");
   const selectedEmployees = useMemo(() => {
     if (
@@ -79,13 +81,11 @@ export function ScheduleTable() {
     return employees
       .filter((employee) => allowedRoles.includes(employee.role))
       .sort((a, b) => {
-        // сортируем по позиции роли в массиве allowedRoles
         const roleOrderA = allowedRoles.indexOf(a.role);
         const roleOrderB = allowedRoles.indexOf(b.role);
         if (roleOrderA !== roleOrderB) {
           return roleOrderA - roleOrderB;
         }
-        // если роли одинаковы — сортируем по имени
         return a.name.localeCompare(b.name);
       })
       .map((employee) => employee.name);
@@ -93,26 +93,29 @@ export function ScheduleTable() {
 
   const getMonthDays = () => {
     if (!month) return [];
-    const [monthName, yearStr] = month.split("-");
-    const year = parseInt(yearStr, 10);
-    if (isNaN(year)) return [];
 
-    const monthIndex = new Date(
-      Date.parse(`${monthName} 1, ${year}`)
-    ).getMonth();
+    // Определяем индекс месяца из массива MONTHS
+    const monthIndex = MONTHS.findIndex(
+      (m) => m.toLowerCase() === month.toLowerCase()
+    );
+    if (monthIndex < 0) return [];
 
-    const daysInMonth = new Date(year, monthIndex + 1, 0).getDate();
+    const daysInMonth = new Date(Number(year), monthIndex + 1, 0).getDate();
 
     return Array.from({ length: daysInMonth }, (_, i) => {
-      const date = new Date(year, monthIndex, i + 1);
+      const date = new Date(Number(year), monthIndex, i + 1);
       return {
         day: i + 1,
-        weekday: date.toLocaleDateString("ru-RU", { weekday: "short" }),
+        weekday: date
+          .toLocaleDateString("ru-RU", { weekday: "short" })
+          .replace(".", ""), // убираем точку в "пн.", "вт."
       };
     });
   };
 
   const monthDays = getMonthDays();
+
+  console.log(monthDays);
 
   const updateRowHours = (rowIndex: number) => {
     const shifts = form.getValues(`rowShifts.${rowIndex}.shifts`) || [];
@@ -168,6 +171,7 @@ export function ScheduleTable() {
 
   const resetForm = () => {
     form.reset({
+      year: "",
       month: "",
       role: "",
       rowShifts: [],
@@ -190,11 +194,8 @@ export function ScheduleTable() {
         employee,
         shifts: Array(monthDays.length).fill(null),
       }));
-
-      // Заменяем полностью весь массив строк
       replace(newRows);
     } else {
-      // Если month или role сброшены — очищаем
       replace([]);
     }
   }, [month, role, selectedEmployees.length]);
@@ -220,7 +221,13 @@ export function ScheduleTable() {
               placeHolder="role"
               className="w-50"
             />
-            <MonthYearPicker name="month" />
+            <SelectField
+              fieldName="month"
+              data={MONTHS}
+              placeHolder="month"
+              className="w-50"
+            />
+            <YearPicker name="year" />
           </div>
           <div className="flex gap-2">
             <Button onClick={addNewRow} size="sm" type="button">

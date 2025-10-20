@@ -30,3 +30,18 @@ export const SHIFT_HOURS_MAP_NIGHT: Record<string, number> = {
   "19": 8,
   "20": 8,
 };
+
+export const MONTHS = [
+  "january",
+  "february",
+  "march",
+  "april",
+  "may",
+  "june",
+  "july",
+  "august",
+  "september",
+  "october",
+  "november",
+  "december",
+];
