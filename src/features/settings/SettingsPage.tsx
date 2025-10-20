@@ -1,5 +1,5 @@
 import AccordionWrapper from "@/components/wrapper/AccordionWrapper";
-import AddEmployees from "./emploees/AddEmployees";
+import AddEmployees from "./employees/AddEmployees";
 import AddUsers from "./users/AddUsers";
 import { ScheduleTable } from "./schedule/AddSchedule";
 

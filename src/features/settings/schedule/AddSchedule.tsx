@@ -1,18 +1,30 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { Card } from "@/components/ui/card";
+import { useEffect, useMemo } from "react";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { Plus, Trash2, RotateCcw } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { ArrowDown, ArrowUp, Plus, RotateCcw, Trash2 } from "lucide-react";
 import { useEmployees } from "@/providers/EmployeesProvider";
-import { useFieldArray, useForm } from "react-hook-form";
+import { useFieldArray, useForm, useWatch } from "react-hook-form";
 import { Form } from "@/components/ui/form";
 import SelectField from "@/components/inputs/SelectField";
 import { MonthYearPicker } from "@/components/inputs/MonthYearPicker";
-import TextInput from "@/components/inputs/TextInput";
-import { SHIFT_OPTIONS, SHIFT_TYPES, WAITER_EMPLOYEES } from "../constants";
+import {
+  SHIFT_HOURS_MAP_DAY,
+  SHIFT_HOURS_MAP_NIGHT,
+  SHIFT_OPTIONS,
+  WAITER_EMPLOYEES,
+} from "../constants";
+import { useTranslations } from "next-intl";
+
+type Department = keyof typeof EMPLOYEE_ROLES_BY_DEPARTMENT;
+type EmployeeRole = (typeof EMPLOYEE_ROLES_BY_DEPARTMENT)[Department][number];
+const EMPLOYEE_ROLES_BY_DEPARTMENT = {
+  restaurant: ["barmen", "waiters", "mngr"],
+  cucina: ["cook"],
+  dish: ["dish"],
+} as const;
+export const ROLE_EMPLOYEES = ["restaurant", "cucina", "dish"];
 
 interface ShiftRow {
   id: string;
@@ -20,38 +32,64 @@ interface ShiftRow {
   dayHours: number;
   nightHours: number;
   totalHours: number;
-  shiftType: string;
   employee: string;
   shifts: (string | null)[];
 }
 
-interface ScheduleTableProps {
-  dataRange?: any;
-}
-
-export function ScheduleTable({ dataRange }: ScheduleTableProps) {
+export function ScheduleTable() {
+  const LOCAL_STORAGE_KEY = "schedule";
+  const t = useTranslations("Home");
   const employees = useEmployees();
-  const selectedEmployees = Array.isArray(employees)
-    ? employees
-        .filter((employee) => WAITER_EMPLOYEES.includes(employee.role as any))
-        .map((employee) => employee.name)
-    : [];
 
-  const [selectedColumn, setSelectedColumn] = useState<number | null>(null);
+  //localstorage
+  const savedData =
+    typeof window !== "undefined"
+      ? localStorage.getItem(LOCAL_STORAGE_KEY)
+      : null;
+  const parsedSavedData = savedData ? JSON.parse(savedData) : null;
 
   const form = useForm({
-    defaultValues: {
+    defaultValues: parsedSavedData || {
       month: "",
+      role: "",
       rowShifts: [] as ShiftRow[],
     },
   });
 
-  const { fields, append, remove, update } = useFieldArray({
+  const { fields, append, remove, update, replace, move } = useFieldArray({
     control: form.control,
     name: "rowShifts",
   });
 
   const month = form.watch("month");
+  const role = form.watch("role");
+  const selectedEmployees = useMemo(() => {
+    if (
+      !Array.isArray(employees) ||
+      !role ||
+      !(role in EMPLOYEE_ROLES_BY_DEPARTMENT)
+    ) {
+      return [];
+    }
+
+    const allowedRoles = EMPLOYEE_ROLES_BY_DEPARTMENT[
+      role as keyof typeof EMPLOYEE_ROLES_BY_DEPARTMENT
+    ] as readonly string[];
+
+    return employees
+      .filter((employee) => allowedRoles.includes(employee.role))
+      .sort((a, b) => {
+        // сортируем по позиции роли в массиве allowedRoles
+        const roleOrderA = allowedRoles.indexOf(a.role);
+        const roleOrderB = allowedRoles.indexOf(b.role);
+        if (roleOrderA !== roleOrderB) {
+          return roleOrderA - roleOrderB;
+        }
+        // если роли одинаковы — сортируем по имени
+        return a.name.localeCompare(b.name);
+      })
+      .map((employee) => employee.name);
+  }, [employees, role]);
 
   const getMonthDays = () => {
     if (!month) return [];
@@ -75,63 +113,31 @@ export function ScheduleTable({ dataRange }: ScheduleTableProps) {
   };
 
   const monthDays = getMonthDays();
-  const todayDay = new Date().getDate();
 
-  // Инициализация
-  useEffect(() => {
-    if (fields.length === 0) addNewRow();
-  }, []);
-
-  useEffect(() => {
-    const todayIndex = monthDays.findIndex((day) => day.day === todayDay);
-    if (todayIndex !== -1) {
-      setSelectedColumn(todayIndex);
-    }
-  }, [monthDays, todayDay]);
-
-  // Соответствие значения смены количеству часов
-  const SHIFT_HOURS_MAP_DAY: Record<string, number> = {
-    "8": 12,
-    "9": 12,
-    "14": 8,
-    "18": 4,
-    "20": 4,
-  };
-
-  const SHIFT_HOURS_MAP_NIGHT: Record<string, number> = {
-    "8": 0,
-    "9": 0,
-    "14": 4,
-    "18": 8,
-    "20": 8,
-  };
-
-  // Функция для обновления часов в строке
   const updateRowHours = (rowIndex: number) => {
     const shifts = form.getValues(`rowShifts.${rowIndex}.shifts`) || [];
 
     const totalHoursDay = shifts.reduce(
-      (sum, val) => sum + (SHIFT_HOURS_MAP_DAY[val as string] ?? 0),
+      (sum: number, val: string) =>
+        sum + (SHIFT_HOURS_MAP_DAY[val as string] ?? 0),
       0
     );
 
     const totalHoursNight = shifts.reduce(
-      (sum, val) => sum + (SHIFT_HOURS_MAP_NIGHT[val as string] ?? 0),
+      (sum: number, val: string) =>
+        sum + (SHIFT_HOURS_MAP_NIGHT[val as string] ?? 0),
       0
     );
 
     const totalHours = totalHoursDay + totalHoursNight;
 
-    // Обновляем значения в форме
     form.setValue(`rowShifts.${rowIndex}.dayHours`, totalHoursDay);
     form.setValue(`rowShifts.${rowIndex}.nightHours`, totalHoursNight);
     form.setValue(`rowShifts.${rowIndex}.totalHours`, totalHours);
   };
 
-  // Отслеживаем изменения в сменах
   useEffect(() => {
     const subscription = form.watch((value, { name }) => {
-      // Если изменилась какая-то смена, обновляем соответствующий ряд
       if (name?.includes("shifts")) {
         const match = name.match(/rowShifts\.(\d+)\.shifts/);
         if (match) {
@@ -143,8 +149,6 @@ export function ScheduleTable({ dataRange }: ScheduleTableProps) {
 
     return () => subscription.unsubscribe();
   }, [form]);
-
-  // Добавление новой строки
   const addNewRow = () => {
     const newRow: ShiftRow = {
       id: Date.now().toString(),
@@ -152,40 +156,76 @@ export function ScheduleTable({ dataRange }: ScheduleTableProps) {
       dayHours: 0,
       nightHours: 0,
       totalHours: 0,
-      shiftType: "",
       employee: "",
       shifts: Array(monthDays.length).fill(null),
     };
     append(newRow);
   };
 
-  // Удаление строки
   const removeRow = (index: number) => {
     remove(index);
   };
 
-  // Сброс формы
   const resetForm = () => {
     form.reset({
       month: "",
+      role: "",
       rowShifts: [],
     });
-    setSelectedColumn(null);
+    localStorage.removeItem(LOCAL_STORAGE_KEY);
   };
 
   const onSubmit = (data: any) => {
     console.log(data);
   };
 
+  useEffect(() => {
+    if (month && role) {
+      const newRows = selectedEmployees.map((employee, index) => ({
+        id: `${Date.now()}-${index}`,
+        number: index + 1,
+        dayHours: 0,
+        nightHours: 0,
+        totalHours: 0,
+        employee,
+        shifts: Array(monthDays.length).fill(null),
+      }));
+
+      // Заменяем полностью весь массив строк
+      replace(newRows);
+    } else {
+      // Если month или role сброшены — очищаем
+      replace([]);
+    }
+  }, [month, role, selectedEmployees.length]);
+
+  const watchAllFields = useWatch({
+    control: form.control,
+  });
+
+  //set local
+  useEffect(() => {
+    if (!watchAllFields) return;
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(watchAllFields));
+  }, [watchAllFields]);
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col">
         <div className="p-4 flex items-center justify-between gap-2">
-          <MonthYearPicker name="month" />
+          <div className="flex items-center gap-2">
+            <SelectField
+              fieldName="role"
+              data={ROLE_EMPLOYEES}
+              placeHolder="role"
+              className="w-50"
+            />
+            <MonthYearPicker name="month" />
+          </div>
           <div className="flex gap-2">
             <Button onClick={addNewRow} size="sm" type="button">
               <Plus className="h-4 w-4 mr-2" />
-              Добавить строку
+              {t("add")}
             </Button>
             <Button
               variant="outline"
@@ -194,25 +234,24 @@ export function ScheduleTable({ dataRange }: ScheduleTableProps) {
               onClick={resetForm}
             >
               <RotateCcw className="h-4 w-4 mr-2" />
-              Сбросить
+              {t("reset")}
             </Button>
           </div>
         </div>
 
-        <Table className="table-fixed">
+        <Table className="table-fixed w-[99%]">
           <TableBody>
             <TableRow>
-              <TableCell className="w-2"></TableCell>
-              <TableCell className="w-6">d</TableCell>
-              <TableCell className="w-6">n</TableCell>
-              <TableCell className="w-6">t</TableCell>
-              <TableCell className="w-12">shift</TableCell>
-              <TableCell className="w-36">employee</TableCell>
+              <TableCell className="w-6"></TableCell>
+              <TableCell className="w-6"></TableCell>
+              <TableCell className="w-6"></TableCell>
+              <TableCell className="w-8"></TableCell>
+              <TableCell className="w-34"></TableCell>
 
               {monthDays.map((day) => (
                 <TableCell
                   key={day.day}
-                  className={"w-8 p-0 text-center cursor-pointer"}
+                  className={"w-8 text-center cursor-pointer"}
                 >
                   <div className="text-sm font-semibold">{day.day}</div>
                   <div className="text-xs text-muted-foreground">
@@ -220,17 +259,27 @@ export function ScheduleTable({ dataRange }: ScheduleTableProps) {
                   </div>
                 </TableCell>
               ))}
-              <TableCell className="w-4"></TableCell>
             </TableRow>
 
             {fields.map((row, rowIndex) => (
               <TableRow key={row.id} className="hover:bg-muted/50">
-                <TableCell className="border-0">{rowIndex + 1}</TableCell>
+                <TableCell className="border-0">
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    className="w-6 text-rd cursor-pointer"
+                    onClick={() => removeRow(rowIndex)}
+                  >
+                    <Trash2 />
+                    {rowIndex + 1}
+                  </Button>
+                </TableCell>
 
                 <TableCell className="border-0">
                   <input
                     {...form.register(`rowShifts.${rowIndex}.dayHours`)}
-                    className="border-0 text-center w-6 p-0"
+                    className="border-0 text-center w-6 p-0 text-bl"
                     readOnly
                   />
                 </TableCell>
@@ -238,7 +287,7 @@ export function ScheduleTable({ dataRange }: ScheduleTableProps) {
                 <TableCell className="border-0">
                   <input
                     {...form.register(`rowShifts.${rowIndex}.nightHours`)}
-                    className="border-0 text-center w-6 p-0"
+                    className="border-0 text-center w-6 p-0 text-bl"
                     readOnly
                   />
                 </TableCell>
@@ -246,24 +295,39 @@ export function ScheduleTable({ dataRange }: ScheduleTableProps) {
                 <TableCell className="border-0">
                   <input
                     {...form.register(`rowShifts.${rowIndex}.totalHours`)}
-                    className="border-0 text-center w-6 p-0"
+                    className="border-0 text-center w-8 p-0 text-bl font-bold"
                     readOnly
                   />
                 </TableCell>
 
-                <TableCell className="border-0">
-                  <SelectField
-                    fieldName={`rowShifts.${rowIndex}.shiftType`}
-                    data={SHIFT_TYPES}
-                    className="w-12 p-1"
-                  />
-                </TableCell>
-
-                <TableCell className="border-0">
+                {/* 🔽 Здесь добавляем стрелки вверх/вниз + SelectField */}
+                <TableCell className="border-0 flex items-center gap-1">
+                  <div className="flex flex-col">
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="icon"
+                      disabled={rowIndex === 0}
+                      onClick={() => move(rowIndex, rowIndex - 1)}
+                      className="w-3 pr-1 h-3 cursor-pointer hover:text-rd"
+                    >
+                      +
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="icon"
+                      disabled={rowIndex === fields.length - 1}
+                      onClick={() => move(rowIndex, rowIndex + 1)}
+                      className="w-3 pr-1 h-3 cursor-pointer hover:text-rd"
+                    >
+                      -
+                    </Button>
+                  </div>
                   <SelectField
                     fieldName={`rowShifts.${rowIndex}.employee`}
                     data={selectedEmployees}
-                    className="w-36 p-1"
+                    className="w-32 p-0"
                   />
                 </TableCell>
 
@@ -272,28 +336,16 @@ export function ScheduleTable({ dataRange }: ScheduleTableProps) {
                     <SelectField
                       fieldName={`rowShifts.${rowIndex}.shifts.${dayIndex}`}
                       data={SHIFT_OPTIONS}
-                      className="w-8 p-0"
-                      //   onValueChange={() => updateRowHours(rowIndex)}
+                      className="w-8 p-0 cursor-pointer"
                     />
                   </TableCell>
                 ))}
-                <TableCell className="border-0">
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="sm"
-                    className="h-4 w-4"
-                    onClick={() => removeRow(rowIndex)}
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </Button>
-                </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
         <Button type="submit" className="self-end mt-4">
-          Сохранить
+          {t("save")}
         </Button>
       </form>
     </Form>
