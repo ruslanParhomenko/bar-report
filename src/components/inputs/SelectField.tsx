@@ -59,7 +59,7 @@ function SelectField({
                     data-placeholder=""
                     // className={`${className} flex justify-center min-w-12   [&>svg]:hidden`}
                     className={cn(
-                      "flex justify-start  min-w-12   [&>svg]:hidden",
+                      "flex justify-center min-w-8 [&>svg]:hidden",
                       className,
                       theme === "dark" ? "border-0" : ""
                     )}

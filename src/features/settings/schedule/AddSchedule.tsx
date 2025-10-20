@@ -94,7 +94,7 @@ export function ScheduleTable({ dataRange }: ScheduleTableProps) {
     "8": 12,
     "9": 12,
     "14": 8,
-    "18": 8,
+    "18": 4,
     "20": 4,
   };
 
@@ -173,12 +173,13 @@ export function ScheduleTable({ dataRange }: ScheduleTableProps) {
     setSelectedColumn(null);
   };
 
+  const onSubmit = (data: any) => {
+    console.log(data);
+  };
+
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(() => {})}
-        className="flex flex-col md:min-h-[95vh]"
-      >
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col">
         <div className="p-4 flex items-center justify-between gap-2">
           <MonthYearPicker name="month" />
           <div className="flex gap-2">
@@ -201,25 +202,17 @@ export function ScheduleTable({ dataRange }: ScheduleTableProps) {
         <Table className="table-fixed">
           <TableBody>
             <TableRow>
-              <TableCell className="w-8"></TableCell>
-              <TableCell className="text-center w-5"></TableCell>
-              <TableCell className="w-11">d</TableCell>
-              <TableCell className="w-11">n</TableCell>
-              <TableCell className="w-11">total</TableCell>
+              <TableCell className="w-2"></TableCell>
+              <TableCell className="w-6">d</TableCell>
+              <TableCell className="w-6">n</TableCell>
+              <TableCell className="w-6">t</TableCell>
               <TableCell className="w-12">shift</TableCell>
-              <TableCell className="w-32">employee</TableCell>
+              <TableCell className="w-36">employee</TableCell>
 
-              {monthDays.map((day, index) => (
+              {monthDays.map((day) => (
                 <TableCell
                   key={day.day}
-                  onClick={() =>
-                    setSelectedColumn((prev) => (prev === index ? null : index))
-                  }
-                  className={cn(
-                    "w-10 p-0 text-center cursor-pointer",
-                    selectedColumn === index && "bg-primary/20 font-bold",
-                    day.day === todayDay && "bg-green-100 dark:bg-green-900"
-                  )}
+                  className={"w-8 p-0 text-center cursor-pointer"}
                 >
                   <div className="text-sm font-semibold">{day.day}</div>
                   <div className="text-xs text-muted-foreground">
@@ -227,41 +220,34 @@ export function ScheduleTable({ dataRange }: ScheduleTableProps) {
                   </div>
                 </TableCell>
               ))}
+              <TableCell className="w-4"></TableCell>
             </TableRow>
 
-            {/* Строки */}
             {fields.map((row, rowIndex) => (
               <TableRow key={row.id} className="hover:bg-muted/50">
-                <TableCell className="border-0">
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => removeRow(rowIndex)}
-                  >
-                    <Trash2 />
-                  </Button>
-                </TableCell>
                 <TableCell className="border-0">{rowIndex + 1}</TableCell>
 
                 <TableCell className="border-0">
-                  <TextInput
-                    fieldName={`rowShifts.${rowIndex}.dayHours`}
-                    className="border-0 text-center w-11 p-0"
+                  <input
+                    {...form.register(`rowShifts.${rowIndex}.dayHours`)}
+                    className="border-0 text-center w-6 p-0"
+                    readOnly
                   />
                 </TableCell>
 
                 <TableCell className="border-0">
-                  <TextInput
-                    fieldName={`rowShifts.${rowIndex}.nightHours`}
-                    className="border-0 text-center text-xs w-11 p-0"
+                  <input
+                    {...form.register(`rowShifts.${rowIndex}.nightHours`)}
+                    className="border-0 text-center w-6 p-0"
+                    readOnly
                   />
                 </TableCell>
 
                 <TableCell className="border-0">
-                  <TextInput
-                    fieldName={`rowShifts.${rowIndex}.totalHours`}
-                    className="border-0 text-center w-11 p-0"
+                  <input
+                    {...form.register(`rowShifts.${rowIndex}.totalHours`)}
+                    className="border-0 text-center w-6 p-0"
+                    readOnly
                   />
                 </TableCell>
 
@@ -269,7 +255,7 @@ export function ScheduleTable({ dataRange }: ScheduleTableProps) {
                   <SelectField
                     fieldName={`rowShifts.${rowIndex}.shiftType`}
                     data={SHIFT_TYPES}
-                    className="border-0 w-11 p-0"
+                    className="w-12 p-1"
                   />
                 </TableCell>
 
@@ -277,31 +263,38 @@ export function ScheduleTable({ dataRange }: ScheduleTableProps) {
                   <SelectField
                     fieldName={`rowShifts.${rowIndex}.employee`}
                     data={selectedEmployees}
-                    className="border-0 w-32 p-0"
+                    className="w-36 p-1"
                   />
                 </TableCell>
 
-                {monthDays.map((day, dayIndex) => (
-                  <TableCell
-                    key={dayIndex}
-                    className={cn(
-                      "border-0 text-center w-9 p-0",
-                      selectedColumn === dayIndex && "bg-primary/10",
-                      day.day === todayDay && "bg-green-50 dark:bg-green-900/30"
-                    )}
-                  >
+                {monthDays.map((_day, dayIndex) => (
+                  <TableCell key={dayIndex} className={"border-0"}>
                     <SelectField
                       fieldName={`rowShifts.${rowIndex}.shifts.${dayIndex}`}
                       data={SHIFT_OPTIONS}
-                      className="border-0 w-9 p-0"
+                      className="w-8 p-0"
                       //   onValueChange={() => updateRowHours(rowIndex)}
                     />
                   </TableCell>
                 ))}
+                <TableCell className="border-0">
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    className="h-4 w-4"
+                    onClick={() => removeRow(rowIndex)}
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </Button>
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
+        <Button type="submit" className="self-end mt-4">
+          Сохранить
+        </Button>
       </form>
     </Form>
   );
