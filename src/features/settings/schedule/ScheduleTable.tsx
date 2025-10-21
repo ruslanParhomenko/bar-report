@@ -22,7 +22,7 @@ export function ScheduleTable() {
       <form onSubmit={form.handleSubmit(() => {})} className="flex flex-col">
         <SheduleSelectButtons />
 
-        <Table className="table-fixed w-[99%]">
+        <Table className="table-fixed w-[98%]">
           <SheduleHeader />
 
           <Suspense fallback={<SkeletonTable />}>

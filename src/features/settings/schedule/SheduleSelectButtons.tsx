@@ -47,28 +47,32 @@ export default function SheduleSelectButto() {
     rowShiftsArray.append(newRow);
   };
   return (
-    <div className="flex flex-col md:flex-row items-center justify-between gap-2">
-      <div className="flex justify-between w-full items-center gap-4">
-        <SelectField
-          fieldName="role"
-          data={ROLE_EMPLOYEES}
-          placeHolder="role"
-          className="w-30 md:w-50"
-        />
+    <div className="flex flex-col md:flex-row items-center justify-between gap-4 py-4">
+      <div className="flex justify-between items-center gap-1">
         <SelectField
           fieldName="month"
           data={MONTHS}
           placeHolder="month"
-          className="w-30 md:w-50"
+          className="w-25"
+        />
+        <SelectField
+          fieldName="role"
+          data={ROLE_EMPLOYEES}
+          placeHolder="role"
+          className="w-25"
+          disabled={!month}
         />
         <input
           {...form.register("year")}
           type="text"
-          className="w-15 md:w-20 p-1"
+          className="w-10 px-1 text-xs"
           placeholder="year"
         />
+        <Button type="submit" className="w-25">
+          {t("save")}
+        </Button>
       </div>
-      <div className="flex justify-end w-full gap-2">
+      <div className="flex justify-between md:justify-end w-full gap-2">
         <Button onClick={addNewRow} size="sm" type="button">
           <Plus className="h-4 w-4 mr-2" />
           {t("add")}

@@ -2,7 +2,7 @@
 import { useEffect, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
-import { RotateCcw, Trash2 } from "lucide-react";
+import { ChevronDown, ChevronUp, RotateCcw } from "lucide-react";
 import SelectField from "@/components/inputs/SelectField";
 import {
   EMPLOYEE_ROLES_BY_DEPARTMENT,
@@ -13,6 +13,8 @@ import {
 import { useEmployees } from "@/providers/EmployeesProvider";
 import { useFieldArray, useFormContext, useWatch } from "react-hook-form";
 import { getMonthDays } from "@/utils/getMonthDays";
+import SelectSheduleShifts from "@/components/inputs/SelectSheduleShifts";
+import { cn } from "@/lib/utils";
 
 export default function SheduleBody() {
   const employees = useEmployees();
@@ -70,9 +72,9 @@ export default function SheduleBody() {
     const newRows = selectedEmployees.map((employee, index) => ({
       id: `${Date.now()}-${index}`,
       number: index + 1,
-      dayHours: 0,
-      nightHours: 0,
-      totalHours: 0,
+      dayHours: "",
+      nightHours: "",
+      totalHours: "",
       employee,
       shifts: Array(monthDays.length).fill(null),
     }));
@@ -147,9 +149,9 @@ export default function SheduleBody() {
       return {
         ...row,
         shifts: row.shifts.map(() => ""),
-        dayHours: 0,
-        nightHours: 0,
-        totalHours: 0,
+        dayHours: "",
+        nightHours: "",
+        totalHours: "",
       };
     });
 
@@ -165,35 +167,35 @@ export default function SheduleBody() {
     }
   };
 
+  const color = {
+    "8": "blue",
+    "9": "blue",
+    "14": "green",
+    "18": "black",
+    "20": "black",
+  } as const;
+
   return (
     <TableBody>
       {fields.map((row, rowIndex) => (
-        <TableRow key={row.id} className="hover:bg-muted/50">
-          <TableCell className="border-0">
-            <Button
-              type="button"
-              variant="ghost"
-              size="sm"
-              className="w-6 text-rd cursor-pointer"
-              onClick={() => remove(rowIndex)}
-            >
-              <Trash2 />
-              {rowIndex + 1}
-            </Button>
+        <TableRow key={row.id} className="hover:text-rd">
+          <TableCell
+            className="border-0 text-rd cursor-pointer w-4"
+            onClick={() => remove(rowIndex)}
+          >
+            {rowIndex + 1}
           </TableCell>
 
-          <TableCell className="border-0">
+          <TableCell className="border-0 text-bl">
             <input
               {...form.register(`rowShifts.${rowIndex}.dayHours`)}
-              className="border-0 text-center w-6 p-0"
+              className="border-0 text-center  text-xs w-5  p-0"
               readOnly
-            />
-          </TableCell>
-
-          <TableCell className="border-0">
+            />{" "}
+            :
             <input
               {...form.register(`rowShifts.${rowIndex}.nightHours`)}
-              className="border-0 text-center w-6 p-0"
+              className="border-0 text-center text-xs w-5 p-0"
               readOnly
             />
           </TableCell>
@@ -201,60 +203,64 @@ export default function SheduleBody() {
           <TableCell className="border-0">
             <input
               {...form.register(`rowShifts.${rowIndex}.totalHours`)}
-              className="border-0 text-center w-8 p-0 font-bold"
+              className="border-0 text-center w-10 p-0 font-bold"
               readOnly
             />
           </TableCell>
 
-          <TableCell className="border-0 flex justify-between items-center gap-1 w-full">
-            <div className="flex flex-col">
-              <Button
-                type="button"
-                variant="ghost"
-                size="icon"
-                disabled={rowIndex === 0}
-                onClick={() => move(rowIndex, rowIndex - 1)}
-                className="w-2 h-2"
-              >
-                +
-              </Button>
-              <Button
-                type="button"
-                variant="ghost"
-                size="icon"
-                disabled={rowIndex === fields.length - 1}
-                onClick={() => move(rowIndex, rowIndex + 1)}
-                className="w-2 h-2"
-              >
-                -
-              </Button>
-            </div>
-
+          <TableCell className="border-0 flex justify-between items-center gap-1 w-full sticky left-0">
             <SelectField
               fieldName={`rowShifts.${rowIndex}.employee`}
               data={selectedEmployees}
-              className="w-36 px-2"
+              className="w-34 px-2 hover:text-rd"
             />
-            <Button
-              variant="ghost"
-              size="sm"
-              type="button"
-              className="w-2"
-              onClick={() => resetRow(rowIndex)}
-            >
-              <RotateCcw className="w-2 h-2" />
-            </Button>
+          </TableCell>
+          <TableCell
+            className="border-0 w-4 p-0 cursor-pointer"
+            onClick={() => resetRow(rowIndex)}
+          >
+            <RotateCcw className="w-4 p-0" />
           </TableCell>
 
-          {monthDays.map((_day, dayIndex) => (
-            <TableCell key={dayIndex} className="border-0">
-              <SelectField
-                fieldName={`rowShifts.${rowIndex}.shifts.${dayIndex}`}
-                data={SHIFT_OPTIONS}
-                className="w-7 p-0 cursor-pointer"
-              />
-            </TableCell>
-          ))}
+          {monthDays.map((_day, dayIndex) => {
+            const fieldName = `rowShifts.${rowIndex}.shifts.${dayIndex}`;
+            const value = form.getValues(fieldName);
+
+            console.log(fieldName, value);
+            return (
+              <TableCell key={dayIndex} className="border-0">
+                <SelectSheduleShifts
+                  fieldName={`rowShifts.${rowIndex}.shifts.${dayIndex}`}
+                  data={SHIFT_OPTIONS}
+                  className={cn(
+                    "w-9 p-0 cursor-pointer",
+                    value === null ? "bg-border" : "text-bl"
+                  )}
+                  style={{ color: color[value as keyof typeof color] }}
+                />
+              </TableCell>
+            );
+          })}
+          <TableCell className="w-6 flex flex-col justify-center items-center">
+            <Button
+              type="button"
+              variant="ghost"
+              disabled={rowIndex === 0}
+              onClick={() => move(rowIndex, rowIndex - 1)}
+              className="w-4 h-4 cursor-pointer flex flex-col items-center justify-center"
+            >
+              <ChevronUp className="w-3 h-4" />
+            </Button>
+            <Button
+              type="button"
+              variant="ghost"
+              disabled={rowIndex === fields.length - 1}
+              onClick={() => move(rowIndex, rowIndex + 1)}
+              className="w-4 h-4 cursor-pointer flex flex-col items-center justify-center"
+            >
+              <ChevronDown className="w-3 h-4" />
+            </Button>
+          </TableCell>
         </TableRow>
       ))}
     </TableBody>

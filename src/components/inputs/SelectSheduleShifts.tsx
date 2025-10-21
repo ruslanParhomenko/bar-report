@@ -26,7 +26,7 @@ type Props = {
   style?: React.CSSProperties;
 };
 
-function SelectField({
+function SelectSheduleShifts({
   fieldName,
   placeHolder,
   data,
@@ -57,7 +57,6 @@ function SelectField({
                 <FormControl className="w-full">
                   <SelectTrigger
                     data-placeholder=""
-                    // className={`${className} flex justify-center min-w-12   [&>svg]:hidden`}
                     className={cn(
                       "flex justify-center min-w-8 [&>svg]:hidden",
                       className,
@@ -69,15 +68,17 @@ function SelectField({
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  {options.map((item, index) => (
-                    <SelectItem
-                      key={`${item.value}-${index}`}
-                      value={item.value}
-                      className="cursor-pointer"
-                    >
-                      {item.label}
-                    </SelectItem>
-                  ))}
+                  {options.map((item, index) => {
+                    return (
+                      <SelectItem
+                        key={`${item.value}-${index}`}
+                        value={item.value}
+                        className={cn("cursor-pointer")}
+                      >
+                        {item.label}
+                      </SelectItem>
+                    );
+                  })}
                 </SelectContent>
               </Select>
               <FormMessage>{fieldState?.error?.message}</FormMessage>
@@ -89,4 +90,4 @@ function SelectField({
   );
 }
 
-export default SelectField;
+export default SelectSheduleShifts;
