@@ -23,7 +23,7 @@ type FormData = EmployeesSchemaTypeData & { id?: string };
 
 export default function AddEmployees() {
   const { data: session } = useSession();
-  const { isAdmin } = useAbility();
+  const { isAdmin, isMngr } = useAbility();
   const form = useForm<FormData>({
     resolver: yupResolver(employeesSchema),
     defaultValues: defaultEmployee,
@@ -167,7 +167,10 @@ export default function AddEmployees() {
         onSubmit={form.handleSubmit(handleSubmit)}
         className="grid grid-cols-1 md:grid-cols-[27%_72%] w-full gap-4 mt-4"
       >
-        <CardFormEmployees nameTag="vacationPay" disabled={!isAdmin} />
+        <CardFormEmployees
+          nameTag="vacationPay"
+          disabled={!isAdmin && !isMngr}
+        />
         <EmployeesTable data={employees} />
       </form>
     </Form>

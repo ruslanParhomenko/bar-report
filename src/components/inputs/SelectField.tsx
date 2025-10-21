@@ -73,6 +73,7 @@ function SelectField({
                     <SelectItem
                       key={`${item.value}-${index}`}
                       value={item.value}
+                      className="cursor-pointer w-5"
                     >
                       {item.label}
                     </SelectItem>

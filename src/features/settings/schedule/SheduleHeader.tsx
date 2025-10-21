@@ -1,11 +1,18 @@
 import { TableCell, TableHeader, TableRow } from "@/components/ui/table";
+import { getMonthDays } from "@/utils/getMonthDays";
+import { useMemo } from "react";
+import { useFormContext } from "react-hook-form";
 
-export default function SheduleHeader({
-  monthDays,
-}: {
-  monthDays: { day: number; weekday: string }[];
-}) {
-  console.log("monthDays", monthDays);
+export default function SheduleHeader() {
+  const form = useFormContext();
+
+  const month = form.watch("month");
+  const year = form.watch("year");
+
+  const monthDays = useMemo(() => {
+    if (!month || !year) return [];
+    return getMonthDays({ month, year });
+  }, [month, year]);
   return (
     <TableHeader>
       <TableRow>

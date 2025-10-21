@@ -12,18 +12,15 @@ import {
 } from "../constants";
 import { useEmployees } from "@/providers/EmployeesProvider";
 import { useFieldArray, useFormContext, useWatch } from "react-hook-form";
+import { getMonthDays } from "@/utils/getMonthDays";
 
-export default function SheduleBody({
-  monthDays,
-}: {
-  monthDays: { day: number; weekday: string }[];
-}) {
+export default function SheduleBody() {
   const employees = useEmployees();
 
   const form = useFormContext();
-  const { control } = form;
+
   const { fields, remove, replace, move } = useFieldArray({
-    control,
+    control: form.control,
     name: "rowShifts",
   });
 
@@ -31,7 +28,11 @@ export default function SheduleBody({
   const role = form.watch("role");
   const month = form.watch("month");
 
-  // динамический ключ
+  const monthDays = useMemo(() => {
+    if (!month || !year) return [];
+    return getMonthDays({ month, year });
+  }, [month, year]);
+
   const storageKey = useMemo(() => {
     if (!month || !role || !year) return null;
     return `schedule_${year}_${month}_${role}`;
@@ -66,7 +67,6 @@ export default function SheduleBody({
 
     const savedData = localStorage.getItem(storageKey);
 
-    // создаём список строк по сотрудникам
     const newRows = selectedEmployees.map((employee, index) => ({
       id: `${Date.now()}-${index}`,
       number: index + 1,
@@ -81,7 +81,6 @@ export default function SheduleBody({
       try {
         const parsedData = JSON.parse(savedData);
 
-        // проверяем, что rowShifts есть и не пустые
         if (parsedData?.rowShifts?.length > 0) {
           form.reset(parsedData);
           return;
@@ -91,10 +90,8 @@ export default function SheduleBody({
       }
     }
 
-    // если сохранений нет — создаём новую таблицу
     replace(newRows);
 
-    // сразу сохраняем новое состояние в localStorage
     const dataToSave = {
       year,
       month,
@@ -136,22 +133,20 @@ export default function SheduleBody({
     return () => subscription.unsubscribe();
   }, [form]);
 
-  // --- 3️⃣ Сохранение ---
   const watchAll = useWatch({ control: form.control });
   useEffect(() => {
     if (!storageKey) return;
     localStorage.setItem(storageKey, JSON.stringify(watchAll));
   }, [watchAll, storageKey]);
 
-  // --- RESET функция ---
   const resetRow = (rowIndex: number) => {
     const currentData = form.getValues();
     const updatedRows = currentData.rowShifts.map((row: any, index: number) => {
-      if (index !== rowIndex) return row; // остальные оставляем как есть
+      if (index !== rowIndex) return row;
 
       return {
         ...row,
-        shifts: row.shifts.map(() => ""), // сброс всех смен в ""
+        shifts: row.shifts.map(() => ""),
         dayHours: 0,
         nightHours: 0,
         totalHours: 0,
