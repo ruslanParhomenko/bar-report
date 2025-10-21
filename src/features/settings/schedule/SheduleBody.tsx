@@ -76,7 +76,7 @@ export default function SheduleBody() {
       nightHours: "",
       totalHours: "",
       employee,
-      shifts: Array(monthDays.length).fill(null),
+      shifts: Array(monthDays.length).fill(""),
     }));
 
     if (savedData) {
@@ -225,8 +225,6 @@ export default function SheduleBody() {
           {monthDays.map((_day, dayIndex) => {
             const fieldName = `rowShifts.${rowIndex}.shifts.${dayIndex}`;
             const value = form.getValues(fieldName);
-
-            console.log(fieldName, value);
             return (
               <TableCell key={dayIndex} className="border-0">
                 <SelectSheduleShifts
@@ -234,7 +232,7 @@ export default function SheduleBody() {
                   data={SHIFT_OPTIONS}
                   className={cn(
                     "w-9 p-0 cursor-pointer",
-                    value === null ? "bg-border" : "text-bl"
+                    value === "" ? "bg-border" : "text-bl"
                   )}
                   style={{ color: color[value as keyof typeof color] }}
                 />

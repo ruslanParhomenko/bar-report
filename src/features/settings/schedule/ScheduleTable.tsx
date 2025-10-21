@@ -19,7 +19,12 @@ export function ScheduleTable() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(() => {})} className="flex flex-col">
+      <form
+        onSubmit={form.handleSubmit((data) => {
+          console.log(data);
+        })}
+        className="flex flex-col"
+      >
         <SheduleSelectButtons />
 
         <Table className="table-fixed w-[98%]">

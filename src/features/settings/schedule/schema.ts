@@ -1,5 +1,5 @@
 import * as yup from "yup";
-const shiftsSchema = yup.string().default("").required("Shifts is required");
+const shiftsSchema = yup.string().default("");
 const rowShiftSchema = yup.object({
   id: yup
     .string()
