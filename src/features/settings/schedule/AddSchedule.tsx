@@ -8,7 +8,6 @@ import { useEmployees } from "@/providers/EmployeesProvider";
 import { useFieldArray, useForm, useWatch } from "react-hook-form";
 import { Form } from "@/components/ui/form";
 import SelectField from "@/components/inputs/SelectField";
-import { YearPicker } from "@/components/inputs/YearPicker";
 import {
   MONTHS,
   SHIFT_HOURS_MAP_DAY,
@@ -50,10 +49,20 @@ export function ScheduleTable() {
 
   const form = useForm({
     defaultValues: parsedSavedData || {
-      year: "",
+      year: new Date().getFullYear().toString(),
       month: "",
       role: "",
-      rowShifts: [] as ShiftRow[],
+      rowShifts: [
+        {
+          id: Date.now().toString(),
+          number: 1,
+          dayHours: 0,
+          nightHours: 0,
+          totalHours: 0,
+          employee: "",
+          shifts: Array(31).fill(null),
+        },
+      ],
     },
   });
 
@@ -94,7 +103,6 @@ export function ScheduleTable() {
   const getMonthDays = () => {
     if (!month) return [];
 
-    // Определяем индекс месяца из массива MONTHS
     const monthIndex = MONTHS.findIndex(
       (m) => m.toLowerCase() === month.toLowerCase()
     );
@@ -108,7 +116,7 @@ export function ScheduleTable() {
         day: i + 1,
         weekday: date
           .toLocaleDateString("ru-RU", { weekday: "short" })
-          .replace(".", ""), // убираем точку в "пн.", "вт."
+          .replace(".", ""),
       };
     });
   };
@@ -171,7 +179,7 @@ export function ScheduleTable() {
 
   const resetForm = () => {
     form.reset({
-      year: "",
+      year: new Date().getFullYear().toString(),
       month: "",
       role: "",
       rowShifts: [],
@@ -213,23 +221,28 @@ export function ScheduleTable() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col">
-        <div className="p-4 flex items-center justify-between gap-2">
-          <div className="flex items-center gap-2">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-2">
+          <div className="flex justify-between w-full items-center gap-4">
             <SelectField
               fieldName="role"
               data={ROLE_EMPLOYEES}
               placeHolder="role"
-              className="w-50"
+              className="w-30 md:w-50"
             />
             <SelectField
               fieldName="month"
               data={MONTHS}
               placeHolder="month"
-              className="w-50"
+              className="w-30 md:w-50"
             />
-            <YearPicker name="year" />
+            <input
+              {...form.register("year")}
+              type="text"
+              className="w-15 md:w-20 p-1"
+              placeholder="year"
+            />
           </div>
-          <div className="flex gap-2">
+          <div className="flex justify-end w-full gap-2">
             <Button onClick={addNewRow} size="sm" type="button">
               <Plus className="h-4 w-4 mr-2" />
               {t("add")}
@@ -307,7 +320,6 @@ export function ScheduleTable() {
                   />
                 </TableCell>
 
-                {/* 🔽 Здесь добавляем стрелки вверх/вниз + SelectField */}
                 <TableCell className="border-0 flex items-center gap-1">
                   <div className="flex flex-col">
                     <Button
@@ -338,7 +350,7 @@ export function ScheduleTable() {
                   />
                 </TableCell>
 
-                {monthDays.map((_day, dayIndex) => (
+                {row.shifts.map((_day, dayIndex) => (
                   <TableCell key={dayIndex} className={"border-0"}>
                     <SelectField
                       fieldName={`rowShifts.${rowIndex}.shifts.${dayIndex}`}
