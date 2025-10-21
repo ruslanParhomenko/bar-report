@@ -4,7 +4,7 @@ import { Trash2 } from "lucide-react";
 import { useMemo } from "react";
 import { useFormContext } from "react-hook-form";
 
-export default function SheduleHeader() {
+export default function ScheduleHeader() {
   const form = useFormContext();
 
   const month = form.watch("month");
@@ -18,15 +18,15 @@ export default function SheduleHeader() {
   return (
     <TableHeader>
       <TableRow>
-        <TableCell className="w-4">
-          <Trash2 className="w-4 h-4 text-red-500" />
+        <TableCell className="w-3">
+          <Trash2 className="w-4 h-4 text-rd" />
         </TableCell>
         <TableCell className="w-10"></TableCell>
         <TableCell className="w-10"></TableCell>
-        <TableCell className="w-34"></TableCell>
+        <TableCell className="w-32"></TableCell>
         <TableCell className="w-4"></TableCell>
         {monthDays.map((day) => (
-          <TableCell key={day.day} className="w-9 text-center cursor-pointer">
+          <TableCell key={day.day} className="w-8 text-center cursor-pointer">
             <div className="text-sm font-semibold">{day.day}</div>
             <div className="text-xs text-muted-foreground">{day.weekday}</div>
           </TableCell>

@@ -2,13 +2,13 @@ import SelectField from "@/components/inputs/SelectField";
 import { Button } from "@/components/ui/button";
 import { Plus, RotateCcw } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { useFieldArray, useFormContext, UseFormReturn } from "react-hook-form";
+import { useFieldArray, useFormContext } from "react-hook-form";
 import { getMonthDays, MONTHS } from "@/utils/getMonthDays";
 import { ROLE_EMPLOYEES } from "../constants";
 import { useMemo } from "react";
 import { defaultSchedule } from "./schema";
 
-export default function SheduleSelectButto() {
+export default function ScheduleSelectButtons() {
   const t = useTranslations("Home");
   const form = useFormContext();
 

@@ -26,7 +26,7 @@ type Props = {
   style?: React.CSSProperties;
 };
 
-function SelectSheduleShifts({
+function SelectScheduleShifts({
   fieldName,
   placeHolder,
   data,
@@ -90,4 +90,4 @@ function SelectSheduleShifts({
   );
 }
 
-export default SelectSheduleShifts;
+export default SelectScheduleShifts;

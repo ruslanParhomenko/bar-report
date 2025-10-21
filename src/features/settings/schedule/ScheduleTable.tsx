@@ -4,12 +4,12 @@ import { Table } from "@/components/ui/table";
 import { useForm } from "react-hook-form";
 import { Form } from "@/components/ui/form";
 
-import SheduleSelectButtons from "./SheduleSelectButtons";
-import SheduleHeader from "./SheduleHeader";
 import { SkeletonTable } from "./SkeletonTable";
-import SheduleBody from "./SheduleBody";
 import { defaultSchedule, scheduleSchema, ScheduleType } from "./schema";
 import { yupResolver } from "@hookform/resolvers/yup";
+import ScheduleSelectButtons from "./ScheduleSelectButtons";
+import ScheduleHeader from "./ScheduleHeader";
+import ScheduleBody from "./ScheduleBody";
 
 export function ScheduleTable() {
   const form = useForm<ScheduleType>({
@@ -25,13 +25,13 @@ export function ScheduleTable() {
         })}
         className="flex flex-col"
       >
-        <SheduleSelectButtons />
+        <ScheduleSelectButtons />
 
-        <Table className="table-fixed w-[98%]">
-          <SheduleHeader />
+        <Table className="table-fixed w-full">
+          <ScheduleHeader />
 
           <Suspense fallback={<SkeletonTable />}>
-            <SheduleBody />
+            <ScheduleBody />
           </Suspense>
         </Table>
       </form>

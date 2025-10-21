@@ -13,10 +13,10 @@ import {
 import { useEmployees } from "@/providers/EmployeesProvider";
 import { useFieldArray, useFormContext, useWatch } from "react-hook-form";
 import { getMonthDays } from "@/utils/getMonthDays";
-import SelectSheduleShifts from "@/components/inputs/SelectSheduleShifts";
 import { cn } from "@/lib/utils";
+import SelectScheduleShifts from "@/components/inputs/SelectScheduleShifts";
 
-export default function SheduleBody() {
+export default function ScheduleBody() {
   const employees = useEmployees();
 
   const form = useFormContext();
@@ -88,7 +88,7 @@ export default function SheduleBody() {
           return;
         }
       } catch (e) {
-        console.error("Ошибка парсинга localStorage:", e);
+        console.log(e);
       }
     }
 
@@ -180,7 +180,7 @@ export default function SheduleBody() {
       {fields.map((row, rowIndex) => (
         <TableRow key={row.id} className="hover:text-rd">
           <TableCell
-            className="border-0 text-rd cursor-pointer w-4"
+            className="border-0 text-rd cursor-pointer w-3"
             onClick={() => remove(rowIndex)}
           >
             {rowIndex + 1}
@@ -208,11 +208,11 @@ export default function SheduleBody() {
             />
           </TableCell>
 
-          <TableCell className="border-0 flex justify-between items-center gap-1 w-full sticky left-0">
+          <TableCell className="border-0  sticky left-0">
             <SelectField
               fieldName={`rowShifts.${rowIndex}.employee`}
               data={selectedEmployees}
-              className="w-34 px-2 hover:text-rd"
+              className="w-32 px-1 hover:text-rd justify-start truncate"
             />
           </TableCell>
           <TableCell
@@ -227,11 +227,11 @@ export default function SheduleBody() {
             const value = form.getValues(fieldName);
             return (
               <TableCell key={dayIndex} className="border-0">
-                <SelectSheduleShifts
+                <SelectScheduleShifts
                   fieldName={`rowShifts.${rowIndex}.shifts.${dayIndex}`}
                   data={SHIFT_OPTIONS}
                   className={cn(
-                    "w-9 p-0 cursor-pointer",
+                    "w-8 p-0 cursor-pointer",
                     value === "" ? "bg-border" : "text-bl"
                   )}
                   style={{ color: color[value as keyof typeof color] }}
