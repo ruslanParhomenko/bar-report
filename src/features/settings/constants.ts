@@ -31,17 +31,9 @@ export const SHIFT_HOURS_MAP_NIGHT: Record<string, number> = {
   "20": 8,
 };
 
-export const MONTHS = [
-  "january",
-  "february",
-  "march",
-  "april",
-  "may",
-  "june",
-  "july",
-  "august",
-  "september",
-  "october",
-  "november",
-  "december",
-];
+export const EMPLOYEE_ROLES_BY_DEPARTMENT = {
+  restaurant: ["barmen", "waiters", "mngr"],
+  cucina: ["cook"],
+  dish: ["dish"],
+} as const;
+export const ROLE_EMPLOYEES = ["restaurant", "cucina", "dish"];

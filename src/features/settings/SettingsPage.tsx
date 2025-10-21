@@ -1,7 +1,7 @@
 import AccordionWrapper from "@/components/wrapper/AccordionWrapper";
 import AddEmployees from "./employees/AddEmployees";
 import AddUsers from "./users/AddUsers";
-import { ScheduleTable } from "./schedule/AddSchedule";
+import { ScheduleTable } from "./schedule/ScheduleTable.server";
 
 export default function SettingsPage() {
   return (
