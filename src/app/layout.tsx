@@ -29,6 +29,9 @@ const lora = Lora({
   style: ["normal", "italic"],
 });
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export const metadata: Metadata = {
   title: "Bar App",
   description: "Report schedule and orders",

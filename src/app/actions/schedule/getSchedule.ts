@@ -20,3 +20,16 @@ export const getSchedule = unstable_cache(_getSchedule, ["schedule"], {
 export async function invalidateEmployees() {
   revalidateTag("schedule");
 }
+
+// "use server";
+
+// import { db } from "@/lib/firebase";
+// import { collection, getDocs } from "firebase/firestore";
+
+// export const getSchedule = async () => {
+//   const snapshot = await getDocs(collection(db, "schedule"));
+//   return snapshot.docs.map((doc) => ({
+//     id: doc.id,
+//     ...doc.data(),
+//   }));
+// };
