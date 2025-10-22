@@ -30,7 +30,7 @@ export default function ScheduleFooter({ data }: { data: string[] }) {
   return (
     <TableFooter>
       {data.map((item: any, rowIndex: number) => (
-        <TableRow key={rowIndex} className="h-[16px] bg-card p-0">
+        <TableRow key={rowIndex} className="h-[16px] bg-card p-0 border-0">
           <TableCell
             colSpan={5}
             className="text-end text-muted-foreground h-[16px] py-0 leading-none text-xs"

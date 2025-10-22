@@ -15,7 +15,7 @@ export default function ScheduleHeader({ monthDays }: { monthDays: any[] }) {
         <TableCell className="w-33"></TableCell>
         <TableCell className="w-2"></TableCell>
         {monthDays.map((day) => (
-          <TableCell key={day.day} className="w-8 cursor-pointer p-0">
+          <TableCell key={day.day} className="w-9 cursor-pointer p-0">
             <div className="text-sm font-semibold text-center">{day.day}</div>
             <div className="text-xs text-muted-foreground text-center">
               {day.weekday}
