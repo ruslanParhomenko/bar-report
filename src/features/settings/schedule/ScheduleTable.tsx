@@ -10,7 +10,6 @@ import ScheduleSelectButtons from "./ScheduleSelectButtons";
 import ScheduleHeader from "./ScheduleHeader";
 import ScheduleBody from "./ScheduleBody";
 import ScheduleFooter from "./ScheduleFooter";
-import { SHIFT_OPTIONS } from "../constants";
 import {
   createSchedule,
   ScheduleData,
@@ -22,6 +21,8 @@ import { toast } from "sonner";
 import { useParams } from "next/navigation";
 import { ro } from "date-fns/locale";
 import { useRouter } from "@/i18n/navigation";
+import { SHIFT_OPTIONS } from "./constants";
+import { Separator } from "@/components/ui/separator";
 
 export function ScheduleTable() {
   const { id } = useParams();

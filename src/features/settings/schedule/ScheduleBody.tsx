@@ -9,12 +9,11 @@ import { getMonthDays } from "@/utils/getMonthDays";
 import { cn } from "@/lib/utils";
 
 import SelectScheduleEmployee from "@/components/inputs/SelectScheduleEmployee";
-
 import {
   EMPLOYEE_ROLES_BY_DEPARTMENT,
   SHIFT_HOURS_MAP_DAY,
   SHIFT_HOURS_MAP_NIGHT,
-} from "../constants";
+} from "./constants";
 
 export default function ScheduleBody() {
   const employees = useEmployees();
@@ -157,13 +156,13 @@ export default function ScheduleBody() {
   };
 
   const color = {
-    "8": "blue",
-    "9": "blue",
-    "14": "green",
-    "18": "black",
-    "20": "black",
+    7: "#0000FF", // blue
+    8: "#0000FF", // blue
+    9: "#0000FF", // blue
+    14: "#00FF00", // green
+    18: "#000000", // black
+    20: "#000000", // black
   } as const;
-
   return (
     <TableBody className="[&_input]:h-6 [&_input]:text-xs [&_input]:p-0 [&_input]:text-center [&_input]:w-7 [&_input]:border-0">
       {fields.map((row, rowIndex) => (

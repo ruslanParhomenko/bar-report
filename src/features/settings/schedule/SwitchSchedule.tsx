@@ -3,7 +3,6 @@ import { Switch } from "@/components/ui/switch";
 import { useState } from "react";
 
 import Schedule from "@/features/schedule/Schedule";
-import { ScheduleTable } from "@/features/schedule/ScheduleTable";
 import { SelectDataRange } from "@/features/schedule/SelectDataRange";
 import { Label } from "@/components/ui/label";
 

@@ -1,7 +1,6 @@
 import { TableCell, TableFooter, TableRow } from "@/components/ui/table";
 import { useMemo } from "react";
 import { useFormContext } from "react-hook-form";
-import { SHIFT_OPTIONS } from "../constants";
 
 export default function ScheduleFooter({ data }: { data: string[] }) {
   const form = useFormContext();

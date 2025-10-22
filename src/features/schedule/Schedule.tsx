@@ -16,11 +16,13 @@ import SelectField from "@/components/inputs/SelectField";
 import ScheduleHeader from "../settings/schedule/ScheduleHeader";
 import { getMonthDays, MONTHS } from "@/utils/getMonthDays";
 import { ScheduleData } from "@/app/actions/schedule/scheduleAction";
-import { SHIFT_OPTIONS } from "../settings/constants";
 import { Button } from "@/components/ui/button";
 import { useSchedules } from "@/providers/ScheduleProvider";
-import { Pen, PencilIcon } from "lucide-react";
+import { PencilIcon } from "lucide-react";
 import { useAbility } from "@/providers/AbilityProvider";
+import { useLocalStorageForm } from "@/hooks/use-local-storage";
+import { SHIFT_OPTIONS } from "../settings/schedule/constants";
+import { cn } from "@/lib/utils";
 
 const ROLE = {
   bar: "restaurant",
@@ -29,13 +31,19 @@ const ROLE = {
 };
 
 export default function Schedule() {
+  const KEY_PREFIX = "schedule-data";
   const { isAdmin, isMngr } = useAbility();
   const isDisabled = !isAdmin && !isMngr;
   const schedules = useSchedules();
   const pathname = usePathname();
   const router = useRouter();
   const patch = pathname.split("/")[2];
-  const form = useForm({ defaultValues: { month: "", year: "2025" } });
+
+  const { setValue, getValue } = useLocalStorageForm<any>(KEY_PREFIX);
+  const selected = getValue();
+  const form = useForm({
+    defaultValues: selected || { month: "", year: "2025" },
+  });
   const [schedule, setSchedule] = useState<ScheduleData | null>(null);
 
   const month = useWatch({ control: form.control, name: "month" });
@@ -75,7 +83,20 @@ export default function Schedule() {
     return result;
   }, [schedule]);
 
+  useEffect(() => {
+    setValue({ month, year });
+  }, [month, setValue, year]);
+
   const YEAR = ["2025"];
+
+  const color = {
+    "7": "text-[#0000FF]", // blue
+    "8": "text-[#0000FF]", // blue
+    "9": "text-[#0000FF]", // blue
+    "14": "text-[#00FF00]", // green
+    "18": "text-[#000000]", // black
+    "20": "text-[#000000]", // black
+  } as const;
 
   return (
     <Card className="w-full md:p-6">
@@ -126,12 +147,21 @@ export default function Schedule() {
                   {row.dayHours}:{row.nightHours}
                 </TableCell>
                 <TableCell>{row.totalHours}</TableCell>
-                <TableCell className="sticky left-0">{row.employee}</TableCell>
+                <TableCell className="sticky left-0 bg-card text-muted-foreground">
+                  {row.employee}
+                </TableCell>
                 <TableCell className="w-2 p-0"></TableCell>
 
                 {row.shifts?.map((day, dayIndex) => (
-                  <TableCell key={dayIndex} className="p-0 text-center">
-                    {day}
+                  <TableCell
+                    key={dayIndex}
+                    className={cn(
+                      "p-0 text-center border-x",
+                      ["v"].includes(day) ? "bg-bl/70" : "",
+                      color[day as keyof typeof color]
+                    )}
+                  >
+                    {["/", "v"].includes(day) ? null : day}
                   </TableCell>
                 ))}
 
