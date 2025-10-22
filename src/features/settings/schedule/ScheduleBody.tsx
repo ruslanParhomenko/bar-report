@@ -8,18 +8,17 @@ import { useFieldArray, useFormContext, useWatch } from "react-hook-form";
 import { getMonthDays } from "@/utils/getMonthDays";
 import { cn } from "@/lib/utils";
 
-import SelectScheduleShifts from "@/components/inputs/SelectScheduleShifts";
 import SelectScheduleEmployee from "@/components/inputs/SelectScheduleEmployee";
 
 import {
   EMPLOYEE_ROLES_BY_DEPARTMENT,
   SHIFT_HOURS_MAP_DAY,
   SHIFT_HOURS_MAP_NIGHT,
-  SHIFT_OPTIONS,
 } from "../constants";
+import { UserData } from "@/app/actions/employees/employeeAction";
 
 export default function ScheduleBody() {
-  const employees = useEmployees();
+  const employees: UserData[] = useEmployees();
   const form = useFormContext();
 
   const { fields, remove, replace, move } = useFieldArray({
@@ -49,10 +48,10 @@ export default function ScheduleBody() {
     )
       return [];
 
-    const allowedRoles =
+    const allowedRoles: readonly string[] =
       EMPLOYEE_ROLES_BY_DEPARTMENT[
         role as keyof typeof EMPLOYEE_ROLES_BY_DEPARTMENT
-      ];
+      ] ?? [];
 
     return employees
       .filter((e) => allowedRoles.includes(e.role))
@@ -64,7 +63,6 @@ export default function ScheduleBody() {
       });
   }, [employees, role]);
 
-  // Загрузка и сохранение данных в localStorage
   useEffect(() => {
     if (!month || !role || selectedEmployees.length === 0) return;
     if (!storageKey) return;
@@ -101,7 +99,6 @@ export default function ScheduleBody() {
     localStorage.setItem(storageKey, JSON.stringify(dataToSave));
   }, [month, role, selectedEmployees, monthDays.length]);
 
-  // Автообновление суммарных часов
   useEffect(() => {
     const subscription = form.watch((_, { name }) => {
       if (name?.includes("shifts")) {

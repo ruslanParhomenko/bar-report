@@ -10,7 +10,7 @@ import {
 } from "firebase/firestore";
 import { revalidateTag } from "next/cache";
 
-type UserData = EmployeesSchemaTypeData;
+export type UserData = EmployeesSchemaTypeData;
 
 export async function createEmployee(data: UserData) {
   const docRef = await addDoc(collection(db, "employees"), {
