@@ -1,19 +1,8 @@
 import { TableCell, TableHeader, TableRow } from "@/components/ui/table";
-import { getMonthDays } from "@/utils/getMonthDays";
+import { on } from "events";
 import { Trash2 } from "lucide-react";
-import { useMemo } from "react";
-import { useFormContext } from "react-hook-form";
 
-export default function ScheduleHeader() {
-  const form = useFormContext();
-
-  const month = form.watch("month");
-  const year = form.watch("year");
-
-  const monthDays = useMemo(() => {
-    if (!month || !year) return [];
-    return getMonthDays({ month, year });
-  }, [month, year]);
+export default function ScheduleHeader({ monthDays }: { monthDays: any[] }) {
   if (monthDays.length === 0) return null;
   return (
     <TableHeader>
@@ -23,12 +12,14 @@ export default function ScheduleHeader() {
         </TableCell>
         <TableCell className="w-10"></TableCell>
         <TableCell className="w-10"></TableCell>
-        <TableCell className="w-32"></TableCell>
-        <TableCell className="w-4"></TableCell>
+        <TableCell className="w-33"></TableCell>
+        <TableCell className="w-2"></TableCell>
         {monthDays.map((day) => (
-          <TableCell key={day.day} className="w-8 text-center cursor-pointer">
-            <div className="text-sm font-semibold">{day.day}</div>
-            <div className="text-xs text-muted-foreground">{day.weekday}</div>
+          <TableCell key={day.day} className="w-8 cursor-pointer p-0">
+            <div className="text-sm font-semibold text-center">{day.day}</div>
+            <div className="text-xs text-muted-foreground text-center">
+              {day.weekday}
+            </div>
           </TableCell>
         ))}
         <TableCell className="w-6"></TableCell>

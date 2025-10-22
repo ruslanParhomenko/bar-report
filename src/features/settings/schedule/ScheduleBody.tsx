@@ -2,7 +2,7 @@
 import { useEffect, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
-import { ChevronDown, ChevronUp, RotateCcw } from "lucide-react";
+import { ChevronDown, ChevronUp } from "lucide-react";
 import SelectField from "@/components/inputs/SelectField";
 import {
   EMPLOYEE_ROLES_BY_DEPARTMENT,
@@ -15,6 +15,7 @@ import { useFieldArray, useFormContext, useWatch } from "react-hook-form";
 import { getMonthDays } from "@/utils/getMonthDays";
 import { cn } from "@/lib/utils";
 import SelectScheduleShifts from "@/components/inputs/SelectScheduleShifts";
+import SelectScheduleEmployee from "@/components/inputs/SelectScheduleEmployee";
 
 export default function ScheduleBody() {
   const employees = useEmployees();
@@ -59,9 +60,10 @@ export default function ScheduleBody() {
         const roleB = allowedRoles.indexOf(b.role);
         if (roleA !== roleB) return roleA - roleB;
         return a.name.localeCompare(b.name);
-      })
-      .map((e) => e.name);
+      });
   }, [employees, role]);
+
+  console.log(selectedEmployees);
 
   useEffect(() => {
     if (!month || !role || selectedEmployees.length === 0) return;
@@ -70,12 +72,14 @@ export default function ScheduleBody() {
     const savedData = localStorage.getItem(storageKey);
 
     const newRows = selectedEmployees.map((employee, index) => ({
-      id: `${Date.now()}-${index}`,
-      number: index + 1,
+      id: index.toString(),
       dayHours: "",
       nightHours: "",
       totalHours: "",
-      employee,
+      employee: employee.name,
+      role: employee.role,
+      rate: employee.rate,
+      employeeId: employee.id,
       shifts: Array(monthDays.length).fill(""),
     }));
 
@@ -176,57 +180,55 @@ export default function ScheduleBody() {
   } as const;
 
   return (
-    <TableBody>
+    <TableBody className="[&_input]:h-8 [&_input]:text-xs [&_input]:p-0 [&_input]:text-center [&_input]:w-6 [&_input]:border-0">
       {fields.map((row, rowIndex) => (
         <TableRow key={row.id} className="hover:text-rd">
           <TableCell
-            className="border-0 text-rd cursor-pointer w-3"
+            className="text-rd cursor-pointer w-3"
             onClick={() => remove(rowIndex)}
           >
             {rowIndex + 1}
           </TableCell>
 
-          <TableCell className="border-0 text-bl">
+          <TableCell className="text-bl">
             <input
               {...form.register(`rowShifts.${rowIndex}.dayHours`)}
-              className="border-0 text-center  text-xs w-5  p-0"
               readOnly
             />{" "}
             :
             <input
               {...form.register(`rowShifts.${rowIndex}.nightHours`)}
-              className="border-0 text-center text-xs w-5 p-0"
               readOnly
             />
           </TableCell>
 
-          <TableCell className="border-0">
+          <TableCell>
             <input
               {...form.register(`rowShifts.${rowIndex}.totalHours`)}
-              className="border-0 text-center w-10 p-0 font-bold"
+              className="font-bold"
               readOnly
             />
           </TableCell>
 
-          <TableCell className="border-0  sticky left-0">
-            <SelectField
+          <TableCell className="sticky left-0">
+            <SelectScheduleEmployee
               fieldName={`rowShifts.${rowIndex}.employee`}
               data={selectedEmployees}
-              className="w-32 px-1 hover:text-rd justify-start truncate"
+              className="w-33 px-1 hover:text-rd justify-start"
             />
           </TableCell>
           <TableCell
-            className="border-0 w-4 p-0 cursor-pointer"
+            className="w-2 cursor-pointer p-0"
             onClick={() => resetRow(rowIndex)}
           >
-            <RotateCcw className="w-4 p-0" />
+            X
           </TableCell>
 
           {monthDays.map((_day, dayIndex) => {
             const fieldName = `rowShifts.${rowIndex}.shifts.${dayIndex}`;
             const value = form.getValues(fieldName);
             return (
-              <TableCell key={dayIndex} className="border-0">
+              <TableCell key={dayIndex}>
                 <SelectScheduleShifts
                   fieldName={`rowShifts.${rowIndex}.shifts.${dayIndex}`}
                   data={SHIFT_OPTIONS}

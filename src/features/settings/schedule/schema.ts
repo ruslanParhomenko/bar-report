@@ -1,15 +1,15 @@
+import { unique } from "next/dist/build/utils";
 import * as yup from "yup";
 const shiftsSchema = yup.string().default("");
 const rowShiftSchema = yup.object({
-  id: yup
-    .string()
-    .default(() => new Date().toISOString())
-    .required("Id is required"),
-  number: yup.number().default(1).required("Number is required"),
+  id: yup.string().default("").required("Id is required"),
   dayHours: yup.string().default(""),
   nightHours: yup.string().default(""),
   totalHours: yup.string().default(""),
   employee: yup.string().default("").required("Employee is required"),
+  role: yup.string().default("").required("Role is required"),
+  rate: yup.string().default("").required("Rate is required"),
+  employeeId: yup.string().default("").required("EmployeeId is required"),
   shifts: yup.array().of(shiftsSchema).default([]),
 });
 export const scheduleSchema = yup.object({
