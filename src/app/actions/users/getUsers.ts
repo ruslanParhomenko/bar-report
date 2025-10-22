@@ -16,6 +16,6 @@ export const getUsers = unstable_cache(fetchUsers, ["users"], {
   tags: ["users"],
 });
 
-export const invalidateUsers = () => {
+export async function invalidateUsers ()  {
   revalidateTag("users");
 };
