@@ -15,10 +15,9 @@ import {
   SHIFT_HOURS_MAP_DAY,
   SHIFT_HOURS_MAP_NIGHT,
 } from "../constants";
-import { UserData } from "@/app/actions/employees/employeeAction";
 
 export default function ScheduleBody() {
-  const employees: UserData[] = useEmployees();
+  const employees = useEmployees();
   const form = useFormContext();
 
   const { fields, remove, replace, move } = useFieldArray({
