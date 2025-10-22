@@ -1,4 +1,3 @@
-import { unique } from "next/dist/build/utils";
 import * as yup from "yup";
 const shiftsSchema = yup.string().default("");
 const rowShiftSchema = yup.object({
@@ -13,6 +12,7 @@ const rowShiftSchema = yup.object({
   shifts: yup.array().of(shiftsSchema).default([]),
 });
 export const scheduleSchema = yup.object({
+  id: yup.string().default(undefined),
   year: yup
     .string()
     .default(new Date().getFullYear().toString())

@@ -1,7 +1,7 @@
-import { SelectDataRange } from "@/features/schedule/SelectDataRange";
+import SwitchSchedule from "@/features/settings/schedule/SwitchSchedule";
 
 const Page = () => {
-  return <SelectDataRange />;
+  return <SwitchSchedule />;
 };
 
 export default Page;

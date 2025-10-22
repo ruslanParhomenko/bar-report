@@ -7,10 +7,13 @@ import { getMonthDays, MONTHS } from "@/utils/getMonthDays";
 import { ROLE_EMPLOYEES } from "../constants";
 import { useMemo } from "react";
 import { defaultSchedule } from "./schema";
+import { useAbility } from "@/providers/AbilityProvider";
 
 export default function ScheduleSelectButtons() {
   const t = useTranslations("Home");
   const form = useFormContext();
+  const { isAdmin, isMngr } = useAbility();
+  const isDisabled = !isAdmin && !isMngr;
 
   const rowShiftsArray = useFieldArray({
     control: form.control,
@@ -68,7 +71,7 @@ export default function ScheduleSelectButtons() {
           className="w-10 px-1 text-xs"
           placeholder="year"
         />
-        <Button type="submit" className="w-25">
+        <Button type="submit" className="w-25" disabled={isDisabled}>
           {t("save")}
         </Button>
       </div>

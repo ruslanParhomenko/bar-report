@@ -2,7 +2,7 @@
 
 import { ScheduleType } from "@/features/settings/schedule/schema";
 import { db } from "@/lib/firebase";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
 import { revalidateTag } from "next/cache";
 
 export type ScheduleData = ScheduleType & {
@@ -21,4 +21,12 @@ export async function createSchedule(data: ScheduleData) {
   });
   revalidateTag("schedule");
   return docRef.id;
+}
+
+export async function updateSchedule(
+  id: string,
+  data: Omit<ScheduleData, "id">
+) {
+  await updateDoc(doc(db, "schedule", id), data);
+  revalidateTag("schedule");
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { usePathname } from "@/i18n/navigation";
+import { usePathname, useRouter } from "@/i18n/navigation";
 import { useForm, useWatch } from "react-hook-form";
 import { Form } from "@/components/ui/form";
 import { Card } from "@/components/ui/card";
@@ -15,10 +15,12 @@ import {
 import SelectField from "@/components/inputs/SelectField";
 import ScheduleHeader from "../settings/schedule/ScheduleHeader";
 import { getMonthDays, MONTHS } from "@/utils/getMonthDays";
-import { getSchedule } from "@/app/actions/schedule/getSchedule";
 import { ScheduleData } from "@/app/actions/schedule/scheduleAction";
 import { SHIFT_OPTIONS } from "../settings/constants";
 import { Button } from "@/components/ui/button";
+import { useSchedules } from "@/providers/ScheduleProvider";
+import { Pen, PencilIcon } from "lucide-react";
+import { useAbility } from "@/providers/AbilityProvider";
 
 const ROLE = {
   bar: "restaurant",
@@ -27,7 +29,11 @@ const ROLE = {
 };
 
 export default function Schedule() {
+  const { isAdmin, isMngr } = useAbility();
+  const isDisabled = !isAdmin && !isMngr;
+  const schedules = useSchedules();
   const pathname = usePathname();
+  const router = useRouter();
   const patch = pathname.split("/")[2];
   const form = useForm({ defaultValues: { month: "", year: "2025" } });
   const [schedule, setSchedule] = useState<ScheduleData | null>(null);
@@ -40,14 +46,9 @@ export default function Schedule() {
     return `${year}-${month}-${role}`;
   }, [month, year, patch]);
 
-  // Загрузка данных при изменении ключа
   useEffect(() => {
-    async function load() {
-      const all = await getSchedule();
-      const found = all.find((s: any) => s.uniqueKey === uniqueKey);
-      setSchedule(found || (null as any));
-    }
-    load();
+    const found = schedules.find((s: any) => s.uniqueKey === uniqueKey);
+    setSchedule(found || (null as any));
   }, [uniqueKey]);
 
   const monthDays = useMemo(() => {
@@ -96,8 +97,14 @@ export default function Schedule() {
               />
             </div>
             <div>
-              <Button type="button" onClick={() => form.reset()}>
-                Delete
+              <Button
+                type="button"
+                onClick={() =>
+                  router.push(`/settings/schedule/${schedule?.id}`)
+                }
+                disabled={isDisabled}
+              >
+                <PencilIcon className="h-4 w-4" />
               </Button>
             </div>
           </div>

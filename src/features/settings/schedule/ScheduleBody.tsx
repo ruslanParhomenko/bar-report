@@ -18,6 +18,7 @@ import {
 
 export default function ScheduleBody() {
   const employees = useEmployees();
+
   const form = useFormContext();
 
   const { fields, remove, replace, move } = useFieldArray({
@@ -164,11 +165,11 @@ export default function ScheduleBody() {
   } as const;
 
   return (
-    <TableBody className="[&_input]:h-6 [&_input]:text-xs [&_input]:p-0 [&_input]:text-center [&_input]:w-6 [&_input]:border-0">
+    <TableBody className="[&_input]:h-6 [&_input]:text-xs [&_input]:p-0 [&_input]:text-center [&_input]:w-7 [&_input]:border-0">
       {fields.map((row, rowIndex) => (
         <TableRow key={row.id} className="hover:text-rd p-0">
           <TableCell
-            className="text-rd cursor-pointer w-3 p-0"
+            className="text-rd cursor-pointer w-2 p-0"
             onClick={() => remove(rowIndex)}
           >
             {rowIndex + 1}
@@ -214,10 +215,10 @@ export default function ScheduleBody() {
             const value = form.getValues(fieldName);
 
             return (
-              <TableCell key={dayIndex} className="p-0 text-center">
+              <TableCell key={dayIndex} className="p-0 text-center w-10">
                 <input
                   {...form.register(fieldName)}
-                  className={cn("w-9", value === "" ? "bg-border" : "text-bl")}
+                  className={cn("w-10", value === "" ? "bg-border" : "text-bl")}
                   style={{ color: color[value as keyof typeof color] }}
                 />
               </TableCell>

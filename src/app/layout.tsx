@@ -16,6 +16,11 @@ import {
 } from "@/providers/EmployeesProvider";
 import { getUsers } from "./actions/users/getUsers";
 import { Toaster } from "@/components/ui/sonner";
+import {
+  SchedulesContextValue,
+  SchedulesProvider,
+} from "@/providers/ScheduleProvider";
+import { getSchedule } from "./actions/schedule/getSchedule";
 
 const lora = Lora({
   variable: "--font-lora",
@@ -36,6 +41,7 @@ export default async function RootLayout({
 }) {
   const locale = await getLocale();
   const employees = await getEmployees();
+  const schedules = await getSchedule();
   const users = await getUsers();
 
   return (
@@ -55,7 +61,11 @@ export default async function RootLayout({
                   <EmployeesProvider
                     employees={employees as EmployeesContextValue[]}
                   >
-                    {children}
+                    <SchedulesProvider
+                      schedules={schedules as SchedulesContextValue[]}
+                    >
+                      {children}
+                    </SchedulesProvider>
                   </EmployeesProvider>
                 </AbilityProvider>
               </ReactQueryProvider>
