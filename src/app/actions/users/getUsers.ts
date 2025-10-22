@@ -2,7 +2,7 @@
 
 import { db } from "@/lib/firebase";
 import { collection, getDocs } from "firebase/firestore";
-import { unstable_cache } from "next/cache";
+import { revalidateTag, unstable_cache } from "next/cache";
 
 async function fetchUsers() {
   const snapshot = await getDocs(collection(db, "users"));
@@ -15,3 +15,7 @@ async function fetchUsers() {
 export const getUsers = unstable_cache(fetchUsers, ["users"], {
   tags: ["users"],
 });
+
+export const invalidateUsers = () => {
+  revalidateTag("users");
+};

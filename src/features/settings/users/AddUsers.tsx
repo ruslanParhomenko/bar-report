@@ -3,14 +3,13 @@ import { Form } from "@/components/ui/form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { USERS_FIREBOX_ENDPOINT } from "@/constants/endpoint-tag";
-import { useApi } from "@/hooks/useApi";
 import { useAbility } from "@/providers/AbilityProvider";
 import { useTranslations } from "next-intl";
 import { defaultUser, usersSchema, UsersSchemaTypeData } from "../schema";
 import CardFormUsers from "./CardFormUsers";
 import { UsersTable } from "./CardTableUsers";
 import { createUser, updateUser } from "@/app/actions/users/userAction";
+import { invalidateUsers } from "@/app/actions/users/getUsers";
 
 type FormData = UsersSchemaTypeData;
 
@@ -44,12 +43,15 @@ export default function AddUsers() {
           mail: data.mail,
           role: data.role,
         });
+ invalidateUsers();
+
         toast.success("User is updated !");
       } else {
         await createUser({
           mail: data.mail,
           role: data.role,
         });
+        invalidateUsers();
         toast.success("User is added !");
       }
       resetForm();
