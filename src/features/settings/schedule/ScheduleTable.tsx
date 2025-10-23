@@ -1,9 +1,8 @@
 "use client";
-import { Suspense, useMemo, useEffect } from "react";
+import { useMemo } from "react";
 import { Table } from "@/components/ui/table";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Form } from "@/components/ui/form";
-import { SkeletonTable } from "./SkeletonTable";
 import { defaultSchedule, scheduleSchema, ScheduleType } from "./schema";
 import { yupResolver } from "@hookform/resolvers/yup";
 import ScheduleSelectButtons from "./ScheduleSelectButtons";
@@ -19,19 +18,18 @@ import { getMonthDays } from "@/utils/getMonthDays";
 import { useSchedules } from "@/providers/ScheduleProvider";
 import { toast } from "sonner";
 import { useParams } from "next/navigation";
-import { ro } from "date-fns/locale";
 import { useRouter } from "@/i18n/navigation";
 import { SHIFT_OPTIONS } from "./constants";
-import { Separator } from "@/components/ui/separator";
 
 export function ScheduleTable() {
   const { id } = useParams();
   const router = useRouter();
   const schedules = useSchedules();
+  const found = schedules.find((s) => s.id === id);
 
   const form = useForm<ScheduleType>({
     resolver: yupResolver(scheduleSchema) as any,
-    defaultValues: defaultSchedule,
+    defaultValues: found || defaultSchedule,
   });
 
   const month = form.watch("month");
@@ -41,21 +39,6 @@ export function ScheduleTable() {
     if (!month || !year) return [];
     return getMonthDays({ month, year });
   }, [month, year]);
-
-  // 🧠 ЭФФЕКТ: если в params есть id — подставляем данные из schedules
-  useEffect(() => {
-    if (!id || !schedules?.length) return;
-
-    const found = schedules.find((s) => s.id === id);
-    if (found) {
-      form.reset(found as ScheduleType);
-      toast.info(
-        `✏️ Режим редактирования: ${found.role} (${found.month}/${found.year})`
-      );
-    } else {
-      toast.error("⚠️ График с таким ID не найден");
-    }
-  }, [id, schedules, form]);
 
   const onSubmit: SubmitHandler<ScheduleType> = async (data) => {
     const formatData: ScheduleData = {
@@ -67,7 +50,6 @@ export function ScheduleTable() {
       (s) => s.uniqueKey === formatData.uniqueKey
     );
 
-    // 🧩 1. Если есть id в параметрах → только update
     if (id) {
       await updateSchedule(id as string, formatData);
       toast.success("✏️ График успешно обновлён!");
@@ -75,7 +57,6 @@ export function ScheduleTable() {
       return;
     }
 
-    // 🧩 2. Если нет id и график с таким ключом ещё не существует → create
     if (!id && !existing) {
       await createSchedule(formatData);
       toast.success("✅ График успешно создан!");
@@ -83,7 +64,6 @@ export function ScheduleTable() {
       return;
     }
 
-    // 🧩 3. Все остальные случаи → ошибка
     toast.error(
       "⚠️ График с такими параметрами уже существует или некорректные данные!"
     );
@@ -91,15 +71,17 @@ export function ScheduleTable() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        onKeyDown={(e) => e.key === "Enter" && e.preventDefault()}
+        className="flex flex-col"
+      >
         <ScheduleSelectButtons />
 
         <Table className="table-fixed w-full">
           <ScheduleHeader monthDays={monthDays} />
 
-          <Suspense fallback={<SkeletonTable />}>
-            <ScheduleBody />
-          </Suspense>
+          <ScheduleBody key={form.watch("rowShifts").length} />
 
           <ScheduleFooter data={SHIFT_OPTIONS || []} />
         </Table>

@@ -7,18 +7,18 @@ import { SelectDataRange } from "@/features/schedule/SelectDataRange";
 import { Label } from "@/components/ui/label";
 
 export default function SwitchSchedule() {
-  const [newSchedule, setNewSchedule] = useState(false);
+  const [oldSchedule, setNOldSchedule] = useState(false);
   return (
     <>
       <div className="flex items-center gap-4 py-2">
-        <Label className="text-rd">set new schedule</Label>
+        <Label className="text-rd">old schedule</Label>
         <Switch
-          checked={newSchedule}
-          onCheckedChange={setNewSchedule}
-          aria-label="Sort by name"
+          checked={oldSchedule}
+          onCheckedChange={setNOldSchedule}
+          aria-label="old schedule"
         />
       </div>
-      {newSchedule ? <Schedule /> : <SelectDataRange />}
+      {oldSchedule ? <SelectDataRange /> : <Schedule />}
     </>
   );
 }

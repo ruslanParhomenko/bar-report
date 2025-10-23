@@ -14,8 +14,11 @@ import {
   SHIFT_HOURS_MAP_DAY,
   SHIFT_HOURS_MAP_NIGHT,
 } from "./constants";
+import { useParams } from "next/navigation";
+import { handleTableNavigation } from "@/utils/handleTableNavigation";
 
 export default function ScheduleBody() {
+  const { id } = useParams();
   const employees = useEmployees();
 
   const form = useFormContext();
@@ -24,7 +27,7 @@ export default function ScheduleBody() {
     control: form.control,
     name: "rowShifts",
   });
-
+  console.log(fields);
   const year = form.watch("year");
   const role = form.watch("role");
   const month = form.watch("month");
@@ -65,6 +68,8 @@ export default function ScheduleBody() {
   useEffect(() => {
     if (!month || !role || selectedEmployees.length === 0) return;
     if (!storageKey) return;
+    if (id) return;
+    console.log("storageKey", id);
 
     const savedData = localStorage.getItem(storageKey);
 
@@ -133,6 +138,7 @@ export default function ScheduleBody() {
   const watchAll = useWatch({ control: form.control });
   useEffect(() => {
     if (!storageKey) return;
+    if (id) return;
     localStorage.setItem(storageKey, JSON.stringify(watchAll));
   }, [watchAll, storageKey]);
 
@@ -156,17 +162,22 @@ export default function ScheduleBody() {
   };
 
   const color = {
-    7: "#0000FF", // blue
-    8: "#0000FF", // blue
-    9: "#0000FF", // blue
-    14: "#00FF00", // green
-    18: "#000000", // black
-    20: "#000000", // black
+    "7": "text-bl",
+    "8": "text-bl",
+    "9": "text-bl",
+    "14": "text-gr",
+    "18": "text-bk",
+    "19": "text-bk",
+    "20": "text-bk",
+    v: "text-bl bg-bl",
+    s: "text-yl bg-yl",
+    "/": "text-rd bg-rd",
   } as const;
+
   return (
-    <TableBody className="[&_input]:h-6 [&_input]:text-xs [&_input]:p-0 [&_input]:text-center [&_input]:w-7 [&_input]:border-0">
+    <TableBody className="[&_input]:h-8 [&_input]:text-md [&_input]:py-0.5 [&_input]:text-center [&_input]:w-8 [&_input]:border-0">
       {fields.map((row, rowIndex) => (
-        <TableRow key={row.id} className="hover:text-rd p-0">
+        <TableRow key={row.id} className="hover:text-rd p-0 h-10">
           <TableCell
             className="text-rd cursor-pointer w-2 p-0"
             onClick={() => remove(rowIndex)}
@@ -174,12 +185,13 @@ export default function ScheduleBody() {
             {rowIndex + 1}
           </TableCell>
 
-          <TableCell className="text-bl p-0">
+          <TableCell className="text-bl p-0 text-xs">
             <input
               {...form.register(`rowShifts.${rowIndex}.dayHours`)}
               readOnly
-            />{" "}
-            :
+            />
+          </TableCell>
+          <TableCell className="text-bl p-0 text-xs">
             <input
               {...form.register(`rowShifts.${rowIndex}.nightHours`)}
               readOnly
@@ -217,8 +229,16 @@ export default function ScheduleBody() {
               <TableCell key={dayIndex} className="p-0 text-center w-10">
                 <input
                   {...form.register(fieldName)}
-                  className={cn("w-10", value === "" ? "bg-border" : "text-bl")}
-                  style={{ color: color[value as keyof typeof color] }}
+                  data-row={rowIndex}
+                  data-col={dayIndex}
+                  onKeyDown={(e) =>
+                    handleTableNavigation(e, rowIndex, dayIndex)
+                  }
+                  className={cn(
+                    "w-10",
+                    value === "" ? "bg-border" : "text-bl",
+                    color[value as keyof typeof color]
+                  )}
                 />
               </TableCell>
             );
