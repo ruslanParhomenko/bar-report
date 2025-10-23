@@ -38,8 +38,8 @@ const SHIFTS = {
 export default function Schedule() {
   const KEY_PREFIX = "schedule-data";
 
-  const { isAdmin, isMngr } = useAbility();
-  const isDisabled = !isAdmin && !isMngr;
+  const { isAdmin, isMngr, isBar } = useAbility();
+  const isDisabled = !isAdmin && !isMngr && !isBar;
 
   const schedules = useSchedules();
   const pathname = usePathname();
