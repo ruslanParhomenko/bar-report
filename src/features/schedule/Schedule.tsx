@@ -41,8 +41,8 @@ const SHIFTS = {
 export default function Schedule() {
   const KEY_PREFIX = "schedule-data";
 
-  const { isAdmin, isMngr, isBar } = useAbility();
-  const isDisabled = !isAdmin && !isMngr && !isBar;
+  const { isAdmin, isMngr } = useAbility();
+  const isDisabled = !isAdmin && !isMngr;
 
   const schedules = useSchedules();
   const pathname = usePathname();
@@ -159,6 +159,8 @@ export default function Schedule() {
               type="button"
               variant={"outline"}
               onClick={() => sendScreenshot("📅 График смен")}
+              disabled={isDisabled || isSending}
+              className="cursor-pointer"
             >
               <MailIcon className="h-4 w-4" />
             </Button>
@@ -225,17 +227,17 @@ export default function Schedule() {
                 {SHIFT_OPTIONS.filter((item) =>
                   SHIFTS[patch as keyof typeof SHIFTS].includes(item)
                 ).map((item, i) => (
-                  <TableRow key={i} className="h-[16px] bg-card border-0">
+                  <TableRow key={i} className="h-6 bg-card border-0">
                     <TableCell
                       colSpan={6}
-                      className="text-end text-muted-gn h-[16px] pt-0.5 leading-none text-xs"
+                      className="text-end text-muted-gn h-6 pt-0.5 leading-none text-xs"
                     >
                       {item}
                     </TableCell>
                     {shiftCounts?.[item]?.map((day, index) => (
                       <TableCell
                         key={index}
-                        className="w-8 text-center h-[16px] pt-0.5 leading-none text-xs text-muted-foreground"
+                        className="w-8 text-center h-6 pt-0.5 leading-none text-xs text-muted-foreground"
                       >
                         {day === 0 ? null : day}
                       </TableCell>
