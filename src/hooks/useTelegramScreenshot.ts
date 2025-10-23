@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import html2canvas from "html2canvas-pro";
+import { toast } from "sonner";
 
 export function useTelegramScreenshot<T extends HTMLElement>(
   ref: React.RefObject<T>
@@ -31,8 +32,6 @@ export function useTelegramScreenshot<T extends HTMLElement>(
       formData.append("file", blob, "screenshot.png");
       formData.append("caption", caption);
 
-      console.log(formData);
-
       const res = await fetch("/api/telegram", {
         method: "POST",
         body: formData,
@@ -42,11 +41,13 @@ export function useTelegramScreenshot<T extends HTMLElement>(
         const data = await res.json();
         throw new Error(data.error || "Failed to send Telegram message");
       }
+      toast.success("График отправлен");
 
       return true;
     } catch (err: any) {
       console.error(err);
       setError(err.message || "Unknown error");
+      toast.error("Произошла ошибка");
       return false;
     } finally {
       setIsSending(false);
