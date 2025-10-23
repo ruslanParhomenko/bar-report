@@ -223,7 +223,7 @@ export default function Schedule() {
                 })}
               </TableBody>
 
-              <TableFooter>
+              <TableFooter data-html2canvas-ignore="true" className="no-print">
                 {SHIFT_OPTIONS.filter((item) =>
                   SHIFTS[patch as keyof typeof SHIFTS].includes(item)
                 ).map((item, i) => (
