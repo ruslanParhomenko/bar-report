@@ -81,7 +81,7 @@ export function ScheduleTable() {
         <Table className="table-fixed w-full">
           <ScheduleHeader monthDays={monthDays} />
 
-          <ScheduleBody key={form.watch("rowShifts").length} />
+          <ScheduleBody />
 
           <ScheduleFooter data={SHIFT_OPTIONS || []} />
         </Table>
