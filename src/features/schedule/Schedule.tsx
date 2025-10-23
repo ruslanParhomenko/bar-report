@@ -18,11 +18,14 @@ import { getMonthDays, MONTHS } from "@/utils/getMonthDays";
 import { ScheduleData } from "@/app/actions/schedule/scheduleAction";
 import { Button } from "@/components/ui/button";
 import { useSchedules } from "@/providers/ScheduleProvider";
-import { PencilIcon } from "lucide-react";
+import { MailIcon, PencilIcon } from "lucide-react";
 import { useAbility } from "@/providers/AbilityProvider";
 import { useLocalStorageForm } from "@/hooks/use-local-storage";
 import { SHIFT_OPTIONS } from "../settings/schedule/constants";
 import { cn } from "@/lib/utils";
+import { usePrint } from "@/hooks/useToPrint";
+import PrintButton from "@/components/buttons/PrintButton";
+import { useTelegramScreenshot } from "@/hooks/useTelegramScreenshot";
 
 const ROLE = {
   bar: "restaurant",
@@ -117,6 +120,11 @@ export default function Schedule() {
     }
   }, [todayIndex]);
 
+  const { componentRef, handlePrint } = usePrint({ title: "schedule" });
+  const { sendScreenshot, isSending } = useTelegramScreenshot(
+    componentRef as any
+  );
+
   return (
     <>
       <Form {...form}>
@@ -137,7 +145,7 @@ export default function Schedule() {
       </Form>
       {schedule && (
         <Card>
-          <CardHeader className="w-full flex flex-col items-start">
+          <CardHeader className="w-full flex flex-row  items-start gap-4">
             <Button
               type="button"
               onClick={() => router.push(`/settings/schedule/${schedule?.id}`)}
@@ -146,88 +154,97 @@ export default function Schedule() {
             >
               <PencilIcon className="h-4 w-4" />
             </Button>
+            <PrintButton onPrint={handlePrint} />
+            <Button
+              type="button"
+              variant={"outline"}
+              onClick={() => sendScreenshot("📅 График смен")}
+            >
+              <MailIcon className="h-4 w-4" />
+            </Button>
           </CardHeader>
+          <div ref={componentRef}>
+            <Table>
+              <ScheduleHeader
+                monthDays={monthDays}
+                setSelectedColumn={setSelectedColumn}
+                month={schedule.month}
+              />
+              <TableBody className="[&_input]:h-8 [&_input]:text-xs [&_input]:p-0 [&_input]:text-center [&_input]:w-6 [&_input]:border-0">
+                {schedule.rowShifts?.map((row, rowIndex) => {
+                  const isSelected = !["v", "s", ""].includes(
+                    row.shifts?.[selectedColumn as any]
+                  );
+                  return (
+                    <TableRow key={row.id} className="hover:text-rd">
+                      <TableCell>{rowIndex + 1}</TableCell>
+                      <TableCell className="text-bl text-xs">
+                        {row.dayHours}
+                      </TableCell>
+                      <TableCell className="text-bl text-xs">
+                        {row.nightHours}
+                      </TableCell>
+                      <TableCell>{row.totalHours}</TableCell>
+                      <TableCell
+                        className={cn(
+                          "sticky left-0 bg-card text-muted-foreground w-34 p-0",
+                          isSelected && "text-rd font-bold"
+                        )}
+                      >
+                        {row.employee}
+                      </TableCell>
+                      <TableCell className="w-2 p-0"></TableCell>
 
-          <Table>
-            <ScheduleHeader
-              monthDays={monthDays}
-              setSelectedColumn={setSelectedColumn}
-              month={schedule.month}
-            />
-            <TableBody className="[&_input]:h-8 [&_input]:text-xs [&_input]:p-0 [&_input]:text-center [&_input]:w-6 [&_input]:border-0">
-              {schedule.rowShifts?.map((row, rowIndex) => {
-                const isSelected = !["v", "s", ""].includes(
-                  row.shifts?.[selectedColumn as any]
-                );
-                return (
-                  <TableRow key={row.id} className="hover:text-rd">
-                    <TableCell>{rowIndex + 1}</TableCell>
-                    <TableCell className="text-bl text-xs">
-                      {row.dayHours}
-                    </TableCell>
-                    <TableCell className="text-bl text-xs">
-                      {row.nightHours}
-                    </TableCell>
-                    <TableCell>{row.totalHours}</TableCell>
+                      {row.shifts?.map((day, dayIndex) => {
+                        const isSelected = dayIndex === selectedColumn;
+
+                        return (
+                          <TableCell
+                            key={dayIndex}
+                            className={cn(
+                              "p-0 text-center border-x",
+                              ["v"].includes(day)
+                                ? "bg-bl/70 border-x-bl/70"
+                                : "",
+                              color[day as keyof typeof color],
+                              isSelected && "!text-rd font-bold"
+                            )}
+                          >
+                            {["/", "v"].includes(day) ? null : day}
+                          </TableCell>
+                        );
+                      })}
+
+                      <TableCell className="w-6" />
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+
+              <TableFooter>
+                {SHIFT_OPTIONS.filter((item) =>
+                  SHIFTS[patch as keyof typeof SHIFTS].includes(item)
+                ).map((item, i) => (
+                  <TableRow key={i} className="h-[16px] bg-card border-0">
                     <TableCell
-                      className={cn(
-                        "sticky left-0 bg-card text-muted-foreground w-34 p-0",
-                        isSelected && "text-rd font-bold"
-                      )}
+                      colSpan={6}
+                      className="text-end text-muted-gn h-[16px] pt-0.5 leading-none text-xs"
                     >
-                      {row.employee}
+                      {item}
                     </TableCell>
-                    <TableCell className="w-2 p-0"></TableCell>
-
-                    {row.shifts?.map((day, dayIndex) => {
-                      const isSelected = dayIndex === selectedColumn;
-
-                      return (
-                        <TableCell
-                          key={dayIndex}
-                          className={cn(
-                            "p-0 text-center border-x",
-                            ["v"].includes(day)
-                              ? "bg-bl/70 border-x-bl/70"
-                              : "",
-                            color[day as keyof typeof color],
-                            isSelected && "!text-rd font-bold"
-                          )}
-                        >
-                          {["/", "v"].includes(day) ? null : day}
-                        </TableCell>
-                      );
-                    })}
-
-                    <TableCell className="w-6" />
+                    {shiftCounts?.[item]?.map((day, index) => (
+                      <TableCell
+                        key={index}
+                        className="w-8 text-center h-[16px] pt-0.5 leading-none text-xs text-muted-foreground"
+                      >
+                        {day === 0 ? null : day}
+                      </TableCell>
+                    ))}
                   </TableRow>
-                );
-              })}
-            </TableBody>
-
-            <TableFooter>
-              {SHIFT_OPTIONS.filter((item) =>
-                SHIFTS[patch as keyof typeof SHIFTS].includes(item)
-              ).map((item, i) => (
-                <TableRow key={i} className="h-[16px] bg-card border-0">
-                  <TableCell
-                    colSpan={6}
-                    className="text-end text-muted-gn h-[16px] pt-0.5 leading-none text-xs"
-                  >
-                    {item}
-                  </TableCell>
-                  {shiftCounts?.[item]?.map((day, index) => (
-                    <TableCell
-                      key={index}
-                      className="w-8 text-center h-[16px] pt-0.5 leading-none text-xs text-muted-foreground"
-                    >
-                      {day === 0 ? null : day}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))}
-            </TableFooter>
-          </Table>
+                ))}
+              </TableFooter>
+            </Table>
+          </div>
         </Card>
       )}
     </>

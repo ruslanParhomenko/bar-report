@@ -6,15 +6,13 @@ export default function PrintButton({ onPrint }: { onPrint: () => void }) {
   const t = useTranslations("Home");
 
   return (
-    <div className="flex justify-end">
-      <Button
-        variant="outline"
-        onClick={onPrint}
-        className="flex items-center gap-2 print:hidden my-2 cursor-pointer hover:bg-bl hover:text-white"
-      >
-        <Printer className="w-4 h-4" />
-        {t("print")}
-      </Button>
-    </div>
+    <Button
+      variant="outline"
+      onClick={onPrint}
+      className="flex items-center gap-2 print:hidden  cursor-pointer hover:bg-bl hover:text-white"
+    >
+      <Printer className="w-4 h-4" />
+      {t("print")}
+    </Button>
   );
 }

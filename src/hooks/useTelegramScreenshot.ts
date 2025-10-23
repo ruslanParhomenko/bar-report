@@ -1,0 +1,57 @@
+"use client";
+
+import { useState } from "react";
+import html2canvas from "html2canvas-pro";
+
+export function useTelegramScreenshot<T extends HTMLElement>(
+  ref: React.RefObject<T>
+) {
+  const [isSending, setIsSending] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const sendScreenshot = async (caption = "") => {
+    if (!ref.current) return;
+
+    try {
+      setIsSending(true);
+      setError(null);
+
+      const canvas = await html2canvas(ref.current, {
+        scale: 2,
+        useCORS: true,
+        backgroundColor: "#ffffff",
+      });
+
+      const blob = await new Promise<Blob | null>((resolve) =>
+        canvas.toBlob((b) => resolve(b), "image/png")
+      );
+      if (!blob) throw new Error("Failed to create image blob");
+
+      const formData = new FormData();
+      formData.append("file", blob, "screenshot.png");
+      formData.append("caption", caption);
+
+      console.log(formData);
+
+      const res = await fetch("/api/telegram", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.error || "Failed to send Telegram message");
+      }
+
+      return true;
+    } catch (err: any) {
+      console.error(err);
+      setError(err.message || "Unknown error");
+      return false;
+    } finally {
+      setIsSending(false);
+    }
+  };
+
+  return { sendScreenshot, isSending, error };
+}
