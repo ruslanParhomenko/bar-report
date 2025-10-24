@@ -7,6 +7,7 @@ export default function PrintButton({ onPrint }: { onPrint: () => void }) {
 
   return (
     <Button
+      size={"sm"}
       variant="outline"
       onClick={onPrint}
       className="flex items-center gap-2 print:hidden  cursor-pointer hover:bg-bl hover:text-white"

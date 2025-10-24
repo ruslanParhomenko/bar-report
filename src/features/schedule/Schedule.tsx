@@ -128,7 +128,7 @@ export default function Schedule() {
   return (
     <>
       <Form {...form}>
-        <form className="flex gap-4 pb-2">
+        <form className="flex gap-6 items-center justify-between md:justify-start pb-2">
           <SelectField
             fieldName="month"
             data={MONTHS}
@@ -147,15 +147,17 @@ export default function Schedule() {
         <Card>
           <CardHeader className="w-full flex flex-row  items-start gap-4">
             <Button
+              size={"sm"}
               type="button"
               onClick={() => router.push(`/settings/schedule/${schedule?.id}`)}
               disabled={isDisabled}
-              className="cursor-pointer"
+              className="cursor-pointer p-0"
             >
-              <PencilIcon className="h-4 w-4" />
+              <PencilIcon className="h-3 w-3" />
             </Button>
             <PrintButton onPrint={handlePrint} />
             <Button
+              size={"sm"}
               type="button"
               variant={"outline"}
               onClick={() => sendScreenshot("📅 График смен")}
