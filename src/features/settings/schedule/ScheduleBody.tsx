@@ -131,6 +131,8 @@ export default function ScheduleBody({
             const fieldName = `rowShifts.${rowIndex}.shifts.${dayIndex}`;
             const value = form.getValues(fieldName);
 
+            console.log(value);
+
             return (
               <TableCell key={dayIndex} className="p-0 text-center w-10">
                 <input

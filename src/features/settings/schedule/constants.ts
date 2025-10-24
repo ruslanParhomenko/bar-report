@@ -271,10 +271,11 @@ export const color = {
   "8": "text-bl",
   "9": "text-bl",
   "14": "text-gr",
-  "18": "text-bk",
-  "19": "text-bk",
-  "20": "text-bk",
+  "18": "text-black",
+  "19": "text-black",
+  "20": "text-black",
   v: "text-bl bg-bl",
-  s: "text-yl bg-yl",
+  s: "bg-[#facc15] text-[#facc15]",
+
   "/": "text-rd bg-rd",
 } as const;

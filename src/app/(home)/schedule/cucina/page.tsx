@@ -1,7 +1,7 @@
-import SwitchSchedule from "@/features/settings/schedule/SwitchSchedule";
+import Schedule from "@/features/schedule/Schedule";
 
 const Page = () => {
-  return <SwitchSchedule />;
+  return <Schedule />;
 };
 
 export default Page;
