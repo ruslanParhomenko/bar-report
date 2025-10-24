@@ -180,7 +180,7 @@ export function ScheduleTable() {
         onKeyDown={(e) => e.key === "Enter" && e.preventDefault()}
         className="flex flex-col"
       >
-        <ScheduleSelectButtons addNewRow={addRow} />
+        <ScheduleSelectButtons addNewRow={addRow} remove={removeValue} />
 
         <Table className="table-fixed w-full">
           <ScheduleHeader monthDays={monthDays} />

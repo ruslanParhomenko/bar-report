@@ -14,8 +14,10 @@ import { useRouter } from "@/i18n/navigation";
 
 export default function ScheduleSelectButtons({
   addNewRow,
+  remove,
 }: {
   addNewRow: () => void;
+  remove: () => void;
 }) {
   const { id } = useParams();
   const router = useRouter();
@@ -28,6 +30,7 @@ export default function ScheduleSelectButtons({
 
   const resetForm = () => {
     form.reset(defaultSchedule);
+    remove();
   };
 
   return (
