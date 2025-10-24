@@ -10,19 +10,14 @@ export default function ScheduleFooter({ data }: { data: string[] }) {
     if (!values?.rowShifts?.length) return {};
 
     const daysCount = values.rowShifts[0]?.shifts?.length || 0;
-
-    // Инициализация результата
     const result = Object.fromEntries(
       data.map((shift) => [shift, Array(daysCount).fill(0)])
     );
-
-    // Перебираем все строки расписания
     values.rowShifts.forEach((row: any) => {
-      row.shifts.forEach((shiftValue: string, dayIndex: number) => {
+      row?.shifts?.forEach((shiftValue: string, dayIndex: number) => {
         if (!shiftValue) return;
 
-        // Разбиваем по "_" и проверяем каждый под-шифт
-        const shiftParts = shiftValue.split("_");
+        const shiftParts = shiftValue.split(".");
 
         shiftParts.forEach((part) => {
           if (data.includes(part)) {

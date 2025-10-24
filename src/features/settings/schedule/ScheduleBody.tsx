@@ -1,107 +1,35 @@
 "use client";
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
-import { ChevronDown, ChevronUp } from "lucide-react";
-import { useEmployees } from "@/providers/EmployeesProvider";
-import { useFieldArray, useFormContext, useWatch } from "react-hook-form";
-import { getMonthDays } from "@/utils/getMonthDays";
+import { ChevronDown, ChevronUp, Minus } from "lucide-react";
+import {
+  FieldArrayWithId,
+  UseFieldArrayReturn,
+  useFormContext,
+} from "react-hook-form";
 import { cn } from "@/lib/utils";
 
 import SelectScheduleEmployee from "@/components/inputs/SelectScheduleEmployee";
-import {
-  EMPLOYEE_ROLES_BY_DEPARTMENT,
-  SHIFT_HOURS_MAP_DAY,
-  SHIFT_HOURS_MAP_NIGHT,
-} from "./constants";
-import { useParams } from "next/navigation";
+import { color, SHIFT_HOURS_MAP_DAY, SHIFT_HOURS_MAP_NIGHT } from "./constants";
 import { handleTableNavigation } from "@/utils/handleTableNavigation";
+import { ScheduleType } from "./schema";
+import { EmployeesContextValue } from "@/providers/EmployeesProvider";
 
-export default function ScheduleBody() {
-  const { id } = useParams();
-  const employees = useEmployees();
-
+export default function ScheduleBody({
+  fields,
+  monthDays,
+  selectedEmployees,
+  remove,
+  move,
+}: {
+  fields: FieldArrayWithId<ScheduleType, "rowShifts", "id">[];
+  monthDays: { day: number; weekday: string }[];
+  selectedEmployees: EmployeesContextValue[];
+  remove: UseFieldArrayReturn<ScheduleType, "rowShifts", "id">["remove"];
+  move: UseFieldArrayReturn<ScheduleType, "rowShifts", "id">["move"];
+}) {
   const form = useFormContext();
-
-  const { fields, remove, replace, move } = useFieldArray({
-    control: form.control,
-    name: "rowShifts",
-  });
-  console.log(fields);
-  const year = form.watch("year");
-  const role = form.watch("role");
-  const month = form.watch("month");
-
-  const monthDays = useMemo(() => {
-    if (!month || !year) return [];
-    return getMonthDays({ month, year });
-  }, [month, year]);
-
-  const storageKey = useMemo(() => {
-    if (!month || !role || !year) return null;
-    return `schedule_${year}_${month}_${role}`;
-  }, [year, month, role]);
-
-  const selectedEmployees = useMemo(() => {
-    if (
-      !Array.isArray(employees) ||
-      !role ||
-      !(role in EMPLOYEE_ROLES_BY_DEPARTMENT)
-    )
-      return [];
-
-    const allowedRoles: readonly string[] =
-      EMPLOYEE_ROLES_BY_DEPARTMENT[
-        role as keyof typeof EMPLOYEE_ROLES_BY_DEPARTMENT
-      ] ?? [];
-
-    return employees
-      .filter((e) => allowedRoles.includes(e.role))
-      .sort((a, b) => {
-        const roleA = allowedRoles.indexOf(a.role);
-        const roleB = allowedRoles.indexOf(b.role);
-        if (roleA !== roleB) return roleA - roleB;
-        return a.name.localeCompare(b.name);
-      });
-  }, [employees, role]);
-
-  useEffect(() => {
-    if (!month || !role || selectedEmployees.length === 0) return;
-    if (!storageKey) return;
-    if (id) return;
-    console.log("storageKey", id);
-
-    const savedData = localStorage.getItem(storageKey);
-
-    const newRows = selectedEmployees.map((employee, index) => ({
-      id: index.toString(),
-      dayHours: "",
-      nightHours: "",
-      totalHours: "",
-      employee: employee.name,
-      role: employee.role,
-      rate: employee.rate,
-      employeeId: employee.id,
-      shifts: Array(monthDays.length).fill(""),
-    }));
-
-    if (savedData) {
-      try {
-        const parsedData = JSON.parse(savedData);
-        if (parsedData?.rowShifts?.length > 0) {
-          form.reset(parsedData);
-          return;
-        }
-      } catch (e) {
-        console.log(e);
-      }
-    }
-
-    replace(newRows);
-
-    const dataToSave = { year, month, role, rowShifts: newRows };
-    localStorage.setItem(storageKey, JSON.stringify(dataToSave));
-  }, [month, role, selectedEmployees, monthDays.length]);
 
   useEffect(() => {
     const subscription = form.watch((_, { name }) => {
@@ -135,13 +63,6 @@ export default function ScheduleBody() {
     return () => subscription.unsubscribe();
   }, [form]);
 
-  const watchAll = useWatch({ control: form.control });
-  useEffect(() => {
-    if (!storageKey) return;
-    if (id) return;
-    localStorage.setItem(storageKey, JSON.stringify(watchAll));
-  }, [watchAll, storageKey]);
-
   const resetRow = (rowIndex: number) => {
     const currentData = form.getValues();
     const updatedRows = currentData.rowShifts.map((row: any, index: number) => {
@@ -157,22 +78,7 @@ export default function ScheduleBody() {
 
     const updatedData = { ...currentData, rowShifts: updatedRows };
     form.reset(updatedData);
-    if (storageKey)
-      localStorage.setItem(storageKey, JSON.stringify(updatedData));
   };
-
-  const color = {
-    "7": "text-bl",
-    "8": "text-bl",
-    "9": "text-bl",
-    "14": "text-gr",
-    "18": "text-bk",
-    "19": "text-bk",
-    "20": "text-bk",
-    v: "text-bl bg-bl",
-    s: "text-yl bg-yl",
-    "/": "text-rd bg-rd",
-  } as const;
 
   return (
     <TableBody className="[&_input]:h-8 [&_input]:text-md [&_input]:py-0.5 [&_input]:text-center [&_input]:w-8 [&_input]:border-0">
@@ -210,15 +116,15 @@ export default function ScheduleBody() {
             <SelectScheduleEmployee
               fieldName={`rowShifts.${rowIndex}.employee`}
               data={selectedEmployees}
-              className="w-33 px-1 hover:text-rd justify-start"
+              className="w-32 px-1 hover:text-rd justify-start"
             />
           </TableCell>
 
           <TableCell
-            className="w-2 cursor-pointer p-0"
+            className="w-3 cursor-pointer p-0"
             onClick={() => resetRow(rowIndex)}
           >
-            X
+            <Minus className="w-3 h-3" />
           </TableCell>
 
           {monthDays.map((_day, dayIndex) => {

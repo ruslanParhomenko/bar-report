@@ -12,7 +12,11 @@ import { useParams } from "next/navigation";
 
 import { useRouter } from "@/i18n/navigation";
 
-export default function ScheduleSelectButtons() {
+export default function ScheduleSelectButtons({
+  addNewRow,
+}: {
+  addNewRow: () => void;
+}) {
   const { id } = useParams();
   const router = useRouter();
   const t = useTranslations("Home");
@@ -20,42 +24,14 @@ export default function ScheduleSelectButtons() {
   const { isAdmin, isMngr } = useAbility();
   const isDisabled = !isAdmin && !isMngr;
 
-  const rowShiftsArray = useFieldArray({
-    control: form.control,
-    name: "rowShifts",
-  });
-
   const month = form.watch("month");
-  const year = form.watch("year");
-  const role = form.watch("role");
 
-  const monthDays = useMemo(() => {
-    if (!month || !year) return [];
-    return getMonthDays({ month, year });
-  }, [month, year]);
-
-  const storageKey = useMemo(() => {
-    if (!month || !role || !year) return null;
-    return `schedule_${year}_${month}_${role}`;
-  }, [year, month, role]);
   const resetForm = () => {
     form.reset(defaultSchedule);
-    if (storageKey) localStorage.removeItem(storageKey);
   };
-  const addNewRow = () => {
-    const newRow = {
-      id: Date.now().toString(),
-      number: rowShiftsArray.fields.length + 1,
-      dayHours: "",
-      nightHours: "",
-      totalHours: "",
-      employee: "",
-      shifts: Array(monthDays.length).fill(""),
-    };
-    rowShiftsArray.append(newRow);
-  };
+
   return (
-    <div className="flex flex-col md:flex-row items-center justify-between gap-4 py-4">
+    <div className="w-full flex flex-col md:flex-row items-center justify-between gap-4 py-4">
       <div className="flex justify-between items-center gap-1">
         <SelectField
           fieldName="month"

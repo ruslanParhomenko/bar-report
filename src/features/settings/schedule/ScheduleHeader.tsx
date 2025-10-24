@@ -19,10 +19,10 @@ export default function ScheduleHeader({
         <TableCell className="w-6" />
         <TableCell className="w-6" />
         <TableCell className="w-10" />
-        <TableCell className="w-33 p-0 front-bold text-center">
+        <TableCell className="w-32 p-0 front-bold text-center">
           {month?.toUpperCase() || ""}
         </TableCell>
-        <TableCell className="w-2 p-0" />
+        <TableCell className="w-3 p-0" />
 
         {monthDays.map((day, index) => {
           return (
