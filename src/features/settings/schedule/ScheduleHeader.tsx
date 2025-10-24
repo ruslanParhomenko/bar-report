@@ -1,21 +1,35 @@
+import { Button } from "@/components/ui/button";
 import { TableCell, TableHeader, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
+import { Plus } from "lucide-react";
 
 export default function ScheduleHeader({
   monthDays,
   setSelectedColumn,
   month,
+  addNewRow,
 }: {
   monthDays: any[];
   setSelectedColumn?: (index: number) => void;
   month?: string;
+  addNewRow?: () => void;
 }) {
   const todayDay = new Date().getDate();
 
   return (
     <TableHeader>
       <TableRow>
-        <TableCell className="w-2 text-start p-0" />
+        <TableCell className="w-2 text-start p-0">
+          <Button
+            onClick={addNewRow && addNewRow}
+            variant="ghost"
+            size="sm"
+            type="button"
+            className="cursor-pointer hover:bg-bl/40"
+          >
+            <Plus className="h-3 w-3" />
+          </Button>
+        </TableCell>
         <TableCell className="w-6" />
         <TableCell className="w-6" />
         <TableCell className="w-10" />

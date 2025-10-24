@@ -182,8 +182,8 @@ export function ScheduleTable() {
       >
         <ScheduleSelectButtons addNewRow={addRow} remove={removeValue} />
 
-        <Table className="table-fixed w-full">
-          <ScheduleHeader monthDays={monthDays} />
+        <Table className="table-fixed">
+          {month && <ScheduleHeader monthDays={monthDays} addNewRow={addRow} />}
 
           <ScheduleBody
             fields={fields}
@@ -193,7 +193,7 @@ export function ScheduleTable() {
             move={move}
           />
 
-          <ScheduleFooter data={SHIFT_OPTIONS || []} />
+          {role && <ScheduleFooter data={SHIFT_OPTIONS || []} />}
         </Table>
       </form>
     </Form>
