@@ -50,11 +50,17 @@ export default function ScheduleBody({
             0
           );
 
-          form.setValue(`rowShifts.${rowIndex}.dayHours`, totalHoursDay);
-          form.setValue(`rowShifts.${rowIndex}.nightHours`, totalHoursNight);
+          form.setValue(
+            `rowShifts.${rowIndex}.dayHours`,
+            totalHoursDay.toString()
+          );
+          form.setValue(
+            `rowShifts.${rowIndex}.nightHours`,
+            totalHoursNight.toString()
+          );
           form.setValue(
             `rowShifts.${rowIndex}.totalHours`,
-            totalHoursDay + totalHoursNight
+            (totalHoursDay + totalHoursNight).toString()
           );
         }
       }
@@ -62,6 +68,24 @@ export default function ScheduleBody({
 
     return () => subscription.unsubscribe();
   }, [form]);
+  useEffect(() => {
+    const subscription = form.watch((value, { name }) => {
+      // Проверяем, что изменилось поле employee
+      if (name?.startsWith("rowShifts.") && name.endsWith(".employee")) {
+        const rowIndex = Number(name.split(".")[1]);
+        const selectedName = value?.rowShifts?.[rowIndex]?.employee;
+        const employee = selectedEmployees.find((e) => e.name === selectedName);
+
+        if (employee) {
+          form.setValue(`rowShifts.${rowIndex}.role`, employee.role);
+          form.setValue(`rowShifts.${rowIndex}.rate`, employee.rate);
+          form.setValue(`rowShifts.${rowIndex}.employeeId`, employee.id);
+        }
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, [form, selectedEmployees]);
 
   const resetRow = (rowIndex: number) => {
     const currentData = form.getValues();
@@ -130,9 +154,6 @@ export default function ScheduleBody({
           {monthDays.map((_day, dayIndex) => {
             const fieldName = `rowShifts.${rowIndex}.shifts.${dayIndex}`;
             const value = form.getValues(fieldName);
-
-            console.log(value);
-
             return (
               <TableCell key={dayIndex} className="p-0 text-center w-10">
                 <input

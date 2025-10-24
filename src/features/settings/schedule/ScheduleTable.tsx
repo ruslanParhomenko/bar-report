@@ -93,6 +93,7 @@ export function ScheduleTable() {
 
   // submit
   const onSubmit: SubmitHandler<ScheduleType> = async (data) => {
+    console.log("data submit", data);
     const formatData: ScheduleData = {
       ...data,
       uniqueKey: `${data.year}-${data.month}-${data.role}`,
@@ -167,6 +168,10 @@ export function ScheduleTable() {
 
   //update local storage
   const watchAll = useWatch({ control: form.control });
+
+  console.log("watchAll", watchAll);
+
+  console.log("selectedEmployees", selectedEmployees);
   useEffect(() => {
     if (!storageKey) return;
     if (id) return;

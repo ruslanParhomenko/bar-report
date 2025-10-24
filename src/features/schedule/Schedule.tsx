@@ -117,6 +117,8 @@ export default function Schedule() {
     tagName: patch as string,
   });
 
+  console.log("schedule", schedule);
+
   return (
     <>
       <Form {...form}>
