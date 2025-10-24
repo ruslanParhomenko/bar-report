@@ -21,7 +21,7 @@ import { useSchedules } from "@/providers/ScheduleProvider";
 import { MailIcon, PencilIcon } from "lucide-react";
 import { useAbility } from "@/providers/AbilityProvider";
 import { useLocalStorageForm } from "@/hooks/use-local-storage";
-import { SHIFT_OPTIONS } from "../settings/schedule/constants";
+import { color, SHIFT_OPTIONS } from "../settings/schedule/constants";
 import { cn } from "@/lib/utils";
 import { usePrint } from "@/hooks/useToPrint";
 import PrintButton from "@/components/buttons/PrintButton";
@@ -103,15 +103,6 @@ export default function Schedule() {
 
   const YEAR = ["2025"];
 
-  const color = {
-    "7": "text-bl",
-    "8": "text-bl",
-    "9": "text-bl",
-    "14": "text-gr",
-    "18": "text-bk",
-    "20": "text-bk",
-  } as const;
-
   const todayDay = new Date().getDate();
   const todayIndex = monthDays.findIndex((day) => day.day === todayDay);
   useEffect(() => {
@@ -146,7 +137,7 @@ export default function Schedule() {
       </Form>
       {schedule && (
         <Card>
-          <CardHeader className="w-full flex flex-row  items-start gap-4">
+          <CardHeader className="flex flex-row  items-start gap-4">
             <Button
               size={"sm"}
               type="button"
@@ -208,14 +199,11 @@ export default function Schedule() {
                             key={dayIndex}
                             className={cn(
                               "p-0 text-center border-x",
-                              ["v"].includes(day)
-                                ? "bg-bl/70 border-x-bl/70"
-                                : "",
                               color[day as keyof typeof color],
                               isSelected && "!text-rd font-bold"
                             )}
                           >
-                            {["/", "v"].includes(day) ? null : day}
+                            {["/", "v", "s"].includes(day) ? null : day}
                           </TableCell>
                         );
                       })}
