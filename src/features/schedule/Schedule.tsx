@@ -121,9 +121,10 @@ export default function Schedule() {
   }, [todayIndex]);
 
   const { componentRef, handlePrint } = usePrint({ title: "schedule" });
-  const { sendScreenshot, isSending } = useTelegramScreenshot(
-    componentRef as any
-  );
+  const { sendScreenshot, isSending } = useTelegramScreenshot({
+    ref: componentRef as any,
+    tagName: patch as string,
+  });
 
   return (
     <>

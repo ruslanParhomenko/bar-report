@@ -4,9 +4,13 @@ import { useState } from "react";
 import html2canvas from "html2canvas-pro";
 import { toast } from "sonner";
 
-export function useTelegramScreenshot<T extends HTMLElement>(
-  ref: React.RefObject<T>
-) {
+export function useTelegramScreenshot<T extends HTMLElement>({
+  ref,
+  tagName,
+}: {
+  ref: React.RefObject<T>;
+  tagName: string;
+}) {
   const [isSending, setIsSending] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -32,7 +36,7 @@ export function useTelegramScreenshot<T extends HTMLElement>(
       formData.append("file", blob, "screenshot.png");
       formData.append("caption", caption);
 
-      const res = await fetch("/api/telegram", {
+      const res = await fetch(`/api/telegram/${tagName}`, {
         method: "POST",
         body: formData,
       });
