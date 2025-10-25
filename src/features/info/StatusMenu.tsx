@@ -11,7 +11,7 @@ export default function StatusMenu() {
 
   return (
     <>
-      <PrintButton onPrint={handlePrint} />
+      <PrintButton onPrint={handlePrint} className="mb-2" />
       <div
         ref={componentRef}
         className="flex flex-col md:flex-row md:flex-wrap gap-4 w-full  print:h-[200mm]"

@@ -1,6 +1,6 @@
 "use client";
 
-import { UsersSchemaTypeData } from "@/features/settings/schema";
+import { UsersSchemaTypeData } from "@/features/settings/users/schema";
 import { useSession } from "next-auth/react";
 import React, {
   createContext,

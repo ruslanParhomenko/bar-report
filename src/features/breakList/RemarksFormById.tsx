@@ -12,7 +12,7 @@ import {
 import { fetcher } from "@/lib/fetcher";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
-import { OVER_HOURS, REASON } from "./constant";
+import { OVER_HOURS } from "./constant";
 import NumericInput from "@/components/inputs/NumericInput";
 import { AddRemoveFieldsButton } from "@/components/buttons/AddRemoveFieldsButton";
 import { Form } from "@/components/ui/form";
@@ -136,10 +136,7 @@ export default function RemarksFormByIdClient() {
                   <NumericInput fieldName={`remarks.${idx}.bonus`} />
                 </TableCell>
                 <TableCell>
-                  <TextInput
-                    fieldName={`remarks.${idx}.reason`}
-                    // data={REASON}
-                  />
+                  <TextInput fieldName={`remarks.${idx}.reason`} />
                 </TableCell>
                 <TableCell>
                   <AddRemoveFieldsButton

@@ -1,5 +1,5 @@
 "use client";
-import { use, useEffect, useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { Table } from "@/components/ui/table";
 import {
   SubmitHandler,
@@ -105,20 +105,20 @@ export function ScheduleTable() {
 
     if (id) {
       await updateSchedule(id as string, formatData);
-      toast.success("✏️ График успешно обновлён!");
+      toast.success("График успешно обновлён!");
       router.back();
       return;
     }
 
     if (!id && !existing) {
       await createSchedule(formatData);
-      toast.success("✅ График успешно создан!");
+      toast.success("График успешно создан!");
       form.reset(defaultSchedule);
       return;
     }
 
     toast.error(
-      "⚠️ График с такими параметрами уже существует или некорректные данные!"
+      "График с такими параметрами уже существует или некорректные данные!"
     );
   };
   // add new row
@@ -168,10 +168,6 @@ export function ScheduleTable() {
 
   //update local storage
   const watchAll = useWatch({ control: form.control });
-
-  console.log("watchAll", watchAll);
-
-  console.log("selectedEmployees", selectedEmployees);
   useEffect(() => {
     if (!storageKey) return;
     if (id) return;
@@ -185,7 +181,7 @@ export function ScheduleTable() {
         onKeyDown={(e) => e.key === "Enter" && e.preventDefault()}
         className="flex flex-col"
       >
-        <ScheduleSelectButtons addNewRow={addRow} remove={removeValue} />
+        <ScheduleSelectButtons remove={removeValue} />
 
         <Table className="table-fixed">
           {month && <ScheduleHeader monthDays={monthDays} addNewRow={addRow} />}

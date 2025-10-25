@@ -18,7 +18,7 @@ import { useAbility } from "@/providers/AbilityProvider";
 import { FetchDataButton } from "@/components/buttons/FetchDataButton";
 
 export default function StopListForm() {
-  const { isBar, isCucina, isUser, isAdmin, isObserver } = useAbility();
+  const { isBar, isCucina, isObserver } = useAbility();
   const isDisabled = isObserver || isCucina;
   const LOCAL_STORAGE_KEY = STOP_LIST_REALTIME;
   const { getValue, setValue: setLocalStorage } =

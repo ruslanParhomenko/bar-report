@@ -1,5 +1,6 @@
 "use server";
-import { UsersSchemaTypeData } from "@/features/settings/schema";
+
+import { UsersSchemaTypeData } from "@/features/settings/users/schema";
 import { db } from "@/lib/firebase";
 import {
   addDoc,

@@ -1,17 +1,4 @@
 import * as yup from "yup";
-//users
-export const usersSchema = yup.object({
-  mail: yup.string().email().required("required"),
-  role: yup.string().required("required"),
-});
-
-export type UsersSchemaTypeData = yup.InferType<typeof usersSchema> & {
-  id?: string;
-};
-export const defaultUser = {
-  mail: "",
-  role: "",
-};
 
 //employees
 export const vacationPaySchema = yup.object({
@@ -47,3 +34,13 @@ export const defaultEmployee = {
     },
   ],
 };
+
+// const
+export const EMPLOYEES_ROLE = [
+  "barmen",
+  "waiters",
+  "cook",
+  "mngr",
+  "dish",
+  "buyer",
+];

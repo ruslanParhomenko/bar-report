@@ -12,9 +12,10 @@ import {
 import { Button } from "@/components/ui/button";
 import { Minus, Pencil } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { UsersSchemaTypeData } from "@/features/settings/schema";
+
 import { useFormContext } from "react-hook-form";
 import { deleteUser } from "@/app/actions/users/userAction";
+import { UsersSchemaTypeData } from "./schema";
 
 export function UsersTable({ data }: { data: UsersSchemaTypeData[] }) {
   const t = useTranslations("Home");

@@ -3,11 +3,12 @@ import TextInput from "@/components/inputs/TextInput";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import { ROLES } from "../constants";
 import { useTranslations } from "next-intl";
 import { useFormContext } from "react-hook-form";
 import { Plus } from "lucide-react";
-import { defaultUser } from "../schema";
+import { defaultUser } from "./schema";
+
+const ROLES = ["ADMIN", "BAR", "CUCINA", "USER", "MNGR"];
 
 export default function CardFormUsers({ disabled }: { disabled?: boolean }) {
   const t = useTranslations("Home");

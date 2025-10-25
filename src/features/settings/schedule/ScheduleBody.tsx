@@ -15,6 +15,7 @@ import { color, SHIFT_HOURS_MAP_DAY, SHIFT_HOURS_MAP_NIGHT } from "./constants";
 import { handleTableNavigation } from "@/utils/handleTableNavigation";
 import { ScheduleType } from "./schema";
 import { EmployeesContextValue } from "@/providers/EmployeesProvider";
+import { MonthDayType } from "@/utils/getMonthDays";
 
 export default function ScheduleBody({
   fields,
@@ -24,7 +25,7 @@ export default function ScheduleBody({
   move,
 }: {
   fields: FieldArrayWithId<ScheduleType, "rowShifts", "id">[];
-  monthDays: { day: number; weekday: string }[];
+  monthDays: MonthDayType[];
   selectedEmployees: EmployeesContextValue[];
   remove: UseFieldArrayReturn<ScheduleType, "rowShifts", "id">["remove"];
   move: UseFieldArrayReturn<ScheduleType, "rowShifts", "id">["move"];

@@ -3,6 +3,8 @@ import { StandardKitchenTable } from "./StandardKitchenTable";
 import MeniuRatingTable from "./MeniuRatingTable";
 import StatusMenu from "./StatusMenu";
 import AccordionWrapper from "@/components/wrapper/AccordionWrapper";
+import StaffMenu from "./StaffMenu";
+import { menu } from "./constants";
 
 export default function InfoTable() {
   return (
@@ -21,6 +23,9 @@ export default function InfoTable() {
 
       <AccordionWrapper nameTag="StatusMenu">
         <StatusMenu />
+      </AccordionWrapper>
+      <AccordionWrapper nameTag="staffMenu">
+        <StaffMenu data={menu} />
       </AccordionWrapper>
     </>
   );

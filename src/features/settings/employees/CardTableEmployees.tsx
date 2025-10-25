@@ -25,24 +25,25 @@ import { useTranslations } from "next-intl";
 import { useFormContext } from "react-hook-form";
 import { cn } from "@/lib/utils";
 import { useSearchParams, useRouter } from "next/navigation";
-import { EmployeesSchemaTypeData } from "@/features/settings/schema";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useAbility } from "@/providers/AbilityProvider";
 import { deleteEmployee } from "@/app/actions/employees/employeeAction";
-import { EMPLOYEES_ROLE } from "../constants";
 import { EmployeesContextValue } from "@/providers/EmployeesProvider";
+import { EMPLOYEES_ROLE, EmployeesSchemaTypeData } from "./schema";
 
 export function EmployeesTable({ data }: { data: EmployeesContextValue[] }) {
-  const { isAdmin, isMngr } = useAbility();
-  const isDisabled = !isAdmin && !isMngr;
   const t = useTranslations("Home");
-  const isMobile = useIsMobile();
-  const form = useFormContext<EmployeesSchemaTypeData>();
-  const [sortByName, setSortByName] = useState(false);
-
   const router = useRouter();
   const searchParams = useSearchParams();
   const roleFilter = searchParams.get("role") || "all";
+
+  const { isAdmin, isMngr } = useAbility();
+  const isDisabled = !isAdmin && !isMngr;
+
+  const isMobile = useIsMobile();
+
+  const form = useFormContext<EmployeesSchemaTypeData>();
+  const [sortByName, setSortByName] = useState(false);
 
   const handleDeleteUser = (id: string) => deleteEmployee(id);
 

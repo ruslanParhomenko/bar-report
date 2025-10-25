@@ -1,5 +1,5 @@
 "use server";
-import { EmployeesSchemaTypeData } from "@/features/settings/schema";
+import { EmployeesSchemaTypeData } from "@/features/settings/employees/schema";
 import { db } from "@/lib/firebase";
 import {
   addDoc,
@@ -18,7 +18,7 @@ export async function createEmployee(data: UserData) {
     role: data.role,
     rate: data.rate,
     employmentDate: data.employmentDate,
-    vacationPay: (data.vacationPay || []).map((pay: any) => ({
+    vacationPay: (data.vacationPay || []).map((pay) => ({
       startDate: pay.startDate,
       endDate: pay.endDate,
       countDays: pay.countDays,

@@ -1,5 +1,7 @@
 import * as yup from "yup";
+
 const shiftsSchema = yup.string().default("");
+
 const rowShiftSchema = yup.object({
   id: yup.string().default("").required("Id is required"),
   dayHours: yup.string().default(""),
@@ -11,6 +13,10 @@ const rowShiftSchema = yup.object({
   employeeId: yup.string().default("").required("EmployeeId is required"),
   shifts: yup.array().of(shiftsSchema).default([]),
 });
+
+export type RowShiftType = yup.InferType<typeof rowShiftSchema>;
+export const defaultRowShift: RowShiftType = rowShiftSchema.getDefault();
+
 export const scheduleSchema = yup.object({
   id: yup.string().default(undefined),
   year: yup

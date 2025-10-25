@@ -4,12 +4,11 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { useTranslations } from "next-intl";
 import { useFieldArray, useFormContext, useWatch } from "react-hook-form";
-import { EMPLOYEES_ROLE } from "../constants";
 import DatePickerInput from "@/components/inputs/DatePickerInput";
 import { Button } from "@/components/ui/button";
 import { Plus, Trash } from "lucide-react";
-import { defaultEmployee, defaultVacationPay } from "../schema";
 import { DatePickerRange } from "@/components/inputs/DatePickerRange";
+import { defaultEmployee, defaultVacationPay, EMPLOYEES_ROLE } from "./schema";
 
 export default function CardFormEmployees({
   nameTag,

@@ -274,8 +274,8 @@ export const color = {
   "18": "text-black",
   "19": "text-black",
   "20": "text-black",
-  v: "text-bl bg-bl",
-  s: "bg-[#facc15] text-[#facc15]",
+  v: "text-bl bg-bl border-bl",
+  s: "bg-[#facc15] text-[#facc15] border-[#facc15]",
 
-  "/": "text-rd bg-rd",
+  "/": "text-rd bg-rd border-rd",
 } as const;

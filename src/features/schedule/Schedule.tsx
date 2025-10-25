@@ -27,7 +27,7 @@ import { usePrint } from "@/hooks/useToPrint";
 import PrintButton from "@/components/buttons/PrintButton";
 import { useTelegramScreenshot } from "@/hooks/useTelegramScreenshot";
 
-const ROLE = {
+const ROLE_URL = {
   bar: "restaurant",
   cucina: "cucina",
   dish: "dish",
@@ -45,32 +45,37 @@ export default function Schedule() {
   const isDisabled = !isAdmin && !isMngr;
 
   const schedules = useSchedules();
-  const pathname = usePathname();
 
   const router = useRouter();
+  const pathname = usePathname();
   const patch = pathname.split("/")[2];
 
+  // set local storage
   const { setValue, getValue } = useLocalStorageForm<any>(KEY_PREFIX);
   const selected = getValue();
 
+  // form
+  const currentYear = new Date().getFullYear().toString();
   const form = useForm({
-    defaultValues: selected || { month: "", year: "2025" },
+    defaultValues: selected || { month: "", year: currentYear },
   });
 
+  // state schedule
   const [schedule, setSchedule] = useState<ScheduleData | null>(null);
   const [selectedColumn, setSelectedColumn] = useState<number | null>(null);
 
   const month = useWatch({ control: form.control, name: "month" });
   const year = useWatch({ control: form.control, name: "year" });
 
+  // unique key
   const uniqueKey = useMemo(() => {
-    const role = ROLE[patch as keyof typeof ROLE];
+    const role = ROLE_URL[patch as keyof typeof ROLE_URL];
     return `${year}-${month}-${role}`;
   }, [month, year, patch]);
 
   useEffect(() => {
-    const found = schedules.find((s: any) => s.uniqueKey === uniqueKey);
-    setSchedule(found || (null as any));
+    const found = schedules.find((s) => s.uniqueKey === uniqueKey);
+    setSchedule(found || null);
   }, [uniqueKey]);
 
   const monthDays = useMemo(() => {
@@ -86,7 +91,7 @@ export default function Schedule() {
       SHIFT_OPTIONS.map((s) => [s, Array(daysCount).fill(0)])
     );
 
-    schedule.rowShifts.forEach((row: any) => {
+    schedule.rowShifts.forEach((row) => {
       row.shifts.forEach((shiftValue: string, dayIndex: number) => {
         if (SHIFT_OPTIONS.includes(shiftValue)) {
           result[shiftValue][dayIndex] += 1;
@@ -101,7 +106,7 @@ export default function Schedule() {
     setValue({ month, year });
   }, [month, setValue, year]);
 
-  const YEAR = ["2025"];
+  const YEAR = ["2025", "2026", "2027", "2028", "2029", "2030"];
 
   const todayDay = new Date().getDate();
   const todayIndex = monthDays.findIndex((day) => day.day === todayDay);
@@ -113,11 +118,9 @@ export default function Schedule() {
 
   const { componentRef, handlePrint } = usePrint({ title: "schedule" });
   const { sendScreenshot, isSending } = useTelegramScreenshot({
-    ref: componentRef as any,
+    ref: componentRef as React.RefObject<HTMLElement>,
     tagName: patch as string,
   });
-
-  console.log("schedule", schedule);
 
   return (
     <>
@@ -171,7 +174,7 @@ export default function Schedule() {
               <TableBody className="[&_input]:h-8 [&_input]:text-xs [&_input]:p-0 [&_input]:text-center [&_input]:w-6 [&_input]:border-0">
                 {schedule.rowShifts?.map((row, rowIndex) => {
                   const isSelected = !["v", "s", ""].includes(
-                    row.shifts?.[selectedColumn as any]
+                    row.shifts?.[selectedColumn as number]
                   );
                   return (
                     <TableRow key={row.id} className="hover:text-rd">

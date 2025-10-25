@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import {
   Table,
   TableBody,
@@ -19,18 +19,20 @@ import {
 import { useAbility } from "@/providers/AbilityProvider";
 
 import { differenceInMonths, format } from "date-fns";
-import { useSidebar } from "@/components/ui/sidebar";
 import { useEmployees } from "@/providers/EmployeesProvider";
 import { Switch } from "@/components/ui/switch";
-import { EMPLOYEES_ROLE } from "../settings/constants";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { useRouter } from "@/i18n/navigation";
 import { useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
-import { VacationPaySchemaType } from "../settings/schema";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
+import {
+  EMPLOYEES_ROLE,
+  VacationPaySchemaType,
+} from "../settings/employees/schema";
+import React from "react";
 
 export function EmployeesListTable() {
   const { isAdmin, isMngr } = useAbility();

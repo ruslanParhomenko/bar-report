@@ -1,10 +1,9 @@
 import SelectField from "@/components/inputs/SelectField";
 import { Button } from "@/components/ui/button";
-import { Plus, RotateCcw } from "lucide-react";
+import { RotateCcw } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { useFieldArray, useFormContext } from "react-hook-form";
-import { getMonthDays, MONTHS } from "@/utils/getMonthDays";
-import { useMemo } from "react";
+import { useFormContext } from "react-hook-form";
+import { MONTHS } from "@/utils/getMonthDays";
 import { defaultSchedule } from "./schema";
 import { useAbility } from "@/providers/AbilityProvider";
 import { ROLE_EMPLOYEES } from "./constants";
@@ -13,10 +12,8 @@ import { useParams } from "next/navigation";
 import { useRouter } from "@/i18n/navigation";
 
 export default function ScheduleSelectButtons({
-  addNewRow,
   remove,
 }: {
-  addNewRow: () => void;
   remove: () => void;
 }) {
   const { id } = useParams();

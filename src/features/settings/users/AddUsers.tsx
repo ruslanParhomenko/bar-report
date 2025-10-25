@@ -4,8 +4,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { useAbility } from "@/providers/AbilityProvider";
-import { useTranslations } from "next-intl";
-import { defaultUser, usersSchema, UsersSchemaTypeData } from "../schema";
+import { defaultUser, usersSchema, UsersSchemaTypeData } from "./schema";
 import CardFormUsers from "./CardFormUsers";
 import { UsersTable } from "./CardTableUsers";
 import { createUser, updateUser } from "@/app/actions/users/userAction";
@@ -14,25 +13,13 @@ import { invalidateUsers } from "@/app/actions/users/getUsers";
 type FormData = UsersSchemaTypeData;
 
 export default function AddUsers() {
-  const t = useTranslations("Home");
   const { isAdmin } = useAbility();
+
   const form = useForm<FormData>({
     resolver: yupResolver(usersSchema),
     defaultValues: defaultUser,
   });
   const { reset: resetForm } = form;
-
-  // const {
-  //   createMutation: addUser,
-  //   deleteMutation: deleteUser,
-  //   updateMutation: updateUser,
-  //   query: queryUsers,
-  // } = useApi<FormData>({
-  //   endpoint: USERS_FIREBOX_ENDPOINT,
-  //   queryKey: USERS_FIREBOX_ENDPOINT,
-  //   fetchInit: false,
-  // });
-  // const { data: users } = queryUsers;
 
   const { query: users } = useAbility();
 
@@ -43,7 +30,7 @@ export default function AddUsers() {
           mail: data.mail,
           role: data.role,
         });
- invalidateUsers();
+        invalidateUsers();
 
         toast.success("User is updated !");
       } else {

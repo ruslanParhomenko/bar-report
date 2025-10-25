@@ -1,11 +1,6 @@
 "use client";
 import { useAbility } from "@/providers/AbilityProvider";
 import { SubmitHandler, useForm } from "react-hook-form";
-import {
-  defaultEmployee,
-  employeesSchema,
-  EmployeesSchemaTypeData,
-} from "../schema";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { toast } from "sonner";
 import { Form } from "@/components/ui/form";
@@ -18,6 +13,11 @@ import {
 } from "@/app/actions/employees/employeeAction";
 import { useSession } from "next-auth/react";
 import { sendNotificationEmail } from "@/app/actions/mail/sendNotificationEmail";
+import {
+  defaultEmployee,
+  employeesSchema,
+  EmployeesSchemaTypeData,
+} from "./schema";
 
 type FormData = EmployeesSchemaTypeData & { id?: string };
 

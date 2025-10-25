@@ -13,6 +13,11 @@ export const MONTHS = [
   "december",
 ];
 
+export type MonthDayType = {
+  day: number;
+  weekday: string;
+};
+
 export const getMonthDays = ({
   month,
   year,

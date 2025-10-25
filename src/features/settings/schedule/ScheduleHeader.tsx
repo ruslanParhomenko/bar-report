@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { TableCell, TableHeader, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
+import { MonthDayType } from "@/utils/getMonthDays";
 import { Plus } from "lucide-react";
 
 export default function ScheduleHeader({
@@ -9,7 +10,7 @@ export default function ScheduleHeader({
   month,
   addNewRow,
 }: {
-  monthDays: any[];
+  monthDays: MonthDayType[];
   setSelectedColumn?: (index: number) => void;
   month?: string;
   addNewRow?: () => void;
