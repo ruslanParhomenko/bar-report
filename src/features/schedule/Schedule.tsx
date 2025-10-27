@@ -117,6 +117,8 @@ export default function Schedule() {
     tagName: patch as string,
   });
 
+  console.log("schedule", schedule);
+
   return (
     <>
       <Form {...form}>
@@ -171,6 +173,12 @@ export default function Schedule() {
                   const isSelected = !["v", "s", ""].includes(
                     row.shifts?.[selectedColumn as number]
                   );
+                  const dayHourPay = (Number(row.rate) / 180) * 0.9; // минус 10%
+                  const nightHourPay = (Number(row.rate) / 180) * 1.15; // плюс 15%
+                  const totalPay =
+                    dayHourPay * Number(row.dayHours) +
+                    nightHourPay * Number(row.nightHours);
+
                   return (
                     <TableRow key={row.id} className="hover:text-rd">
                       <TableCell>{rowIndex + 1}</TableCell>
@@ -189,7 +197,9 @@ export default function Schedule() {
                       >
                         {row.employee}
                       </TableCell>
-                      <TableCell className="w-2 p-0"></TableCell>
+                      <TableCell className="w-2 p-0 text-start text-muted-foreground font-bold">
+                        {isAdmin && totalPay.toFixed(0).toString()}
+                      </TableCell>
 
                       {row.shifts?.map((day, dayIndex) => {
                         const isSelected = dayIndex === selectedColumn;
