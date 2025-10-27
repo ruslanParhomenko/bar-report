@@ -87,11 +87,13 @@ export function EmployeesTable({ data }: { data: EmployeesContextValue[] }) {
         </Select>
       </div>
       <CardHeader className="flex-shrink-0 p-0">
-        <Table className="table-fixed">
+        <Table className="md:table-fixed">
           <TableHeader>
             <TableRow className="text-gr">
               <TableHead className="w-10">#</TableHead>
-              <TableHead>{t("employmentDate")}</TableHead>
+              <TableHead className="hidden md:table-cell">
+                {t("employmentDate")}
+              </TableHead>
               <TableHead className="flex items-center gap-6 sticky left-0">
                 {t("name")}
                 <Switch
@@ -101,8 +103,12 @@ export function EmployeesTable({ data }: { data: EmployeesContextValue[] }) {
                 />
               </TableHead>
               <TableHead>{t("role")}</TableHead>
-              <TableHead>{t("vacationDays")}</TableHead>
-              <TableHead>{t("usedVacationDays")}</TableHead>
+              <TableHead className="hidden md:table-cell">
+                {t("vacationDays")}
+              </TableHead>
+              <TableHead className="hidden md:table-cell">
+                {t("usedVacationDays")}
+              </TableHead>
               <TableHead>{t("rate")}</TableHead>
               <TableHead className="text-center">Action</TableHead>
             </TableRow>
@@ -110,7 +116,7 @@ export function EmployeesTable({ data }: { data: EmployeesContextValue[] }) {
         </Table>
       </CardHeader>
       <CardContent className="overflow-y-auto no-scrollbar flex-1 p-0">
-        <Table className="table-fixed">
+        <Table className="md:table-fixed">
           <TableBody>
             {sortedData?.map((emp, idx) => {
               const monthsWorked = emp?.employmentDate

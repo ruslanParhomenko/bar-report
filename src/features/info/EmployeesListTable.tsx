@@ -97,12 +97,12 @@ export function EmployeesListTable() {
       </div>
 
       <CardHeader className="flex-shrink-0 p-0">
-        <Table className="table-fixed">
+        <Table className="md:table-fixed">
           <TableHeader>
             <TableRow className="text-gr">
               <TableHead>#</TableHead>
-              <TableHead>{t("employmentDate")}</TableHead>
-              <TableHead className="flex items-center gap-10 sticky left-0 bg-card z-10">
+              <TableHead>{t("date")}</TableHead>
+              <TableHead className="flex items-center md:gap-10 sticky left-0 bg-card z-10">
                 {t("name")}
                 <Switch
                   checked={sortByName}
@@ -111,9 +111,15 @@ export function EmployeesListTable() {
                 />
               </TableHead>
               <TableHead>{t("role")}</TableHead>
-              <TableHead>{t("vacationDays")}</TableHead>
-              <TableHead>{t("usedVacationDays")}</TableHead>
-              <TableHead>{t("remainingVacationDays")}</TableHead>
+              <TableHead className="hidden md:table-cell">
+                {t("vacationDays")}
+              </TableHead>
+              <TableHead className="hidden md:table-cell">
+                {t("usedVacationDays")}
+              </TableHead>
+              <TableHead className="hidden md:table-cell">
+                {t("remainingVacationDays")}
+              </TableHead>
               <TableHead>{t("rate")}</TableHead>
               <TableHead>Action</TableHead>
             </TableRow>
@@ -122,7 +128,7 @@ export function EmployeesListTable() {
       </CardHeader>
 
       <CardContent className="overflow-y-auto no-scrollbar flex-1 p-0">
-        <Table className="table-fixed">
+        <Table className="table-auto md:table-fixed">
           <TableBody>
             {sortedData?.map((emp, idx) => {
               const monthsWorked = emp?.employmentDate

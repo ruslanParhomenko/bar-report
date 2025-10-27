@@ -34,7 +34,9 @@ export default function AccordionWrapper({
             {t(nameTag as string)}
           </AccordionTrigger>
           <AccordionContent>
-            <div className={cn("w-full p-2", className)}>{children}</div>
+            <div className={cn("w-full md:p-2 py-2", className)}>
+              {children}
+            </div>
           </AccordionContent>
         </AccordionItem>
       </div>

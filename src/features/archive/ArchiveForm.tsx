@@ -35,8 +35,15 @@ export type ApiDataMap = {
   [DataObjectApi.Remarks]: RemarkData[];
 };
 
-export const ArchivePage = () => {
-  const { data, invalidate: onInvalidate } = useArchive();
+export const ArchivePage = ({
+  data,
+  onInvalidate,
+}: {
+  data: ApiDataMap;
+  onInvalidate?: () => void;
+}) => {
+  // const { data, invalidate: onInvalidate } = useArchive();
+  console.log(data);
   if (!data) {
     return (
       <div className="space-y-3">

@@ -22,11 +22,11 @@ export function StandardKitchenTable() {
         <Table className="table-fixed w-full">
           <TableHeader>
             <TableRow>
-              <TableHead>{t("semifabricat")}</TableHead>
+              <TableHead className="truncate">{t("semifabricat")}</TableHead>
               <TableHead className="text-center truncate">
                 {t("fridge")} +2…+3°C
               </TableHead>
-              <TableHead className="text-center">
+              <TableHead className="text-center truncate">
                 {t("freezer")} -18°C
               </TableHead>
             </TableRow>

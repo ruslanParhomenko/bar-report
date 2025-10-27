@@ -115,46 +115,52 @@ export default function MeniuRatingTable() {
   });
 
   return (
-    <Card className="h-[80vh] flex flex-col">
-      <FetchDataButton fetchData={fetchSupaBaseData} isDisabled={isObserver} />
-      <CardHeader>
-        <Table className="table-fixed">
-          <TableHeader>
-            <TableRow>
-              <TableHead></TableHead>
-              <TableHead className="text-center">avg</TableHead>
-              <TableHead className="text-center">votes</TableHead>
-            </TableRow>
-          </TableHeader>
-        </Table>
-      </CardHeader>
+    <>
+      <FetchDataButton
+        fetchData={fetchSupaBaseData}
+        isDisabled={isObserver}
+        className="mb-2"
+      />
+      <Card className="h-[80vh] flex flex-col">
+        <CardHeader>
+          <Table className="table-fixed">
+            <TableHeader>
+              <TableRow>
+                <TableHead></TableHead>
+                <TableHead className="text-center">avg</TableHead>
+                <TableHead className="text-center">votes</TableHead>
+              </TableRow>
+            </TableHeader>
+          </Table>
+        </CardHeader>
 
-      <CardContent className="overflow-y-auto no-scrollbar">
-        <Table className="table-fixed w-full">
-          <TableBody>
-            {items
-              ?.filter((item) => item.item)
-              .map((row, idx) => {
-                const { avg, count } = getRatingStats(row.ratings);
-                return (
-                  <TableRow
-                    key={idx}
-                    onClick={() => {
-                      setSelected(selected === row.item ? null : row.item);
-                    }}
-                    className={cn("cursor-pointer", {
-                      "text-rd font-bold": selected === row.item,
-                    })}
-                  >
-                    <TableCell>{row.item}</TableCell>
-                    <TableCell className="text-center">{avg}</TableCell>
-                    <TableCell className="text-center">{count}</TableCell>
-                  </TableRow>
-                );
-              })}
-          </TableBody>
-        </Table>
-      </CardContent>
-    </Card>
+        <CardContent className="overflow-y-auto no-scrollbar">
+          <Table className="table-fixed w-full">
+            <TableBody>
+              {items
+                ?.filter((item) => item.item)
+                .map((row, idx) => {
+                  const { avg, count } = getRatingStats(row.ratings);
+                  return (
+                    <TableRow
+                      key={idx}
+                      onClick={() => {
+                        setSelected(selected === row.item ? null : row.item);
+                      }}
+                      className={cn("cursor-pointer", {
+                        "text-rd font-bold": selected === row.item,
+                      })}
+                    >
+                      <TableCell>{row.item}</TableCell>
+                      <TableCell className="text-center">{avg}</TableCell>
+                      <TableCell className="text-center">{count}</TableCell>
+                    </TableRow>
+                  );
+                })}
+            </TableBody>
+          </Table>
+        </CardContent>
+      </Card>
+    </>
   );
 }

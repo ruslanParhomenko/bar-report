@@ -31,6 +31,7 @@ import { Textarea } from "@/components/ui/textarea";
 import TabelInventory from "./TabelInventory";
 
 import dynamic from "next/dynamic";
+import { createReportBar } from "@/app/actions/archive/reportBarAction";
 
 function ReportBar() {
   const STORAGE_KEY = "report-bar";
@@ -102,7 +103,9 @@ function ReportBar() {
     });
     toast.success("Форма успешно сброшена !");
   };
-  const handleSubmit: SubmitHandler<ReportBarFormValues> = (data) => {
+
+  //submit
+  const handleSubmit: SubmitHandler<ReportBarFormValues> = async (data) => {
     const formateData = {
       ...data,
       date: new Date(data.date),
@@ -124,7 +127,11 @@ function ReportBar() {
       notes: data.notes,
     };
 
-    createMutation.mutate(formateData);
+    // createMutation.mutate(formateData);
+
+    await createReportBar({
+      data: formateData,
+    });
 
     const updatedTobacco = data?.tobacco?.map((item) => {
       const finalStock =

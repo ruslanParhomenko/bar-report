@@ -291,8 +291,8 @@ export const color = {
   "18": "text-black",
   "19": "text-black",
   "20": "text-black",
-  v: "text-bl bg-bl/60 border-bl/40",
-  s: "bg-[#facc15]/60 text-[#facc15] border-[#facc15]/40",
+  v: "text-bl/40 bg-bl/60 border-0",
+  s: "bg-[#facc15]/50 text-bl/40 border-0",
 
-  "/": "text-rd bg-rd/60 border-rd/40",
+  "/": "text-rd/40 bg-rd/60 border-0",
 } as const;

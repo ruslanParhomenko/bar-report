@@ -7,58 +7,40 @@ import { toast } from "sonner";
 import TableTobacco from "./TableTobacco";
 import TableExpenses from "./TableExpenses";
 import TableCashVerify from "./TableCashVerify";
-import { useApi } from "@/hooks/useApi";
 import TableProductsTransfer from "./TableProductsTransfer";
 import { Textarea } from "@/components/ui/textarea";
 import TabelInventory from "./TabelInventory";
 
 import { useRouter } from "@/i18n/navigation";
 import { useParams } from "next/navigation";
-import { useQuery } from "@tanstack/react-query";
-import { fetcher } from "@/lib/fetcher";
 import { ReportBarData } from "@/constants/type";
 import { Button } from "@/components/ui/button";
+import { updateReportBar } from "@/app/actions/archive/reportBarAction";
 
-export default function ReportBarFormById() {
+export default function ReportBarFormById({ data }: { data: ReportBarData }) {
   const router = useRouter();
   const params = useParams();
   const id = params.id as string;
 
-  // data by id
-  const { data: reportData } = useQuery({
-    queryKey: ["report", id],
-    queryFn: () => fetcher(`/api/report/${id}`),
-    enabled: !!id,
-  });
-
-  // update
-  const { updateMutation } = useApi<ReportBarData>({
-    endpoint: "report",
-    queryKey: "report",
-    fetchInit: false,
-  });
-
   //form
   const form = useForm<ReportBarData>({
     defaultValues: {
-      ...reportData,
+      ...data,
     },
   });
 
-  const handleSubmit: SubmitHandler<ReportBarData> = (data) => {
-    const { id: _formId, ...dataWithOutId } = data;
-
+  const handleSubmit: SubmitHandler<ReportBarData> = async (data) => {
     if (!id) return;
-    updateMutation.mutate({ id, ...dataWithOutId });
+    await updateReportBar({ data });
     toast.success("Report updated successfully");
     router.back();
   };
 
   useEffect(() => {
-    if (id && reportData) {
-      form.reset(reportData);
+    if (id && data) {
+      form.reset(data);
     }
-  }, [id, reportData]);
+  }, [id, data]);
 
   return (
     <Form {...form}>

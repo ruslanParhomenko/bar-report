@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
-import { DeleteListButton } from "../../buttons/DeleteListButton";
+import { DeleteListButton } from "../../../features/archive/DeleteListButton";
 import { REPORT_BAR_ENDPOINT } from "@/constants/endpoint-tag";
 import { ReportBarData } from "@/constants/type";
 import TobaccoTable from "./TobaccoTable";

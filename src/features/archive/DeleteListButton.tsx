@@ -1,5 +1,12 @@
 "use client";
+import { deleteReportBar } from "@/app/actions/archive/reportBarAction";
 import { Button } from "@/components/ui/button";
+import {
+  BREAK_LIST_ENDPOINT,
+  REMARKS_ENDPOINT,
+  REPORT_BAR_ENDPOINT,
+  REPORT_CUCINA_ENDPOINT,
+} from "@/constants/endpoint-tag";
 import { useApi } from "@/hooks/useApi";
 import { useAbility } from "@/providers/AbilityProvider";
 import { formatDataForInput } from "@/utils/formatNow";
@@ -18,6 +25,13 @@ type DeleteListButtonProps<T extends BaseData> = {
   invalidate?: () => void;
 };
 
+const actionByNameTag = {
+  // [BREAK_LIST_ENDPOINT]: "breakList",
+  [REPORT_BAR_ENDPOINT]: deleteReportBar,
+  // [REPORT_CUCINA_ENDPOINT]: "dailyReportCucina",
+  // [REMARKS_ENDPOINT]: "remarks",
+};
+
 export const DeleteListButton = <T extends BaseData>({
   data,
   nameTag,
@@ -33,11 +47,11 @@ export const DeleteListButton = <T extends BaseData>({
     fetchInit: false,
   });
 
-  const removeItem = () => {
-    deleteMutation.mutate(Number(data.id));
-    if (invalidate) {
-      invalidate();
-    }
+  const removeItem = async () => {
+    if (!nameTag) return;
+
+    const action = actionByNameTag[nameTag as keyof typeof actionByNameTag];
+    await action(data.id.toString());
   };
   const editForm = () => {
     router.push(`/${nameTag}/${data.id}`);

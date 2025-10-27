@@ -1,7 +1,7 @@
 import { Row } from "@/generated/prisma";
 import { Table, TableBody, TableCell, TableRow } from "../ui/table";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
-import { DeleteListButton } from "../buttons/DeleteListButton";
+import { DeleteListButton } from "../../features/archive/DeleteListButton";
 import { BREAK_LIST_ENDPOINT } from "@/constants/endpoint-tag";
 import { BreakListData } from "@/constants/type";
 

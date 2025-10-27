@@ -1,5 +1,5 @@
 import { REPORT_CUCINA_ENDPOINT } from "@/constants/endpoint-tag";
-import { DeleteListButton } from "@/components/buttons/DeleteListButton";
+import { DeleteListButton } from "@/features/archive/DeleteListButton";
 import {
   Card,
   CardContent,

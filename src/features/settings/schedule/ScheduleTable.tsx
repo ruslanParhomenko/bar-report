@@ -183,7 +183,7 @@ export function ScheduleTable() {
       >
         <ScheduleSelectButtons remove={removeValue} />
 
-        <Table className="table-fixed">
+        <Table className="md:table-fixed">
           {month && <ScheduleHeader monthDays={monthDays} addNewRow={addRow} />}
 
           <ScheduleBody
