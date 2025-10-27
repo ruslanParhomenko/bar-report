@@ -1,6 +1,8 @@
 import { TableCell, TableFooter, TableRow } from "@/components/ui/table";
+import { cn } from "@/lib/utils";
 import { useMemo } from "react";
 import { useFormContext } from "react-hook-form";
+import { COLOR_SHIFT } from "./constants";
 
 export default function ScheduleFooter({ data }: { data: string[] }) {
   const form = useFormContext();
@@ -44,7 +46,10 @@ export default function ScheduleFooter({ data }: { data: string[] }) {
           {shiftCounts?.[item]?.map((day, index) => (
             <TableCell
               key={index}
-              className="w-8 text-center h-[16px] py-0 leading-none text-xs"
+              className={cn(
+                "w-8 text-center h-[16px] py-0 leading-none text-xs",
+                COLOR_SHIFT[day as keyof typeof COLOR_SHIFT]
+              )}
             >
               {day === 0 ? null : day}
             </TableCell>

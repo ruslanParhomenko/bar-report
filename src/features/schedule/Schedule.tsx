@@ -21,22 +21,17 @@ import { useSchedules } from "@/providers/ScheduleProvider";
 import { MailIcon, PencilIcon } from "lucide-react";
 import { useAbility } from "@/providers/AbilityProvider";
 import { useLocalStorageForm } from "@/hooks/use-local-storage";
-import { color, SHIFT_OPTIONS } from "../settings/schedule/constants";
+import {
+  color,
+  COLOR_SHIFT,
+  ROLE_URL,
+  SHIFT_OPTIONS,
+  SHIFTS,
+} from "../settings/schedule/constants";
 import { cn } from "@/lib/utils";
 import { usePrint } from "@/hooks/useToPrint";
 import PrintButton from "@/components/buttons/PrintButton";
 import { useTelegramScreenshot } from "@/hooks/useTelegramScreenshot";
-
-const ROLE_URL = {
-  bar: "restaurant",
-  cucina: "cucina",
-  dish: "dish",
-};
-const SHIFTS = {
-  bar: ["8", "9", "14", "18", "20"],
-  cucina: ["7", "19"],
-  dish: ["7", "19"],
-};
 
 export default function Schedule() {
   const KEY_PREFIX = "schedule-data";
@@ -233,7 +228,10 @@ export default function Schedule() {
                     {shiftCounts?.[item]?.map((day, index) => (
                       <TableCell
                         key={index}
-                        className="w-8 text-center h-6 pt-0.5 leading-none text-xs text-muted-foreground"
+                        className={cn(
+                          "w-8 text-center h-6 pt-0.5 leading-none text-xs text-muted-foreground",
+                          COLOR_SHIFT[day as keyof typeof COLOR_SHIFT]
+                        )}
                       >
                         {day === 0 ? null : day}
                       </TableCell>

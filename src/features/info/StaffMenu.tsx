@@ -1,51 +1,96 @@
 "use client";
 
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { useForm, FormProvider } from "react-hook-form";
+import { Label } from "@/components/ui/label";
+import { Spinner } from "@/components/ui/spinner";
+import { useGoogleData } from "@/hooks/useGoogleData";
+import { menu } from "./constants";
 
-type MenuItem = {
-  product: string;
-  description: string[];
-};
+export default function StaffMenu() {
+  const { menuDepartments: data } = useGoogleData();
 
-type StaffMenuData = {
-  department: string;
-  menu: MenuItem[];
-};
-
-export default function StaffMenu({ data }: { data: StaffMenuData }) {
-  const form = useForm({ defaultValues: data });
-  const values = form.watch();
-
+  const dataSecuruty = menu;
   return (
-    <FormProvider {...form}>
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
       <Card className="shadow-md border border-gray-200">
         <CardHeader>
           <CardTitle className="text-xl font-semibold">
-            Меню завтрака — {values.department}
+            Reteption \ FM
           </CardTitle>
         </CardHeader>
 
         <CardContent>
-          <ul className="space-y-4">
-            {values.menu.map((item, index) => (
-              <li key={index}>
-                <div className="font-medium text-base">
-                  {index + 1}. {item.product}
+          <div className="space-y-1 text-sm">
+            {data ? (
+              data.map((item, idx) => (
+                <div key={idx} className="text-center">
+                  <Label className="font-bold text-bl py-4">
+                    {item.product}
+                  </Label>
+                  {item?.description.map((item, idx) => (
+                    <Label
+                      key={idx}
+                      className="text-center text-muted-foreground py-1"
+                    >
+                      - {item}
+                    </Label>
+                  ))}
                 </div>
-
-                {item.description.length > 0 && (
-                  <ul className="list-disc list-inside pl-5 mt-1 text-sm text-gray-700 space-y-1">
-                    {item.description.map((desc, i) => (
-                      <li key={i}>{desc}</li>
-                    ))}
-                  </ul>
-                )}
-              </li>
-            ))}
-          </ul>
+              ))
+            ) : (
+              <Spinner />
+            )}
+          </div>
         </CardContent>
       </Card>
-    </FormProvider>
+      <Card className="shadow-md border border-gray-200">
+        <CardHeader>
+          <CardTitle className="text-xl font-semibold">Security</CardTitle>
+        </CardHeader>
+
+        <CardContent>
+          <div className="space-y-1 text-sm">
+            {dataSecuruty ? (
+              dataSecuruty?.map((item, idx) => (
+                <div key={idx} className="text-center">
+                  <Label className="font-bold text-bl py-4">
+                    {item.product}
+                  </Label>
+                  <Label className="text-center text-muted-foreground py-1">
+                    - 2 шт
+                  </Label>
+                </div>
+              ))
+            ) : (
+              <Spinner />
+            )}
+          </div>
+        </CardContent>
+      </Card>
+      <Card className="shadow-md border border-gray-200">
+        <CardHeader>
+          <CardTitle className="text-xl font-semibold">Personal</CardTitle>
+        </CardHeader>
+
+        <CardContent>
+          <div className="space-y-1 text-sm">
+            {dataSecuruty ? (
+              dataSecuruty?.map((item, idx) => (
+                <div key={idx} className="text-center">
+                  <Label className="font-bold text-bl py-4">
+                    {item.product}
+                  </Label>
+                  <Label className="text-center text-muted-foreground py-1">
+                    - 1 шт {item.product === "Сэндвич" ? " -- смена 12 ч" : ""}
+                  </Label>
+                </div>
+              ))
+            ) : (
+              <Spinner />
+            )}
+          </div>
+        </CardContent>
+      </Card>
+    </div>
   );
 }

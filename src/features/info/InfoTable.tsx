@@ -25,7 +25,7 @@ export default function InfoTable() {
         <StatusMenu />
       </AccordionWrapper>
       <AccordionWrapper nameTag="staffMenu">
-        <StaffMenu data={menu} />
+        <StaffMenu />
       </AccordionWrapper>
     </>
   );

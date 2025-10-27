@@ -1,5 +1,22 @@
 //create shedule
+export const ROLE_URL = {
+  bar: "restaurant",
+  cucina: "cucina",
+  dish: "dish",
+};
+export const SHIFTS = {
+  bar: ["8", "9", "14", "18", "20"],
+  cucina: ["7", "19"],
+  dish: ["7", "19"],
+};
 
+export const COLOR_SHIFT = {
+  0: "bg-gr/10",
+  1: "text-rd",
+  2: "text-bl",
+  3: "text-rd",
+  4: "text-rd",
+};
 export const WAITER_EMPLOYEES = ["waiters"];
 export const SHIFT_OPTIONS = ["7", "8", "9", "14", "18", "19", "20"];
 export const SHIFT_HOURS_MAP_DAY: Record<string, number> = {
@@ -274,8 +291,8 @@ export const color = {
   "18": "text-black",
   "19": "text-black",
   "20": "text-black",
-  v: "text-bl bg-bl border-bl",
-  s: "bg-[#facc15] text-[#facc15] border-[#facc15]",
+  v: "text-bl bg-bl/60 border-bl/40",
+  s: "bg-[#facc15]/60 text-[#facc15] border-[#facc15]/40",
 
-  "/": "text-rd bg-rd border-rd",
+  "/": "text-rd bg-rd/60 border-rd/40",
 } as const;

@@ -7,7 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 const GOOGLE_SHEET_URL_SK =
   "https://script.google.com/macros/s/AKfycbx9e6tBAsTpDg2augJ7CBaYIocKoSD5n1kWUhpLv1Ntkwd5GGnjpEXIP_Nw_KLYPMDWtw/exec";
 const GOOGLE_SHEET_URL_MENIU =
-  "https://script.google.com/macros/s/AKfycbzlPabIGpSVf9qdFqbz7bWF8CKHgJlyQ8SirrANVZA7JCG2hchE-l7JnG1Y7eQY3OVG-Q/exec";
+  "https://script.google.com/macros/s/AKfycbwWC1DjZz2VL3qFScaVfMoSRWMqQCP9rUjogZveFW6mL2z-Ss7mPZUwMqGvKx-A1Kb86A/exec";
 
 export type StandartKitchen = {
   name: string;
@@ -37,6 +37,11 @@ export type StaffMenu = {
   saturday: string[];
   sunday: string[];
 };
+
+export type MenuDepartament = {
+  product: string;
+  description: string[];
+};
 export type Menu = {
   daily: DailyMeniu;
   vip: [VipMeniu[], VipMeniu[], VipMeniu[]];
@@ -47,6 +52,7 @@ export type Menu = {
     silver: string[];
     loyal: string[];
   };
+  menuDepartament: MenuDepartament[];
 };
 
 async function fetchGoogle<T>(endpoint: string): Promise<T> {
@@ -109,6 +115,7 @@ export function useGoogleData() {
     // users: employeesQuery.data?.user || [],
     sk: skQuery.data || [],
     menu: menuQuery.data,
+    menuDepartments: menuQuery.data?.menuDepartament,
     statusMenu: menuQuery.data?.statusMenu,
     isLoading: skQuery.isLoading,
   };
