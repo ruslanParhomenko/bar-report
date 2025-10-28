@@ -21,6 +21,8 @@ import {
   SchedulesProvider,
 } from "@/providers/ScheduleProvider";
 import { getSchedule } from "./actions/schedule/getSchedule";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 
 const lora = Lora({
   variable: "--font-lora",
@@ -42,10 +44,24 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const session = await getServerSession(authOptions);
+
   const locale = await getLocale();
   const employees = await getEmployees();
   const schedules = await getSchedule();
   const users = await getUsers();
+
+  const email = session?.user?.email ?? null;
+  const user = users.find((u) => u.mail === email);
+
+  const ability = {
+    isAdmin: email === "parhomenkogm@gmail.com" || user?.role === "ADMIN",
+    isBar: user?.role === "BAR",
+    isCucina: user?.role === "CUCINA",
+    isUser: user?.role === "USER",
+    isMngr: user?.role === "MNGR",
+    isObserver: user?.role === "OBSERVER",
+  };
 
   return (
     <html lang={locale} suppressHydrationWarning>
@@ -60,7 +76,7 @@ export default async function RootLayout({
           <SessionProviders>
             <NextIntlClientProvider>
               <ReactQueryProvider>
-                <AbilityProvider users={users}>
+                <AbilityProvider users={users} serverAbility={ability}>
                   <EmployeesProvider
                     employees={employees as EmployeesContextValue[]}
                   >

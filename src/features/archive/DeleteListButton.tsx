@@ -68,7 +68,7 @@ export const DeleteListButton = <T extends BaseData>({
           type="button"
           variant={"destructive"}
           onClick={() => removeItem()}
-          disabled={!isAdmin && !isMngr}
+          disabled={!isAdmin}
           className="bg-bl hover:bg-rd"
         >
           {t("delete")}

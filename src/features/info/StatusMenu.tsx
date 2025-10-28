@@ -1,3 +1,4 @@
+"use client";
 import PrintButton from "@/components/buttons/PrintButton";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Spinner } from "@/components/ui/spinner";

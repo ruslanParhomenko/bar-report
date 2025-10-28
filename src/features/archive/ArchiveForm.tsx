@@ -13,13 +13,11 @@ import {
   ReportCucinaData,
 } from "@/constants/type";
 import AccordionWrapper from "@/components/wrapper/AccordionWrapper";
-import dynamic from "next/dynamic";
 import { Skeleton } from "@/components/ui/skeleton";
-
-const BreakList = dynamic(() => import("@/features/archive/BreakList"));
-const ReportBar = dynamic(() => import("@/features/archive/ReportBar"));
-const ReportCucina = dynamic(() => import("@/features/archive/ReportCucina"));
-const Remarks = dynamic(() => import("@/features/archive/Remarks"));
+import BreakList from "./BreakList";
+import ReportBar from "./ReportBar";
+import ReportCucina from "./ReportCucina";
+import Remarks from "./Remarks";
 
 export enum DataObjectApi {
   BreakList = "breakList",
