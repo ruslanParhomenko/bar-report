@@ -156,6 +156,7 @@ export const SHIFT_HOURS_MAP_DAY: Record<string, number> = {
   "20.4": 8,
   "20.5": 9,
   "20.6": 10,
+  "24": 16,
 };
 
 export const SHIFT_HOURS_MAP_NIGHT: Record<string, number> = {
@@ -274,6 +275,7 @@ export const SHIFT_HOURS_MAP_NIGHT: Record<string, number> = {
   "20.4": 8,
   "20.5": 8,
   "20.6": 8,
+  "24": 8,
 };
 
 export const EMPLOYEE_ROLES_BY_DEPARTMENT = {
