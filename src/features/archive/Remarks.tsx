@@ -7,7 +7,7 @@ import { formatSelectData, getSelectByName } from "./helpers";
 import { REMARKS_ENDPOINT } from "@/constants/endpoint-tag";
 
 export default function Remarks({ data }: { data: RemarkData[] }) {
-  const [filteredData, setFilteredData] = useState<any[]>([]);
+  const [filteredData, setFilteredData] = useState<RemarkData[]>([]);
 
   return (
     <>

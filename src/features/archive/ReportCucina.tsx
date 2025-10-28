@@ -7,7 +7,7 @@ import { formatSelectData, getFilterKeys } from "./helpers";
 import { REPORT_CUCINA_ENDPOINT } from "@/constants/endpoint-tag";
 
 export default function ReportCucina({ data }: { data: ReportCucinaData[] }) {
-  const [filteredData, setFilteredData] = useState<any[]>([]);
+  const [filteredData, setFilteredData] = useState<ReportCucinaData[]>([]);
   return (
     <>
       <FilterArchiveData

@@ -7,7 +7,7 @@ import { formatSelectData, getFilterKeys } from "./helpers";
 import { REPORT_BAR_ENDPOINT } from "@/constants/endpoint-tag";
 
 export default function ReportBar({ data }: { data: ReportBarData[] }) {
-  const [filteredData, setFilteredData] = useState<any[]>([]);
+  const [filteredData, setFilteredData] = useState<ReportBarData[]>([]);
   return (
     <>
       <FilterArchiveData

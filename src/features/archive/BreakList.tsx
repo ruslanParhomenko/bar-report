@@ -7,7 +7,7 @@ import { formatSelectData, getSelectByName } from "./helpers";
 import { BREAK_LIST_ENDPOINT } from "@/constants/endpoint-tag";
 
 export default function BreakListTable({ data }: { data: BreakListData[] }) {
-  const [filteredData, setFilteredData] = useState<any[]>([]);
+  const [filteredData, setFilteredData] = useState<BreakListData[]>([]);
 
   return (
     <>

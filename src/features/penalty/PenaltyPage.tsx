@@ -18,7 +18,6 @@ export const PenaltyPage = ({ data }: { data: RemarkData[] }) => {
   const t = useTranslations("Home");
   const [isOpenTotal, setIsOpenTotal] = useState(false);
 
-  console.log("server", data);
   const employeesList = useUniqueOptions<Remark>({
     data: data?.flatMap((r) => r?.remarks ?? []) ?? [],
     getValue: (r) => r.name,
