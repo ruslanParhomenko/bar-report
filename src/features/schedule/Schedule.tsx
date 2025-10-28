@@ -197,8 +197,11 @@ export default function Schedule() {
                       >
                         {row.employee}
                       </TableCell>
-                      <TableCell className="w-2 p-0 text-start text-muted-foreground font-bold">
-                        {isAdmin && totalPay.toFixed(0).toString()}
+                      <TableCell
+                        className="w-2 p-0 text-start text-muted-foreground font-bold no-print"
+                        data-html2canvas-ignore="true"
+                      >
+                        {!isDisabled && totalPay.toFixed(0).toString()}
                       </TableCell>
 
                       {row.shifts?.map((day, dayIndex) => {

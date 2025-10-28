@@ -1,7 +1,7 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
-import { revalidateTag, unstable_cache } from "next/cache";
+import { unstable_cache } from "next/cache";
 
 export const _getArchive = async () => {
   const [dailyReportCucina, dailyReport, remarkReport, breakList] =
@@ -53,7 +53,3 @@ export const getArchive = unstable_cache(_getArchive, ["archive"], {
   revalidate: false,
   tags: ["archive"],
 });
-
-export async function invalidateArchive() {
-  revalidateTag("archive");
-}

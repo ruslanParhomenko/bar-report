@@ -16,6 +16,7 @@ import { handleTableNavigation } from "@/utils/handleTableNavigation";
 import { ScheduleType } from "./schema";
 import { EmployeesContextValue } from "@/providers/EmployeesProvider";
 import { MonthDayType } from "@/utils/getMonthDays";
+import { useParams } from "next/navigation";
 
 export default function ScheduleBody({
   fields,
@@ -30,6 +31,7 @@ export default function ScheduleBody({
   remove: UseFieldArrayReturn<ScheduleType, "rowShifts", "id">["remove"];
   move: UseFieldArrayReturn<ScheduleType, "rowShifts", "id">["move"];
 }) {
+  const { id } = useParams();
   const form = useFormContext();
 
   useEffect(() => {
@@ -107,95 +109,111 @@ export default function ScheduleBody({
 
   return (
     <TableBody className="[&_input]:h-8 [&_input]:text-md [&_input]:py-0.5 [&_input]:text-center [&_input]:w-8 [&_input]:border-0">
-      {fields.map((row, rowIndex) => (
-        <TableRow key={row.id} className="hover:text-rd p-0 h-10">
-          <TableCell
-            className="text-rd cursor-pointer w-2 p-0"
-            onClick={() => remove(rowIndex)}
-          >
-            {rowIndex + 1}
-          </TableCell>
+      {fields.map((row, rowIndex) => {
+        const rate = form.getValues(`rowShifts.${rowIndex}.rate`);
+        const dayHourPay = (Number(rate) / 180) * 0.9; // минус 10%
+        const nightHourPay = (Number(rate) / 180) * 1.15; // плюс 15%
+        const totalPay =
+          dayHourPay * Number(row.dayHours) +
+          nightHourPay * Number(row.nightHours);
+        return (
+          <TableRow key={row.id} className="hover:text-rd p-0 h-10">
+            <TableCell
+              className="text-rd cursor-pointer w-2 p-0"
+              onClick={() => remove(rowIndex)}
+            >
+              {rowIndex + 1}
+            </TableCell>
 
-          <TableCell className="text-bl p-0 text-xs">
-            <input
-              {...form.register(`rowShifts.${rowIndex}.dayHours`)}
-              readOnly
-            />
-          </TableCell>
-          <TableCell className="text-bl p-0 text-xs">
-            <input
-              {...form.register(`rowShifts.${rowIndex}.nightHours`)}
-              readOnly
-            />
-          </TableCell>
+            <TableCell className="text-bl p-0 text-xs">
+              <input
+                {...form.register(`rowShifts.${rowIndex}.dayHours`)}
+                readOnly
+              />
+            </TableCell>
+            <TableCell className="text-bl p-0 text-xs">
+              <input
+                {...form.register(`rowShifts.${rowIndex}.nightHours`)}
+                readOnly
+              />
+            </TableCell>
 
-          <TableCell className="p-0 text-center">
-            <input
-              {...form.register(`rowShifts.${rowIndex}.totalHours`)}
-              className="font-bold"
-              readOnly
-            />
-          </TableCell>
+            <TableCell className="p-0 text-center">
+              <input
+                {...form.register(`rowShifts.${rowIndex}.totalHours`)}
+                className="font-bold"
+                readOnly
+              />
+            </TableCell>
 
-          <TableCell className="sticky left-0 p-0">
-            <SelectScheduleEmployee
-              fieldName={`rowShifts.${rowIndex}.employee`}
-              data={selectedEmployees}
-              className="w-32 px-1 hover:text-rd justify-start"
-            />
-          </TableCell>
-
-          <TableCell
-            className="w-3 cursor-pointer p-0"
-            onClick={() => resetRow(rowIndex)}
-          >
-            <Minus className="w-3 h-3" />
-          </TableCell>
-
-          {monthDays.map((_day, dayIndex) => {
-            const fieldName = `rowShifts.${rowIndex}.shifts.${dayIndex}`;
-            const value = form.getValues(fieldName);
-            return (
-              <TableCell key={dayIndex} className="p-0 text-center w-10">
-                <input
-                  {...form.register(fieldName)}
-                  data-row={rowIndex}
-                  data-col={dayIndex}
-                  onKeyDown={(e) =>
-                    handleTableNavigation(e, rowIndex, dayIndex)
-                  }
-                  className={cn(
-                    "w-10",
-                    value === "" ? "bg-border" : "text-bl",
-                    color[value as keyof typeof color]
-                  )}
-                />
+            <TableCell className="sticky left-0 p-0">
+              <SelectScheduleEmployee
+                fieldName={`rowShifts.${rowIndex}.employee`}
+                data={selectedEmployees}
+                className="w-32 px-1 hover:text-rd justify-start"
+              />
+            </TableCell>
+            {id && (
+              <TableCell className="w-10 pr-0 flex flex-col items-center">
+                <p className="text-xs">{rate}</p>
+                <p className="text-xs">
+                  {totalPay && ` (${totalPay.toFixed()})`}
+                </p>
               </TableCell>
-            );
-          })}
+            )}
 
-          <TableCell className="w-6 flex flex-col justify-center items-center p-0">
-            <Button
-              type="button"
-              variant="ghost"
-              disabled={rowIndex === 0}
-              onClick={() => move(rowIndex, rowIndex - 1)}
-              className="w-3 h-3 p-0 flex items-center justify-center"
+            <TableCell
+              className="w-4 cursor-pointer p-0"
+              onClick={() => resetRow(rowIndex)}
             >
-              <ChevronUp className="w-2 h-3" />
-            </Button>
-            <Button
-              type="button"
-              variant="ghost"
-              disabled={rowIndex === fields.length - 1}
-              onClick={() => move(rowIndex, rowIndex + 1)}
-              className="w-3 h-3 p-0 flex items-center justify-center"
-            >
-              <ChevronDown className="w-2 h-3" />
-            </Button>
-          </TableCell>
-        </TableRow>
-      ))}
+              <Minus className="w-3 h-3" />
+            </TableCell>
+
+            {monthDays.map((_day, dayIndex) => {
+              const fieldName = `rowShifts.${rowIndex}.shifts.${dayIndex}`;
+              const value = form.getValues(fieldName);
+              return (
+                <TableCell key={dayIndex} className="p-0 text-center w-10">
+                  <input
+                    {...form.register(fieldName)}
+                    data-row={rowIndex}
+                    data-col={dayIndex}
+                    onKeyDown={(e) =>
+                      handleTableNavigation(e, rowIndex, dayIndex)
+                    }
+                    className={cn(
+                      "w-10",
+                      value === "" ? "bg-border" : "text-bl",
+                      color[value as keyof typeof color]
+                    )}
+                  />
+                </TableCell>
+              );
+            })}
+
+            <TableCell className="w-6 flex flex-col justify-center items-center p-0">
+              <Button
+                type="button"
+                variant="ghost"
+                disabled={rowIndex === 0}
+                onClick={() => move(rowIndex, rowIndex - 1)}
+                className="w-3 h-3 p-0 flex items-center justify-center"
+              >
+                <ChevronUp className="w-2 h-3" />
+              </Button>
+              <Button
+                type="button"
+                variant="ghost"
+                disabled={rowIndex === fields.length - 1}
+                onClick={() => move(rowIndex, rowIndex + 1)}
+                className="w-3 h-3 p-0 flex items-center justify-center"
+              >
+                <ChevronDown className="w-2 h-3" />
+              </Button>
+            </TableCell>
+          </TableRow>
+        );
+      })}
     </TableBody>
   );
 }

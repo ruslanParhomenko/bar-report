@@ -9,8 +9,6 @@ import {
 
 import { useAbility } from "@/providers/AbilityProvider";
 import { useDataSupaBase } from "@/hooks/useRealTimeData";
-import { useApi } from "@/hooks/useApi";
-
 import { Form } from "../../components/ui/form";
 import DatePickerInput from "@/components/inputs/DatePickerInput";
 import { SendResetButton } from "../../components/buttons/SendResetButton";
@@ -19,14 +17,14 @@ import { BreakListTable } from "./BreakTable";
 import {
   BREAK_LIST_ENDPOINT,
   BREAK_LIST_REALTIME_ENDPOINT,
-  REMARKS_ENDPOINT,
 } from "@/constants/endpoint-tag";
 import { BreakRemarksData, dataSchema, defaultValuesBrakeList } from "./schema";
 import RemarksTable from "./RemarksTable";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useEmployees } from "@/providers/EmployeesProvider";
 import { toast } from "sonner";
-import { invalidateRemarks } from "@/app/actions/remarks/getRemarks";
+import { createBreakList } from "@/app/actions/archive/breakListAction";
+import { createRemarks } from "@/app/actions/archive/remarksAction";
 
 const BreakList = () => {
   const employees = useEmployees();
@@ -34,23 +32,6 @@ const BreakList = () => {
 
   const { isBar, isCucina, isObserver } = useAbility();
   const isDisabled = isObserver || isCucina || isBar;
-
-  //create
-  const { createMutation: createBreakeList } = useApi<
-    Omit<BreakRemarksData, "remarks">
-  >({
-    endpoint: BREAK_LIST_ENDPOINT,
-    queryKey: BREAK_LIST_ENDPOINT,
-    fetchInit: false,
-  });
-
-  const { createMutation: createRemarks } = useApi<
-    Omit<BreakRemarksData, "rows">
-  >({
-    endpoint: REMARKS_ENDPOINT,
-    queryKey: REMARKS_ENDPOINT,
-    fetchInit: false,
-  });
 
   //realtime
   const { sendRealTime, fetchRealTime } = useDataSupaBase({
@@ -98,18 +79,8 @@ const BreakList = () => {
       return;
     }
     try {
-      await Promise.all([
-        createBreakeList.mutateAsync({
-          date: new Date(data.date),
-          rows: data.rows,
-        }),
-        createRemarks.mutateAsync({
-          date: new Date(data.date),
-          remarks: data.remarks,
-        }),
-      ]);
+      await Promise.all([createBreakList(data), createRemarks(data)]);
       toast.success("Брейк-лист успешно сохранён !");
-      invalidateRemarks();
       resetForm();
     } catch (e) {
       toast.error("Ошибка при сохранении брейк-листа");

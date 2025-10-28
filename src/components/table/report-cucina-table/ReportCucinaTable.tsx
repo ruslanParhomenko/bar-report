@@ -21,10 +21,8 @@ export const classNameRowBorderCucina = "border-b-bl";
 
 export default function ReportCucinaTable({
   data,
-  invalidate,
 }: {
   data: ReportCucinaData;
-  invalidate?: () => void;
 }) {
   const visibleTables = [
     data.shifts,
@@ -37,17 +35,11 @@ export default function ReportCucinaTable({
   ].filter(Boolean).length;
 
   const gridCols = visibleTables === 1 ? "md:grid-cols-1" : "md:grid-cols-4";
-  const gridColsFooter =
-    visibleTables === 1 ? "md:grid-cols-1" : "md:grid-cols-[30%_70%]";
   return (
     <Card>
       <CardHeader>
         <CardTitle>
-          <DeleteListButton
-            data={data}
-            nameTag={REPORT_CUCINA_ENDPOINT}
-            invalidate={invalidate}
-          />
+          <DeleteListButton data={data} nameTag={REPORT_CUCINA_ENDPOINT} />
         </CardTitle>
       </CardHeader>
       <CardContent className={`gap-6  grid grid-cols-1 ${gridCols}`}>

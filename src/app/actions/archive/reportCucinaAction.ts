@@ -1,9 +1,11 @@
+"use server";
+import { revalidate } from "@/app/layout";
 import { Movement, Remain, Shift, Staff, WriteOff } from "@/generated/prisma";
 import { prisma } from "@/lib/prisma";
-import { NextResponse } from "next/server";
+import { revalidateTag } from "next/cache";
 
-export async function POST(req: Request) {
-  const body = await req.json();
+// create report
+export async function createReportCucina({ data }: { data: any }) {
   const {
     date,
     notes,
@@ -16,14 +18,13 @@ export async function POST(req: Request) {
     staff = [],
     movement = [],
     writeOff = [],
-  } = body;
+  } = data;
   const prepared = [
     ...(preparedSalads || []),
     ...(preparedSeconds || []),
     ...(preparedDesserts || []),
     ...(cutting || []),
   ];
-
   const report = await prisma.dailyReportCucina.create({
     data: {
       date: new Date(date),
@@ -92,10 +93,38 @@ export async function POST(req: Request) {
     },
   });
 
-  return NextResponse.json(report);
+  revalidateTag("archive");
+  return report.id;
 }
 
-export async function GET() {
-  const dailyReport = await prisma.dailyReportCucina.findMany();
-  return NextResponse.json(dailyReport);
+// get by id
+export async function getReportCucinaById(id: string) {
+  const report = await prisma.dailyReportCucina.findUnique({
+    where: { id: Number(id) },
+    include: {
+      shifts: true,
+      remains: true,
+      prepared: true,
+      staff: true,
+      movement: true,
+      writeOff: true,
+    },
+  });
+  return report;
+}
+
+// delete
+export async function deleteReportCucina(id: string) {
+  await prisma.dailyReportCucina.delete({
+    where: { id: Number(id) },
+    include: {
+      shifts: true,
+      remains: true,
+      prepared: true,
+      staff: true,
+      movement: true,
+      writeOff: true,
+    },
+  });
+  revalidateTag("archive");
 }

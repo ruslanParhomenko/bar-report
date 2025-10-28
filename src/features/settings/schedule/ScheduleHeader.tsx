@@ -3,6 +3,7 @@ import { TableCell, TableHeader, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import { MonthDayType } from "@/utils/getMonthDays";
 import { Plus } from "lucide-react";
+import { useParams } from "next/navigation";
 
 export default function ScheduleHeader({
   monthDays,
@@ -15,6 +16,7 @@ export default function ScheduleHeader({
   month?: string;
   addNewRow?: () => void;
 }) {
+  const { id } = useParams();
   const todayDay = new Date().getDate();
 
   return (
@@ -37,7 +39,16 @@ export default function ScheduleHeader({
         <TableCell className="w-32 p-0 front-bold text-center">
           {month?.toUpperCase() || ""}
         </TableCell>
-        <TableCell className="w-3 p-0" />
+        {id && (
+          <TableCell
+            className="w-10 p-0 no-print"
+            data-html2canvas-ignore="true"
+          />
+        )}
+        <TableCell
+          className="w-4 p-0 no-print"
+          data-html2canvas-ignore="true"
+        />
 
         {monthDays.map((day, index) => {
           return (

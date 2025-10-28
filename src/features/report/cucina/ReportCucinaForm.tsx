@@ -43,8 +43,6 @@ import { toast } from "sonner";
 import { useAbility } from "@/providers/AbilityProvider";
 import { FetchDataButton } from "@/components/buttons/FetchDataButton";
 import RenderTableCucina from "./RenderTableByFields";
-import { useApi } from "@/hooks/useApi";
-import { DailyReportCucina } from "@/generated/prisma";
 import {
   REPORT_CUCINA_ENDPOINT,
   REPORT_CUCINA_REALTIME_ENDPOINT,
@@ -52,12 +50,13 @@ import {
 import { useDataSupaBase } from "@/hooks/useRealTimeData";
 import dynamic from "next/dynamic";
 import { useEmployees } from "@/providers/EmployeesProvider";
+import { createReportCucina } from "@/app/actions/archive/reportCucinaAction";
 
 function ReportCucina() {
   const t = useTranslations("Home");
   const LOCAL_STORAGE_KEY = REPORT_CUCINA_ENDPOINT;
 
-  const { isCucina, isObserver, isUser, isAdmin, isBar } = useAbility();
+  const { isCucina, isObserver, isAdmin, isBar } = useAbility();
   const isDisabled = isObserver || isCucina || isBar;
 
   //employees
@@ -66,13 +65,6 @@ function ReportCucina() {
     .filter((emp) => CUCINA_EMPLOYEES.includes(emp.role))
     .map((emp) => emp.name);
 
-  //create
-  const { createMutation } = useApi<DailyReportCucina>({
-    endpoint: REPORT_CUCINA_ENDPOINT,
-    queryKey: REPORT_CUCINA_ENDPOINT,
-    fetchInit: false,
-  });
-
   //realtime
   const { sendRealTime, fetchRealTime } = useDataSupaBase({
     localStorageKey: LOCAL_STORAGE_KEY,
@@ -80,11 +72,8 @@ function ReportCucina() {
   });
 
   //localstorage
-  const {
-    getValue,
-    setValue: setLocalStorage,
-    removeValue,
-  } = useLocalStorageForm(LOCAL_STORAGE_KEY);
+  const { getValue, setValue: setLocalStorage } =
+    useLocalStorageForm(LOCAL_STORAGE_KEY);
 
   //form
   const form = useForm<ReportCucinaType>({
@@ -114,7 +103,7 @@ function ReportCucina() {
   };
   const value = getValue() as ReportCucinaType;
 
-  const handleSubmit: SubmitHandler<ReportCucinaType> = (data) => {
+  const handleSubmit: SubmitHandler<ReportCucinaType> = async (data) => {
     const invalidShift = data.shifts.some((shift) => !shift.employees?.trim());
     if (invalidShift) {
       toast.error("Заполните всех сотрудников в сменах!");
@@ -122,10 +111,7 @@ function ReportCucina() {
     }
 
     try {
-      createMutation.mutate({
-        ...data,
-        date: new Date(data.date),
-      });
+      await createReportCucina({ data: data });
 
       form.reset(defaultReportCucina);
 

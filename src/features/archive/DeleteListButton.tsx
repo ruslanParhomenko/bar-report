@@ -1,5 +1,8 @@
 "use client";
+import { deleteBreakList } from "@/app/actions/archive/breakListAction";
+import { deleteRemark } from "@/app/actions/archive/remarksAction";
 import { deleteReportBar } from "@/app/actions/archive/reportBarAction";
+import { deleteReportCucina } from "@/app/actions/archive/reportCucinaAction";
 import { Button } from "@/components/ui/button";
 import {
   BREAK_LIST_ENDPOINT,
@@ -7,7 +10,6 @@ import {
   REPORT_BAR_ENDPOINT,
   REPORT_CUCINA_ENDPOINT,
 } from "@/constants/endpoint-tag";
-import { useApi } from "@/hooks/useApi";
 import { useAbility } from "@/providers/AbilityProvider";
 import { formatDataForInput } from "@/utils/formatNow";
 import { Pencil } from "lucide-react";
@@ -22,30 +24,22 @@ type BaseData = {
 type DeleteListButtonProps<T extends BaseData> = {
   data: T;
   nameTag: string;
-  invalidate?: () => void;
 };
 
 const actionByNameTag = {
-  // [BREAK_LIST_ENDPOINT]: "breakList",
+  [BREAK_LIST_ENDPOINT]: deleteBreakList,
   [REPORT_BAR_ENDPOINT]: deleteReportBar,
-  // [REPORT_CUCINA_ENDPOINT]: "dailyReportCucina",
-  // [REMARKS_ENDPOINT]: "remarks",
+  [REPORT_CUCINA_ENDPOINT]: deleteReportCucina,
+  [REMARKS_ENDPOINT]: deleteRemark,
 };
 
 export const DeleteListButton = <T extends BaseData>({
   data,
   nameTag,
-  invalidate,
 }: DeleteListButtonProps<T>) => {
   const router = useRouter();
   const { isAdmin, isMngr } = useAbility();
   const t = useTranslations("Home");
-
-  const { deleteMutation } = useApi({
-    endpoint: nameTag as string,
-    queryKey: nameTag as string,
-    fetchInit: false,
-  });
 
   const removeItem = async () => {
     if (!nameTag) return;

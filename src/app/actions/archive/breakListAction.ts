@@ -1,9 +1,12 @@
-import { prisma } from "@/lib/prisma";
-import { NextResponse } from "next/server";
+"use server";
 
-export async function POST(req: Request) {
-  const body = await req.json();
-  const { date, rows } = body;
+import { prisma } from "@/lib/prisma";
+import { revalidateTag } from "next/cache";
+
+// create break list
+export async function createBreakList(data: any) {
+  console.log(data);
+  const { date, rows } = data;
   const rowsWithName = rows.filter(
     (row: any) => row.name && row.name.trim() !== ""
   );
@@ -37,10 +40,25 @@ export async function POST(req: Request) {
     },
   });
 
-  return NextResponse.json(breakList);
+  revalidateTag("archive");
+
+  return breakList.id;
 }
 
-export async function GET() {
-  const breakList = await prisma.breakList.findMany();
-  return NextResponse.json(breakList);
+// get by id
+
+export async function getBreakListById(id: string) {
+  const report = await prisma.breakList.findUnique({
+    where: { id: Number(id) },
+    include: { rows: true },
+  });
+  return report;
+}
+
+// delete
+export async function deleteBreakList(id: string) {
+  await prisma.breakList.delete({
+    where: { id: Number(id) },
+  });
+  revalidateTag("archive");
 }

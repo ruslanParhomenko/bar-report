@@ -6,13 +6,7 @@ import FilterArchiveData from "./FilterArchiveData";
 import { formatSelectData, getFilterKeys } from "./helpers";
 import { REPORT_BAR_ENDPOINT } from "@/constants/endpoint-tag";
 
-export default function ReportBar({
-  data,
-  invalidate,
-}: {
-  data: ReportBarData[];
-  invalidate?: () => void;
-}) {
+export default function ReportBar({ data }: { data: ReportBarData[] }) {
   const [filteredData, setFilteredData] = useState<any[]>([]);
   return (
     <>
@@ -25,7 +19,7 @@ export default function ReportBar({
       />
       {filteredData.length > 0 &&
         filteredData.map((item: ReportBarData, index: number) => (
-          <ReportBarTable key={index} data={item} invalidate={invalidate} />
+          <ReportBarTable key={index} data={item} />
         ))}
     </>
   );

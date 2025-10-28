@@ -14,7 +14,6 @@ import {
 } from "@/constants/type";
 import AccordionWrapper from "@/components/wrapper/AccordionWrapper";
 import dynamic from "next/dynamic";
-import { useArchive } from "@/hooks/useApiArchive";
 import { Skeleton } from "@/components/ui/skeleton";
 
 const BreakList = dynamic(() => import("@/features/archive/BreakList"));
@@ -35,15 +34,7 @@ export type ApiDataMap = {
   [DataObjectApi.Remarks]: RemarkData[];
 };
 
-export const ArchivePage = ({
-  data,
-  onInvalidate,
-}: {
-  data: ApiDataMap;
-  onInvalidate?: () => void;
-}) => {
-  // const { data, invalidate: onInvalidate } = useArchive();
-  console.log(data);
+export const ArchivePage = ({ data }: { data: ApiDataMap }) => {
   if (!data) {
     return (
       <div className="space-y-3">
@@ -55,19 +46,19 @@ export const ArchivePage = ({
   return (
     <>
       <AccordionWrapper nameTag={BREAK_LIST_ENDPOINT}>
-        <BreakList data={data.breakList} invalidate={onInvalidate} />
+        <BreakList data={data.breakList} />
       </AccordionWrapper>
 
       <AccordionWrapper nameTag={REPORT_BAR_ENDPOINT}>
-        <ReportBar data={data.dailyReport} invalidate={onInvalidate} />
+        <ReportBar data={data.dailyReport} />
       </AccordionWrapper>
 
       <AccordionWrapper nameTag={REPORT_CUCINA_ENDPOINT}>
-        <ReportCucina data={data.dailyReportCucina} invalidate={onInvalidate} />
+        <ReportCucina data={data.dailyReportCucina} />
       </AccordionWrapper>
 
       <AccordionWrapper nameTag={REMARKS_ENDPOINT}>
-        <Remarks data={data.remarkReport} invalidate={onInvalidate} />
+        <Remarks data={data.remarkReport} />
       </AccordionWrapper>
     </>
   );

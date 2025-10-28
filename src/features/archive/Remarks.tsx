@@ -6,13 +6,7 @@ import FilterArchiveData from "./FilterArchiveData";
 import { formatSelectData, getSelectByName } from "./helpers";
 import { REMARKS_ENDPOINT } from "@/constants/endpoint-tag";
 
-export default function Remarks({
-  data,
-  invalidate,
-}: {
-  data: RemarkData[];
-  invalidate?: () => void;
-}) {
+export default function Remarks({ data }: { data: RemarkData[] }) {
   const [filteredData, setFilteredData] = useState<any[]>([]);
 
   return (
@@ -25,7 +19,7 @@ export default function Remarks({
         nameTag={REMARKS_ENDPOINT}
       />
       {filteredData.map((item) => (
-        <RemarksTable key={item.id} data={item} invalidate={invalidate} />
+        <RemarksTable key={item.id} data={item} />
       ))}
     </>
   );

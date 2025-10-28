@@ -3,8 +3,10 @@ import { cn } from "@/lib/utils";
 import { useMemo } from "react";
 import { useFormContext } from "react-hook-form";
 import { COLOR_SHIFT } from "./constants";
+import { useParams } from "next/navigation";
 
 export default function ScheduleFooter({ data }: { data: string[] }) {
+  const { id } = useParams();
   const form = useFormContext();
   const values = form.watch();
 
@@ -32,12 +34,14 @@ export default function ScheduleFooter({ data }: { data: string[] }) {
     return result;
   }, [values, data]);
 
+  const colSpan = id ? 7 : 6;
+
   return (
     <TableFooter>
       {data.map((item, rowIndex) => (
         <TableRow key={rowIndex} className="h-[16px] bg-card p-0 border-0">
           <TableCell
-            colSpan={6}
+            colSpan={colSpan}
             className="text-end text-muted-foreground h-[16px] py-0 leading-none text-xs"
           >
             {item}

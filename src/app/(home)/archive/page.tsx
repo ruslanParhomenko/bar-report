@@ -1,8 +1,5 @@
 // import { getArchive, invalidateArchive } from "@/app/actions/getArchive";
-import {
-  getArchive,
-  invalidateArchive,
-} from "@/app/actions/archive/getArchive";
+import { getArchive } from "@/app/actions/archive/getArchive";
 import { ArchivePage } from "@/features/archive/ArchiveForm";
 
 // export const revalidate = false;
@@ -10,5 +7,5 @@ import { ArchivePage } from "@/features/archive/ArchiveForm";
 
 export default async function Page() {
   const data = await getArchive();
-  return <ArchivePage data={data} onInvalidate={invalidateArchive} />;
+  return <ArchivePage data={data} />;
 }

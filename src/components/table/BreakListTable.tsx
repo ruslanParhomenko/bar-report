@@ -5,13 +5,7 @@ import { DeleteListButton } from "../../features/archive/DeleteListButton";
 import { BREAK_LIST_ENDPOINT } from "@/constants/endpoint-tag";
 import { BreakListData } from "@/constants/type";
 
-export default function BreakTable({
-  data,
-  invalidate,
-}: {
-  data: BreakListData;
-  invalidate?: () => void;
-}) {
+export default function BreakTable({ data }: { data: BreakListData }) {
   const filtered = data?.rows?.filter((row: Row) => row.name?.trim());
 
   if (!filtered?.length) return null;
@@ -19,11 +13,7 @@ export default function BreakTable({
     <Card>
       <CardHeader>
         <CardTitle>
-          <DeleteListButton
-            data={data}
-            nameTag={BREAK_LIST_ENDPOINT}
-            invalidate={invalidate}
-          />
+          <DeleteListButton data={data} nameTag={BREAK_LIST_ENDPOINT} />
         </CardTitle>
       </CardHeader>
 

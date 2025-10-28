@@ -24,8 +24,6 @@ import TableExpenses from "./TableExpenses";
 import TableCashVerify from "./TableCashVerify";
 import { SendResetButton } from "@/components/buttons/SendResetButton";
 import { FetchDataButton } from "@/components/buttons/FetchDataButton";
-import { useApi } from "@/hooks/useApi";
-import { DailyReport } from "@/generated/prisma";
 import TableProductsTransfer from "./TableProductsTransfer";
 import { Textarea } from "@/components/ui/textarea";
 import TabelInventory from "./TabelInventory";
@@ -39,19 +37,9 @@ function ReportBar() {
   const isDisabled = isObserver || isCucina || isBar;
   const session = useSession();
 
-  // create
-  const { createMutation } = useApi<DailyReport>({
-    endpoint: "report",
-    queryKey: "report",
-    fetchInit: false,
-  });
-
   // local storage
-  const {
-    getValue,
-    setValue: setLocalStorage,
-    removeValue,
-  } = useLocalStorageForm<ReportBarFormValues>(STORAGE_KEY);
+  const { getValue, setValue: setLocalStorage } =
+    useLocalStorageForm<ReportBarFormValues>(STORAGE_KEY);
 
   //form
   const form = useForm<ReportBarFormValues>({

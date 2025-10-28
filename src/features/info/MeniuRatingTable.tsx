@@ -1,7 +1,5 @@
 "use client";
 import { FetchDataButton } from "@/components/buttons/FetchDataButton";
-import { DatePickerRange } from "@/components/inputs/DatePickerRange";
-import { Form } from "@/components/ui/form";
 import { useLocalStorageForm } from "@/hooks/use-local-storage";
 import { useForm, useWatch } from "react-hook-form";
 import {
@@ -15,8 +13,8 @@ import {
 import { useAbility } from "@/providers/AbilityProvider";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
-import { useDataSupaBase } from "@/hooks/useRealTimeData";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { supabaseStaff } from "@/lib/supabaseClient";
 
 type InputData = {
   form_data: {
@@ -95,14 +93,11 @@ export default function MeniuRatingTable() {
     },
   });
 
-  const { fetchRealTimeMeniuStaff: fetchRealTime } = useDataSupaBase({
-    localStorageKey: LOCAL_STORAGE_KEY,
-    apiKey: "meniu-staff",
-  });
-
   const fetchSupaBaseData = async () => {
-    const data = await fetchRealTime();
-    const resetData = sortData(data || []);
+    const data = await supabaseStaff
+      .from("meniu_staff_realtime")
+      .select("form_data,user_email");
+    const resetData = sortData(data.data || []);
     if (resetData) {
       form.reset({ items: resetData });
       setLocalStorage({ items: resetData } as any);

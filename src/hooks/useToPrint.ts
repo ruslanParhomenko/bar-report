@@ -46,20 +46,6 @@ export const usePrint = ({
   }
 `,
 
-    // pageStyle: `
-    //   @page {
-    //     size: auto;
-    //     margin: 10mm;
-    //   }
-    //   @media print {
-    //     body {
-    //       -webkit-print-color-adjust: exact;
-    //     }
-    //     .no-print {
-    //       display: none !important;
-    //     }
-    //   }
-    // `,
     onAfterPrint: () => toast.success(onSuccessMessage),
     onPrintError: () => toast.error(onErrorMessage),
   });

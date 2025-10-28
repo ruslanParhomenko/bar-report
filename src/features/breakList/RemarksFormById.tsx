@@ -9,8 +9,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { fetcher } from "@/lib/fetcher";
-import { useQuery } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
 import { OVER_HOURS } from "./constant";
 import NumericInput from "@/components/inputs/NumericInput";
@@ -21,14 +19,14 @@ import { useEffect } from "react";
 import { BreakRemarksData, defaultRemarks } from "./schema";
 import { format, isValid } from "date-fns";
 import { Button } from "@/components/ui/button";
-import { useApi } from "@/hooks/useApi";
 import { useRouter } from "@/i18n/navigation";
 import TextInput from "@/components/inputs/TextInput";
 import { toast } from "sonner";
 import { useEmployees } from "@/providers/EmployeesProvider";
-import { invalidateRemarks } from "@/app/actions/remarks/getRemarks";
+import { updateRemark } from "@/app/actions/archive/remarksAction";
 
-export default function RemarksFormByIdClient() {
+export default function RemarksFormByIdClient(data: any) {
+  const remarksData = data?.data;
   const router = useRouter();
   const employees = useEmployees();
   //employees
@@ -39,22 +37,6 @@ export default function RemarksFormByIdClient() {
   }));
   const params = useParams();
   const id = params.id as string;
-
-  const {
-    data: remarksData,
-    isLoading,
-    error,
-  } = useQuery({
-    queryKey: ["remarks", id],
-    queryFn: () => fetcher(`/api/remarks/${id}`),
-    enabled: !!id,
-  });
-
-  const { updateMutation } = useApi<Omit<BreakRemarksData, "rows">>({
-    endpoint: "remarks",
-    queryKey: "archive",
-    fetchInit: false,
-  });
 
   const form = useForm<Omit<BreakRemarksData, "rows">>({
     defaultValues: { remarks: [defaultRemarks] },
@@ -75,8 +57,11 @@ export default function RemarksFormByIdClient() {
   ) => {
     console.log(data);
     if (!id) return;
-    await updateMutation.mutate({ id, remarks: data.remarks });
-    invalidateRemarks();
+    await updateRemark({
+      id,
+      remarks: data.remarks,
+    });
+
     toast.success("Remarks updated successfully");
     router.back();
   };
@@ -85,8 +70,6 @@ export default function RemarksFormByIdClient() {
       form.reset({ remarks: remarksData.remarks });
     }
   }, [remarksData, form]);
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error</div>;
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handleSubmit)}>

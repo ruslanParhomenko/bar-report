@@ -6,13 +6,7 @@ import FilterArchiveData from "./FilterArchiveData";
 import { formatSelectData, getFilterKeys } from "./helpers";
 import { REPORT_CUCINA_ENDPOINT } from "@/constants/endpoint-tag";
 
-export default function ReportCucina({
-  data,
-  invalidate,
-}: {
-  data: ReportCucinaData[];
-  invalidate?: () => void;
-}) {
+export default function ReportCucina({ data }: { data: ReportCucinaData[] }) {
   const [filteredData, setFilteredData] = useState<any[]>([]);
   return (
     <>
@@ -25,11 +19,7 @@ export default function ReportCucina({
       />
       {filteredData.length > 0 &&
         filteredData.map((report, index: number) => (
-          <ReportCucinaTable
-            key={index}
-            data={report}
-            invalidate={invalidate}
-          />
+          <ReportCucinaTable key={index} data={report} />
         ))}
     </>
   );

@@ -11,22 +11,12 @@ import { DeleteListButton } from "../../features/archive/DeleteListButton";
 import { REMARKS_ENDPOINT } from "@/constants/endpoint-tag";
 import { RemarkData } from "@/constants/type";
 
-export default function RemarksTable({
-  data,
-  invalidate,
-}: {
-  data: RemarkData;
-  invalidate?: () => void;
-}) {
+export default function RemarksTable({ data }: { data: RemarkData }) {
   return (
     <Card>
       <CardHeader>
         <CardTitle>
-          <DeleteListButton
-            data={data}
-            nameTag={REMARKS_ENDPOINT}
-            invalidate={invalidate}
-          />
+          <DeleteListButton data={data} nameTag={REMARKS_ENDPOINT} />
         </CardTitle>
       </CardHeader>
       <CardContent>

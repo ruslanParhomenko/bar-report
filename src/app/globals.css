@@ -180,5 +180,6 @@ body::-webkit-scrollbar {
 @media print {
   .no-print {
     display: none !important;
+    visibility: hidden !important;
   }
 }

@@ -11,13 +11,7 @@ import NotesTable from "../NotesTable";
 
 export const classNameHead = "text-shadow-muted-foreground font-bold";
 export const classNameRowBorder = "border-b-bl";
-export default function ReportBarTable({
-  data,
-  invalidate,
-}: {
-  data: ReportBarData;
-  invalidate?: () => void;
-}) {
+export default function ReportBarTable({ data }: { data: ReportBarData }) {
   const visibleTables = [
     data.tobacco,
     data.expenses,
@@ -34,11 +28,7 @@ export default function ReportBarTable({
     <Card className="shadow-md border rounded-2xl md:p-4 mb-4">
       <CardHeader>
         <CardTitle>
-          <DeleteListButton
-            data={data}
-            nameTag={REPORT_BAR_ENDPOINT}
-            invalidate={invalidate}
-          />
+          <DeleteListButton data={data} nameTag={REPORT_BAR_ENDPOINT} />
         </CardTitle>
       </CardHeader>
       <CardContent className={`grid grid-cols-1  ${gridCols} gap-4`}>
