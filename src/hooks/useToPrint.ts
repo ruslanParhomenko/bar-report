@@ -22,7 +22,7 @@ export const usePrint = ({
     pageStyle: `
   @page {
     size: A4 landscape; 
-    margin: 4mm;
+    margin: 2mm;
   }
 
   @media print {

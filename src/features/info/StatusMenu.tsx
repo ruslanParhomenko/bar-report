@@ -15,7 +15,12 @@ export default function StatusMenu() {
       <PrintButton onPrint={handlePrint} className="mb-2" />
       <div
         ref={componentRef}
-        className="flex flex-col md:flex-row md:flex-wrap gap-4 w-full  print:h-[200mm]"
+        className="
+          flex flex-col md:flex-row md:flex-wrap gap-2 w-full 
+          print:grid print:grid-cols-4 print:gap-2 
+          print:w-[290mm] print:h-[205mm] print:overflow-hidden
+          print:text-[10px] print:p-2 print:m-0
+        "
       >
         {columns.map((col) => (
           <Card
