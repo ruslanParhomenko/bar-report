@@ -122,45 +122,52 @@ export default function Schedule() {
   return (
     <>
       <Form {...form}>
-        <form className="flex gap-6 items-center justify-between md:justify-start pb-2">
-          <SelectField
-            fieldName="month"
-            data={MONTHS}
-            placeHolder="month"
-            className="w-40"
-          />
-          <SelectField
-            fieldName="year"
-            data={YEAR}
-            placeHolder="year"
-            className="w-40"
-          />
+        <form className="flex items-center justify-between px-2 pt-2 pb-4">
+          <div className="flex gap-2">
+            <SelectField
+              fieldName="month"
+              data={MONTHS}
+              placeHolder="month"
+              className="w-24 p-0 h-8!"
+            />
+            <SelectField
+              fieldName="year"
+              data={YEAR}
+              placeHolder="year"
+              className="w-20 p-0 h-8!"
+            />
+          </div>
+          {schedule && (
+            <div className="flex flex-row  items-start md:gap-4 gap-1">
+              <Button
+                size={"sm"}
+                type="button"
+                variant={"outline"}
+                onClick={() =>
+                  router.push(`/settings/schedule/${schedule?.id}`)
+                }
+                disabled={isDisabled}
+                className="cursor-pointer p-0"
+              >
+                <PencilIcon className="h-3 w-3" />
+              </Button>
+              <PrintButton onPrint={handlePrint} />
+              <Button
+                size={"sm"}
+                type="button"
+                variant={"outline"}
+                onClick={() => sendScreenshot("📅 График смен")}
+                disabled={isDisabled || isSending}
+                className="cursor-pointer"
+              >
+                <MailIcon className="h-4 w-4" />
+              </Button>
+            </div>
+          )}
         </form>
       </Form>
       {schedule && (
-        <Card>
-          <CardHeader className="flex flex-row  items-start gap-4">
-            <Button
-              size={"sm"}
-              type="button"
-              onClick={() => router.push(`/settings/schedule/${schedule?.id}`)}
-              disabled={isDisabled}
-              className="cursor-pointer p-0"
-            >
-              <PencilIcon className="h-3 w-3" />
-            </Button>
-            <PrintButton onPrint={handlePrint} />
-            <Button
-              size={"sm"}
-              type="button"
-              variant={"outline"}
-              onClick={() => sendScreenshot("📅 График смен")}
-              disabled={isDisabled || isSending}
-              className="cursor-pointer"
-            >
-              <MailIcon className="h-4 w-4" />
-            </Button>
-          </CardHeader>
+        <>
           <div ref={componentRef}>
             <Table>
               <ScheduleHeader
@@ -254,7 +261,7 @@ export default function Schedule() {
               </TableFooter>
             </Table>
           </div>
-        </Card>
+        </>
       )}
     </>
   );
