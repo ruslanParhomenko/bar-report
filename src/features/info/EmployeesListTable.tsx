@@ -100,7 +100,7 @@ export function EmployeesListTable() {
         <Table className="md:table-fixed">
           <TableHeader>
             <TableRow className="text-gr">
-              <TableHead>#</TableHead>
+              <TableHead className="w-10">#</TableHead>
               <TableHead>{t("date")}</TableHead>
               <TableHead className="flex items-center md:gap-10 sticky left-0 bg-card z-10">
                 {t("name")}
@@ -111,6 +111,7 @@ export function EmployeesListTable() {
                 />
               </TableHead>
               <TableHead>{t("role")}</TableHead>
+              <TableHead>{t("mail")}</TableHead>
               <TableHead className="hidden md:table-cell">
                 {t("vacationDays")}
               </TableHead>
@@ -154,7 +155,9 @@ export function EmployeesListTable() {
                       !emp.employmentDate && "text-rd font-bold"
                     )}
                   >
-                    <TableCell className="font-medium">{idx + 1}</TableCell>
+                    <TableCell className="font-medium w-10">
+                      {idx + 1}
+                    </TableCell>
                     <TableCell>
                       {emp.employmentDate
                         ? format(emp.employmentDate, "dd.MM.yy")
@@ -164,6 +167,9 @@ export function EmployeesListTable() {
                       {emp.name}
                     </TableCell>
                     <TableCell>{emp.role}</TableCell>
+                    <TableCell className="truncate hidden md:table-cell">
+                      {emp.mail}
+                    </TableCell>
                     <TableCell>{vacationDays}</TableCell>
                     <TableCell>{usedVacationDays}</TableCell>
                     <TableCell>{remainingVacationDays}</TableCell>

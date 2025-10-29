@@ -30,22 +30,24 @@ export default function CardFormEmployees({
   });
 
   return (
-    <Card className="h-[80vh] flex flex-col">
-      <CardContent className=" flex-1 pt-4">
+    <Card className="h-[80vh] flex flex-col overflow-hidden">
+      <CardContent className=" flex-1 pt-4 overflow-y-auto">
         <Label className="text-base font-bold">{t("name")}</Label>
-        <TextInput fieldName="name" type="text" className="w-full my-4 h-10" />
+        <TextInput fieldName="name" type="text" className="w-full my-2 h-10" />
         <Label className="text-base font-bold">{t("role")}</Label>
         <SelectField
           data={EMPLOYEES_ROLE}
           fieldName="role"
-          className="truncate w-full my-4 h-10"
+          className="truncate w-full my-2 h-10"
         />
         <Label className="text-base font-bold">{t("rate")}</Label>
-        <TextInput fieldName="rate" className="my-4" />
+        <TextInput fieldName="rate" className="my-2" />
+        <Label className="text-base font-bold">{t("mail")}</Label>
+        <TextInput fieldName="mail" type="mail" className="w-full my-2 h-10" />
         <Label className="text-base font-bold">{t("employmentDate")}</Label>
         <DatePickerInput
           fieldName="employmentDate"
-          className="my-4 w-full h-10"
+          className="my-2 w-full h-10"
         />
 
         <Label className="font-bold text-base">{t("usedVacationDays")}</Label>
@@ -54,7 +56,7 @@ export default function CardFormEmployees({
           const startDate = vacationPayValues?.[index]?.startDate;
           const endDate = vacationPayValues?.[index]?.endDate;
           return (
-            <div key={field.id} className="flex flex-col gap-4 w-full my-4">
+            <div key={field.id} className="flex flex-col gap-4 w-full my-1">
               <div className="flex w-full gap-4">
                 <DatePickerRange
                   value={{

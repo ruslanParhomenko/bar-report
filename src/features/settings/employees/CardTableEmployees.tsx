@@ -103,6 +103,7 @@ export function EmployeesTable({ data }: { data: EmployeesContextValue[] }) {
                 />
               </TableHead>
               <TableHead>{t("role")}</TableHead>
+              <TableHead>{t("mail")}</TableHead>
               <TableHead className="hidden md:table-cell">
                 {t("vacationDays")}
               </TableHead>
@@ -152,6 +153,7 @@ export function EmployeesTable({ data }: { data: EmployeesContextValue[] }) {
                     {emp.name}
                   </TableCell>
                   <TableCell>{emp.role}</TableCell>
+                  <TableCell className="truncate">{emp.mail}</TableCell>
                   <TableCell>{vacationDays}</TableCell>
                   <TableCell>{usedVacationDays}</TableCell>
                   <TableCell>{isDisabled ? "-" : Number(emp.rate)}</TableCell>

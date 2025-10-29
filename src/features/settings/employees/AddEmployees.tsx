@@ -40,6 +40,7 @@ export default function AddEmployees() {
 
         const payloadUpdate = {
           name: data.name,
+          mail: data.mail,
           role: data.role,
           rate: data.rate,
           employmentDate: data.employmentDate
@@ -125,6 +126,7 @@ export default function AddEmployees() {
       } else {
         const payloadCreate = {
           name: data.name,
+          mail: data.mail,
           role: data.role,
           rate: data.rate,
           employmentDate: data.employmentDate

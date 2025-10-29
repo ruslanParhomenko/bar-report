@@ -9,6 +9,7 @@ export const vacationPaySchema = yup.object({
 export type VacationPaySchemaType = yup.InferType<typeof vacationPaySchema>;
 export const employeesSchema = yup.object({
   name: yup.string().required("Name is required"),
+  mail: yup.string().email().default(""),
   role: yup.string().required("Role is required"),
   rate: yup.string().required("Rate is required"),
   employmentDate: yup.string().default(""),
@@ -23,6 +24,7 @@ export const defaultVacationPay = {
 };
 export const defaultEmployee = {
   name: "",
+  mail: "",
   role: "",
   rate: "",
   employmentDate: "",
