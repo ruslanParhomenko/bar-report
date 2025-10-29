@@ -7,4 +7,3 @@
 
 [[plugins]]
   package = "@netlify/plugin-secrets-scan"
-  disabled = true
