@@ -9,6 +9,7 @@ import {
   Star,
   Settings,
   ShieldAlert,
+  DollarSign,
 } from "lucide-react";
 
 export const SIDEBAR_NAVIGATION = [
@@ -77,5 +78,11 @@ export const SIDEBAR_NAVIGATION = [
     url: "/penalty",
     url2: "/penalty",
     icon: ShieldAlert,
+  },
+  {
+    title: "tips",
+    url: "/tips",
+    url2: "/tips",
+    icon: DollarSign,
   },
 ];
