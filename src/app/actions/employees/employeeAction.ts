@@ -9,6 +9,7 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { revalidateTag } from "next/cache";
+import { invalidateEverywhere } from "../schedule/invalidateEverywhere";
 
 export type UserData = EmployeesSchemaTypeData;
 
@@ -24,17 +25,17 @@ export async function createEmployee(data: UserData) {
       countDays: pay.countDays,
     })),
   });
-  revalidateTag("employees");
+  invalidateEverywhere("employees");
   return docRef.id;
 }
 
 export async function updateEmployee(id: string, data: Omit<UserData, "id">) {
   console.log(data);
   await updateDoc(doc(db, "employees", id), data);
-  revalidateTag("employees");
+  invalidateEverywhere("employees");
 }
 
 export async function deleteEmployee(id: string) {
   await deleteDoc(doc(db, "employees", id));
-  revalidateTag("employees");
+  invalidateEverywhere("employees");
 }

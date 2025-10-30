@@ -3,8 +3,7 @@
 import { ScheduleType } from "@/features/settings/schedule/schema";
 import { db } from "@/lib/firebase";
 import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
-
-import { invalidateScheduleEverywhere } from "./invalidateScheduleEverywhere";
+import { invalidateEverywhere } from "./invalidateEverywhere";
 
 export type ScheduleData = ScheduleType & {
   uniqueKey: string;
@@ -18,7 +17,7 @@ export async function createSchedule(data: ScheduleData) {
     role: data.role,
     rowShifts: data.rowShifts,
   });
-  await invalidateScheduleEverywhere("schedule");
+  await invalidateEverywhere("schedule");
   return docRef.id;
 }
 
@@ -27,5 +26,5 @@ export async function updateSchedule(
   data: Omit<ScheduleData, "id">
 ) {
   await updateDoc(doc(db, "schedule", id), data);
-  await invalidateScheduleEverywhere("schedule");
+  await invalidateEverywhere("schedule");
 }

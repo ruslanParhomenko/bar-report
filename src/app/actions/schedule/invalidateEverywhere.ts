@@ -2,12 +2,10 @@
 
 import { revalidateTag } from "next/cache";
 
-export async function invalidateScheduleEverywhere(tag: string) {
-  console.log(tag);
+export async function invalidateEverywhere(tag: string) {
   revalidateTag(tag);
 
   const endpoints = [
-    "http://localhost:3000/api/revalidate",
     "https://report-bar-n.netlify.app/api/revalidate",
     "https://bar-report2.vercel.app/api/revalidate",
     "https://bar-report-rus.vercel.app/api/revalidate",
