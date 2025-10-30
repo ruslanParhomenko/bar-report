@@ -4,7 +4,6 @@ import { useEffect, useMemo, useState } from "react";
 import { usePathname, useRouter } from "@/i18n/navigation";
 import { useForm, useWatch } from "react-hook-form";
 import { Form } from "@/components/ui/form";
-import { Card, CardHeader } from "@/components/ui/card";
 import {
   Table,
   TableBody,
@@ -116,9 +115,6 @@ export default function Schedule() {
     ref: componentRef as React.RefObject<HTMLElement>,
     tagName: patch as string,
   });
-
-  console.log("schedule", schedule);
-
   return (
     <>
       <Form {...form}>
@@ -166,103 +162,101 @@ export default function Schedule() {
           )}
         </form>
       </Form>
-      {schedule && (
-        <>
-          <div ref={componentRef}>
-            <Table>
-              <ScheduleHeader
-                monthDays={monthDays}
-                setSelectedColumn={setSelectedColumn}
-                month={schedule.month}
-              />
-              <TableBody className="[&_input]:h-8 [&_input]:text-xs [&_input]:p-0 [&_input]:text-center [&_input]:w-6 [&_input]:border-0">
-                {schedule.rowShifts?.map((row, rowIndex) => {
-                  const isSelected = !["v", "s", ""].includes(
-                    row.shifts?.[selectedColumn as number]
-                  );
-                  const dayHourPay = (Number(row.rate) / 180) * 0.9; // минус 10%
-                  const nightHourPay = (Number(row.rate) / 180) * 1.15; // плюс 15%
-                  const totalPay =
-                    dayHourPay * Number(row.dayHours) +
-                    nightHourPay * Number(row.nightHours);
+      <div ref={componentRef}>
+        {schedule && (
+          <Table>
+            <ScheduleHeader
+              monthDays={monthDays}
+              setSelectedColumn={setSelectedColumn}
+              month={schedule.month}
+            />
+            <TableBody className="[&_input]:h-8 [&_input]:text-xs [&_input]:p-0 [&_input]:text-center [&_input]:w-6 [&_input]:border-0">
+              {schedule.rowShifts?.map((row, rowIndex) => {
+                const isSelected = !["v", "s", ""].includes(
+                  row.shifts?.[selectedColumn as number]
+                );
+                const dayHourPay = (Number(row.rate) / 180) * 0.9; // минус 10%
+                const nightHourPay = (Number(row.rate) / 180) * 1.15; // плюс 15%
+                const totalPay =
+                  dayHourPay * Number(row.dayHours) +
+                  nightHourPay * Number(row.nightHours);
 
-                  return (
-                    <TableRow key={row.id} className="hover:text-rd">
-                      <TableCell>{rowIndex + 1}</TableCell>
-                      <TableCell className="text-bl text-xs">
-                        {row.dayHours}
-                      </TableCell>
-                      <TableCell className="text-bl text-xs">
-                        {row.nightHours}
-                      </TableCell>
-                      <TableCell>{row.totalHours}</TableCell>
-                      <TableCell
-                        className={cn(
-                          "sticky left-0 bg-card text-muted-foreground w-34 p-0",
-                          isSelected && "text-rd font-bold"
-                        )}
-                      >
-                        {row.employee}
-                      </TableCell>
-                      <TableCell
-                        className="w-2 p-0 text-start text-muted-foreground font-bold no-print"
-                        data-html2canvas-ignore="true"
-                      >
-                        {!isDisabled && totalPay.toFixed(0).toString()}
-                      </TableCell>
-
-                      {row.shifts?.map((day, dayIndex) => {
-                        const isSelected = dayIndex === selectedColumn;
-
-                        return (
-                          <TableCell
-                            key={dayIndex}
-                            className={cn(
-                              "p-0 text-center border-x",
-                              color[day as keyof typeof color],
-                              isSelected && "!text-rd font-bold"
-                            )}
-                          >
-                            {["/", "v", "s"].includes(day) ? null : day}
-                          </TableCell>
-                        );
-                      })}
-
-                      <TableCell className="w-6" />
-                    </TableRow>
-                  );
-                })}
-              </TableBody>
-
-              <TableFooter data-html2canvas-ignore="true" className="no-print">
-                {SHIFT_OPTIONS.filter((item) =>
-                  SHIFTS[patch as keyof typeof SHIFTS].includes(item)
-                ).map((item, i) => (
-                  <TableRow key={i} className="h-6 bg-card border-0">
-                    <TableCell
-                      colSpan={6}
-                      className="text-end text-muted-gn h-6 pt-0.5 leading-none text-xs"
-                    >
-                      {item}
+                return (
+                  <TableRow key={row.id} className="hover:text-rd">
+                    <TableCell>{rowIndex + 1}</TableCell>
+                    <TableCell className="text-bl text-xs">
+                      {row.dayHours}
                     </TableCell>
-                    {shiftCounts?.[item]?.map((day, index) => (
-                      <TableCell
-                        key={index}
-                        className={cn(
-                          "w-8 text-center h-6 pt-0.5 leading-none text-xs text-muted-foreground",
-                          COLOR_SHIFT[day as keyof typeof COLOR_SHIFT]
-                        )}
-                      >
-                        {day === 0 ? null : day}
-                      </TableCell>
-                    ))}
+                    <TableCell className="text-bl text-xs">
+                      {row.nightHours}
+                    </TableCell>
+                    <TableCell>{row.totalHours}</TableCell>
+                    <TableCell
+                      className={cn(
+                        "sticky left-0 bg-card text-muted-foreground w-34 p-0",
+                        isSelected && "text-rd font-bold"
+                      )}
+                    >
+                      {row.employee}
+                    </TableCell>
+                    <TableCell
+                      className="w-2 p-0 text-start text-muted-foreground font-bold no-print"
+                      data-html2canvas-ignore="true"
+                    >
+                      {!isDisabled && totalPay.toFixed(0).toString()}
+                    </TableCell>
+
+                    {row.shifts?.map((day, dayIndex) => {
+                      const isSelected = dayIndex === selectedColumn;
+
+                      return (
+                        <TableCell
+                          key={dayIndex}
+                          className={cn(
+                            "p-0 text-center border-x",
+                            color[day as keyof typeof color],
+                            isSelected && "!text-rd font-bold"
+                          )}
+                        >
+                          {["/", "v", "s"].includes(day) ? null : day}
+                        </TableCell>
+                      );
+                    })}
+
+                    <TableCell className="w-6" />
                   </TableRow>
-                ))}
-              </TableFooter>
-            </Table>
-          </div>
-        </>
-      )}
+                );
+              })}
+            </TableBody>
+
+            <TableFooter data-html2canvas-ignore="true" className="no-print">
+              {SHIFT_OPTIONS.filter((item) =>
+                SHIFTS[patch as keyof typeof SHIFTS].includes(item)
+              ).map((item, i) => (
+                <TableRow key={i} className="h-6 bg-card border-0">
+                  <TableCell
+                    colSpan={6}
+                    className="text-end text-muted-gn h-6 pt-0.5 leading-none text-xs"
+                  >
+                    {item}
+                  </TableCell>
+                  {shiftCounts?.[item]?.map((day, index) => (
+                    <TableCell
+                      key={index}
+                      className={cn(
+                        "w-8 text-center h-6 pt-0.5 leading-none text-xs text-muted-foreground",
+                        COLOR_SHIFT[day as keyof typeof COLOR_SHIFT]
+                      )}
+                    >
+                      {day === 0 ? null : day}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))}
+            </TableFooter>
+          </Table>
+        )}
+      </div>
     </>
   );
 }

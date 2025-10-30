@@ -19,6 +19,7 @@ export default function PrintButton({
       size={"sm"}
       variant="outline"
       onClick={onPrint}
+      type="button"
       className={cn(
         "flex items-center gap-2 print:hidden  cursor-pointer hover:bg-bl hover:text-white",
         className
