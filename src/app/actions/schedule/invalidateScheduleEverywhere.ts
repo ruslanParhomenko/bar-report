@@ -2,14 +2,9 @@
 
 import { revalidateTag } from "next/cache";
 
-export async function invalidateScheduleEverywhere() {
-  const tag = "schedule";
-  const secret = process.env.REVALIDATE_SECRET!;
-
-  // локальная инвалидция
+export async function invalidateScheduleEverywhere(tag: string) {
   revalidateTag(tag);
 
-  // список твоих деплоев (можно добавить ngrok при локальной разработке)
   const endpoints = [
     "https://report-bar-n.netlify.app/api/revalidate",
     "https://bar-report2.vercel.app/api/revalidate",
@@ -22,7 +17,7 @@ export async function invalidateScheduleEverywhere() {
       fetch(url, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ secret, tag }),
+        body: JSON.stringify(tag),
       })
     )
   );
