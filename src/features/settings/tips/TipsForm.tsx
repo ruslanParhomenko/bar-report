@@ -5,7 +5,7 @@ import { defaultTipsForm, TipsFormType, tipsSchema } from "./schema";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Form } from "@/components/ui/form";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
-import ScheduleHeader from "../settings/schedule/ScheduleHeader";
+import ScheduleHeader from "../schedule/ScheduleHeader";
 import { useEffect, useMemo } from "react";
 import { getMonthDays, MONTHS } from "@/utils/getMonthDays";
 import { Button } from "@/components/ui/button";

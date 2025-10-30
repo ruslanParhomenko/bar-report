@@ -1,5 +1,5 @@
-import TipsForm from "@/features/tips/TipsForm";
+import TipsPage from "@/features/tips/TipsPage";
 
 export default function Page() {
-  return <TipsForm />;
+  return <TipsPage />;
 }
