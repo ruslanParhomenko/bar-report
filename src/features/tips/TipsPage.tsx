@@ -1,3 +1,7 @@
 export default function TipsPage() {
-  return <div>tips</div>;
+  return (
+    <div>
+      <h2>Данные о чаевых</h2>
+    </div>
+  );
 }

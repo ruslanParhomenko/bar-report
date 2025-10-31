@@ -67,7 +67,7 @@ export const PenaltyPage = ({ data }: { data: RemarkData[] }) => {
             (selectedEmployee === "all" || row.name === selectedEmployee)
         );
     });
-  }, [selectedMonth, selectedEmployee]);
+  }, [selectedMonth, selectedEmployee, data]);
 
   return (
     <div className="md:p-6 space-y-6">

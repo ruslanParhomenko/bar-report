@@ -55,7 +55,6 @@ export default function RemarksFormByIdClient(data: any) {
   const handleSubmit: SubmitHandler<Omit<BreakRemarksData, "rows">> = async (
     data
   ) => {
-    console.log(data);
     if (!id) return;
     await updateRemark({
       id,

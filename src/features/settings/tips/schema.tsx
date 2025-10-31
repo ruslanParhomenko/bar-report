@@ -12,6 +12,12 @@ const rowEmployeesTipsSchema = yup.object({
   tipsByDay: yup.array().of(tipsByDaySchema).default([]),
 });
 
+const cashTipsSchema = yup.object({
+  employee: yup.string().default("").required("Employee is required"),
+  tips: yup.string().default(""),
+  tipsByDay: yup.array().of(tipsByDaySchema).default([]),
+});
+
 export type rowEmployeesTipsSchema = yup.InferType<
   typeof rowEmployeesTipsSchema
 >;
@@ -26,6 +32,7 @@ export const tipsSchema = yup.object({
     .required("Year is required"),
   month: yup.string().default("").required("Month is required"),
   rowEmployeesTips: yup.array().of(rowEmployeesTipsSchema).default([]),
+  cashTips: cashTipsSchema,
 });
 
 export type TipsFormType = yup.InferType<typeof tipsSchema>;

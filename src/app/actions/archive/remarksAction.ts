@@ -72,6 +72,7 @@ export async function updateRemark(data: any) {
   });
 
   revalidateTag("archive");
+  revalidateTag("remarks");
   return updatedReport.id;
 }
 

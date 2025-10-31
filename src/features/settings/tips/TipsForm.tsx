@@ -4,12 +4,19 @@ import { Resolver, useFieldArray, useForm } from "react-hook-form";
 import { defaultTipsForm, TipsFormType, tipsSchema } from "./schema";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Form } from "@/components/ui/form";
-import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableFooter,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import ScheduleHeader from "../schedule/ScheduleHeader";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { getMonthDays, MONTHS } from "@/utils/getMonthDays";
 import { Button } from "@/components/ui/button";
-import { ChevronDown, ChevronUp, Minus, RotateCcw } from "lucide-react";
+import { ChevronDown, ChevronUp, Minus, Plus, RotateCcw } from "lucide-react";
 import SelectField from "@/components/inputs/SelectField";
 import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
@@ -17,12 +24,23 @@ import SelectScheduleEmployee from "@/components/inputs/SelectScheduleEmployee";
 import { useEmployees } from "@/providers/EmployeesProvider";
 import { cn } from "@/lib/utils";
 import { handleTableNavigation } from "@/utils/handleTableNavigation";
+import { useParams } from "next/navigation";
+import { saveTipsForm } from "@/app/actions/tips/tipsAction";
 
 const SELECTED_ROLE = ["barmen", "waiters", "dish"];
+
+const ROLES: Array<"waiters" | "barmen" | "dish"> = [
+  "waiters",
+  "barmen",
+  "dish",
+];
 
 export default function TipsForm() {
   const router = useRouter();
   const t = useTranslations("Home");
+
+  const { id } = useParams();
+  const todayDay = new Date().getDate();
 
   // инициализация формы
   const form = useForm<TipsFormType>({
@@ -34,6 +52,9 @@ export default function TipsForm() {
     control: form.control,
     name: "rowEmployeesTips",
   });
+
+  const formDataRef = useRef<TipsFormType>(form.getValues());
+  const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const month = form.watch("month");
   const year = form.watch("year");
@@ -92,9 +113,17 @@ export default function TipsForm() {
     form.reset(updatedData);
   };
 
-  // отправка формы
-  const onSubmit = (data: TipsFormType) => {
-    console.log("Submitted data:", data);
+  // Функция отправки формы
+  const onSubmit = async (data: TipsFormType) => {
+    console.log(data);
+    try {
+      // Если есть id, обновляем; иначе создаем новую запись
+      await saveTipsForm(data);
+      console.log("Форма сохранена:", data);
+      formDataRef.current = data; // обновляем ссылку на текущие данные
+    } catch (err) {
+      console.error("Ошибка при сохранении формы:", err);
+    }
   };
   // добавить новую строку вручную
   const addNewRow = () => {
@@ -108,6 +137,41 @@ export default function TipsForm() {
       tipsByDay: Array(monthDays.length).fill(""),
     });
   };
+
+  const rowsByRole = useMemo(() => {
+    const groups: Record<string, typeof fields> = {
+      waiters: [],
+      barmen: [],
+      dish: [],
+    };
+    fields.forEach((row) => {
+      if (row.role === "waiters") groups.waiters.push(row);
+      else if (row.role === "barmen") groups.barmen.push(row);
+      else if (row.role === "dish") groups.dish.push(row);
+    });
+    return groups;
+  }, [fields]);
+
+  // Автосохранение cashTips.tipsByDay через 15 сек
+  useEffect(() => {
+    // следим только за cashTips.tipsByDay
+    const subscription = form.watch((value, { name }) => {
+      if (!name?.startsWith("cashTips.tipsByDay")) return;
+
+      // сбрасываем предыдущий таймер
+      if (saveTimeoutRef.current) clearTimeout(saveTimeoutRef.current);
+
+      // таймер 15 секунд
+      saveTimeoutRef.current = setTimeout(() => {
+        onSubmit(form.getValues());
+      }, 15000);
+    });
+
+    return () => {
+      subscription.unsubscribe();
+      if (saveTimeoutRef.current) clearTimeout(saveTimeoutRef.current);
+    };
+  }, [form]);
 
   return (
     <Form {...form}>
@@ -163,89 +227,192 @@ export default function TipsForm() {
         {/* Таблица */}
         <Table className="md:table-fixed">
           {month && (
-            <ScheduleHeader monthDays={monthDays} addNewRow={addNewRow} />
+            <TableHeader>
+              <TableRow>
+                <TableCell className="w-3 text-start p-0" />
+                <TableCell className="w-30 p-0 front-bold text-center">
+                  {month?.toUpperCase() || ""}
+                </TableCell>
+
+                {monthDays.map((day) => {
+                  return (
+                    <TableCell
+                      key={day.day}
+                      className={cn(
+                        "w-8 cursor-pointer p-0",
+                        day.day === todayDay && "text-rd front-bold"
+                      )}
+                    >
+                      <div className="text-sm font-semibold text-center">
+                        {day.day}
+                      </div>
+                      <div className="text-xs text-muted-foreground text-center">
+                        {day.weekday}
+                      </div>
+                    </TableCell>
+                  );
+                })}
+
+                <TableCell className="w-6" />
+              </TableRow>
+            </TableHeader>
           )}
 
-          <TableBody className="[&_input]:h-8 [&_input]:text-md [&_input]:py-0.5 [&_input]:text-center [&_input]:w-8 [&_input]:border-0">
-            {fields.map((row, rowIndex) => (
-              <TableRow key={row.id} className="hover:text-rd p-0 h-10">
-                {/* Номер строки */}
-                <TableCell
-                  className="text-rd cursor-pointer w-2 p-0"
-                  onClick={() => remove(rowIndex)}
-                >
-                  {rowIndex + 1}
-                </TableCell>
-                <TableCell className="w-6" />
-                <TableCell className="w-6" />
+          {ROLES.map((role, roleIndex) => {
+            const roleRows = fields.filter((row) => row.role === role);
+            if (roleRows.length === 0) return null;
 
-                {/* Сумма чаевых */}
-                <TableCell className="p-0 text-center">
-                  <input
-                    {...form.register(`rowEmployeesTips.${rowIndex}.tips`)}
-                    className="font-bold"
-                    readOnly
-                  />
-                </TableCell>
+            return (
+              <tbody key={role}>
+                {/* Разделитель между ролями */}
+                {roleIndex > 0 && (
+                  <tr>
+                    <td
+                      colSpan={monthDays.length + 3}
+                      className="h-2 bg-bl"
+                    ></td>
+                  </tr>
+                )}
 
-                {/* Имя сотрудника */}
-                <TableCell className="sticky left-0 p-0 bg-white">
-                  <SelectScheduleEmployee
-                    fieldName={`rowEmployeesTips.${rowIndex}.employee`}
-                    data={selectedEmployees}
-                    className="w-32 px-1 hover:text-rd justify-start"
-                  />
-                </TableCell>
-
-                {/* Кнопка сброса строки */}
-                <TableCell
-                  className="w-4 cursor-pointer p-0"
-                  onClick={() => resetRow(rowIndex)}
-                >
-                  <Minus className="w-3 h-3" />
-                </TableCell>
-
-                {/* Дни месяца */}
-                {monthDays.map((_day, dayIndex) => (
-                  <TableCell key={dayIndex} className="p-0 text-center w-10">
-                    <input
-                      {...form.register(
-                        `rowEmployeesTips.${rowIndex}.tipsByDay.${dayIndex}`
-                      )}
-                      data-row={rowIndex}
-                      data-col={dayIndex}
-                      onKeyDown={(e) =>
-                        handleTableNavigation(e, rowIndex, dayIndex)
+                {/* Кнопка добавить строку для этой роли */}
+                <tr>
+                  <td colSpan={monthDays.length + 3} className="p-1 text-start">
+                    <Button
+                      type="button"
+                      size="sm"
+                      variant="outline"
+                      onClick={() =>
+                        append({
+                          id: (fields.length + 1).toString(),
+                          employeeId: "",
+                          employee: "",
+                          role: role, // важный момент
+                          rate: "",
+                          tips: "",
+                          tipsByDay: Array(monthDays.length).fill(""),
+                        })
                       }
-                      className={cn("w-10")}
-                    />
-                  </TableCell>
-                ))}
+                    >
+                      <Plus className="h-3 w-3" />
+                    </Button>
+                  </td>
+                </tr>
 
-                {/* Перемещение строк вверх/вниз */}
-                <TableCell className="w-6 flex flex-col justify-center items-center p-0">
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    disabled={rowIndex === 0}
-                    onClick={() => move(rowIndex, rowIndex - 1)}
-                    className="w-3 h-3 p-0 flex items-center justify-center"
-                  >
-                    <ChevronUp className="w-2 h-3" />
-                  </Button>
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    disabled={rowIndex === fields.length - 1}
-                    onClick={() => move(rowIndex, rowIndex + 1)}
-                    className="w-3 h-3 p-0 flex items-center justify-center"
-                  >
-                    <ChevronDown className="w-2 h-3" />
-                  </Button>
+                {roleRows.map((row, rowIndex) => {
+                  const globalIndex = fields.indexOf(row); // индекс в общей таблице
+                  const rowNumber = Object.values(rowsByRole)
+                    .flat()
+                    .findIndex((r) => r.id === row.id);
+                  return (
+                    <TableRow key={row.id} className="hover:text-rd p-0 h-6">
+                      <TableCell
+                        className="text-rd cursor-pointer p-0 h-6"
+                        onClick={() => remove(globalIndex)}
+                      >
+                        {rowIndex + 1}
+                      </TableCell>
+
+                      <TableCell className="sticky left-0 p-0 bg-card">
+                        <SelectScheduleEmployee
+                          fieldName={`rowEmployeesTips.${globalIndex}.employee`}
+                          data={selectedEmployees.filter(
+                            (emp) => emp.role === role
+                          )}
+                          className="w-full hover:text-rd justify-start h-6!"
+                        />
+                      </TableCell>
+
+                      {monthDays.map((_day, dayIndex) => (
+                        <TableCell key={dayIndex} className="p-1 h-6">
+                          <input
+                            {...form.register(
+                              `rowEmployeesTips.${globalIndex}.tipsByDay.${dayIndex}`
+                            )}
+                            data-row={rowNumber} // уникальный и непрерывный индекс
+                            data-col={dayIndex}
+                            onKeyDown={(e) =>
+                              handleTableNavigation(e, rowNumber, dayIndex)
+                            }
+                            className={cn(
+                              "w-full h-6 bg-border text-sm text-center"
+                            )}
+                          />
+                        </TableCell>
+                      ))}
+
+                      <TableCell className="w-6 flex flex-col justify-center items-center p-0">
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          disabled={rowIndex === 0}
+                          onClick={() => {
+                            // перемещение вверх внутри своей роли
+                            if (rowIndex > 0) {
+                              const targetGlobalIndex = fields.indexOf(
+                                roleRows[rowIndex - 1]
+                              );
+                              move(globalIndex, targetGlobalIndex);
+                            }
+                          }}
+                          className="w-3 h-3 p-0 flex items-center justify-center"
+                        >
+                          <ChevronUp className="w-2 h-3" />
+                        </Button>
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          disabled={rowIndex === roleRows.length - 1}
+                          onClick={() => {
+                            // перемещение вниз внутри своей роли
+                            if (rowIndex < roleRows.length - 1) {
+                              const targetGlobalIndex = fields.indexOf(
+                                roleRows[rowIndex + 1]
+                              );
+                              move(globalIndex, targetGlobalIndex);
+                            }
+                          }}
+                          className="w-3 h-3 p-0 flex items-center justify-center"
+                        >
+                          <ChevronDown className="w-2 h-3" />
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+              </tbody>
+            );
+          })}
+          <tr>
+            <td colSpan={monthDays.length + 3} className="h-2 bg-bl"></td>
+          </tr>
+          <TableFooter>
+            <TableRow>
+              <TableCell className="text-rd cursor-pointer p-0 h-6">
+                1
+              </TableCell>
+
+              <TableCell className="sticky left-0 p-0 bg-card">
+                cash tips
+              </TableCell>
+              {monthDays.map((_day, dayIndex) => (
+                <TableCell key={dayIndex} className="p-1 h-6">
+                  <input
+                    {...form.register(`cashTips.tipsByDay.${dayIndex}`)}
+                    data-row={Object.values(rowsByRole).flat().length} // следующий индекс после всех сотрудников
+                    data-col={dayIndex}
+                    onKeyDown={(e) =>
+                      handleTableNavigation(
+                        e,
+                        Object.values(rowsByRole).flat().length,
+                        dayIndex
+                      )
+                    }
+                    className={cn("w-full h-6 bg-border text-sm text-center")}
+                  />
                 </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
+              ))}
+            </TableRow>
+          </TableFooter>
         </Table>
       </form>
     </Form>
