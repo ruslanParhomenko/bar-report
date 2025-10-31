@@ -1,44 +1,32 @@
 "use server";
 
-import { TipsFormType } from "@/features/settings/tips/schema";
+import { TipsFormType } from "@/features/tips/schema";
 import { supabase } from "@/lib/supabaseClient";
+import { revalidateTag } from "next/cache";
 
-/**
- * Сохраняет все данные формы TipsFormType в Supabase
- */
 export async function saveTipsForm(data: TipsFormType) {
-  const { year, month, rowEmployeesTips, cashTips, id } = data;
+  const { year, month } = data;
 
-  // Для каждой строки создаем или обновляем запись
-  const employeePromises = rowEmployeesTips.map((row: any) => {
-    return supabase
-      .from("tips")
-      .upsert({
-        id: row.id || undefined,
-        employee_id: row.employeeId,
-        role: row.role,
-        rate: row.rate,
-        tips: row.tips || null,
-        tips_by_day: row.tipsByDay,
-        year,
-        month,
-      })
-      .select();
-  });
+  if (!year || !month) {
+    throw new Error("Year или month отсутствуют в данных формы");
+  }
 
-  // Для cash tips
-  const cashPromise = supabase
-    .from("cash_tips")
-    .upsert({
-      id: cashTips.employee, // можно использовать employee как id
-      tips: cashTips.tips || null,
-      tips_by_day: cashTips.tipsByDay,
-      year,
-      month,
-    })
-    .select();
+  const unique_id = `${year}_${month}`;
 
-  const results = await Promise.all([...employeePromises, cashPromise]);
+  const { data: savedData, error } = await supabase.from("tips").upsert(
+    {
+      unique_id: unique_id,
+      form_data: data,
+    },
+    { onConflict: "unique_id" }
+  );
 
-  return results;
+  if (error) {
+    console.error("Ошибка при сохранении формы:", error);
+    throw error;
+  }
+
+  await revalidateTag("tips");
+
+  return savedData;
 }

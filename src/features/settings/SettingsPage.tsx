@@ -2,7 +2,6 @@ import AccordionWrapper from "@/components/wrapper/AccordionWrapper";
 import AddEmployees from "./employees/AddEmployees";
 import AddUsers from "./users/AddUsers";
 import { ScheduleTable } from "./schedule/ScheduleTable";
-import TipsForm from "./tips/TipsForm";
 
 export default function SettingsPage() {
   return (
@@ -15,9 +14,6 @@ export default function SettingsPage() {
       </AccordionWrapper>
       <AccordionWrapper nameTag="schedule" className="md:flex-row">
         <ScheduleTable />
-      </AccordionWrapper>
-      <AccordionWrapper nameTag="tips" className="md:flex-row">
-        <TipsForm />
       </AccordionWrapper>
     </>
   );

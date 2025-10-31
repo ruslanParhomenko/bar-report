@@ -6,14 +6,14 @@ const rowEmployeesTipsSchema = yup.object({
   id: yup.string().default("").required("Id is required"),
   employee: yup.string().default("").required("Employee is required"),
   role: yup.string().default(""),
-  rate: yup.string().default("").required("Rate is required"),
+  rate: yup.string().default(""),
   tips: yup.string().default(""),
-  employeeId: yup.string().default("").required("EmployeeId is required"),
+  employeeId: yup.string().default(""),
   tipsByDay: yup.array().of(tipsByDaySchema).default([]),
 });
 
 const cashTipsSchema = yup.object({
-  employee: yup.string().default("").required("Employee is required"),
+  employee: yup.string().default("cash tips"),
   tips: yup.string().default(""),
   tipsByDay: yup.array().of(tipsByDaySchema).default([]),
 });
