@@ -1,3 +1,5 @@
+import { MONTHS } from "@/utils/getMonthDays";
+import { ro } from "date-fns/locale";
 import * as yup from "yup";
 
 const tipsByDaySchema = yup.string().default("");
@@ -11,6 +13,8 @@ const rowEmployeesTipsSchema = yup.object({
   employeeId: yup.string().default(""),
   tipsByDay: yup.array().of(tipsByDaySchema).default([]),
 });
+
+export type RowEmployeesTipsType = yup.InferType<typeof rowEmployeesTipsSchema>;
 
 const cashTipsSchema = yup.object({
   employee: yup.string().default("cash tips"),
@@ -30,7 +34,10 @@ export const tipsSchema = yup.object({
     .string()
     .default(new Date().getFullYear().toString())
     .required("Year is required"),
-  month: yup.string().default("").required("Month is required"),
+  month: yup
+    .string()
+    .default(MONTHS[new Date().getMonth()])
+    .required("Month is required"),
   rowEmployeesTips: yup.array().of(rowEmployeesTipsSchema).default([]),
   cashTips: cashTipsSchema,
 });

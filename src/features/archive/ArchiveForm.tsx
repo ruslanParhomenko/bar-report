@@ -1,4 +1,3 @@
-"use client";
 import {
   BREAK_LIST_ENDPOINT,
   REMARKS_ENDPOINT,
@@ -33,14 +32,6 @@ export type ApiDataMap = {
 };
 
 export const ArchivePage = ({ data }: { data: ApiDataMap }) => {
-  if (!data) {
-    return (
-      <div className="space-y-3">
-        <Skeleton className="h-8 w-1/3 rounded-lg" />
-        <Skeleton className="h-24 w-full rounded-xl" />
-      </div>
-    );
-  }
   return (
     <>
       <AccordionWrapper nameTag={BREAK_LIST_ENDPOINT}>

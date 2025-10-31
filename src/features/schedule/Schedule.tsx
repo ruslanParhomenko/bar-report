@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/table";
 import SelectField from "@/components/inputs/SelectField";
 import ScheduleHeader from "../settings/schedule/ScheduleHeader";
-import { getMonthDays, MONTHS } from "@/utils/getMonthDays";
+import { getMonthDays, MONTHS, YEAR } from "@/utils/getMonthDays";
 import { ScheduleData } from "@/app/actions/schedule/scheduleAction";
 import { Button } from "@/components/ui/button";
 import { useSchedules } from "@/providers/ScheduleProvider";
@@ -99,8 +99,6 @@ export default function Schedule() {
   useEffect(() => {
     setValue({ month, year });
   }, [month, setValue, year]);
-
-  const YEAR = ["2025", "2026", "2027", "2028", "2029", "2030"];
 
   const todayDay = new Date().getDate();
   const todayIndex = monthDays.findIndex((day) => day.day === todayDay);
