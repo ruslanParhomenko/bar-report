@@ -8,7 +8,7 @@ import { useFormContext } from "react-hook-form";
 import { Plus } from "lucide-react";
 import { defaultUser } from "./schema";
 
-const ROLES = ["ADMIN", "BAR", "CUCINA", "USER", "MNGR"];
+const ROLES = ["ADMIN", "BAR", "CUCINA", "USER", "MNGR", "CASH"];
 
 export default function CardFormUsers({ disabled }: { disabled?: boolean }) {
   const t = useTranslations("Home");

@@ -1,33 +1,15 @@
 "use client";
 
 import { Resolver, useFieldArray, useForm } from "react-hook-form";
-import {
-  defaultTipsForm,
-  RowEmployeesTipsType,
-  TipsFormType,
-  tipsSchema,
-} from "./schema";
+import { defaultTipsForm, TipsFormType, tipsSchema } from "./schema";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Form } from "@/components/ui/form";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableFooter,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { Table } from "@/components/ui/table";
 import { useEffect, useMemo } from "react";
-import { getMonthDays, MONTHS, YEAR } from "@/utils/getMonthDays";
-import { Button } from "@/components/ui/button";
-import { ChevronDown, ChevronUp, Plus, RotateCcw } from "lucide-react";
-import SelectField from "@/components/inputs/SelectField";
-import { useTranslations } from "next-intl";
-import { useRouter } from "@/i18n/navigation";
-import SelectScheduleEmployee from "@/components/inputs/SelectScheduleEmployee";
+import { getMonthDays } from "@/utils/getMonthDays";
+
 import { useEmployees } from "@/providers/EmployeesProvider";
-import { cn } from "@/lib/utils";
-import { handleTableNavigation } from "@/utils/handleTableNavigation";
+
 import { saveTipsForm } from "@/app/actions/tips/tipsAction";
 import { toast } from "sonner";
 import { useAbility } from "@/providers/AbilityProvider";
@@ -40,10 +22,8 @@ import TableBodyData from "./TabelBody";
 const SELECTED_ROLE = ["barmen", "waiters", "dish"];
 
 export default function TipsForm({ initialData }: { initialData: any[] }) {
-  const { isAdmin, isMngr } = useAbility();
+  const { isAdmin, isMngr, isCash } = useAbility();
   const isDisabled = !isAdmin && !isMngr;
-  const router = useRouter();
-  const t = useTranslations("Home");
 
   // form
   const form = useForm<TipsFormType>({
@@ -163,7 +143,7 @@ export default function TipsForm({ initialData }: { initialData: any[] }) {
 
           <TableFooterData
             monthDays={monthDays}
-            disabled={!isAdmin}
+            disabled={!isAdmin && !isCash}
             form={form}
             dataRowsCount={dataRowsCount.length}
           />

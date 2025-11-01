@@ -60,6 +60,7 @@ export default async function RootLayout({
     isCucina: user?.role === "CUCINA",
     isUser: user?.role === "USER",
     isMngr: user?.role === "MNGR",
+    isCash: user?.role === "CASH",
     isObserver: user?.role === "OBSERVER",
   };
 

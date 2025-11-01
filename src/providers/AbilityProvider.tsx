@@ -10,6 +10,7 @@ type AbilityFlags = {
   isObserver: boolean;
   isUser: boolean;
   isMngr: boolean;
+  isCash: boolean;
 };
 
 type AbilityContextType = AbilityFlags & {
@@ -35,7 +36,8 @@ export function AbilityProvider({
         !serverAbility.isBar &&
         !serverAbility.isCucina &&
         !serverAbility.isUser &&
-        !serverAbility.isMngr,
+        !serverAbility.isMngr &&
+        !serverAbility.isCash,
     };
 
     return { ...ability, query: users || [] };
