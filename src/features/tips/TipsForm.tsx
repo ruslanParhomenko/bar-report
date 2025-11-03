@@ -23,7 +23,7 @@ const SELECTED_ROLE = ["barmen", "waiters", "dish"];
 
 export default function TipsForm({ initialData }: { initialData: any[] }) {
   const { isAdmin, isMngr, isCash } = useAbility();
-  const isDisabled = !isAdmin && !isMngr;
+  const isDisabled = !isAdmin && !isMngr && !isCash;
 
   // form
   const form = useForm<TipsFormType>({
