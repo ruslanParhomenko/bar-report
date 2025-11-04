@@ -1,5 +1,10 @@
 {
   "Home": {
+    "visaCasino": "Виза Казино",
+    "difference": "Курс-Разница",
+    "bayChips": "Счета Фишки",
+    "cashBar": "Счета БАР",
+    "cash": "Касса",
     "tips": "Чай",
     "staffMenu": "Меню персонала",
     "exit": "Выход",

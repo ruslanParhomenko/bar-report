@@ -1,7 +1,7 @@
 import { TableCell, TableHeader, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 
-export default function TableHeaderData({
+export default function TableHeaderCash({
   month,
   monthDays,
   className,
@@ -15,9 +15,8 @@ export default function TableHeaderData({
   const todayDay = new Date().getDate();
   return (
     <TableHeader>
-      <TableRow>
-        <TableCell className="w-3 text-start p-0" />
-        <TableCell className="w-30 p-0 front-bold text-center">
+      <TableRow className="h-12">
+        <TableCell colSpan={2} className="w-18 !p-0 front-bold text-center">
           {month?.toUpperCase() || ""}
         </TableCell>
 
@@ -26,8 +25,8 @@ export default function TableHeaderData({
             <TableCell
               key={day.day}
               className={cn(
-                "w-8 cursor-pointer p-0",
-                day.day === todayDay && "text-rd front-bold"
+                "w-9 cursor-pointer !p-0 ",
+                day.day === todayDay && "text-blue-900 front-bold"
               )}
             >
               <div className="text-sm font-semibold text-center">{day.day}</div>
@@ -37,8 +36,6 @@ export default function TableHeaderData({
             </TableCell>
           );
         })}
-
-        <TableCell className="w-6" />
       </TableRow>
     </TableHeader>
   );

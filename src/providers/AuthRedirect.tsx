@@ -4,17 +4,31 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useSession } from "next-auth/react";
 
+const roleRedirects: Record<string, string> = {
+  CASH: "/cash",
+  BAR: "/schedule/bar",
+  CUCINA: "/schedule/cucina",
+  ADMIN: "/archive",
+};
+
 const SignInRedirect = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
-  const { status } = useSession();
+  const { status, data } = useSession();
+  const role = data?.user?.role;
 
   useEffect(() => {
     if (status === "loading") return;
 
-    if (status === "authenticated") {
-      router.replace("/schedule/bar");
+    if (status === "unauthenticated") {
+      router.replace("/");
+      return;
     }
-  }, [status, router]);
+
+    if (status === "authenticated") {
+      const target = roleRedirects[role ?? ""] ?? "/schedule/bar";
+      router.replace(target);
+    }
+  }, [status, role, router]);
 
   if (status === "loading") {
     return (

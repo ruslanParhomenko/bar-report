@@ -10,6 +10,11 @@ import {
   Settings,
   ShieldAlert,
   DollarSign,
+  Wallet,
+  BanknoteArrowUp,
+  Banknote,
+  PiggyBank,
+  CreditCard,
 } from "lucide-react";
 
 export const SIDEBAR_NAVIGATION = [
@@ -84,5 +89,11 @@ export const SIDEBAR_NAVIGATION = [
     url: "/tips",
     url2: "/tips",
     icon: DollarSign,
+  },
+  {
+    title: "cash",
+    url: "/cash",
+    url2: "/cash",
+    icon: CreditCard,
   },
 ];
