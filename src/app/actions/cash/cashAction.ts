@@ -12,7 +12,7 @@ export async function saveCashForm(data: CashFormType) {
     throw new Error("Year или month отсутствуют в данных формы");
   }
 
-  const unique_id = `${year}_${month}`;
+  const unique_id = `${year}-${month}`;
 
   const { data: savedData, error } = await supabase.from("cash").upsert(
     {

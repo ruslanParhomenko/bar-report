@@ -4,14 +4,14 @@ import { TipsFormType } from "@/features/tips/schema";
 import { supabase } from "@/lib/supabaseClient";
 import { revalidateTag } from "next/cache";
 
-export async function saveTipsForm(data: TipsFormType) {
+export async function saveTipsForm(data: Omit<TipsFormType, "cashTips">) {
   const { year, month } = data;
 
   if (!year || !month) {
     throw new Error("Year или month отсутствуют в данных формы");
   }
 
-  const unique_id = `${year}_${month}`;
+  const unique_id = `${year}-${month}`;
 
   const { data: savedData, error } = await supabase.from("tips").upsert(
     {

@@ -18,10 +18,18 @@ import TableHeaderData from "./TableHeader";
 import TableFooterData from "./TableFooter";
 import { groupRowsByRole } from "./utils";
 import TableBodyData from "./TabelBody";
+import NumericInput from "@/components/inputs/NumericInput";
+import TextInput from "@/components/inputs/TextInput";
 
 const SELECTED_ROLE = ["barmen", "waiters", "dish"];
 
-export default function TipsForm({ initialData }: { initialData: any[] }) {
+export default function TipsForm({
+  dataTips,
+  dataCash,
+}: {
+  dataTips: any[];
+  dataCash: any[];
+}) {
   const { isAdmin, isMngr, isCash } = useAbility();
   const isDisabled = !isAdmin && !isMngr && !isCash;
 
@@ -31,17 +39,14 @@ export default function TipsForm({ initialData }: { initialData: any[] }) {
     defaultValues: defaultTipsForm,
   });
 
-  const { fields, remove, append, move, replace } = useFieldArray<TipsFormType>(
-    {
-      control: form.control,
-      name: "rowEmployeesTips",
-    }
-  );
+  const { fields, remove, append, move } = useFieldArray<TipsFormType>({
+    control: form.control,
+    name: "rowEmployeesTips",
+  });
 
   const month = form.watch("month");
   const year = form.watch("year");
 
-  // список сотрудников
   const employees = useEmployees();
   const selectedEmployees = useMemo(() => {
     return employees
@@ -50,72 +55,58 @@ export default function TipsForm({ initialData }: { initialData: any[] }) {
       .sort((a, b) => a.name.localeCompare(b.name));
   }, [employees]);
 
-  // вычисляем дни месяца
   const monthDays = useMemo(() => {
     if (!month || !year) return [];
     return getMonthDays({ month, year });
   }, [month, year]);
 
-  // когда выбран месяц или год — создаем строки для всех сотрудников
   useEffect(() => {
     if (!month || !year || selectedEmployees.length === 0) return;
 
     const newRows = selectedEmployees.map((employee, index) => ({
       id: (index + 1).toString(),
-      employeeId: employee.id ?? "",
       employee: employee.name ?? "",
       role: employee.role ?? "",
-      rate: "",
       tips: "",
       tipsByDay: Array(monthDays.length).fill(""),
     }));
 
     form.setValue("rowEmployeesTips", newRows);
-    form.setValue("cashTips.tipsByDay", Array(monthDays.length).fill(""));
+    form.setValue("cashTips", Array(monthDays.length).fill(""));
   }, [month, year, selectedEmployees, monthDays.length]);
-
-  // сброс формы
-  const resetForm = () => {
-    form.reset(defaultTipsForm);
-    replace([]); // очищаем таблицу
-  };
 
   // Функция отправки формы
   const onSubmit = async (data: TipsFormType) => {
-    await saveTipsForm(data);
+    const { cashTips, ...dataWithoutCash } = data;
+    console.log("Submitting data:", dataWithoutCash);
+    await saveTipsForm(dataWithoutCash);
     toast.success("Форма сохранена успешно!");
-  };
-  // добавить новую строку вручную
-  const addNewRow = () => {
-    append({
-      id: (fields.length + 1).toString(),
-      employeeId: "",
-      employee: "",
-      role: "",
-      rate: "",
-      tips: "",
-      tipsByDay: Array(monthDays.length).fill(""),
-    });
   };
 
   const rowsByRole = useMemo(() => groupRowsByRole(fields), [fields]);
   const dataRowsCount = Object.values(rowsByRole).flat();
 
   useEffect(() => {
-    if (!initialData || !month || !year) return;
+    if (!dataTips || !month || !year) return;
 
-    const unique_id = `${year}_${month}`;
-    const dataForMonth = initialData.find(
+    const unique_id = `${year}-${month}`;
+    const dataTipsForMonth = dataTips.find(
+      (item: any) => item.unique_id === unique_id
+    );
+    console.log("dataTips", dataTipsForMonth);
+    const dataCashForMonth = dataCash.find(
       (item: any) => item.unique_id === unique_id
     );
 
-    if (dataForMonth) {
+    if (dataCashForMonth || dataTipsForMonth) {
       form.reset({
-        ...dataForMonth.form_data,
-        id: dataForMonth.id,
+        ...dataTipsForMonth.form_data,
+        cashTips:
+          dataCashForMonth &&
+          dataCashForMonth?.form_data?.rowCashData?.tipsByDay,
       } as TipsFormType);
     }
-  }, [month, year, initialData]);
+  }, [month, year, dataTips, dataCash]);
 
   return (
     <Form {...form}>
@@ -124,7 +115,15 @@ export default function TipsForm({ initialData }: { initialData: any[] }) {
         onKeyDown={(e) => e.key === "Enter" && e.preventDefault()}
         className="flex flex-col"
       >
-        <FilterHeader isDisabled={isDisabled} />
+        <div className="grid grid-cols-[25%_75%] items-center">
+          <FilterHeader isDisabled={isDisabled} />
+          <div className="flex gap-4 justify-start items-center">
+            <TextInput fieldName="waitersDishBid" className="w-15" />
+            <TextInput fieldName="barmenDishBid" className="w-15" />
+            <TextInput fieldName="dishDishBid" className="w-15" />
+            <TextInput fieldName="percentTips" className="w-15" />
+          </div>
+        </div>
 
         <Table className="md:table-fixed">
           <TableHeaderData monthDays={monthDays} month={month} />

@@ -15,6 +15,7 @@ import {
   Banknote,
   PiggyBank,
   CreditCard,
+  SigmaIcon,
 } from "lucide-react";
 
 export const SIDEBAR_NAVIGATION = [
@@ -95,5 +96,11 @@ export const SIDEBAR_NAVIGATION = [
     url: "/cash",
     url2: "/cash",
     icon: CreditCard,
+  },
+  {
+    title: "result",
+    url: "/result",
+    url2: "/result",
+    icon: SigmaIcon,
   },
 ];

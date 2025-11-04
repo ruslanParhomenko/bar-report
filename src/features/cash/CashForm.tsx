@@ -58,7 +58,7 @@ export default function CashForm({ initialData }: { initialData: any[] }) {
   useEffect(() => {
     if (!initialData || !month || !year) return;
 
-    const unique_id = `${year}_${month}`;
+    const unique_id = `${year}-${month}`;
     const dataForMonth = initialData.find(
       (item: any) => item.unique_id === unique_id
     );

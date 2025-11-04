@@ -1,17 +1,24 @@
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
-import { FieldArrayWithId } from "react-hook-form";
+import { FieldArrayWithId, useWatch } from "react-hook-form";
 import { TipsFormType } from "./schema";
 import { Button } from "@/components/ui/button";
 import { ChevronDown, ChevronUp, Plus } from "lucide-react";
 import SelectScheduleEmployee from "@/components/inputs/SelectScheduleEmployee";
 import { handleTableNavigation } from "@/utils/handleTableNavigation";
 import { cn } from "@/lib/utils";
+import { useEffect } from "react";
 
 const ROLES: Array<"waiters" | "barmen" | "dish"> = [
   "waiters",
   "barmen",
   "dish",
 ];
+
+const PROCENTAGE_DISH = {
+  waiters: 0.03,
+  barmen: 0.07,
+  dish: 0.07,
+};
 export default function TableBodyData({
   data,
   monthDays,
@@ -33,6 +40,42 @@ export default function TableBodyData({
   form: any;
   selectedEmployees: { id: string; name: string; role: string }[];
 }) {
+  useEffect(() => {
+    const subscription = form.watch((_: any, { name }: any) => {
+      if (name?.includes("rowEmployeesTips")) {
+        const match = name.match(/rowEmployeesTips\.(\d+)\.tipsByDay/);
+        if (match) {
+          const rowIndex = parseInt(match[1]);
+          const tipsByDay =
+            form.getValues(`rowEmployeesTips.${rowIndex}.tipsByDay`) || [];
+
+          const totalTips = tipsByDay.reduce(
+            (sum: number, t: string) => sum + (parseFloat(t) || 0),
+            0
+          );
+
+          const currentTips = parseFloat(
+            form.getValues(`rowEmployeesTips.${rowIndex}.tips`) || "0"
+          );
+
+          // Только если изменилось — обновляем
+          if (currentTips !== totalTips) {
+            form.setValue(
+              `rowEmployeesTips.${rowIndex}.tips`,
+              totalTips.toString()
+            );
+            form.setValue(
+              `rowEmployeesTips.${rowIndex}.rate`,
+              totalTips.toString()
+            );
+          }
+        }
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, [form]);
+
   return (
     <>
       {ROLES.map((role, roleIndex) => {
@@ -41,51 +84,16 @@ export default function TableBodyData({
 
         return (
           <TableBody key={role}>
-            {roleIndex > 0 && (
-              <TableRow>
-                <TableCell
-                  colSpan={monthDays.length + 3}
-                  className="h-2 bg-bl"
-                ></TableCell>
-              </TableRow>
-            )}
-
-            <TableRow>
-              <TableCell
-                colSpan={monthDays.length + 3}
-                className="p-1 text-start"
-              >
-                <Button
-                  type="button"
-                  size="sm"
-                  variant="outline"
-                  disabled={disabled}
-                  onClick={() =>
-                    append({
-                      id: (data.length + 1).toString(),
-                      employeeId: "",
-                      employee: "",
-                      role: role,
-                      rate: "",
-                      tips: "",
-                      tipsByDay: Array(monthDays.length).fill(""),
-                    })
-                  }
-                >
-                  <Plus className="h-3 w-3" />
-                </Button>
-              </TableCell>
-            </TableRow>
-
             {roleRows.map((row, rowIndex) => {
               const globalIndex = data.indexOf(row);
               const rowNumber = dataRowsCount.findIndex(
                 (r: any) => r.id === row.id
               );
+
               return (
-                <TableRow key={row.id} className="hover:text-rd p-0 h-6">
+                <TableRow key={row.id} className="hover:text-rd p-0">
                   <TableCell
-                    className="text-rd cursor-pointer p-0 h-6"
+                    className="text-rd cursor-pointer p-0"
                     onClick={() => !disabled && remove(globalIndex)}
                   >
                     {rowIndex + 1}
@@ -97,8 +105,20 @@ export default function TableBodyData({
                       data={selectedEmployees.filter(
                         (emp) => emp.role === role
                       )}
-                      className="w-full hover:text-rd justify-start h-6!"
+                      className=" hover:text-rd justify-start h-6!"
                       disabled={disabled}
+                    />
+                  </TableCell>
+                  <TableCell className="p-0 text-center font-medium">
+                    <input
+                      type="text"
+                      readOnly
+                      value={
+                        form.getValues(
+                          `rowEmployeesTips.${globalIndex}.tips`
+                        ) || 0
+                      }
+                      className="w-full text-center text-muted-foreground"
                     />
                   </TableCell>
 
@@ -158,6 +178,30 @@ export default function TableBodyData({
                 </TableRow>
               );
             })}
+            <TableRow>
+              <TableCell
+                colSpan={monthDays.length + 3}
+                className="p-1 text-start"
+              >
+                <Button
+                  type="button"
+                  size="sm"
+                  variant="outline"
+                  disabled={disabled}
+                  onClick={() =>
+                    append({
+                      id: (data.length + 1).toString(),
+                      employee: "",
+                      role: role,
+                      tips: "",
+                      tipsByDay: Array(monthDays.length).fill(""),
+                    })
+                  }
+                >
+                  <Plus className="h-3 w-3" />
+                </Button>
+              </TableCell>
+            </TableRow>
           </TableBody>
         );
       })}
