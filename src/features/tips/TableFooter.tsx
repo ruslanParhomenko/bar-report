@@ -1,3 +1,5 @@
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { TableCell, TableFooter, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import { handleTableNavigation } from "@/utils/handleTableNavigation";
@@ -18,14 +20,32 @@ export default function TableFooterData({
 
   const value = form.watch("rowEmployeesTips").map((row: any) => row.tipsByDay);
 
+  const totalTips = form
+    .watch("rowEmployeesTips")
+    .map((row: any) => row.tips)
+    .reduce((acc: number, val: string) => acc + Number(val), 0);
+  console.log("totalTips", totalTips);
+  const totalCash = form
+    .watch("cashTips")
+    .reduce((acc: number, val: string) => acc + Number(val), 0);
+
   return (
     <TableFooter>
       <TableRow>
         <TableCell colSpan={monthDays.length + 3} className="h-2 bg-bl" />
       </TableRow>
       <TableRow>
-        <TableCell colSpan={3} className="sticky left-0 p-0 bg-card">
+        <TableCell colSpan={2} className="sticky left-0 p-0 bg-card">
           cash tips
+        </TableCell>
+        <TableCell className="px-1">
+          <div className="flex flex-col items-center gap-2">
+            <Label className="text-center text-xs">{totalTips}</Label>
+            <Label className="text-center text-xs">{totalCash}</Label>
+            <Label className="text-center text-xs">
+              {totalTips - totalCash}
+            </Label>
+          </div>
         </TableCell>
         {monthDays.map((_day, dayIndex) => {
           const sumTipsForDay = value.reduce(
@@ -43,25 +63,27 @@ export default function TableFooterData({
           return (
             <TableCell key={dayIndex} className="p-1 h-6">
               <div className="flex flex-col items-center gap-1">
-                <span className="text-center text-bl">{sumTipsForDay}</span>
-                <input
+                <Label className="text-center text-xs text-bl">
+                  {sumTipsForDay}
+                </Label>
+                <Input
                   {...form.register(`cashTips.${dayIndex}`)}
                   data-row={dataRowsCount}
                   data-col={dayIndex}
                   onKeyDown={(e) =>
                     handleTableNavigation(e, dataRowsCount, dayIndex)
                   }
-                  className={cn("w-full h-6 bg-border text-sm text-center")}
+                  className={cn("w-full h-6  text-sm text-center")}
                   disabled={disabled}
                 />
-                <span
+                <Label
                   className={cn(
                     "text-center text-xs text-muted-foreground",
                     Number(difference) < 0 ? "text-rd" : "text-gr"
                   )}
                 >
                   {difference}
-                </span>
+                </Label>
               </div>
             </TableCell>
           );

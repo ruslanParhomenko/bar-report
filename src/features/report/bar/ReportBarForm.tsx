@@ -7,13 +7,11 @@ import { useEffect } from "react";
 import DatePickerInput from "@/components/inputs/DatePickerInput";
 import { useAbility } from "@/providers/AbilityProvider";
 import { toast } from "sonner";
-import { useSession } from "next-auth/react";
 import {
   cashVerifyDefault,
   defaultValuesReportBar,
   expensesDefault,
   inventoryDefault,
-  LIST_TOBACCO,
   productTransferDefault,
   ReportBarFormValues,
   reportBarSchema,
@@ -27,15 +25,12 @@ import { FetchDataButton } from "@/components/buttons/FetchDataButton";
 import TableProductsTransfer from "./TableProductsTransfer";
 import { Textarea } from "@/components/ui/textarea";
 import TabelInventory from "./TabelInventory";
-
-import dynamic from "next/dynamic";
 import { createReportBar } from "@/app/actions/archive/reportBarAction";
 
-function ReportBar() {
+export default function ReportBarForm() {
   const STORAGE_KEY = "report-bar";
   const { isBar, isAdmin, isUser, isCucina, isObserver } = useAbility();
   const isDisabled = isObserver || isCucina || isBar;
-  const session = useSession();
 
   // local storage
   const { getValue, setValue: setLocalStorage } =
@@ -115,8 +110,6 @@ function ReportBar() {
       notes: data.notes,
     };
 
-    // createMutation.mutate(formateData);
-
     await createReportBar({
       data: formateData,
     });
@@ -150,86 +143,12 @@ function ReportBar() {
     toast.success("Бар отчет успешно сохранён !");
   };
 
-  //supaBase
-  const watchAllFields = form.watch();
-  useEffect(() => {
-    const sendDataToApi = async () => {
-      const localData = localStorage.getItem(STORAGE_KEY);
-      if (!localData) return;
-      if (!isBar) return;
-
-      try {
-        const res = await fetch("/api/report-realtime", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            user_email: session?.data?.user?.email,
-            form_data: JSON.parse(localData),
-          }),
-        });
-
-        const result = await res.json();
-        if (result.error) {
-          console.error("Sync error:", result.error);
-        }
-      } catch (err) {
-        console.error("Request error:", err);
-      }
-    };
-
-    const timeout = setTimeout(sendDataToApi, 500);
-    return () => clearTimeout(timeout);
-  }, [watchAllFields]);
-
-  const fetchSupaBaseData = async () => {
-    try {
-      const res = await fetch("/api/report-realtime");
-      const allData = await res.json();
-
-      const userData = allData.find(
-        (item: any) => item.user_email === "cng.nv.rstrnt@gmail.com"
-      );
-
-      if (userData?.form_data) {
-        const tobaccoWithLocalNames = userData.form_data.tobacco.map(
-          (item: any, idx: number) => ({
-            ...item,
-            name: LIST_TOBACCO[idx] || "",
-            stock: String(item.stock) || "0",
-          })
-        );
-
-        form.reset({
-          ...userData.form_data,
-          date: userData.form_data.date,
-          tobacco: tobaccoWithLocalNames,
-          cashVerify: userData.form_data.cashVerify,
-          expenses: userData.form_data.expenses,
-        });
-
-        localStorage.setItem(
-          STORAGE_KEY,
-          JSON.stringify({
-            ...userData.form_data,
-            tobacco: tobaccoWithLocalNames,
-          })
-        );
-      }
-    } catch (err) {
-      console.error("Error fetching  data:", err);
-    }
-  };
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handleSubmit)} className="md:pl-2">
         <div className="flex items-center gap-4 justify-between ">
           <DatePickerInput fieldName="date" />
-          {(isAdmin || isUser) && (
-            <FetchDataButton
-              fetchData={fetchSupaBaseData}
-              isDisabled={isDisabled}
-            />
-          )}
+          {(isAdmin || isUser) && <FetchDataButton isDisabled={isDisabled} />}
         </div>
         <div className="grid grid-cols-1 md:grid-cols-[25%_70%] md:gap-15  pt-2">
           <TableTobacco />
@@ -258,9 +177,3 @@ function ReportBar() {
     </Form>
   );
 }
-
-const ReportBarForm = dynamic(() => Promise.resolve(ReportBar), {
-  ssr: false,
-});
-
-export default ReportBarForm;

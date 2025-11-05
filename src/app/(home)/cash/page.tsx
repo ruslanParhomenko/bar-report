@@ -1,18 +1,19 @@
 import { getCashForm } from "@/app/actions/cash/cashAction";
-import { getTipsForm } from "@/app/actions/tips/getTipsAction";
+
 import { InsufficientRights } from "@/components/wrapper/InsufficientRights";
 import CashForm from "@/features/cash/CashForm";
-import { CashFormType } from "@/features/cash/schema";
 
 import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 
+const SET_ACCESS = ["ADMIN", "CASH"];
+
 export default async function Page() {
   const session = await getServerSession(authOptions);
-  if (!session) redirect("/signin");
+  if (!session) redirect("/");
   const role = session?.user?.role;
-  if (role === "OBSERVER" || role === "BAR") return <InsufficientRights />;
+  if (!SET_ACCESS.includes(role as string)) return <InsufficientRights />;
 
   const cashData = await getCashForm();
   return <CashForm initialData={cashData} />;

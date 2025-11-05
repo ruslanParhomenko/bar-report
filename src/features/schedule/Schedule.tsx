@@ -14,7 +14,6 @@ import {
 import SelectField from "@/components/inputs/SelectField";
 import ScheduleHeader from "../settings/schedule/ScheduleHeader";
 import { getMonthDays, MONTHS, YEAR } from "@/utils/getMonthDays";
-// import { ScheduleData } from "@/app/actions/schedule/scheduleAction";
 import { Button } from "@/components/ui/button";
 import { useSchedules } from "@/providers/ScheduleProvider";
 import { MailIcon, PencilIcon } from "lucide-react";
@@ -173,8 +172,8 @@ export default function Schedule() {
                 const isSelected = !["v", "s", ""].includes(
                   row.shifts?.[selectedColumn as number]
                 );
-                const dayHourPay = (Number(row.rate) / 180) * 0.9; // минус 10%
-                const nightHourPay = (Number(row.rate) / 180) * 1.15; // плюс 15%
+                const dayHourPay = (Number(row.rate) / 180) * 0.9;
+                const nightHourPay = (Number(row.rate) / 180) * 1.15;
                 const totalPay =
                   dayHourPay * Number(row.dayHours) +
                   nightHourPay * Number(row.nightHours);

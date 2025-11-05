@@ -1,6 +1,5 @@
 import ReportCucinaForm from "@/features/report/cucina/ReportCucinaForm";
 
-const Page = () => {
+export default function Page() {
   return <ReportCucinaForm />;
-};
-export default Page;
+}

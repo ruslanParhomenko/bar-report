@@ -16,6 +16,7 @@ import BreakList from "./BreakList";
 import ReportBar from "./ReportBar";
 import ReportCucina from "./ReportCucina";
 import Remarks from "./Remarks";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export enum DataObjectApi {
   BreakList = "breakList",
@@ -31,7 +32,7 @@ export type ApiDataMap = {
 };
 
 export const ArchivePage = ({ data }: { data: ApiDataMap }) => {
-  return (
+  return data ? (
     <>
       <AccordionWrapper nameTag={BREAK_LIST_ENDPOINT}>
         <BreakList data={data.breakList} />
@@ -49,5 +50,7 @@ export const ArchivePage = ({ data }: { data: ApiDataMap }) => {
         <Remarks data={data.remarkReport} />
       </AccordionWrapper>
     </>
+  ) : (
+    <Skeleton />
   );
 };

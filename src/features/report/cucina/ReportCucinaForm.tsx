@@ -43,33 +43,23 @@ import { toast } from "sonner";
 import { useAbility } from "@/providers/AbilityProvider";
 import { FetchDataButton } from "@/components/buttons/FetchDataButton";
 import RenderTableCucina from "./RenderTableByFields";
-import {
-  REPORT_CUCINA_ENDPOINT,
-  REPORT_CUCINA_REALTIME_ENDPOINT,
-} from "@/constants/endpoint-tag";
-import { useDataSupaBase } from "@/hooks/useRealTimeData";
-import dynamic from "next/dynamic";
+import { REPORT_CUCINA_ENDPOINT } from "@/constants/endpoint-tag";
+
 import { useEmployees } from "@/providers/EmployeesProvider";
 import { createReportCucina } from "@/app/actions/archive/reportCucinaAction";
 
-function ReportCucina() {
+export default function ReportCucinaForm() {
   const t = useTranslations("Home");
   const LOCAL_STORAGE_KEY = REPORT_CUCINA_ENDPOINT;
 
-  const { isCucina, isObserver, isAdmin, isBar } = useAbility();
-  const isDisabled = isObserver || isCucina || isBar;
+  const { isCucina, isAdmin, isBar } = useAbility();
+  const isDisabled = isCucina || isBar;
 
   //employees
   const employees = useEmployees();
   const selectedEmployees = employees
     .filter((emp) => CUCINA_EMPLOYEES.includes(emp.role))
     .map((emp) => emp.name);
-
-  //realtime
-  const { sendRealTime, fetchRealTime } = useDataSupaBase({
-    localStorageKey: LOCAL_STORAGE_KEY,
-    apiKey: REPORT_CUCINA_REALTIME_ENDPOINT,
-  });
 
   //localstorage
   const { getValue, setValue: setLocalStorage } =
@@ -86,22 +76,15 @@ function ReportCucina() {
 
   const watchAllFields = form.watch();
 
-  //set locale supaBase
+  //set locale
   useEffect(() => {
     if (!watchAllFields) return;
     setLocalStorage(watchAllFields as ReportCucinaType);
-    if (!isCucina) return;
-    const timeout = setTimeout(() => {
-      sendRealTime();
-    }, 1000);
-    return () => clearTimeout(timeout);
   }, [watchAllFields]);
   //reset
   const resetForm = () => {
     form.reset(defaultReportCucina);
-    // removeValue();
   };
-  const value = getValue() as ReportCucinaType;
 
   const handleSubmit: SubmitHandler<ReportCucinaType> = async (data) => {
     const invalidShift = data.shifts.some((shift) => !shift.employees?.trim());
@@ -121,26 +104,13 @@ function ReportCucina() {
     }
   };
 
-  //fetch realtime
-  const fetchSupaBaseData = async () => {
-    const data = await fetchRealTime();
-    const resetData = data?.cucina || [];
-    if (resetData) {
-      form.reset(resetData);
-      setLocalStorage(resetData as ReportCucinaType);
-    }
-  };
-
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handleSubmit)}>
         <div className="w-full md:px-10 md:mx-auto md:max-w-5xl">
           <div className="flex items-center gap-4 justify-between">
             <DatePickerInput fieldName="date" />
-            <FetchDataButton
-              fetchData={fetchSupaBaseData}
-              isDisabled={isDisabled}
-            />
+            <FetchDataButton isDisabled={isDisabled} />
           </div>
 
           {selectedEmployees.length > 0 && (
@@ -268,20 +238,10 @@ function ReportCucina() {
           <Label className="font-semibold py-4 text-md text-bl">
             {t("notes")}
           </Label>
-          <Textarea
-            placeholder="notes ..."
-            {...form.register("notes")}
-            disabled={isObserver}
-          />
+          <Textarea placeholder="notes ..." {...form.register("notes")} />
           <SendResetButton resetForm={resetForm} reset={isAdmin} />
         </div>
       </form>
     </Form>
   );
 }
-
-const ReportCucinaForm = dynamic(() => Promise.resolve(ReportCucina), {
-  ssr: false,
-});
-
-export default ReportCucinaForm;

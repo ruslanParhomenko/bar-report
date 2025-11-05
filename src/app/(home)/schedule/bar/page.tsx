@@ -1,7 +1,5 @@
 import Schedule from "@/features/schedule/Schedule";
 
-const Page = () => {
+export default function Page() {
   return <Schedule />;
-};
-
-export default Page;
+}

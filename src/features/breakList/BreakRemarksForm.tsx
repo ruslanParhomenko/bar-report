@@ -8,16 +8,12 @@ import {
 } from "react-hook-form";
 
 import { useAbility } from "@/providers/AbilityProvider";
-import { useDataSupaBase } from "@/hooks/useRealTimeData";
 import { Form } from "../../components/ui/form";
 import DatePickerInput from "@/components/inputs/DatePickerInput";
 import { SendResetButton } from "../../components/buttons/SendResetButton";
 import { FetchDataButton } from "../../components/buttons/FetchDataButton";
 import { BreakListTable } from "./BreakTable";
-import {
-  BREAK_LIST_ENDPOINT,
-  BREAK_LIST_REALTIME_ENDPOINT,
-} from "@/constants/endpoint-tag";
+import { BREAK_LIST_ENDPOINT } from "@/constants/endpoint-tag";
 import { BreakRemarksData, dataSchema, defaultValuesBrakeList } from "./schema";
 import RemarksTable from "./RemarksTable";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -32,12 +28,6 @@ const BreakList = () => {
 
   const { isBar, isCucina, isObserver } = useAbility();
   const isDisabled = isObserver || isCucina || isBar;
-
-  //realtime
-  const { sendRealTime, fetchRealTime } = useDataSupaBase({
-    localStorageKey: LOCAL_STORAGE_KEY,
-    apiKey: BREAK_LIST_REALTIME_ENDPOINT,
-  });
 
   //localstorage
   const savedData =
@@ -64,11 +54,6 @@ const BreakList = () => {
   useEffect(() => {
     if (!watchAllFields) return;
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(watchAllFields));
-    if (!isBar) return;
-    const timeout = setTimeout(() => {
-      sendRealTime();
-    }, 1000);
-    return () => clearTimeout(timeout);
   }, [watchAllFields]);
 
   //submit
@@ -93,18 +78,6 @@ const BreakList = () => {
     localStorage.removeItem(LOCAL_STORAGE_KEY);
   };
 
-  //fetch realtime
-  const fetchSupaBaseData = async () => {
-    const data = await fetchRealTime();
-    const resetData = data?.bar || [];
-
-    if (resetData) {
-      form.reset({
-        ...resetData,
-      });
-      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(resetData));
-    }
-  };
   return (
     <Form {...form}>
       <form
@@ -113,10 +86,7 @@ const BreakList = () => {
       >
         <div className="flex items-center justify-between pb-5">
           <DatePickerInput fieldName="date" />
-          <FetchDataButton
-            fetchData={fetchSupaBaseData}
-            isDisabled={isDisabled}
-          />
+          <FetchDataButton isDisabled={isDisabled} />
         </div>
         <div className="flex-1 flex flex-col gap-4">
           <BreakListTable employees={employees || []} />

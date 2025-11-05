@@ -1,5 +1,5 @@
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
-import { FieldArrayWithId, useWatch } from "react-hook-form";
+import { FieldArrayWithId } from "react-hook-form";
 import { TipsFormType } from "./schema";
 import { Button } from "@/components/ui/button";
 import { ChevronDown, ChevronUp, Plus } from "lucide-react";
@@ -7,6 +7,7 @@ import SelectScheduleEmployee from "@/components/inputs/SelectScheduleEmployee";
 import { handleTableNavigation } from "@/utils/handleTableNavigation";
 import { cn } from "@/lib/utils";
 import { useEffect } from "react";
+import { Input } from "@/components/ui/input";
 
 const ROLES: Array<"waiters" | "barmen" | "dish"> = [
   "waiters",
@@ -78,7 +79,7 @@ export default function TableBodyData({
 
   return (
     <>
-      {ROLES.map((role, roleIndex) => {
+      {ROLES.map((role) => {
         const roleRows = data.filter((row) => row.role === role);
         if (roleRows.length === 0) return null;
 
@@ -99,13 +100,13 @@ export default function TableBodyData({
                     {rowIndex + 1}
                   </TableCell>
 
-                  <TableCell className="sticky left-0 p-0 bg-card">
+                  <TableCell className="sticky left-0 p-0">
                     <SelectScheduleEmployee
                       fieldName={`rowEmployeesTips.${globalIndex}.employee`}
                       data={selectedEmployees.filter(
                         (emp) => emp.role === role
                       )}
-                      className=" hover:text-rd justify-start h-6!"
+                      className="hover:text-rd justify-start h-6!"
                       disabled={disabled}
                     />
                   </TableCell>
@@ -124,7 +125,7 @@ export default function TableBodyData({
 
                   {monthDays.map((_day, dayIndex) => (
                     <TableCell key={dayIndex} className="p-1 h-6">
-                      <input
+                      <Input
                         {...form.register(
                           `rowEmployeesTips.${globalIndex}.tipsByDay.${dayIndex}`
                         )}

@@ -9,14 +9,16 @@ import {
 } from "@/components/ui/table";
 import AccordionWrapper from "@/components/wrapper/AccordionWrapper";
 import { useTranslations } from "next-intl";
-
-const percentTips = 0.28;
-const waitersDishBid = 0.03;
-const barmenDishBid = 0.07;
-const dishDishBid = 0.07;
+import { useFormContext } from "react-hook-form";
 
 export default function EmployeeTables({ data }: { data: any[] }) {
   const t = useTranslations("Home");
+  const form = useFormContext();
+
+  const percentTips = form.watch("percentTips");
+  const waitersDishBid = form.watch("waitersDishBid");
+  const barmenDishBid = form.watch("barmenDishBid");
+  const dishDishBid = form.watch("dishDishBid");
   // Разделяем по ролям
   const roles = {
     waiters: data.filter((e) => e.role === "waiters"),
@@ -73,10 +75,11 @@ export default function EmployeeTables({ data }: { data: any[] }) {
           <TableHeader>
             <TableRow>
               <TableHead className="w-50"></TableHead>
-              <TableHead className="w-30">{t("rate")}</TableHead>
-              <TableHead>{t("tips")}</TableHead>
-              <TableHead>{t("penalty")}</TableHead>
-              <TableHead>{t("bonus")}</TableHead>
+              <TableHead className="w-30 text-center">{t("rate")}</TableHead>
+              <TableHead className="w-30 text-center">{t("tips")}</TableHead>
+              <TableHead className="w-30 text-center">{t("penalty")}</TableHead>
+              <TableHead className="w-30 text-center">{t("bonus")}</TableHead>
+              <TableHead></TableHead>
               <TableHead className="w-15">day</TableHead>
               <TableHead className="w-15">night</TableHead>
               <TableHead className="w-15">hours</TableHead>
@@ -124,13 +127,20 @@ export default function EmployeeTables({ data }: { data: any[] }) {
               return (
                 <TableRow key={e.employeeId}>
                   <TableCell>{e.employee}</TableCell>
-                  <TableCell>{rate}</TableCell>
-                  <TableCell>{sendTips.toFixed(0)}</TableCell>
-                  <TableCell>{e.penality}</TableCell>
-                  <TableCell>{e.bonus}</TableCell>
+                  <TableCell className="text-center">{rate}</TableCell>
+                  <TableCell className="text-center font-bold">
+                    {sendTips.toFixed(0)}
+                  </TableCell>
+                  <TableCell className="text-center text-rd">
+                    {e.penality}
+                  </TableCell>
+                  <TableCell className="text-center">{e.bonus}</TableCell>
+                  <TableCell></TableCell>
                   <TableCell>{dayH}</TableCell>
                   <TableCell>{nightH}</TableCell>
-                  <TableCell>{totalHours}</TableCell>
+                  <TableCell className="text-gn font-bold">
+                    {totalHours}
+                  </TableCell>
                   <TableCell>{salary.toFixed(0)}</TableCell>
                   <TableCell>
                     {Number(salary.toFixed(0)) +

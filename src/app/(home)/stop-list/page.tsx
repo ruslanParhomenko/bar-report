@@ -1,5 +1,4 @@
 import StopListForm from "@/features/stop-list/StopListForm";
-const Page = () => {
+export default function Page() {
   return <StopListForm />;
-};
-export default Page;
+}

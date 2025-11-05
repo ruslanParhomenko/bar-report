@@ -10,6 +10,7 @@ import { extractUniqueEmployees, getRemarksByMonth } from "./utils";
 
 import { remarksByUniqueEmployee } from "../penalty/utils";
 import EmployeeTables from "./ResultTableByData";
+import TextInput from "@/components/inputs/TextInput";
 
 export default function ResultTable({
   dataTips,
@@ -22,11 +23,14 @@ export default function ResultTable({
   // state schedule
   const [selectedData, setSelectedData] = useState<any[] | null>(null);
 
-  console.log(selectedData);
   const form = useForm({
     defaultValues: {
       month: MONTHS[new Date().getMonth()],
       year: new Date().getFullYear().toString(),
+      waitersDishBid: "",
+      barmenDishBid: "",
+      dishDishBid: "",
+      percentTips: "",
     },
   });
   const month = useWatch({ control: form.control, name: "month" });
@@ -49,6 +53,11 @@ export default function ResultTable({
     const dataTipItem = dataTips.find(
       (item: any) => item.unique_id === uniqueKey
     );
+
+    form.setValue("waitersDishBid", dataTipItem?.form_data?.waitersDishBid);
+    form.setValue("barmenDishBid", dataTipItem?.form_data?.barmenDishBid);
+    form.setValue("dishDishBid", dataTipItem?.form_data?.dishDishBid);
+    form.setValue("percentTips", dataTipItem?.form_data?.percentTips);
     const dataTipsForMonth = dataTipItem?.form_data?.rowEmployeesTips || [];
 
     const remarksByEmployee =
@@ -66,25 +75,32 @@ export default function ResultTable({
   return (
     <>
       <Form {...form}>
-        <form className="flex items-center justify-between px-2 pt-2 pb-4">
-          <div className="flex gap-2">
-            <SelectField
-              fieldName="month"
-              data={MONTHS}
-              placeHolder="month"
-              className="w-24 p-0 h-8!"
-            />
-            <SelectField
-              fieldName="year"
-              data={YEAR}
-              placeHolder="year"
-              className="w-20 p-0 h-8!"
-            />
+        <form className="w-full">
+          <div className="flex flex-col justify-between">
+            <div className="flex gap-4 justify-start items-center">
+              <SelectField
+                fieldName="month"
+                data={MONTHS}
+                placeHolder="month"
+                className="w-24 p-0 h-8!"
+              />
+              <SelectField
+                fieldName="year"
+                data={YEAR}
+                placeHolder="year"
+                className="w-20 p-0 h-8!"
+              />
+              <div className="flex gap-4 justify-start items-center">
+                <TextInput fieldName="waitersDishBid" className="w-15 h-8" />
+                <TextInput fieldName="barmenDishBid" className="w-15 h-8" />
+                <TextInput fieldName="dishDishBid" className="w-15 h-8" />
+                <TextInput fieldName="percentTips" className="w-15 h-8" />
+              </div>
+            </div>
           </div>
+          <EmployeeTables data={selectedData || []} />
         </form>
       </Form>
-
-      <EmployeeTables data={selectedData || []} />
     </>
   );
 }

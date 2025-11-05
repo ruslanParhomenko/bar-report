@@ -17,7 +17,7 @@ export default function TableHeaderData({
     <TableHeader>
       <TableRow>
         <TableCell className="w-3 text-start p-0" />
-        <TableCell className="w-26 p-0 front-bold text-center">
+        <TableCell className="w-24 p-0 front-bold text-center">
           {month?.toUpperCase() || ""}
         </TableCell>
         <TableCell className="w-8 text-center p-0" />
