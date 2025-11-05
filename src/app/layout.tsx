@@ -23,6 +23,7 @@ import {
 import { getSchedule } from "./actions/schedule/getSchedule";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
+import { redirect } from "next/navigation";
 
 const lora = Lora({
   variable: "--font-lora",
@@ -45,6 +46,10 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const session = await getServerSession(authOptions);
+
+  if (!session) {
+    redirect("/");
+  }
 
   const locale = await getLocale();
   const employees = await getEmployees();
@@ -91,7 +96,6 @@ export default async function RootLayout({
               </ReactQueryProvider>
             </NextIntlClientProvider>
           </SessionProviders>
-          {/* <Toaster position="bottom-right" /> */}
         </ThemeProvider>
       </body>
     </html>
