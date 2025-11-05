@@ -25,7 +25,7 @@ export function AbilityProvider({
   serverAbility,
 }: {
   children: React.ReactNode;
-  users?: any[];
+  users: any[];
   serverAbility: AbilityFlags;
 }) {
   const value = useMemo(() => {

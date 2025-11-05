@@ -14,7 +14,7 @@ import {
   EmployeesContextValue,
   EmployeesProvider,
 } from "@/providers/EmployeesProvider";
-// import { getUsers } from "./actions/users/getUsers";
+import { getUsers } from "./actions/users/getUsers";
 import { Toaster } from "@/components/ui/sonner";
 import {
   SchedulesContextValue,
@@ -49,29 +49,19 @@ export default async function RootLayout({
   const locale = await getLocale();
   // const employees = await getEmployees();
   // const schedules = await getSchedule();
-  // const users = await getUsers();
+  const users = await getUsers();
 
   const email = session?.user?.email ?? null;
-  // const user = users.find((u) => u.mail === email);
-
-  // const ability = {
-  //   isAdmin: email === "parhomenkogm@gmail.com" || user?.role === "ADMIN",
-  //   isBar: user?.role === "BAR",
-  //   isCucina: user?.role === "CUCINA",
-  //   isUser: user?.role === "USER",
-  //   isMngr: user?.role === "MNGR",
-  //   isCash: user?.role === "CASH",
-  //   isObserver: user?.role === "OBSERVER",
-  // };
+  const user = users.find((u) => u.mail === email);
 
   const ability = {
-    isAdmin: true,
-    isBar: true,
-    isCucina: true,
-    isUser: true,
-    isMngr: true,
-    isCash: true,
-    isObserver: false,
+    isAdmin: email === "parhomenkogm@gmail.com" || user?.role === "ADMIN",
+    isBar: user?.role === "BAR",
+    isCucina: user?.role === "CUCINA",
+    isUser: user?.role === "USER",
+    isMngr: user?.role === "MNGR",
+    isCash: user?.role === "CASH",
+    isObserver: user?.role === "OBSERVER",
   };
 
   return (
@@ -87,7 +77,7 @@ export default async function RootLayout({
           <SessionProviders>
             <NextIntlClientProvider>
               <ReactQueryProvider>
-                <AbilityProvider serverAbility={ability}>
+                <AbilityProvider users={users} serverAbility={ability}>
                   {/* <EmployeesProvider
                     employees={employees as EmployeesContextValue[]}
                   > */}

@@ -7,6 +7,7 @@ import { useAbility } from "@/providers/AbilityProvider";
 import { defaultUser, usersSchema, UsersSchemaTypeData } from "./schema";
 import CardFormUsers from "./CardFormUsers";
 import { UsersTable } from "./CardTableUsers";
+
 // import { createUser, updateUser } from "@/app/actions/users/userAction";
 // import { invalidateUsers } from "@/app/actions/users/getUsers";
 
@@ -22,6 +23,8 @@ export default function AddUsers() {
   const { reset: resetForm } = form;
 
   const { query: users } = useAbility();
+
+  console.log("Users data:", users);
 
   const handleSubmit: SubmitHandler<FormData> = async (data) => {
     // try {
@@ -53,7 +56,7 @@ export default function AddUsers() {
         className="grid grid-cols-1 md:grid-cols-[30%_68%] w-full pt-4 md:gap-4"
       >
         <CardFormUsers disabled={!isAdmin} />
-        <UsersTable data={users as UsersSchemaTypeData[]} />
+        <UsersTable data={users as any[]} />
       </form>
     </Form>
   );
