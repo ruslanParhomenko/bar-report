@@ -9,7 +9,7 @@ import { AbilityProvider } from "@/providers/AbilityProvider";
 import ReactQueryProvider from "@/providers/ReactQueryProvider";
 
 import { ThemeProvider } from "next-themes";
-// import { getEmployees } from "./actions/employees/getEmployees";
+import { getEmployees } from "./actions/employees/getEmployees";
 import {
   EmployeesContextValue,
   EmployeesProvider,
@@ -20,7 +20,7 @@ import {
   SchedulesContextValue,
   SchedulesProvider,
 } from "@/providers/ScheduleProvider";
-// import { getSchedule } from "./actions/schedule/getSchedule";
+import { getSchedule } from "./actions/schedule/getSchedule";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 
@@ -47,8 +47,8 @@ export default async function RootLayout({
   const session = await getServerSession(authOptions);
 
   const locale = await getLocale();
-  // const employees = await getEmployees();
-  // const schedules = await getSchedule();
+  const employees = await getEmployees();
+  const schedules = await getSchedule();
   const users = await getUsers();
 
   const email = session?.user?.email ?? null;
@@ -78,15 +78,15 @@ export default async function RootLayout({
             <NextIntlClientProvider>
               <ReactQueryProvider>
                 <AbilityProvider users={users} serverAbility={ability}>
-                  {/* <EmployeesProvider
+                  <EmployeesProvider
                     employees={employees as EmployeesContextValue[]}
-                  > */}
-                  {/* <SchedulesProvider
+                  >
+                    <SchedulesProvider
                       schedules={schedules as SchedulesContextValue[]}
-                    > */}
-                  {children}
-                  {/* </SchedulesProvider> */}
-                  {/* </EmployeesProvider> */}
+                    >
+                      {children}
+                    </SchedulesProvider>
+                  </EmployeesProvider>
                 </AbilityProvider>
               </ReactQueryProvider>
             </NextIntlClientProvider>

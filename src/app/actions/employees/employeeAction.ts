@@ -1,41 +1,37 @@
-// "use server";
-// import { EmployeesSchemaTypeData } from "@/features/settings/employees/schema";
-// import { db } from "@/lib/firebase";
-// import {
-//   addDoc,
-//   collection,
-//   deleteDoc,
-//   doc,
-//   updateDoc,
-// } from "firebase/firestore";
-// import { revalidateTag } from "next/cache";
-// import { invalidateEverywhere } from "../schedule/invalidateEverywhere";
+"use server";
 
-// export type UserData = EmployeesSchemaTypeData;
+import { dbAdmin } from "@/lib/firebaseAdmin";
+import { EmployeesSchemaTypeData } from "@/features/settings/employees/schema";
+import { invalidateEverywhere } from "../schedule/invalidateEverywhere";
 
-// export async function createEmployee(data: UserData) {
-//   const docRef = await addDoc(collection(db, "employees"), {
-//     name: data.name,
-//     role: data.role,
-//     rate: data.rate,
-//     employmentDate: data.employmentDate,
-//     vacationPay: (data.vacationPay || []).map((pay) => ({
-//       startDate: pay.startDate,
-//       endDate: pay.endDate,
-//       countDays: pay.countDays,
-//     })),
-//   });
-//   invalidateEverywhere("employees");
-//   return docRef.id;
-// }
+export type EmployeeData = EmployeesSchemaTypeData;
 
-// export async function updateEmployee(id: string, data: Omit<UserData, "id">) {
-//   console.log(data);
-//   await updateDoc(doc(db, "employees", id), data);
-//   invalidateEverywhere("employees");
-// }
+export async function createEmployee(data: EmployeeData) {
+  const docRef = await dbAdmin.collection("employees").add({
+    name: data.name,
+    role: data.role,
+    rate: data.rate,
+    employmentDate: data.employmentDate,
+    vacationPay: (data.vacationPay || []).map((pay) => ({
+      startDate: pay.startDate,
+      endDate: pay.endDate,
+      countDays: pay.countDays,
+    })),
+  });
 
-// export async function deleteEmployee(id: string) {
-//   await deleteDoc(doc(db, "employees", id));
-//   invalidateEverywhere("employees");
-// }
+  invalidateEverywhere("employees");
+  return docRef.id;
+}
+
+export async function updateEmployee(
+  id: string,
+  data: Omit<EmployeeData, "id">
+) {
+  await dbAdmin.collection("employees").doc(id).update(data);
+  invalidateEverywhere("employees");
+}
+
+export async function deleteEmployee(id: string) {
+  await dbAdmin.collection("employees").doc(id).delete();
+  invalidateEverywhere("employees");
+}
