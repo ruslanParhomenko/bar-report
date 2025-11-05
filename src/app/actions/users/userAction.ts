@@ -1,20 +1,13 @@
 "use server";
 
+import { dbAdmin } from "@/lib/firebaseAdmin";
 import { UsersSchemaTypeData } from "@/features/settings/users/schema";
-import { db } from "@/lib/firebase";
-import {
-  addDoc,
-  collection,
-  deleteDoc,
-  doc,
-  updateDoc,
-} from "firebase/firestore";
 import { revalidateTag } from "next/cache";
 
 type UserData = UsersSchemaTypeData;
 
 export async function createUser(data: UserData) {
-  const docRef = await addDoc(collection(db, "users"), {
+  const docRef = await dbAdmin.collection("users").add({
     mail: data.mail,
     role: data.role,
   });
@@ -23,11 +16,11 @@ export async function createUser(data: UserData) {
 }
 
 export async function updateUser(id: string, data: Omit<UserData, "id">) {
-  await updateDoc(doc(db, "users", id), data);
+  await dbAdmin.collection("users").doc(id).update(data);
   revalidateTag("users");
 }
 
 export async function deleteUser(id: string) {
-  await deleteDoc(doc(db, "users", id));
+  await dbAdmin.collection("users").doc(id).delete();
   revalidateTag("users");
 }

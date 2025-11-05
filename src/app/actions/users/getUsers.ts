@@ -1,19 +1,18 @@
 "use server";
 
+import { dbAdmin } from "@/lib/firebaseAdmin";
 import { UsersSchemaTypeData } from "@/features/settings/users/schema";
-import { db } from "@/lib/firebase";
-import { collection, getDocs } from "firebase/firestore";
 import { revalidateTag, unstable_cache } from "next/cache";
 
-async function fetchUsers() {
-  const snapshot = await getDocs(collection(db, "users"));
+const fetchUsersAdmin = async () => {
+  const snapshot = await dbAdmin.collection("users").get();
   return snapshot.docs.map((doc) => ({
     id: doc.id,
     ...doc.data(),
   })) as UsersSchemaTypeData[];
-}
+};
 
-export const getUsers = unstable_cache(fetchUsers, ["users"], {
+export const getUsers = unstable_cache(fetchUsersAdmin, ["users"], {
   tags: ["users"],
 });
 
