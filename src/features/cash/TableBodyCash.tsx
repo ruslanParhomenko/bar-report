@@ -4,7 +4,7 @@ import { CashFormType } from "./schema";
 import { handleTableNavigation } from "@/utils/handleTableNavigation";
 import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
-import { use } from "react";
+import React, { use } from "react";
 import { color } from "../settings/schedule/constants";
 import { ro } from "date-fns/locale";
 
@@ -50,8 +50,8 @@ export default function TableBodyCash({
   return (
     <TableBody>
       {rows.map((row, index) => (
-        <>
-          <TableRow key={row.key}>
+        <React.Fragment key={row.key}>
+          <TableRow>
             <TableCell
               colSpan={2}
               className={cn("font-bold", row.colorText, "text-center")}
@@ -93,7 +93,7 @@ export default function TableBodyCash({
               ></TableCell>
             </TableRow>
           )}
-        </>
+        </React.Fragment>
       ))}
     </TableBody>
   );
