@@ -7,10 +7,10 @@ import { Form } from "@/components/ui/form";
 import CardFormEmployees from "./CardFormEmployees";
 import { EmployeesTable } from "./CardTableEmployees";
 import { useEmployees } from "@/providers/EmployeesProvider";
-// import {
-//   createEmployee,
-//   updateEmployee,
-// } from "@/app/actions/employees/employeeAction";
+import {
+  createEmployee,
+  updateEmployee,
+} from "@/app/actions/employees/employeeAction";
 import { useSession } from "next-auth/react";
 import { sendNotificationEmail } from "@/app/actions/mail/sendNotificationEmail";
 import {
@@ -54,7 +54,7 @@ export default function AddEmployees() {
               countDays: pay.countDays || "0",
             })),
         };
-        // await updateEmployee(data.id, payloadUpdate);
+        await updateEmployee(data.id, payloadUpdate);
         toast.success("Employee updated!");
 
         const changes: string[] = [];
@@ -140,7 +140,7 @@ export default function AddEmployees() {
               countDays: pay.countDays || "0",
             })),
         };
-        // await createEmployee(payloadCreate);
+        await createEmployee(payloadCreate);
         toast.success("Employee added!");
 
         await sendNotificationEmail({

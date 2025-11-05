@@ -4,9 +4,7 @@ import { CashFormType } from "./schema";
 import { handleTableNavigation } from "@/utils/handleTableNavigation";
 import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
-import React, { use } from "react";
-import { color } from "../settings/schedule/constants";
-import { ro } from "date-fns/locale";
+import React from "react";
 
 export default function TableBodyCash({
   form,

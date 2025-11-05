@@ -30,48 +30,6 @@ interface GroupedData {
 export default function TotalPenalty({ data }: { data: PenaltyTableProps[] }) {
   const t = useTranslations("Home");
 
-  // const { formattedData, totalBonus, totalPenalty } = useMemo(() => {
-  //   const grouped: Record<string, GroupedData> = {};
-
-  //   data.forEach((item) => {
-  //     if (!item.name) return;
-
-  //     const name = item.name.trim();
-  //     const day = Number(item.dayHours) || 0;
-  //     const night = Number(item.nightHours) || 0;
-  //     const bonus = Number(item.bonus) || 0;
-  //     const penalty = Number(item.penality) || 0;
-
-  //     if (!grouped[name]) {
-  //       grouped[name] = {
-  //         dayHours: 0,
-  //         nightHours: 0,
-  //         bonus: 0,
-  //         penality: 0,
-  //       };
-  //     }
-
-  //     grouped[name].dayHours += day;
-  //     grouped[name].nightHours += night;
-  //     grouped[name].bonus += bonus;
-  //     grouped[name].penality += penalty;
-  //   });
-
-  //   const formatted = Object.entries(grouped).map(([name, sums]) => ({
-  //     name,
-  //     ...sums,
-  //   }));
-
-  //   const totalPen = formatted.reduce((acc, r) => acc + (r.penality || 0), 0);
-  //   const totalBon = formatted.reduce((acc, r) => acc + (r.bonus || 0), 0);
-
-  //   return {
-  //     formattedData: formatted,
-  //     totalBonus: totalBon,
-  //     totalPenalty: totalPen,
-  //   };
-  // }, [data]);
-
   const { formattedData, totalBonus, totalPenalty } =
     remarksByUniqueEmployee(data);
   const { componentRef, handlePrint } = usePrint({ title: "Table penalty" });

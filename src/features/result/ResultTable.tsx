@@ -6,7 +6,6 @@ import { MONTHS, YEAR } from "@/utils/getMonthDays";
 import { useEffect, useMemo, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
 
-// import { ScheduleData } from "@/app/actions/schedule/scheduleAction";
 import { extractUniqueEmployees, getRemarksByMonth } from "./utils";
 
 import { remarksByUniqueEmployee } from "../penalty/utils";

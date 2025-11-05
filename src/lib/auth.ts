@@ -1,5 +1,6 @@
 import GoogleProvider from "next-auth/providers/google";
 import type { NextAuthOptions } from "next-auth";
+import { getUsers } from "@/app/actions/users/getUsers";
 // import { getUsers } from "@/app/actions/users/getUsers";
 
 export const authOptions: NextAuthOptions = {
@@ -22,38 +23,38 @@ export const authOptions: NextAuthOptions = {
 
   debug: true,
 
-  // callbacks: {
-  //   /**
-  //    * 1️⃣ Добавляем роль в JWT при логине
-  //    */
-  //   async jwt({ token, account, profile }) {
-  //     // token.sub — это ID Google-пользователя
-  //     if (account && profile) {
-  //       // Получаем всех пользователей из твоей таблицы
-  //       const users = await getUsers();
+  callbacks: {
+    /**
+     * 1️⃣ Добавляем роль в JWT при логине
+     */
+    async jwt({ token, account, profile }) {
+      // token.sub — это ID Google-пользователя
+      if (account && profile) {
+        // Получаем всех пользователей из твоей таблицы
+        const users = await getUsers();
 
-  //       // Ищем пользователя по email
-  //       const dbUser = users.find((u) => u.mail === profile.email);
+        // Ищем пользователя по email
+        const dbUser = users.find((u) => u.mail === profile.email);
 
-  //       // Если нашли — сохраняем роль
-  //       if (dbUser) {
-  //         token.role = dbUser.role;
-  //       } else {
-  //         token.role = "OBSERVER"; // роль по умолчанию
-  //       }
-  //     }
+        // Если нашли — сохраняем роль
+        if (dbUser) {
+          token.role = dbUser.role;
+        } else {
+          token.role = "OBSERVER"; // роль по умолчанию
+        }
+      }
 
-  //     return token;
-  //   },
+      return token;
+    },
 
-  //   /**
-  //    * 2️⃣ Передаём роль в session
-  //    */
-  //   async session({ session, token }) {
-  //     if (session.user) {
-  //       (session.user as any).role = token.role || "OBSERVER";
-  //     }
-  //     return session;
-  //   },
-  // },
+    /**
+     * 2️⃣ Передаём роль в session
+     */
+    async session({ session, token }) {
+      if (session.user) {
+        (session.user as any).role = token.role || "OBSERVER";
+      }
+      return session;
+    },
+  },
 };

@@ -12,7 +12,6 @@ import {
   ReportCucinaData,
 } from "@/constants/type";
 import AccordionWrapper from "@/components/wrapper/AccordionWrapper";
-import { Skeleton } from "@/components/ui/skeleton";
 import BreakList from "./BreakList";
 import ReportBar from "./ReportBar";
 import ReportCucina from "./ReportCucina";

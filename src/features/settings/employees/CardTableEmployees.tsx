@@ -27,7 +27,7 @@ import { cn } from "@/lib/utils";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useAbility } from "@/providers/AbilityProvider";
-// import { deleteEmployee } from "@/app/actions/employees/employeeAction";
+import { deleteEmployee } from "@/app/actions/employees/employeeAction";
 import { EmployeesContextValue } from "@/providers/EmployeesProvider";
 import { EMPLOYEES_ROLE, EmployeesSchemaTypeData } from "./schema";
 
@@ -45,7 +45,7 @@ export function EmployeesTable({ data }: { data: EmployeesContextValue[] }) {
   const form = useFormContext<EmployeesSchemaTypeData>();
   const [sortByName, setSortByName] = useState(false);
 
-  // const handleDeleteUser = (id: string) => deleteEmployee(id);
+  const handleDeleteUser = (id: string) => deleteEmployee(id);
 
   const handleRoleChange = (value: string) => {
     const params = new URLSearchParams(searchParams);
@@ -172,7 +172,7 @@ export function EmployeesTable({ data }: { data: EmployeesContextValue[] }) {
                       variant="secondary"
                       size={"sm"}
                       type="button"
-                      // onClick={() => handleDeleteUser(emp.id as string)}
+                      onClick={() => handleDeleteUser(emp.id as string)}
                       disabled={isDisabled}
                     >
                       <Minus className="text-rd" />

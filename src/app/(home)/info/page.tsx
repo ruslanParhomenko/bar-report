@@ -6,7 +6,7 @@ import { InsufficientRights } from "@/components/wrapper/InsufficientRights";
 
 export default async function InfoPage() {
   const session = await getServerSession(authOptions);
-  if (!session) redirect("/signin");
+  if (!session) redirect("/");
 
   const role = session?.user?.role;
   if (role === "OBSERVER") return <InsufficientRights />;

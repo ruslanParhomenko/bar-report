@@ -8,9 +8,14 @@ import { redirect } from "next/navigation";
 
 export default async function Page() {
   const session = await getServerSession(authOptions);
-  if (!session) redirect("/signin");
+  if (!session) redirect("/");
   const role = session?.user?.role;
-  if (role === "OBSERVER" || role === "BAR" || role === "CUCINA")
+  if (
+    role === "OBSERVER" ||
+    role === "BAR" ||
+    role === "CUCINA" ||
+    role === "USER"
+  )
     return <InsufficientRights />;
 
   const dataTips = await getTipsForm();
