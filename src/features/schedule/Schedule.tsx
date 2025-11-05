@@ -14,7 +14,7 @@ import {
 import SelectField from "@/components/inputs/SelectField";
 import ScheduleHeader from "../settings/schedule/ScheduleHeader";
 import { getMonthDays, MONTHS, YEAR } from "@/utils/getMonthDays";
-import { ScheduleData } from "@/app/actions/schedule/scheduleAction";
+// import { ScheduleData } from "@/app/actions/schedule/scheduleAction";
 import { Button } from "@/components/ui/button";
 import { useSchedules } from "@/providers/ScheduleProvider";
 import { MailIcon, PencilIcon } from "lucide-react";
@@ -55,7 +55,7 @@ export default function Schedule() {
   });
 
   // state schedule
-  const [schedule, setSchedule] = useState<ScheduleData | null>(null);
+  const [schedule, setSchedule] = useState<any | null>(null);
   const [selectedColumn, setSelectedColumn] = useState<number | null>(null);
 
   const month = useWatch({ control: form.control, name: "month" });
@@ -85,7 +85,7 @@ export default function Schedule() {
       SHIFT_OPTIONS.map((s) => [s, Array(daysCount).fill(0)])
     );
 
-    schedule.rowShifts.forEach((row) => {
+    schedule.rowShifts.forEach((row: any) => {
       row.shifts.forEach((shiftValue: string, dayIndex: number) => {
         if (SHIFT_OPTIONS.includes(shiftValue)) {
           result[shiftValue][dayIndex] += 1;
@@ -169,7 +169,7 @@ export default function Schedule() {
               month={schedule.month}
             />
             <TableBody className="[&_input]:h-8 [&_input]:text-xs [&_input]:p-0 [&_input]:text-center [&_input]:w-6 [&_input]:border-0">
-              {schedule.rowShifts?.map((row, rowIndex) => {
+              {schedule.rowShifts?.map((row: any, rowIndex: number) => {
                 const isSelected = !["v", "s", ""].includes(
                   row.shifts?.[selectedColumn as number]
                 );
@@ -204,7 +204,7 @@ export default function Schedule() {
                       {!isDisabled && totalPay.toFixed(0).toString()}
                     </TableCell>
 
-                    {row.shifts?.map((day, dayIndex) => {
+                    {row.shifts?.map((day: string, dayIndex: number) => {
                       const isSelected = dayIndex === selectedColumn;
 
                       return (

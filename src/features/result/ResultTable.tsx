@@ -5,14 +5,12 @@ import { useSchedules } from "@/providers/ScheduleProvider";
 import { MONTHS, YEAR } from "@/utils/getMonthDays";
 import { useEffect, useMemo, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
-import { ROLE_URL } from "../settings/schedule/constants";
-import { ScheduleData } from "@/app/actions/schedule/scheduleAction";
+
+// import { ScheduleData } from "@/app/actions/schedule/scheduleAction";
 import { extractUniqueEmployees, getRemarksByMonth } from "./utils";
-import { set } from "date-fns";
-import { Table, TableCell, TableRow } from "@/components/ui/table";
+
 import { remarksByUniqueEmployee } from "../penalty/utils";
 import EmployeeTables from "./ResultTableByData";
-import AccordionWrapper from "@/components/wrapper/AccordionWrapper";
 
 export default function ResultTable({
   dataTips,

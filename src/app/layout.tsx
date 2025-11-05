@@ -9,18 +9,18 @@ import { AbilityProvider } from "@/providers/AbilityProvider";
 import ReactQueryProvider from "@/providers/ReactQueryProvider";
 
 import { ThemeProvider } from "next-themes";
-import { getEmployees } from "./actions/employees/getEmployees";
+// import { getEmployees } from "./actions/employees/getEmployees";
 import {
   EmployeesContextValue,
   EmployeesProvider,
 } from "@/providers/EmployeesProvider";
-import { getUsers } from "./actions/users/getUsers";
+// import { getUsers } from "./actions/users/getUsers";
 import { Toaster } from "@/components/ui/sonner";
 import {
   SchedulesContextValue,
   SchedulesProvider,
 } from "@/providers/ScheduleProvider";
-import { getSchedule } from "./actions/schedule/getSchedule";
+// import { getSchedule } from "./actions/schedule/getSchedule";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 
@@ -47,21 +47,31 @@ export default async function RootLayout({
   const session = await getServerSession(authOptions);
 
   const locale = await getLocale();
-  const employees = await getEmployees();
-  const schedules = await getSchedule();
-  const users = await getUsers();
+  // const employees = await getEmployees();
+  // const schedules = await getSchedule();
+  // const users = await getUsers();
 
   const email = session?.user?.email ?? null;
-  const user = users.find((u) => u.mail === email);
+  // const user = users.find((u) => u.mail === email);
+
+  // const ability = {
+  //   isAdmin: email === "parhomenkogm@gmail.com" || user?.role === "ADMIN",
+  //   isBar: user?.role === "BAR",
+  //   isCucina: user?.role === "CUCINA",
+  //   isUser: user?.role === "USER",
+  //   isMngr: user?.role === "MNGR",
+  //   isCash: user?.role === "CASH",
+  //   isObserver: user?.role === "OBSERVER",
+  // };
 
   const ability = {
-    isAdmin: email === "parhomenkogm@gmail.com" || user?.role === "ADMIN",
-    isBar: user?.role === "BAR",
-    isCucina: user?.role === "CUCINA",
-    isUser: user?.role === "USER",
-    isMngr: user?.role === "MNGR",
-    isCash: user?.role === "CASH",
-    isObserver: user?.role === "OBSERVER",
+    isAdmin: true,
+    isBar: true,
+    isCucina: true,
+    isUser: true,
+    isMngr: true,
+    isCash: true,
+    isObserver: false,
   };
 
   return (
@@ -77,16 +87,16 @@ export default async function RootLayout({
           <SessionProviders>
             <NextIntlClientProvider>
               <ReactQueryProvider>
-                <AbilityProvider users={users} serverAbility={ability}>
-                  <EmployeesProvider
+                <AbilityProvider serverAbility={ability}>
+                  {/* <EmployeesProvider
                     employees={employees as EmployeesContextValue[]}
-                  >
-                    <SchedulesProvider
+                  > */}
+                  {/* <SchedulesProvider
                       schedules={schedules as SchedulesContextValue[]}
-                    >
-                      {children}
-                    </SchedulesProvider>
-                  </EmployeesProvider>
+                    > */}
+                  {children}
+                  {/* </SchedulesProvider> */}
+                  {/* </EmployeesProvider> */}
                 </AbilityProvider>
               </ReactQueryProvider>
             </NextIntlClientProvider>

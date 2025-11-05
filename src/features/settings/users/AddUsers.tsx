@@ -7,8 +7,8 @@ import { useAbility } from "@/providers/AbilityProvider";
 import { defaultUser, usersSchema, UsersSchemaTypeData } from "./schema";
 import CardFormUsers from "./CardFormUsers";
 import { UsersTable } from "./CardTableUsers";
-import { createUser, updateUser } from "@/app/actions/users/userAction";
-import { invalidateUsers } from "@/app/actions/users/getUsers";
+// import { createUser, updateUser } from "@/app/actions/users/userAction";
+// import { invalidateUsers } from "@/app/actions/users/getUsers";
 
 type FormData = UsersSchemaTypeData;
 
@@ -24,27 +24,26 @@ export default function AddUsers() {
   const { query: users } = useAbility();
 
   const handleSubmit: SubmitHandler<FormData> = async (data) => {
-    try {
-      if (data.id) {
-        await updateUser(data.id, {
-          mail: data.mail,
-          role: data.role,
-        });
-        invalidateUsers();
-
-        toast.success("User is updated !");
-      } else {
-        await createUser({
-          mail: data.mail,
-          role: data.role,
-        });
-        invalidateUsers();
-        toast.success("User is added !");
-      }
-      resetForm();
-    } catch (e) {
-      toast.error("Error adding user");
-    }
+    // try {
+    //   if (data.id) {
+    //     await updateUser(data.id, {
+    //       mail: data.mail,
+    //       role: data.role,
+    //     });
+    //     invalidateUsers();
+    //     toast.success("User is updated !");
+    //   } else {
+    //     await createUser({
+    //       mail: data.mail,
+    //       role: data.role,
+    //     });
+    //     invalidateUsers();
+    //     toast.success("User is added !");
+    //   }
+    //   resetForm();
+    // } catch (e) {
+    //   toast.error("Error adding user");
+    // }
   };
 
   return (

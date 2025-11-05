@@ -14,11 +14,11 @@ import ScheduleSelectButtons from "./ScheduleSelectButtons";
 import ScheduleHeader from "./ScheduleHeader";
 import ScheduleBody from "./ScheduleBody";
 import ScheduleFooter from "./ScheduleFooter";
-import {
-  createSchedule,
-  ScheduleData,
-  updateSchedule,
-} from "@/app/actions/schedule/scheduleAction";
+// import {
+//   createSchedule,
+//   ScheduleData,
+//   updateSchedule,
+// } from "@/app/actions/schedule/scheduleAction";
 import { getMonthDays } from "@/utils/getMonthDays";
 import { useSchedules } from "@/providers/ScheduleProvider";
 import { toast } from "sonner";
@@ -93,33 +93,28 @@ export function ScheduleTable() {
 
   // submit
   const onSubmit: SubmitHandler<ScheduleType> = async (data) => {
-    console.log("data submit", data);
-    const formatData: ScheduleData = {
-      ...data,
-      uniqueKey: `${data.year}-${data.month}-${data.role}`,
-    };
-
-    const existing = schedules?.find(
-      (s) => s.uniqueKey === formatData.uniqueKey
-    );
-
-    if (id) {
-      await updateSchedule(id as string, formatData);
-      toast.success("График успешно обновлён!");
-      router.back();
-      return;
-    }
-
-    if (!id && !existing) {
-      await createSchedule(formatData);
-      toast.success("График успешно создан!");
-      form.reset(defaultSchedule);
-      return;
-    }
-
-    toast.error(
-      "График с такими параметрами уже существует или некорректные данные!"
-    );
+    // const formatData: ScheduleData = {
+    //   ...data,
+    //   uniqueKey: `${data.year}-${data.month}-${data.role}`,
+    // };
+    // const existing = schedules?.find(
+    //   (s) => s.uniqueKey === formatData.uniqueKey
+    // );
+    // if (id) {
+    //   await updateSchedule(id as string, formatData);
+    //   toast.success("График успешно обновлён!");
+    //   router.back();
+    //   return;
+    // }
+    // if (!id && !existing) {
+    //   await createSchedule(formatData);
+    //   toast.success("График успешно создан!");
+    //   form.reset(defaultSchedule);
+    //   return;
+    // }
+    // toast.error(
+    //   "График с такими параметрами уже существует или некорректные данные!"
+    // );
   };
   // add new row
   const addRow = () => {
