@@ -1,6 +1,5 @@
 import BreakRemarksForm from "@/features/breakList/BreakRemarksForm";
 
-const Page = () => {
+export default function Page() {
   return <BreakRemarksForm />;
-};
-export default Page;
+}

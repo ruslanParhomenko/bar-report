@@ -47,10 +47,6 @@ export default async function RootLayout({
 }) {
   const session = await getServerSession(authOptions);
 
-  if (!session) {
-    redirect("/");
-  }
-
   const locale = await getLocale();
   const employees = await getEmployees();
   const schedules = await getSchedule();

@@ -15,6 +15,7 @@ export async function middleware(req: NextRequest) {
     "/tips",
   ];
   const restrictedPathsForUser = ["/settings", "/cash", "/result"];
+  const restrictedPathsForBar = ["/settings", "/cash", "/result", "/tips"];
 
   const publicPaths = ["/"];
   if (publicPaths.some((p) => pathname.startsWith(p))) {
@@ -34,6 +35,13 @@ export async function middleware(req: NextRequest) {
   if (
     restrictedPathsForUser.some((path) => pathname.startsWith(path)) &&
     token.role === "USER"
+  ) {
+    return NextResponse.redirect(new URL("/no-access", req.url));
+  }
+  if (
+    (restrictedPathsForBar.some((path) => pathname.startsWith(path)) &&
+      token.role === "BAR") ||
+    token.role === "CUCINA"
   ) {
     return NextResponse.redirect(new URL("/no-access", req.url));
   }
