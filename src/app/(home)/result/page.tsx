@@ -1,7 +1,7 @@
 import { getRemarks } from "@/app/actions/remarks/getRemarks";
 import { getTipsForm } from "@/app/actions/tips/getTipsAction";
 import { InsufficientRights } from "@/components/wrapper/InsufficientRights";
-import ResultTable from "@/features/result/ResultTable";
+import { PageResult } from "@/features/result/PageResult";
 import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
@@ -15,5 +15,5 @@ export default async function Page() {
 
   const dataTips = await getTipsForm();
   const remarks = await getRemarks();
-  return <ResultTable dataTips={dataTips} remarks={remarks} />;
+  return <PageResult dataTips={dataTips} remarks={remarks} />;
 }

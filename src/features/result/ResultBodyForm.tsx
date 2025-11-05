@@ -10,16 +10,20 @@ import {
 import AccordionWrapper from "@/components/wrapper/AccordionWrapper";
 import { useTranslations } from "next-intl";
 import { useFormContext } from "react-hook-form";
+import { ResultUniqueEmployeeType } from "./utils";
 
-export default function EmployeeTables({ data }: { data: any[] }) {
+export  function ResultBodyForm({ data }: { data: ResultUniqueEmployeeType[] }) {
   const t = useTranslations("Home");
+
   const form = useFormContext();
 
+  // set bid
   const percentTips = form.watch("percentTips");
   const waitersDishBid = form.watch("waitersDishBid");
   const barmenDishBid = form.watch("barmenDishBid");
   const dishDishBid = form.watch("dishDishBid");
-  // Разделяем по ролям
+  
+  // roles
   const roles = {
     waiters: data.filter((e) => e.role === "waiters"),
     barmen: data.filter((e) => e.role === "barmen"),
@@ -27,15 +31,13 @@ export default function EmployeeTables({ data }: { data: any[] }) {
     cucina: data.filter((e) => e.role === "cook"),
   };
 
-  // Общие tips у waiters
-  const totalWaitersTips = roles.waiters.reduce(
-    (acc, w) => acc + Number(w.tips || 0),
-    0
-  );
-
+  // total tips 
+  const totalWaitersTips = roles.waiters.reduce((acc, w) => acc + Number(w.tips ?? 0),0);
   const tipsForBarmen = totalWaitersTips * percentTips * 0.6;
   const tipsForDish = totalWaitersTips * percentTips * 0.4;
 
+
+  // total hours
   const totalBarmenDayHours = roles.barmen.reduce(
     (acc, b) => acc + Number(b.dayHours || 0),
     0
@@ -44,10 +46,14 @@ export default function EmployeeTables({ data }: { data: any[] }) {
     (acc, b) => acc + Number(b.nightHours || 0),
     0
   );
+
+  // bid barmen
   const totalBarmenHours = totalBarmenDayHours + totalBarmenNightHours;
   const coefficientDayNight = totalBarmenDayHours / totalBarmenHours;
   const coefficientBarmen = tipsForBarmen / totalBarmenHours;
 
+
+  // total hours dish
   const totalDishDayHours = roles.dish.reduce(
     (acc, d) => acc + Number(d.dayHours || 0),
     0
@@ -57,10 +63,14 @@ export default function EmployeeTables({ data }: { data: any[] }) {
     0
   );
   const totalDishHours = totalDishDayHours + totalDishNightHours;
+
+  // bid dish
   const coefficientDish = tipsForDish / totalDishHours;
 
-  const renderTable = (role: string, employees: any[]) => {
-    // Сортировка по имени сотрудника от А до Я
+  
+  // render helper
+  const renderTable = (role: string, employees: ResultUniqueEmployeeType[]) => {
+    
     const sortedEmployees = [...employees].sort((a, b) =>
       a.employee.localeCompare(b.employee)
     );
@@ -74,32 +84,31 @@ export default function EmployeeTables({ data }: { data: any[] }) {
         <Table className="table-fixed ">
           <TableHeader>
             <TableRow>
-              <TableHead className="w-50"></TableHead>
-              <TableHead className="w-30 text-center">{t("rate")}</TableHead>
-              <TableHead className="w-30 text-center">{t("tips")}</TableHead>
-              <TableHead className="w-30 text-center">{t("penalty")}</TableHead>
-              <TableHead className="w-30 text-center">{t("bonus")}</TableHead>
+              <TableHead className="md:w-50 w-35"></TableHead>
+              <TableHead className="md:w-30 w-15 text-center">{t("rate")}</TableHead>
+              <TableHead className="md:w-30 w-15 text-center truncate">{t("tips")}</TableHead>
+              <TableHead className="md:w-30 w-15 text-center truncate">{t("penalty")}</TableHead>
+              <TableHead className="md:w-30 w-15 text-center truncate">{t("bonus")}</TableHead>
               <TableHead></TableHead>
-              <TableHead className="w-15">day</TableHead>
-              <TableHead className="w-15">night</TableHead>
-              <TableHead className="w-15">hours</TableHead>
-              <TableHead className="w-30">salary</TableHead>
-              <TableHead className="w-30">result</TableHead>
+              <TableHead className="md:w-15 w-10">day</TableHead>
+              <TableHead className="md:w-15 w-10">night</TableHead>
+              <TableHead className="md:w-15 w-10">hours</TableHead>
+              <TableHead className="md:w-30 w-15">salary</TableHead>
+              <TableHead className="md:w-30 w-15">result</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {sortedEmployees.map((e) => {
+            {sortedEmployees.map((e,index) => {
               const dayH = Number(e.dayHours || 0);
               const nightH = Number(e.nightHours || 0);
               const totalHours = dayH + nightH;
               const rate = Number(e.rate || 0);
 
               const salary =
-                (rate / 180) * 0.9 * dayH + (rate / 180) * 1.15 * nightH;
+                ((rate / 180) * 0.9 * dayH + (rate / 180) * 1.15 * nightH).toFixed(0);
 
               let sendTips = 0;
               const tips = Number(e.tips || 0);
-              const otherWaitersTips = totalWaitersTips - tips;
 
               if (role === "waiters") {
                 sendTips = roundToNearest5(
@@ -111,7 +120,7 @@ export default function EmployeeTables({ data }: { data: any[] }) {
                   dayH * coefficientBarmen * 0.1 +
                   nightH * coefficientBarmen +
                   nightH * coefficientBarmen * 0.1 * coefficientDayNight;
-                console.log("tipsByWaiters", tipsByWaiters);
+              
                 sendTips = roundToNearest5(
                   tips + tipsByWaiters - (tips + tipsByWaiters) * barmenDishBid
                 );
@@ -124,30 +133,21 @@ export default function EmployeeTables({ data }: { data: any[] }) {
                 sendTips = tips;
               }
 
+              const result = Number(salary) + Number(sendTips) - Number(e.penalty) + Number(e.bonus);
+
               return (
-                <TableRow key={e.employeeId}>
-                  <TableCell>{e.employee}</TableCell>
+                <TableRow key={index}>
+                  <TableCell className="sticky left-0">{e.employee}</TableCell>
                   <TableCell className="text-center">{rate}</TableCell>
-                  <TableCell className="text-center font-bold">
-                    {sendTips.toFixed(0)}
-                  </TableCell>
-                  <TableCell className="text-center text-rd">
-                    {e.penality}
-                  </TableCell>
+                  <TableCell className="text-center font-bold">{sendTips}</TableCell>
+                  <TableCell className="text-center text-rd">{e.penalty}</TableCell>
                   <TableCell className="text-center">{e.bonus}</TableCell>
                   <TableCell></TableCell>
                   <TableCell>{dayH}</TableCell>
                   <TableCell>{nightH}</TableCell>
-                  <TableCell className="text-gn font-bold">
-                    {totalHours}
-                  </TableCell>
-                  <TableCell>{salary.toFixed(0)}</TableCell>
-                  <TableCell>
-                    {Number(salary.toFixed(0)) +
-                      Number(sendTips) -
-                      Number(e.penality) +
-                      Number(e.bonus)}
-                  </TableCell>
+                  <TableCell className="text-gn font-bold">{totalHours}</TableCell>
+                  <TableCell>{salary}</TableCell>
+                  <TableCell>{result}</TableCell>
                 </TableRow>
               );
             })}
@@ -158,7 +158,7 @@ export default function EmployeeTables({ data }: { data: any[] }) {
   };
 
   return (
-    <div className="p-4">
+    <div>
       {renderTable("waiters", roles.waiters)}
       {renderTable("barmen", roles.barmen)}
       {renderTable("dish", roles.dish)}

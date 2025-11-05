@@ -1,9 +1,20 @@
+export type ResultUniqueEmployeeType = {
+  employee: string;
+  rate: string;
+  dayHours: string;
+  nightHours: string;
+  role: string;
+  bonus: number;
+  penalty: number;
+  tips: number;
+}
+
 export function extractUniqueEmployees(
   schedules: any[],
   remarksByEmployee: any[],
   dataTipsForMonth: any[]
-) {
-  console.log("remarksByEmployee", dataTipsForMonth);
+):ResultUniqueEmployeeType[] {
+  
   const result = [];
   const seen = new Set<string>();
 
@@ -11,32 +22,29 @@ export function extractUniqueEmployees(
     if (!schedule?.rowShifts) continue;
 
     for (const shift of schedule.rowShifts) {
-      const { employeeId, rate, dayHours, nightHours, role, employee } = shift;
+      const {  rate, dayHours, nightHours, role, employee } = shift;
       if (!employee || seen.has(employee)) continue;
 
       seen.add(employee);
 
-      // Находим соответствие в remarksByEmployee
       const remark = remarksByEmployee?.find((r) => r.name === employee);
 
-      // Находим соответствие в dataTipsForMonth
       const tip = dataTipsForMonth?.find((t) => t.employee === employee);
 
       result.push({
-        employeeId,
         employee,
         rate,
         dayHours,
         nightHours,
         role,
         bonus: remark?.bonus ?? 0,
-        penality: remark?.penality ?? 0,
+        penalty: remark?.penality ?? 0,
         tips: tip?.tips ?? 0,
       });
     }
   }
 
-  return result;
+  return result 
 }
 
 type RemarkItem = {
