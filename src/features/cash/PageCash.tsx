@@ -79,7 +79,7 @@ export function PageCash({ initialData }: { initialData: any[] }) {
         onKeyDown={(e) => e.key === "Enter" && e.preventDefault()}
         className="flex flex-col"
       >
-        <FilterDataByMonth isDisabled={isDisabled} />
+        <FilterDataByMonth disabled={isDisabled} />
         <Table className="md:table-fixed">
           <TableHeaderCash monthDays={monthDays} month={month} />
           <TableBodyCash
