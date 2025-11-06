@@ -33,7 +33,6 @@ export function PageResult() {
   const remarks = useRemarks();
   const dataTips = useTips();
 
-  console.log("dataTips", dataTips);
   // state schedule
   const [selectedData, setSelectedData] = useState<ResultUniqueEmployeeType[]>(
     []
@@ -56,6 +55,8 @@ export function PageResult() {
     form.setValue("barmenDishBid", data?.barmenDishBid as string);
     form.setValue("dishDishBid", data?.dishDishBid as string);
     form.setValue("percentTips", data?.percentTips as string);
+    form.setValue("percentBarmen", data?.percentBarmen as string);
+    form.setValue("percentDish", data?.percentDish as string);
   };
 
   useEffect(() => {

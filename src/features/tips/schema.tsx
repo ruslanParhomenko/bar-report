@@ -1,5 +1,5 @@
 import { MONTHS } from "@/utils/getMonthDays";
-import { ro } from "date-fns/locale";
+
 import * as yup from "yup";
 
 const tipsByDaySchema = yup.string().default("");
@@ -38,6 +38,11 @@ export const tipsSchema = yup.object({
     .required("BarmenDishBid is required"),
   dishDishBid: yup.string().default("0.07").required("DishDishBid is required"),
   percentTips: yup.string().default("0.28").required("PercentTips is required"),
+  percentBarmen: yup
+    .string()
+    .default("0.6")
+    .required("PercentBarmen is required"),
+  percentDish: yup.string().default("0.4").required("PercentDish is required"),
 });
 
 export type TipsFormType = yup.InferType<typeof tipsSchema>;

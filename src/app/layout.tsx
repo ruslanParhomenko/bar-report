@@ -91,7 +91,7 @@ export default async function RootLayout({
                       schedules={schedules as SchedulesContextValue[]}
                     >
                       <RemarksProvider data={remarks.remarks}>
-                        <TipsProvider data={dataTips as TipsDataContext}>
+                        <TipsProvider data={dataTips as TipsDataContext[]}>
                           {children}
                         </TipsProvider>
                       </RemarksProvider>

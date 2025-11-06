@@ -87,10 +87,7 @@ export default function TableBodyData({
               );
 
               return (
-                <TableRow
-                  key={row.id}
-                  className="hover:[&>td]:bg-gr/20 hover:text-rd"
-                >
+                <TableRow key={row.id} className="hover:bg-gr/10 hover:text-rd">
                   <TableCell
                     className="text-rd p-0"
                     onClick={() => !disabled && remove(globalIndex)}
@@ -153,9 +150,9 @@ export default function TableBodyData({
                           move(globalIndex, targetGlobalIndex);
                         }
                       }}
-                      className="w-3 h-3 p-0 flex items-center justify-center"
+                      className="w-3 h-4 p-0 flex items-center justify-center"
                     >
-                      <ChevronUp className="w-2 h-3" />
+                      <ChevronUp className="w-2" />
                     </Button>
                     <Button
                       type="button"
@@ -169,9 +166,9 @@ export default function TableBodyData({
                           move(globalIndex, targetGlobalIndex);
                         }
                       }}
-                      className="w-3 h-3 p-0 flex items-center justify-center"
+                      className="w-3 h-4 p-0 flex items-center justify-center"
                     >
-                      <ChevronDown className="w-2 h-3" />
+                      <ChevronDown className="w-2" />
                     </Button>
                   </TableCell>
                 </TableRow>
@@ -197,7 +194,7 @@ export default function TableBodyData({
                     })
                   }
                 >
-                  <Plus className="h-3 w-3" />
+                  <Plus />
                 </Button>
               </TableCell>
             </TableRow>
