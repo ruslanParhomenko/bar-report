@@ -1,7 +1,7 @@
 import { getCashForm } from "@/app/actions/cash/cashAction";
 import { getTipsForm } from "@/app/actions/tips/getTipsAction";
 import { InsufficientRights } from "@/components/wrapper/InsufficientRights";
-import TipsForm from "@/features/tips/TipsForm";
+import { PageTips } from "@/features/tips/PageTips";
 import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
@@ -14,5 +14,5 @@ export default async function Page() {
   if (!SET_ACCESS.includes(role as string)) return <InsufficientRights />;
   const dataTips = await getTipsForm();
   const dataCash = await getCashForm();
-  return <TipsForm dataTips={dataTips} dataCash={dataCash} />;
+  return <PageTips dataTips={dataTips} dataCash={dataCash} />;
 }

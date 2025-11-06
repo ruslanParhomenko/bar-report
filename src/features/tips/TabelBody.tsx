@@ -15,11 +15,6 @@ const ROLES: Array<"waiters" | "barmen" | "dish"> = [
   "dish",
 ];
 
-const PROCENTAGE_DISH = {
-  waiters: 0.03,
-  barmen: 0.07,
-  dish: 0.07,
-};
 export default function TableBodyData({
   data,
   monthDays,
@@ -92,9 +87,12 @@ export default function TableBodyData({
               );
 
               return (
-                <TableRow key={row.id} className="hover:text-rd p-0">
+                <TableRow
+                  key={row.id}
+                  className="hover:[&>td]:bg-gr/20 hover:text-rd"
+                >
                   <TableCell
-                    className="text-rd cursor-pointer p-0"
+                    className="text-rd p-0"
                     onClick={() => !disabled && remove(globalIndex)}
                   >
                     {rowIndex + 1}
@@ -106,11 +104,11 @@ export default function TableBodyData({
                       data={selectedEmployees.filter(
                         (emp) => emp.role === role
                       )}
-                      className="hover:text-rd justify-start h-6!"
+                      className="justify-start text-center"
                       disabled={disabled}
                     />
                   </TableCell>
-                  <TableCell className="p-0 text-center font-medium">
+                  <TableCell className="p-0">
                     <input
                       type="text"
                       readOnly
@@ -119,12 +117,12 @@ export default function TableBodyData({
                           `rowEmployeesTips.${globalIndex}.tips`
                         ) || 0
                       }
-                      className="w-full text-center text-muted-foreground"
+                      className="w-full text-center text-muted-foreground p-0 font-medium"
                     />
                   </TableCell>
 
                   {monthDays.map((_day, dayIndex) => (
-                    <TableCell key={dayIndex} className="p-1 h-6">
+                    <TableCell key={dayIndex} className="p-0.5">
                       <Input
                         {...form.register(
                           `rowEmployeesTips.${globalIndex}.tipsByDay.${dayIndex}`
@@ -135,14 +133,14 @@ export default function TableBodyData({
                           handleTableNavigation(e, rowNumber, dayIndex)
                         }
                         className={cn(
-                          "w-full h-6 bg-border text-sm text-center"
+                          "w-full h-6 bg-border text-xs text-center p-0"
                         )}
                         disabled={disabled}
                       />
                     </TableCell>
                   ))}
 
-                  <TableCell className="w-6 flex flex-col justify-center items-center p-0">
+                  <TableCell className="flex flex-col justify-center items-center p-0">
                     <Button
                       type="button"
                       variant="ghost"

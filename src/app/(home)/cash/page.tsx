@@ -1,7 +1,7 @@
 import { getCashForm } from "@/app/actions/cash/cashAction";
 
 import { InsufficientRights } from "@/components/wrapper/InsufficientRights";
-import CashForm from "@/features/cash/CashForm";
+import { PageCash } from "@/features/cash/PageCash";
 
 import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
@@ -16,5 +16,5 @@ export default async function Page() {
   if (!SET_ACCESS.includes(role as string)) return <InsufficientRights />;
 
   const cashData = await getCashForm();
-  return <CashForm initialData={cashData} />;
+  return <PageCash initialData={cashData} />;
 }

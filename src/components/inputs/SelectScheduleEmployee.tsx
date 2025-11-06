@@ -57,7 +57,6 @@ export default function SelectScheduleEmployee({
                 <FormControl className="w-full">
                   <SelectTrigger
                     data-placeholder=""
-                    // className={`${className} flex justify-center min-w-12   [&>svg]:hidden`}
                     className={cn(
                       "flex justify-center min-w-8 [&>svg]:hidden border-0 shadow-none",
                       className,

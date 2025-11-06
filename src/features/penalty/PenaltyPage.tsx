@@ -13,10 +13,13 @@ import TotalPenalty from "./TotalPenalty";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { useTranslations } from "next-intl";
+import { useRemarks } from "@/providers/RemarksProvider";
 
-export const PenaltyPage = ({ data }: { data: RemarkData[] }) => {
+export const PenaltyPage = () => {
   const t = useTranslations("Home");
   const [isOpenTotal, setIsOpenTotal] = useState(false);
+
+  const data = useRemarks();
 
   const employeesList = useUniqueOptions<Remark>({
     data: data?.flatMap((r) => r?.remarks ?? []) ?? [],

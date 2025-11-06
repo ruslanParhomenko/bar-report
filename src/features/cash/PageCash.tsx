@@ -6,15 +6,16 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { CashFormType, cashSchema, defaultCashForm } from "./schema";
 import { toast } from "sonner";
-import FilterHeader from "../tips/FilterHeader";
+
 import { useMemo, useEffect } from "react";
 import { getMonthDays } from "@/utils/getMonthDays";
 import { Table } from "@/components/ui/table";
 import TableBodyCash from "./TableBodyCash";
 import { saveCashForm } from "@/app/actions/cash/cashAction";
 import TableHeaderCash from "./TableHeaderCash";
+import { FilterDataByMonth } from "@/components/filter/FilterDataByMonth";
 
-export default function CashForm({ initialData }: { initialData: any[] }) {
+export function PageCash({ initialData }: { initialData: any[] }) {
   const { isAdmin, isMngr, isCash } = useAbility();
   const isDisabled = !isAdmin && !isMngr && !isCash;
 
@@ -78,7 +79,7 @@ export default function CashForm({ initialData }: { initialData: any[] }) {
         onKeyDown={(e) => e.key === "Enter" && e.preventDefault()}
         className="flex flex-col"
       >
-        <FilterHeader isDisabled={isDisabled} />
+        <FilterDataByMonth isDisabled={isDisabled} />
         <Table className="md:table-fixed">
           <TableHeaderCash monthDays={monthDays} month={month} />
           <TableBodyCash

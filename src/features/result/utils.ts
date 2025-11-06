@@ -59,9 +59,9 @@ export function getRemarksByMonth(
   uniqueKey: string,
   MONTHS: string[]
 ): RemarkItem[] {
-  if (!remarksData?.remarks) return [];
+  if (!remarksData) return [];
 
-  return remarksData.remarks
+  return remarksData
     .filter((r: any) => {
       // безопасно приводим дату к строке
       const dateStr =

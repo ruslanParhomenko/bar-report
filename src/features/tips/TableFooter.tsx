@@ -1,4 +1,3 @@
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { TableCell, TableFooter, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
@@ -24,7 +23,6 @@ export default function TableFooterData({
     .watch("rowEmployeesTips")
     .map((row: any) => row.tips)
     .reduce((acc: number, val: string) => acc + Number(val), 0);
-  console.log("totalTips", totalTips);
   const totalCash = form
     .watch("cashTips")
     .reduce((acc: number, val: string) => acc + Number(val), 0);
@@ -32,7 +30,7 @@ export default function TableFooterData({
   return (
     <TableFooter>
       <TableRow>
-        <TableCell colSpan={monthDays.length + 3} className="h-2 bg-bl" />
+        <TableCell colSpan={monthDays.length + 4} className="h-2 bg-bl" />
       </TableRow>
       <TableRow>
         <TableCell colSpan={2} className="sticky left-0 p-0 bg-card">
@@ -66,14 +64,14 @@ export default function TableFooterData({
                 <Label className="text-center text-xs text-bl">
                   {sumTipsForDay}
                 </Label>
-                <Input
+                <input
                   {...form.register(`cashTips.${dayIndex}`)}
                   data-row={dataRowsCount}
                   data-col={dayIndex}
                   onKeyDown={(e) =>
                     handleTableNavigation(e, dataRowsCount, dayIndex)
                   }
-                  className={cn("w-full h-6  text-sm text-center")}
+                  className={cn("w-full h-6  text-xs text-center")}
                   disabled={disabled}
                 />
                 <Label

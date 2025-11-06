@@ -23,6 +23,10 @@ import {
 import { getSchedule } from "./actions/schedule/getSchedule";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
+import { RemarksProvider } from "@/providers/RemarksProvider";
+import { getRemarks } from "./actions/remarks/getRemarks";
+import { getTipsForm } from "./actions/tips/getTipsAction";
+import { TipsDataContext, TipsProvider } from "@/providers/TipsProvider";
 
 const lora = Lora({
   variable: "--font-lora",
@@ -50,6 +54,8 @@ export default async function RootLayout({
   const employees = await getEmployees();
   const schedules = await getSchedule();
   const users = await getUsers();
+  const remarks = await getRemarks();
+  const dataTips = await getTipsForm();
 
   const email = session?.user?.email ?? null;
   const user = users.find((u) => u.mail === email);
@@ -84,7 +90,11 @@ export default async function RootLayout({
                     <SchedulesProvider
                       schedules={schedules as SchedulesContextValue[]}
                     >
-                      {children}
+                      <RemarksProvider data={remarks.remarks}>
+                        <TipsProvider data={dataTips as TipsDataContext}>
+                          {children}
+                        </TipsProvider>
+                      </RemarksProvider>
                     </SchedulesProvider>
                   </EmployeesProvider>
                 </AbilityProvider>

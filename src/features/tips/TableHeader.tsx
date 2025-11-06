@@ -16,11 +16,11 @@ export default function TableHeaderData({
   return (
     <TableHeader>
       <TableRow>
-        <TableCell className="w-3 text-start p-0" />
+        <TableCell className="w-2 text-start p-0" />
         <TableCell className="w-24 p-0 front-bold text-center">
           {month?.toUpperCase() || ""}
         </TableCell>
-        <TableCell className="w-8 text-center p-0" />
+        <TableCell className="w-7 text-center p-0" />
 
         {monthDays.map((day) => {
           return (
@@ -39,7 +39,7 @@ export default function TableHeaderData({
           );
         })}
 
-        <TableCell className="w-6" />
+        <TableCell className="w-4" />
       </TableRow>
     </TableHeader>
   );
