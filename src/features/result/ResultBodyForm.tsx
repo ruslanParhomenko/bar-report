@@ -32,6 +32,8 @@ export function ResultBodyForm({ data }: { data: ResultUniqueEmployeeType[] }) {
   const waitersDishBid = Number(form.watch("waitersDishBid")) || 0;
   const barmenDishBid = Number(form.watch("barmenDishBid")) || 0;
   const dishDishBid = Number(form.watch("dishDishBid")) || 0;
+  const percentBarmen = Number(form.watch("percentBarmen")) || 0;
+  const percentDish = Number(form.watch("percentDish")) || 0;
 
   // разделение по ролям
   const roles = {
@@ -46,8 +48,8 @@ export function ResultBodyForm({ data }: { data: ResultUniqueEmployeeType[] }) {
     (acc, w) => acc + Number(w.tips ?? 0),
     0
   );
-  const tipsForBarmen = totalWaitersTips * percentTips * 0.6;
-  const tipsForDish = totalWaitersTips * percentTips * 0.4;
+  const tipsForBarmen = totalWaitersTips * percentTips * percentBarmen;
+  const tipsForDish = totalWaitersTips * percentTips * percentDish;
 
   // часы барменов
   const totalBarmenDayHours = roles.barmen.reduce(
@@ -91,8 +93,7 @@ export function ResultBodyForm({ data }: { data: ResultUniqueEmployeeType[] }) {
     // вычисляем totals
     const totalRow = sortedEmployees.reduce(
       (acc, e) => {
-        const { dayH, nightH, totalHours, rate, salary, tips } =
-          calculateSalary(e);
+        const { dayH, nightH, totalHours, salary, tips } = calculateSalary(e);
 
         let sendTips = 0;
         if (role === "waiters") {
