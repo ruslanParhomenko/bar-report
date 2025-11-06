@@ -7,14 +7,13 @@ export type ResultUniqueEmployeeType = {
   bonus: number;
   penalty: number;
   tips: number;
-}
+};
 
 export function extractUniqueEmployees(
   schedules: any[],
   remarksByEmployee: any[],
   dataTipsForMonth: any[]
-):ResultUniqueEmployeeType[] {
-  
+): ResultUniqueEmployeeType[] {
   const result = [];
   const seen = new Set<string>();
 
@@ -22,7 +21,7 @@ export function extractUniqueEmployees(
     if (!schedule?.rowShifts) continue;
 
     for (const shift of schedule.rowShifts) {
-      const {  rate, dayHours, nightHours, role, employee } = shift;
+      const { rate, dayHours, nightHours, role, employee } = shift;
       if (!employee || seen.has(employee)) continue;
 
       seen.add(employee);
@@ -44,7 +43,7 @@ export function extractUniqueEmployees(
     }
   }
 
-  return result 
+  return result;
 }
 
 type RemarkItem = {
@@ -86,4 +85,27 @@ export function getRemarksByMonth(
           bonus: Number(item.bonus) || 0,
         }))
     );
+}
+
+// salary
+
+export function calculateSalary(data: ResultUniqueEmployeeType) {
+  const dayH = Number(data.dayHours ?? 0);
+  const nightH = Number(data.nightHours ?? 0);
+  const totalHours = dayH + nightH;
+  const rate = Number(data.rate ?? 0);
+  const tips = Number(data.tips ?? 0);
+
+  const salary = (
+    (rate / 186) * 0.9 * dayH +
+    (rate / 186) * 1.15 * nightH
+  ).toFixed(0);
+  return {
+    dayH,
+    nightH,
+    totalHours,
+    rate,
+    salary,
+    tips,
+  };
 }
