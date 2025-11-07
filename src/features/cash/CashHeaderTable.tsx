@@ -30,7 +30,7 @@ export function CashHeaderTable({
             <TableCell
               key={day.day}
               className={cn(
-                "cursor-pointer p-0 ",
+                "min-w-8 cursor-pointer p-0 ",
                 day.day === todayDay && "text-blue-900 front-bold"
               )}
             >
