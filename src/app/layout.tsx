@@ -1,32 +1,39 @@
+// next
 import type { Metadata } from "next";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+// intl
+import { NextIntlClientProvider } from "next-intl";
+import { getLocale } from "next-intl/server";
+// styles
 import { Lora } from "next/font/google";
 import "./globals.css";
 
-import { NextIntlClientProvider } from "next-intl";
-import { getLocale } from "next-intl/server";
+// providers
 import { SessionProviders } from "@/providers/SessionProviders";
 import { AbilityProvider } from "@/providers/AbilityProvider";
 import ReactQueryProvider from "@/providers/ReactQueryProvider";
-
 import { ThemeProvider } from "next-themes";
-import { getEmployees } from "./actions/employees/getEmployees";
 import {
   EmployeesContextValue,
   EmployeesProvider,
 } from "@/providers/EmployeesProvider";
-import { getUsers } from "./actions/users/getUsers";
-import { Toaster } from "@/components/ui/sonner";
 import {
   SchedulesContextValue,
   SchedulesProvider,
 } from "@/providers/ScheduleProvider";
-import { getSchedule } from "./actions/schedule/getSchedule";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
 import { RemarksProvider } from "@/providers/RemarksProvider";
-import { getRemarks } from "./actions/remarks/getRemarks";
-import { getTipsForm } from "./actions/tips/getTipsAction";
 import { TipsDataContext, TipsProvider } from "@/providers/TipsProvider";
+import { CashProvider } from "@/providers/CashProvider";
+// ui
+import { Toaster } from "@/components/ui/sonner";
+// actions
+import { getRemarks } from "./actions/remarks/remarksAction";
+import { getEmployees } from "./actions/employees/employeeAction";
+import { getSchedule } from "./actions/schedule/scheduleAction";
+import { getUsers } from "./actions/users/userAction";
+import { getTipsForm } from "./actions/tips/tipsAction";
+import { getCashForm } from "./actions/cash/cashAction";
 
 const lora = Lora({
   variable: "--font-lora",
@@ -35,8 +42,8 @@ const lora = Lora({
   style: ["normal", "italic"],
 });
 
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
+// export const dynamic = "force-dynamic";
+// export const revalidate = 0;
 
 export const metadata: Metadata = {
   title: "Bar App",
@@ -56,6 +63,7 @@ export default async function RootLayout({
   const users = await getUsers();
   const remarks = await getRemarks();
   const dataTips = await getTipsForm();
+  const dataCash = await getCashForm();
 
   const email = session?.user?.email ?? null;
   const user = users.find((u) => u.mail === email);
@@ -92,7 +100,9 @@ export default async function RootLayout({
                     >
                       <RemarksProvider data={remarks.remarks}>
                         <TipsProvider data={dataTips as TipsDataContext[]}>
-                          {children}
+                          <CashProvider data={dataCash as any[]}>
+                            {children}
+                          </CashProvider>
                         </TipsProvider>
                       </RemarksProvider>
                     </SchedulesProvider>

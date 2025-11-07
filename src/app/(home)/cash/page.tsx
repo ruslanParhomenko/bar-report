@@ -1,5 +1,3 @@
-import { getCashForm } from "@/app/actions/cash/cashAction";
-
 import { InsufficientRights } from "@/components/wrapper/InsufficientRights";
 import { PageCash } from "@/features/cash/PageCash";
 
@@ -15,6 +13,5 @@ export default async function Page() {
   const role = session?.user?.role;
   if (!SET_ACCESS.includes(role as string)) return <InsufficientRights />;
 
-  const cashData = await getCashForm();
-  return <PageCash initialData={cashData} />;
+  return <PageCash />;
 }

@@ -1,10 +1,13 @@
 {
   "Home": {
+    "visaCasinoBar": "Bar visa-k",
+    "banquet": "Bar banquet",
+    "visaBar": "Bar visa",
     "result": "Rezultat",
-    "visaCasino": "Visa Casino",
-    "difference": "Difierență curs valutar",
-    "bayChips": "Achitarea jetoanelor",
-    "cashBar": "Achitarea conturilor BAR",
+    "visaCasino": "Visa K",
+    "difference": "+ -",
+    "bayChips": "Jetoane",
+    "cashBar": "Bar",
     "cash": "Casa",
     "tips": "Bacșiș",
     "add": "Adauga",

@@ -1,6 +1,5 @@
 "use client";
 
-import { Form } from "@/components/ui/form";
 import { useAbility } from "@/providers/AbilityProvider";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -9,13 +8,21 @@ import { toast } from "sonner";
 
 import { useMemo, useEffect } from "react";
 import { getMonthDays } from "@/utils/getMonthDays";
-import { Table } from "@/components/ui/table";
-import TableBodyCash from "./TableBodyCash";
+import { Table, TableCell, TableFooter, TableRow } from "@/components/ui/table";
+import { CashBodyTable } from "./CashBodyTable";
 import { saveCashForm } from "@/app/actions/cash/cashAction";
-import TableHeaderCash from "./TableHeaderCash";
+import { CashHeaderTable } from "./CashHeaderTable";
 import { FilterDataByMonth } from "@/components/filter/FilterDataByMonth";
+import { useCash } from "@/providers/CashProvider";
+import { FormWrapper } from "@/components/wrapper/FormWrapper";
+import { Label } from "@/components/ui/label";
+import { cn } from "@/lib/utils";
+import { CashFooterTable } from "./CashFooterTable";
 
-export function PageCash({ initialData }: { initialData: any[] }) {
+export function PageCash() {
+  // get data
+  const dataCash = useCash();
+
   const { isAdmin, isMngr, isCash } = useAbility();
   const isDisabled = !isAdmin && !isMngr && !isCash;
 
@@ -35,20 +42,27 @@ export function PageCash({ initialData }: { initialData: any[] }) {
   }, [month, year]);
 
   useEffect(() => {
-    if (!monthDays.length && initialData) return;
+    if (!monthDays.length && dataCash) return;
+
+    const makeArray = () => Array(monthDays.length).fill("");
 
     const newRowCashData = {
-      tipsByDay: Array(monthDays.length).fill(""),
-      cashByDay: Array(monthDays.length).fill(""),
-      chipsByDay: Array(monthDays.length).fill(""),
-      differenceByDay: Array(monthDays.length).fill(""),
-      visaCasinoByDay: Array(monthDays.length).fill(""),
+      tipsByDay: makeArray(),
+      cashByDay: makeArray(),
+      chipsByDay: makeArray(),
+      differenceByDay: makeArray(),
+      visaCasinoByDay: makeArray(),
+      cashBarByDay: makeArray(),
+      visaBarByDay: makeArray(),
+      banquetBarByDay: makeArray(),
+      visaCasinoBarByDay: makeArray(),
+      cash: makeArray(),
     };
 
     form.setValue("rowCashData", newRowCashData);
   }, [monthDays, form]);
 
-  // Submit handler
+  // submit
   const onSubmit: SubmitHandler<CashFormType> = async (data) => {
     await saveCashForm(data);
 
@@ -56,39 +70,32 @@ export function PageCash({ initialData }: { initialData: any[] }) {
   };
 
   useEffect(() => {
-    if (!initialData || !month || !year) return;
+    if (!dataCash || !month || !year) return;
 
     const unique_id = `${year}-${month}`;
-    const dataForMonth = initialData.find(
+    const dataForMonth = dataCash.find(
       (item: any) => item.unique_id === unique_id
     );
 
     if (dataForMonth) {
-      console.log("dataForMonth.form_data:", dataForMonth.form_data);
       form.reset({
         ...dataForMonth.form_data,
-        id: dataForMonth.id,
       } as CashFormType);
     }
-  }, [month, year, initialData]);
+  }, [month, year, dataCash]);
 
   return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        onKeyDown={(e) => e.key === "Enter" && e.preventDefault()}
-        className="flex flex-col"
-      >
-        <FilterDataByMonth disabled={isDisabled} withButton={true} />
-        <Table className="md:table-fixed">
-          <TableHeaderCash monthDays={monthDays} month={month} />
-          <TableBodyCash
-            form={form}
-            monthDays={monthDays}
-            isDisabled={isDisabled}
-          />
-        </Table>
-      </form>
-    </Form>
+    <FormWrapper form={form} onSubmit={onSubmit}>
+      <FilterDataByMonth disabled={isDisabled} withButton={true} />
+      <Table className="md:table-fixed">
+        <CashHeaderTable monthDays={monthDays} month={month} />
+        <CashBodyTable
+          form={form}
+          monthDays={monthDays}
+          isDisabled={isDisabled}
+        />
+        <CashFooterTable monthDays={monthDays} form={form} />
+      </Table>
+    </FormWrapper>
   );
 }

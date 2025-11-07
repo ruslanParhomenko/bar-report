@@ -8,7 +8,14 @@ export const rowCashSchema = yup.object({
   chipsByDay: yup.array().of(dayValueSchema).default([]),
   differenceByDay: yup.array().of(dayValueSchema).default([]),
   visaCasinoByDay: yup.array().of(dayValueSchema).default([]),
+  cashBarByDay: yup.array().of(dayValueSchema).default([]),
+  visaBarByDay: yup.array().of(dayValueSchema).default([]),
+  banquetBarByDay: yup.array().of(dayValueSchema).default([]),
+  visaCasinoBarByDay: yup.array().of(dayValueSchema).default([]),
+  cash: yup.array().of(dayValueSchema).default([]),
 });
+
+export type RowCashType = yup.InferType<typeof rowCashSchema>;
 
 export const cashSchema = yup.object({
   year: yup

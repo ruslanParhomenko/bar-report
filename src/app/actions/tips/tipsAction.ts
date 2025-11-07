@@ -2,8 +2,11 @@
 
 import { TipsFormType } from "@/features/tips/schema";
 import { supabase } from "@/lib/supabaseClient";
-import { revalidateTag } from "next/cache";
 
+import { invalidateEverywhere } from "../invalidateEverywhere/invalidateEverywhere";
+import { unstable_cache } from "next/cache";
+
+// create
 export async function saveTipsForm(data: Omit<TipsFormType, "cashTips">) {
   const { year, month } = data;
 
@@ -26,7 +29,28 @@ export async function saveTipsForm(data: Omit<TipsFormType, "cashTips">) {
     throw error;
   }
 
-  await revalidateTag("tips");
+  await invalidateEverywhere("tips");
 
   return savedData;
 }
+
+// get
+
+export async function _getTipsForm() {
+  const { data, error } = await supabase
+    .from("tips")
+    .select("*")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error("Ошибка при получении данных формы:", error);
+    throw error;
+  }
+
+  return data;
+}
+
+export const getTipsForm = unstable_cache(_getTipsForm, ["tips"], {
+  revalidate: false,
+  tags: ["tips"],
+});

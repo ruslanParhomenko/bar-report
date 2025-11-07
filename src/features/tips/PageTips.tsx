@@ -22,16 +22,17 @@ import TableBodyData from "./TabelBody";
 
 import { FormWrapper } from "@/components/wrapper/FormWrapper";
 import { FilterDataByMonth } from "@/components/filter/FilterDataByMonth";
+import { useTips } from "@/providers/TipsProvider";
+import { useCash } from "@/providers/CashProvider";
 
 const SELECTED_ROLE = ["barmen", "waiters", "dish"];
 
-export function PageTips({
-  dataTips,
-  dataCash,
-}: {
-  dataTips: any[];
-  dataCash: any[];
-}) {
+export function PageTips() {
+  // get data
+  const dataTips = useTips();
+  const dataCash = useCash();
+  const employees = useEmployees();
+
   const { isAdmin, isMngr, isCash } = useAbility();
   const isDisabled = !isAdmin && !isMngr && !isCash;
 
@@ -49,7 +50,6 @@ export function PageTips({
   const month = form.watch("month");
   const year = form.watch("year");
 
-  const employees = useEmployees();
   const selectedEmployees = useMemo(() => {
     return employees
       .filter((emp) => SELECTED_ROLE.includes(emp.role))
@@ -102,7 +102,7 @@ export function PageTips({
 
     if (dataCashForMonth || dataTipsForMonth) {
       form.reset({
-        ...dataTipsForMonth.form_data,
+        ...dataTipsForMonth?.form_data,
         cashTips:
           dataCashForMonth &&
           dataCashForMonth?.form_data?.rowCashData?.tipsByDay,

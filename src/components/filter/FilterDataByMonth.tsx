@@ -52,42 +52,42 @@ export function FilterDataByMonth({
         <TextInput
           fieldName="waitersDishBid"
           className={classNameBid}
-          fieldLabel="waiters %"
+          fieldLabel={isMobile ? "" : "waiters %"}
           orientation={orientation}
           disabled={!isAdmin}
         />
         <TextInput
           fieldName="barmenDishBid"
           className={classNameBid}
-          fieldLabel="barmen %"
+          fieldLabel={isMobile ? "" : "barmen %"}
           orientation={orientation}
           disabled={!isAdmin}
         />
         <TextInput
           fieldName="dishDishBid"
           className={classNameBid}
-          fieldLabel="dish %"
+          fieldLabel={isMobile ? "" : "dish %"}
           orientation={orientation}
           disabled={!isAdmin}
         />
         <TextInput
           fieldName="percentTips"
           className={classNameBid}
-          fieldLabel="tips b-d"
+          fieldLabel={isMobile ? "" : "% tips"}
           orientation={orientation}
           disabled={!isAdmin}
         />
         <TextInput
           fieldName="percentBarmen"
           className={classNameBid}
-          fieldLabel="% barmen"
+          fieldLabel={isMobile ? "" : "% barmen"}
           orientation={orientation}
           disabled={!isAdmin}
         />
         <TextInput
           fieldName="percentDish"
           className={classNameBid}
-          fieldLabel="% dish"
+          fieldLabel={isMobile ? "" : "% dish"}
           orientation={orientation}
           disabled={!isAdmin}
         />

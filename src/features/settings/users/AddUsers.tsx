@@ -9,7 +9,6 @@ import CardFormUsers from "./CardFormUsers";
 import { UsersTable } from "./CardTableUsers";
 
 import { createUser, updateUser } from "@/app/actions/users/userAction";
-import { invalidateUsers } from "@/app/actions/users/getUsers";
 
 type FormData = UsersSchemaTypeData;
 
@@ -33,14 +32,14 @@ export default function AddUsers() {
           mail: data.mail,
           role: data.role,
         });
-        invalidateUsers();
+
         toast.success("User is updated !");
       } else {
         await createUser({
           mail: data.mail,
           role: data.role,
         });
-        invalidateUsers();
+
         toast.success("User is added !");
       }
       resetForm();

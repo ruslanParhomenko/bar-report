@@ -1,7 +1,8 @@
 import { TableCell, TableHeader, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 
-export default function TableHeaderCash({
+export function CashHeaderTable({
   month,
   monthDays,
   className,
@@ -10,14 +11,18 @@ export default function TableHeaderCash({
   monthDays: { day: number; weekday: string }[];
   className?: string;
 }) {
+  const t = useTranslations("Home");
   if (!month || !monthDays) return null;
 
   const todayDay = new Date().getDate();
   return (
     <TableHeader>
-      <TableRow className="h-12">
-        <TableCell colSpan={2} className="w-18 !p-0 front-bold text-center">
-          {month?.toUpperCase() || ""}
+      <TableRow className="h-10">
+        <TableCell
+          colSpan={2}
+          className="w-20 p-0 front-bold text-center text-xs"
+        >
+          {t(month?.toLocaleLowerCase())}
         </TableCell>
 
         {monthDays.map((day) => {
@@ -25,7 +30,7 @@ export default function TableHeaderCash({
             <TableCell
               key={day.day}
               className={cn(
-                "w-9 cursor-pointer !p-0 ",
+                "cursor-pointer p-0 ",
                 day.day === todayDay && "text-blue-900 front-bold"
               )}
             >
@@ -36,6 +41,7 @@ export default function TableHeaderCash({
             </TableCell>
           );
         })}
+        <TableCell />
       </TableRow>
     </TableHeader>
   );

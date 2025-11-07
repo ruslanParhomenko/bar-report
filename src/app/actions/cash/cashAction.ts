@@ -2,7 +2,8 @@
 
 import { CashFormType } from "@/features/cash/schema";
 import { supabase } from "@/lib/supabaseClient";
-import { revalidateTag, unstable_cache } from "next/cache";
+import { unstable_cache } from "next/cache";
+import { invalidateEverywhere } from "../invalidateEverywhere/invalidateEverywhere";
 
 // save
 export async function saveCashForm(data: CashFormType) {
@@ -27,7 +28,7 @@ export async function saveCashForm(data: CashFormType) {
     throw error;
   }
 
-  await revalidateTag("cash");
+  await invalidateEverywhere("cash");
 
   return savedData;
 }
