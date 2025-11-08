@@ -1,6 +1,6 @@
 import { EmployeesListTable } from "./EmployeesListTable";
 import { StandardKitchenTable } from "./StandardKitchenTable";
-import MeniuRatingTable from "./MeniuRatingTable";
+
 import StatusMenu from "./StatusMenu";
 import AccordionWrapper from "@/components/wrapper/AccordionWrapper";
 import StaffMenu from "./StaffMenu";
@@ -16,9 +16,9 @@ export default function InfoTable() {
         <StandardKitchenTable />
       </AccordionWrapper>
 
-      <AccordionWrapper nameTag="meniuRating">
+      {/* <AccordionWrapper nameTag="meniuRating">
         <MeniuRatingTable />
-      </AccordionWrapper>
+      </AccordionWrapper> */}
 
       <AccordionWrapper nameTag="StatusMenu">
         <StatusMenu />
