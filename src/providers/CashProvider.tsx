@@ -1,14 +1,20 @@
 "use client";
 
+import { CashFormType } from "@/features/cash/schema";
 import { createContext, useContext } from "react";
 
-const CashContext = createContext<any>([]);
+export type CashContextType = {
+  form_data: CashFormType;
+  unique_id: string;
+};
+
+const CashContext = createContext<CashContextType[]>([]);
 
 export const CashProvider = ({
   data,
   children,
 }: {
-  data: any[];
+  data: CashContextType[];
   children: React.ReactNode;
 }) => {
   return <CashContext.Provider value={data}>{children}</CashContext.Provider>;

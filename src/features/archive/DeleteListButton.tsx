@@ -1,12 +1,10 @@
 "use client";
 import { deleteBreakList } from "@/app/actions/archive/breakListAction";
-import { deleteRemark } from "@/app/actions/archive/remarksAction";
 import { deleteReportBar } from "@/app/actions/archive/reportBarAction";
 import { deleteReportCucina } from "@/app/actions/archive/reportCucinaAction";
 import { Button } from "@/components/ui/button";
 import {
   BREAK_LIST_ENDPOINT,
-  REMARKS_ENDPOINT,
   REPORT_BAR_ENDPOINT,
   REPORT_CUCINA_ENDPOINT,
 } from "@/constants/endpoint-tag";
@@ -30,7 +28,6 @@ const actionByNameTag = {
   [BREAK_LIST_ENDPOINT]: deleteBreakList,
   [REPORT_BAR_ENDPOINT]: deleteReportBar,
   [REPORT_CUCINA_ENDPOINT]: deleteReportCucina,
-  [REMARKS_ENDPOINT]: deleteRemark,
 };
 
 export const DeleteListButton = <T extends BaseData>({

@@ -4,8 +4,8 @@ import { prisma } from "@/lib/prisma";
 import { unstable_cache } from "next/cache";
 
 export const _getArchive = async () => {
-  const [dailyReportCucina, dailyReport, remarkReport, breakList] =
-    await prisma.$transaction([
+  const [dailyReportCucina, dailyReport, breakList] = await prisma.$transaction(
+    [
       prisma.dailyReportCucina.findMany({
         take: 62,
         include: {
@@ -29,22 +29,17 @@ export const _getArchive = async () => {
         },
         orderBy: { date: "desc" },
       }),
-      prisma.remarkReport.findMany({
-        take: 62,
-        include: { remarks: true },
-        orderBy: { date: "desc" },
-      }),
       prisma.breakList.findMany({
         take: 62,
         include: { rows: true },
         orderBy: { date: "desc" },
       }),
-    ]);
+    ]
+  );
 
   return {
     dailyReportCucina,
     dailyReport,
-    remarkReport,
     breakList,
   };
 };

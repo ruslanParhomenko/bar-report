@@ -20,7 +20,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useEmployees } from "@/providers/EmployeesProvider";
 import { toast } from "sonner";
 import { createBreakList } from "@/app/actions/archive/breakListAction";
-import { createRemarks } from "@/app/actions/archive/remarksAction";
+import { createRemarks } from "@/app/actions/remarks/remarksAction";
+import { FormWrapper } from "@/components/wrapper/FormWrapper";
 
 const BreakList = () => {
   const employees = useEmployees();
@@ -58,7 +59,7 @@ const BreakList = () => {
 
   //submit
 
-  const handleSubmit: SubmitHandler<BreakRemarksData> = async (data) => {
+  const onSubmit: SubmitHandler<BreakRemarksData> = async (data) => {
     if (!data.date) {
       toast.error("Дата не выбрана");
       return;
@@ -79,23 +80,16 @@ const BreakList = () => {
   };
 
   return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(handleSubmit)}
-        className="flex flex-col md:min-h-[95vh]"
-      >
-        <div className="flex items-center justify-between pb-5">
-          <DatePickerInput fieldName="date" />
-          <FetchDataButton isDisabled={isDisabled} />
-        </div>
-        <div className="flex-1 flex flex-col gap-4">
-          <BreakListTable employees={employees || []} />
-          <RemarksTable fields={remarks} employees={employees || []} />
-        </div>
+    <FormWrapper form={form} onSubmit={onSubmit}>
+      <DatePickerInput fieldName="date" className="max-w-30 h-8 mb-4 mt-2" />
 
-        <SendResetButton resetForm={resetForm} reset={true} />
-      </form>
-    </Form>
+      <div className="flex-1 flex flex-col gap-4">
+        <BreakListTable employees={employees || []} />
+        <RemarksTable fields={remarks} employees={employees || []} />
+      </div>
+
+      <SendResetButton resetForm={resetForm} reset={true} />
+    </FormWrapper>
   );
 };
 

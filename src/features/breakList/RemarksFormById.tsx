@@ -23,7 +23,7 @@ import { useRouter } from "@/i18n/navigation";
 import TextInput from "@/components/inputs/TextInput";
 import { toast } from "sonner";
 import { useEmployees } from "@/providers/EmployeesProvider";
-import { updateRemark } from "@/app/actions/archive/remarksAction";
+import { updateRemark } from "@/app/actions/remarks/remarksAction";
 
 export default function RemarksFormByIdClient(data: any) {
   const remarksData = data?.data;

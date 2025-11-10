@@ -53,7 +53,7 @@ export const PenaltyPage = () => {
 
       return (report.remarks ?? [])
         .map(
-          (r): Omit<PenaltyTableProps, "id" | "reportId"> => ({
+          (r): Omit<PenaltyTableProps, "reportId"> => ({
             date: formattedDate,
             name: r.name,
             dayHours: r.dayHours,
@@ -62,6 +62,7 @@ export const PenaltyPage = () => {
             penality: r.penality,
             bonus: r.bonus,
             month: date.getMonth().toString(),
+            id: report.id,
           })
         )
         .filter(

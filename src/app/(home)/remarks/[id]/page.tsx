@@ -1,4 +1,4 @@
-import { getRemarksById } from "@/app/actions/archive/remarksAction";
+import { getRemarksById } from "@/app/actions/remarks/remarksAction";
 import RemarksFormById from "@/features/breakList/RemarksFormById";
 
 export default async function Page({
