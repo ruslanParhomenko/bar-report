@@ -1,0 +1,34 @@
+import * as yup from "yup";
+export const remarkSchema = yup.object().shape({
+  name: yup.string().default(""),
+  dayHours: yup.string().default(""),
+  nightHours: yup.string().default(""),
+  penality: yup.string().default(""),
+  reason: yup.string().default(""),
+  bonus: yup.string().default(""),
+});
+
+export type RemarkFormData = yup.InferType<typeof remarkSchema>;
+
+export const defaultRemarkValue = remarkSchema.getDefault();
+
+export const remarksSchema = yup.object().shape({
+  remarks: yup
+    .array()
+    .of(remarkSchema)
+    .default([
+      {
+        name: "",
+        dayHours: "",
+        nightHours: "",
+        penality: "",
+        reason: "",
+        bonus: "",
+      },
+    ]),
+  date: yup.date().default(new Date()),
+});
+
+export type RemarksFormData = yup.InferType<typeof remarksSchema>;
+
+export const defaultRemarksValue = remarksSchema.getDefault();

@@ -1,5 +1,4 @@
 import SelectField from "@/components/inputs/SelectField";
-import SelectInput from "@/components/inputs/SelectInput";
 import { Label } from "@/components/ui/label";
 import {
   Table,
@@ -8,104 +7,111 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-
+import { OVER_HOURS, REASON } from "./constants";
 import NumericInput from "@/components/inputs/NumericInput";
-import { AddRemoveFieldsButton } from "@/components/buttons/AddRemoveFieldsButton";
-import { useAbility } from "@/providers/AbilityProvider";
-import { UseFieldArrayReturn } from "react-hook-form";
-
-import { OVER_HOURS, REASON } from "./constant";
-import { defaultRemarks } from "./schema";
 import SelectWithInput from "@/components/inputs/SelectWithInput";
+import { useEmployees } from "@/providers/EmployeesProvider";
+import { Plus, Trash2 } from "lucide-react";
+import { defaultRemarkValue, RemarksFormData } from "./schema";
+import { UseFieldArrayReturn, UseFormReturn } from "react-hook-form";
+import DatePickerInput from "@/components/inputs/DatePickerInput";
 
-export default function RemarksTable({
-  fields,
-  employees,
+export function RemarksTable({
+  dataRemarks,
+  append,
+  remove,
+  form,
 }: {
-  fields: UseFieldArrayReturn<any>;
-  employees: { name: string }[];
+  dataRemarks: UseFieldArrayReturn<RemarksFormData, "remarks">["fields"];
+  append: UseFieldArrayReturn<RemarksFormData, "remarks">["append"];
+  remove: UseFieldArrayReturn<RemarksFormData, "remarks">["remove"];
+  form: UseFormReturn<RemarksFormData>;
 }) {
-  const { isObserver, isCucina, isUser } = useAbility();
-  const isDisabled = isObserver || isCucina || isUser;
+  const employees = useEmployees();
+  const selectedEmployees = employees.map((e) => e.name);
 
-  //employees
-
-  const selectedEmployees = employees.map((employee) => employee.name);
   return (
     <Table className="md:table-fixed">
       <TableHeader>
-        <TableRow>
+        <TableRow className="!h-8 min-h-[32px]">
           <TableCell className="w-8"></TableCell>
           <TableCell className="w-38">
-            <Label className="text-lg font-semibold text-bl table-fixed">
-              Remarks
-            </Label>
+            <DatePickerInput
+              fieldName="date"
+              className="h-6 border-0 shadow-none text-bl font-bold"
+            />
           </TableCell>
           <TableCell className="text-center md:w-20 w-5">day</TableCell>
           <TableCell className="text-center md:w-20 w-5">night</TableCell>
           <TableCell className="text-center md:w-40 w-8">penality</TableCell>
           <TableCell className="text-center md:w-40 w-8">bonus</TableCell>
-
           <TableCell className="text-center md:w-200 w-8">reason</TableCell>
-          <TableCell className="text-center md:w-30 w-5">actions</TableCell>
+          <TableCell colSpan={2} className="text-center md:w-30 w-5">
+            actions
+          </TableCell>
         </TableRow>
       </TableHeader>
       <TableBody>
-        {fields.fields?.map((item, idx) => (
-          <TableRow key={item.id}>
+        {dataRemarks.map((item, idx) => (
+          <TableRow key={item.id} className="!h-8 min-h-[32px]">
             <TableCell>{idx + 1}</TableCell>
             <TableCell>
               <SelectField
                 fieldName={`remarks.${idx}.name`}
                 placeHolder="..."
                 data={selectedEmployees}
-                disabled={isDisabled}
-                className="justify-start border-0 shadow-none !text-black"
+                className="!h-8 !min-h-0 justify-start border-0 shadow-none !text-black"
               />
             </TableCell>
             <TableCell>
               <SelectField
                 fieldName={`remarks.${idx}.dayHours`}
                 data={OVER_HOURS}
-                disabled={isDisabled}
+                className="!h-8 !min-h-0"
               />
             </TableCell>
             <TableCell>
               <SelectField
                 fieldName={`remarks.${idx}.nightHours`}
                 data={OVER_HOURS}
-                disabled={isDisabled}
+                className="!h-8 !min-h-0"
               />
             </TableCell>
             <TableCell>
               <NumericInput
                 fieldName={`remarks.${idx}.penality`}
-                disabled={isDisabled}
+                className="!h-8 !min-h-0"
               />
             </TableCell>
             <TableCell>
               <NumericInput
                 fieldName={`remarks.${idx}.bonus`}
-                disabled={isDisabled}
+                className="!h-8 !min-h-0"
               />
             </TableCell>
             <TableCell>
               <SelectWithInput
                 fieldName={`remarks.${idx}.reason`}
                 data={REASON}
-                disabled={isDisabled}
                 placeHolder="...reason"
-                className="border-0 shadow-none "
+                className="!h-8 !min-h-0 border-0 shadow-none"
               />
             </TableCell>
-            <TableCell>
-              <AddRemoveFieldsButton
-                formField={fields}
-                defaultValues={defaultRemarks}
-                index={idx}
-                disabled={isDisabled}
-                className="!gap-5"
-              />
+            <TableCell
+              className="cursor-pointer text-center"
+              onClick={() => append(defaultRemarkValue)}
+            >
+              <Plus className="text-bl w-4 h-4" />
+            </TableCell>
+            <TableCell
+              className="cursor-pointer text-center text-rd"
+              onClick={() =>
+                idx === 0
+                  ? form.reset({ remarks: [defaultRemarkValue] })
+                  : remove(idx)
+              }
+            >
+              <Trash2 className="w-4 h-4" />
             </TableCell>
           </TableRow>
         ))}

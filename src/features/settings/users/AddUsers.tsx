@@ -23,8 +23,6 @@ export default function AddUsers() {
 
   const { query: users } = useAbility();
 
-  console.log("Users data:", users);
-
   const handleSubmit: SubmitHandler<FormData> = async (data) => {
     try {
       if (data.id) {

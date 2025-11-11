@@ -29,7 +29,7 @@ const hoursSchema = yup.object({
   "07": hourValueSchema,
 });
 
-export const breakSchema = yup.object({
+export const rowsSchema = yup.object({
   id: yup
     .string()
     .oneOf(["8-20", "9-21", "14-02", "18-06", "20-08"])
@@ -37,38 +37,17 @@ export const breakSchema = yup.object({
   name: yup.string(),
   hours: hoursSchema,
 });
-export const remarksSchema = yup.object().shape({
-  name: yup.string(),
-  dayHours: yup.string(),
-  nightHours: yup.string(),
-  penality: yup.string(),
-  reason: yup.string(),
-  bonus: yup.string(),
-});
 
-export type RemarksSchemaType = yup.InferType<typeof remarksSchema>;
-
-export const defaultRemarks = {
-  name: "",
-  dayHours: "",
-  nightHours: "",
-  penality: "",
-  reason: "",
-  bonus: "",
-};
-
-export const dataSchema = yup.object({
+export const breakSchema = yup.object({
   date: yup.date().required(),
-  rows: yup.array(breakSchema).required(),
-  remarks: yup.array(remarksSchema).default([]),
+  rows: yup.array(rowsSchema).required(),
 });
-export type BreakRemarksData = yup.InferType<typeof dataSchema>;
-export const defaultValuesBrakeList = {
+export type BreakFormData = yup.InferType<typeof breakSchema>;
+export const defaultValuesBrake = {
   date: new Date(),
   rows: BREAK_LIST_DEFAULT.map((item) => ({
     id: item.id,
     name: item.name,
     hours: Object.assign({}, ...item.hours),
   })),
-  remarks: [defaultRemarks],
 };

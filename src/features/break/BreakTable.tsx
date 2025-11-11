@@ -1,4 +1,3 @@
-"use client";
 import {
   Table,
   TableBody,
@@ -14,39 +13,41 @@ import {
   MINUTES_SELECT,
   TIME_LABELS,
 } from "./constant";
-import { Path, useFormContext } from "react-hook-form";
-import SelectField from "@/components/inputs/SelectField";
-import { useAbility } from "@/providers/AbilityProvider";
-import { useTheme } from "next-themes";
-import { BreakRemarksData } from "./schema";
-import { Label } from "@/components/ui/label";
-import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
+import SelectField from "@/components/inputs/SelectField";
+import { cn } from "@/lib/utils";
+import { useTheme } from "next-themes";
+import { useEmployees } from "@/providers/EmployeesProvider";
+import { Path, useFormContext } from "react-hook-form";
+import { BreakFormData } from "./schema";
+import DatePickerInput from "@/components/inputs/DatePickerInput";
 
 const BAR_EMPLOYEES = ["waiters", "barmen"];
-export const BreakListTable = ({
-  employees,
-}: {
-  employees: { name: string; role: string }[];
-}) => {
-  const { isObserver, isCucina, isUser } = useAbility();
-  const isDisabled = isObserver || isCucina || isUser;
+
+export function BreakTable({ dataRows }: { dataRows: BreakFormData["rows"] }) {
   const { theme } = useTheme();
 
+  // get employees
+  const employees = useEmployees();
   const selectedEmployees = employees
     .filter((emp) => BAR_EMPLOYEES.includes(emp.role))
     .map((employee) => employee.name);
 
   const currentHour = new Date().getHours();
   const currentMinute = new Date().getMinutes();
-  const form = useFormContext<BreakRemarksData>();
+
+  // get values
+  const { watch } = useFormContext<BreakFormData>();
   return (
     <Table className="md:table-fixed">
       <TableHeader>
         <TableRow>
           <TableHead className="w-8"></TableHead>
           <TableHead className="w-28">
-            <Label className="text-lg font-semibold text-bl">Break</Label>
+            <DatePickerInput
+              fieldName="date"
+              className="h-6 border-0 shadow-none text-bl font-bold"
+            />
           </TableHead>
 
           {TIME_LABELS.map((h, i) => {
@@ -67,10 +68,10 @@ export const BreakListTable = ({
       </TableHeader>
 
       <TableBody>
-        {form.getValues("rows")?.map((row, rowIndex) => {
+        {dataRows?.map((row, rowIndex) => {
           const rowHasTrue = TIME_LABELS.some((time) => {
             const fieldName = `rows.${rowIndex}.hours.${time}`;
-            const value = form.getValues(fieldName as Path<BreakRemarksData>);
+            const value = watch(fieldName as Path<BreakFormData>);
 
             const selectedValue = Array.isArray(value) ? value[0] : value;
 
@@ -109,7 +110,6 @@ export const BreakListTable = ({
                 <SelectField
                   fieldName={`rows[${rowIndex}].name`}
                   data={selectedEmployees}
-                  disabled={isDisabled}
                   placeHolder="..."
                   className={cn(
                     "justify-start",
@@ -121,9 +121,7 @@ export const BreakListTable = ({
 
               {TIME_LABELS.map((time, timeIndex) => {
                 const fieldName = `rows.${rowIndex}.hours.${time}`;
-                const value = form.getValues(
-                  fieldName as Path<BreakRemarksData>
-                );
+                const value = watch(fieldName as Path<BreakFormData>);
                 const selectedValue = Array.isArray(value) ? value[0] : value;
 
                 const isCurrentHour = Number(time) === currentHour;
@@ -148,7 +146,6 @@ export const BreakListTable = ({
                     <SelectField
                       fieldName={`rows[${rowIndex}].hours.${time}`}
                       data={MINUTES_SELECT}
-                      disabled={isDisabled}
                       className={cn(
                         "!h-8",
                         isTrue ? "!text-rd font-bold text-[18px]" : "",
@@ -169,4 +166,4 @@ export const BreakListTable = ({
       </TableBody>
     </Table>
   );
-};
+}

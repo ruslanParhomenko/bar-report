@@ -4,26 +4,16 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 
 import { AbilityProvider } from "@/providers/AbilityProvider";
-import { CashProvider } from "@/providers/CashProvider";
+
 import {
   EmployeesContextValue,
   EmployeesProvider,
 } from "@/providers/EmployeesProvider";
-import { RemarksProvider } from "@/providers/RemarksProvider";
-import {
-  SchedulesContextValue,
-  SchedulesProvider,
-} from "@/providers/ScheduleProvider";
-import { TipsProvider } from "@/providers/TipsProvider";
 
 import { getEmployees } from "./actions/employees/employeeAction";
-import { getSchedule } from "./actions/schedule/scheduleAction";
 import { getUsers } from "./actions/users/userAction";
-import { getCashForm } from "./actions/cash/cashAction";
-import { getTipsForm } from "./actions/tips/tipsAction";
-import { getRemarks } from "./actions/remarks/remarksAction";
 
-export async function DataProviderLayout({
+export async function UsersEmployeesProviderLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -31,11 +21,8 @@ export async function DataProviderLayout({
   const session = await getServerSession(authOptions);
 
   const employees = await getEmployees();
-  const schedules = await getSchedule();
+
   const users = await getUsers();
-  const remarks = await getRemarks();
-  const dataTips = await getTipsForm();
-  const dataCash = await getCashForm();
 
   const email = session?.user?.email ?? null;
   const user = users.find((u) => u.mail === email);
@@ -52,13 +39,7 @@ export async function DataProviderLayout({
   return (
     <AbilityProvider users={users} serverAbility={ability}>
       <EmployeesProvider employees={employees as EmployeesContextValue[]}>
-        <SchedulesProvider schedules={schedules as SchedulesContextValue[]}>
-          <RemarksProvider data={remarks.remarks}>
-            <TipsProvider data={dataTips}>
-              <CashProvider data={dataCash}>{children}</CashProvider>
-            </TipsProvider>
-          </RemarksProvider>
-        </SchedulesProvider>
+        {children}
       </EmployeesProvider>
     </AbilityProvider>
   );

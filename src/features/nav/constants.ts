@@ -33,8 +33,8 @@ export const SIDEBAR_NAVIGATION = [
   },
   {
     title: "breakList",
-    url: "/breakList",
-    url2: "/breakList",
+    url: "/break-remarks",
+    url2: "/break-remarks",
     icon: Pause,
   },
   {

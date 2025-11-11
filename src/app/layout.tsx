@@ -11,11 +11,9 @@ import "./globals.css";
 import { SessionProviders } from "@/providers/SessionProviders";
 import ReactQueryProvider from "@/providers/ReactQueryProvider";
 import { ThemeProvider } from "next-themes";
-import { DataProviderLayout } from "./data-provider-layout";
+import { UsersEmployeesProviderLayout } from "./data-provider-layout";
 // ui
 import { Toaster } from "@/components/ui/sonner";
-import { Suspense } from "react";
-import { Skeleton } from "@/components/ui/skeleton";
 
 const lora = Lora({
   variable: "--font-lora",
@@ -52,9 +50,9 @@ export default async function RootLayout({
           <SessionProviders>
             <NextIntlClientProvider>
               <ReactQueryProvider>
-                <Suspense fallback={<Skeleton />}>
-                  <DataProviderLayout>{children}</DataProviderLayout>
-                </Suspense>
+                <UsersEmployeesProviderLayout>
+                  {children}
+                </UsersEmployeesProviderLayout>
               </ReactQueryProvider>
             </NextIntlClientProvider>
           </SessionProviders>
