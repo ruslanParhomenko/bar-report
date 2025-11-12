@@ -30,49 +30,46 @@ export default function TableExpenses() {
   const fieldsValues = form.watch("expenses");
 
   return (
-    <div className="w-full">
-      <Label className="text-lg font-semibold pb-4 text-bl">Expenses</Label>
-      <Table className="[&_th]:text-center [&_td]:text-center w-full">
-        <TableHeader>
-          <TableRow className="!h-8">
-            <TableHead>recipent</TableHead>
-            <TableHead>sum</TableHead>
-            <TableHead></TableHead>
+    <Table className="[&_th]:text-center [&_td]:text-center w-full">
+      <TableHeader>
+        <TableRow className="!h-8">
+          <TableHead>recipent</TableHead>
+          <TableHead>sum</TableHead>
+          <TableHead></TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {new Array(7).fill(expensesDefault)?.map((_, idx) => (
+          <TableRow key={idx}>
+            <TableCell>
+              <SelectField
+                data={RECIPIENTS}
+                fieldName={`expenses.${idx}.name`}
+                disabled={isDisabled}
+                className="w-full !h-8"
+              />
+            </TableCell>
+            <TableCell className="flex items-center justify-center">
+              <NumericInput
+                fieldName={`expenses.${idx}.sum`}
+                disabled={isDisabled}
+                className="!w-20 !h-8 text-center"
+              />
+            </TableCell>
+            <TableCell className="px-2">
+              {fieldsValues?.[idx]?.name && (
+                <Button
+                  variant={"destructive"}
+                  className="h-8 cursor-pointer"
+                  onClick={() => reset(idx)}
+                >
+                  X
+                </Button>
+              )}
+            </TableCell>
           </TableRow>
-        </TableHeader>
-        <TableBody>
-          {new Array(7).fill(expensesDefault)?.map((_, idx) => (
-            <TableRow key={idx}>
-              <TableCell>
-                <SelectField
-                  data={RECIPIENTS}
-                  fieldName={`expenses.${idx}.name`}
-                  disabled={isDisabled}
-                  className="w-full !h-8"
-                />
-              </TableCell>
-              <TableCell className="flex items-center justify-center">
-                <NumericInput
-                  fieldName={`expenses.${idx}.sum`}
-                  disabled={isDisabled}
-                  className="!w-20 !h-8 text-center"
-                />
-              </TableCell>
-              <TableCell className="px-2">
-                {fieldsValues?.[idx]?.name && (
-                  <Button
-                    variant={"destructive"}
-                    className="h-8 cursor-pointer"
-                    onClick={() => reset(idx)}
-                  >
-                    X
-                  </Button>
-                )}
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </div>
+        ))}
+      </TableBody>
+    </Table>
   );
 }

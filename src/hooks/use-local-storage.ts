@@ -1,7 +1,7 @@
 "use client";
 import { useCallback } from "react";
 
-export const useLocalStorageForm = <T>(key: string) => {
+export const useLocalStorage = <T>(key: string) => {
   const isClient = typeof window !== "undefined";
 
   const getValue = useCallback((): T | null => {

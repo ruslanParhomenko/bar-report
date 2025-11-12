@@ -6,16 +6,16 @@ import DatePickerInput from "@/components/inputs/DatePickerInput";
 import { toast } from "sonner";
 import TableTobacco from "./TableTobacco";
 import TableExpenses from "./TableExpenses";
-import TableCashVerify from "./TableCashVerify";
 import TableProductsTransfer from "./TableProductsTransfer";
 import { Textarea } from "@/components/ui/textarea";
-import TabelInventory from "./TabelInventory";
 
 import { useRouter } from "@/i18n/navigation";
 import { useParams } from "next/navigation";
 import { ReportBarData } from "@/constants/type";
 import { Button } from "@/components/ui/button";
 import { updateReportBar } from "@/app/actions/archive/reportBarAction";
+import TableCashVerify from "./TableCashVerify";
+import { TableInventory } from "./TableInventory";
 
 export default function ReportBarFormById({ data }: { data: ReportBarData }) {
   const router = useRouter();
@@ -64,7 +64,7 @@ export default function ReportBarFormById({ data }: { data: ReportBarData }) {
                 />
               </div>
             </div>
-            <TabelInventory />
+            <TableInventory />
           </div>
         </div>
 

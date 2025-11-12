@@ -18,7 +18,7 @@ import { Button } from "@/components/ui/button";
 import { useSchedules } from "@/providers/ScheduleProvider";
 import { MailIcon, PencilIcon } from "lucide-react";
 import { useAbility } from "@/providers/AbilityProvider";
-import { useLocalStorageForm } from "@/hooks/use-local-storage";
+
 import {
   color,
   COLOR_SHIFT,
@@ -30,10 +30,9 @@ import { cn } from "@/lib/utils";
 import { usePrint } from "@/hooks/useToPrint";
 import PrintButton from "@/components/buttons/PrintButton";
 import { useTelegramScreenshot } from "@/hooks/useTelegramScreenshot";
+import { toast } from "sonner";
 
 export default function Schedule() {
-  const KEY_PREFIX = "schedule-data";
-
   const { isAdmin, isMngr } = useAbility();
   const isDisabled = !isAdmin && !isMngr;
 
@@ -43,14 +42,13 @@ export default function Schedule() {
   const pathname = usePathname();
   const patch = pathname.split("/")[2];
 
-  // set local storage
-  const { setValue, getValue } = useLocalStorageForm<any>(KEY_PREFIX);
-  const selected = getValue();
-
   // form
   const currentYear = new Date().getFullYear().toString();
+  const currentMonth = MONTHS[new Date().getMonth()];
+  const currentDay = new Date().getDate();
+
   const form = useForm({
-    defaultValues: selected || { month: "", year: currentYear },
+    defaultValues: { month: currentMonth, year: currentYear },
   });
 
   // state schedule
@@ -95,10 +93,6 @@ export default function Schedule() {
     return result;
   }, [schedule]);
 
-  useEffect(() => {
-    setValue({ month, year });
-  }, [month, setValue, year]);
-
   const todayDay = new Date().getDate();
   const todayIndex = monthDays.findIndex((day) => day.day === todayDay);
   useEffect(() => {
@@ -121,13 +115,13 @@ export default function Schedule() {
               fieldName="month"
               data={MONTHS}
               placeHolder="month"
-              className="w-24 p-0 h-8!"
+              className="w-24 justify-center"
             />
             <SelectField
               fieldName="year"
               data={YEAR}
               placeHolder="year"
-              className="w-20 p-0 h-8!"
+              className="w-24 justify-center"
             />
           </div>
           {schedule && (
@@ -136,9 +130,25 @@ export default function Schedule() {
                 size={"sm"}
                 type="button"
                 variant={"outline"}
-                onClick={() =>
-                  router.push(`/settings/schedule/${schedule?.id}`)
-                }
+                onClick={() => {
+                  if (
+                    isAdmin ||
+                    (currentDay <= 10 &&
+                      ((month === currentMonth && year === currentYear) ||
+                        (MONTHS.indexOf(month) ===
+                          MONTHS.indexOf(currentMonth) - 1 &&
+                          year === currentYear) ||
+                        (currentMonth === MONTHS[0] &&
+                          month === MONTHS[11] &&
+                          year === (parseInt(currentYear) - 1).toString())))
+                  ) {
+                    router.push(`/settings/schedule/${schedule?.id}`);
+                  } else {
+                    toast.error(
+                      "Редактирование доступно только до 10 числа текущего или предыдущего месяца"
+                    );
+                  }
+                }}
                 disabled={isDisabled}
                 className="cursor-pointer p-0"
               >

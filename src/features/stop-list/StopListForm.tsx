@@ -12,7 +12,7 @@ import {
 import { yupResolver } from "@hookform/resolvers/yup";
 import { StopListTable } from "./StopListTable";
 import { STOP_LIST_REALTIME } from "@/constants/endpoint-tag";
-import { useLocalStorageForm } from "@/hooks/use-local-storage";
+import { useLocalStorage } from "@/hooks/use-local-storage";
 import { useDataSupaBase } from "@/hooks/useRealTimeData";
 import { useAbility } from "@/providers/AbilityProvider";
 import { FetchDataButton } from "@/components/buttons/FetchDataButton";
@@ -22,7 +22,7 @@ export default function StopListForm() {
   const isDisabled = isObserver || isCucina;
   const LOCAL_STORAGE_KEY = STOP_LIST_REALTIME;
   const { getValue, setValue: setLocalStorage } =
-    useLocalStorageForm<StopListSchemaType>(LOCAL_STORAGE_KEY);
+    useLocalStorage<StopListSchemaType>(LOCAL_STORAGE_KEY);
 
   const { sendRealTime, fetchRealTime } = useDataSupaBase({
     localStorageKey: LOCAL_STORAGE_KEY,

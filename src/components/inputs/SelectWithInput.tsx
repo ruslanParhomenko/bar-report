@@ -70,9 +70,9 @@ export default function SelectWithInput({
                     <SelectTrigger
                       data-placeholder=""
                       className={cn(
-                        "flex justify-center min-w-12 [&>svg]:hidden",
+                        "flex justify-start min-w-12 [&>svg]:hidden",
                         className,
-                        theme === "dark" ? "border-0" : ""
+                        theme === "dark" ? "border-0 !bg-background" : ""
                       )}
                       style={style}
                     >

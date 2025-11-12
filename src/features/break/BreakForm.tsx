@@ -1,6 +1,6 @@
 "use client";
 
-import { SubmitHandler, useForm, useWatch } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { BREAK_LIST_ENDPOINT } from "@/constants/endpoint-tag";
 import { FormWrapper } from "@/components/wrapper/FormWrapper";
 import { BreakTable } from "./BreakTable";
@@ -8,29 +8,21 @@ import { createBreakList } from "@/app/actions/archive/breakListAction";
 import { toast } from "sonner";
 import { BreakFormData, breakSchema, defaultValuesBrake } from "./schema";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useEffect } from "react";
+import { useLocalStorageForm } from "@/hooks/useLocalStorageForm";
+import { LoadingSkeletonBreak } from "../break-remarks/LoadingSkeleton";
 
 export function BreakForm() {
-  const LOCAL_STORAGE_KEY = BREAK_LIST_ENDPOINT;
-
-  //localstorage
-  const savedData =
-    typeof window !== "undefined"
-      ? localStorage.getItem(LOCAL_STORAGE_KEY)
-      : null;
-  const parsedSavedData = savedData ? JSON.parse(savedData) : null;
-
-  //form
+  // form
   const form = useForm<BreakFormData>({
     resolver: yupResolver(breakSchema),
-    defaultValues: parsedSavedData || defaultValuesBrake,
+    defaultValues: defaultValuesBrake,
   });
-  const watchAllFields = useWatch({
-    control: form.control,
-  });
-
-  //submit
-
+  // localstorage
+  const { isLoaded, resetForm } = useLocalStorageForm(
+    form,
+    BREAK_LIST_ENDPOINT
+  );
+  // submit
   const onSubmit: SubmitHandler<BreakFormData> = async (data) => {
     if (!data.date) {
       toast.error("Дата не выбрана");
@@ -39,30 +31,18 @@ export function BreakForm() {
     try {
       await createBreakList(data);
       toast.success("Брейк-лист успешно сохранён !");
-      resetForm();
+      resetForm({ ...defaultValuesBrake, date: new Date() });
     } catch (e) {
       toast.error("Ошибка при сохранении брейк-листа");
     }
   };
+  // set data
 
-  //reset
-  const resetForm = () => {
-    form.reset({ ...defaultValuesBrake, date: new Date() });
-    localStorage.removeItem(LOCAL_STORAGE_KEY);
-  };
-
-  //set local
-  useEffect(() => {
-    if (!watchAllFields) return;
-    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(watchAllFields));
-  }, [watchAllFields]);
-
-  //set data
-  const dataRows = form.getValues("rows") ?? [];
+  if (!isLoaded) return <LoadingSkeletonBreak />;
 
   return (
     <FormWrapper form={form} onSubmit={onSubmit}>
-      <BreakTable dataRows={dataRows} />
+      <BreakTable />
     </FormWrapper>
   );
 }

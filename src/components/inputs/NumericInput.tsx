@@ -56,9 +56,10 @@ function NumericInput({
                   disabled={disabled}
                   onClick={() => setOpen(true)}
                   className={cn(
-                    `cursor-pointer text-center ${className ?? ""}`,
+                    "cursor-pointer text-center h-8",
                     theme === "dark" ? "border-0" : "",
-                    Number(value) <= 0 ? "text-rd " : ""
+                    Number(value) <= 0 ? "text-rd " : "",
+                    className
                   )}
                 />
               </FormControl>

@@ -30,7 +30,6 @@ export function SaveButton() {
 
       for (const form of forms) {
         await new Promise<void>((resolve) => {
-          // Создаём временный обработчик submit для ожидания завершения
           const listener = () => {
             form.removeEventListener("submit", listener);
             resolve();

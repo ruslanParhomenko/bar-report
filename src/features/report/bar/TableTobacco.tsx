@@ -24,48 +24,45 @@ export default function TableTobacco() {
     tobaccoDefault;
 
   return (
-    <div className="w-full">
-      <Label className="text-lg font-semibold pb-4 text-bl">Tobacco</Label>
-      <Table className="w-full [&_th]:text-center [&_td]:text-center">
-        <TableHeader>
-          <TableRow>
-            <TableHead className="md:w-40 w-30"></TableHead>
-            <TableHead className="w-30">stock</TableHead>
-            <TableHead className="w-20">+</TableHead>
-            <TableHead className="w-20">-</TableHead>
-            <TableHead className="w-30">final</TableHead>
+    <Table className="w-full [&_th]:text-center [&_td]:text-center">
+      <TableHeader>
+        <TableRow>
+          <TableHead className="md:w-40 w-30"></TableHead>
+          <TableHead className="w-30">stock</TableHead>
+          <TableHead className="w-20">+</TableHead>
+          <TableHead className="w-20">-</TableHead>
+          <TableHead className="w-30">final</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {tobacco?.map((item, idx) => (
+          <TableRow key={idx} className="!h-8">
+            <TableCell className="px-2">{item.name}</TableCell>
+            <TableCell className="px-2">{item.stock}</TableCell>
+            <TableCell className="px-2">
+              <NumericInput
+                fieldName={`tobacco.${idx}.incoming`}
+                disabled={isDisabled}
+                className="h-8"
+              />
+            </TableCell>
+            <TableCell className="px-2">
+              <NumericInput
+                fieldName={`tobacco.${idx}.outgoing`}
+                disabled={isDisabled}
+                className="h-8"
+              />
+            </TableCell>
+            <TableCell className="px-2">
+              {(
+                Number(item.stock ?? 0) +
+                Number(item.incoming ?? 0) -
+                Number(item.outgoing ?? 0)
+              ).toString()}
+            </TableCell>
           </TableRow>
-        </TableHeader>
-        <TableBody>
-          {tobacco?.map((item, idx) => (
-            <TableRow key={idx} className="!h-8">
-              <TableCell className="px-2">{item.name}</TableCell>
-              <TableCell className="px-2">{item.stock}</TableCell>
-              <TableCell className="px-2">
-                <NumericInput
-                  fieldName={`tobacco.${idx}.incoming`}
-                  disabled={isDisabled}
-                  className="h-8"
-                />
-              </TableCell>
-              <TableCell className="px-2">
-                <NumericInput
-                  fieldName={`tobacco.${idx}.outgoing`}
-                  disabled={isDisabled}
-                  className="h-8"
-                />
-              </TableCell>
-              <TableCell className="px-2">
-                {(
-                  Number(item.stock ?? 0) +
-                  Number(item.incoming ?? 0) -
-                  Number(item.outgoing ?? 0)
-                ).toString()}
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </div>
+        ))}
+      </TableBody>
+    </Table>
   );
 }

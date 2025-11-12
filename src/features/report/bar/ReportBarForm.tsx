@@ -1,11 +1,7 @@
 "use client";
 import { Resolver, SubmitHandler, useForm } from "react-hook-form";
-import { Form } from "@/components/ui/form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useLocalStorageForm } from "@/hooks/use-local-storage";
-import { useEffect } from "react";
 import DatePickerInput from "@/components/inputs/DatePickerInput";
-import { useAbility } from "@/providers/AbilityProvider";
 import { toast } from "sonner";
 import {
   cashVerifyDefault,
@@ -21,74 +17,29 @@ import TableTobacco from "./TableTobacco";
 import TableExpenses from "./TableExpenses";
 import TableCashVerify from "./TableCashVerify";
 import { SendResetButton } from "@/components/buttons/SendResetButton";
-import { FetchDataButton } from "@/components/buttons/FetchDataButton";
 import TableProductsTransfer from "./TableProductsTransfer";
 import { Textarea } from "@/components/ui/textarea";
-import TabelInventory from "./TabelInventory";
+import { TableInventory } from "./TableInventory";
 import { createReportBar } from "@/app/actions/archive/reportBarAction";
+import { useLocalStorageForm } from "@/hooks/useLocalStorageForm";
+import { Skeleton } from "@/components/ui/skeleton";
+import { FormWrapper } from "@/components/wrapper/FormWrapper";
 
 export default function ReportBarForm() {
   const STORAGE_KEY = "report-bar";
-  const { isBar, isAdmin, isUser, isCucina, isObserver } = useAbility();
-  const isDisabled = isObserver || isCucina || isBar;
-
-  // local storage
-  const { getValue, setValue: setLocalStorage } =
-    useLocalStorageForm<ReportBarFormValues>(STORAGE_KEY);
 
   //form
   const form = useForm<ReportBarFormValues>({
-    defaultValues: {
-      ...defaultValuesReportBar,
-      ...getValue(),
-    },
+    defaultValues: defaultValuesReportBar,
     resolver: yupResolver(
       reportBarSchema
     ) as unknown as Resolver<ReportBarFormValues>,
   });
-
-  useEffect(() => {
-    const subscription = form.watch((value) => {
-      setLocalStorage(value as ReportBarFormValues);
-    });
-    return () => subscription.unsubscribe();
-  }, [form.watch, setLocalStorage]);
-
-  //reset
-  const resetForm = () => {
-    const currentValues = form.getValues();
-    const resetTobacco = currentValues?.tobacco?.map((item) => ({
-      ...item,
-      incoming: "",
-      outgoing: "",
-    }));
-
-    form.reset({
-      ...currentValues,
-      date: new Date().toDateString(),
-      tobacco: resetTobacco as TobaccoSchemaType,
-      cashVerify: cashVerifyDefault,
-      expenses: expensesDefault,
-      productTransfer: productTransferDefault,
-      inventory: inventoryDefault,
-      notes: "",
-    });
-
-    setLocalStorage({
-      ...currentValues,
-      date: new Date().toDateString(),
-      tobacco: resetTobacco as TobaccoSchemaType,
-      cashVerify: cashVerifyDefault,
-      expenses: expensesDefault,
-      productTransfer: productTransferDefault,
-      inventory: inventoryDefault,
-      notes: "",
-    });
-    toast.success("Форма успешно сброшена !");
-  };
+  // localstorage
+  const { isLoaded, resetForm } = useLocalStorageForm(form, STORAGE_KEY);
 
   //submit
-  const handleSubmit: SubmitHandler<ReportBarFormValues> = async (data) => {
+  const onSubmit: SubmitHandler<ReportBarFormValues> = async (data) => {
     const formateData = {
       ...data,
       date: new Date(data.date),
@@ -130,7 +81,7 @@ export default function ReportBarForm() {
 
     const updatedData: ReportBarFormValues = {
       ...data,
-      date: new Date().toDateString(),
+      date: new Date(),
       tobacco: updatedTobacco as TobaccoSchemaType,
       cashVerify: cashVerifyDefault,
       expenses: expensesDefault,
@@ -139,41 +90,42 @@ export default function ReportBarForm() {
       notes: "",
     };
 
-    form.reset(updatedData);
+    resetForm(updatedData);
     toast.success("Бар отчет успешно сохранён !");
   };
 
-  return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(handleSubmit)} className="md:pl-2">
-        <div className="flex items-center gap-4 justify-between ">
-          <DatePickerInput fieldName="date" />
-          {(isAdmin || isUser) && <FetchDataButton isDisabled={isDisabled} />}
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-[25%_70%] md:gap-15  pt-2">
-          <TableTobacco />
-          <div className="grid md:grid-cols-[65%_30%] gap-2">
-            <div>
-              <div className="grid  md:grid-cols-[40%_55%] md:gap-4 px-1 pb-2">
-                <TableExpenses />
-                <TableProductsTransfer />
-              </div>
-              <div className="px-4 py-4">
-                <Textarea
-                  placeholder="notes ..."
-                  {...form.register("notes")}
-                  disabled={isObserver}
-                  className="resize-none"
-                />
-              </div>
-            </div>
-            <TabelInventory />
-          </div>
-        </div>
+  if (!isLoaded) {
+    return (
+      <div className="flex items-center justify-center h-full w-full">
+        ...loading
+      </div>
+    );
+  }
 
-        <TableCashVerify />
-        <SendResetButton resetForm={resetForm} reset={true} />
-      </form>
-    </Form>
+  return (
+    <FormWrapper
+      form={form}
+      onSubmit={onSubmit}
+      className="flex flex-col min-h-[90vh] my-2 gap-6"
+    >
+      <DatePickerInput fieldName="date" className="md:w-30" />
+
+      <div className="grid grid-cols-1 md:grid-cols-[22%_22%_22%_22%] md:gap-12">
+        <TableTobacco />
+        <TableExpenses />
+        <TableProductsTransfer />
+        <TableInventory />
+      </div>
+      <Textarea
+        placeholder="notes ..."
+        {...form.register("notes")}
+        className="resize-none"
+      />
+
+      <TableCashVerify />
+      <div className="mt-auto">
+        <SendResetButton />
+      </div>
+    </FormWrapper>
   );
 }

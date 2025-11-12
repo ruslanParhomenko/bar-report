@@ -1,12 +1,7 @@
 "use client";
 import { Form } from "@/components/ui/form";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useEffect } from "react";
-import { useSendTelegram } from "@/hooks/use-send-telegram";
-
-import { useLocalStorageForm } from "@/hooks/use-local-storage";
 import { SendResetButton } from "@/components/buttons/SendResetButton";
-
 import {
   defaultEmptyValuesBar,
   defaultEmptyValuesCucina,
@@ -14,6 +9,8 @@ import {
   defaultValuesZNCucina,
   OrderListFormType,
 } from "@/features/order-list/schemas";
+import { useSendTelegram } from "@/hooks/use-send-telegram";
+import { useLocalStorageForm } from "@/hooks/useLocalStorageForm";
 
 export const OrderListTelegramForm = ({
   children,
@@ -52,40 +49,26 @@ export const OrderListTelegramForm = ({
   const defaultValues = DATA_USER[user as UserKey]?.default;
 
   const { sendTelegramMessage } = useSendTelegram();
-  const { getValue, setValue, removeValue } =
-    useLocalStorageForm<OrderListFormType>(STORAGE_KEY);
 
   const form = useForm<OrderListFormType>({
-    defaultValues: {
-      ...defaultValues,
-      ...getValue(),
-    },
+    defaultValues: defaultValues,
   });
+  const { isLoaded, resetForm } = useLocalStorageForm(form, STORAGE_KEY);
 
-  useEffect(() => {
-    const subscription = form.watch((value) => {
-      setValue(value);
-    });
-    return () => subscription.unsubscribe();
-  }, [form.watch, setValue]);
-  const resetForm = () => {
-    form.reset(defaultValues);
-    removeValue();
-  };
-
-  const sendTextTelegram: SubmitHandler<OrderListFormType> = async (data) => {
+  const onSubmit: SubmitHandler<OrderListFormType> = async (data) => {
     sendTelegramMessage(
       data,
       URL_TELEGRAM[url as keyof typeof URL_TELEGRAM],
       user
     );
   };
+  if (!isLoaded) return null;
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(sendTextTelegram)}>
+      <form onSubmit={form.handleSubmit(onSubmit)}>
         {children}
-        <SendResetButton resetForm={resetForm} reset={true} />
+        <SendResetButton />
       </form>
     </Form>
   );

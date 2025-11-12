@@ -57,11 +57,10 @@ function SelectField({
                 <FormControl className="w-full">
                   <SelectTrigger
                     data-placeholder=""
-                    // className={`${className} flex justify-center min-w-12   [&>svg]:hidden`}
                     className={cn(
-                      "flex justify-center min-w-8 [&>svg]:hidden",
+                      "flex justify-start min-w-12 [&>svg]:hidden !h-8",
                       className,
-                      theme === "dark" ? "border-0" : ""
+                      theme === "dark" ? "border-0 !bg-background" : ""
                     )}
                     style={style}
                   >

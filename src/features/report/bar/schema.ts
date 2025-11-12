@@ -98,7 +98,7 @@ export const cashVerifyDefault = HOURS.map((hour) => ({
 
 //report bar
 export const reportBarSchema = yup.object().shape({
-  date: yup.string().required("Date is required"),
+  date: yup.date().default(new Date()),
   expenses: expenseSchema,
   tobacco: tobaccoSchema,
   cashVerify: cashVerifySchema,
@@ -109,6 +109,7 @@ export const reportBarSchema = yup.object().shape({
 
 export type ReportBarFormValues = yup.InferType<typeof reportBarSchema>;
 export const defaultValuesReportBar = {
+  date: new Date(),
   expenses: expensesDefault,
   tobacco: tobaccoDefault,
   cashVerify: cashVerifyDefault,

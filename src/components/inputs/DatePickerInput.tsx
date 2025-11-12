@@ -49,9 +49,16 @@ function DatePickerInput({
       name={fieldName}
       render={({ field }) => {
         return (
-          <FormItem >
+          <FormItem>
             <Popover>
-              <PopoverTrigger asChild className={cn(className)}>
+              <PopoverTrigger
+                asChild
+                className={cn(
+                  className,
+                  "h-6 border-0 shadow-none text-bl font-bold",
+                  theme === "dark" && "text-wh !bg-background"
+                )}
+              >
                 <FormControl>
                   <Button
                     variant={"outline"}

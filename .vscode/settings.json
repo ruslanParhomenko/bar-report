@@ -2,5 +2,6 @@
   "[prisma]": {
     "editor.defaultFormatter": "Prisma.prisma"
   },
-  "cSpell.words": ["cmdk", "papaparse", "supabase", "swipeable", "turbopack"]
+  "cSpell.words": ["cmdk", "papaparse", "supabase", "swipeable", "turbopack"],
+  "cSpell.language": "en,ru"
 }

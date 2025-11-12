@@ -26,7 +26,7 @@ import { useParams } from "next/navigation";
 import { useRouter } from "@/i18n/navigation";
 import { EMPLOYEE_ROLES_BY_DEPARTMENT, SHIFT_OPTIONS } from "./constants";
 import { useEmployees } from "@/providers/EmployeesProvider";
-import { useLocalStorageForm } from "@/hooks/use-local-storage";
+import { useLocalStorage } from "@/hooks/use-local-storage";
 
 export function ScheduleTable() {
   const { id } = useParams();
@@ -89,7 +89,7 @@ export function ScheduleTable() {
 
   // local storage
   const { setValue, removeValue, getValue } =
-    useLocalStorageForm<Omit<ScheduleType, "id">>(storageKey);
+    useLocalStorage<Omit<ScheduleType, "id">>(storageKey);
 
   // submit
   const onSubmit: SubmitHandler<ScheduleType> = async (data) => {
