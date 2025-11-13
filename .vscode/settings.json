@@ -3,5 +3,7 @@
     "editor.defaultFormatter": "Prisma.prisma"
   },
   "cSpell.words": ["cmdk", "papaparse", "supabase", "swipeable", "turbopack"],
-  "cSpell.language": "en,ru"
+  "cSpell.language": "en,ru",
+  "editor.defaultFormatter": "esbenp.prettier-vscode"
+
 }

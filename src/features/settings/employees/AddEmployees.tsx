@@ -165,15 +165,16 @@ export default function AddEmployees() {
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(handleSubmit)}
-        className="grid grid-cols-1 md:grid-cols-[27%_72%] w-full gap-4 mt-4"
-      >
-        <CardFormEmployees
-          nameTag="vacationPay"
-          disabled={!isAdmin && !isMngr}
-        />
-        <EmployeesTable data={employees} />
+      <form onSubmit={form.handleSubmit(handleSubmit)} className="flex gap-4">
+        <div className="shrink-0">
+          <CardFormEmployees
+            nameTag="vacationPay"
+            disabled={!isAdmin && !isMngr}
+          />
+        </div>
+        <div className="flex-1">
+          <EmployeesTable data={employees} />
+        </div>
       </form>
     </Form>
   );

@@ -6,9 +6,11 @@ import { useTranslations } from "next-intl";
 import { useFieldArray, useFormContext, useWatch } from "react-hook-form";
 import DatePickerInput from "@/components/inputs/DatePickerInput";
 import { Button } from "@/components/ui/button";
-import { Plus, Trash } from "lucide-react";
+import { MinusCircle, Plus, PlusCircle, Trash } from "lucide-react";
 import { DatePickerRange } from "@/components/inputs/DatePickerRange";
 import { defaultEmployee, defaultVacationPay, EMPLOYEES_ROLE } from "./schema";
+import { startTransition, useState } from "react";
+import { cn } from "@/lib/utils";
 
 export default function CardFormEmployees({
   nameTag,
@@ -28,119 +30,152 @@ export default function CardFormEmployees({
     control: form.control,
     name: nameTag,
   });
-
+  const [isOpen, setIsOpen] = useState(false);
+  console.log(isOpen);
+  const toggleOpen = () => {
+    startTransition(() => {
+      setIsOpen((v) => !v);
+    });
+  };
   return (
-    <Card className="h-[80vh] flex flex-col overflow-hidden">
-      <CardContent className="flex-1 pt-4 overflow-y-auto">
-        <Label className="text-base font-bold">{t("name")}</Label>
-        <TextInput fieldName="name" type="text" className="w-full my-2 h-10" />
-        <Label className="text-base font-bold">{t("role")}</Label>
-        <SelectField
-          data={EMPLOYEES_ROLE}
-          fieldName="role"
-          className="truncate w-full my-2 h-10"
-        />
-        <Label className="text-base font-bold">{t("rate")}</Label>
-        <TextInput fieldName="rate" className="my-2" />
-        <Label className="text-base font-bold">{t("mail")}</Label>
-        <TextInput fieldName="mail" type="mail" className="w-full my-2 h-10" />
-        <Label className="text-base font-bold">{t("employmentDate")}</Label>
-        <DatePickerInput
-          fieldName="employmentDate"
-          className="my-2 w-full h-10"
-        />
+    <Card
+      className={`h-[80vh] flex flex-col overflow-hidden
+                ${isOpen ? "w-full" : "w-12"}`}
+    >
+      <button
+        onClick={toggleOpen}
+        type="button"
+        className={cn(
+          "cursor-pointer flex  items-center",
+          isOpen ? "justify-start" : "justify-center"
+        )}
+      >
+        {isOpen ? <MinusCircle /> : <PlusCircle />}
+      </button>
+      {isOpen && (
+        <>
+          <CardContent className="flex-1 pt-4 overflow-y-auto">
+            <Label className="text-base font-bold">{t("name")}</Label>
+            <TextInput
+              fieldName="name"
+              type="text"
+              className="w-full my-2 h-10"
+            />
+            <Label className="text-base font-bold">{t("role")}</Label>
+            <SelectField
+              data={EMPLOYEES_ROLE}
+              fieldName="role"
+              className="truncate w-full my-2 h-10"
+            />
+            <Label className="text-base font-bold">{t("rate")}</Label>
+            <TextInput fieldName="rate" className="my-2" />
+            <Label className="text-base font-bold">{t("mail")}</Label>
+            <TextInput
+              fieldName="mail"
+              type="mail"
+              className="w-full my-2 h-10"
+            />
+            <Label className="text-base font-bold">{t("employmentDate")}</Label>
+            <DatePickerInput
+              fieldName="employmentDate"
+              className="my-2 w-full h-10"
+            />
 
-        <Label className="font-bold text-base">{t("usedVacationDays")}</Label>
+            <Label className="font-bold text-base">
+              {t("usedVacationDays")}
+            </Label>
 
-        {fields.map((field, index) => {
-          const startDate = vacationPayValues?.[index]?.startDate;
-          const endDate = vacationPayValues?.[index]?.endDate;
-          return (
-            <div key={field.id} className="flex flex-col gap-4 w-full my-1">
-              <div className="flex w-full gap-4">
-                <DatePickerRange
-                  value={{
-                    from: startDate ? new Date(startDate) : undefined,
-                    to: endDate ? new Date(endDate) : undefined,
-                  }}
-                  onDataChange={(range) => {
-                    if (range?.from && range?.to) {
-                      const diffTime = Math.abs(
-                        range.to.getTime() - range.from.getTime()
-                      );
-                      const diffDays =
-                        Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
+            {fields.map((field, index) => {
+              const startDate = vacationPayValues?.[index]?.startDate;
+              const endDate = vacationPayValues?.[index]?.endDate;
+              return (
+                <div key={field.id} className="flex flex-col gap-4 w-full my-1">
+                  <div className="flex w-full gap-4">
+                    <DatePickerRange
+                      value={{
+                        from: startDate ? new Date(startDate) : undefined,
+                        to: endDate ? new Date(endDate) : undefined,
+                      }}
+                      onDataChange={(range) => {
+                        if (range?.from && range?.to) {
+                          const diffTime = Math.abs(
+                            range.to.getTime() - range.from.getTime()
+                          );
+                          const diffDays =
+                            Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
 
-                      form.setValue(
-                        `vacationPay.${index}.startDate`,
-                        range.from.toISOString()
-                      );
-                      form.setValue(
-                        `vacationPay.${index}.endDate`,
-                        range.to.toISOString()
-                      );
-                      form.setValue(
-                        `vacationPay.${index}.countDays`,
-                        diffDays.toString()
-                      );
-                    }
-                  }}
-                  resetTrigger={false}
-                  className="flex-1 h-10"
-                />
-                <TextInput
-                  fieldName={`vacationPay.${index}.countDays`}
-                  placeholder={t("days")}
-                  className="flex-none w-15 h-10 text-center"
-                />
-                <Button
-                  type="button"
-                  variant="destructive"
-                  className="h-10 w-10 flex-none"
-                  onClick={() =>
-                    fields.length === 1
-                      ? replace(defaultVacationPay)
-                      : remove(index)
-                  }
-                >
-                  <Trash size={16} />
-                </Button>
-              </div>
+                          form.setValue(
+                            `vacationPay.${index}.startDate`,
+                            range.from.toISOString()
+                          );
+                          form.setValue(
+                            `vacationPay.${index}.endDate`,
+                            range.to.toISOString()
+                          );
+                          form.setValue(
+                            `vacationPay.${index}.countDays`,
+                            diffDays.toString()
+                          );
+                        }
+                      }}
+                      resetTrigger={false}
+                      className="flex-1 h-10"
+                    />
+                    <TextInput
+                      fieldName={`vacationPay.${index}.countDays`}
+                      placeholder={t("days")}
+                      className="flex-none w-15 h-10 text-center"
+                    />
+                    <Button
+                      type="button"
+                      variant="destructive"
+                      className="h-10 w-10 flex-none"
+                      onClick={() =>
+                        fields.length === 1
+                          ? replace(defaultVacationPay)
+                          : remove(index)
+                      }
+                    >
+                      <Trash size={16} />
+                    </Button>
+                  </div>
 
-              <div className="w-full flex justify-end">
-                {fields.length - 1 === index && (
-                  <Button
-                    type="button"
-                    onClick={() => append(defaultVacationPay)}
-                  >
-                    <Plus size={16} />
-                  </Button>
-                )}
-              </div>
-            </div>
-          );
-        })}
-      </CardContent>
-      <CardFooter className="flex flex-row justify-between py-8">
-        <Button
-          className="cursor-pointer"
-          type="button"
-          variant={"secondary"}
-          onClick={() => form.reset(defaultEmployee)}
-        >
-          {t("reset")}
-        </Button>
+                  <div className="w-full flex justify-end">
+                    {fields.length - 1 === index && (
+                      <Button
+                        type="button"
+                        onClick={() => append(defaultVacationPay)}
+                      >
+                        <Plus size={16} />
+                      </Button>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </CardContent>
+          <CardFooter className="flex flex-row justify-between py-8">
+            <Button
+              className="cursor-pointer"
+              type="button"
+              variant={"secondary"}
+              onClick={() => form.reset(defaultEmployee)}
+            >
+              {t("reset")}
+            </Button>
 
-        <Button type="submit" disabled={disabled}>
-          {id ? (
-            t("update")
-          ) : (
-            <>
-              <Plus /> {t("add")}
-            </>
-          )}
-        </Button>
-      </CardFooter>
+            <Button type="submit" disabled={disabled}>
+              {id ? (
+                t("update")
+              ) : (
+                <>
+                  <Plus /> {t("add")}
+                </>
+              )}
+            </Button>
+          </CardFooter>
+        </>
+      )}
     </Card>
   );
 }
