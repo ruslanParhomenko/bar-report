@@ -35,6 +35,9 @@ export function useLocalStorageForm<T extends FieldValues>(
       localStorage.removeItem(key);
     }
   };
+  const removeLocalStorageKey = () => {
+    localStorage.removeItem(key);
+  };
 
-  return { isLoaded, resetForm };
+  return { isLoaded, resetForm, removeLocalStorageKey };
 }

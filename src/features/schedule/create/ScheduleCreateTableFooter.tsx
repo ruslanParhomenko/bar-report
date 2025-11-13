@@ -2,10 +2,15 @@ import { TableCell, TableFooter, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import { useMemo } from "react";
 import { useFormContext } from "react-hook-form";
-import { COLOR_SHIFT } from "./constants";
-import { useParams } from "next/navigation";
 
-export default function ScheduleFooter({ data }: { data: string[] }) {
+import { useParams } from "next/navigation";
+import { COLOR_SHIFT } from "./constants";
+
+export default function ScheduleCreateTableFooter({
+  data,
+}: {
+  data: string[];
+}) {
   const { id } = useParams();
   const form = useFormContext();
   const values = form.watch();
@@ -39,7 +44,7 @@ export default function ScheduleFooter({ data }: { data: string[] }) {
   return (
     <TableFooter>
       {data.map((item, rowIndex) => (
-        <TableRow key={rowIndex} className="h-[16px] bg-card p-0 border-0">
+        <TableRow key={rowIndex} className="h-[16px] p-0 border-0">
           <TableCell
             colSpan={colSpan}
             className="text-end text-muted-foreground h-[16px] py-0 leading-none text-xs"

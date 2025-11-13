@@ -1,5 +1,5 @@
 "use client";
-import { ScheduleType } from "@/features/settings/schedule/schema";
+import { ScheduleType } from "@/features/schedule/create/schema";
 import { createContext, useContext } from "react";
 
 export type SchedulesContextValue = ScheduleType & {

@@ -1,62 +1,33 @@
-import SelectField from "@/components/inputs/SelectField";
 import { Button } from "@/components/ui/button";
 import { RotateCcw } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useFormContext } from "react-hook-form";
-import { MONTHS } from "@/utils/getMonthDays";
-import { defaultSchedule } from "./schema";
 import { useAbility } from "@/providers/AbilityProvider";
-import { ROLE_EMPLOYEES } from "./constants";
-import { useParams } from "next/navigation";
 
 import { useRouter } from "@/i18n/navigation";
+import { defaultSchedule } from "./schema";
 
 export default function ScheduleSelectButtons({
-  remove,
+  removeLocalStorageKey,
 }: {
-  remove: () => void;
+  removeLocalStorageKey: () => void;
 }) {
-  const { id } = useParams();
   const router = useRouter();
   const t = useTranslations("Home");
   const form = useFormContext();
   const { isAdmin, isMngr } = useAbility();
   const isDisabled = !isAdmin && !isMngr;
 
-  const month = form.watch("month");
-
   const resetForm = () => {
     form.reset(defaultSchedule);
-    remove();
   };
 
   return (
     <div className="flex justify-between md:justify-start items-center gap-2 md:gap-6 py-4">
-      <SelectField
-        fieldName="month"
-        data={MONTHS}
-        placeHolder="month"
-        className="w-16 p-1 text-xs"
-        disabled={!!id}
-      />
-      <SelectField
-        fieldName="role"
-        data={ROLE_EMPLOYEES}
-        placeHolder="role"
-        className="w-18 p-1 text-xs"
-        disabled={!month || !!id}
-      />
-      <input
-        {...form.register("year")}
-        type="text"
-        className="w-10 text-xs h-8 hidden"
-        placeholder="year"
-        disabled={!!id}
-      />
       <Button
         size="sm"
         onClick={() => {
-          router.back(), resetForm;
+          router.back(), removeLocalStorageKey();
         }}
         variant="outline"
         type="button"
@@ -70,7 +41,10 @@ export default function ScheduleSelectButtons({
         variant="outline"
         size="sm"
         type="button"
-        onClick={resetForm}
+        onClick={() => {
+          resetForm();
+          router.refresh();
+        }}
       >
         <RotateCcw className="h-4 w-4" />
       </Button>

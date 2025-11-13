@@ -11,7 +11,7 @@ export const SHIFTS = {
 };
 
 export const COLOR_SHIFT = {
-  0: "bg-gr/10",
+  0: "",
   1: "text-rd",
   2: "text-bl",
   3: "text-rd",
@@ -355,11 +355,11 @@ export const SHIFT_HOURS_MAP_NIGHT: Record<string, number> = {
 };
 
 export const EMPLOYEE_ROLES_BY_DEPARTMENT = {
-  restaurant: ["barmen", "waiters", "mngr"],
+  bar: ["barmen", "waiters", "mngr"],
   cucina: ["cook"],
   dish: ["dish"],
 } as const;
-export const ROLE_EMPLOYEES = ["restaurant", "cucina", "dish"];
+export const ROLE_EMPLOYEES = ["bar", "cucina", "dish"];
 
 export const color = {
   "7": "text-bl",

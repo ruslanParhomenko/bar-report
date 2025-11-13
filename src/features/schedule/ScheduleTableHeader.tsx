@@ -5,39 +5,44 @@ import { MonthDayType } from "@/utils/getMonthDays";
 import { Plus } from "lucide-react";
 import { useParams } from "next/navigation";
 
-export default function ScheduleHeader({
+export default function ScheduleTableHeader({
   monthDays,
   setSelectedColumn,
   month,
   addNewRow,
+  isTop = true,
+  newSchedule,
 }: {
   monthDays: MonthDayType[];
   setSelectedColumn?: (index: number) => void;
   month?: string;
   addNewRow?: () => void;
+  isTop?: boolean;
+  newSchedule?: boolean;
 }) {
   const { id } = useParams();
   const todayDay = new Date().getDate();
-
   return (
     <TableHeader>
       <TableRow>
-        <TableCell className="w-2 text-start p-0">
-          <Button
-            onClick={addNewRow && addNewRow}
-            variant="ghost"
-            size="sm"
-            type="button"
-            className="cursor-pointer hover:bg-bl/40"
-          >
-            <Plus className="h-3 w-3" />
-          </Button>
+        <TableCell className="w-6 text-start p-0">
+          {(id || newSchedule) && (
+            <Button
+              onClick={addNewRow && addNewRow}
+              variant="ghost"
+              size="sm"
+              type="button"
+              className="cursor-pointer hover:bg-bl/40"
+            >
+              <Plus className="h-3 w-3" />
+            </Button>
+          )}
         </TableCell>
         <TableCell className="w-6" />
         <TableCell className="w-6" />
         <TableCell className="w-10" />
         <TableCell className="w-32 p-0 front-bold text-center">
-          {month?.toUpperCase() || ""}
+          {(isTop && month?.toUpperCase()) || ""}
         </TableCell>
         {id && (
           <TableCell
@@ -46,7 +51,7 @@ export default function ScheduleHeader({
           />
         )}
         <TableCell
-          className="w-4 p-0 no-print"
+          className="w-10 p-0 no-print"
           data-html2canvas-ignore="true"
         />
 
@@ -68,7 +73,7 @@ export default function ScheduleHeader({
           );
         })}
 
-        <TableCell className="w-6" />
+        {(id || newSchedule) && <TableCell className="w-6" />}
       </TableRow>
     </TableHeader>
   );

@@ -1,19 +1,9 @@
 "use client";
 import { useEffect, useMemo } from "react";
 import { Table } from "@/components/ui/table";
-import {
-  SubmitHandler,
-  useFieldArray,
-  useForm,
-  useWatch,
-} from "react-hook-form";
-import { Form } from "@/components/ui/form";
-import { defaultSchedule, scheduleSchema, ScheduleType } from "./schema";
+import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import ScheduleSelectButtons from "./ScheduleSelectButtons";
-import ScheduleHeader from "./ScheduleHeader";
-import ScheduleBody from "./ScheduleBody";
-import ScheduleFooter from "./ScheduleFooter";
+
 import {
   createSchedule,
   ScheduleData,
@@ -22,33 +12,41 @@ import {
 import { getMonthDays } from "@/utils/getMonthDays";
 import { useSchedules } from "@/providers/ScheduleProvider";
 import { toast } from "sonner";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import { useRouter } from "@/i18n/navigation";
-import { EMPLOYEE_ROLES_BY_DEPARTMENT, SHIFT_OPTIONS } from "./constants";
-import { useEmployees } from "@/providers/EmployeesProvider";
-import { useLocalStorage } from "@/hooks/use-local-storage";
 
-export function ScheduleTable() {
-  const { id } = useParams();
+import { useEmployees } from "@/providers/EmployeesProvider";
+import { defaultSchedule, scheduleSchema, ScheduleType } from "./schema";
+import { EMPLOYEE_ROLES_BY_DEPARTMENT, SHIFT_OPTIONS } from "./constants";
+import ScheduleSelectButtons from "./ScheduleCreateActionForm";
+import { useLocalStorageForm } from "@/hooks/useLocalStorageForm";
+import { FormWrapper } from "@/components/wrapper/FormWrapper";
+import ScheduleTableHeader from "../ScheduleTableHeader";
+import ScheduleCreateTableBody from "./ScheduleCreateTableBody";
+import ScheduleCreateTableFooter from "./ScheduleCreateTableFooter";
+
+export function ScheduleCreatePage() {
+  const { id, patch }: { id: string; patch: string } = useParams();
   const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const month = searchParams.get("month");
+  const year = searchParams.get("year");
+  const role = patch as keyof typeof EMPLOYEE_ROLES_BY_DEPARTMENT;
 
   // set schedule
   const schedules = useSchedules();
-  const found = schedules.find((s) => s.id === id);
+  const found = id && schedules.find((s) => s.id === id);
 
   // set form
   const form = useForm<ScheduleType>({
-    resolver: yupResolver(scheduleSchema) as any,
+    resolver: yupResolver(scheduleSchema),
     defaultValues: found || defaultSchedule,
   });
   const { fields, remove, replace, move } = useFieldArray({
     control: form.control,
     name: "rowShifts",
   });
-
-  const month = form.watch("month");
-  const role = form.watch("role");
-  const year = form.watch("year");
 
   // set employees
   const employees = useEmployees();
@@ -73,7 +71,7 @@ export function ScheduleTable() {
         if (roleA !== roleB) return roleA - roleB;
         return a.name.localeCompare(b.name);
       });
-  }, [employees, role]);
+  }, [employees, patch]);
 
   // set days
   const monthDays = useMemo(() => {
@@ -84,12 +82,14 @@ export function ScheduleTable() {
   // set storage
   const storageKey = useMemo(() => {
     if (!month || !role || !year) return "";
-    return `schedule_${year}_${month}_${role}`;
-  }, [year, month, role]);
+    return `schedule_${year}_${month}_${role}_${id ? "update" : "create"}`;
+  }, [year, month, patch]);
 
   // local storage
-  const { setValue, removeValue, getValue } =
-    useLocalStorage<Omit<ScheduleType, "id">>(storageKey);
+  const { isLoaded, removeLocalStorageKey } = useLocalStorageForm(
+    form,
+    storageKey
+  );
 
   // submit
   const onSubmit: SubmitHandler<ScheduleType> = async (data) => {
@@ -134,13 +134,11 @@ export function ScheduleTable() {
     ]);
   };
 
-  // set fields
   useEffect(() => {
-    if (!month || !role || selectedEmployees.length === 0) return;
-    if (!storageKey) return;
+    if (!isLoaded) return;
     if (id) return;
-
-    const savedData = getValue();
+    if (!month || !role || selectedEmployees.length === 0) return;
+    if (fields.length > 0) return;
 
     const newRows = selectedEmployees.map((employee, index) => ({
       id: index.toString(),
@@ -154,44 +152,39 @@ export function ScheduleTable() {
       shifts: Array(monthDays.length).fill(""),
     }));
 
-    if (savedData) {
-      form.reset(savedData);
-    } else {
-      replace(newRows);
-    }
-  }, [month, role, selectedEmployees, monthDays.length]);
+    replace(newRows);
+  }, [
+    isLoaded,
+    month,
+    role,
+    selectedEmployees,
+    monthDays.length,
+    fields.length,
+  ]);
 
-  //update local storage
-  const watchAll = useWatch({ control: form.control });
-  useEffect(() => {
-    if (!storageKey) return;
-    if (id) return;
-    setValue(watchAll as Omit<ScheduleType, "id">);
-  }, [watchAll, storageKey]);
-
+  if (!isLoaded) return null;
   return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        onKeyDown={(e) => e.key === "Enter" && e.preventDefault()}
-        className="flex flex-col"
-      >
-        <ScheduleSelectButtons remove={removeValue} />
+    <FormWrapper form={form} onSubmit={onSubmit}>
+      <ScheduleSelectButtons removeLocalStorageKey={removeLocalStorageKey} />
 
-        <Table className="md:table-fixed">
-          {month && <ScheduleHeader monthDays={monthDays} addNewRow={addRow} />}
+      <Table className="md:table-fixed">
+        <ScheduleTableHeader
+          monthDays={monthDays}
+          addNewRow={addRow}
+          month={month ?? ""}
+          newSchedule={!id}
+        />
 
-          <ScheduleBody
-            fields={fields}
-            monthDays={monthDays}
-            selectedEmployees={selectedEmployees}
-            remove={remove}
-            move={move}
-          />
+        <ScheduleCreateTableBody
+          fields={fields}
+          monthDays={monthDays}
+          selectedEmployees={selectedEmployees}
+          remove={remove}
+          move={move}
+        />
 
-          {role && <ScheduleFooter data={SHIFT_OPTIONS || []} />}
-        </Table>
-      </form>
-    </Form>
+        <ScheduleCreateTableFooter data={SHIFT_OPTIONS || []} />
+      </Table>
+    </FormWrapper>
   );
 }

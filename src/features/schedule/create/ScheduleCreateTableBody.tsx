@@ -11,14 +11,16 @@ import {
 import { cn } from "@/lib/utils";
 
 import SelectScheduleEmployee from "@/components/inputs/SelectScheduleEmployee";
-import { color, SHIFT_HOURS_MAP_DAY, SHIFT_HOURS_MAP_NIGHT } from "./constants";
+
 import { handleTableNavigation } from "@/utils/handleTableNavigation";
-import { ScheduleType } from "./schema";
+
 import { EmployeesContextValue } from "@/providers/EmployeesProvider";
 import { MonthDayType } from "@/utils/getMonthDays";
 import { useParams } from "next/navigation";
+import { ScheduleType } from "./schema";
+import { color, SHIFT_HOURS_MAP_DAY, SHIFT_HOURS_MAP_NIGHT } from "./constants";
 
-export default function ScheduleBody({
+export default function ScheduleCreateTableBody({
   fields,
   monthDays,
   selectedEmployees,
@@ -73,7 +75,6 @@ export default function ScheduleBody({
   }, [form]);
   useEffect(() => {
     const subscription = form.watch((value, { name }) => {
-      // Проверяем, что изменилось поле employee
       if (name?.startsWith("rowShifts.") && name.endsWith(".employee")) {
         const rowIndex = Number(name.split(".")[1]);
         const selectedName = value?.rowShifts?.[rowIndex]?.employee;

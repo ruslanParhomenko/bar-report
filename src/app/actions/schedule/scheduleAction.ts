@@ -1,7 +1,7 @@
 "use server";
 
 import { dbAdmin } from "@/lib/firebaseAdmin";
-import { ScheduleType } from "@/features/settings/schedule/schema";
+import { ScheduleType } from "@/features/schedule/create/schema";
 import { invalidateEverywhere } from "../invalidateEverywhere/invalidateEverywhere";
 import { unstable_cache } from "next/cache";
 
