@@ -22,11 +22,8 @@ import { ScheduleTableBody } from "./ScheduleTableBody";
 
 export function SchedulePage() {
   const { patch } = useParams();
-  const { isAdmin, isMngr } = useAbility();
-  const isDisabled = !isAdmin && !isMngr;
 
   const schedules = useSchedules();
-
   const currentYear = new Date().getFullYear().toString();
   const currentMonth = MONTHS[new Date().getMonth()];
 
@@ -49,7 +46,7 @@ export function SchedulePage() {
 
   // unique key
   const uniqueKey = useMemo(() => {
-    const role = ROLE_URL[patch as keyof typeof ROLE_URL];
+    const role = patch as keyof typeof ROLE_URL;
     return `${year}-${month}-${role}`;
   }, [month, year, patch]);
 

@@ -93,9 +93,13 @@ export function ScheduleCreatePage() {
 
   // submit
   const onSubmit: SubmitHandler<ScheduleType> = async (data) => {
+    console.log("data", data);
     const formatData: ScheduleData = {
       ...data,
-      uniqueKey: `${data.year}-${data.month}-${data.role}`,
+      uniqueKey: `${year}-${month}-${role}`,
+      month: month as string,
+      year: year as string,
+      role: role as string,
     };
     const existing = schedules?.find(
       (s) => s.uniqueKey === formatData.uniqueKey

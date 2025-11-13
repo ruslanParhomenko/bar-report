@@ -37,14 +37,21 @@ export function ScheduleActionForm({
   const formMonth = watch("month");
   const formYear = watch("year");
 
-  const currentDay = new Date().getDate();
   const currentYear = new Date().getFullYear().toString();
   const currentMonth = MONTHS[new Date().getMonth()];
 
   const handleEditClick = () => {
+    const monthIndex = MONTHS.indexOf(month);
+    const editDate = new Date(parseInt(year), monthIndex, 1);
+
+    const currentDate = new Date();
+
+    const diffTime = currentDate.getTime() - editDate.getTime();
+    const diffDays = diffTime / (1000 * 60 * 60 * 24);
+
     const canEdit =
       isAdmin ||
-      (currentDay <= 10 &&
+      (diffDays <= 41 &&
         ((month === currentMonth && year === currentYear) ||
           (MONTHS.indexOf(month) === MONTHS.indexOf(currentMonth) - 1 &&
             year === currentYear) ||
@@ -60,10 +67,11 @@ export function ScheduleActionForm({
       );
     } else {
       toast.error(
-        "Редактирование доступно только до 10 числа текущего или предыдущего месяца"
+        "Редактирование недоступно: прошло более 45 дней или не текущий/предыдущий месяц"
       );
     }
   };
+
   return (
     <div className="flex justify-between items-center md:px-4 py-4">
       <div className="flex md:gap-4 gap-1">

@@ -18,12 +18,9 @@ export type RowShiftType = yup.InferType<typeof rowShiftSchema>;
 export const defaultRowShift: RowShiftType = rowShiftSchema.getDefault();
 
 export const scheduleSchema = yup.object({
-  year: yup
-    .string()
-    .default(new Date().getFullYear().toString())
-    .required("Year is required"),
-  month: yup.string().default("").required("Month is required"),
-  role: yup.string().default("").required("Role is required"),
+  year: yup.string().default(""),
+  month: yup.string().default(""),
+  role: yup.string().default(""),
   rowShifts: yup.array().of(rowShiftSchema).default([]),
 });
 
