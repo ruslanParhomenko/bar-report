@@ -15,8 +15,8 @@ export default function ScheduleSelectButtons({
   const router = useRouter();
   const t = useTranslations("Home");
   const form = useFormContext();
-  const { isAdmin, isMngr } = useAbility();
-  const isDisabled = !isAdmin && !isMngr;
+  const { isAdmin, isManager } = useAbility();
+  const isDisabled = !isAdmin && !isManager;
 
   const resetForm = () => {
     form.reset(defaultSchedule);

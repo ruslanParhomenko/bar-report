@@ -1,4 +1,4 @@
-import DailyMenuForm from "@/features/meniu/MeniuDailyForm";
+import DailyMenuForm from "@/features/menu/MenuDailyForm";
 
 const Page = () => {
   return <DailyMenuForm />;

@@ -35,7 +35,7 @@ export const DeleteListButton = <T extends BaseData>({
   nameTag,
 }: DeleteListButtonProps<T>) => {
   const router = useRouter();
-  const { isAdmin, isMngr } = useAbility();
+  const { isAdmin, isManager } = useAbility();
   const t = useTranslations("Home");
 
   const removeItem = async () => {
@@ -57,7 +57,7 @@ export const DeleteListButton = <T extends BaseData>({
           onClick={() => editForm()}
           variant={"ghost"}
           className="cursor-pointer"
-          disabled={!isAdmin && !isMngr}
+          disabled={!isAdmin && !isManager}
         >
           <Pencil />
         </Button>

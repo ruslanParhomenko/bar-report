@@ -4,8 +4,8 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { toast } from "sonner";
 import { Form } from "@/components/ui/form";
-import CardFormEmployees from "./CardFormEmployees";
-import { EmployeesTable } from "./CardTableEmployees";
+import CardFormEmployees, { AddEmployeeCard } from "./AddEmployeeCard";
+import { EmployeesTable, GetEmployeesCard } from "./GetEmployeesCard";
 import { useEmployees } from "@/providers/EmployeesProvider";
 import {
   createEmployee,
@@ -18,12 +18,14 @@ import {
   employeesSchema,
   EmployeesSchemaTypeData,
 } from "./schema";
+import { FormWrapper } from "@/components/wrapper/FormWrapper";
+import { EmployeeVacationCard } from "./EmployeeVacationCard";
 
 type FormData = EmployeesSchemaTypeData & { id?: string };
 
-export default function AddEmployees() {
+export function EmployeesPage() {
   const { data: session } = useSession();
-  const { isAdmin, isMngr } = useAbility();
+  const { isAdmin, isManager } = useAbility();
   const form = useForm<FormData>({
     resolver: yupResolver(employeesSchema),
     defaultValues: defaultEmployee,
@@ -62,8 +64,6 @@ export default function AddEmployees() {
         for (const key of Object.keys(payloadUpdate)) {
           const newValue = (payloadUpdate as any)[key];
           const oldValue = (old as any)[key];
-
-          // Сравнение массивов
           if (Array.isArray(newValue) && Array.isArray(oldValue)) {
             if (JSON.stringify(newValue) !== JSON.stringify(oldValue)) {
               const added = newValue.filter(
@@ -92,8 +92,6 @@ export default function AddEmployees() {
             }
             continue;
           }
-
-          // Сравнение объектов
           if (
             typeof newValue === "object" &&
             newValue !== null &&
@@ -105,8 +103,6 @@ export default function AddEmployees() {
             }
             continue;
           }
-
-          // Простое сравнение примитивов
           if (newValue !== oldValue) {
             changes.push(`${key}: "${oldValue}" → "${newValue}"`);
           }
@@ -164,18 +160,14 @@ export default function AddEmployees() {
   };
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(handleSubmit)} className="flex gap-4">
-        <div className="shrink-0">
-          <CardFormEmployees
-            nameTag="vacationPay"
-            disabled={!isAdmin && !isMngr}
-          />
-        </div>
-        <div className="flex-1">
-          <EmployeesTable data={employees} />
-        </div>
-      </form>
-    </Form>
+    <FormWrapper form={form} onSubmit={handleSubmit} className="flex gap-4">
+      <GetEmployeesCard data={employees} />
+      <AddEmployeeCard
+        nameTag="vacationPay"
+        disabled={!isAdmin && !isManager}
+      />
+
+      <EmployeeVacationCard />
+    </FormWrapper>
   );
 }

@@ -1,4 +1,3 @@
-import SelectField from "@/components/inputs/SelectField";
 import TextInput from "@/components/inputs/TextInput";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
@@ -9,10 +8,11 @@ import { Button } from "@/components/ui/button";
 import { MinusCircle, Plus, PlusCircle, Trash } from "lucide-react";
 import { DatePickerRange } from "@/components/inputs/DatePickerRange";
 import { defaultEmployee, defaultVacationPay, EMPLOYEES_ROLE } from "./schema";
-import { startTransition, useState } from "react";
+import { startTransition, useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
+import SelectInput from "@/components/inputs/SelectInput";
 
-export default function CardFormEmployees({
+export function AddEmployeeCard({
   nameTag,
   disabled,
 }: {
@@ -31,16 +31,22 @@ export default function CardFormEmployees({
     name: nameTag,
   });
   const [isOpen, setIsOpen] = useState(false);
-  console.log(isOpen);
   const toggleOpen = () => {
     startTransition(() => {
       setIsOpen((v) => !v);
     });
   };
+  useEffect(() => {
+    if (!id) return;
+    setIsOpen(true);
+  }, [id]);
+
   return (
     <Card
-      className={`h-[80vh] flex flex-col overflow-hidden
-                ${isOpen ? "w-full" : "w-12"}`}
+      className={cn(
+        "h-[97vh] flex flex-col overflow-hidden",
+        isOpen ? "md:w-[20%] w-full" : "w-12"
+      )}
     >
       <button
         onClick={toggleOpen}
@@ -55,42 +61,49 @@ export default function CardFormEmployees({
       {isOpen && (
         <>
           <CardContent className="flex-1 pt-4 overflow-y-auto">
-            <Label className="text-base font-bold">{t("name")}</Label>
             <TextInput
               fieldName="name"
+              fieldLabel={t("name")}
               type="text"
-              className="w-full my-2 h-10"
+              className="w-full h-8"
             />
-            <Label className="text-base font-bold">{t("role")}</Label>
-            <SelectField
+            <SelectInput
               data={EMPLOYEES_ROLE}
               fieldName="role"
-              className="truncate w-full my-2 h-10"
+              fieldLabel={t("role")}
+              className="truncate w-full h-8"
             />
-            <Label className="text-base font-bold">{t("rate")}</Label>
-            <TextInput fieldName="rate" className="my-2" />
-            <Label className="text-base font-bold">{t("mail")}</Label>
+            <TextInput
+              fieldName="rate"
+              fieldLabel={t("rate")}
+              className="w-full h-8"
+            />
             <TextInput
               fieldName="mail"
+              fieldLabel={t("mail")}
               type="mail"
-              className="w-full my-2 h-10"
+              className="w-full h-8"
             />
-            <Label className="text-base font-bold">{t("employmentDate")}</Label>
+            <TextInput
+              fieldName="tel"
+              fieldLabel={t("tel")}
+              type="tel"
+              className="w-full h-8"
+            />
+            <Label className="pt-2">{t("employmentDate")}</Label>
             <DatePickerInput
               fieldName="employmentDate"
-              className="my-2 w-full h-10"
+              className="w-full !h-8 !border-1 my-2"
             />
 
-            <Label className="font-bold text-base">
-              {t("usedVacationDays")}
-            </Label>
+            <Label className="pt-4 pb-2">{t("usedVacationDays")}</Label>
 
             {fields.map((field, index) => {
               const startDate = vacationPayValues?.[index]?.startDate;
               const endDate = vacationPayValues?.[index]?.endDate;
               return (
-                <div key={field.id} className="flex flex-col gap-4 w-full my-1">
-                  <div className="flex w-full gap-4">
+                <div key={field.id} className="flex flex-col w-full gap-0">
+                  <div className="flex w-full gap-1">
                     <DatePickerRange
                       value={{
                         from: startDate ? new Date(startDate) : undefined,
@@ -119,44 +132,41 @@ export default function CardFormEmployees({
                         }
                       }}
                       resetTrigger={false}
-                      className="flex-1 h-10"
+                      className="flex-1 h-8"
                     />
                     <TextInput
                       fieldName={`vacationPay.${index}.countDays`}
-                      placeholder={t("days")}
-                      className="flex-none w-15 h-10 text-center"
+                      className="flex-none w-8 p-0 h-8 text-center"
                     />
                     <Button
                       type="button"
                       variant="destructive"
-                      className="h-10 w-10 flex-none"
+                      className="h-8 w-8 flex-none"
                       onClick={() =>
                         fields.length === 1
                           ? replace(defaultVacationPay)
                           : remove(index)
                       }
                     >
-                      <Trash size={16} />
+                      <Trash />
                     </Button>
-                  </div>
-
-                  <div className="w-full flex justify-end">
-                    {fields.length - 1 === index && (
-                      <Button
-                        type="button"
-                        onClick={() => append(defaultVacationPay)}
-                      >
-                        <Plus size={16} />
-                      </Button>
-                    )}
                   </div>
                 </div>
               );
             })}
+            <div className="w-full flex justify-end">
+              <Button
+                type="button"
+                className="h-8 w-8 flex-none"
+                onClick={() => append(defaultVacationPay)}
+              >
+                <Plus />
+              </Button>
+            </div>
           </CardContent>
-          <CardFooter className="flex flex-row justify-between py-8">
+          <CardFooter className="flex flex-row justify-between py-4">
             <Button
-              className="cursor-pointer"
+              className="cursor-pointer h-8"
               type="button"
               variant={"secondary"}
               onClick={() => form.reset(defaultEmployee)}
@@ -164,7 +174,7 @@ export default function CardFormEmployees({
               {t("reset")}
             </Button>
 
-            <Button type="submit" disabled={disabled}>
+            <Button className="h-8" type="submit" disabled={disabled}>
               {id ? (
                 t("update")
               ) : (

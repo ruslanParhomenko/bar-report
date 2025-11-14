@@ -88,7 +88,7 @@ export const DatePickerRange = ({
         <Button
           id="date"
           variant={"outline"}
-          className={cn("font-normal", !from && "text-muted-foreground")}
+          className={cn("text-muted-foreground")}
         >
           <span>{displayText}</span>
         </Button>

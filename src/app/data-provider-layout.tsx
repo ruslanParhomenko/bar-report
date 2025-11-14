@@ -32,7 +32,7 @@ export async function UsersEmployeesProviderLayout({
     isBar: user?.role === "BAR",
     isCucina: user?.role === "CUCINA",
     isUser: user?.role === "USER",
-    isMngr: user?.role === "MNGR",
+    isManager: user?.role === "MNGR",
     isCash: user?.role === "CASH",
     isObserver: user?.role === "OBSERVER",
   };

@@ -2,7 +2,7 @@
 import { useAbility } from "@/providers/AbilityProvider";
 
 export default function SidebarRoleUserButton() {
-  const { isAdmin, isBar, isCucina, isUser, isMngr, isCash } = useAbility();
+  const { isAdmin, isBar, isCucina, isUser, isManager, isCash } = useAbility();
 
   const roleLabel = isAdmin
     ? "admin"
@@ -12,7 +12,7 @@ export default function SidebarRoleUserButton() {
     ? "cucina"
     : isUser
     ? "user"
-    : isMngr
+    : isManager
     ? "mngr"
     : isCash
     ? "cash"

@@ -1,5 +1,4 @@
 import AccordionWrapper from "@/components/wrapper/AccordionWrapper";
-import AddEmployees from "./employees/AddEmployees";
 import AddUsers from "./users/AddUsers";
 
 export default function SettingsPage() {
@@ -7,9 +6,6 @@ export default function SettingsPage() {
     <>
       <AccordionWrapper nameTag="users" className="md:flex-row">
         <AddUsers />
-      </AccordionWrapper>
-      <AccordionWrapper nameTag="employees" className="md:flex-row">
-        <AddEmployees />
       </AccordionWrapper>
     </>
   );

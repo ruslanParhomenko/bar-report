@@ -23,7 +23,7 @@ export default function PenaltyTable({ data }: { data: PenaltyTableProps[] }) {
   const router = useRouter();
   const t = useTranslations("Home");
 
-  const { isAdmin, isMngr } = useAbility();
+  const { isAdmin, isManager } = useAbility();
 
   const totalPenalty = useMemo(() => {
     return data.reduce((acc, r) => {
@@ -41,7 +41,7 @@ export default function PenaltyTable({ data }: { data: PenaltyTableProps[] }) {
   console.log(data);
 
   const editRemarks = (id: string) => {
-    if (!isAdmin && !isMngr) return;
+    if (!isAdmin && !isManager) return;
     router.push(`/remarks/${id}`);
   };
   const deleteRemarks = async (id: string) => {

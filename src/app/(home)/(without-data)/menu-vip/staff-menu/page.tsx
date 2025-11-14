@@ -1,4 +1,4 @@
-import StaffMenu from "@/features/meniu/StaffMenu";
+import StaffMenu from "@/features/menu/StaffMenu";
 
 const Page = () => {
   return <StaffMenu />;

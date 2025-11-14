@@ -9,7 +9,7 @@ type AbilityFlags = {
   isCucina: boolean;
   isObserver: boolean;
   isUser: boolean;
-  isMngr: boolean;
+  isManager: boolean;
   isCash: boolean;
 };
 
@@ -36,7 +36,7 @@ export function AbilityProvider({
         !serverAbility.isBar &&
         !serverAbility.isCucina &&
         !serverAbility.isUser &&
-        !serverAbility.isMngr &&
+        !serverAbility.isManager &&
         !serverAbility.isCash,
     };
 

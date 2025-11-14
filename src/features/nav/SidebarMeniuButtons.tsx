@@ -6,7 +6,6 @@ import {
 } from "@/components/ui/sidebar";
 import { SIDEBAR_NAVIGATION } from "./constants";
 import { Link, usePathname } from "@/i18n/navigation";
-import { useAbility } from "@/providers/AbilityProvider";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 
@@ -14,7 +13,6 @@ export default function SidebarMenuButtons() {
   const pathname = usePathname();
   const t = useTranslations("Home");
   const { toggleSidebar, isMobile } = useSidebar();
-  const { isCucina } = useAbility();
 
   const handleMenuClick = () => {
     if (isMobile) {
@@ -35,7 +33,7 @@ export default function SidebarMenuButtons() {
         return (
           <SidebarMenuButton key={item.title} asChild>
             <Link
-              href={isCucina ? item.url2 : item.url}
+              href={item.url}
               onClick={handleMenuClick}
               className={cn("flex items-center w-full", {
                 "bg-bl text-base [&>span]:text-[#ffff]": isActivePath,

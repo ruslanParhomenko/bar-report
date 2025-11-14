@@ -1,5 +1,6 @@
 {
   "Home": {
+    "tel": "Телефон",
     "visaCasinoBar": "БАР visa-k",
     "banquet": "Бар банкет",
     "visaBar": "БАР visa",
@@ -124,12 +125,12 @@
     "role": "Роль",
     "chooseItem": "Выберите дату",
     "users": "Пользователи",
-    "meniuVip": "Меню VIP",
+    "menuVip": "Меню VIP",
     "meniuRating": "Оценка питания",
     "info": "Информация",
     "employee": "Сотрудники",
     "standardKitchen": "Стандарт хранения",
-    "dish": "Стьюардинг",
+    "dish": "Стюардинг",
     "StatusMenu": "Статус меню",
     "penalty": "Штрафы",
     "vacationDays": "Отпусктные",
@@ -156,10 +157,10 @@
     "remainingVacationDays": "Остаток дней отпуска",
     "hide": "Скрыть"
   },
-  "Meniu": {
+  "Menu": {
     "menu": "МЕНЮ",
     "bar": "БАР",
-    "cusine": "КУХНЯ",
+    "cuisine": "КУХНЯ",
     "Language": "Язык",
     "Daily Menu": "Обеды дня",
     "lei": "лей",
@@ -284,6 +285,7 @@
     "Rosii cu coriandru verde": "Помидоры с кинзой",
     "Cheesecake cu dovleac": "Чизкейк Тыквенный",
     "Ardei impluti": "Перцы фаршированные",
-    "Staff Menu": "Меню стафф"
+    "Staff Menu": "Меню стафф",
+    "Supă cremă de ciuperci": "Грибной крем-суп"
   }
 }

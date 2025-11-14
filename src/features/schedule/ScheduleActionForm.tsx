@@ -30,8 +30,8 @@ export function ScheduleActionForm({
 }) {
   const { patch } = useParams();
   const router = useRouter();
-  const { isAdmin, isMngr } = useAbility();
-  const isDisabled = !isAdmin && !isMngr;
+  const { isAdmin, isManager } = useAbility();
+  const isDisabled = !isAdmin && !isManager;
 
   const { watch } = useFormContext();
   const formMonth = watch("month");

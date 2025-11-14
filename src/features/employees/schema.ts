@@ -39,10 +39,10 @@ export const defaultEmployee = {
 
 // const
 export const EMPLOYEES_ROLE = [
-  "barmen",
-  "waiters",
-  "cook",
-  "mngr",
-  "dish",
-  "buyer",
+  { label: "barmen", value: "barmen" },
+  { label: "waiters", value: "waiters" },
+  { label: "cook", value: "cook" },
+  { label: "mngr", value: "mngr" },
+  { label: "dish", value: "dish" },
+  { label: "buyer", value: "buyer" },
 ];

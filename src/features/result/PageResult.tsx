@@ -26,8 +26,8 @@ import { useAbility } from "@/providers/AbilityProvider";
 import { FilterDataByMonth } from "@/components/filter/FilterDataByMonth";
 
 export function PageResult() {
-  const { isAdmin, isMngr, isCash } = useAbility();
-  const isDisabled = !isAdmin && !isMngr && !isCash;
+  const { isAdmin, isManager, isCash } = useAbility();
+  const isDisabled = !isAdmin && !isManager && !isCash;
 
   const schedules = useSchedules();
   const remarks = useRemarks();

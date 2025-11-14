@@ -23,8 +23,8 @@ export function PageCash() {
   // get data
   const dataCash = useCash();
 
-  const { isAdmin, isMngr, isCash } = useAbility();
-  const isDisabled = !isAdmin && !isMngr && !isCash;
+  const { isAdmin, isManager, isCash } = useAbility();
+  const isDisabled = !isAdmin && !isManager && !isCash;
 
   const form = useForm<CashFormType>({
     resolver: yupResolver(cashSchema),

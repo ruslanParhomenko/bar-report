@@ -1,5 +1,6 @@
 {
   "Home": {
+    "tel": "Telefon",
     "visaCasinoBar": "Bar visa-k",
     "banquet": "Bar banquet",
     "visaBar": "Bar visa",
@@ -125,7 +126,7 @@
     "role": "Rol",
     "chooseItem": "Alege data",
     "users": "Utilizatori",
-    "meniuVip": "Meniu VIP",
+    "menuVip": "Meniu VIP",
     "meniuRating": "Evaluare meniu",
     "info": "Informatii",
     "employee": "Angajat",
@@ -157,10 +158,10 @@
     "remainingVacationDays": "Zile de vacanta ramase",
     "hide": "Ascunde"
   },
-  "Meniu": {
+  "Menu": {
     "menu": "MENIU",
     "bar": "BAR",
-    "cusine": "BUCATARIE",
+    "cuisine": "BUCATARIE",
     "Language": "Limba",
     "Daily Menu": "Mesele zilei",
     "lei": "lei",
@@ -285,6 +286,7 @@
     "Rosii cu coriandru verde": "Rosii cu coriandru verde",
     "Cheesecake cu dovleac": "Cheesecake cu dovleac",
     "Ardei impluti": "Ardei impluti",
-    "Staff Menu": "Meniu staff"
+    "Staff Menu": "Meniu staff",
+    "Supă cremă de ciuperci": "Supă cremă de ciuperci"
   }
 }

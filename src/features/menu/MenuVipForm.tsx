@@ -1,36 +1,33 @@
 "use client";
-import { useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
-import ButtonNavigationPage from "@/components/meniu/ButtonNavigationPage";
-import { useSwipeable } from "react-swipeable";
 import { Dot } from "lucide-react";
 import { useGoogleData } from "@/hooks/useGoogleData";
+import { useParams } from "next/navigation";
+import { useMemo } from "react";
 
-export function RenderItemMeniu({ item, leftPage, rightPage }: any) {
+export function RenderItemMenu() {
+  const { patch } = useParams();
   const { menu: data, isLoading } = useGoogleData();
-  const t = useTranslations("Meniu");
-  const left = `/${leftPage}`;
-  const right = `/${rightPage}`;
 
-  const router = useRouter();
-  const handlers = useSwipeable({
-    onSwipedLeft: () => router.push(right),
-    onSwipedRight: () => router.push(left),
-  });
+  console.log("data vip", data);
+  const t = useTranslations("Menu");
 
-  const selectArr = {
-    bar: 0,
-    bar1: 1,
-    cusine: 2,
-  } as const;
+  const menuData = useMemo(() => {
+    if (!data?.vip) return [];
 
-  const itemSelect = selectArr[item as keyof typeof selectArr] as number;
-  const arrData = data?.vip[itemSelect];
+    if (patch === "bar") {
+      return [...(data.vip[0] || []), ...(data.vip[1] || [])];
+    } else if (patch === "cuisine") {
+      return [...(data.vip[2] || [])];
+    }
+
+    return [];
+  }, [patch, data]);
+
   if (isLoading) return null;
   return (
-    <div {...handlers} className="w-full md:px-4 pb-4 relative">
-      <ButtonNavigationPage leftPage={left} rightPage={right} />
-      {arrData?.map((el: any, index: number) => (
+    <div className="w-full md:mx-0 pb-4 md:px-150">
+      {menuData?.map((el: any, index: number) => (
         <div key={index}>
           <h1 className="flex justify-center items-center font-bold text-[18px] py-5">
             <Dot />
@@ -40,7 +37,7 @@ export function RenderItemMeniu({ item, leftPage, rightPage }: any) {
           <div className="flex  gap-4 text-[14px] pt-1 ">
             <ul className="list-none w-1/2">
               {el.listItem?.map((el: any, id: number) => (
-                <li key={id}>{item === "cusine" ? t(el) : el}</li>
+                <li key={id}>{patch === "cuisine" ? t(el) : el}</li>
               ))}
             </ul>
             <ul className="flex-1 list-none">
@@ -60,7 +57,6 @@ export function RenderItemMeniu({ item, leftPage, rightPage }: any) {
           </div>
         </div>
       ))}
-      <ButtonNavigationPage leftPage={left} rightPage={right} />
     </div>
   );
 }

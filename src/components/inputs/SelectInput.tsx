@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/select";
 
 import { Label } from "../ui/label";
+import { cn } from "@/lib/utils";
 
 type Props = {
   fieldName: string;
@@ -46,35 +47,15 @@ function SelectInput({
           control={control}
           name={fieldName}
           render={() => (
-            <FormItem
-              className={`${fieldLabel ? "flex gap-x-4 max-h-6" : ""} ${
-                className ?? ""
-              }`}
-            >
-              {fieldLabel && (
-                <Label
-                  className={`${fieldLabel ? "w-3/4" : ""} ${
-                    field.value && field.value !== 0
-                      ? "text-blue-600 font-bold"
-                      : ""
-                  }`}
-                >
-                  {fieldLabel}
-                </Label>
-              )}
+            <FormItem className="grid gap-0.5 pb-2">
+              {fieldLabel && <Label className={className}>{fieldLabel}</Label>}
               <Select
                 onValueChange={field.onChange}
                 value={field.value || ""}
-                disabled={disabled ?? field.value === "X" ? true : false}
+                disabled={disabled}
               >
-                <FormControl
-                  className={` ${fieldLabel ? "max-h-6" : "w-full"}`}
-                >
-                  <SelectTrigger
-                    className={`flex justify-center min-w-12 text-base [&>svg]:hidden ${
-                      field.value === "X" ? "bg-gray-600" : ""
-                    }`}
-                  >
+                <FormControl className="w-full !h-8">
+                  <SelectTrigger className="flex justify-between h-8">
                     <SelectValue placeholder={placeHolder} />
                   </SelectTrigger>
                 </FormControl>

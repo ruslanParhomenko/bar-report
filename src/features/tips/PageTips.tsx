@@ -33,8 +33,8 @@ export function PageTips() {
   const dataCash = useCash();
   const employees = useEmployees();
 
-  const { isAdmin, isMngr, isCash } = useAbility();
-  const isDisabled = !isAdmin && !isMngr && !isCash;
+  const { isAdmin, isManager, isCash } = useAbility();
+  const isDisabled = !isAdmin && !isManager && !isCash;
 
   // form
   const form = useForm<TipsFormType>({
