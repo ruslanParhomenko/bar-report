@@ -3,9 +3,8 @@ import { useAbility } from "@/providers/AbilityProvider";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { toast } from "sonner";
-import { Form } from "@/components/ui/form";
-import CardFormEmployees, { AddEmployeeCard } from "./AddEmployeeCard";
-import { EmployeesTable, GetEmployeesCard } from "./GetEmployeesCard";
+import { AddEmployeeCard } from "./AddEmployeeCard";
+import { GetEmployeesCard } from "./GetEmployeesCard";
 import { useEmployees } from "@/providers/EmployeesProvider";
 import {
   createEmployee,
@@ -43,6 +42,7 @@ export function EmployeesPage() {
         const payloadUpdate = {
           name: data.name,
           mail: data.mail,
+          tel: data.tel,
           role: data.role,
           rate: data.rate,
           employmentDate: data.employmentDate
@@ -123,6 +123,7 @@ export function EmployeesPage() {
         const payloadCreate = {
           name: data.name,
           mail: data.mail,
+          tel: data.tel,
           role: data.role,
           rate: data.rate,
           employmentDate: data.employmentDate

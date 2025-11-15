@@ -1,5 +1,5 @@
-import { RenderItemMenu } from "@/features/menu/MenuVipForm";
+import { MenuPage } from "@/features/menu/MenuPage";
 
 export default function Page() {
-  return <RenderItemMenu />;
+  return <MenuPage />;
 }
