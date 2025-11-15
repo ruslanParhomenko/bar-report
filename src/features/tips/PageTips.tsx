@@ -15,15 +15,14 @@ import { useEmployees } from "@/providers/EmployeesProvider";
 import { saveTipsForm } from "@/app/actions/tips/tipsAction";
 import { toast } from "sonner";
 import { useAbility } from "@/providers/AbilityProvider";
-import TableHeaderData from "./TableHeader";
-import TableFooterData from "./TableFooter";
 import { groupRowsByRole } from "./utils";
-import TableBodyData from "./TabelBody";
-
 import { FormWrapper } from "@/components/wrapper/FormWrapper";
 import { FilterDataByMonth } from "@/components/filter/FilterDataByMonth";
 import { useTips } from "@/providers/TipsProvider";
 import { useCash } from "@/providers/CashProvider";
+import { TipsTableHeader } from "./TipsTableHeader";
+import { TipsTableBody } from "./TipsTableBody";
+import { TipsTableFooter } from "./TipsTableFooter";
 
 const SELECTED_ROLE = ["barmen", "waiters", "dish"];
 
@@ -34,7 +33,7 @@ export function PageTips() {
   const employees = useEmployees();
 
   const { isAdmin, isManager, isCash } = useAbility();
-  const isDisabled = !isAdmin && !isManager && !isCash;
+  const isDisabled = !isAdmin && !isManager;
 
   // form
   const form = useForm<TipsFormType>({
@@ -115,9 +114,9 @@ export function PageTips() {
       <FilterDataByMonth withButton={true} disabled={isDisabled} />
 
       <Table className="md:table-fixed">
-        <TableHeaderData monthDays={monthDays} month={month} />
+        <TipsTableHeader monthDays={monthDays} month={month} />
 
-        <TableBodyData
+        <TipsTableBody
           data={fields}
           monthDays={monthDays}
           form={form}
@@ -129,7 +128,7 @@ export function PageTips() {
           selectedEmployees={selectedEmployees}
         />
 
-        <TableFooterData
+        <TipsTableFooter
           monthDays={monthDays}
           disabled={!isAdmin && !isCash}
           form={form}

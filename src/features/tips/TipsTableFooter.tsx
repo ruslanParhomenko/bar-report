@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import { handleTableNavigation } from "@/utils/handleTableNavigation";
 import { UseFormReturn } from "react-hook-form";
 
-export default function TableFooterData({
+export function TipsTableFooter({
   monthDays,
   disabled,
   form,

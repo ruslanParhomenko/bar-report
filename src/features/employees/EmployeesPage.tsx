@@ -161,7 +161,11 @@ export function EmployeesPage() {
   };
 
   return (
-    <FormWrapper form={form} onSubmit={handleSubmit} className="flex gap-4">
+    <FormWrapper
+      form={form}
+      onSubmit={handleSubmit}
+      className="flex gap-4 py-6 md:px-4"
+    >
       <GetEmployeesCard data={employees} />
       <AddEmployeeCard
         nameTag="vacationPay"

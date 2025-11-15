@@ -1,27 +1,22 @@
 "use client";
-import { Form } from "@/components/ui/form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { useAbility } from "@/providers/AbilityProvider";
 import { defaultUser, usersSchema, UsersSchemaTypeData } from "./schema";
-import CardFormUsers from "./CardFormUsers";
-import { UsersTable } from "./CardTableUsers";
 
 import { createUser, updateUser } from "@/app/actions/users/userAction";
+import { FormWrapper } from "@/components/wrapper/FormWrapper";
+import AddUsersCard from "./AddUsersCard";
+import { GetUsersCard } from "./GetUsersCard";
 
 type FormData = UsersSchemaTypeData;
 
-export default function AddUsers() {
-  const { isAdmin } = useAbility();
-
+export function UsersPage() {
   const form = useForm<FormData>({
     resolver: yupResolver(usersSchema),
     defaultValues: defaultUser,
   });
   const { reset: resetForm } = form;
-
-  const { query: users } = useAbility();
 
   const handleSubmit: SubmitHandler<FormData> = async (data) => {
     try {
@@ -47,14 +42,13 @@ export default function AddUsers() {
   };
 
   return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(handleSubmit)}
-        className="grid grid-cols-1 md:grid-cols-[30%_68%] w-full pt-4 md:gap-4"
-      >
-        <CardFormUsers disabled={!isAdmin} />
-        <UsersTable data={users as any[]} />
-      </form>
-    </Form>
+    <FormWrapper
+      form={form}
+      onSubmit={handleSubmit}
+      className="grid grid-cols-1 md:grid-cols-[30%_68%] w-full pt-4 md:gap-4"
+    >
+      <AddUsersCard />
+      <GetUsersCard />
+    </FormWrapper>
   );
 }

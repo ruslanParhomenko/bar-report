@@ -16,15 +16,17 @@ import { useTranslations } from "next-intl";
 import { useFormContext } from "react-hook-form";
 import { deleteUser } from "@/app/actions/users/userAction";
 import { UsersSchemaTypeData } from "./schema";
+import { useAbility } from "@/providers/AbilityProvider";
 
-export function UsersTable({ data }: { data: UsersSchemaTypeData[] }) {
+export function GetUsersCard() {
+  const { query: users } = useAbility();
   const t = useTranslations("Home");
   const form = useFormContext<UsersSchemaTypeData>();
 
   const handleDeleteUser = (id: string) => deleteUser(id);
 
   return (
-    <Card className="shadow-md border rounded-2xl overflow-hidden py-6 px-2 md:px-6">
+    <Card className="overflow-hidden md:px-6">
       <Table>
         <TableHeader>
           <TableRow className="text-gr">
@@ -36,7 +38,7 @@ export function UsersTable({ data }: { data: UsersSchemaTypeData[] }) {
         </TableHeader>
 
         <TableBody>
-          {data?.map((user, idx) => (
+          {users?.map((user, idx) => (
             <TableRow key={user.id} className="hover:bg-muted/40">
               <TableCell>{idx + 1}</TableCell>
               <TableCell className="truncate">{user.mail}</TableCell>

@@ -1,14 +1,12 @@
 import { TableCell, TableHeader, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 
-export default function TableHeaderData({
+export function TipsTableHeader({
   month,
   monthDays,
-  className,
 }: {
   month: string;
   monthDays: { day: number; weekday: string }[];
-  className?: string;
 }) {
   if (!month || !monthDays) return null;
 

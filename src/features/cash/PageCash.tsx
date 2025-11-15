@@ -8,23 +8,22 @@ import { toast } from "sonner";
 
 import { useMemo, useEffect } from "react";
 import { getMonthDays } from "@/utils/getMonthDays";
-import { Table, TableCell, TableFooter, TableRow } from "@/components/ui/table";
+import { Table } from "@/components/ui/table";
 import { CashBodyTable } from "./CashBodyTable";
 import { saveCashForm } from "@/app/actions/cash/cashAction";
 import { CashHeaderTable } from "./CashHeaderTable";
 import { FilterDataByMonth } from "@/components/filter/FilterDataByMonth";
 import { useCash } from "@/providers/CashProvider";
 import { FormWrapper } from "@/components/wrapper/FormWrapper";
-import { Label } from "@/components/ui/label";
-import { cn } from "@/lib/utils";
 import { CashFooterTable } from "./CashFooterTable";
+import { sendNotificationEmail } from "@/app/actions/mail/sendNotificationEmail";
 
 export function PageCash() {
   // get data
   const dataCash = useCash();
 
-  const { isAdmin, isManager, isCash } = useAbility();
-  const isDisabled = !isAdmin && !isManager && !isCash;
+  const { isAdmin, isCash } = useAbility();
+  const isDisabled = !isAdmin && !isCash;
 
   const form = useForm<CashFormType>({
     resolver: yupResolver(cashSchema),
@@ -64,9 +63,20 @@ export function PageCash() {
 
   // submit
   const onSubmit: SubmitHandler<CashFormType> = async (data) => {
-    await saveCashForm(data);
-
-    toast.success("Форма сохранена успешно!");
+    try {
+      await saveCashForm(data);
+      toast.success("Форма сохранена успешно!");
+      if (isCash) {
+        await sendNotificationEmail({
+          type: "update",
+          userName: "Cashier",
+          subject: "new data tips",
+          text: `${(data?.rowCashData?.tipsByDay as string[])?.join(",")}`,
+        });
+      }
+    } catch (error) {
+      toast.error("Ошибка при сохранении формы!");
+    }
   };
 
   useEffect(() => {

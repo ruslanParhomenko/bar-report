@@ -15,7 +15,7 @@ const ROLES: Array<"waiters" | "barmen" | "dish"> = [
   "dish",
 ];
 
-export default function TableBodyData({
+export function TipsTableBody({
   data,
   monthDays,
   disabled,

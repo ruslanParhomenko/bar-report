@@ -11,7 +11,7 @@ import {
 import { Remark } from "@/generated/prisma";
 import { useRouter } from "@/i18n/navigation";
 import { useAbility } from "@/providers/AbilityProvider";
-import { Pencil, Plus, Trash2 } from "lucide-react";
+import { Pencil, Trash2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useMemo } from "react";
 export type PenaltyTableProps = Omit<Remark, "reportId"> & {
@@ -37,8 +37,6 @@ export default function PenaltyTable({ data }: { data: PenaltyTableProps[] }) {
       return acc + (isNaN(val) ? 0 : val);
     }, 0);
   }, [data]);
-
-  console.log(data);
 
   const editRemarks = (id: string) => {
     if (!isAdmin && !isManager) return;

@@ -23,8 +23,12 @@ export function MenuNavBar() {
           <Link href={el.href}>
             <p
               className={cn(
-                "rounded-full  border-transparent flex items-center justify-center bg-foreground text-background  hover:bg-[#383838]",
-                isMobile ? "w-22 h-8 text-sm p-0 gap-1" : "w-40 h-10"
+                "rounded-md  border-transparent flex items-center justify-center bg-bl text-background  hover:bg-[#383838]",
+                isMobile
+                  ? "w-22 h-8 text-sm p-0 gap-1"
+                  : patch
+                  ? "w-30 h-8"
+                  : "w-40 h-10"
               )}
             >
               {t(el.title)}
