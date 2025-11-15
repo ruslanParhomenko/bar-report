@@ -1,12 +1,10 @@
 "use client";
-
 import { useTranslations } from "next-intl";
 import { Dot } from "lucide-react";
 import { useGoogleData } from "@/hooks/useGoogleData";
 
-export default function DailyMenuForm() {
+export function MenuDaily() {
   const { menu: data, isLoading } = useGoogleData();
-  console.log(data);
   const dataDaily = data && data.daily;
   const t = useTranslations("Menu");
 
@@ -15,7 +13,7 @@ export default function DailyMenuForm() {
     <div className="flex flex-col items-center justify-center w-full relative tracking-wider">
       <h1 className="flex justify-center items-center font-bold text-[20px] py-5 ">
         <Dot />
-        {t("Salds & Appetixers")}
+        {t("Saids & Appetizers")}
         <Dot />
       </h1>
       <div className="flex flex-col w-full justify-center items-center gap-4 text-[16px] pt-1 ">
