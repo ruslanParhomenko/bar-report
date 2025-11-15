@@ -29,6 +29,7 @@ import { useAbility } from "@/providers/AbilityProvider";
 import { deleteEmployee } from "@/app/actions/employees/employeeAction";
 import { EmployeesContextValue } from "@/providers/EmployeesProvider";
 import { EMPLOYEES_ROLE, EmployeesSchemaTypeData } from "./schema";
+import { toast } from "sonner";
 
 export function GetEmployeesCard({ data }: { data: EmployeesContextValue[] }) {
   const t = useTranslations("Home");
@@ -42,7 +43,8 @@ export function GetEmployeesCard({ data }: { data: EmployeesContextValue[] }) {
   const isMobile = useIsMobile();
 
   const form = useFormContext<EmployeesSchemaTypeData>();
-  const handleDeleteUser = (id: string) => deleteEmployee(id);
+  const handleDeleteUser = (id: string) =>
+    isAdmin ? deleteEmployee(id) : toast.error("Access denied");
 
   const handleRoleChange = (value: string) => {
     const params = new URLSearchParams(searchParams);
@@ -146,7 +148,13 @@ export function GetEmployeesCard({ data }: { data: EmployeesContextValue[] }) {
                         variant="secondary"
                         type="button"
                         size="sm"
-                        onClick={() => form.reset(emp)}
+                        onClick={() => {
+                          form.reset({
+                            ...emp,
+                            mail: emp.mail || "",
+                            tel: emp.tel || "",
+                          });
+                        }}
                         disabled={isDisabled}
                       >
                         <Pencil />
