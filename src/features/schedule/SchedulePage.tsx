@@ -18,6 +18,7 @@ import { defaultSchedule, scheduleSchema, ScheduleType } from "./create/schema";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useParams } from "next/navigation";
 import { ScheduleTableBody } from "./ScheduleTableBody";
+import { Card } from "@/components/ui/card";
 
 export function SchedulePage() {
   const { patch } = useParams();
@@ -77,39 +78,41 @@ export function SchedulePage() {
 
   return (
     <FormWrapper form={form}>
-      <ScheduleActionForm
-        isView={!!schedule}
-        handlePrint={handlePrint}
-        sendScreenshot={sendScreenshot}
-        isSending={isSending}
-        isCreate={!schedule}
-        id={schedule?.id}
-        month={month}
-        year={year}
-      />
-      <div ref={componentRef}>
-        {schedule && (
-          <Table className="md:table-fixed">
-            <ScheduleTableHeader
-              monthDays={monthDays}
-              setSelectedColumn={setSelectedColumn}
-              month={schedule?.month || month}
-            />
+      <Card>
+        <ScheduleActionForm
+          isView={!!schedule}
+          handlePrint={handlePrint}
+          sendScreenshot={sendScreenshot}
+          isSending={isSending}
+          isCreate={!schedule}
+          id={schedule?.id}
+          month={month}
+          year={year}
+        />
+        <div ref={componentRef}>
+          {schedule && (
+            <Table className="md:table-fixed">
+              <ScheduleTableHeader
+                monthDays={monthDays}
+                setSelectedColumn={setSelectedColumn}
+                month={schedule?.month || month}
+              />
 
-            <ScheduleTableBody
-              schedule={schedule || ({} as any)}
-              selectedColumn={selectedColumn || 0}
-              isView={schedule ? true : false}
-            />
-            <ScheduleTableHeader
-              monthDays={monthDays}
-              setSelectedColumn={setSelectedColumn}
-              month={schedule?.month}
-              isTop={false}
-            />
-          </Table>
-        )}
-      </div>
+              <ScheduleTableBody
+                schedule={schedule || ({} as any)}
+                selectedColumn={selectedColumn || 0}
+                isView={schedule ? true : false}
+              />
+              <ScheduleTableHeader
+                monthDays={monthDays}
+                setSelectedColumn={setSelectedColumn}
+                month={schedule?.month}
+                isTop={false}
+              />
+            </Table>
+          )}
+        </div>
+      </Card>
     </FormWrapper>
   );
 }

@@ -24,7 +24,7 @@ export default function ScheduleTableHeader({
   const todayDay = new Date().getDate();
   return (
     <TableHeader>
-      <TableRow>
+      <TableRow className={cn(isTop ? "" : "border-0!")}>
         <TableCell className="w-6 text-start p-0">
           {(id || newSchedule) && (
             <Button

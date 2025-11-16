@@ -44,7 +44,7 @@ export function AddEmployeeCard({
   return (
     <Card
       className={cn(
-        "flex flex-col overflow-hidden",
+        "flex flex-col overflow-hidden md:order-2 order-first p-2 md:p-1",
         isOpen
           ? "md:w-[20%] w-full md:h-[92vh]"
           : "md:w-12 w-full md:h-[92vh] h-[20%]"

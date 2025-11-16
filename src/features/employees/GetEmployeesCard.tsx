@@ -66,10 +66,12 @@ export function GetEmployeesCard({ data }: { data: EmployeesContextValue[] }) {
             <TableRow className="text-gr h-12">
               <TableHead className="w-5">#</TableHead>
               <TableHead className="w-15">{t("date")}</TableHead>
-              <TableHead className="sticky left-0 w-30">{t("name")}</TableHead>
+              <TableHead className="sticky left-0 md:w-30">
+                {t("name")}
+              </TableHead>
               <TableHead className="w-15">
                 <Select value={roleFilter} onValueChange={handleRoleChange}>
-                  <SelectTrigger className="border-0 shadow-none p-0 cursor-pointer">
+                  <SelectTrigger className="border-0 shadow-none  cursor-pointer bg-transparent!">
                     <SelectValue placeholder="Select role" />
                   </SelectTrigger>
                   <SelectContent>
@@ -129,7 +131,7 @@ export function GetEmployeesCard({ data }: { data: EmployeesContextValue[] }) {
                     <TableCell
                       className={cn(
                         "sticky left-0",
-                        isMobile ? "bg-background/90" : ""
+                        isMobile ? "bg-card/60" : ""
                       )}
                     >
                       {emp.name}
