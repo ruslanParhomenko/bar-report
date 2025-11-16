@@ -59,7 +59,7 @@ export function GetEmployeesCard({ data }: { data: EmployeesContextValue[] }) {
   }, [data, roleFilter]);
 
   return (
-    <Card className="h-[92vh] flex flex-1 flex-col overflow-hidden">
+    <Card className="h-[92vh] flex md:flex-1 flex-col md:overflow-hidden">
       <div className="flex-1 overflow-auto no-scrollbar">
         <Table className="md:table-fixed">
           <TableHeader>
