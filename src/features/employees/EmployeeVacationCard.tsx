@@ -32,7 +32,7 @@ export function EmployeeVacationCard() {
 
   if (!isOpen) return null;
   return (
-    <Card className="w-95">
+    <Card className="md:w-95 w-full md:order-last order-first">
       <button
         onClick={() => {
           setIsOpen(!isOpen);

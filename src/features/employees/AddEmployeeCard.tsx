@@ -44,8 +44,10 @@ export function AddEmployeeCard({
   return (
     <Card
       className={cn(
-        "h-[92vh] flex flex-col overflow-hidden",
-        isOpen ? "md:w-[20%] w-full" : "w-12"
+        "flex flex-col overflow-hidden",
+        isOpen
+          ? "md:w-[20%] w-full md:h-[92vh]"
+          : "md:w-12 w-full md:h-[92vh] h-[20%]"
       )}
     >
       <button

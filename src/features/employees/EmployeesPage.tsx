@@ -164,7 +164,7 @@ export function EmployeesPage() {
     <FormWrapper
       form={form}
       onSubmit={handleSubmit}
-      className="flex gap-4 py-6 md:px-4"
+      className="flex flex-col md:flex-row gap-4 py-6 md:px-4"
     >
       <GetEmployeesCard data={employees} />
       <AddEmployeeCard
