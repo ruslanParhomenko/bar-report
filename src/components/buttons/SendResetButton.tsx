@@ -41,7 +41,7 @@ export function SendResetButton({
     <>
       <div
         className={
-          "flex flex-col justify-between md:flex-row bottom-2 sticky  bg-background/80 z-10 "
+          "mt-auto flex flex-col justify-between md:flex-row bottom-2 sticky  bg-background/80 z-10 "
         }
       >
         <div className="flex justify-between md:justify-start items-center py-2 md:gap-10">

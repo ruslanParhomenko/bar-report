@@ -14,7 +14,7 @@ const NavPage = async ({
   return (
     <SidebarProvider>
       <SidebarNav />
-      <section className="bg-background py-2 px-4 w-full ">
+      <section className="bg-background py-2 md:px-4 px-1 w-full ">
         {role === "OBSERVER" ? <InsufficientRights /> : children}
       </section>
     </SidebarProvider>

@@ -57,7 +57,7 @@ export function ScheduleActionForm({
   };
 
   return (
-    <div className="flex justify-between items-center md:px-4 py-4">
+    <div className="flex justify-between items-center md:px-4 pt-2 pb-4">
       <div className="flex md:gap-4 gap-1">
         <SelectField
           fieldName="month"

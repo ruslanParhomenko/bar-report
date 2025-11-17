@@ -14,7 +14,7 @@ export function MenuNavBar() {
     <div
       className={cn(
         patch
-          ? "flex flex-row items-center justify-between py-4 sticky top-0 w-full"
+          ? "flex flex-row items-center justify-center md:gap-20 gap-1 py-4 sticky top-0 w-full"
           : "flex flex-col items-center gap-14 pt-40"
       )}
     >

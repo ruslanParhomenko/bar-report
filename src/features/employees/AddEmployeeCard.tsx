@@ -40,7 +40,7 @@ export function AddEmployeeCard({
     if (!id) return;
     setIsOpen(true);
   }, [id]);
-
+  if (disabled) return null;
   return (
     <Card
       className={cn(

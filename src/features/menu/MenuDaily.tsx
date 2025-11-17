@@ -48,7 +48,7 @@ export function MenuDaily() {
         <ul className="list-none w-1/2 flex flex-col items-center justify-center">
           {dataDaily?.titleMain?.map((el: any, id: number) => (
             <li key={id} className={id % 2 === 0 ? "font-bold" : ""}>
-              {id % 2 === 0 ? t(el) : el}
+              {id % 2 === 0 && el ? t(el) : el}
             </li>
           ))}
         </ul>

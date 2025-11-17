@@ -1,5 +1,4 @@
 "use client";
-import { Form } from "@/components/ui/form";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { SendResetButton } from "@/components/buttons/SendResetButton";
 import {
@@ -11,6 +10,7 @@ import {
 } from "@/features/order-list/schemas";
 import { useSendTelegram } from "@/hooks/use-send-telegram";
 import { useLocalStorageForm } from "@/hooks/useLocalStorageForm";
+import { FormWrapper } from "@/components/wrapper/FormWrapper";
 
 export const OrderListTelegramForm = ({
   children,
@@ -53,7 +53,7 @@ export const OrderListTelegramForm = ({
   const form = useForm<OrderListFormType>({
     defaultValues: defaultValues,
   });
-  const { isLoaded, resetForm } = useLocalStorageForm(form, STORAGE_KEY);
+  const { isLoaded } = useLocalStorageForm(form, STORAGE_KEY);
 
   const onSubmit: SubmitHandler<OrderListFormType> = async (data) => {
     sendTelegramMessage(
@@ -65,11 +65,13 @@ export const OrderListTelegramForm = ({
   if (!isLoaded) return null;
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
-        {children}
-        <SendResetButton />
-      </form>
-    </Form>
+    <FormWrapper
+      form={form}
+      onSubmit={onSubmit}
+      className="flex flex-col min-h-[90vh]"
+    >
+      {children}
+      <SendResetButton />
+    </FormWrapper>
   );
 };

@@ -14,13 +14,15 @@ export const OrderListBar = () => {
     <OrderPageWrapper>
       <InputWrapper>
         <OrderCardWrapper data={FRUITS} name="FRUITS" />
-        <OrderCardWrapper data={GROCERIES} name="GROCERIES" />
         <OrderCardWrapper data={MISCELLANEOUS} name="MISCELLANEOUS" />
       </InputWrapper>
       <InputWrapper>
         <OrderCardWrapper data={PHARMACEUTICAL} name="PHARMACEUTICAL" />
         <OrderCardWrapper data={OFFICE} name="OFFICE" />
         <OrderCardWrapper data={CHEMICALS} name="CHEMICALS" />
+      </InputWrapper>
+      <InputWrapper>
+        <OrderCardWrapper data={GROCERIES} name="GROCERIES" />
       </InputWrapper>
     </OrderPageWrapper>
   );

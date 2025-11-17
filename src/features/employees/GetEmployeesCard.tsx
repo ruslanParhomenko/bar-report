@@ -179,7 +179,6 @@ export function GetEmployeesCard({ data }: { data: EmployeesContextValue[] }) {
                         onClick={() =>
                           router.push(`/employees?empId=${emp.id}`)
                         }
-                        disabled={isDisabled}
                       >
                         <TreePalmIcon />
                       </Button>

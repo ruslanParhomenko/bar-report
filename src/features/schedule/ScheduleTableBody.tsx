@@ -55,7 +55,8 @@ export function ScheduleTableBody({
                   className={cn(
                     "p-0 text-center border-x",
                     color[day as keyof typeof color],
-                    isSelected && "!text-rd font-bold"
+                    isSelected && "!text-rd font-bold",
+                    dayIndex === row.shifts.length - 1 && "border-r-0"
                   )}
                 >
                   {["/", "v", "s"].includes(day) ? null : day}

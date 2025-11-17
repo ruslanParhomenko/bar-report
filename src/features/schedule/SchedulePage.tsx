@@ -77,8 +77,8 @@ export function SchedulePage() {
   });
 
   return (
-    <FormWrapper form={form}>
-      <Card>
+    <FormWrapper form={form} className="pt-8">
+      <Card className="p-2">
         <ScheduleActionForm
           isView={!!schedule}
           handlePrint={handlePrint}
@@ -103,6 +103,7 @@ export function SchedulePage() {
                 selectedColumn={selectedColumn || 0}
                 isView={schedule ? true : false}
               />
+
               <ScheduleTableHeader
                 monthDays={monthDays}
                 setSelectedColumn={setSelectedColumn}
