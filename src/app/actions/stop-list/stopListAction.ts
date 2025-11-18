@@ -1,0 +1,42 @@
+import { supabase } from "@/lib/supabaseClient";
+import { unstable_cache } from "next/cache";
+import { invalidateEverywhere } from "../invalidateEverywhere/invalidateEverywhere";
+
+// get
+export async function _getStopList() {
+  const { data, error } = await supabase.from("stop_list_realtime").select("*");
+  if (error) {
+    console.error("Ошибка при получении данных формы:", error);
+    throw error;
+  }
+
+  return data;
+}
+
+export const getStopList = unstable_cache(_getStopList, ["stopList"], {
+  revalidate: false,
+  tags: ["stopList"],
+});
+
+// create
+export async function saveStopList(data: any) {
+  const { mail, dataStopList } = data;
+  const { data: savedData, error } = await supabase
+    .from("stop_list_realtime")
+    .upsert(
+      {
+        user_email: mail,
+        form_data: dataStopList,
+      },
+      { onConflict: "user_email" }
+    );
+
+  if (error) {
+    console.error("Ошибка при сохранении формы:", error);
+    throw error;
+  }
+
+  await invalidateEverywhere("stopList");
+
+  return savedData;
+}

@@ -32,7 +32,7 @@ export function EmployeeVacationCard() {
 
   if (!isOpen) return null;
   return (
-    <Card className="md:w-95 w-full md:order-last order-first">
+    <div className="md:w-95 h-[92vh] w-full md:order-last order-first p-2 md:p-1">
       <button
         onClick={() => {
           setIsOpen(!isOpen);
@@ -77,6 +77,6 @@ export function EmployeeVacationCard() {
           </TableBody>
         </Table>
       </CardContent>
-    </Card>
+    </div>
   );
 }

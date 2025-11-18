@@ -33,7 +33,7 @@ export function ScheduleTableBody({
             <TableCell>{row.totalHours}</TableCell>
             <TableCell
               className={cn(
-                "sticky left-0 bg-card text-muted-foreground w-34 p-0",
+                "sticky left-0 bg-card/40 text-muted-foreground w-34 p-0",
                 isSelected && "text-rd font-bold"
               )}
             >
@@ -63,8 +63,6 @@ export function ScheduleTableBody({
                 </TableCell>
               );
             })}
-
-            {/* <TableCell className="w-6" /> */}
           </TableRow>
         );
       })}

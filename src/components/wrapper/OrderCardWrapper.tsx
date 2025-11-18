@@ -6,6 +6,7 @@ import { useFormContext, useWatch } from "react-hook-form";
 
 import NumericInput from "../inputs/NumericInput";
 import { useTheme } from "next-themes";
+import { Trash2Icon } from "lucide-react";
 
 export function OrderCardWrapper({
   data,
@@ -47,7 +48,7 @@ function OrderCardField({ item, isLast }: { item: string; isLast: boolean }) {
           className="text-rd font-bold cursor-pointer"
           onClick={() => setValue(item, "")}
         >
-          {value ? "X" : ""}
+          {value ? <Trash2Icon className="w-4 h-4" /> : null}
         </button>
 
         <NumericInput

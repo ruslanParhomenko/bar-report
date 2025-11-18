@@ -42,7 +42,7 @@ export function AddEmployeeCard({
   }, [id]);
   if (disabled) return null;
   return (
-    <Card
+    <div
       className={cn(
         "flex flex-col overflow-hidden md:order-2 order-first p-2 md:p-1",
         isOpen
@@ -188,6 +188,6 @@ export function AddEmployeeCard({
           </CardFooter>
         </>
       )}
-    </Card>
+    </div>
   );
 }

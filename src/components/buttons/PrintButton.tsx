@@ -11,9 +11,6 @@ export default function PrintButton({
   className?: string;
 }) {
   const t = useTranslations("Home");
-
-  const isMobile = window.innerWidth < 768;
-
   return (
     <Button
       size={"sm"}
@@ -26,7 +23,6 @@ export default function PrintButton({
       )}
     >
       <Printer className="w-4 h-4" />
-      {!isMobile && t("print")}
     </Button>
   );
 }

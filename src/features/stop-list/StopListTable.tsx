@@ -9,7 +9,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { ActionsButton } from "../../components/buttons/ActionsButton";
-import { useAbility } from "@/providers/AbilityProvider";
 import { useTranslations } from "next-intl";
 import {
   MENU_ITEMS_CUCINA,
@@ -26,16 +25,15 @@ type StopLitTableProps = {
     "stopList" | "stopListCucina"
   >;
   nameTag: "bar" | "cucina";
-  sendData: (data: StopListSchemaType) => void;
+  disabled: boolean;
 };
 
 export const StopListTable = ({
   formFields,
   nameTag,
-  sendData,
+  disabled,
 }: StopLitTableProps) => {
   const t = useTranslations("Home");
-  const { isObserver, isCucina, isBar, isUser } = useAbility();
 
   const LABEL = {
     bar: "stopList",
@@ -45,11 +43,6 @@ export const StopListTable = ({
     bar: PRODUCTS,
     cucina: [...new Set([...PRODUCTS_CUCINA, ...MENU_ITEMS_CUCINA])],
   };
-  const DISABLED = {
-    bar: isObserver || isCucina || isUser,
-    cucina: isObserver || isBar || isUser,
-  };
-
   return (
     <div className="xl:px-5">
       <Label className="text-lg font-semibold pb-7 text-bl">{t(nameTag)}</Label>
@@ -68,7 +61,7 @@ export const StopListTable = ({
                 <SelectFieldWithSearch
                   data={DATA_PRODUCTS[nameTag]}
                   fieldName={`${LABEL[nameTag]}.${idx}.product`}
-                  disabled={DISABLED[nameTag]}
+                  disabled={disabled}
                   className="h-10"
                 />
               </TableCell>
@@ -84,9 +77,8 @@ export const StopListTable = ({
                   formFields={formFields}
                   idx={idx}
                   item={item.product}
-                  disabled={DISABLED[nameTag]}
+                  disabled={disabled}
                   defaultValues={defaultStopList}
-                  sendData={sendData}
                 />
               </TableCell>
             </TableRow>
