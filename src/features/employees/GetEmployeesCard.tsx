@@ -1,6 +1,5 @@
 "use client";
 
-import { Card } from "@/components/ui/card";
 import {
   Table,
   TableBody,
@@ -17,7 +16,13 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
-import { Pencil, Minus, TreePalmIcon } from "lucide-react";
+import {
+  Pencil,
+  Minus,
+  TreePalmIcon,
+  CircleMinus,
+  CirclePlus,
+} from "lucide-react";
 import { format, differenceInMonths } from "date-fns";
 import { useMemo } from "react";
 import { useTranslations } from "next-intl";
@@ -31,7 +36,15 @@ import { EmployeesContextValue } from "@/providers/EmployeesProvider";
 import { EMPLOYEES_ROLE, EmployeesSchemaTypeData } from "./schema";
 import { toast } from "sonner";
 
-export function GetEmployeesCard({ data }: { data: EmployeesContextValue[] }) {
+export function GetEmployeesCard({
+  data,
+  isOpen,
+  setIsOpen,
+}: {
+  data: EmployeesContextValue[];
+  isOpen: boolean;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
   const t = useTranslations("Home");
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -59,16 +72,29 @@ export function GetEmployeesCard({ data }: { data: EmployeesContextValue[] }) {
   }, [data, roleFilter]);
 
   return (
-    <div className="h-[92vh] flex md:flex-1 flex-col md:overflow-hidden no-scrollbar">
+    <div className="h-[98vh] flex md:flex-1 flex-col md:overflow-hidden">
       <Table className="md:table-fixed">
         <TableHeader className="sticky top-0 bg-background z-20">
           <TableRow className="text-gr h-12">
             <TableHead className="w-5">#</TableHead>
             <TableHead className="w-15">{t("date")}</TableHead>
-            <TableHead className="sticky left-0 md:w-30">{t("name")}</TableHead>
+            <TableHead
+              className="sticky left-0 md:w-30"
+              onClick={() => setIsOpen((v) => !v)}
+            >
+              <div className="flex justify-between items-center cursor-pointer">
+                {t("name")}
+
+                {isOpen ? (
+                  <CircleMinus className="mr-4 w-4 h-4 text-rd" />
+                ) : (
+                  <CirclePlus className="mr-4 w-4 h-4 text-bl" />
+                )}
+              </div>
+            </TableHead>
             <TableHead className="w-15">
               <Select value={roleFilter} onValueChange={handleRoleChange}>
-                <SelectTrigger className="border-0 shadow-none  cursor-pointer bg-transparent!">
+                <SelectTrigger className="border-0 shadow-none p-0! cursor-pointer bg-transparent!">
                   <SelectValue placeholder="Select role" />
                 </SelectTrigger>
                 <SelectContent>
@@ -146,6 +172,7 @@ export function GetEmployeesCard({ data }: { data: EmployeesContextValue[] }) {
                           mail: emp.mail || "",
                           tel: emp.tel || "",
                         });
+                        setIsOpen(true);
                       }}
                       disabled={isDisabled}
                     >

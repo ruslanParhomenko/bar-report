@@ -19,6 +19,7 @@ import {
 } from "./schema";
 import { FormWrapper } from "@/components/wrapper/FormWrapper";
 import { EmployeeVacationCard } from "./EmployeeVacationCard";
+import { useState } from "react";
 
 type FormData = EmployeesSchemaTypeData & { id?: string };
 
@@ -160,17 +161,25 @@ export function EmployeesPage() {
     }
   };
 
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
     <FormWrapper
       form={form}
       onSubmit={handleSubmit}
-      className="flex flex-col md:flex-row gap-4 py-6 md:px-4"
+      className="flex flex-col md:flex-row gap-4 md:px-4"
     >
-      <GetEmployeesCard data={employees} />
-      <AddEmployeeCard
-        nameTag="vacationPay"
-        disabled={!isAdmin && !isManager}
+      <GetEmployeesCard
+        data={employees}
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
       />
+      {isOpen && (
+        <AddEmployeeCard
+          nameTag="vacationPay"
+          disabled={!isAdmin && !isManager}
+        />
+      )}
 
       <EmployeeVacationCard />
     </FormWrapper>

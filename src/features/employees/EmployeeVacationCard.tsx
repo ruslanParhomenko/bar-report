@@ -32,7 +32,7 @@ export function EmployeeVacationCard() {
 
   if (!isOpen) return null;
   return (
-    <div className="md:w-95 h-[92vh] w-full md:order-last order-first p-2 md:p-1">
+    <div className="md:w-95 h-[92vh] w-full md:order-last order-first p-2 md:py-5">
       <button
         onClick={() => {
           setIsOpen(!isOpen);
@@ -46,7 +46,11 @@ export function EmployeeVacationCard() {
           isOpen ? "justify-start" : "justify-center"
         )}
       >
-        {isOpen ? <MinusCircle /> : <PlusCircle />}
+        {isOpen ? (
+          <MinusCircle className="w-4 h-4" />
+        ) : (
+          <PlusCircle className="w-4 h-4" />
+        )}
       </button>
       <CardHeader>{vacationData?.name}</CardHeader>
       <CardContent>
