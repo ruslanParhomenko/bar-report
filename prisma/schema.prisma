@@ -66,6 +66,7 @@ model Inventory {
   id       Int         @id @default(autoincrement())
   name     String
   quantity String
+  time     String?
   reportId Int
   report   DailyReport @relation(fields: [reportId], references: [id], onDelete: Cascade)
 }
@@ -75,6 +76,7 @@ model ProductTransfer {
   name        String
   quantity    String
   destination String
+  time        String?
   reportId    Int
   report      DailyReport @relation(fields: [reportId], references: [id], onDelete: Cascade)
 }
@@ -83,6 +85,7 @@ model CashVerify {
   id       Int         @id @default(autoincrement())
   hours    String
   value    String
+  time     String?
   reportId Int
   report   DailyReport @relation(fields: [reportId], references: [id], onDelete: Cascade)
 }
@@ -102,6 +105,7 @@ model Expense {
   id       Int         @id @default(autoincrement())
   name     String
   sum      String
+  time     String?
   reportId Int
   report   DailyReport @relation(fields: [reportId], references: [id], onDelete: Cascade)
 }
@@ -120,7 +124,7 @@ model Remark {
   nightHours String       @default("")
   reason     String       @default("")
   bonus      String       @default("")
-  penality   String       @default("")
+  penalty    String       @default("") @map("penality")
   reportId   Int
   report     RemarkReport @relation(fields: [reportId], references: [id], onDelete: Cascade)
 }

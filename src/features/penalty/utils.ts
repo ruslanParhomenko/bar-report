@@ -3,14 +3,14 @@ type InputItem = {
   dayHours?: string | number;
   nightHours?: string | number;
   bonus?: string | number;
-  penality?: string | number;
+  penalty?: string | number;
 };
 
 type GroupedData = {
   dayHours: number;
   nightHours: number;
   bonus: number;
-  penality: number;
+  penalty: number;
 };
 
 export function remarksByUniqueEmployee(data: InputItem[]) {
@@ -23,16 +23,16 @@ export function remarksByUniqueEmployee(data: InputItem[]) {
     const day = Number(item.dayHours) || 0;
     const night = Number(item.nightHours) || 0;
     const bonus = Number(item.bonus) || 0;
-    const penalty = Number(item.penality) || 0;
+    const penalty = Number(item.penalty) || 0;
 
     if (!grouped[name]) {
-      grouped[name] = { dayHours: 0, nightHours: 0, bonus: 0, penality: 0 };
+      grouped[name] = { dayHours: 0, nightHours: 0, bonus: 0, penalty: 0 };
     }
 
     grouped[name].dayHours += day;
     grouped[name].nightHours += night;
     grouped[name].bonus += bonus;
-    grouped[name].penality += penalty;
+    grouped[name].penalty += penalty;
   });
 
   const formattedData = Object.entries(grouped).map(([name, sums]) => ({
@@ -42,7 +42,7 @@ export function remarksByUniqueEmployee(data: InputItem[]) {
 
   const totalBonus = formattedData.reduce((acc, r) => acc + (r.bonus || 0), 0);
   const totalPenalty = formattedData.reduce(
-    (acc, r) => acc + (r.penality || 0),
+    (acc, r) => acc + (r.penalty || 0),
     0
   );
 

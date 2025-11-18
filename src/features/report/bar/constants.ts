@@ -60,7 +60,15 @@ export const WAREHOUSES = [
   "SCHOOL",
   "OTHER",
 ];
-export const RECIPIENTS = ["NBM", "BAR", "NORI", "DISHES", "BN", "OTHER"];
+export const RECIPIENTS = [
+  "NBM",
+  "BAR",
+  "NORI",
+  "DISHES",
+  "BN",
+  "OTHER",
+  "CASH инкассация",
+];
 
 export const SELECT_COUNT = [
   "0",

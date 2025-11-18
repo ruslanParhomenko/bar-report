@@ -7,7 +7,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Label } from "@/components/ui/label";
 import { tobaccoDefault, TobaccoSchemaType } from "./schema";
 import { useFormContext, useWatch } from "react-hook-form";
 import { useAbility } from "@/providers/AbilityProvider";
@@ -26,6 +25,11 @@ export default function TableTobacco() {
   return (
     <Table className="w-full [&_th]:text-center [&_td]:text-center">
       <TableHeader>
+        <TableRow className="border-0! flex justify-start">
+          <TableHead colSpan={3} className="h-6 font-bold text-bl">
+            Tobacco
+          </TableHead>
+        </TableRow>
         <TableRow>
           <TableHead className="md:w-40 w-30"></TableHead>
           <TableHead className="w-30">stock</TableHead>

@@ -7,8 +7,12 @@ import { OVER_HOURS, REASON } from "./constants";
 import NumericInput from "@/components/inputs/NumericInput";
 import SelectWithInput from "@/components/inputs/SelectWithInput";
 import { Plus, Trash2 } from "lucide-react";
+import { useParams } from "next/navigation";
+import TextInput from "@/components/inputs/TextInput";
 
 export function RemarksTableBody() {
+  const { id } = useParams();
+
   const employees = useEmployees();
   const selectedEmployees = employees.map((e) => e.name);
 
@@ -50,18 +54,25 @@ export function RemarksTableBody() {
             />
           </TableCell>
           <TableCell>
-            <NumericInput fieldName={`remarks.${idx}.penality`} />
+            <NumericInput fieldName={`remarks.${idx}.penalty`} />
           </TableCell>
           <TableCell>
             <NumericInput fieldName={`remarks.${idx}.bonus`} />
           </TableCell>
           <TableCell>
-            <SelectWithInput
-              fieldName={`remarks.${idx}.reason`}
-              data={REASON}
-              placeHolder="...reason"
-              className="border-0 shadow-none"
-            />
+            {id ? (
+              <TextInput
+                fieldName={`remarks.${idx}.reason`}
+                className="w-auto"
+              />
+            ) : (
+              <SelectWithInput
+                fieldName={`remarks.${idx}.reason`}
+                data={REASON}
+                placeHolder="...reason"
+                className="border-0 shadow-none"
+              />
+            )}
           </TableCell>
           <TableCell
             className="cursor-pointer text-center"

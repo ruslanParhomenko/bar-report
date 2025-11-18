@@ -20,12 +20,6 @@ export type PenaltyTableProps = Omit<Remark, "id" | "reportId"> & {
   date?: string;
   month: string;
 };
-interface GroupedData {
-  dayHours: number;
-  nightHours: number;
-  bonus: number;
-  penality: number;
-}
 
 export default function TotalPenalty({ data }: { data: PenaltyTableProps[] }) {
   const t = useTranslations("Home");
@@ -61,7 +55,7 @@ export default function TotalPenalty({ data }: { data: PenaltyTableProps[] }) {
                     {row.nightHours}
                   </TableCell>
                   <TableCell className="text-center">{row.bonus}</TableCell>
-                  <TableCell className="text-center">{row.penality}</TableCell>
+                  <TableCell className="text-center">{row.penalty}</TableCell>
                 </TableRow>
               ))}
               <TableRow className="font-semibold">

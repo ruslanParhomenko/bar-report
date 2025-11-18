@@ -22,15 +22,22 @@ import { Textarea } from "@/components/ui/textarea";
 import { TableInventory } from "./TableInventory";
 import { createReportBar } from "@/app/actions/archive/reportBarAction";
 import { useLocalStorageForm } from "@/hooks/useLocalStorageForm";
-import { Skeleton } from "@/components/ui/skeleton";
 import { FormWrapper } from "@/components/wrapper/FormWrapper";
+import { INVENTORY_DATA } from "./constants";
 
 export default function ReportBarForm() {
   const STORAGE_KEY = "report-bar";
 
   //form
   const form = useForm<ReportBarFormValues>({
-    defaultValues: defaultValuesReportBar,
+    defaultValues: {
+      ...defaultValuesReportBar,
+      inventory: INVENTORY_DATA.map((item) => ({
+        name: item,
+        quantity: "",
+        time: "",
+      })),
+    },
     resolver: yupResolver(
       reportBarSchema
     ) as unknown as Resolver<ReportBarFormValues>,
@@ -110,7 +117,7 @@ export default function ReportBarForm() {
     >
       <DatePickerInput fieldName="date" className="md:w-30" />
 
-      <div className="grid grid-cols-1 md:grid-cols-[22%_22%_22%_22%] md:gap-12">
+      <div className="grid grid-cols-1 md:grid-cols-[20%_22%_28%_22%] md:gap-10">
         <TableTobacco />
         <TableExpenses />
         <TableProductsTransfer />

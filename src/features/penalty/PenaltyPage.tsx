@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import PenaltyTable, { PenaltyTableProps } from "./PenaltyTable";
 import { months } from "./constants";
 import SelectFilter from "./SelectFilter";
@@ -59,7 +59,7 @@ export const PenaltyPage = () => {
             dayHours: r.dayHours,
             nightHours: r.nightHours,
             reason: r.reason,
-            penality: r.penality,
+            penalty: r.penalty,
             bonus: r.bonus,
             month: date.getMonth().toString(),
             id: report.id,
@@ -72,6 +72,11 @@ export const PenaltyPage = () => {
         );
     });
   }, [selectedMonth, selectedEmployee, data]);
+
+  useEffect(() => {
+    const month = new Date().getMonth().toString();
+    setSelectedMonth(month);
+  }, []);
 
   return (
     <div className="md:p-6 space-y-6">

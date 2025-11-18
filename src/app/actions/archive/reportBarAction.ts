@@ -1,5 +1,6 @@
 "use server";
 import { prisma } from "@/lib/prisma";
+import { time } from "console";
 import { revalidateTag } from "next/cache";
 
 // create report
@@ -36,6 +37,7 @@ export async function createReportBar({ data }: { data: any }) {
         create: expenses.map((e: any) => ({
           name: e.name,
           sum: e.sum,
+          time: e.time,
         })),
       },
       productTransfer: {
@@ -43,12 +45,14 @@ export async function createReportBar({ data }: { data: any }) {
           name: p.name,
           quantity: p.quantity,
           destination: p.destination,
+          time: p.time,
         })),
       },
       inventory: {
         create: inventory.map((i: any) => ({
           name: i.name,
           quantity: i.quantity,
+          time: i.time,
         })),
       },
       notes: notes.length > 0 ? notes : null,

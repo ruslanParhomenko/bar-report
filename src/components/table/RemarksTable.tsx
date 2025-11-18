@@ -26,7 +26,7 @@ export default function RemarksTable({ data }: { data: RemarkData }) {
               <TableCell>name</TableCell>
               <TableCell>day</TableCell>
               <TableCell>night</TableCell>
-              <TableCell>penality</TableCell>
+              <TableCell>penalty</TableCell>
               <TableCell>bonus</TableCell>
               <TableCell>reason</TableCell>
             </TableRow>
@@ -40,7 +40,7 @@ export default function RemarksTable({ data }: { data: RemarkData }) {
                 </TableCell>
                 <TableCell className="md:w-1/8">{remark.dayHours}</TableCell>
                 <TableCell className="md:w-1/8">{remark.nightHours}</TableCell>
-                <TableCell className="md:w-1/8">{remark.penality}</TableCell>
+                <TableCell className="md:w-1/8">{remark.penalty}</TableCell>
                 <TableCell className="md:w-1/8">{remark.bonus}</TableCell>
                 <TableCell className="md:w-2/8">{remark.reason}</TableCell>
               </TableRow>

@@ -22,8 +22,9 @@ export default function ExpensesTable({ data }: { data: Expense[] }) {
           ?.filter((e: Expense) => e.name !== "")
           .map((e: any, idx: number) => (
             <TableRow key={idx}>
-              <TableCell>{e.name || "—"} :</TableCell>
+              <TableCell>{e.name || "—"} -</TableCell>
               <TableCell>{e.sum || "0"}</TableCell>
+              <TableCell className="text-xs text-rd">{e.time || ""}</TableCell>
             </TableRow>
           ))}
       </TableBody>

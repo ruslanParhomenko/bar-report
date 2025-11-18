@@ -27,7 +27,7 @@ export default function PenaltyTable({ data }: { data: PenaltyTableProps[] }) {
 
   const totalPenalty = useMemo(() => {
     return data.reduce((acc, r) => {
-      const val = Number(r.penality);
+      const val = Number(r.penalty);
       return acc + (isNaN(val) ? 0 : val);
     }, 0);
   }, [data]);
@@ -80,7 +80,7 @@ export default function PenaltyTable({ data }: { data: PenaltyTableProps[] }) {
                   </TableCell>
                   <TableCell>{row.reason}</TableCell>
                   <TableCell className="text-center">{row.bonus}</TableCell>
-                  <TableCell className="text-center">{row.penality}</TableCell>
+                  <TableCell className="text-center">{row.penalty}</TableCell>
                   <TableCell
                     className="text-center cursor-pointer"
                     onClick={() => editRemarks(row.id.toLocaleString())}

@@ -26,9 +26,10 @@ export default function ProductTransferTable({
           ?.filter((e) => e.name !== "")
           .map((e, idx: number) => (
             <TableRow key={idx}>
-              <TableCell>{e.name || "—"} :</TableCell>
-              <TableCell>{e.quantity || "0"}</TableCell>
+              <TableCell>{e.name || "—"} -</TableCell>
               <TableCell>{e.destination || "-"}</TableCell>
+              <TableCell>{e.quantity || "0"}</TableCell>
+              <TableCell className="text-xs text-rd">{e.time || ""}</TableCell>
             </TableRow>
           ))}
       </TableBody>

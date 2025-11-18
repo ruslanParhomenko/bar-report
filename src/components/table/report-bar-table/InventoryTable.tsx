@@ -21,9 +21,8 @@ export default function InventoryTable({ data }: { data: Inventory[] }) {
         {data?.map((i, idx: number) => (
           <TableRow key={idx}>
             <TableCell>{i.name || "—"}</TableCell>
-            <TableCell className="flex datas-center justify-center">
-              {i.quantity || "0"}
-            </TableCell>
+            <TableCell>{i.quantity || "0"}</TableCell>
+            <TableCell className="text-xs text-rd">{i.time || ""}</TableCell>
           </TableRow>
         ))}
       </TableBody>

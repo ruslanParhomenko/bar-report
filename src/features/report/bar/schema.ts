@@ -3,9 +3,10 @@ import { INVENTORY_DATA } from "./constants";
 //products transfer
 export const productTransferSchema = yup.array(
   yup.object().shape({
-    name: yup.string(),
-    quantity: yup.string(),
-    destination: yup.string(),
+    name: yup.string().default(""),
+    quantity: yup.string().default(""),
+    destination: yup.string().default(""),
+    time: yup.string().default(""),
   })
 );
 
@@ -16,6 +17,7 @@ export const productTransferDefault = new Array(7).fill({
   name: "",
   quantity: "",
   destination: "",
+  time: "",
 });
 
 // inventory
@@ -23,12 +25,14 @@ export const inventorySchema = yup.array(
   yup.object().shape({
     name: yup.string().default(""),
     quantity: yup.string().default(""),
+    time: yup.string().default(""),
   })
 );
 export type InventorySchemaType = yup.InferType<typeof inventorySchema>;
 export const inventoryDefault = INVENTORY_DATA.map((item) => ({
   name: item,
   quantity: "",
+  time: "",
 }));
 
 //expenses
@@ -36,6 +40,7 @@ export const expenseSchema = yup.array(
   yup.object().shape({
     name: yup.string().default(""),
     sum: yup.string().default(""),
+    time: yup.string().default(""),
   })
 );
 
@@ -43,6 +48,7 @@ export type ExpensesSchemaType = yup.InferType<typeof expenseSchema>;
 export const expensesDefault = new Array(7).fill({
   name: "",
   sum: "",
+  time: "",
 });
 
 //tobacco

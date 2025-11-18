@@ -6,15 +6,16 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { productTransferDefault } from "./schema";
+import { productTransferDefault, ProductTransferSchemaType } from "./schema";
 import SelectFieldWithSearch from "@/components/inputs/SelectWithSearch";
 import { PRODUCTS, WAREHOUSES } from "./constants";
 import { useAbility } from "@/providers/AbilityProvider";
 import SelectField from "@/components/inputs/SelectField";
-import { Label } from "@/components/ui/label";
 import { useFormContext } from "react-hook-form";
-import { Button } from "@/components/ui/button";
 import NumericInput from "@/components/inputs/NumericInput";
+import { Trash2Icon } from "lucide-react";
+import { useEffect } from "react";
+import { formatNow } from "@/utils/formatNow";
 
 export default function TableProductsTransfer() {
   const { isObserver, isUser } = useAbility();
@@ -26,33 +27,51 @@ export default function TableProductsTransfer() {
     current[idx] = productTransferDefault[0];
     form.setValue("productTransfer", current);
   };
-  const fieldsValues = form.watch("productTransfer");
+  const fieldsValues = form.watch(
+    "productTransfer"
+  ) as ProductTransferSchemaType;
+
+  useEffect(() => {
+    const subscription = form.watch((value, { name: changedName }) => {
+      if (changedName?.includes("name")) {
+        fieldsValues?.forEach((_, idx) => {
+          const nameValue = form.getValues(`productTransfer.${idx}.name`);
+          if (nameValue) {
+            form.setValue(`productTransfer.${idx}.time`, formatNow());
+          }
+        });
+      }
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [form]);
   return (
-    <Table className="w-full [&_th]:text-center [&_td]:text-center">
+    <Table>
       <TableHeader>
+        <TableRow className="border-0! flex justify-start">
+          <TableHead colSpan={3} className="h-6 font-bold text-bl">
+            Transfer
+          </TableHead>
+        </TableRow>
         <TableRow>
-          <TableHead>product</TableHead>
-          <TableHead>quantity</TableHead>
-          <TableHead>destination</TableHead>
-          <TableHead></TableHead>
+          <TableHead className="md:w-46">product</TableHead>
+          <TableHead className="md:w-26">destination</TableHead>
+          <TableHead className="md:w-10">quantity</TableHead>
+          <TableHead className="md:w-10">time</TableHead>
+          <TableHead className="md:w-10">action</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
-        {new Array(7).fill(productTransferDefault)?.map((_, idx) => (
+        {fieldsValues?.map((_, idx) => (
           <TableRow key={idx}>
             <TableCell>
               <SelectFieldWithSearch
                 data={PRODUCTS}
                 fieldName={`productTransfer.${idx}.name`}
                 disabled={isDisabled}
-                className="h-8 w-full text-center min-w-30!"
-              />
-            </TableCell>
-            <TableCell className="flex items-center justify-center">
-              <NumericInput
-                fieldName={`productTransfer.${idx}.quantity`}
-                disabled={isDisabled}
-                className="w-12! text-center h-8!"
+                className="h-8 w-full text-center"
               />
             </TableCell>
             <TableCell>
@@ -60,18 +79,22 @@ export default function TableProductsTransfer() {
                 fieldName={`productTransfer.${idx}.destination`}
                 data={WAREHOUSES}
                 disabled={isDisabled}
-                className="w-full text-center h-8!"
+                className="w-full text-center h-8! p-2"
               />
             </TableCell>
-            <TableCell>
+            <TableCell className="flex items-center justify-center">
+              <NumericInput
+                fieldName={`productTransfer.${idx}.quantity`}
+                disabled={isDisabled}
+                className="w-10 text-center h-8!"
+              />
+            </TableCell>
+            <TableCell className="text-xs text-rd">
+              {form.watch(`productTransfer.${idx}.time`)}
+            </TableCell>
+            <TableCell onClick={() => reset(idx)} className="cursor-pointer">
               {fieldsValues?.[idx]?.name && (
-                <Button
-                  variant={"destructive"}
-                  className="h-8 cursor-pointer"
-                  onClick={() => reset(idx)}
-                >
-                  X
-                </Button>
+                <Trash2Icon className="w-4 h-4 mx-2 text-rd" />
               )}
             </TableCell>
           </TableRow>

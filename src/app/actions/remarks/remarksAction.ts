@@ -19,9 +19,8 @@ export async function createRemarks(data: any) {
           dayHours: remark.dayHours,
           nightHours: remark.nightHours,
           reason: remark.reason,
-          penality: remark.penality,
+          penalty: remark.penalty,
           bonus: remark.bonus,
-          reasonPenality: remark.reasonPenality,
         })),
       },
     },
@@ -33,7 +32,7 @@ export async function createRemarks(data: any) {
 }
 // get all
 
-export async function _getremarks() {
+export async function _getRemarks() {
   const remarks = await prisma.remarkReport.findMany({
     include: { remarks: true },
     orderBy: { date: "desc" },
@@ -41,7 +40,7 @@ export async function _getremarks() {
   return { remarks };
 }
 
-export const getRemarks = unstable_cache(_getremarks, ["remarks"], {
+export const getRemarks = unstable_cache(_getRemarks, ["remarks"], {
   revalidate: false,
   tags: ["remarks"],
 });
@@ -76,7 +75,7 @@ export async function updateRemark(data: any) {
             dayHours: remark.dayHours || "",
             nightHours: remark.nightHours || "",
             reason: remark.reason || "",
-            penality: remark.penality || "",
+            penalty: remark.penalty || "",
             bonus: remark.bonus || "",
           })),
         },
