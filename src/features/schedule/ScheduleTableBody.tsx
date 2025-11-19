@@ -40,10 +40,10 @@ export function ScheduleTableBody({
               {row.employee}
             </TableCell>
             <TableCell
-              className="w-2 p-0 text-start text-muted-foreground font-bold no-print"
+              className="w-2 p-0 text-start text-xs  no-print"
               data-html2canvas-ignore="true"
             >
-              {!isView && totalPay.toFixed(0).toString()}
+              {isView && totalPay.toFixed(0).toString()}
             </TableCell>
 
             {row.shifts?.map((day, dayIndex) => {

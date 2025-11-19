@@ -18,10 +18,12 @@ import { defaultSchedule, scheduleSchema, ScheduleType } from "./create/schema";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useParams } from "next/navigation";
 import { ScheduleTableBody } from "./ScheduleTableBody";
-import { Card } from "@/components/ui/card";
+import { useAbility } from "@/providers/AbilityProvider";
 
 export function SchedulePage() {
   const { patch } = useParams();
+  const { isAdmin, isManager } = useAbility();
+  const isViewer = isAdmin || isManager;
 
   const schedules = useSchedules();
   const currentYear = new Date().getFullYear().toString();
@@ -100,7 +102,7 @@ export function SchedulePage() {
             <ScheduleTableBody
               schedule={schedule || ({} as any)}
               selectedColumn={selectedColumn || 0}
-              isView={schedule ? true : false}
+              isView={isViewer}
             />
 
             <ScheduleTableHeader

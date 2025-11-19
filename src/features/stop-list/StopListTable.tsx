@@ -49,9 +49,9 @@ export const StopListTable = ({
       <Table className="[&_th]:text-center [&_td]:text-center table-fixed md:w-160 ">
         <TableHeader>
           <TableRow className="h-10">
-            <TableHead className="md:w-90 w-42">Product</TableHead>
-            <TableHead className="md:w-50 w-18">Date</TableHead>
-            <TableHead className="text-left md:w-30 w-10">Actions</TableHead>
+            <TableHead className="md:w-90 w-32">Product</TableHead>
+            <TableHead className="md:w-50 w-16">Date</TableHead>
+            <TableHead className="text-left md:w-30 w-12">Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -72,7 +72,7 @@ export const StopListTable = ({
                   </div>
                 )}
               </TableCell>
-              <TableCell className="flex justify-start">
+              <TableCell className="flex justify-center">
                 <ActionsButton
                   formFields={formFields}
                   idx={idx}

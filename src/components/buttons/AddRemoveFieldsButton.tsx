@@ -1,6 +1,5 @@
-import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { useTheme } from "next-themes";
+import { PlusIcon, Trash2Icon } from "lucide-react";
 import { UseFieldArrayReturn } from "react-hook-form";
 
 export function AddRemoveFieldsButton({
@@ -16,7 +15,6 @@ export function AddRemoveFieldsButton({
   disabled?: boolean;
   className?: string;
 }) {
-  const { theme } = useTheme();
   const isOnlyOne = formField.fields?.length === 1;
   const isLast = index === formField.fields?.length - 1;
 
@@ -29,35 +27,25 @@ export function AddRemoveFieldsButton({
   };
 
   return (
-    <div className={cn("flex gap-1 justify-center items-center", className)}>
-      <Button
+    <div className={cn("flex gap-4 justify-center items-start", className)}>
+      <button
         type="button"
-        variant={"outline"}
-        size="icon"
-        className={cn(
-          "border-rd border-1 text-rd",
-          theme === "dark" ? "border-0" : ""
-        )}
+        className={cn("h-10")}
         onClick={handleRemove}
         disabled={disabled}
       >
-        -
-      </Button>
+        <Trash2Icon className="size-5 text-rd cursor-pointer" />
+      </button>
 
       {(isOnlyOne || isLast) && (
-        <Button
+        <button
           type="button"
-          variant="outline"
-          size="icon"
-          className={cn(
-            "text-bl border-bl border-1",
-            theme === "dark" ? "border-0" : ""
-          )}
+          className={cn("h-10")}
           onClick={() => formField.append(defaultValues)}
           disabled={disabled}
         >
-          +
-        </Button>
+          <PlusIcon className="size-5 text-bl font-bold cursor-pointer" />
+        </button>
       )}
     </div>
   );

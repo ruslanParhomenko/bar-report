@@ -141,14 +141,12 @@ const RenderTableCucina = ({
               )}
             </div>
 
-            <div className="flex gap-1 justify-start items-start">
-              <AddRemoveFieldsButton
-                formField={fieldsArray}
-                defaultValues={defaultValue}
-                index={index}
-                disabled={isDisabled}
-              />
-            </div>
+            <AddRemoveFieldsButton
+              formField={fieldsArray}
+              defaultValues={defaultValue}
+              index={index}
+              disabled={isDisabled}
+            />
           </div>
         );
       })}

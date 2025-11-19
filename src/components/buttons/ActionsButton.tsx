@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { Minus, Plus } from "lucide-react";
+import { Minus, Plus, Trash2Icon } from "lucide-react";
 import { useTheme } from "next-themes";
 import { UseFieldArrayReturn } from "react-hook-form";
 
@@ -40,34 +40,28 @@ export const ActionsButton = ({
   };
 
   return (
-    <div className="flex md:flex-row flex-col gap-2 md:justify-start justify-end">
+    <div className="flex flex-row  gap-4  justify-start">
       {(item || idx === formFields.fields.length - 1) && (
-        <Button
+        <button
           type="button"
-          variant="outline"
           onClick={handleRemove}
           disabled={disabled}
-          className={cn(
-            "border-rd border-1 text-rd",
-            theme === "dark" ? "border-0" : ""
-          )}
+          className={cn("h-10")}
         >
-          <Minus />
-        </Button>
+          <Trash2Icon className="w-4 h-4 text-rd" />
+        </button>
       )}
-      {idx === formFields.fields.length - 1 && (
-        <Button
+      {idx === formFields.fields.length - 1 ? (
+        <button
           type="button"
-          variant="outline"
           onClick={handleAdd}
           disabled={disabled || !item}
-          className={cn(
-            "border-bl border-1 text-bl",
-            theme === "dark" ? "border-0" : ""
-          )}
+          className={cn("h-10")}
         >
-          <Plus />
-        </Button>
+          <Plus className="h-4 w-4 text-bl font-bold" />
+        </button>
+      ) : (
+        <div className="h-10 w-4"></div>
       )}
     </div>
   );

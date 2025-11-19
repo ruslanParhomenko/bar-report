@@ -139,19 +139,17 @@ export default function StopListPage({ data }: { data: StopListProps[] }) {
   }, []);
 
   return (
-    <FormWrapper form={form}>
-      <div className="grid xl:grid-cols-2 gap-5 pb-5">
-        <StopListTable
-          formFields={stopListValues}
-          nameTag="bar"
-          disabled={isDisabled || !isBar}
-        />
-        <StopListTable
-          formFields={stopListCucinaValues}
-          nameTag="cucina"
-          disabled={isDisabled || !isCucina}
-        />
-      </div>
+    <FormWrapper form={form} className="grid xl:grid-cols-2 gap-5 pb-5">
+      <StopListTable
+        formFields={stopListValues}
+        nameTag="bar"
+        disabled={isDisabled || !isBar}
+      />
+      <StopListTable
+        formFields={stopListCucinaValues}
+        nameTag="cucina"
+        disabled={isDisabled || !isCucina}
+      />
     </FormWrapper>
   );
 }
