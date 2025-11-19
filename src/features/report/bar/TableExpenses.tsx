@@ -31,14 +31,17 @@ export default function TableExpenses() {
   const fieldsValues = form.watch("expenses") as ExpensesSchemaType;
 
   useEffect(() => {
-    const subscription = form.watch((value, { name: changedName }) => {
-      if (changedName?.includes("name")) {
-        fieldsValues?.forEach((_, idx) => {
-          const nameValue = form.getValues(`expenses.${idx}.name`);
-          if (nameValue) {
-            form.setValue(`expenses.${idx}.time`, formatNow());
-          }
-        });
+    const subscription = form.watch((_, { name: changedName }) => {
+      if (
+        changedName?.startsWith("expenses.") &&
+        changedName.endsWith(".name")
+      ) {
+        const idx = Number(changedName.split(".")[1]);
+
+        const nameValue = form.getValues(`expenses.${idx}.name`);
+        if (nameValue) {
+          form.setValue(`expenses.${idx}.time`, formatNow());
+        }
       }
     });
 

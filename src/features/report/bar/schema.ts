@@ -13,12 +13,12 @@ export const productTransferSchema = yup.array(
 export type ProductTransferSchemaType = yup.InferType<
   typeof productTransferSchema
 >;
-export const productTransferDefault = new Array(7).fill({
+export const productTransferDefault = Array.from({ length: 7 }, () => ({
   name: "",
   quantity: "",
   destination: "",
   time: "",
-});
+}));
 
 // inventory
 export const inventorySchema = yup.array(

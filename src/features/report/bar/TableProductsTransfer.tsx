@@ -32,21 +32,25 @@ export default function TableProductsTransfer() {
   ) as ProductTransferSchemaType;
 
   useEffect(() => {
-    const subscription = form.watch((value, { name: changedName }) => {
-      if (changedName?.includes("name")) {
-        fieldsValues?.forEach((_, idx) => {
-          const nameValue = form.getValues(`productTransfer.${idx}.name`);
-          if (nameValue) {
-            form.setValue(`productTransfer.${idx}.time`, formatNow());
-          }
-        });
+    const subscription = form.watch((_, { name: changedName }) => {
+      // реагируем ТОЛЬКО на изменение имени продукта
+      if (
+        changedName?.startsWith("productTransfer.") &&
+        changedName.endsWith(".name")
+      ) {
+        const idx = Number(changedName.split(".")[1]);
+
+        const nameValue = form.getValues(`productTransfer.${idx}.name`);
+
+        if (nameValue) {
+          form.setValue(`productTransfer.${idx}.time`, formatNow());
+        }
       }
     });
 
-    return () => {
-      subscription.unsubscribe();
-    };
+    return () => subscription.unsubscribe();
   }, [form]);
+
   return (
     <Table>
       <TableHeader>

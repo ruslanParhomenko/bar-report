@@ -30,14 +30,17 @@ export function TableInventory() {
   const fieldsValues = form.watch("inventory") as InventorySchemaType;
 
   useEffect(() => {
-    const subscription = form.watch((value, { name: changedName }) => {
-      if (changedName?.includes("quantity")) {
-        fieldsValues?.forEach((_, idx) => {
-          const nameValue = form.getValues(`inventory.${idx}.quantity`);
-          if (nameValue) {
-            form.setValue(`inventory.${idx}.time`, formatNow());
-          }
-        });
+    const subscription = form.watch((_, { name: changedName }) => {
+      if (
+        changedName?.startsWith("inventory.") &&
+        changedName.endsWith(".quantity")
+      ) {
+        const idx = Number(changedName.split(".")[1]);
+
+        const nameValue = form.getValues(`inventory.${idx}.quantity`);
+        if (nameValue) {
+          form.setValue(`inventory.${idx}.time`, formatNow());
+        }
       }
     });
 
