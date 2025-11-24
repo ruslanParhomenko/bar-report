@@ -13,35 +13,36 @@ import AccordionWrapper from "@/components/wrapper/AccordionWrapper";
 import BreakList from "./BreakList";
 import ReportBar from "./ReportBar";
 import ReportCucina from "./ReportCucina";
-import { Skeleton } from "@/components/ui/skeleton";
 
-export enum DataObjectApi {
-  BreakList = "breakList",
-  Report = "dailyReport",
-  ReportCucina = "dailyReportCucina",
+export type ApiDataMap = BreakListData[] | ReportBarData[] | ReportCucinaData[];
+
+interface ArchivePageProps {
+  type: string | null;
+  data: ApiDataMap;
 }
-export type ApiDataMap = {
-  [DataObjectApi.BreakList]: BreakListData[];
-  [DataObjectApi.Report]: ReportBarData[];
-  [DataObjectApi.ReportCucina]: ReportCucinaData[];
-};
 
-export const ArchivePage = ({ data }: { data: ApiDataMap }) => {
-  return data ? (
+export const ArchivePage = ({ type, data }: ArchivePageProps) => {
+  return (
     <>
       <AccordionWrapper nameTag={BREAK_LIST_ENDPOINT}>
-        <BreakList data={data.breakList} />
+        <BreakList
+          data={type === BREAK_LIST_ENDPOINT ? (data as BreakListData[]) : []}
+        />
       </AccordionWrapper>
 
       <AccordionWrapper nameTag={REPORT_BAR_ENDPOINT}>
-        <ReportBar data={data.dailyReport} />
+        <ReportBar
+          data={type === REPORT_BAR_ENDPOINT ? (data as ReportBarData[]) : []}
+        />
       </AccordionWrapper>
 
       <AccordionWrapper nameTag={REPORT_CUCINA_ENDPOINT}>
-        <ReportCucina data={data.dailyReportCucina} />
+        <ReportCucina
+          data={
+            type === REPORT_CUCINA_ENDPOINT ? (data as ReportCucinaData[]) : []
+          }
+        />
       </AccordionWrapper>
     </>
-  ) : (
-    <Skeleton />
   );
 };

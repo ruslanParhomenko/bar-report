@@ -37,7 +37,7 @@ export function extractUniqueEmployees(
         nightHours,
         role,
         bonus: remark?.bonus ?? 0,
-        penalty: remark?.penality ?? 0,
+        penalty: remark?.penalty ?? 0,
         tips: tip?.tips ?? 0,
       });
     }
@@ -50,7 +50,7 @@ type RemarkItem = {
   name: string;
   dayHours: number;
   nightHours: number;
-  penality: number;
+  penalty: number;
   bonus: number;
 };
 
@@ -63,11 +63,10 @@ export function getRemarksByMonth(
 
   return remarksData
     .filter((r: any) => {
-      // безопасно приводим дату к строке
       const dateStr =
         r.date instanceof Date ? r.date.toISOString().split("T")[0] : r.date;
 
-      if (!dateStr || typeof dateStr !== "string") return false; // <-- вместо continue
+      if (!dateStr || typeof dateStr !== "string") return false;
 
       const [year, month] = dateStr.split("-");
       const key = `${year}-${MONTHS[Number(month) - 1]}`;
@@ -81,7 +80,7 @@ export function getRemarksByMonth(
           name: item.name.trim(),
           dayHours: Number(item.dayHours) || 0,
           nightHours: Number(item.nightHours) || 0,
-          penality: Number(item.penality) || 0,
+          penalty: Number(item.penalty) || 0,
           bonus: Number(item.bonus) || 0,
         }))
     );

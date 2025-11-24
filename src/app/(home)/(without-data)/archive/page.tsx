@@ -1,7 +1,41 @@
-import { getArchive } from "@/app/actions/archive/getArchive";
+import { getBreakList } from "@/app/actions/archive/breakListAction";
+import { getReportsBar } from "@/app/actions/archive/reportBarAction";
+import { getReportsCucina } from "@/app/actions/archive/reportCucinaAction";
+import {
+  BREAK_LIST_ENDPOINT,
+  REPORT_BAR_ENDPOINT,
+  REPORT_CUCINA_ENDPOINT,
+} from "@/constants/endpoint-tag";
 import { ArchivePage } from "@/features/archive/ArchiveForm";
 
-export default async function Page() {
-  const data = await getArchive();
-  return <ArchivePage data={data} />;
+interface PageProps {
+  searchParams: {
+    data?: string;
+  };
+}
+
+const DATA_BY_PARAMS = {
+  [BREAK_LIST_ENDPOINT]: getBreakList,
+  [REPORT_BAR_ENDPOINT]: getReportsBar,
+  [REPORT_CUCINA_ENDPOINT]: getReportsCucina,
+} as const;
+
+type DataParam = keyof typeof DATA_BY_PARAMS;
+
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
+  const type = (await searchParams)?.data;
+
+  if (!type || !((type as string) in DATA_BY_PARAMS)) {
+    return <ArchivePage type={null} data={[]} />;
+  }
+
+  const key = type as DataParam;
+
+  const data = await DATA_BY_PARAMS[key]();
+
+  return <ArchivePage type={key} data={data} />;
 }

@@ -1,7 +1,7 @@
 "use server";
 import { Movement, Remain, Shift, Staff, WriteOff } from "@/generated/prisma";
 import { prisma } from "@/lib/prisma";
-import { revalidateTag } from "next/cache";
+import { revalidateTag, unstable_cache } from "next/cache";
 
 // create report
 export async function createReportCucina({ data }: { data: any }) {
@@ -92,7 +92,7 @@ export async function createReportCucina({ data }: { data: any }) {
     },
   });
 
-  revalidateTag("archive");
+  revalidateTag("reportCucina");
   return report.id;
 }
 
@@ -125,5 +125,27 @@ export async function deleteReportCucina(id: string) {
       writeOff: true,
     },
   });
-  revalidateTag("archive");
+  revalidateTag("reportCucina");
 }
+
+// get all
+export async function _getReportsCucina() {
+  const reports = await prisma.dailyReportCucina.findMany({
+    take: 62,
+    include: {
+      shifts: true,
+      remains: true,
+      prepared: true,
+      staff: true,
+      movement: true,
+      writeOff: true,
+    },
+    orderBy: { date: "desc" },
+  });
+
+  return reports;
+}
+export const getReportsCucina = unstable_cache(_getReportsCucina, ["reports"], {
+  revalidate: false,
+  tags: ["reportCucina"],
+});

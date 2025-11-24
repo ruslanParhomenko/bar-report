@@ -9,6 +9,7 @@ import {
 import { useRef } from "react";
 import { handleScrollTop } from "@/utils/handlerScrollTop";
 import { cn } from "@/lib/utils";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export default function AccordionWrapper({
   children,
@@ -21,25 +22,44 @@ export default function AccordionWrapper({
 }) {
   const t = useTranslations("Home");
   const accordionRef = useRef<HTMLDivElement>(null);
+
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const currentData = searchParams.get("data");
+
+  const handleChange = (value: string | null) => {
+    const params = new URLSearchParams(searchParams.toString());
+
+    if (value === nameTag) {
+      params.set("data", nameTag);
+      handleScrollTop({ accordionRef });
+    } else {
+      params.delete("data");
+    }
+    router.replace(`?${params.toString()}`, { scroll: false });
+  };
+
   return (
-    <Accordion type="single" collapsible className="py-2">
-      <div ref={accordionRef}>
-        <AccordionItem value={nameTag ?? ""}>
-          <AccordionTrigger
-            onClick={() => {
-              handleScrollTop({ accordionRef });
-            }}
-            className="text-base bg-bl cursor-pointer w-full px-4 py-2 hover:no-underline hover:text-amber-50"
-          >
-            {t(nameTag as string)}
+    <div ref={accordionRef}>
+      <Accordion
+        type="single"
+        collapsible
+        value={currentData === nameTag ? nameTag : ""}
+        onValueChange={handleChange}
+        className="py-2"
+      >
+        <AccordionItem value={nameTag}>
+          <AccordionTrigger className="text-base bg-bl cursor-pointer w-full px-4 py-2 hover:no-underline hover:text-amber-50">
+            {t(nameTag)}
           </AccordionTrigger>
+
           <AccordionContent>
             <div className={cn("w-full md:p-2 py-2", className)}>
               {children}
             </div>
           </AccordionContent>
         </AccordionItem>
-      </div>
-    </Accordion>
+      </Accordion>
+    </div>
   );
 }

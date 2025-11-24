@@ -1,11 +1,10 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
-import { revalidateTag } from "next/cache";
+import { revalidateTag, unstable_cache } from "next/cache";
 
 // create break list
 export async function createBreakList(data: any) {
-  console.log(data);
   const { date, rows } = data;
   const rowsWithName = rows.filter(
     (row: any) => row.name && row.name.trim() !== ""
@@ -40,7 +39,7 @@ export async function createBreakList(data: any) {
     },
   });
 
-  revalidateTag("archive");
+  revalidateTag("breakList");
 
   return breakList.id;
 }
@@ -60,5 +59,20 @@ export async function deleteBreakList(id: string) {
   await prisma.breakList.delete({
     where: { id: Number(id) },
   });
-  revalidateTag("archive");
+  revalidateTag("breakList");
 }
+
+// get all
+export async function _getBreakList() {
+  const data = prisma.breakList.findMany({
+    take: 62,
+    include: { rows: true },
+    orderBy: { date: "desc" },
+  });
+  return data;
+}
+
+export const getBreakList = unstable_cache(_getBreakList, ["breakList"], {
+  revalidate: false,
+  tags: ["breakList"],
+});
