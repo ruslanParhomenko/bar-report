@@ -48,7 +48,7 @@ export function GetEmployeesCard({
   const t = useTranslations("Home");
   const router = useRouter();
   const searchParams = useSearchParams();
-  const roleFilter = searchParams.get("role") || "all";
+  const roleFilter = searchParams.get("role") || "waiters";
 
   const { isAdmin, isManager } = useAbility();
   const isDisabled = !isAdmin && !isManager;
@@ -61,8 +61,8 @@ export function GetEmployeesCard({
 
   const handleRoleChange = (value: string) => {
     const params = new URLSearchParams(searchParams);
-    if (value === "all") params.delete("role");
-    else params.set("role", value);
+
+    params.set("role", value);
     router.replace(`?${params.toString()}`);
   };
 

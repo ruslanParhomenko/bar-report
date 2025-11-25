@@ -1,4 +1,3 @@
-import { Label } from "@/components/ui/label";
 import { TableCell, TableFooter, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import { UseFormReturn } from "react-hook-form";
@@ -16,10 +15,10 @@ export function CashFooterTable({
   return (
     <TableFooter>
       <TableRow>
-        <TableCell colSpan={monthDays.length + 4} className="h-1 bg-black/10" />
+        <TableCell colSpan={monthDays.length + 4} className="h-8" />
       </TableRow>
       <TableRow>
-        <TableCell colSpan={2} className="sticky left-0 p-0"></TableCell>
+        <TableCell colSpan={2}></TableCell>
 
         {monthDays.map((_day, dayIndex) => {
           const getNum = (val: any) => (isNaN(Number(val)) ? 0 : Number(val));
@@ -46,16 +45,16 @@ export function CashFooterTable({
           return (
             <TableCell key={dayIndex} className="p-0">
               <div className="flex flex-col items-center gap-1 p-0">
-                <Label className="text-center text-xs p-0">{sumBarByDay}</Label>
+                <div className="text-center text-xs p-0">{sumBarByDay}</div>
 
-                <Label
+                <div
                   className={cn(
                     "text-center text-xs text-muted-foreground",
                     difference < 0 ? "text-rd" : "text-gn"
                   )}
                 >
                   {difference === 0 ? "." : difference.toFixed(0)}
-                </Label>
+                </div>
               </div>
             </TableCell>
           );
