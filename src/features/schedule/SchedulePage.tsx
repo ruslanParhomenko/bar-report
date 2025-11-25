@@ -19,7 +19,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useParams } from "next/navigation";
 import { ScheduleTableBody } from "./ScheduleTableBody";
 import { useAbility } from "@/providers/AbilityProvider";
-import ScheduleCreateTableFooter from "./create/ScheduleCreateTableFooter";
 import { ScheduleTableFooter } from "./ScheduleTableFooter";
 import { getShiftCounts } from "./utils";
 

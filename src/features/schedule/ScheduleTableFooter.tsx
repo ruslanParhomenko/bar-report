@@ -25,11 +25,11 @@ export function ScheduleTableFooter({
             <TableCell
               key={index}
               className={cn(
-                "w-8 text-center  p-0 leading-none text-xs text-muted-foreground",
+                "w-8 text-center p-0 leading-none text-xs text-muted-foreground",
                 COLOR_SHIFT[day as keyof typeof COLOR_SHIFT]
               )}
             >
-              {day === 0 ? null : day}
+              {day === 0 ? "-" : day}
             </TableCell>
           ))}
         </TableRow>

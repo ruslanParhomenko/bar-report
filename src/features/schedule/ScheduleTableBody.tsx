@@ -19,8 +19,14 @@ export function ScheduleTableBody({
         const isSelected = !["v", "s", ""].includes(
           row.shifts?.[selectedColumn as number]
         );
-        const dayHourPay = (Number(row.rate) / 180) * 0.9;
-        const nightHourPay = (Number(row.rate) / 180) * 1.15;
+        const dayHourPay =
+          row.role === "mngr"
+            ? Number(row.rate) / 186
+            : (Number(row.rate) / 186) * 0.9;
+        const nightHourPay =
+          row.role === "mngr"
+            ? Number(row.rate) / 186
+            : (Number(row.rate) / 186) * 1.15;
         const totalPay =
           dayHourPay * Number(row.dayHours) +
           nightHourPay * Number(row.nightHours);

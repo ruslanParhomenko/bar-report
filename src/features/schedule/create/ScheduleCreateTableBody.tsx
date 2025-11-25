@@ -112,8 +112,12 @@ export default function ScheduleCreateTableBody({
     <TableBody className="[&_input]:h-8 [&_input]:text-md [&_input]:py-0.5 [&_input]:text-center [&_input]:w-8 [&_input]:border-0">
       {fields.map((row, rowIndex) => {
         const rate = form.getValues(`rowShifts.${rowIndex}.rate`);
-        const dayHourPay = (Number(rate) / 180) * 0.9; // минус 10%
-        const nightHourPay = (Number(rate) / 180) * 1.15; // плюс 15%
+        const dayHourPay =
+          row.role === "mngr" ? Number(rate) / 186 : (Number(rate) / 186) * 0.9;
+        const nightHourPay =
+          row.role === "mngr"
+            ? Number(rate) / 186
+            : (Number(rate) / 186) * 1.15;
         const totalPay =
           dayHourPay * Number(row.dayHours) +
           nightHourPay * Number(row.nightHours);
