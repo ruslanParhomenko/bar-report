@@ -25,7 +25,7 @@ export default function FilterArchiveData({
 }) {
   const t = useTranslations("Home");
   const [selectedType, setSelectedType] = useState<string>(options?.[0].value);
-  const [selectedDate, setSelectedDate] = useState<string>("all");
+  const [selectedDate, setSelectedDate] = useState<string>("");
   useEffect(() => {
     const selectedData =
       selectedDate === "all"
@@ -98,7 +98,7 @@ export default function FilterArchiveData({
             className="w-24 h-8"
             onClick={() => {
               setSelectedDate("");
-              setSelectedType("all");
+              setSelectedType("");
             }}
           >
             {t("reset")}

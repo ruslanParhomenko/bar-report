@@ -2,8 +2,6 @@
 import { deleteBreakList } from "@/app/actions/archive/breakListAction";
 import { deleteReportBar } from "@/app/actions/archive/reportBarAction";
 import { deleteReportCucina } from "@/app/actions/archive/reportCucinaAction";
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
 import {
   BREAK_LIST_ENDPOINT,
   REPORT_BAR_ENDPOINT,
