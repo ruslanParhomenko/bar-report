@@ -18,7 +18,11 @@ export async function saveCashForm(data: CashFormType) {
   const { data: savedData, error } = await supabase.from("cash").upsert(
     {
       unique_id: unique_id,
-      form_data: data,
+      form_data: {
+        year: year,
+        month: month,
+        rowCashData: data.rowCashData,
+      },
     },
     { onConflict: "unique_id" }
   );

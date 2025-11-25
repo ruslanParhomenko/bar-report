@@ -3,6 +3,7 @@ import { deleteBreakList } from "@/app/actions/archive/breakListAction";
 import { deleteReportBar } from "@/app/actions/archive/reportBarAction";
 import { deleteReportCucina } from "@/app/actions/archive/reportCucinaAction";
 import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 import {
   BREAK_LIST_ENDPOINT,
   REPORT_BAR_ENDPOINT,
@@ -10,7 +11,7 @@ import {
 } from "@/constants/endpoint-tag";
 import { useAbility } from "@/providers/AbilityProvider";
 import { formatDataForInput } from "@/utils/formatNow";
-import { Pencil } from "lucide-react";
+import { Pencil, Trash2Icon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 
@@ -48,28 +49,26 @@ export const DeleteListButton = <T extends BaseData>({
     router.push(`/${nameTag}/${data.id}`);
   };
   return (
-    <div className="flex w-full justify-between items-center">
-      <div className="text-lg font-semibold text-bl">
+    <div className="flex w-full justify-between items-center px-4">
+      <div className="text-md font-semibold text-bl">
         {formatDataForInput({ date: data.date })}
       </div>
-      <div className="flex gap-2 items-center">
-        <Button
+      <div className="flex gap-4 items-center">
+        <button
           onClick={() => editForm()}
-          variant={"ghost"}
           className="cursor-pointer"
           disabled={!isAdmin && !isManager}
         >
-          <Pencil />
-        </Button>
-        <Button
+          <Pencil className="h-4 w-4" />
+        </button>
+        <button
           type="button"
-          variant={"destructive"}
           onClick={() => removeItem()}
+          className="cursor-pointer"
           disabled={!isAdmin}
-          className="bg-bl hover:bg-rd"
         >
-          {t("delete")}
-        </Button>
+          <Trash2Icon className="w-4 h-4 text-rd" />
+        </button>
       </div>
     </div>
   );

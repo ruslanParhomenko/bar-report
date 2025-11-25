@@ -12,22 +12,20 @@ export function ScheduleTableFooter({
   const pathname = usePathname().split("/")[2];
 
   return (
-    <TableFooter data-html2canvas-ignore="true" className="no-print">
+    <TableFooter data-html2canvas-ignore="true">
       {SHIFT_OPTIONS.filter((item) =>
         SHIFTS[pathname as keyof typeof SHIFTS].includes(item)
       ).map((item, i) => (
-        <TableRow key={i} className="h-6 bg-card border-0">
-          <TableCell
-            colSpan={6}
-            className="text-end text-muted-gn h-6 pt-0.5 leading-none text-xs"
-          >
+        <TableRow key={i} className="bg-card border-0">
+          <TableCell colSpan={5} />
+          <TableCell className="text-center text-muted-gn  p-0 leading-none text-xs">
             {item}
           </TableCell>
           {shiftCounts?.[item]?.map((day, index) => (
             <TableCell
               key={index}
               className={cn(
-                "w-8 text-center h-6 pt-0.5 leading-none text-xs text-muted-foreground",
+                "w-8 text-center  p-0 leading-none text-xs text-muted-foreground",
                 COLOR_SHIFT[day as keyof typeof COLOR_SHIFT]
               )}
             >

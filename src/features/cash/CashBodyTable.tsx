@@ -23,6 +23,14 @@ export function CashBodyTable({
 
   return (
     <TableBody>
+      <TableRow>
+        <TableCell
+          colSpan={monthDays.length + 2}
+          className="h-12 border-0 text-bl"
+        >
+          CASH
+        </TableCell>
+      </TableRow>
       {rows.map((row, index) => {
         const total = (
           value[row.key as keyof CashFormType["rowCashData"]] as string[]
@@ -39,7 +47,7 @@ export function CashBodyTable({
                   row.colorText
                 )}
               >
-                {t(row.label)}
+                {row.label}
               </TableCell>
 
               {monthDays.map((_, dayIndex) => {
@@ -72,15 +80,15 @@ export function CashBodyTable({
               })}
               <TableCell className="text-rd font-bold">{total}</TableCell>
             </TableRow>
-            {(row.key === "tipsByDay" ||
-              row.key === "differenceByDay" ||
-              row.key === "visaCasinoByDay" ||
+            {(row.key === "visaCasinoByDay" ||
               row.key === "visaCasinoBarByDay") && (
               <TableRow>
                 <TableCell
                   colSpan={monthDays.length + 2}
-                  className="h-9 border-0"
-                ></TableCell>
+                  className="h-18 border-0 text-bl"
+                >
+                  BAR
+                </TableCell>
               </TableRow>
             )}
           </React.Fragment>

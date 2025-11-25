@@ -1,8 +1,6 @@
-import { getBreakList } from "@/app/actions/archive/breakListAction";
 import { getReportsBar } from "@/app/actions/archive/reportBarAction";
 import { getReportsCucina } from "@/app/actions/archive/reportCucinaAction";
 import {
-  BREAK_LIST_ENDPOINT,
   REPORT_BAR_ENDPOINT,
   REPORT_CUCINA_ENDPOINT,
 } from "@/constants/endpoint-tag";
@@ -15,7 +13,6 @@ interface PageProps {
 }
 
 const DATA_BY_PARAMS = {
-  [BREAK_LIST_ENDPOINT]: getBreakList,
   [REPORT_BAR_ENDPOINT]: getReportsBar,
   [REPORT_CUCINA_ENDPOINT]: getReportsCucina,
 } as const;

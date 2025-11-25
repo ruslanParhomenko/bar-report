@@ -19,6 +19,9 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useParams } from "next/navigation";
 import { ScheduleTableBody } from "./ScheduleTableBody";
 import { useAbility } from "@/providers/AbilityProvider";
+import ScheduleCreateTableFooter from "./create/ScheduleCreateTableFooter";
+import { ScheduleTableFooter } from "./ScheduleTableFooter";
+import { getShiftCounts } from "./utils";
 
 export function SchedulePage() {
   const { patch } = useParams();
@@ -62,7 +65,7 @@ export function SchedulePage() {
     return getMonthDays({ month: month, year: year });
   }, [month, year]);
 
-  // const shiftCounts = getShiftCounts(schedule);
+  const shiftCounts = getShiftCounts(schedule as any);
 
   const todayDay = new Date().getDate();
   const todayIndex = monthDays.findIndex((day) => day.day === todayDay);
@@ -105,6 +108,7 @@ export function SchedulePage() {
               isView={isViewer}
             />
 
+            <ScheduleTableFooter shiftCounts={shiftCounts} />
             <ScheduleTableHeader
               monthDays={monthDays}
               setSelectedColumn={setSelectedColumn}

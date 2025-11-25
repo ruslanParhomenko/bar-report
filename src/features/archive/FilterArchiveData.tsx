@@ -55,13 +55,13 @@ export default function FilterArchiveData({
     setFilteredData(filtered);
   }, [selectedType, selectedDate, data]);
   return (
-    <div className="flex flex-col md:flex-row md:justify-start gap-6 md:items-center my-4">
+    <div className="flex flex-col md:flex-row md:justify-end gap-6 md:items-center mb-3 mr-4">
       <Select
         defaultValue="Выберите дату"
         value={selectedDate}
         onValueChange={(value) => setSelectedDate(value)}
       >
-        <SelectTrigger className="w-full md:w-60 ">
+        <SelectTrigger className="w-full md:w-40 h-8!">
           <SelectValue placeholder="Выберите дату" />
         </SelectTrigger>
         <SelectContent>
@@ -78,7 +78,7 @@ export default function FilterArchiveData({
           value={selectedType}
           onValueChange={(value) => setSelectedType(value)}
         >
-          <SelectTrigger className="md:w-50 w-full">
+          <SelectTrigger className="md:w-40 w-full h-8!">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
@@ -95,7 +95,7 @@ export default function FilterArchiveData({
           <Button
             variant="outline"
             size="sm"
-            className="w-24 h-9"
+            className="w-24 h-8"
             onClick={() => {
               setSelectedDate("");
               setSelectedType("all");

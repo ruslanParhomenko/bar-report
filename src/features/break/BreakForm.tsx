@@ -3,13 +3,15 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { BREAK_LIST_ENDPOINT } from "@/constants/endpoint-tag";
 import { FormWrapper } from "@/components/wrapper/FormWrapper";
-import { BreakTable } from "./BreakTable";
 import { createBreakList } from "@/app/actions/archive/breakListAction";
 import { toast } from "sonner";
 import { BreakFormData, breakSchema, defaultValuesBrake } from "./schema";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useLocalStorageForm } from "@/hooks/useLocalStorageForm";
 import { LoadingSkeletonBreak } from "../break-remarks/LoadingSkeleton";
+import { Table } from "@/components/ui/table";
+import { BreakTableHeader } from "./BreakTableHeader";
+import { BreakTableBody } from "./BreakTableBody";
 
 export function BreakForm() {
   // form
@@ -17,6 +19,7 @@ export function BreakForm() {
     resolver: yupResolver(breakSchema),
     defaultValues: defaultValuesBrake,
   });
+
   // localstorage
   const { isLoaded, resetForm } = useLocalStorageForm(
     form,
@@ -36,13 +39,15 @@ export function BreakForm() {
       toast.error("Ошибка при сохранении брейк-листа");
     }
   };
-  // set data
 
   if (!isLoaded) return <LoadingSkeletonBreak />;
 
   return (
     <FormWrapper form={form} onSubmit={onSubmit}>
-      <BreakTable />
+      <Table className="md:table-fixed mt-6">
+        <BreakTableHeader />
+        <BreakTableBody />
+      </Table>
     </FormWrapper>
   );
 }

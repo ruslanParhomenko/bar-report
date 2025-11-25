@@ -14,8 +14,12 @@ import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { useTranslations } from "next-intl";
 import { useRemarks } from "@/providers/RemarksProvider";
+import { useAbility } from "@/providers/AbilityProvider";
+import { InsufficientRights } from "@/components/wrapper/InsufficientRights";
 
 export const PenaltyPage = () => {
+  const { isBar, isCucina, isAdmin, isManager } = useAbility();
+  const isViewer = isAdmin || isBar || isCucina || isManager;
   const t = useTranslations("Home");
   const [isOpenTotal, setIsOpenTotal] = useState(false);
 
@@ -78,7 +82,7 @@ export const PenaltyPage = () => {
     setSelectedMonth(month);
   }, []);
 
-  return (
+  return isViewer ? (
     <div className="md:p-6 space-y-6">
       <div className="flex flex-wrap items-center gap-4">
         <SelectFilter
@@ -119,5 +123,7 @@ export const PenaltyPage = () => {
         <PenaltyTable data={filteredRows ?? []} />
       )}
     </div>
+  ) : (
+    <InsufficientRights />
   );
 };

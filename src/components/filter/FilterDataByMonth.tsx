@@ -27,20 +27,20 @@ export function FilterDataByMonth({
           fieldName="month"
           data={MONTHS}
           placeHolder="month"
-          className="w-24 p-0 h-8! border-bl justify-center"
+          className="w-24 p-0 h-7! border-bl justify-center"
           disabled={disabled}
         />
         <SelectField
           fieldName="year"
           data={YEAR}
           placeHolder="year"
-          className="w-20 p-0 h-8! border-bl justify-center"
+          className="w-20 p-0 h-7! border-bl justify-center"
           disabled={disabled}
         />
         {withButton && (
           <Button
             type="submit"
-            className="w-20 p-1 text-xs"
+            className="w-20 p-1 text-xs h-7"
             size="sm"
             disabled={disabled}
           >

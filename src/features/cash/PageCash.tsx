@@ -47,7 +47,6 @@ export function PageCash() {
 
     const newRowCashData = {
       tipsByDay: makeArray(),
-      cashByDay: makeArray(),
       chipsByDay: makeArray(),
       differenceByDay: makeArray(),
       visaCasinoByDay: makeArray(),

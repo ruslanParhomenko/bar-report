@@ -3,7 +3,7 @@ export const remarkSchema = yup.object().shape({
   name: yup.string().default(""),
   dayHours: yup.string().default(""),
   nightHours: yup.string().default(""),
-  penality: yup.string().default(""),
+  penalty: yup.string().default(""),
   reason: yup.string().default(""),
   bonus: yup.string().default(""),
 });
@@ -21,7 +21,7 @@ export const remarksSchema = yup.object().shape({
         name: "",
         dayHours: "",
         nightHours: "",
-        penality: "",
+        penalty: "",
         reason: "",
         bonus: "",
       },
