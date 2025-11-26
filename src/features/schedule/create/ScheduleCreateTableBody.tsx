@@ -109,7 +109,7 @@ export default function ScheduleCreateTableBody({
   };
 
   return (
-    <TableBody className="[&_input]:h-8 [&_input]:text-md [&_input]:py-0.5 [&_input]:text-center [&_input]:w-8 [&_input]:border-0">
+    <TableBody>
       {fields.map((row, rowIndex) => {
         const rate = form.getValues(`rowShifts.${rowIndex}.rate`);
         const dayHourPay =
@@ -122,7 +122,7 @@ export default function ScheduleCreateTableBody({
           dayHourPay * Number(row.dayHours) +
           nightHourPay * Number(row.nightHours);
         return (
-          <TableRow key={row.id} className="hover:text-rd p-0 h-10">
+          <TableRow key={row.id} className="hover:text-rd p-0">
             <TableCell
               className="text-rd cursor-pointer w-2 p-0"
               onClick={() => remove(rowIndex)}
@@ -136,7 +136,7 @@ export default function ScheduleCreateTableBody({
                 readOnly
               />
             </TableCell>
-            <TableCell className="text-bl p-0 text-xs">
+            <TableCell className="text-bl p-0 text-xs h-8">
               <input
                 {...form.register(`rowShifts.${rowIndex}.nightHours`)}
                 readOnly
@@ -146,7 +146,7 @@ export default function ScheduleCreateTableBody({
             <TableCell className="p-0 text-center">
               <input
                 {...form.register(`rowShifts.${rowIndex}.totalHours`)}
-                className="font-bold"
+                className="font-bold h-8"
                 readOnly
               />
             </TableCell>
@@ -155,15 +155,13 @@ export default function ScheduleCreateTableBody({
               <SelectScheduleEmployee
                 fieldName={`rowShifts.${rowIndex}.employee`}
                 data={selectedEmployees}
-                className="w-32 px-1 hover:text-rd justify-start"
+                className="p-0 hover:text-rd justify-start"
               />
             </TableCell>
             {id && (
-              <TableCell className="w-10 pr-0 flex flex-col items-center">
-                <p className="text-xs">{rate}</p>
-                <p className="text-xs">
-                  {totalPay && ` (${totalPay.toFixed()})`}
-                </p>
+              <TableCell className="text-xs flex items-start justify-center">
+                {rate}
+                {totalPay && ` (${totalPay.toFixed()})`}
               </TableCell>
             )}
 
@@ -187,7 +185,7 @@ export default function ScheduleCreateTableBody({
                       handleTableNavigation(e, rowIndex, dayIndex)
                     }
                     className={cn(
-                      "w-10",
+                      "w-10 h-8",
                       value === "" ? "bg-border" : "text-bl",
                       color[value as keyof typeof color]
                     )}

@@ -4,7 +4,7 @@ import { usePathname } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 import { ShiftCounts } from "./utils";
 
-export function ScheduleTableFooter({
+export default function ScheduleTableFooter({
   shiftCounts,
 }: {
   shiftCounts: ShiftCounts;

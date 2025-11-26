@@ -47,7 +47,7 @@ export default function ScheduleCreateTableFooter({
         <TableRow key={rowIndex} className="h-[16px] p-0 border-0">
           <TableCell
             colSpan={colSpan}
-            className="text-end text-muted-foreground h-[16px] py-0 leading-none text-xs"
+            className="text-end text-muted-foreground h-4 p-0 leading-none text-xs"
           >
             {item}
           </TableCell>
@@ -56,7 +56,7 @@ export default function ScheduleCreateTableFooter({
             <TableCell
               key={index}
               className={cn(
-                "w-8 text-center h-[16px] py-0 leading-none text-xs",
+                "w-8 text-center h-4 py-0 leading-none text-xs",
                 COLOR_SHIFT[day as keyof typeof COLOR_SHIFT]
               )}
             >

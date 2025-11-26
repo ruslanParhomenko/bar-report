@@ -7,7 +7,7 @@ import { useAbility } from "@/providers/AbilityProvider";
 import { useRouter } from "@/i18n/navigation";
 import { defaultSchedule } from "./schema";
 
-export default function ScheduleSelectButtons({
+export default function ScheduleCreateActionForm({
   removeLocalStorageKey,
 }: {
   removeLocalStorageKey: () => void;

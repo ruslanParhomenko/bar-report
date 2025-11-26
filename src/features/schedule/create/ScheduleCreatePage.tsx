@@ -18,12 +18,12 @@ import { useRouter } from "@/i18n/navigation";
 import { useEmployees } from "@/providers/EmployeesProvider";
 import { defaultSchedule, scheduleSchema, ScheduleType } from "./schema";
 import { EMPLOYEE_ROLES_BY_DEPARTMENT, SHIFT_OPTIONS } from "./constants";
-import ScheduleSelectButtons from "./ScheduleCreateActionForm";
 import { useLocalStorageForm } from "@/hooks/useLocalStorageForm";
 import { FormWrapper } from "@/components/wrapper/FormWrapper";
 import ScheduleTableHeader from "../ScheduleTableHeader";
 import ScheduleCreateTableBody from "./ScheduleCreateTableBody";
 import ScheduleCreateTableFooter from "./ScheduleCreateTableFooter";
+import ScheduleCreateActionForm from "./ScheduleCreateActionForm";
 
 export function ScheduleCreatePage() {
   const { id, patch }: { id: string; patch: string } = useParams();
@@ -36,12 +36,16 @@ export function ScheduleCreatePage() {
 
   // set schedule
   const schedules = useSchedules();
-  const found = id && schedules.find((s) => s.id === id);
+  const found = id
+    ? schedules.find((s) => s.uniqueKey === id)
+    : defaultSchedule;
+
+  console.log("found", found);
 
   // set form
   const form = useForm<ScheduleType>({
     resolver: yupResolver(scheduleSchema),
-    defaultValues: found || defaultSchedule,
+    defaultValues: found,
   });
   const { fields, remove, replace, move } = useFieldArray({
     control: form.control,
@@ -169,15 +173,10 @@ export function ScheduleCreatePage() {
   if (!isLoaded) return null;
   return (
     <FormWrapper form={form} onSubmit={onSubmit}>
-      <ScheduleSelectButtons removeLocalStorageKey={removeLocalStorageKey} />
+      <ScheduleCreateActionForm removeLocalStorageKey={removeLocalStorageKey} />
 
       <Table className="md:table-fixed">
-        <ScheduleTableHeader
-          monthDays={monthDays}
-          addNewRow={addRow}
-          month={month ?? ""}
-          newSchedule={!id}
-        />
+        <ScheduleTableHeader addNewRow={addRow} isCreate={true} />
 
         <ScheduleCreateTableBody
           fields={fields}

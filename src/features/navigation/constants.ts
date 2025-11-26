@@ -3,7 +3,7 @@ export const ORDER_NAV_ITEMS = [
   { title: "bar", href: "zn-bar" },
 ];
 
-export const SHEDULE_NAV_ITEMS = [
+export const SCHEDULE_NAV_ITEMS = [
   { title: "cucina", href: "cucina" },
   { title: "bar", href: "bar" },
   { title: "dish", href: "dish" },

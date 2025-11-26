@@ -6,12 +6,6 @@ import {
 } from "@/constants/endpoint-tag";
 import { ArchivePage } from "@/features/archive/ArchiveForm";
 
-interface PageProps {
-  searchParams: {
-    data?: string;
-  };
-}
-
 const DATA_BY_PARAMS = {
   [REPORT_BAR_ENDPOINT]: getReportsBar,
   [REPORT_CUCINA_ENDPOINT]: getReportsCucina,
