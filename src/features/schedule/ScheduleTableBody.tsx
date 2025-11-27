@@ -6,44 +6,38 @@ import {
   SchedulesContextValue,
   useSchedules,
 } from "@/providers/ScheduleProvider";
-import { useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useAbility } from "@/providers/AbilityProvider";
 import ScheduleTableFooter from "./ScheduleTableFooter";
 import { calculateSalaryByHours } from "./utils";
 import ScheduleTableHeader from "./ScheduleTableHeader";
 
-export default function ScheduleTableBody({ patch }: { patch: string }) {
+export default function ScheduleTableBody({
+  uniqueKey,
+}: {
+  uniqueKey: string;
+}) {
   const { isAdmin, isManager } = useAbility();
   const isView = isAdmin || isManager;
 
-  const params = useSearchParams();
-  const month = params.get("month") as string;
-  const year = params.get("year") as string;
-
   const [schedule, setSchedule] = useState<SchedulesContextValue | null>(null);
-  const [scheduleId, setScheduleId] = useState<string | null>(null);
   const [selectedColumn, setSelectedColumn] = useState<number | null>(null);
 
   const schedules = useSchedules();
 
   useEffect(() => {
-    if (!patch || !month || !year || !schedules) return;
-
-    const uniqueKey = `${year}-${month}-${patch}`;
+    if (!uniqueKey) return;
     const found = schedules.find((s) => s.uniqueKey === uniqueKey);
 
     if ("startViewTransition" in document) {
       // @ts-ignore
       document.startViewTransition(() => {
         setSchedule(found || null);
-        setScheduleId(found?.id || null);
       });
     } else {
       setSchedule(found || null);
-      setScheduleId(found?.id || null);
     }
-  }, [patch, month, year, schedules]);
+  }, [uniqueKey, schedules]);
 
   const componentRef = useRef<HTMLDivElement>(null);
   return (
@@ -52,8 +46,7 @@ export default function ScheduleTableBody({ patch }: { patch: string }) {
         <ScheduleTableHeader
           setSelectedColumn={setSelectedColumn}
           componentRef={componentRef}
-          patch={patch}
-          scheduleId={scheduleId as string}
+          scheduleId={schedule?.id as string}
         />
 
         <TableBody>

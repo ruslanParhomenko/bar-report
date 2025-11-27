@@ -8,14 +8,12 @@ import ScheduleActionButton from "./ScheduleActionButton";
 export default function ScheduleTableHeader({
   setSelectedColumn,
   componentRef,
-  patch,
   scheduleId,
   addNewRow,
   isSave = false,
 }: {
   setSelectedColumn?: (index: number) => void;
   componentRef?: React.RefObject<HTMLDivElement | null>;
-  patch: string;
   scheduleId?: string;
   addNewRow?: () => void;
   isSave?: boolean;
@@ -55,7 +53,6 @@ export default function ScheduleTableHeader({
           )} */}
           <ScheduleActionButton
             ref={componentRef}
-            patch={patch}
             scheduleId={scheduleId as string}
             isSave={isSave}
             addNewRow={addNewRow}
