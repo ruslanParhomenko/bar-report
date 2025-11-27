@@ -1,4 +1,3 @@
-import { getScheduleById } from "@/app/actions/schedule/scheduleAction";
 import { ScheduleCreatePage } from "@/features/schedule/create/ScheduleCreatePage";
 
 export default async function Page({

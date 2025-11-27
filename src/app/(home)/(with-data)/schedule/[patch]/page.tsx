@@ -1,10 +1,15 @@
-import { SchedulePage } from "@/features/schedule/SchedulePage";
+import ScheduleTableBody from "@/features/schedule/ScheduleTableBody";
 
 export default async function Page({
   params,
+  searchParams,
 }: {
   params: Promise<{ patch: string }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
   const { patch } = await params;
-  return <SchedulePage patch={patch} />;
+  const { month, year } = await searchParams;
+  const uniqueKey = `${year}-${month}-${patch}`;
+
+  return <ScheduleTableBody uniqueKey={uniqueKey} />;
 }
