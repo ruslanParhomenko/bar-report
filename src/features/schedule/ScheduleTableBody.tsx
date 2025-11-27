@@ -12,7 +12,6 @@ import { useAbility } from "@/providers/AbilityProvider";
 import ScheduleTableFooter from "./ScheduleTableFooter";
 import { calculateSalaryByHours } from "./utils";
 import ScheduleTableHeader from "./ScheduleTableHeader";
-import ScheduleActionButton from "./ScheduleActionButton";
 
 export default function ScheduleTableBody({ patch }: { patch: string }) {
   const { isAdmin, isManager } = useAbility();
@@ -49,13 +48,7 @@ export default function ScheduleTableBody({ patch }: { patch: string }) {
   const componentRef = useRef<HTMLDivElement>(null);
   return (
     <>
-      {/* <ScheduleActionButton
-        ref={componentRef}
-        patch={patch}
-        scheduleId={scheduleId as string}
-      /> */}
-
-      <Table className="md:table-fixed" ref={componentRef as any}>
+      <Table ref={componentRef as any}>
         <ScheduleTableHeader
           setSelectedColumn={setSelectedColumn}
           componentRef={componentRef}
@@ -80,7 +73,13 @@ export default function ScheduleTableBody({ patch }: { patch: string }) {
                 <TableCell className="text-bl text-xs">
                   {row.nightHours}
                 </TableCell>
-                <TableCell>{row.totalHours}</TableCell>
+                <TableCell className="font-bold">{row.totalHours}</TableCell>
+                <TableCell
+                  className="text-xs text-gn no-print"
+                  data-html2canvas-ignore="true"
+                >
+                  {isView && totalPay.toFixed(0).toString()}
+                </TableCell>
                 <TableCell
                   className={cn(
                     "sticky left-0 bg-card/40 text-muted-foreground",
@@ -88,12 +87,6 @@ export default function ScheduleTableBody({ patch }: { patch: string }) {
                   )}
                 >
                   {row.employee}
-                </TableCell>
-                <TableCell
-                  className="w-2 p-0 text-start text-xs  no-print"
-                  data-html2canvas-ignore="true"
-                >
-                  {isView && totalPay.toFixed(0).toString()}
                 </TableCell>
 
                 {row.shifts?.map((day, dayIndex) => {
@@ -103,7 +96,7 @@ export default function ScheduleTableBody({ patch }: { patch: string }) {
                     <TableCell
                       key={dayIndex}
                       className={cn(
-                        "p-0 text-center border-x",
+                        "text-center border-x",
                         color[day as keyof typeof color],
                         isSelected && "!text-rd font-bold"
                       )}

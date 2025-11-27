@@ -11,7 +11,7 @@ export const SHIFTS = {
 };
 
 export const COLOR_SHIFT = {
-  0: "bg-rd/30 text-black",
+  0: "text-black",
   1: "text-rd",
   2: "text-bl",
   3: "text-rd",

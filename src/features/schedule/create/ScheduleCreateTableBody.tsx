@@ -1,6 +1,5 @@
 "use client";
 import { useEffect } from "react";
-import { Button } from "@/components/ui/button";
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import {
@@ -16,7 +15,6 @@ import { handleTableNavigation } from "@/utils/handleTableNavigation";
 
 import { EmployeesContextValue } from "@/providers/EmployeesProvider";
 import { MonthDayType } from "@/utils/getMonthDays";
-import { useParams } from "next/navigation";
 import { ScheduleType } from "./schema";
 import { color, SHIFT_HOURS_MAP_DAY, SHIFT_HOURS_MAP_NIGHT } from "./constants";
 import { calculateSalaryByHours } from "../utils";
@@ -34,7 +32,6 @@ export default function ScheduleCreateTableBody({
   remove: UseFieldArrayReturn<ScheduleType, "rowShifts", "id">["remove"];
   move: UseFieldArrayReturn<ScheduleType, "rowShifts", "id">["move"];
 }) {
-  const { id } = useParams();
   const form = useFormContext();
 
   useEffect(() => {
@@ -91,85 +88,59 @@ export default function ScheduleCreateTableBody({
 
     return () => subscription.unsubscribe();
   }, [form, selectedEmployees]);
-
-  const resetRow = (rowIndex: number) => {
-    const currentData = form.getValues();
-    const updatedRows = currentData.rowShifts.map((row: any, index: number) => {
-      if (index !== rowIndex) return row;
-      return {
-        ...row,
-        shifts: row.shifts.map(() => ""),
-        dayHours: "",
-        nightHours: "",
-        totalHours: "",
-      };
-    });
-
-    const updatedData = { ...currentData, rowShifts: updatedRows };
-    form.reset(updatedData);
-  };
-  console.log("selectedEmployees:", selectedEmployees);
   return (
     <TableBody>
       {fields.map((row, rowIndex) => {
         const rate = form.getValues(`rowShifts.${rowIndex}.rate`);
         const totalPay = calculateSalaryByHours(row);
         return (
-          <TableRow key={row.id} className="hover:text-rd p-0 h-8!">
+          <TableRow key={row.id} className="hover:text-rd">
             <TableCell
-              className="text-rd cursor-pointer w-2 p-0"
+              className="text-rd cursor-pointer text-xs"
               onClick={() => remove(rowIndex)}
             >
               {rowIndex + 1}
             </TableCell>
 
-            <TableCell className="text-bl p-0 text-xs">
+            <TableCell className="text-bl text-xs">
               <input
                 {...form.register(`rowShifts.${rowIndex}.dayHours`)}
-                className="h-8!"
+                className="w-6"
                 readOnly
               />
             </TableCell>
-            <TableCell className="text-bl p-0 text-xs h-8">
+            <TableCell className="text-bl text-xs">
               <input
                 {...form.register(`rowShifts.${rowIndex}.nightHours`)}
-                className="h-8!"
+                className="w-6"
                 readOnly
               />
             </TableCell>
 
-            <TableCell className="p-0 text-center">
+            <TableCell className="text-center">
               <input
                 {...form.register(`rowShifts.${rowIndex}.totalHours`)}
-                className="font-bold h-8"
+                className="font-bold w-8"
                 readOnly
-              />
-            </TableCell>
-
-            <TableCell className="sticky left-0 p-0">
-              <SelectScheduleEmployee
-                fieldName={`rowShifts.${rowIndex}.employee`}
-                data={selectedEmployees}
-                className="p-0 hover:text-rd justify-start h-8!"
               />
             </TableCell>
 
             <TableCell className="text-xs">
               {rate / 1000}:{totalPay && ` ${totalPay.toFixed()}`}
             </TableCell>
-
-            {/* <TableCell
-              className="w-4 cursor-pointer p-0"
-              onClick={() => resetRow(rowIndex)}
-            >
-              <Minus className="w-3 h-3" />
-            </TableCell> */}
+            <TableCell className="p-0">
+              <SelectScheduleEmployee
+                fieldName={`rowShifts.${rowIndex}.employee`}
+                data={selectedEmployees}
+                className="hover:text-rd justify-start w-32"
+              />
+            </TableCell>
 
             {monthDays.map((_day, dayIndex) => {
               const fieldName = `rowShifts.${rowIndex}.shifts.${dayIndex}`;
               const value = form.getValues(fieldName);
               return (
-                <TableCell key={dayIndex} className="p-0 border-x">
+                <TableCell key={dayIndex} className="border-x p-0">
                   <input
                     {...form.register(fieldName)}
                     data-row={rowIndex}
@@ -178,7 +149,7 @@ export default function ScheduleCreateTableBody({
                       handleTableNavigation(e, rowIndex, dayIndex)
                     }
                     className={cn(
-                      "w-full h-8 text-center",
+                      "w-11 h-9 text-center",
                       value === "" ? "bg-border/20" : "",
                       color[value as keyof typeof color]
                     )}
@@ -187,25 +158,23 @@ export default function ScheduleCreateTableBody({
               );
             })}
 
-            <TableCell className="w-6 flex flex-col justify-center items-center p-0">
-              <Button
+            <TableCell className="w-10 p-0 flex flex-col justify-center items-center">
+              <button
                 type="button"
-                variant="ghost"
                 disabled={rowIndex === 0}
                 onClick={() => move(rowIndex, rowIndex - 1)}
-                className="w-3 h-3 p-0 flex items-center justify-center"
+                className="cursor-pointer"
               >
-                <ChevronUp className="w-2 h-3" />
-              </Button>
-              <Button
+                <ChevronUp className="w-4 h-4" />
+              </button>
+              <button
                 type="button"
-                variant="ghost"
                 disabled={rowIndex === fields.length - 1}
                 onClick={() => move(rowIndex, rowIndex + 1)}
-                className="w-3 h-3 p-0 flex items-center justify-center"
+                className="cursor-pointer"
               >
-                <ChevronDown className="w-2 h-3" />
-              </Button>
+                <ChevronDown className="w-4 h-4" />
+              </button>
             </TableCell>
           </TableRow>
         );

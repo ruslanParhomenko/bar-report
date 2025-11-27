@@ -112,9 +112,7 @@ export function ScheduleCreatePage({
 
   return (
     <FormWrapper form={form} onSubmit={onSubmit}>
-      {/* <ScheduleCreateActionForm /> */}
-
-      <Table className="md:table-fixed">
+      <Table>
         <ScheduleTableHeader addNewRow={addRow} isSave={true} patch={patch} />
 
         <ScheduleCreateTableBody

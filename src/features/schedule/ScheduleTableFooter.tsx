@@ -23,7 +23,7 @@ export default function ScheduleTableFooter({
         ).map((item, i) => (
           <TableRow key={i} className="bg-card border-0">
             <TableCell colSpan={colSpan} />
-            <TableCell className="text-start text-muted-gn  p-0 leading-none text-xs">
+            <TableCell className="text-muted-gn py-0 px-3 text-end leading-none text-xs">
               {item}
             </TableCell>
             {shiftCounts?.[item]?.map((day, index) => (

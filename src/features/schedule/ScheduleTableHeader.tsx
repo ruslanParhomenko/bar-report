@@ -1,10 +1,8 @@
-import { Button } from "@/components/ui/button";
 import { TableCell, TableHeader, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import { getMonthDays } from "@/utils/getMonthDays";
-import { Plus } from "lucide-react";
 import { useParams, useSearchParams } from "next/navigation";
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import ScheduleActionButton from "./ScheduleActionButton";
 
 export default function ScheduleTableHeader({
@@ -23,7 +21,7 @@ export default function ScheduleTableHeader({
   isSave?: boolean;
 }) {
   const { id } = useParams();
-  console.log("id", id);
+
   const params = useSearchParams();
   const month = params.get("month") as string;
   const year = params.get("year") as string;
@@ -42,8 +40,8 @@ export default function ScheduleTableHeader({
 
   return (
     <TableHeader>
-      <TableRow className="h-10!">
-        <TableCell colSpan={4} className="w-40 text-start p-0">
+      <TableRow className="h-12!">
+        <TableCell colSpan={5} className="text-start p-0">
           {/* {id && isCreate && (
             <Button
               onClick={addNewRow && addNewRow}
@@ -60,23 +58,19 @@ export default function ScheduleTableHeader({
             patch={patch}
             scheduleId={scheduleId as string}
             isSave={isSave}
+            addNewRow={addNewRow}
           />
         </TableCell>
-        <TableCell className="w-32  front-bold text-end">
+        <TableCell className="front-bold text-center">
           {month?.toUpperCase() || ""}
         </TableCell>
-
-        <TableCell
-          className="w-16 p-0 no-print"
-          data-html2canvas-ignore="true"
-        />
 
         {monthDays.map((day, index) => {
           return (
             <TableCell
               key={day.day}
               className={cn(
-                "w-10 cursor-pointer p-0",
+                "w-12 cursor-pointer p-0",
                 day.day === todayDay && "text-rd front-bold"
               )}
               onClick={() => setSelectedColumn && setSelectedColumn(index)}

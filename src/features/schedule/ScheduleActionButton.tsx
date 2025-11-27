@@ -5,18 +5,19 @@ import { useSearchParams } from "next/navigation";
 import EditButton from "@/components/buttons/EditButton";
 import MailButton from "@/components/buttons/MailButton";
 import ExitButton from "@/components/buttons/ExitButton";
-import { is } from "date-fns/locale";
-import { Save } from "lucide-react";
+import { PlusCircleIcon, PlusSquare, Save } from "lucide-react";
 import { useRouter } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 
 export default function ScheduleActionButton({
   ref,
+  addNewRow,
   patch,
   scheduleId,
   isSave,
 }: {
   ref?: React.RefObject<HTMLDivElement | null>;
+  addNewRow?: () => void;
   patch: string;
   scheduleId: string;
   isSave?: boolean;
@@ -31,7 +32,7 @@ export default function ScheduleActionButton({
   const urlCreate = `/schedule/${patch}/create?month=${month}&year=${year}`;
   const canEdit = isCanEdit({ year, month }) || isAdmin;
   return (
-    <div className="flex justify-center items-start md:gap-3 p-0 gap-1">
+    <div className="flex justify-center items-start md:gap-4 p-0 gap-1">
       <EditButton
         canEdit={canEdit}
         url={scheduleId ? urlEdit : urlCreate}
@@ -52,7 +53,21 @@ export default function ScheduleActionButton({
         className={cn("cursor-pointer", ref && "opacity-50")}
         disabled={ref ? true : false}
       >
-        <Save className="h-5 w-5" strokeWidth={1.5} />
+        <Save
+          className={cn("h-5 w-5", !ref && "text-rd")}
+          strokeWidth={ref ? 1.5 : 2}
+        />
+      </button>
+      <button
+        type="submit"
+        onClick={addNewRow && addNewRow}
+        className={cn("cursor-pointer", ref && "opacity-50")}
+        disabled={ref ? true : false}
+      >
+        <PlusCircleIcon
+          className={cn("h-5 w-5", !ref && "text-rd")}
+          strokeWidth={ref ? 1.5 : 2}
+        />
       </button>
     </div>
   );
