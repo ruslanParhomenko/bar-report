@@ -4,36 +4,47 @@ import { cn } from "@/lib/utils";
 import { getMonthDays } from "@/utils/getMonthDays";
 import { Plus } from "lucide-react";
 import { useParams, useSearchParams } from "next/navigation";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
+import ScheduleActionButton from "./ScheduleActionButton";
 
 export default function ScheduleTableHeader({
   setSelectedColumn,
+  componentRef,
+  patch,
+  scheduleId,
   addNewRow,
-  isTop = true,
-  isCreate = false,
+  isSave = false,
 }: {
   setSelectedColumn?: (index: number) => void;
+  componentRef?: React.RefObject<HTMLDivElement | null>;
+  patch: string;
+  scheduleId?: string;
   addNewRow?: () => void;
-  isTop?: boolean;
-  isCreate?: boolean;
+  isSave?: boolean;
 }) {
   const { id } = useParams();
+  console.log("id", id);
   const params = useSearchParams();
   const month = params.get("month") as string;
   const year = params.get("year") as string;
 
   const todayDay = new Date().getDate();
 
-  const monthDays = useMemo(() => {
-    if (!month || !year) return [];
-    return getMonthDays({ month: month, year: year });
-  }, [month, year]);
+  const monthDays = getMonthDays({ month: month, year: year });
+
+  const todayIndex = monthDays.findIndex((day) => day.day === todayDay);
+  useEffect(() => {
+    if (!setSelectedColumn) return;
+    if (todayIndex !== -1) {
+      setSelectedColumn(todayIndex);
+    }
+  }, [todayIndex]);
 
   return (
     <TableHeader>
-      <TableRow className={cn(isTop ? "" : "border-0! no-print")}>
-        <TableCell className="w-6 text-start p-0">
-          {id && isCreate && (
+      <TableRow className="h-10!">
+        <TableCell colSpan={4} className="w-40 text-start p-0">
+          {/* {id && isCreate && (
             <Button
               onClick={addNewRow && addNewRow}
               variant="ghost"
@@ -43,22 +54,20 @@ export default function ScheduleTableHeader({
             >
               <Plus className="h-3 w-3" />
             </Button>
-          )}
-        </TableCell>
-        <TableCell className="w-6" />
-        <TableCell className="w-6" />
-        <TableCell className="w-8" />
-        <TableCell className="w-28 p-0 front-bold text-center">
-          {(isTop && month?.toUpperCase()) || ""}
-        </TableCell>
-        {id && (
-          <TableCell
-            className="w-18 p-0 no-print"
-            data-html2canvas-ignore="true"
+          )} */}
+          <ScheduleActionButton
+            ref={componentRef}
+            patch={patch}
+            scheduleId={scheduleId as string}
+            isSave={isSave}
           />
-        )}
+        </TableCell>
+        <TableCell className="w-32  front-bold text-end">
+          {month?.toUpperCase() || ""}
+        </TableCell>
+
         <TableCell
-          className="w-8 p-0 no-print"
+          className="w-16 p-0 no-print"
           data-html2canvas-ignore="true"
         />
 
@@ -67,7 +76,7 @@ export default function ScheduleTableHeader({
             <TableCell
               key={day.day}
               className={cn(
-                "w-9 cursor-pointer p-0",
+                "w-10 cursor-pointer p-0",
                 day.day === todayDay && "text-rd front-bold"
               )}
               onClick={() => setSelectedColumn && setSelectedColumn(index)}
@@ -80,7 +89,7 @@ export default function ScheduleTableHeader({
           );
         })}
 
-        {(id || isCreate) && <TableCell className="w-3" />}
+        <TableCell className="w-6 p-0" />
       </TableRow>
     </TableHeader>
   );

@@ -45,3 +45,19 @@ export const getSchedule = unstable_cache(_getSchedule, ["schedule"], {
   revalidate: false,
   tags: ["schedule"],
 });
+
+// get by id
+const _getScheduleById = async (id: string) => {
+  const doc = await dbAdmin.collection("schedule").doc(id).get();
+  if (!doc.exists) return null;
+
+  return {
+    id: doc.id,
+    ...doc.data(),
+  } as ScheduleData & { id: string };
+};
+
+export const getScheduleById = unstable_cache(_getScheduleById, ["schedule"], {
+  revalidate: false,
+  tags: ["schedule"],
+});

@@ -1,23 +1,25 @@
-import { toast } from "sonner";
 import { isCanEdit } from "./utils";
-import { FolderPlus, MailIcon, PencilIcon } from "lucide-react";
 import PrintButton from "@/components/buttons/PrintButton";
 import { useAbility } from "@/providers/AbilityProvider";
-import { useRouter, useSearchParams } from "next/navigation";
-import { Button } from "@/components/ui/button";
+import { useSearchParams } from "next/navigation";
+import EditButton from "@/components/buttons/EditButton";
+import MailButton from "@/components/buttons/MailButton";
+import ExitButton from "@/components/buttons/ExitButton";
+import { is } from "date-fns/locale";
+import { Save } from "lucide-react";
+import { useRouter } from "@/i18n/navigation";
+import { cn } from "@/lib/utils";
 
 export default function ScheduleActionButton({
-  handlePrint,
-  sendScreenshot,
-  isSending,
+  ref,
   patch,
   scheduleId,
+  isSave,
 }: {
-  handlePrint: () => void;
-  sendScreenshot: () => void;
-  isSending: boolean;
+  ref?: React.RefObject<HTMLDivElement | null>;
   patch: string;
   scheduleId: string;
+  isSave?: boolean;
 }) {
   const router = useRouter();
   const params = useSearchParams();
@@ -25,61 +27,33 @@ export default function ScheduleActionButton({
   const year = params.get("year") as string;
   const { isAdmin, isManager } = useAbility();
   const isDisabled = !isAdmin && !isManager;
+  const urlEdit = `/schedule/${patch}/${scheduleId}?month=${month}&year=${year}`;
+  const urlCreate = `/schedule/${patch}/create?month=${month}&year=${year}`;
   const canEdit = isCanEdit({ year, month }) || isAdmin;
   return (
-    <div className="flex md:gap-4 gap-1 py-3">
-      {scheduleId ? (
-        <>
-          <Button
-            size="sm"
-            variant="outline"
-            type="button"
-            onClick={() => {
-              if (canEdit) {
-                router.push(
-                  `/schedule/${patch}/${scheduleId}?month=${encodeURIComponent(
-                    month
-                  )}&year=${encodeURIComponent(year)}`
-                );
-              } else {
-                toast.error("Редактирование недоступно: прошло более 41 дня");
-              }
-            }}
-            disabled={isDisabled}
-            className="cursor-pointer p-0"
-          >
-            <PencilIcon className="h-3 w-3" />
-          </Button>
-          <PrintButton onPrint={() => handlePrint && handlePrint()} />
-          <Button
-            size="sm"
-            variant="outline"
-            type="button"
-            onClick={() => sendScreenshot && sendScreenshot()}
-            disabled={isDisabled || isSending}
-            className="cursor-pointer"
-          >
-            <MailIcon className="h-4 w-4" />
-          </Button>
-        </>
-      ) : (
-        <Button
-          size="sm"
-          type="button"
-          variant="outline"
-          onClick={() =>
-            router.push(
-              `/schedule/${patch}/create?month=${encodeURIComponent(
-                month
-              )}&year=${encodeURIComponent(year)}`
-            )
-          }
-          disabled={isDisabled}
-          className="cursor-pointer p-0"
-        >
-          <FolderPlus className="h-4 w-4" />
-        </Button>
-      )}
+    <div className="flex justify-center items-start md:gap-3 p-0 gap-1">
+      <EditButton
+        canEdit={canEdit}
+        url={scheduleId ? urlEdit : urlCreate}
+        disabled={isDisabled || isSave}
+      />
+
+      <ExitButton disabled={!isSave} />
+      <PrintButton componentRef={ref && ref} disabled={!ref} />
+
+      <MailButton
+        componentRef={ref}
+        disabled={isDisabled || !ref}
+        patch={patch}
+      />
+      <button
+        type="submit"
+        onClick={() => router.back()}
+        className={cn("cursor-pointer", ref && "opacity-50")}
+        disabled={ref ? true : false}
+      >
+        <Save className="h-5 w-5" strokeWidth={1.5} />
+      </button>
     </div>
   );
 }

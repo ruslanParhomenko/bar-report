@@ -21,7 +21,7 @@ export default function SelectScheduleByMonth({
   return (
     <div className="flex md:justify-start justify-end items-center md:gap-6 gap-1 md:px-6">
       <Select value={month} onValueChange={(value) => setMonth(value)}>
-        <SelectTrigger className="w-21 h-8! p-1.5 bg-border [&>svg]:hidden justify-center">
+        <SelectTrigger className="w-21 h-7! p-1.5 bg-border/50 border-0 [&>svg]:hidden justify-center">
           <SelectValue placeholder="month" />
         </SelectTrigger>
         <SelectContent>
@@ -33,7 +33,7 @@ export default function SelectScheduleByMonth({
         </SelectContent>
       </Select>
       <Select defaultValue={year} onValueChange={(value) => setYear(value)}>
-        <SelectTrigger className="w-20 h-8! p-1.5 bg-border [&>svg]:hidden justify-center">
+        <SelectTrigger className="w-20 h-7! p-1.5 bg-border/50 border-0 [&>svg]:hidden justify-center">
           <SelectValue placeholder="year" />
         </SelectTrigger>
         <SelectContent>

@@ -2,7 +2,7 @@
 import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
-import { ChevronDown, ChevronUp, Minus } from "lucide-react";
+import { ChevronDown, ChevronUp } from "lucide-react";
 import {
   FieldArrayWithId,
   UseFieldArrayReturn,
@@ -19,6 +19,7 @@ import { MonthDayType } from "@/utils/getMonthDays";
 import { useParams } from "next/navigation";
 import { ScheduleType } from "./schema";
 import { color, SHIFT_HOURS_MAP_DAY, SHIFT_HOURS_MAP_NIGHT } from "./constants";
+import { calculateSalaryByHours } from "../utils";
 
 export default function ScheduleCreateTableBody({
   fields,
@@ -107,22 +108,14 @@ export default function ScheduleCreateTableBody({
     const updatedData = { ...currentData, rowShifts: updatedRows };
     form.reset(updatedData);
   };
-
+  console.log("selectedEmployees:", selectedEmployees);
   return (
     <TableBody>
       {fields.map((row, rowIndex) => {
         const rate = form.getValues(`rowShifts.${rowIndex}.rate`);
-        const dayHourPay =
-          row.role === "mngr" ? Number(rate) / 186 : (Number(rate) / 186) * 0.9;
-        const nightHourPay =
-          row.role === "mngr"
-            ? Number(rate) / 186
-            : (Number(rate) / 186) * 1.15;
-        const totalPay =
-          dayHourPay * Number(row.dayHours) +
-          nightHourPay * Number(row.nightHours);
+        const totalPay = calculateSalaryByHours(row);
         return (
-          <TableRow key={row.id} className="hover:text-rd p-0">
+          <TableRow key={row.id} className="hover:text-rd p-0 h-8!">
             <TableCell
               className="text-rd cursor-pointer w-2 p-0"
               onClick={() => remove(rowIndex)}
@@ -133,12 +126,14 @@ export default function ScheduleCreateTableBody({
             <TableCell className="text-bl p-0 text-xs">
               <input
                 {...form.register(`rowShifts.${rowIndex}.dayHours`)}
+                className="h-8!"
                 readOnly
               />
             </TableCell>
             <TableCell className="text-bl p-0 text-xs h-8">
               <input
                 {...form.register(`rowShifts.${rowIndex}.nightHours`)}
+                className="h-8!"
                 readOnly
               />
             </TableCell>
@@ -155,28 +150,26 @@ export default function ScheduleCreateTableBody({
               <SelectScheduleEmployee
                 fieldName={`rowShifts.${rowIndex}.employee`}
                 data={selectedEmployees}
-                className="p-0 hover:text-rd justify-start"
+                className="p-0 hover:text-rd justify-start h-8!"
               />
             </TableCell>
-            {id && (
-              <TableCell className="text-xs flex items-start justify-center">
-                {rate}
-                {totalPay && ` (${totalPay.toFixed()})`}
-              </TableCell>
-            )}
 
-            <TableCell
+            <TableCell className="text-xs">
+              {rate / 1000}:{totalPay && ` ${totalPay.toFixed()}`}
+            </TableCell>
+
+            {/* <TableCell
               className="w-4 cursor-pointer p-0"
               onClick={() => resetRow(rowIndex)}
             >
               <Minus className="w-3 h-3" />
-            </TableCell>
+            </TableCell> */}
 
             {monthDays.map((_day, dayIndex) => {
               const fieldName = `rowShifts.${rowIndex}.shifts.${dayIndex}`;
               const value = form.getValues(fieldName);
               return (
-                <TableCell key={dayIndex} className="p-0 text-center w-10">
+                <TableCell key={dayIndex} className="p-0 border-x">
                   <input
                     {...form.register(fieldName)}
                     data-row={rowIndex}
@@ -185,8 +178,8 @@ export default function ScheduleCreateTableBody({
                       handleTableNavigation(e, rowIndex, dayIndex)
                     }
                     className={cn(
-                      "w-10 h-8",
-                      value === "" ? "bg-border" : "text-bl",
+                      "w-full h-8 text-center",
+                      value === "" ? "bg-border/20" : "",
                       color[value as keyof typeof color]
                     )}
                   />

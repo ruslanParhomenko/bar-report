@@ -26,25 +26,24 @@ export default function PageNavTabs({ navItems, mainRoute }: PageNavProps) {
   const [month, setMonth] = useState(MONTHS[new Date().getMonth()]);
   const [year, setYear] = useState(new Date().getFullYear().toString());
   const [patch, setPath] = useState("bar");
-
   useEffect(() => {
     if (!month || !year || !patch) return;
     router.push(`/${mainRoute}/${patch}?month=${month}&year=${year}`);
   }, [month, year, patch]);
 
   return (
-    <div className="sticky top-0 z-10 flex flex-row justify-end md:justify-between gap-2">
+    <div className="mb-6 sticky top-0 z-10 flex flex-row justify-end md:justify-between gap-2 border-b border-border pb-2">
       <Tabs
         value={patch}
         onValueChange={(value) => setPath(value)}
         className="order-1 md:order-0"
       >
-        <TabsList className="flex md:gap-6">
+        <TabsList className="flex md:gap-6 h-8">
           {navItems.map((page) => (
             <TabsTrigger
               key={page.title}
               value={page.href}
-              className={cn("text-nowrap hover:text-bl cursor-pointer p-2")}
+              className={cn("text-nowrap hover:text-bl cursor-pointer")}
             >
               {t(page.title)}
             </TabsTrigger>

@@ -3,16 +3,16 @@ import PrintButton from "@/components/buttons/PrintButton";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Spinner } from "@/components/ui/spinner";
 import { useGoogleData } from "@/hooks/useGoogleData";
-import { usePrint } from "@/hooks/useToPrint";
 import { columns, LABELS } from "./constants";
+import { useRef } from "react";
 
 export default function StatusMenu() {
   const { statusMenu: data } = useGoogleData();
-  const { componentRef, handlePrint } = usePrint({ title: "Table status" });
+  const componentRef = useRef<HTMLDivElement>(null);
 
   return (
     <>
-      <PrintButton onPrint={handlePrint} className="mb-2" />
+      <PrintButton componentRef={componentRef} className="mb-2" />
       <div
         ref={componentRef}
         className="

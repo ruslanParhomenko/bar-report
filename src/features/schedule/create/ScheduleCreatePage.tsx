@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import { Table } from "@/components/ui/table";
 import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -12,35 +12,28 @@ import {
 import { getMonthDays } from "@/utils/getMonthDays";
 import { useSchedules } from "@/providers/ScheduleProvider";
 import { toast } from "sonner";
-import { useParams, useSearchParams } from "next/navigation";
-import { useRouter } from "@/i18n/navigation";
-
-import { useEmployees } from "@/providers/EmployeesProvider";
 import { defaultSchedule, scheduleSchema, ScheduleType } from "./schema";
-import { EMPLOYEE_ROLES_BY_DEPARTMENT, SHIFT_OPTIONS } from "./constants";
-import { useLocalStorageForm } from "@/hooks/useLocalStorageForm";
+import { EMPLOYEE_ROLES_BY_DEPARTMENT } from "./constants";
 import { FormWrapper } from "@/components/wrapper/FormWrapper";
 import ScheduleTableHeader from "../ScheduleTableHeader";
 import ScheduleCreateTableBody from "./ScheduleCreateTableBody";
-import ScheduleCreateTableFooter from "./ScheduleCreateTableFooter";
-import ScheduleCreateActionForm from "./ScheduleCreateActionForm";
+import { getSelectedEmployeesByRole } from "../utils";
+import ScheduleTableFooter from "../ScheduleTableFooter";
 
-export function ScheduleCreatePage() {
-  const { id, patch }: { id: string; patch: string } = useParams();
-  const router = useRouter();
-  const searchParams = useSearchParams();
-
-  const month = searchParams.get("month");
-  const year = searchParams.get("year");
-  const role = patch as keyof typeof EMPLOYEE_ROLES_BY_DEPARTMENT;
-
+export function ScheduleCreatePage({
+  id,
+  patch,
+  month,
+  year,
+}: {
+  id?: string;
+  patch: string;
+  month: string;
+  year: string;
+}) {
   // set schedule
   const schedules = useSchedules();
-  const found = id
-    ? schedules.find((s) => s.uniqueKey === id)
-    : defaultSchedule;
-
-  console.log("found", found);
+  const found = id ? schedules.find((s) => s.id === id) : defaultSchedule;
 
   // set form
   const form = useForm<ScheduleType>({
@@ -53,76 +46,32 @@ export function ScheduleCreatePage() {
   });
 
   // set employees
-  const employees = useEmployees();
-  const selectedEmployees = useMemo(() => {
-    if (
-      !Array.isArray(employees) ||
-      !role ||
-      !(role in EMPLOYEE_ROLES_BY_DEPARTMENT)
-    )
-      return [];
-
-    const allowedRoles: readonly string[] =
-      EMPLOYEE_ROLES_BY_DEPARTMENT[
-        role as keyof typeof EMPLOYEE_ROLES_BY_DEPARTMENT
-      ] ?? [];
-
-    return employees
-      .filter((e) => allowedRoles.includes(e.role))
-      .sort((a, b) => {
-        const roleA = allowedRoles.indexOf(a.role);
-        const roleB = allowedRoles.indexOf(b.role);
-        if (roleA !== roleB) return roleA - roleB;
-        return a.name.localeCompare(b.name);
-      });
-  }, [employees, patch]);
+  const selectedEmployees = getSelectedEmployeesByRole(
+    patch as keyof typeof EMPLOYEE_ROLES_BY_DEPARTMENT
+  );
 
   // set days
-  const monthDays = useMemo(() => {
-    if (!month || !year) return [];
-    return getMonthDays({ month, year });
-  }, [month, year]);
-
-  // set storage
-  const storageKey = useMemo(() => {
-    if (!month || !role || !year) return "";
-    return `schedule_${year}_${month}_${role}_${id ? "update" : "create"}`;
-  }, [year, month, patch]);
-
-  // local storage
-  const { isLoaded, removeLocalStorageKey } = useLocalStorageForm(
-    form,
-    storageKey
-  );
+  const monthDays = getMonthDays({ month, year });
 
   // submit
   const onSubmit: SubmitHandler<ScheduleType> = async (data) => {
-    console.log("data", data);
     const formatData: ScheduleData = {
       ...data,
-      uniqueKey: `${year}-${month}-${role}`,
+      uniqueKey: `${year}-${month}-${patch}`,
       month: month as string,
       year: year as string,
-      role: role as string,
+      role: patch as string,
     };
-    const existing = schedules?.find(
-      (s) => s.uniqueKey === formatData.uniqueKey
-    );
     if (id) {
       await updateSchedule(id as string, formatData);
       toast.success("График успешно обновлён!");
-      router.back();
       return;
-    }
-    if (!id && !existing) {
+    } else {
       await createSchedule(formatData);
       toast.success("График успешно создан!");
       form.reset(defaultSchedule);
       return;
     }
-    toast.error(
-      "График с такими параметрами уже существует или некорректные данные!"
-    );
   };
   // add new row
   const addRow = () => {
@@ -143,9 +92,7 @@ export function ScheduleCreatePage() {
   };
 
   useEffect(() => {
-    if (!isLoaded) return;
     if (id) return;
-    if (!month || !role || selectedEmployees.length === 0) return;
     if (fields.length > 0) return;
 
     const newRows = selectedEmployees.map((employee, index) => ({
@@ -161,22 +108,14 @@ export function ScheduleCreatePage() {
     }));
 
     replace(newRows);
-  }, [
-    isLoaded,
-    month,
-    role,
-    selectedEmployees,
-    monthDays.length,
-    fields.length,
-  ]);
+  }, [month, patch, selectedEmployees, monthDays.length, fields.length]);
 
-  if (!isLoaded) return null;
   return (
     <FormWrapper form={form} onSubmit={onSubmit}>
-      <ScheduleCreateActionForm removeLocalStorageKey={removeLocalStorageKey} />
+      {/* <ScheduleCreateActionForm /> */}
 
       <Table className="md:table-fixed">
-        <ScheduleTableHeader addNewRow={addRow} isCreate={true} />
+        <ScheduleTableHeader addNewRow={addRow} isSave={true} patch={patch} />
 
         <ScheduleCreateTableBody
           fields={fields}
@@ -186,7 +125,7 @@ export function ScheduleCreatePage() {
           move={move}
         />
 
-        <ScheduleCreateTableFooter data={SHIFT_OPTIONS || []} />
+        <ScheduleTableFooter schedule={form.watch() as any} id={id} />
       </Table>
     </FormWrapper>
   );
