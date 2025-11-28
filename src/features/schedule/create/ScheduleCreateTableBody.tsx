@@ -8,11 +8,8 @@ import {
   useFormContext,
 } from "react-hook-form";
 import { cn } from "@/lib/utils";
-
 import SelectScheduleEmployee from "@/components/inputs/SelectScheduleEmployee";
-
 import { handleTableNavigation } from "@/utils/handleTableNavigation";
-
 import { EmployeesContextValue } from "@/providers/EmployeesProvider";
 import { MonthDayType } from "@/utils/getMonthDays";
 import { ScheduleType } from "./schema";
@@ -158,7 +155,7 @@ export default function ScheduleCreateTableBody({
               );
             })}
 
-            <TableCell className="w-10 p-0 flex flex-col justify-center items-center">
+            <TableCell className="p-0 flex flex-col justify-center items-center">
               <button
                 type="button"
                 disabled={rowIndex === 0}

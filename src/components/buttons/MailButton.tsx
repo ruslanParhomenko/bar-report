@@ -10,10 +10,12 @@ export default function MailButton({
   componentRef,
   patch,
   disabled,
+  className,
 }: {
-  componentRef?: React.RefObject<HTMLDivElement | null>;
+  componentRef?: React.RefObject<HTMLDivElement | null> | null;
   patch: string;
   disabled: boolean;
+  className?: string;
 }) {
   const [isSending, setIsSending] = useState(false);
 
@@ -61,7 +63,7 @@ export default function MailButton({
         sendScreenshot();
       }}
       disabled={disabled || isSending}
-      className={cn("cursor-pointer", disabled && "opacity-50")}
+      className={cn("cursor-pointer", disabled && "opacity-50", className)}
     >
       <MailIcon className="h-5 w-5 hover:text-bl" strokeWidth={1.5} />
     </button>

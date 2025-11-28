@@ -10,7 +10,7 @@ import {
   updateSchedule,
 } from "@/app/actions/schedule/scheduleAction";
 import { getMonthDays } from "@/utils/getMonthDays";
-import { useSchedules } from "@/providers/ScheduleProvider";
+import { SchedulesContextValue } from "@/providers/ScheduleProvider";
 import { toast } from "sonner";
 import { defaultSchedule, scheduleSchema, ScheduleType } from "./schema";
 import { EMPLOYEE_ROLES_BY_DEPARTMENT } from "./constants";
@@ -21,19 +21,24 @@ import { getSelectedEmployeesByRole } from "../utils";
 import ScheduleTableFooter from "../ScheduleTableFooter";
 
 export function ScheduleCreatePage({
-  id,
+  schedule,
   patch,
   month,
   year,
 }: {
-  id?: string;
+  schedule?: SchedulesContextValue;
   patch: string;
   month: string;
   year: string;
 }) {
-  // set schedule
-  const schedules = useSchedules();
-  const found = id ? schedules.find((s) => s.id === id) : defaultSchedule;
+  const found = schedule
+    ? schedule
+    : {
+        ...defaultSchedule,
+        role: patch,
+        month: month as string,
+        year: year as string,
+      };
 
   // set form
   const form = useForm<ScheduleType>({
@@ -62,8 +67,8 @@ export function ScheduleCreatePage({
       year: year as string,
       role: patch as string,
     };
-    if (id) {
-      await updateSchedule(id as string, formatData);
+    if (schedule?.id) {
+      await updateSchedule(schedule.id as string, formatData);
       toast.success("График успешно обновлён!");
       return;
     } else {
@@ -92,7 +97,7 @@ export function ScheduleCreatePage({
   };
 
   useEffect(() => {
-    if (id) return;
+    if (schedule?.id) return;
     if (fields.length > 0) return;
 
     const newRows = selectedEmployees.map((employee, index) => ({
@@ -113,7 +118,12 @@ export function ScheduleCreatePage({
   return (
     <FormWrapper form={form} onSubmit={onSubmit}>
       <Table>
-        <ScheduleTableHeader addNewRow={addRow} isSave={true} />
+        <ScheduleTableHeader
+          addNewRow={addRow}
+          isSave={true}
+          monthDays={monthDays}
+          month={month}
+        />
 
         <ScheduleCreateTableBody
           fields={fields}
@@ -123,7 +133,7 @@ export function ScheduleCreatePage({
           move={move}
         />
 
-        <ScheduleTableFooter schedule={form.watch() as any} id={id} />
+        <ScheduleTableFooter schedule={form.watch() as any} />
       </Table>
     </FormWrapper>
   );

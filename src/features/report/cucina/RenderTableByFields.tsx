@@ -77,10 +77,8 @@ const RenderTableCucina = ({
 
   return (
     <div className="pt-6">
-      <Label className="font-semibold py-2 text-md text-bl">
-        {t(name as string)} :
-      </Label>
-      <Separator className="py-px my-1 bg-bl" />
+      <Label className="py-1 text-md text-bl">{t(name as string)} :</Label>
+      <Separator className="py-px mb-1 bg-bl" />
 
       {fieldsArray.fields.map((field, index) => {
         const productValue = form.watch(
@@ -89,7 +87,7 @@ const RenderTableCucina = ({
 
         return (
           <div key={field.id} className="grid  grid-cols-[88%_12%]">
-            <div className="grid grid-cols-[40%_24%_24%] gap-2  md:gap-10 pb-2">
+            <div className="grid grid-cols-[30%_20%_20%_15%] gap-2 md:gap-6">
               {field1 && dataArrayField1 && (
                 <SelectFieldWithSearch
                   fieldName={`${name}.${index}.${field1}`}
@@ -132,7 +130,7 @@ const RenderTableCucina = ({
                 />
               )}
               {field4 && productValue && (
-                <div className="text-sm text-red-600 flex items-center justify-center md:w-10 w-8">
+                <div className="text-sm text-red-600 flex items-center justify-center md:w-10 w-8 h-8">
                   {form.watch(`${name}.${index}.${field4}` as any)}
                 </div>
               )}

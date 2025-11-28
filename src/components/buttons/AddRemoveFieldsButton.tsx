@@ -29,25 +29,25 @@ export function AddRemoveFieldsButton({
   return (
     <div
       className={cn(
-        "flex gap-3 md:gap-6 justify-center items-start",
+        "flex gap-2 md:gap-6 justify-center items-start",
         className
       )}
     >
       {isOnlyOne || isLast ? (
         <button
           type="button"
-          className={cn("h-10")}
+          className={cn("h-8")}
           onClick={() => formField.append(defaultValues)}
           disabled={disabled}
         >
           <PlusIcon className="size-4 text-bl font-bold cursor-pointer" />
         </button>
       ) : (
-        <div className="h-10 w-4"></div>
+        <div className="h-8 w-4"></div>
       )}
       <button
         type="button"
-        className={cn("h-10")}
+        className={cn("h-8")}
         onClick={handleRemove}
         disabled={disabled}
       >

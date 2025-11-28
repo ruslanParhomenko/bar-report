@@ -7,15 +7,9 @@ export const rows = [
   },
   {
     key: "chipsByDay",
-    label: "f",
+    label: "f 1:18",
     colorBg: " bg-gr/75",
     colorText: " text-black",
-  },
-  {
-    key: "differenceByDay",
-    label: "- +",
-    colorBg: " bg-gr/75",
-    colorText: " text-gr",
   },
   {
     key: "visaCasinoByDay",

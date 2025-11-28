@@ -6,7 +6,6 @@ const dayValueSchema = yup.string().default("");
 export const rowCashSchema = yup.object({
   tipsByDay: yup.array().of(dayValueSchema).default([]),
   chipsByDay: yup.array().of(dayValueSchema).default([]),
-  differenceByDay: yup.array().of(dayValueSchema).default([]),
   visaCasinoByDay: yup.array().of(dayValueSchema).default([]),
   cashBarByDay: yup.array().of(dayValueSchema).default([]),
   visaBarByDay: yup.array().of(dayValueSchema).default([]),

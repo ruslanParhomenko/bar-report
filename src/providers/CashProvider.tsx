@@ -3,7 +3,6 @@
 import { CashFormType } from "@/features/cash/schema";
 import { supabase } from "@/lib/supabaseClient";
 import { createContext, useContext, useEffect, useState } from "react";
-import { toast } from "sonner";
 
 export type CashContextType = {
   form_data: CashFormType;
@@ -42,7 +41,6 @@ export const CashProvider = ({
               return [newItem, ...prev];
             }
             if (payload.eventType === "UPDATE") {
-              toast.warning("Другой пользователь добавил изменения!");
               return prev.map((item) =>
                 item.unique_id === newItem.unique_id ? newItem : item
               );

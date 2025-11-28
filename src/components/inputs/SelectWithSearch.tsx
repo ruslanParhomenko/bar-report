@@ -72,9 +72,9 @@ function SelectFieldWithSearch({
                     <button
                       type="button"
                       className={cn(
-                        "w-full border rounded-md px-2 py-1 text-left flex justify-between items-center [&>svg]:hidden",
+                        "w-full border rounded-md px-2 flex justify-between items-center h-8",
                         field.value
-                          ? " overflow-hidden text-ellipsis whitespace-nowrap"
+                          ? "overflow-hidden text-ellipsis whitespace-nowrap border-0 text-black!"
                           : "",
                         className,
                         theme === "dark" ? "border-0 bg-background" : ""
@@ -82,7 +82,6 @@ function SelectFieldWithSearch({
                       disabled={disabled}
                     >
                       {field.value || placeHolder}
-                      <ChevronsUpDown className="ml-2 h-4 w-4 opacity-50" />
                     </button>
                   </PopoverTrigger>
                   <PopoverContent className="w-full p-0">

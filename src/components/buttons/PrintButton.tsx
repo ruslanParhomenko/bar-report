@@ -9,16 +9,17 @@ export default function PrintButton({
   className,
   disabled = false,
 }: {
-  componentRef?: React.RefObject<HTMLDivElement | null>;
+  componentRef?: React.RefObject<HTMLDivElement | null> | null;
   className?: string;
   disabled?: boolean;
 }) {
+  if (!componentRef) return null;
   const handlePrint = useReactToPrint({
     contentRef: componentRef,
     pageStyle: `
   @page {
     size: A4 landscape; 
-    margin: 2mm;
+    margin: 4mm;
   }
 
   @media print {

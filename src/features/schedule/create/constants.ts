@@ -17,6 +17,7 @@ export const COLOR_SHIFT = {
   3: "text-rd",
   4: "text-rd",
 };
+export const SHIFT_COLOR_MAP = ["v", "s", ""];
 export const WAITER_EMPLOYEES = ["waiters"];
 export const SHIFT_OPTIONS = ["7", "8", "9", "10", "14", "18", "19", "20"];
 export const SHIFT_HOURS_MAP_DAY: Record<string, number> = {
@@ -402,7 +403,8 @@ export const color = {
   "18": "",
   "19": "",
   "20": "",
-  v: "text-bl bg-bl border-0",
+  v: "text-bl bg-bl/50 border-0",
   s: "bg-yl text-yl border-0",
-  "/": "text-gr bg-gr border-0",
+  x: "text-rd bg-rd/20 border-0",
+  "/": "text-gr/50 bg-gr/50 border-0",
 } as const;

@@ -58,6 +58,7 @@ function NumericInput({
                   className={cn(
                     "cursor-pointer text-center h-8",
                     theme === "dark" ? "border-0" : "",
+                    value && "border-0 shadow-none text-black! font-bold",
                     Number(value) <= 0 ? "text-rd " : "",
                     className
                   )}

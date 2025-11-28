@@ -32,13 +32,13 @@ export default function PageNavTabs({ navItems, mainRoute }: PageNavProps) {
   }, [month, year, patch]);
 
   return (
-    <div className="mb-6 sticky top-0 z-10 flex flex-row justify-end md:justify-between gap-2 border-b border-border pb-2">
+    <div className="md:mt-2 mt-1 md:mb-8 mb-4 sticky top-0 z-10 flex gap-1 md:gap-4">
       <Tabs
         value={patch}
         onValueChange={(value) => setPath(value)}
         className="order-1 md:order-0"
       >
-        <TabsList className="flex md:gap-6 h-8">
+        <TabsList className="flex md:gap-2 h-8">
           {navItems.map((page) => (
             <TabsTrigger
               key={page.title}

@@ -7,10 +7,10 @@ const rowShiftSchema = yup.object({
   dayHours: yup.string().default(""),
   nightHours: yup.string().default(""),
   totalHours: yup.string().default(""),
-  employee: yup.string().default("").required("Employee is required"),
+  employee: yup.string().default("").required("is required"),
   role: yup.string().default("").required("Role is required"),
   rate: yup.string().default("").required("Rate is required"),
-  employeeId: yup.string().default("").required("EmployeeId is required"),
+  employeeId: yup.string().default("").required("is required"),
   shifts: yup.array().of(shiftsSchema).default([]),
 });
 

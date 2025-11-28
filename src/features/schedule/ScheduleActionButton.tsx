@@ -9,14 +9,14 @@ import ExitButton from "@/components/buttons/ExitButton";
 import { PlusCircleIcon, Save } from "lucide-react";
 import { usePathname, useRouter } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
+import { useContext } from "react";
+import { RefContext } from "@/providers/ClientRefProvider";
 
 export default function ScheduleActionButton({
-  ref,
   addNewRow,
   scheduleId,
   isSave,
 }: {
-  ref?: React.RefObject<HTMLDivElement | null>;
   addNewRow?: () => void;
   scheduleId: string;
   isSave?: boolean;
@@ -24,7 +24,7 @@ export default function ScheduleActionButton({
   const router = useRouter();
   const params = useSearchParams();
   const patch = usePathname();
-  console.log(patch);
+
   const month = params.get("month") as string;
   const year = params.get("year") as string;
   const { isAdmin, isManager } = useAbility();
@@ -32,26 +32,30 @@ export default function ScheduleActionButton({
   const urlEdit = `${patch}/${scheduleId}?month=${month}&year=${year}`;
   const urlCreate = `${patch}/create?month=${month}&year=${year}`;
   const canEdit = isCanEdit({ year, month }) || isAdmin;
+
+  const ref = useContext(RefContext);
   return (
-    <div className="flex justify-center items-start md:gap-4 p-0 gap-1">
+    <div className="flex justify-center items-start md:gap-2 p-0 gap-1">
       <EditButton
         canEdit={canEdit}
         url={scheduleId ? urlEdit : urlCreate}
         disabled={isDisabled || isSave}
+        className="text-bl"
       />
 
-      <ExitButton disabled={!isSave} />
-      <PrintButton componentRef={ref && ref} disabled={!ref} />
+      <ExitButton disabled={!isSave} className="text-bl" />
+      <PrintButton componentRef={ref} disabled={!ref} className="text-bl" />
 
       <MailButton
         componentRef={ref}
         disabled={isDisabled || !ref}
         patch={patch}
+        className="text-bl"
       />
       <button
         type="submit"
         onClick={() => router.back()}
-        className={cn("cursor-pointer", ref && "opacity-50")}
+        className={cn("cursor-pointer text-bl", ref && "opacity-50")}
         disabled={ref ? true : false}
       >
         <Save
@@ -62,7 +66,7 @@ export default function ScheduleActionButton({
       <button
         type="submit"
         onClick={addNewRow && addNewRow}
-        className={cn("cursor-pointer", ref && "opacity-50")}
+        className={cn("cursor-pointer text-bl", ref && "opacity-50")}
         disabled={ref ? true : false}
       >
         <PlusCircleIcon

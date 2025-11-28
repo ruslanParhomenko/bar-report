@@ -6,7 +6,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { CashFormType, cashSchema, defaultCashForm } from "./schema";
 import { toast } from "sonner";
 
-import { useMemo, useEffect } from "react";
+import { useMemo, useEffect, useRef } from "react";
 import { getMonthDays } from "@/utils/getMonthDays";
 import { Table } from "@/components/ui/table";
 import { CashBodyTable } from "./CashBodyTable";
@@ -21,7 +21,6 @@ import { sendNotificationEmail } from "@/app/actions/mail/sendNotificationEmail"
 export function PageCash() {
   // get data
   const dataCash = useCash();
-
   const { isAdmin, isCash } = useAbility();
   const isDisabled = !isAdmin && !isCash;
 
@@ -48,7 +47,6 @@ export function PageCash() {
     const newRowCashData = {
       tipsByDay: makeArray(),
       chipsByDay: makeArray(),
-      differenceByDay: makeArray(),
       visaCasinoByDay: makeArray(),
       cashBarByDay: makeArray(),
       visaBarByDay: makeArray(),
@@ -70,7 +68,14 @@ export function PageCash() {
           type: "update",
           userName: "Cashier",
           subject: "new data tips",
-          text: `${(data?.rowCashData?.tipsByDay as string[])?.join(",")}`,
+          text: `${(data?.rowCashData?.tipsByDay as string[])?.join(",")}
+          ${(data?.rowCashData?.chipsByDay as string[])?.join(",")}
+          ${(data?.rowCashData?.visaCasinoByDay as string[])?.join(",")}
+          ${(data?.rowCashData?.cashBarByDay as string[])?.join(",")}
+          ${(data?.rowCashData?.visaBarByDay as string[])?.join(",")}
+          ${(data?.rowCashData?.banquetBarByDay as string[])?.join(",")}
+         }
+       `,
         });
       }
     } catch (error) {
@@ -95,7 +100,11 @@ export function PageCash() {
 
   return (
     <FormWrapper form={form} onSubmit={onSubmit}>
-      <FilterDataByMonth disabled={isDisabled} withButton={true} />
+      <FilterDataByMonth
+        disabled={isDisabled}
+        withButton={true}
+        onConfirmSave={() => form.handleSubmit(onSubmit)()}
+      />
       <Table className="md:table-fixed">
         <CashHeaderTable monthDays={monthDays} month={month} />
         <CashBodyTable
