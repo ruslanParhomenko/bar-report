@@ -19,6 +19,7 @@ import ScheduleTableHeader from "../ScheduleTableHeader";
 import ScheduleCreateTableBody from "./ScheduleCreateTableBody";
 import { getSelectedEmployeesByRole } from "../utils";
 import ScheduleTableFooter from "../ScheduleTableFooter";
+import { useRouter } from "@/i18n/navigation";
 
 export function ScheduleCreatePage({
   schedule,
@@ -31,6 +32,7 @@ export function ScheduleCreatePage({
   month: string;
   year: string;
 }) {
+  const router = useRouter();
   const found = schedule
     ? schedule
     : {
@@ -70,6 +72,7 @@ export function ScheduleCreatePage({
     if (schedule?.id) {
       await updateSchedule(schedule.id as string, formatData);
       toast.success("График успешно обновлён!");
+      router.back();
       return;
     } else {
       await createSchedule(formatData);

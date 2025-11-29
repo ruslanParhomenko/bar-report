@@ -15,7 +15,9 @@ export default function ScheduleTableBody({
   return (
     <TableBody>
       {schedule?.rowShifts?.map((row, rowIndex) => {
-        const isSelected = !SHIFT_COLOR_MAP.includes(row.shifts?.[todayDay]);
+        const isSelected = !SHIFT_COLOR_MAP.includes(
+          row.shifts?.[todayDay - 1]
+        );
         const totalPay = isView
           ? calculateSalaryByHours(row).toFixed(0).toString()
           : "0";
@@ -41,7 +43,7 @@ export default function ScheduleTableBody({
             </TableCell>
 
             {row.shifts?.map((day, dayIndex) => {
-              const isSelected = dayIndex === todayDay;
+              const isSelected = dayIndex === todayDay - 1;
 
               return (
                 <TableCell

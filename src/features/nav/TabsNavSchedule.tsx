@@ -19,15 +19,18 @@ interface PageNavProps {
   mainRoute: string;
 }
 
-export default function PageNavTabs({ navItems, mainRoute }: PageNavProps) {
+export default function TabsNavSchedule({ navItems, mainRoute }: PageNavProps) {
+  const key = "patch_schedule";
+  const patchStorage = localStorage.getItem(key) || "bar";
   const router = useRouter();
 
   const t = useTranslations("Home");
   const [month, setMonth] = useState(MONTHS[new Date().getMonth()]);
   const [year, setYear] = useState(new Date().getFullYear().toString());
-  const [patch, setPath] = useState("bar");
+  const [patch, setPath] = useState(patchStorage);
   useEffect(() => {
     if (!month || !year || !patch) return;
+    localStorage.setItem(key, patch);
     router.push(`/${mainRoute}/${patch}?month=${month}&year=${year}`);
   }, [month, year, patch]);
 

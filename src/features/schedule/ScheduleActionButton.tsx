@@ -54,7 +54,10 @@ export default function ScheduleActionButton({
       />
       <button
         type="submit"
-        onClick={() => router.back()}
+        onClick={() => {
+          // router.back();
+          router.refresh();
+        }}
         className={cn("cursor-pointer text-bl", ref && "opacity-50")}
         disabled={ref ? true : false}
       >

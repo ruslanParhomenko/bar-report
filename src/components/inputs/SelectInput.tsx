@@ -51,7 +51,8 @@ function SelectInput({
               {fieldLabel && <Label className={className}>{fieldLabel}</Label>}
               <Select
                 onValueChange={field.onChange}
-                value={field.value || ""}
+                key={field.value}
+                value={field.value ?? ""}
                 disabled={disabled}
               >
                 <FormControl className="w-full !h-8">
@@ -61,8 +62,8 @@ function SelectInput({
                 </FormControl>
                 <SelectContent>
                   {data?.map((item) => (
-                    <SelectItem key={item.label} value={item.label}>
-                      {item.value}
+                    <SelectItem key={item.value} value={item.value}>
+                      {item.label}
                     </SelectItem>
                   ))}
                 </SelectContent>

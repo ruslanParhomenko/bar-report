@@ -1,0 +1,37 @@
+"use client";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { EMPLOYEES_ROLE } from "./schema";
+import { useTranslations } from "next-intl";
+
+export default function SelectEmployeeBy({
+  role,
+  setRole,
+}: {
+  role: string;
+  setRole: (value: string) => void;
+}) {
+  const t = useTranslations("Home");
+  return (
+    <div className="flex items-center">
+      <Select value={role} onValueChange={(value) => setRole(value)}>
+        <SelectTrigger className="w-20 h-7! p-1 bg-border/30 border-0 text-muted-foreground [&>svg]:hidden justify-center">
+          <SelectValue placeholder="Select role" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="all">{t("all")}</SelectItem>
+          {EMPLOYEES_ROLE.map((role, idx) => (
+            <SelectItem key={`${role.value}-${idx}`} value={role.value}>
+              {t(role.value)}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+    </div>
+  );
+}

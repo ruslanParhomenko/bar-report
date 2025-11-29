@@ -34,7 +34,6 @@ export default async function Page({
         monthDays={monthDays}
         month={month}
         isView={isView}
-        patch={patch}
       />
     </ClientRefProvider>
   );

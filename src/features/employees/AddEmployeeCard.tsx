@@ -1,38 +1,107 @@
+"use client";
 import TextInput from "@/components/inputs/TextInput";
 import { CardContent, CardFooter } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { useTranslations } from "next-intl";
-import { useFieldArray, useFormContext, useWatch } from "react-hook-form";
+import {
+  FieldArray,
+  FieldArrayPath,
+  SubmitHandler,
+  useFieldArray,
+  useForm,
+  useFormContext,
+  useWatch,
+} from "react-hook-form";
 import DatePickerInput from "@/components/inputs/DatePickerInput";
 import { Button } from "@/components/ui/button";
 import { CircleMinus, Plus, Trash } from "lucide-react";
 import { DatePickerRange } from "@/components/inputs/DatePickerRange";
-import { defaultEmployee, defaultVacationPay, EMPLOYEES_ROLE } from "./schema";
+import {
+  defaultEmployee,
+  defaultVacationPay,
+  EMPLOYEES_ROLE,
+  employeesSchema,
+  EmployeesSchemaTypeData,
+} from "./schema";
 import { cn } from "@/lib/utils";
 import SelectInput from "@/components/inputs/SelectInput";
+import { EmployeesContextValue } from "@/providers/EmployeesProvider";
+import { FormWrapper } from "@/components/wrapper/FormWrapper";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useSession } from "next-auth/react";
+import { useAbility } from "@/providers/AbilityProvider";
+import { toast } from "sonner";
+import {
+  createEmployee,
+  updateEmployee,
+} from "@/app/actions/employees/employeeAction";
+import { sendNotificationEmail } from "@/app/actions/mail/sendNotificationEmail";
+import { formatDataForInput } from "@/utils/formatNow";
+import { use, useEffect } from "react";
+
+type FormData = EmployeesSchemaTypeData & { id?: string };
 
 export function AddEmployeeCard({
-  nameTag,
-  disabled,
+  employee,
 }: {
-  nameTag: string;
-  disabled?: boolean;
+  employee: EmployeesContextValue | null;
 }) {
+  console.log("employee", employee);
+  const nameTag = "vacationPay";
   const t = useTranslations("Home");
-  const form = useFormContext();
-  const { id } = form.getValues();
+  const { data: session } = useSession();
+  const { isAdmin, isManager } = useAbility();
+  const disabled = !isAdmin && !isManager;
+
+  const form = useForm<FormData>({
+    resolver: yupResolver(employeesSchema),
+    defaultValues: defaultEmployee,
+  });
   const { fields, append, remove, replace } = useFieldArray({
     control: form.control,
-    name: nameTag,
+    name: nameTag as FieldArrayPath<FormData>,
   });
   const vacationPayValues = useWatch({
     control: form.control,
-    name: nameTag,
+    name: nameTag as FieldArrayPath<FormData>,
   });
 
-  if (disabled) return null;
+  const handleSubmit: SubmitHandler<FormData> = async (data) => {
+    try {
+      const userName = session?.user?.name || "Unknown user";
+      if (employee?.id) {
+        await updateEmployee(employee.id, data);
+        toast.success("Employee updated!");
+
+        await sendNotificationEmail({
+          text: `${userName} updated employee:${data.name}`,
+        });
+      } else {
+        await createEmployee(data);
+        toast.success("Employee added!");
+        await sendNotificationEmail({
+          text: `${userName} add new employee:${data.name}-${data.role}-${
+            data.rate
+          }-${formatDataForInput({ date: data.employmentDate })}`,
+        });
+      }
+      form.reset(defaultEmployee);
+    } catch (e) {
+      toast.error("Error saving employee");
+    }
+  };
+
+  useEffect(() => {
+    if (employee) {
+      form.reset(employee);
+    }
+  }, [employee, form]);
+
+  // if (disabled) return null;
   return (
-    <div
+    <FormWrapper
+      form={form}
+      onSubmit={handleSubmit}
       className={cn(
         "flex flex-col overflow-hidden md:order-2 order-first w-full md:w-[20%] py-6"
       )}
@@ -152,7 +221,7 @@ export function AddEmployeeCard({
         </Button>
 
         <Button className="h-8" type="submit" disabled={disabled}>
-          {id ? (
+          {employee?.id ? (
             t("update")
           ) : (
             <>
@@ -161,6 +230,6 @@ export function AddEmployeeCard({
           )}
         </Button>
       </div>
-    </div>
+    </FormWrapper>
   );
 }

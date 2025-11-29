@@ -2,13 +2,6 @@
 
 import nodemailer from "nodemailer";
 
-interface Props {
-  type: "create" | "update";
-  userName: string;
-  subject: string;
-  text: string;
-}
-
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
   port: 587,
@@ -19,11 +12,10 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-export async function sendNotificationEmail({ subject, text }: Props) {
+export async function sendNotificationEmail({ text }: { text: string }) {
   await transporter.sendMail({
-    from: '"Nuovo Bar Manager" <cng.nv.rstrnt.mngr@gmail.com>',
+    from: '"Bar Manager" <cng.nv.rstrnt.mngr@gmail.com>',
     to: "parhomenkogm@gmail.com",
-    subject,
     text,
     html: `<pre>${text}</pre>`,
   });

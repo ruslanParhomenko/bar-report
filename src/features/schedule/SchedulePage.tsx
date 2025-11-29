@@ -9,13 +9,11 @@ export default function SchedulePage({
   schedule,
   monthDays,
   month,
-  patch,
   isView,
 }: {
   schedule: SchedulesContextValue;
   monthDays: MonthDayType[];
   month?: string;
-  patch: string;
   isView: boolean;
 }) {
   return (

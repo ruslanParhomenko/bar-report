@@ -13,6 +13,8 @@ export async function createEmployee(data: EmployeeData) {
     name: data.name,
     role: data.role,
     rate: data.rate,
+    mail: data.mail,
+    tel: data.tel,
     employmentDate: data.employmentDate,
     vacationPay: (data.vacationPay || []).map((pay) => ({
       startDate: pay.startDate,
