@@ -1,5 +1,3 @@
-"use client";
-
 import {
   Table,
   TableBody,
@@ -10,28 +8,12 @@ import {
 } from "@/components/ui/table";
 import { format, differenceInMonths } from "date-fns";
 import { useTranslations } from "next-intl";
-import { useFormContext } from "react-hook-form";
 import { cn } from "@/lib/utils";
-import { useIsMobile } from "@/hooks/use-mobile";
-import { useAbility } from "@/providers/AbilityProvider";
-import { deleteEmployee } from "@/app/actions/employees/employeeAction";
 import { EmployeesContextValue } from "@/providers/EmployeesProvider";
-import { EmployeesSchemaTypeData } from "./schema";
-import { toast } from "sonner";
 import ActionButtonEmployee from "./ActionButtonEmployee";
 
 export function GetEmployeesCard({ data }: { data: EmployeesContextValue[] }) {
   const t = useTranslations("Home");
-  const { isAdmin, isManager } = useAbility();
-  const isDisabled = !isAdmin && !isManager;
-
-  const isMobile = useIsMobile();
-
-  const form = useFormContext<EmployeesSchemaTypeData>();
-  const handleDeleteUser = (id: string) =>
-    isAdmin ? deleteEmployee(id) : toast.error("Access denied");
-  const handleResetForm = () => form.reset();
-
   return (
     <div className="h-[98vh] flex md:flex-1 flex-col md:overflow-hidden">
       <Table className="md:table-fixed">
@@ -43,13 +25,13 @@ export function GetEmployeesCard({ data }: { data: EmployeesContextValue[] }) {
             <TableHead className="w-15"></TableHead>
             <TableHead className="w-40">{t("mail")}</TableHead>
             <TableHead className="w-25 truncate">{t("tel")}</TableHead>
-            <TableHead className="w-15 truncate">{t("vacation")}</TableHead>
-            <TableHead className="w-15 truncate">
+            <TableHead className="w-12 truncate">{t("vacation")}</TableHead>
+            <TableHead className="w-12 truncate">
               {t("usedVacationDays")}
             </TableHead>
-            <TableHead className="w-15 truncate">{t("remaining")}</TableHead>
-            <TableHead className="w-18">{t("rate")}</TableHead>
-            <TableHead className="text-center w-30" />
+            <TableHead className="w-12 truncate">{t("remaining")}</TableHead>
+            <TableHead className="w-15">{t("rate")}</TableHead>
+            <TableHead className="text-center w-25" />
           </TableRow>
         </TableHeader>
 
@@ -81,12 +63,7 @@ export function GetEmployeesCard({ data }: { data: EmployeesContextValue[] }) {
                       ? format(emp.employmentDate, "dd.MM.yy")
                       : "-"}
                   </TableCell>
-                  <TableCell
-                    className={cn(
-                      "sticky left-0",
-                      isMobile ? "bg-card/60" : ""
-                    )}
-                  >
+                  <TableCell className={cn("sticky left-0")}>
                     {emp.name}
                   </TableCell>
                   <TableCell>{emp.role}</TableCell>
@@ -95,13 +72,9 @@ export function GetEmployeesCard({ data }: { data: EmployeesContextValue[] }) {
                   <TableCell>{vacationDays}</TableCell>
                   <TableCell>{usedVacationDays}</TableCell>
                   <TableCell>{vacationDays - usedVacationDays}</TableCell>
-                  <TableCell>{isDisabled ? "-" : Number(emp.rate)}</TableCell>
+                  <TableCell>{Number(emp.rate)}</TableCell>
                   <TableCell>
-                    <ActionButtonEmployee
-                      handleDeleteUser={handleDeleteUser}
-                      handleResetForm={handleResetForm}
-                      id={emp.id}
-                    />
+                    <ActionButtonEmployee id={emp.id} />
                   </TableCell>
                 </TableRow>
               );

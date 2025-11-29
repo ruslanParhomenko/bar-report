@@ -3,7 +3,7 @@ import { useFormContext } from "react-hook-form";
 import { format, Locale } from "date-fns";
 import { ru, ro } from "date-fns/locale";
 
-import { useLocale, useTranslations } from "next-intl";
+import { useLocale } from "next-intl";
 import {
   FormControl,
   FormField,
@@ -20,17 +20,17 @@ import { cn } from "@/lib/utils";
 import { Calendar } from "@/components/ui/calendar";
 
 import React, { useState, useEffect } from "react";
-import { useTheme } from "next-themes";
+import { Label } from "../ui/label";
 
 function DatePickerInput({
   fieldName,
+  fieldLabel,
   className,
 }: {
   fieldName: string;
+  fieldLabel?: string;
   className?: string;
 }) {
-  const { theme } = useTheme();
-  const t = useTranslations("Home");
   const locale = useLocale();
   const locales: Record<string, Locale> = {
     ru,
@@ -49,22 +49,16 @@ function DatePickerInput({
       name={fieldName}
       render={({ field }) => {
         return (
-          <FormItem>
+          <FormItem className="grid gap-2 pb-2">
+            {fieldLabel && <Label className="h-8">{fieldLabel}</Label>}
             <Popover>
-              <PopoverTrigger
-                asChild
-                className={cn(
-                  className,
-                  "h-6 border-0 shadow-none text-bl font-bold",
-                  theme === "dark" && "text-wh !bg-background"
-                )}
-              >
+              <PopoverTrigger asChild>
                 <FormControl>
                   <Button
                     variant={"outline"}
                     className={cn(
-                      !field.value && "text-muted-foreground",
-                      theme === "dark" && "border-0"
+                      "text-base border-0 shadow-none bg-background",
+                      className
                     )}
                   >
                     {field.value && isClient ? (
@@ -72,7 +66,7 @@ function DatePickerInput({
                         locale: locales[locale],
                       })
                     ) : (
-                      <span>{t("pickADate")}</span>
+                      <span className="text-muted-foreground">...date</span>
                     )}
                   </Button>
                 </FormControl>

@@ -21,11 +21,11 @@ import {
 export function FilterDataByMonth({
   withButton = false,
   disabled = true,
-  onConfirmSave, // 👈 добавляем
+  onConfirmSave,
 }: {
   withButton?: boolean;
   disabled?: boolean;
-  onConfirmSave?: () => void; // вызываем отправку формы сверху
+  onConfirmSave?: () => void;
 }) {
   const t = useTranslations("Home");
   const { isAdmin } = useAbility();
@@ -39,7 +39,7 @@ export function FilterDataByMonth({
 
   const handleConfirm = () => {
     setOpen(false);
-    onConfirmSave?.(); // 🔥 отправка формы
+    onConfirmSave?.();
   };
 
   return (

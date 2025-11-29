@@ -1,3 +1,4 @@
+import { EmployeeVacationCard } from "./EmployeeVacationCard";
 import { GetEmployeesCard } from "./GetEmployeesCard";
 import { EmployeesContextValue } from "@/providers/EmployeesProvider";
 
@@ -7,8 +8,10 @@ export function EmployeesPage({
   employees: EmployeesContextValue[];
 }) {
   return (
-    <GetEmployeesCard data={employees} />
+    <div className="flex">
+      <GetEmployeesCard data={employees} />
 
-    // <EmployeeVacationCard />
+      <EmployeeVacationCard />
+    </div>
   );
 }

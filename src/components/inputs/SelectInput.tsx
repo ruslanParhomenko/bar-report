@@ -47,7 +47,7 @@ function SelectInput({
           control={control}
           name={fieldName}
           render={() => (
-            <FormItem className="grid gap-0.5 pb-2">
+            <FormItem className="grid gap-4 pb-2">
               {fieldLabel && <Label className={className}>{fieldLabel}</Label>}
               <Select
                 onValueChange={field.onChange}
@@ -55,8 +55,8 @@ function SelectInput({
                 value={field.value ?? ""}
                 disabled={disabled}
               >
-                <FormControl className="w-full !h-8">
-                  <SelectTrigger className="flex justify-between h-8">
+                <FormControl className={cn("w-full", className)}>
+                  <SelectTrigger className="flex justify-between">
                     <SelectValue placeholder={placeHolder} />
                   </SelectTrigger>
                 </FormControl>

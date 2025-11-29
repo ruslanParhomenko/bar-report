@@ -20,9 +20,7 @@ export default function TabsNavEmployees() {
   const [role, setRole] = useState("waiters");
   const [params, setParams] = useState("employees");
 
-  console.log(params);
   useEffect(() => {
-    if (!params || !role) return;
     router.push(`/${params}/?role=${role}`);
   }, [params, role]);
 

@@ -36,7 +36,7 @@ function TextInput({
         return (
           <FormItem
             className={cn(
-              "grid gap-0.5 pb-2",
+              "grid gap-2 pb-2",
               orientation === "vertical"
                 ? "grid-cols-1 justify-items-start"
                 : "grid-cols-2 justify-items-start"

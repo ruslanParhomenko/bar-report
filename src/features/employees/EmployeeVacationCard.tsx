@@ -1,9 +1,10 @@
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+"use client";
+import { CardContent, CardHeader } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { useRouter } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 import { useEmployees } from "@/providers/EmployeesProvider";
-import { MinusCircle, PlusCircle } from "lucide-react";
+import { MinusCircle } from "lucide-react";
 
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -13,11 +14,10 @@ export function EmployeeVacationCard() {
     name: string;
     vacationPay: any[];
   } | null>(null);
-  const [isOpen, setIsOpen] = useState(false);
   const employees = useEmployees();
   const router = useRouter();
   const searchParams = useSearchParams();
-  const id = searchParams.get("empId");
+  const id = searchParams.get("vacationId");
 
   useEffect(() => {
     if (!id) return;
@@ -27,30 +27,22 @@ export function EmployeeVacationCard() {
       name: employee?.name || "",
       vacationPay: employee?.vacationPay || [],
     });
-    setIsOpen(true);
   }, [id]);
 
-  if (!isOpen) return null;
+  if (!id) return null;
   return (
     <div className="md:w-95 h-[92vh] w-full md:order-last order-first p-2 md:py-5">
       <button
         onClick={() => {
-          setIsOpen(!isOpen);
           const params = new URLSearchParams(searchParams.toString());
-          params.delete("empId");
+          params.delete("vacationId");
+
           router.replace(`?${params.toString()}`);
         }}
         type="button"
-        className={cn(
-          "cursor-pointer flex  items-center",
-          isOpen ? "justify-start" : "justify-center"
-        )}
+        className={cn("cursor-pointer flex  items-center")}
       >
-        {isOpen ? (
-          <MinusCircle className="w-4 h-4" />
-        ) : (
-          <PlusCircle className="w-4 h-4" />
-        )}
+        <MinusCircle className="w-4 h-4" />
       </button>
       <CardHeader>{vacationData?.name}</CardHeader>
       <CardContent>
