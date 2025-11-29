@@ -65,9 +65,6 @@ export function PageCash() {
       toast.success("Форма сохранена успешно!");
       if (isCash) {
         await sendNotificationEmail({
-          type: "update",
-          userName: "Cashier",
-          subject: "new data tips",
           text: `${(data?.rowCashData?.tipsByDay as string[])?.join(",")}
           ${(data?.rowCashData?.chipsByDay as string[])?.join(",")}
           ${(data?.rowCashData?.visaCasinoByDay as string[])?.join(",")}
