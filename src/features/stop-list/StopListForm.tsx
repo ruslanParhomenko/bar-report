@@ -64,8 +64,10 @@ export default function StopListForm({ data, nameTag }: StopLitTableProps) {
     control: form.control,
     name: LABEL[nameTag],
   });
-  const watchStopList =
-    useWatch({ control: form.control, name: LABEL[nameTag] }) ?? [];
+  const watchStopListBar =
+    useWatch({ control: form.control, name: "stopList" }) ?? [];
+  const watchStopListCucina =
+    useWatch({ control: form.control, name: "stopListCucina" }) ?? [];
 
   // save data with debounce
   const debouncedSave = (saveData: Omit<StopListSchemaType, "id">) => {
@@ -112,9 +114,9 @@ export default function StopListForm({ data, nameTag }: StopLitTableProps) {
 
   // save on change
   useEffect(() => {
-    if (!isBar || !Array.isArray(watchStopList) || !isInitialized) return;
+    if (!isBar || !Array.isArray(watchStopListBar) || !isInitialized) return;
 
-    watchStopList?.forEach((item, idx) => {
+    watchStopListBar?.forEach((item, idx) => {
       if (item?.product && !item.date) {
         const date = formatNowData();
         stopListValues.update(idx, {
@@ -127,17 +129,18 @@ export default function StopListForm({ data, nameTag }: StopLitTableProps) {
 
     if (isBar && data) {
       const saveData = {
-        stopList: watchStopList,
+        stopList: watchStopListBar || [],
         stopListCucina: data.stopListCucina || [],
       };
       debouncedSave(saveData);
     }
-  }, [watchStopList, isBar, data, isInitialized]);
+  }, [watchStopListBar, isBar, data, isInitialized]);
 
   useEffect(() => {
-    if (!isCucina || !Array.isArray(watchStopList) || !isInitialized) return;
+    if (!isCucina || !Array.isArray(watchStopListCucina) || !isInitialized)
+      return;
 
-    watchStopList?.forEach((item, idx) => {
+    watchStopListCucina?.forEach((item, idx) => {
       if (item?.product && !item.date) {
         const date = formatNowData();
         stopListValues.update(idx, {
@@ -151,11 +154,11 @@ export default function StopListForm({ data, nameTag }: StopLitTableProps) {
     if (isCucina && data) {
       const saveData = {
         stopList: data.stopList || [],
-        stopListCucina: watchStopList,
+        stopListCucina: watchStopListCucina || [],
       };
       debouncedSave(saveData);
     }
-  }, [watchStopList, isCucina, data, isInitialized]);
+  }, [watchStopListCucina, isCucina, data, isInitialized]);
   return (
     <FormWrapper form={form} className="xl:px-5">
       <Label className="text-lg font-semibold pb-7 text-bl">{t(nameTag)}</Label>
