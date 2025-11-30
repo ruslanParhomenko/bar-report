@@ -83,7 +83,7 @@ export const PenaltyPage = () => {
   }, []);
 
   return isViewer ? (
-    <div className="md:p-6 space-y-6">
+    <div className="space-y-8 pt-2">
       <div className="flex flex-wrap items-center gap-4">
         <SelectFilter
           data={monthsList}

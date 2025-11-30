@@ -6,9 +6,6 @@ const nextConfig: NextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-  experimental: {
-    viewTransition: true,
-  },
   /* config options here */
 };
 

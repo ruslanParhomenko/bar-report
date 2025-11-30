@@ -30,10 +30,7 @@ export function TipsTableFooter({
   return (
     <TableFooter>
       <TableRow>
-        <TableCell colSpan={monthDays.length + 4} className="h-2 bg-bl" />
-      </TableRow>
-      <TableRow>
-        <TableCell colSpan={2} className="sticky left-0 p-0 bg-card">
+        <TableCell colSpan={2} className="sticky left-0 p-0">
           cash tips
         </TableCell>
         <TableCell className="px-1">

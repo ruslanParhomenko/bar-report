@@ -1,5 +1,4 @@
 import { deleteRemark } from "@/app/actions/remarks/remarksAction";
-import { Card, CardContent } from "@/components/ui/card";
 import {
   Table,
   TableBody,
@@ -47,8 +46,8 @@ export default function PenaltyTable({ data }: { data: PenaltyTableProps[] }) {
     await deleteRemark(id);
   };
   return (
-    <Card className="overflow-hidden max-h-[88vh] flex flex-col">
-      <CardContent className="overflow-y-auto">
+    <div className="overflow-hidden max-h-[88vh] flex flex-col">
+      <div className="overflow-y-auto">
         {data && (
           <Table className="no-scrollbar">
             <TableHeader>
@@ -105,7 +104,7 @@ export default function PenaltyTable({ data }: { data: PenaltyTableProps[] }) {
             </TableBody>
           </Table>
         )}
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 }

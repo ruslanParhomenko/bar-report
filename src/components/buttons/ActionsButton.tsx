@@ -1,7 +1,6 @@
 "use client";
-import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { Minus, Plus, Trash2Icon } from "lucide-react";
+import { Plus, Trash2Icon } from "lucide-react";
 import { useTheme } from "next-themes";
 import { UseFieldArrayReturn } from "react-hook-form";
 
@@ -46,7 +45,7 @@ export const ActionsButton = ({
           type="button"
           onClick={handleRemove}
           disabled={disabled}
-          className={cn("h-10")}
+          className={cn("h-10 cursor-pointer")}
         >
           <Trash2Icon className="w-4 h-4 text-rd" />
         </button>
@@ -56,7 +55,7 @@ export const ActionsButton = ({
           type="button"
           onClick={handleAdd}
           disabled={disabled || !item}
-          className={cn("h-10")}
+          className={cn("h-10 cursor-pointer")}
         >
           <Plus className="h-4 w-4 text-bl font-bold" />
         </button>

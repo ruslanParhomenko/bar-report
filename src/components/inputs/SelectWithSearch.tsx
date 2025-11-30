@@ -1,6 +1,5 @@
 "use client";
 
-import * as React from "react";
 import { useState, useMemo } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import {
@@ -10,7 +9,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
-import { Check, ChevronsUpDown } from "lucide-react";
+import { Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 import {
@@ -74,7 +73,7 @@ function SelectFieldWithSearch({
                       className={cn(
                         "w-full border rounded-md px-2 flex justify-between items-center h-8",
                         field.value
-                          ? "overflow-hidden text-ellipsis whitespace-nowrap border-0 text-black!"
+                          ? "overflow-hidden text-ellipsis whitespace-nowrap border-0"
                           : "",
                         className,
                         theme === "dark" ? "border-0 bg-background" : ""

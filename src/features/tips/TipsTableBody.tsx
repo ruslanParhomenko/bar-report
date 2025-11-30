@@ -101,7 +101,7 @@ export function TipsTableBody({
                       data={selectedEmployees.filter(
                         (emp) => emp.role === role
                       )}
-                      className="justify-start text-center"
+                      className="justify-start text-center h-6!"
                       disabled={disabled}
                     />
                   </TableCell>
@@ -138,9 +138,8 @@ export function TipsTableBody({
                   ))}
 
                   <TableCell className="flex flex-col justify-center items-center p-0">
-                    <Button
+                    <button
                       type="button"
-                      variant="ghost"
                       disabled={rowIndex === 0 || disabled}
                       onClick={() => {
                         if (rowIndex > 0) {
@@ -150,13 +149,12 @@ export function TipsTableBody({
                           move(globalIndex, targetGlobalIndex);
                         }
                       }}
-                      className="w-3 h-4 p-0 flex items-center justify-center"
+                      className="p-0 flex items-center justify-center"
                     >
-                      <ChevronUp className="w-2" />
-                    </Button>
-                    <Button
+                      <ChevronUp className="w-3.5 h-4" />
+                    </button>
+                    <button
                       type="button"
-                      variant="ghost"
                       disabled={rowIndex === roleRows.length - 1 || disabled}
                       onClick={() => {
                         if (rowIndex < roleRows.length - 1) {
@@ -166,10 +164,10 @@ export function TipsTableBody({
                           move(globalIndex, targetGlobalIndex);
                         }
                       }}
-                      className="w-3 h-4 p-0 flex items-center justify-center"
+                      className="p-0 flex items-center justify-center"
                     >
-                      <ChevronDown className="w-2" />
-                    </Button>
+                      <ChevronDown className="w-3.5 h-4" />
+                    </button>
                   </TableCell>
                 </TableRow>
               );
@@ -179,11 +177,10 @@ export function TipsTableBody({
                 colSpan={monthDays.length + 3}
                 className="p-1 text-start"
               >
-                <Button
+                <button
                   type="button"
-                  size="sm"
-                  variant="outline"
                   disabled={disabled}
+                  className="cursor-pointer hover:bg-accent"
                   onClick={() =>
                     append({
                       id: (data.length + 1).toString(),
@@ -194,8 +191,8 @@ export function TipsTableBody({
                     })
                   }
                 >
-                  <Plus />
-                </Button>
+                  <Plus size={14} className="text-bl" />
+                </button>
               </TableCell>
             </TableRow>
           </TableBody>
