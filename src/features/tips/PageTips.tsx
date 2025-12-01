@@ -111,7 +111,11 @@ export function PageTips() {
 
   return (
     <FormWrapper form={form} onSubmit={onSubmit}>
-      <FilterDataByMonth withButton={true} disabled={isDisabled} />
+      <FilterDataByMonth
+        withButton={true}
+        disabled={isDisabled}
+        onConfirmSave={form.handleSubmit(onSubmit)}
+      />
 
       <Table className="md:table-fixed">
         <TipsTableHeader monthDays={monthDays} month={month} />
