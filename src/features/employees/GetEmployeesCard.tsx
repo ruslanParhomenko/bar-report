@@ -12,7 +12,13 @@ import { cn } from "@/lib/utils";
 import { EmployeesContextValue } from "@/providers/EmployeesProvider";
 import ActionButtonEmployee from "./ActionButtonEmployee";
 
-export function GetEmployeesCard({ data }: { data: EmployeesContextValue[] }) {
+export function GetEmployeesCard({
+  data,
+  isAdmin,
+}: {
+  data: EmployeesContextValue[];
+  isAdmin: boolean;
+}) {
   const t = useTranslations("Home");
   return (
     <div className="h-[98vh] flex md:flex-1 flex-col md:overflow-hidden">
@@ -72,7 +78,7 @@ export function GetEmployeesCard({ data }: { data: EmployeesContextValue[] }) {
                   <TableCell>{vacationDays}</TableCell>
                   <TableCell>{usedVacationDays}</TableCell>
                   <TableCell>{vacationDays - usedVacationDays}</TableCell>
-                  <TableCell>{Number(emp.rate)}</TableCell>
+                  <TableCell>{isAdmin ? Number(emp.rate) : "-"}</TableCell>
                   <TableCell>
                     <ActionButtonEmployee id={emp.id} />
                   </TableCell>
