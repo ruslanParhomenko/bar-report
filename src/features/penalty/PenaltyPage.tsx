@@ -6,8 +6,6 @@ import { months } from "./constants";
 import SelectFilter from "./SelectFilter";
 import { useUniqueOptions } from "@/hooks/useUniqueOptions";
 import { isValid } from "date-fns";
-import { RemarkData } from "@/constants/type";
-import { Remark } from "@/generated/prisma";
 import { Button } from "@/components/ui/button";
 import TotalPenalty from "./TotalPenalty";
 import { Switch } from "@/components/ui/switch";
@@ -16,22 +14,25 @@ import { useTranslations } from "next-intl";
 import { useRemarks } from "@/providers/RemarksProvider";
 import { useAbility } from "@/providers/AbilityProvider";
 import { InsufficientRights } from "@/components/wrapper/InsufficientRights";
+import { RemarksData } from "@/app/actions/remarks/remarksAction";
 
-export const PenaltyPage = () => {
+export const PenaltyPage = ({ data }: { data: RemarksData["remarks"] }) => {
   const { isBar, isCucina, isAdmin, isManager } = useAbility();
   const isViewer = isAdmin || isBar || isCucina || isManager;
   const t = useTranslations("Home");
   const [isOpenTotal, setIsOpenTotal] = useState(false);
 
-  const data = useRemarks();
+  const data2 = useRemarks();
+  console.log("data from provider", data2);
+  console.log("data from props", data);
 
-  const employeesList = useUniqueOptions<Remark>({
-    data: data?.flatMap((r) => r?.remarks ?? []) ?? [],
+  const employeesList = useUniqueOptions({
+    data: data?.flatMap((d) => d.remarks),
     getValue: (r) => r.name,
     allLabel: t("all"),
   });
 
-  const monthsList = useUniqueOptions<RemarkData>({
+  const monthsList = useUniqueOptions({
     data: data ?? [],
     getValue: (item) => {
       const date = new Date(item?.date);

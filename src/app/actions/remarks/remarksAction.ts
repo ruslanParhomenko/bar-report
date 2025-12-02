@@ -4,6 +4,14 @@ import { Remark } from "@/generated/prisma";
 import { prisma } from "@/lib/prisma";
 import { revalidateTag, unstable_cache } from "next/cache";
 
+export type RemarksData = {
+  remarks: {
+    id: number;
+    date: Date;
+    remarks: Remark[];
+  }[];
+};
+
 // create
 export async function createRemarks(data: any) {
   const { date, remarks } = data;
