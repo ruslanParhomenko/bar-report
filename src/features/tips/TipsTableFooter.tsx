@@ -25,7 +25,7 @@ export function TipsTableFooter({
     .reduce((acc: number, val: string) => acc + Number(val), 0);
   const totalCash = form
     .watch("cashTips")
-    .reduce((acc: number, val: string) => acc + Number(val), 0);
+    ?.reduce((acc: number, val: string) => acc + Number(val), 0);
 
   return (
     <TableFooter>

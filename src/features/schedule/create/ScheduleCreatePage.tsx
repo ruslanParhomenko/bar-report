@@ -7,10 +7,10 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import {
   createSchedule,
   ScheduleData,
+  SchedulesContextValue,
   updateSchedule,
 } from "@/app/actions/schedule/scheduleAction";
 import { getMonthDays } from "@/utils/getMonthDays";
-import { SchedulesContextValue } from "@/providers/ScheduleProvider";
 import { toast } from "sonner";
 import { defaultSchedule, scheduleSchema, ScheduleType } from "./schema";
 import { EMPLOYEE_ROLES_BY_DEPARTMENT } from "./constants";

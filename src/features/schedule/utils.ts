@@ -1,11 +1,10 @@
-import { SchedulesContextValue } from "@/providers/ScheduleProvider";
 import {
   EMPLOYEE_ROLES_BY_DEPARTMENT,
   SHIFT_OPTIONS,
 } from "./create/constants";
 import { MONTHS } from "@/utils/getMonthDays";
 import { useEmployees } from "@/providers/EmployeesProvider";
-import { useAbility } from "@/providers/AbilityProvider";
+import { SchedulesContextValue } from "@/app/actions/schedule/scheduleAction";
 
 // getShiftCounts
 export function getShiftCounts(schedule: SchedulesContextValue) {

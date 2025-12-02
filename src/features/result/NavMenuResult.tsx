@@ -14,20 +14,24 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useAbility } from "@/providers/AbilityProvider";
 
 const navItems = [
-  { title: "waiters", param: "waiters" },
   { title: "barmen", param: "barmen" },
-  { title: "cook", param: "cook" },
+  { title: "waiters", param: "waiters" },
+  { title: "cucina", param: "cucina" },
   { title: "dish", param: "dish" },
 ];
 
 export default function NavMenuResult() {
+  const { isAdmin, isManager, isCash } = useAbility();
+  const isDisabled = !isAdmin && !isManager && !isCash;
+
   const router = useRouter();
 
   const t = useTranslations("Home");
 
-  const defaultMonth = MONTHS[new Date().getMonth()];
+  const defaultMonth = MONTHS[new Date().getMonth() - 1];
   const defaultYear = new Date().getFullYear().toString();
   const [role, setRole] = useState("");
   const [month, setMoth] = useState(defaultMonth);
@@ -39,7 +43,7 @@ export default function NavMenuResult() {
   }, [role, month, year]);
 
   return (
-    <div className="md:mt-2 mt-1 md:mb-8 mb-4 sticky top-0 z-10 flex gap-1 md:gap-4">
+    <div className="md:mt-2 mt-1 md:mb-8 mb-4 sticky top-0 z-10 flex  gap-4 flex-col md:flex-row ">
       <Tabs
         value={role}
         onValueChange={(value) => setRole(value)}
@@ -51,38 +55,41 @@ export default function NavMenuResult() {
               key={page.title}
               value={page.param}
               className={cn("text-nowrap hover:text-bl cursor-pointer")}
+              disabled={isDisabled}
             >
               {t(page.title)}
             </TabsTrigger>
           ))}
         </TabsList>
       </Tabs>
-      <Select value={month} onValueChange={(value) => setMoth(value)}>
-        <SelectTrigger className="w-20 h-7! p-1 bg-border/30 border-0 text-muted-foreground [&>svg]:hidden justify-center">
-          <SelectValue />
-        </SelectTrigger>
-        <SelectContent>
-          {/* <SelectItem value="all">{t("all")}</SelectItem> */}
-          {MONTHS.map((month, idx) => (
-            <SelectItem key={`${month}-${idx}`} value={month}>
-              {t(month)}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
-      <Select value={year} onValueChange={(value) => setYear(value)}>
-        <SelectTrigger className="w-20 h-7! p-1 bg-border/30 border-0 text-muted-foreground [&>svg]:hidden justify-center">
-          <SelectValue />
-        </SelectTrigger>
-        <SelectContent>
-          {/* <SelectItem value="all">{t("all")}</SelectItem> */}
-          {YEAR.map((year, idx) => (
-            <SelectItem key={`${year}-${idx}`} value={year}>
-              {year}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
+      <div className="flex gap-2 justify-end md:justify-start items-center">
+        <Select value={month} onValueChange={(value) => setMoth(value)}>
+          <SelectTrigger className="w-20 h-7! p-1 bg-border/30 border-0 text-muted-foreground [&>svg]:hidden justify-center">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            {/* <SelectItem value="all">{t("all")}</SelectItem> */}
+            {MONTHS.map((month, idx) => (
+              <SelectItem key={`${month}-${idx}`} value={month}>
+                {t(month)}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+        <Select value={year} onValueChange={(value) => setYear(value)}>
+          <SelectTrigger className="w-20 h-7! p-1 bg-border/30 border-0 text-muted-foreground [&>svg]:hidden justify-center">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            {/* <SelectItem value="all">{t("all")}</SelectItem> */}
+            {YEAR.map((year, idx) => (
+              <SelectItem key={`${year}-${idx}`} value={year}>
+                {year}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
     </div>
   );
 }

@@ -1,6 +1,8 @@
-import { getSchedule } from "@/app/actions/schedule/scheduleAction";
+import {
+  getSchedule,
+  SchedulesContextValue,
+} from "@/app/actions/schedule/scheduleAction";
 import { ScheduleCreatePage } from "@/features/schedule/create/ScheduleCreatePage";
-import { SchedulesContextValue } from "@/providers/ScheduleProvider";
 
 export default async function Page({
   params,

@@ -8,6 +8,10 @@ import { unstable_cache } from "next/cache";
 export type ScheduleData = ScheduleType & {
   uniqueKey: string;
 };
+export type SchedulesContextValue = ScheduleType & {
+  id: string;
+  uniqueKey: string;
+};
 
 // create
 export async function createSchedule(data: ScheduleData) {

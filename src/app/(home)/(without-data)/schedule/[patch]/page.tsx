@@ -1,8 +1,10 @@
-import { getSchedule } from "@/app/actions/schedule/scheduleAction";
+import {
+  getSchedule,
+  SchedulesContextValue,
+} from "@/app/actions/schedule/scheduleAction";
 import SchedulePage from "@/features/schedule/SchedulePage";
 import { authOptions } from "@/lib/auth";
 import ClientRefProvider from "@/providers/ClientRefProvider";
-import { SchedulesContextValue } from "@/providers/ScheduleProvider";
 import { getMonthDays } from "@/utils/getMonthDays";
 import { getServerSession } from "next-auth";
 

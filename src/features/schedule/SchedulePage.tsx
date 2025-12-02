@@ -1,9 +1,9 @@
 import { Table } from "@/components/ui/table";
-import { SchedulesContextValue } from "@/providers/ScheduleProvider";
 import ScheduleTableFooter from "./ScheduleTableFooter";
 import ScheduleTableHeader from "./ScheduleTableHeader";
 import { MonthDayType } from "@/utils/getMonthDays";
 import ScheduleTableBody from "./ScheduleTableBody";
+import { SchedulesContextValue } from "@/app/actions/schedule/scheduleAction";
 
 export default function SchedulePage({
   schedule,

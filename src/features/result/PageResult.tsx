@@ -1,100 +1,47 @@
-"use client";
-import { useSchedules } from "@/providers/ScheduleProvider";
-import { MONTHS } from "@/utils/getMonthDays";
-import { useEffect, useState } from "react";
-import { useForm, useWatch } from "react-hook-form";
-
-import {
-  extractUniqueEmployees,
-  getRemarksByMonth,
-  ResultUniqueEmployeeType,
-} from "./utils";
-
+import { extractUniqueEmployees, useResultCalculations } from "./utils";
+import ResultTableHeader from "./ResultTableHeader";
+import { Table } from "@/components/ui/table";
+import { cn } from "@/lib/utils";
+import ResultTableBody from "./ResultTableBody";
+import { TipsFormType } from "../tips/schema";
 import { remarksByUniqueEmployee } from "../penalty/utils";
-import { ResultBodyForm } from "./ResultBodyForm";
+import { SchedulesContextValue } from "@/app/actions/schedule/scheduleAction";
 
-import { FormWrapper } from "@/components/wrapper/FormWrapper";
-import {
-  resultHeaderDefaultValue,
-  ResultHeaderFormType,
-  resultHeaderSchema,
-} from "./schema";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { useRemarks } from "@/providers/RemarksProvider";
-import { useTips } from "@/providers/TipsProvider";
-import { useAbility } from "@/providers/AbilityProvider";
-import { FilterDataByMonth } from "@/components/filter/FilterDataByMonth";
-
-export function PageResult() {
-  const { isAdmin, isManager, isCash } = useAbility();
-  const isDisabled = !isAdmin && !isManager && !isCash;
-
-  const schedules = useSchedules();
-  const remarks = useRemarks();
-  const dataTips = useTips();
-
-  // state schedule
-  const [selectedData, setSelectedData] = useState<ResultUniqueEmployeeType[]>(
-    []
+export function PageResult({
+  dataSchedule,
+  dataRemarks,
+  dataTips,
+  month,
+  year,
+  role,
+}: {
+  dataSchedule: SchedulesContextValue[];
+  dataRemarks: ReturnType<typeof remarksByUniqueEmployee>["formattedData"];
+  dataTips: TipsFormType;
+  month: string;
+  year: string;
+  role: string;
+}) {
+  console.log("dataRemarks", dataRemarks);
+  const employees = extractUniqueEmployees(
+    dataSchedule,
+    dataRemarks,
+    dataTips?.rowEmployeesTips
   );
 
-  // form
-  const form = useForm<ResultHeaderFormType>({
-    resolver: yupResolver(resultHeaderSchema),
-    defaultValues: {
-      ...resultHeaderDefaultValue,
-      month: MONTHS[new Date().getMonth()],
-      year: new Date().getFullYear().toString(),
-    },
+  const { rows, totals } = useResultCalculations({
+    data: employees,
+    dataTipsBid: dataTips,
+    month,
+    year,
+    role,
   });
-  const month = useWatch({ control: form.control, name: "month" });
-  const year = useWatch({ control: form.control, name: "year" });
-
-  const setValueBid = (data: Partial<ResultHeaderFormType>) => {
-    form.setValue("waitersDishBid", data?.waitersDishBid as string);
-    form.setValue("barmenDishBid", data?.barmenDishBid as string);
-    form.setValue("dishDishBid", data?.dishDishBid as string);
-    form.setValue("percentTips", data?.percentTips as string);
-    form.setValue("percentBarmen", data?.percentBarmen as string);
-    form.setValue("percentDish", data?.percentDish as string);
-  };
-
-  useEffect(() => {
-    if (!year && !month) return;
-
-    // unique key
-    const uniqueKey = `${year}-${month}`;
-
-    // schedule
-    const scheduleByMonth = schedules.filter((s) => {
-      const select =
-        s.uniqueKey.split("-")[0] + "-" + s.uniqueKey.split("-")[1];
-      return select === uniqueKey;
-    });
-
-    // remarks
-    const remarksByMonth = getRemarksByMonth(remarks, uniqueKey, MONTHS);
-    const remarksByEmployee =
-      remarksByUniqueEmployee(remarksByMonth).formattedData;
-
-    // tips
-    const dataTipItem = dataTips.find((item) => item.unique_id === uniqueKey);
-    const dataTipsForMonth = dataTipItem?.form_data?.rowEmployeesTips || [];
-
-    const employees = extractUniqueEmployees(
-      scheduleByMonth,
-      remarksByEmployee,
-      dataTipsForMonth
-    );
-
-    setSelectedData(employees);
-    setValueBid(dataTipItem?.form_data || {});
-  }, [year, month]);
 
   return (
-    <FormWrapper form={form}>
-      <FilterDataByMonth disabled={isDisabled} />
-      <ResultBodyForm data={selectedData} />
-    </FormWrapper>
+    <Table className={cn("", employees.length === 0 && "hidden")}>
+      {/* <FilterDataByMonth disabled={isDisabled} /> */}
+      <ResultTableHeader />
+      <ResultTableBody rows={rows} totals={totals} />
+    </Table>
   );
 }

@@ -1,8 +1,8 @@
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import { color, SHIFT_COLOR_MAP } from "./create/constants";
-import { SchedulesContextValue } from "@/providers/ScheduleProvider";
 import { calculateSalaryByHours } from "./utils";
+import { SchedulesContextValue } from "@/app/actions/schedule/scheduleAction";
 
 export default function ScheduleTableBody({
   schedule,
