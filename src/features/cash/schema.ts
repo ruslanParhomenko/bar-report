@@ -12,6 +12,11 @@ export const rowCashSchema = yup.object({
   banquetBarByDay: yup.array().of(dayValueSchema).default([]),
   visaCasinoBarByDay: yup.array().of(dayValueSchema).default([]),
   cash: yup.array().of(dayValueSchema).default([]),
+
+  visaTerminalByDay: yup.array().of(dayValueSchema).default([]),
+  nbmPayByDay: yup.array().of(dayValueSchema).default([]),
+  bankCollectionByDay: yup.array().of(dayValueSchema).default([]),
+  nbmCollectionByDay: yup.array().of(dayValueSchema).default([]),
 });
 
 export type RowCashType = yup.InferType<typeof rowCashSchema>;

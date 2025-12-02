@@ -47,4 +47,28 @@ export const rows = [
     colorBg: " bg-gr/20",
     colorText: " text-gn",
   },
+  {
+    key: "visaTerminalByDay",
+    label: "visa-terminal",
+    colorBg: "",
+    colorText: " text-yl",
+  },
+  {
+    key: "nbmPayByDay",
+    label: "nbm-pay",
+    colorBg: "",
+    colorText: " text-bl",
+  },
+  {
+    key: "bankCollectionByDay",
+    label: "bank-coll",
+    colorBg: "",
+    colorText: " text-rd",
+  },
+  {
+    key: "nbmCollectionByDay",
+    label: "nbm-coll",
+    colorBg: "",
+    colorText: " text-rd",
+  },
 ] as const;

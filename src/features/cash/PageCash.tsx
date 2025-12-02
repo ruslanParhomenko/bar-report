@@ -53,6 +53,10 @@ export function PageCash() {
       banquetBarByDay: makeArray(),
       visaCasinoBarByDay: makeArray(),
       cash: makeArray(),
+      visaTerminalByDay: makeArray(),
+      nbmPayByDay: makeArray(),
+      bankCollectionByDay: makeArray(),
+      nbmCollectionByDay: makeArray(),
     };
 
     form.setValue("rowCashData", newRowCashData);
