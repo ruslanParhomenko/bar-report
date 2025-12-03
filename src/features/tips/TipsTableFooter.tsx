@@ -6,12 +6,10 @@ import { UseFormReturn } from "react-hook-form";
 
 export function TipsTableFooter({
   monthDays,
-  disabled,
   form,
   dataRowsCount,
 }: {
   monthDays: { day: number; weekday: string }[];
-  disabled?: boolean;
   form: UseFormReturn<any>;
   dataRowsCount: number;
 }) {
@@ -51,10 +49,13 @@ export function TipsTableFooter({
             0
           );
 
-          const cashForDay = form.getValues(`cashTips.${dayIndex}`);
-          const difference = (Number(cashForDay) - Number(sumTipsForDay))
-            .toFixed(0)
-            .toString();
+          const cashForDay =
+            Number(form.getValues(`cashTips.${dayIndex}`)) || 0;
+          const sumTipsSafe = Number(sumTipsForDay) || 0;
+          const differenceNum = cashForDay - sumTipsSafe;
+          const difference = isNaN(differenceNum)
+            ? "0"
+            : differenceNum.toFixed(0);
           return (
             <TableCell key={dayIndex} className="p-1 h-6">
               <div className="flex flex-col items-center gap-1">
@@ -69,7 +70,7 @@ export function TipsTableFooter({
                     handleTableNavigation(e, dataRowsCount, dayIndex)
                   }
                   className={cn("w-full h-6  text-xs text-center")}
-                  disabled={disabled}
+                  readOnly
                 />
                 <Label
                   className={cn(

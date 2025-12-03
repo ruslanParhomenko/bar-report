@@ -1,13 +1,13 @@
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { FieldArrayWithId } from "react-hook-form";
 import { TipsFormType } from "./schema";
-import { Button } from "@/components/ui/button";
 import { ChevronDown, ChevronUp, Plus } from "lucide-react";
 import SelectScheduleEmployee from "@/components/inputs/SelectScheduleEmployee";
 import { handleTableNavigation } from "@/utils/handleTableNavigation";
 import { cn } from "@/lib/utils";
 import { useEffect } from "react";
 import { Input } from "@/components/ui/input";
+import { useAbility } from "@/providers/AbilityProvider";
 
 const ROLES: Array<"waiters" | "barmen" | "dish"> = [
   "waiters",
@@ -18,7 +18,6 @@ const ROLES: Array<"waiters" | "barmen" | "dish"> = [
 export function TipsTableBody({
   data,
   monthDays,
-  disabled,
   append,
   remove,
   move,
@@ -28,7 +27,6 @@ export function TipsTableBody({
 }: {
   data: FieldArrayWithId<TipsFormType, "rowEmployeesTips", "id">[];
   monthDays: { day: number; weekday: string }[];
-  disabled?: boolean;
   append: any;
   remove: (index: number) => void;
   move: (from: number, to: number) => void;
@@ -36,6 +34,8 @@ export function TipsTableBody({
   form: any;
   selectedEmployees: { id: string; name: string; role: string }[];
 }) {
+  const { isAdmin, isManager, isCash } = useAbility();
+  const isDisabled = !isAdmin && !isManager;
   useEffect(() => {
     const subscription = form.watch((_: any, { name }: any) => {
       if (name?.includes("rowEmployeesTips")) {
@@ -90,7 +90,7 @@ export function TipsTableBody({
                 <TableRow key={row.id} className="hover:bg-gr/10 hover:text-rd">
                   <TableCell
                     className="text-rd p-0"
-                    onClick={() => !disabled && remove(globalIndex)}
+                    onClick={() => !isDisabled && remove(globalIndex)}
                   >
                     {rowIndex + 1}
                   </TableCell>
@@ -102,7 +102,7 @@ export function TipsTableBody({
                         (emp) => emp.role === role
                       )}
                       className="justify-start text-center h-6!"
-                      disabled={disabled}
+                      disabled={isDisabled}
                     />
                   </TableCell>
                   <TableCell className="p-0">
@@ -132,7 +132,7 @@ export function TipsTableBody({
                         className={cn(
                           "w-full h-6 bg-border text-xs text-center p-0"
                         )}
-                        disabled={disabled}
+                        disabled={isDisabled}
                       />
                     </TableCell>
                   ))}
@@ -140,7 +140,7 @@ export function TipsTableBody({
                   <TableCell className="flex flex-col justify-center items-center p-0">
                     <button
                       type="button"
-                      disabled={rowIndex === 0 || disabled}
+                      disabled={rowIndex === 0 || isDisabled}
                       onClick={() => {
                         if (rowIndex > 0) {
                           const targetGlobalIndex = data.indexOf(
@@ -151,11 +151,11 @@ export function TipsTableBody({
                       }}
                       className="p-0 flex items-center justify-center"
                     >
-                      <ChevronUp className="w-3.5 h-4" />
+                      <ChevronUp className="w-3.5 h-3" />
                     </button>
                     <button
                       type="button"
-                      disabled={rowIndex === roleRows.length - 1 || disabled}
+                      disabled={rowIndex === roleRows.length - 1 || isDisabled}
                       onClick={() => {
                         if (rowIndex < roleRows.length - 1) {
                           const targetGlobalIndex = data.indexOf(
@@ -166,7 +166,7 @@ export function TipsTableBody({
                       }}
                       className="p-0 flex items-center justify-center"
                     >
-                      <ChevronDown className="w-3.5 h-4" />
+                      <ChevronDown className="w-3.5 h-3" />
                     </button>
                   </TableCell>
                 </TableRow>
@@ -179,7 +179,7 @@ export function TipsTableBody({
               >
                 <button
                   type="button"
-                  disabled={disabled}
+                  disabled={isDisabled}
                   className="cursor-pointer hover:bg-accent"
                   onClick={() =>
                     append({

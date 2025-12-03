@@ -1,8 +1,8 @@
+"use client";
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { FieldPath, UseFormReturn } from "react-hook-form";
 import { CashFormType } from "./schema";
 import { handleTableNavigation } from "@/utils/handleTableNavigation";
-import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
 import React from "react";
 import { rows } from "./constants";
@@ -17,16 +17,14 @@ export function CashBodyTable({
   monthDays: { day: number; weekday: string }[];
   isDisabled?: boolean;
 }) {
-  const t = useTranslations("Home");
   const { register } = form;
   const value = form.watch("rowCashData");
-
   return (
     <TableBody>
       <TableRow>
         <TableCell
           colSpan={monthDays.length + 2}
-          className="h-12 border-0 text-bl"
+          className="h-10 border-0 text-bl"
         >
           CASH
         </TableCell>
@@ -85,7 +83,7 @@ export function CashBodyTable({
               <TableRow>
                 <TableCell
                   colSpan={monthDays.length + 2}
-                  className="h-18 border-0 text-bl"
+                  className="h-10 border-0 text-bl"
                 >
                   BAR
                 </TableCell>

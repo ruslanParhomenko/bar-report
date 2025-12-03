@@ -39,7 +39,6 @@ export function PageResult({
 
   return (
     <Table className={cn("", employees.length === 0 && "hidden")}>
-      {/* <FilterDataByMonth disabled={isDisabled} /> */}
       <ResultTableHeader />
       <ResultTableBody rows={rows} totals={totals} />
     </Table>

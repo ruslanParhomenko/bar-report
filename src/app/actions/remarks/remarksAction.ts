@@ -105,3 +105,34 @@ export async function deleteRemark(id: string) {
   });
   revalidateTag("remarks");
 }
+
+// get by date
+export async function _getRemarksByDate({
+  startDate,
+  endDate,
+}: {
+  startDate: Date;
+  endDate: Date;
+}) {
+  const remarks = await prisma.remarkReport.findMany({
+    where: {
+      date: {
+        gte: startDate,
+        lt: endDate,
+      },
+    },
+    include: { remarks: true },
+    orderBy: { date: "desc" },
+  });
+
+  return { remarks };
+}
+
+export const getRemarksByDate = unstable_cache(
+  _getRemarksByDate,
+  ["remarks-by-date"],
+  {
+    revalidate: false,
+    tags: ["remarks"],
+  }
+);

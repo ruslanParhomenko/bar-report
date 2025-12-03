@@ -5,11 +5,9 @@ import { useTranslations } from "next-intl";
 export function CashHeaderTable({
   month,
   monthDays,
-  className,
 }: {
   month: string;
   monthDays: { day: number; weekday: string }[];
-  className?: string;
 }) {
   const t = useTranslations("Home");
   if (!month || !monthDays) return null;
@@ -20,7 +18,7 @@ export function CashHeaderTable({
       <TableRow className="h-10">
         <TableCell
           colSpan={2}
-          className="w-20 p-0 front-bold text-center text-xs"
+          className="min-w-30 p-0 px-1 front-bold text-center text-xs"
         >
           {t(month?.toLocaleLowerCase())}
         </TableCell>
@@ -30,7 +28,7 @@ export function CashHeaderTable({
             <TableCell
               key={day.day}
               className={cn(
-                "min-w-8 cursor-pointer p-0 ",
+                "min-w-12 cursor-pointer p-0 ",
                 day.day === todayDay && "text-blue-900 front-bold"
               )}
             >

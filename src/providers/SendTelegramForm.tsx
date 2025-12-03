@@ -53,6 +53,9 @@ export const OrderListTelegramForm = ({
   const form = useForm<OrderListFormType>({
     defaultValues: defaultValues,
   });
+  const resetFormValues = () => {
+    form.reset(defaultValues);
+  };
   const { isLoaded } = useLocalStorageForm(form, STORAGE_KEY);
 
   const onSubmit: SubmitHandler<OrderListFormType> = async (data) => {
@@ -71,7 +74,7 @@ export const OrderListTelegramForm = ({
       className="flex flex-col min-h-[90vh]"
     >
       {children}
-      <SendResetButton />
+      <SendResetButton resetForm={resetFormValues} reset={true} />
     </FormWrapper>
   );
 };

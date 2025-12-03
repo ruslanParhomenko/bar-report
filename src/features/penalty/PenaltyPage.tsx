@@ -22,28 +22,13 @@ export const PenaltyPage = ({ data }: { data: RemarksData["remarks"] }) => {
   const t = useTranslations("Home");
   const [isOpenTotal, setIsOpenTotal] = useState(false);
 
-  const data2 = useRemarks();
-  console.log("data from provider", data2);
-  console.log("data from props", data);
-
   const employeesList = useUniqueOptions({
     data: data?.flatMap((d) => d.remarks),
     getValue: (r) => r.name,
     allLabel: t("all"),
   });
 
-  const monthsList = useUniqueOptions({
-    data: data ?? [],
-    getValue: (item) => {
-      const date = new Date(item?.date);
-      return isValid(date) ? date.getMonth().toLocaleString() : undefined;
-    },
-    getLabel: (monthIndex) => t(months[Number(monthIndex)]),
-    allLabel: t("all"),
-  });
-
-  const [selectedMonth, setSelectedMonth] = useState("");
-  const [selectedEmployee, setSelectedEmployee] = useState("all");
+  // const [selectedEmployee, setSelectedEmployee] = useState("all");
 
   const filteredRows = useMemo(() => {
     return data?.flatMap((report) => {
@@ -56,36 +41,30 @@ export const PenaltyPage = ({ data }: { data: RemarksData["remarks"] }) => {
         year: "numeric",
       });
 
-      return (report.remarks ?? [])
-        .map(
-          (r): Omit<PenaltyTableProps, "reportId"> => ({
-            date: formattedDate,
-            name: r.name,
-            dayHours: r.dayHours,
-            nightHours: r.nightHours,
-            reason: r.reason,
-            penalty: r.penalty,
-            bonus: r.bonus,
-            month: date.getMonth().toString(),
-            id: report.id,
-          })
-        )
-        .filter(
-          (row) =>
-            (selectedMonth === "all" || row.month === selectedMonth) &&
-            (selectedEmployee === "all" || row.name === selectedEmployee)
-        );
+      return (report.remarks ?? []).map(
+        (r): Omit<PenaltyTableProps, "reportId"> => ({
+          date: formattedDate,
+          name: r.name,
+          dayHours: r.dayHours,
+          nightHours: r.nightHours,
+          reason: r.reason,
+          penalty: r.penalty,
+          bonus: r.bonus,
+          month: date.getMonth().toString(),
+          id: report.id,
+        })
+      );
     });
-  }, [selectedMonth, selectedEmployee, data]);
+  }, [data]);
 
-  useEffect(() => {
-    const month = new Date().getMonth().toString();
-    setSelectedMonth(month);
-  }, []);
+  // useEffect(() => {
+  //   const month = new Date().getMonth().toString();
+  //   setSelectedMonth(month);
+  // }, []);
 
   return isViewer ? (
     <div className="space-y-8 pt-2">
-      <div className="flex flex-wrap items-center gap-4">
+      {/* <div className="flex flex-wrap items-center gap-4">
         <SelectFilter
           data={monthsList}
           value={selectedMonth}
@@ -116,7 +95,7 @@ export const PenaltyPage = ({ data }: { data: RemarksData["remarks"] }) => {
             {isOpenTotal ? t("details") : t("general")}
           </Label>
         </div>
-      </div>
+      </div> */}
 
       {isOpenTotal ? (
         <TotalPenalty data={filteredRows ?? []} />

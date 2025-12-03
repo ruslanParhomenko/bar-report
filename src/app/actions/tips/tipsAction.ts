@@ -6,6 +6,14 @@ import { supabase } from "@/lib/supabaseClient";
 import { invalidateEverywhere } from "../invalidateEverywhere/invalidateEverywhere";
 import { unstable_cache } from "next/cache";
 
+// type
+export type TipsData = {
+  id: number;
+  unique_id: string;
+  form_data: TipsFormType;
+  created_at: string;
+};
+
 // create
 export async function saveTipsForm(data: Omit<TipsFormType, "cashTips">) {
   const { year, month } = data;
@@ -54,3 +62,28 @@ export const getTipsForm = unstable_cache(_getTipsForm, ["tips"], {
   revalidate: false,
   tags: ["tips"],
 });
+
+// get by unique_id
+export async function _getTipsFormById(unique_id: string) {
+  const { data, error } = await supabase
+    .from("tips")
+    .select("*")
+    .eq("unique_id", unique_id)
+    .maybeSingle();
+
+  if (error) {
+    console.error("Ошибка при получении данных формы:", error);
+    throw error;
+  }
+
+  return data ?? null;
+}
+
+export const getTipsFormById = unstable_cache(
+  _getTipsFormById,
+  ["tips-by-id"],
+  {
+    revalidate: false,
+    tags: ["tips"],
+  }
+);

@@ -1,3 +1,4 @@
+import { getCashFormById } from "@/app/actions/cash/cashAction";
 import { InsufficientRights } from "@/components/wrapper/InsufficientRights";
 import { PageCash } from "@/features/cash/PageCash";
 
@@ -7,11 +8,26 @@ import { redirect } from "next/navigation";
 
 const SET_ACCESS = ["ADMIN", "CASH"];
 
-export default async function Page() {
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | undefined }>;
+}) {
+  const { month, year } = await searchParams;
+  const uniqueKey = `${year}-${month}`;
+
   const session = await getServerSession(authOptions);
   if (!session) redirect("/");
-  const role = session?.user?.role;
-  if (!SET_ACCESS.includes(role as string)) return <InsufficientRights />;
+  if (!SET_ACCESS.includes(session?.user?.role as string))
+    return <InsufficientRights />;
 
-  return <PageCash />;
+  const dataCash = await getCashFormById(uniqueKey);
+
+  return (
+    <PageCash
+      dataCash={dataCash}
+      month={month as string}
+      year={year as string}
+    />
+  );
 }
