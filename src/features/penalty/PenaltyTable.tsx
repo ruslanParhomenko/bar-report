@@ -46,19 +46,17 @@ export default function PenaltyTable({ data }: { data: PenaltyTableProps[] }) {
     await deleteRemark(id);
   };
   return (
-    <div className="overflow-hidden max-h-[88vh] flex flex-col">
+    <div className="overflow-hidden max-h-[92vh] flex flex-col">
       <div className="overflow-y-auto">
         {data && (
           <Table className="no-scrollbar">
             <TableHeader>
               <TableRow>
-                <TableHead>{t("date")}</TableHead>
-                <TableHead className="sticky left-0 bg-background/90 md:bg-inherit z-20">
-                  {t("employee")}
-                </TableHead>
+                <TableHead></TableHead>
+                <TableHead></TableHead>
                 <TableHead className="text-center">{t("dayHours")}</TableHead>
                 <TableHead className="text-center">{t("nightHours")}</TableHead>
-                <TableHead>{t("reason")}</TableHead>
+                <TableHead></TableHead>
                 <TableHead className="text-center">{t("bonus")}</TableHead>
                 <TableHead className="text-center">{t("penalty")}</TableHead>
                 <TableHead colSpan={2} className="text-center">
@@ -84,13 +82,13 @@ export default function PenaltyTable({ data }: { data: PenaltyTableProps[] }) {
                     className="text-center cursor-pointer"
                     onClick={() => editRemarks(row.id.toLocaleString())}
                   >
-                    <Pencil className="w-4 h-4" />
+                    <Pencil className="w-4 h-3.5" />
                   </TableCell>
                   <TableCell
                     className="text-center cursor-pointer"
                     onClick={() => deleteRemarks(row.id.toLocaleString())}
                   >
-                    <Trash2 className="w-4 h-4 text-rd" />
+                    <Trash2 className="w-4 h-3.5 text-rd" />
                   </TableCell>
                 </TableRow>
               ))}

@@ -28,7 +28,7 @@ export default function NavMenuPenalty() {
     router.push(`/penalty/?month=${month}&year=${year}`);
   }, [month, year]);
   return (
-    <div className="my-2  flex gap-4 justify-end md:justify-start items-center">
+    <div className="my-2 flex gap-4 justify-end md:justify-start items-center">
       <Select
         value={MONTHS[Number(month) - 1]}
         onValueChange={(value) =>

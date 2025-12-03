@@ -3,7 +3,7 @@ import {
   RemarksData,
 } from "@/app/actions/remarks/remarksAction";
 import { InsufficientRights } from "@/components/wrapper/InsufficientRights";
-import { PenaltyPage } from "@/features/penalty/PenaltyPage";
+import { PagePenalty } from "@/features/penalty/PagePenalty";
 import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
@@ -19,7 +19,6 @@ export default async function Page({
 
   if (!month || !year) return null;
 
-  // Приводим месяц к числу и корректируем для UTC (0 = Январь)
   const monthNum = Number(month);
   const yearNum = Number(year);
 
@@ -28,8 +27,8 @@ export default async function Page({
   }
 
   // Даты в UTC
-  const startDate = new Date(Date.UTC(yearNum, monthNum - 1, 1, 0, 0, 0)); // начало месяца
-  const endDate = new Date(Date.UTC(yearNum, monthNum, 1, 0, 0, 0)); // начало следующего месяца
+  const startDate = new Date(Date.UTC(yearNum, monthNum - 1, 1, 0, 0, 0));
+  const endDate = new Date(Date.UTC(yearNum, monthNum, 1, 0, 0, 0));
 
   // access control
   const session = await getServerSession(authOptions);
@@ -43,5 +42,5 @@ export default async function Page({
     endDate,
   })) as RemarksData;
 
-  return <PenaltyPage data={remarks.remarks} />;
+  return <PagePenalty data={remarks.remarks} />;
 }

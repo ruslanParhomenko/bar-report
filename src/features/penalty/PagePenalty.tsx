@@ -16,7 +16,7 @@ import { useAbility } from "@/providers/AbilityProvider";
 import { InsufficientRights } from "@/components/wrapper/InsufficientRights";
 import { RemarksData } from "@/app/actions/remarks/remarksAction";
 
-export const PenaltyPage = ({ data }: { data: RemarksData["remarks"] }) => {
+export const PagePenalty = ({ data }: { data: RemarksData["remarks"] }) => {
   console.log("PenaltyPage data", data);
   const { isBar, isCucina, isAdmin, isManager } = useAbility();
   const isViewer = isAdmin || isBar || isCucina || isManager;
@@ -64,7 +64,7 @@ export const PenaltyPage = ({ data }: { data: RemarksData["remarks"] }) => {
   // }, []);
 
   return isViewer ? (
-    <div className="space-y-8 pt-2">
+    <div>
       {/* <div className="flex flex-wrap items-center gap-4">
         <SelectFilter
           data={monthsList}
