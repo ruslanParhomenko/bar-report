@@ -15,6 +15,7 @@ export default async function Page({
   searchParams: Promise<{ [key: string]: string | undefined }>;
 }) {
   const { month, year } = await searchParams;
+  if (!month || !year) return null;
   const dataSelect = `${year}-${month}`;
   const startDate = new Date(`${dataSelect}-01T00:00:00`);
   const endDate = new Date(startDate);
