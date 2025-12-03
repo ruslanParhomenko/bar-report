@@ -17,6 +17,7 @@ import { InsufficientRights } from "@/components/wrapper/InsufficientRights";
 import { RemarksData } from "@/app/actions/remarks/remarksAction";
 
 export const PenaltyPage = ({ data }: { data: RemarksData["remarks"] }) => {
+  console.log("PenaltyPage data", data);
   const { isBar, isCucina, isAdmin, isManager } = useAbility();
   const isViewer = isAdmin || isBar || isCucina || isManager;
   const t = useTranslations("Home");
