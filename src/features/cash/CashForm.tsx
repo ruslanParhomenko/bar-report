@@ -14,6 +14,7 @@ import { getMonthDays, MONTHS } from "@/utils/getMonthDays";
 import { Table } from "@/components/ui/table";
 import { CashHeaderTable } from "./CashHeaderTable";
 import { SendResetButton } from "@/components/buttons/SendResetButton";
+import { supabase } from "@/lib/supabaseClient";
 
 export default function CashForm({
   dataCash,
@@ -100,6 +101,29 @@ export default function CashForm({
 
     setShowSendButton(show);
   }, [month, year]);
+
+  // supabase real-time subscription can be added here if needed
+  useEffect(() => {
+    const uniqueId = dataCash?.unique_id;
+    const channel = supabase
+      .channel("public:cash")
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "cash" },
+        (payload: any) => {
+          if (payload.new?.unique_id === uniqueId) {
+            // Обновляем форму Realtime данными от другого пользователя
+            form.reset(payload.new.form_data);
+            toast.info("Данные обновились в реальном времени!");
+          }
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [dataCash, form]);
 
   return (
     <FormWrapper

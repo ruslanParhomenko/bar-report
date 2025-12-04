@@ -76,3 +76,34 @@ export const getBreakList = unstable_cache(_getBreakList, ["breakList"], {
   revalidate: false,
   tags: ["breakList"],
 });
+
+// get by date
+export async function _getBreakListByDate({
+  startDate,
+  endDate,
+}: {
+  startDate: Date;
+  endDate: Date;
+}) {
+  const breakList = await prisma.breakList.findMany({
+    where: {
+      date: {
+        gte: startDate,
+        lt: endDate,
+      },
+    },
+    include: { rows: true },
+    orderBy: { date: "desc" },
+  });
+
+  return { breakList };
+}
+
+export const getBreakListByDate = unstable_cache(
+  _getBreakListByDate,
+  ["breakList-by-date"],
+  {
+    revalidate: false,
+    tags: ["breakList"],
+  }
+);

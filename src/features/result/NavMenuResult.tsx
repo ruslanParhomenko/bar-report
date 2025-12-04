@@ -17,10 +17,8 @@ import {
 import { useAbility } from "@/providers/AbilityProvider";
 
 const navItems = [
-  { title: "barmen", param: "barmen" },
-  { title: "waiters", param: "waiters" },
-  { title: "cucina", param: "cucina" },
-  { title: "dish", param: "dish" },
+  { title: "form", param: "form" },
+  { title: "archive", param: "archive" },
 ];
 
 export default function NavMenuResult() {

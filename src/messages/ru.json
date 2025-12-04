@@ -1,5 +1,6 @@
 {
   "Home": {
+    "form": "форма",
     "vacation": "отпуск",
     "remaining": "остаток",
     "tel": "телефон",
@@ -72,7 +73,7 @@
     "cucina": "Кухня",
     "bar": "Бар",
     "settings": "Настройки",
-    "archive": "Архив",
+    "archive": "архив",
     "stopList": "Стоп-лист",
     "employeeRemarks": "Журнал замечаний",
     "remarks": "Замечания",

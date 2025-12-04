@@ -9,7 +9,7 @@ export default async function Page({
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
   const session = await getServerSession(authOptions);
-  console.log("SESSION", session?.user?.role);
+
   const isAdmin =
     session?.user?.role === "ADMIN" || session?.user?.role === "MANAGER";
   const { role } = await searchParams;

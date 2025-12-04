@@ -1,4 +1,4 @@
-import TabsNavEmployees from "@/features/nav/TabsNavEmployees";
+import TabsNavEmployees from "@/features/employees/TabsNavEmployees";
 
 export default function EmployeeLayout({
   children,

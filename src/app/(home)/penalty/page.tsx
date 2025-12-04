@@ -15,7 +15,7 @@ export default async function Page({
 }: {
   searchParams: Promise<{ [key: string]: string | undefined }>;
 }) {
-  const { month, year } = await searchParams;
+  const { month, year, tab } = await searchParams;
 
   if (!month || !year) return null;
 
@@ -37,10 +37,12 @@ export default async function Page({
     return <InsufficientRights />;
 
   // get data
-  const remarks = (await getRemarksByDate({
+  const remarks = await getRemarksByDate({
     startDate,
     endDate,
-  })) as RemarksData;
+  });
 
-  return <PagePenalty data={remarks.remarks} />;
+  return (
+    <PagePenalty data={remarks.remarks as RemarksData[]} tab={tab as string} />
+  );
 }

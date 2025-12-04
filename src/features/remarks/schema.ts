@@ -1,11 +1,15 @@
+import { id } from "date-fns/locale";
+import { report } from "process";
 import * as yup from "yup";
 export const remarkSchema = yup.object().shape({
+  id: yup.number().optional(),
   name: yup.string().default(""),
   dayHours: yup.string().default(""),
   nightHours: yup.string().default(""),
   penalty: yup.string().default(""),
   reason: yup.string().default(""),
   bonus: yup.string().default(""),
+  reportId: yup.number().optional(),
 });
 
 export type RemarkFormData = yup.InferType<typeof remarkSchema>;

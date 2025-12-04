@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useEffect, useState } from "react";
-import SelectEmployeeBy from "../employees/SelectEmployeeBy";
+import SelectEmployeeBy from "./SelectEmployeeBy";
 
 const navItems = [
   { title: "employees", patch: "employees" },
