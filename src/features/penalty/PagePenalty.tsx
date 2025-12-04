@@ -11,7 +11,6 @@ export const PagePenalty = ({
   data: RemarksData[];
   tab: string;
 }) => {
-  console.log("data in PagePenalty:", data);
   const filteredRows = data?.flatMap((report) => {
     const date = new Date(report.date);
     if (!isValid(date)) return [];

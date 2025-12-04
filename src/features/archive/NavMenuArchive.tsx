@@ -15,15 +15,14 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useAbility } from "@/providers/AbilityProvider";
+import { RefreshCcw } from "lucide-react";
 
 const navItems = [
-  { title: "barmen", param: "barmen" },
-  { title: "waiters", param: "waiters" },
+  { title: "bar", param: "bar" },
   { title: "cucina", param: "cucina" },
-  { title: "dish", param: "dish" },
 ];
 
-export default function NavMenuResult() {
+export default function NavMenuArchive() {
   const { isAdmin, isManager, isCash } = useAbility();
   const isDisabled = !isAdmin && !isManager && !isCash;
 
@@ -31,22 +30,30 @@ export default function NavMenuResult() {
 
   const t = useTranslations("Home");
 
-  const defaultMonth = MONTHS[new Date().getMonth() - 1];
+  const [tab, setTab] = useState("");
+  const defaultMonth = new Date().getMonth() + 1;
+
   const defaultYear = new Date().getFullYear().toString();
-  const [role, setRole] = useState("");
-  const [month, setMoth] = useState(defaultMonth);
+  const [month, setMoth] = useState(defaultMonth.toString().padStart(2, "0"));
   const [year, setYear] = useState(defaultYear);
 
   useEffect(() => {
-    if (!role || !month || !year) return;
-    router.push(`/result/?role=${role}&month=${month}&year=${year}`);
-  }, [role, month, year]);
+    if (!tab || !month || !year) return;
+    router.push(`/archive?tab=${tab}&month=${month}&year=${year}`);
+  }, [tab, month, year]);
+
+  const resetParams = () => {
+    setTab("");
+    setMoth(defaultMonth.toString().padStart(2, "0"));
+    setYear(defaultYear);
+    router.push("/archive");
+  };
 
   return (
     <div className="md:mt-2 mt-1 md:mb-8 mb-4 sticky top-0 z-10 flex  gap-4 flex-col md:flex-row ">
       <Tabs
-        value={role}
-        onValueChange={(value) => setRole(value)}
+        value={tab}
+        onValueChange={(value) => setTab(value)}
         className="order-1 md:order-0"
       >
         <TabsList className="flex md:gap-2 h-8">
@@ -62,13 +69,20 @@ export default function NavMenuResult() {
           ))}
         </TabsList>
       </Tabs>
+
       <div className="flex gap-2 justify-end md:justify-start items-center">
-        <Select value={month} onValueChange={(value) => setMoth(value)}>
+        <Select
+          value={MONTHS[Number(month) - 1]}
+          onValueChange={(value) =>
+            setMoth(
+              (MONTHS.indexOf(value as string) + 1).toString().padStart(2, "0")
+            )
+          }
+        >
           <SelectTrigger className="w-20 h-7! p-1 bg-border/30 border-0 text-muted-foreground [&>svg]:hidden justify-center">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
-            {/* <SelectItem value="all">{t("all")}</SelectItem> */}
             {MONTHS.map((month, idx) => (
               <SelectItem key={`${month}-${idx}`} value={month}>
                 {t(month)}
@@ -81,7 +95,6 @@ export default function NavMenuResult() {
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
-            {/* <SelectItem value="all">{t("all")}</SelectItem> */}
             {YEAR.map((year, idx) => (
               <SelectItem key={`${year}-${idx}`} value={year}>
                 {year}
@@ -89,6 +102,13 @@ export default function NavMenuResult() {
             ))}
           </SelectContent>
         </Select>
+        <button
+          type="button"
+          onClick={() => resetParams()}
+          className="px-4 cursor-pointer"
+        >
+          <RefreshCcw className="w-4 h-4" />
+        </button>
       </div>
     </div>
   );

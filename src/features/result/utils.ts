@@ -62,7 +62,6 @@ export function getRemarksByMonth(
   uniqueKey: string,
   MONTHS: string[]
 ): RemarkItem[] {
-  console.log("getRemarksByMonth", remarksData, uniqueKey);
   if (!remarksData) return [];
 
   return remarksData?.remarks

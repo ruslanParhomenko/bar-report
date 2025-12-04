@@ -22,7 +22,6 @@ export function PageResult({
   year: string;
   role: string;
 }) {
-  console.log("dataRemarks", dataRemarks);
   const employees = extractUniqueEmployees(
     dataSchedule,
     dataRemarks,

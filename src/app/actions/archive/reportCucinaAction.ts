@@ -145,7 +145,49 @@ export async function _getReportsCucina() {
 
   return reports;
 }
-export const getReportsCucina = unstable_cache(_getReportsCucina, ["reports"], {
-  revalidate: false,
-  tags: ["reportCucina"],
-});
+export const getReportsCucina = unstable_cache(
+  _getReportsCucina,
+  ["reportCucina"],
+  {
+    revalidate: false,
+    tags: ["reportCucina"],
+  }
+);
+
+// get by date
+export async function _getReportsCucinaByDate({
+  startDate,
+  endDate,
+}: {
+  startDate: Date;
+  endDate: Date;
+}) {
+  const reports = await prisma.dailyReportCucina.findMany({
+    where: {
+      date: {
+        gte: startDate,
+        lt: endDate,
+      },
+    },
+    include: {
+      shifts: true,
+      remains: true,
+      prepared: true,
+      staff: true,
+      movement: true,
+      writeOff: true,
+    },
+    orderBy: { date: "desc" },
+  });
+
+  return { reports };
+}
+
+export const getReportsCucinaByDate = unstable_cache(
+  _getReportsCucinaByDate,
+  ["reportsCucina-by-date"],
+  {
+    revalidate: false,
+    tags: ["reportCucina"],
+  }
+);

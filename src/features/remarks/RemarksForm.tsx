@@ -18,7 +18,6 @@ import { useLocalStorageForm } from "@/hooks/useLocalStorageForm";
 import { SaveRemarkById } from "./SaveRemarkById";
 
 export function RemarksForm({ dataRemark }: { dataRemark?: RemarksData }) {
-  console.log("dataRemark:", dataRemark);
   const router = useRouter();
 
   const id = dataRemark?.id ? String(dataRemark.id) : null;

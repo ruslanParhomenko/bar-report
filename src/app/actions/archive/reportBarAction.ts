@@ -199,3 +199,40 @@ export const getReportsBar = unstable_cache(_getReportsBar, ["reportBar"], {
   revalidate: false,
   tags: ["reportBar"],
 });
+
+// get by date
+export async function _getReportBarByDate({
+  startDate,
+  endDate,
+}: {
+  startDate: Date;
+  endDate: Date;
+}) {
+  const reports = await prisma.dailyReport.findMany({
+    where: {
+      date: {
+        gte: startDate,
+        lt: endDate,
+      },
+    },
+    include: {
+      cashVerify: true,
+      tobacco: true,
+      expenses: true,
+      productTransfer: true,
+      inventory: true,
+    },
+    orderBy: { date: "desc" },
+  });
+
+  return { reports };
+}
+
+export const getReportBarByDate = unstable_cache(
+  _getReportBarByDate,
+  ["reportBar-by-date"],
+  {
+    revalidate: false,
+    tags: ["reportBar"],
+  }
+);
