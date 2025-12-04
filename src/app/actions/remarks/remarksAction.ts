@@ -33,7 +33,7 @@ export async function createRemarks(data: any) {
     },
     include: { remarks: true },
   });
-  revalidateTag("remarks");
+  revalidateTag("remarks", "default");
 
   return remarksData.id;
 }
@@ -92,7 +92,7 @@ export async function updateRemark(data: any) {
     return remark;
   });
 
-  revalidateTag("remarks");
+  revalidateTag("remarks", "default");
   return updatedReport.id;
 }
 
@@ -102,7 +102,7 @@ export async function deleteRemark(id: string) {
     where: { id: Number(id) },
     include: { remarks: true },
   });
-  revalidateTag("remarks");
+  revalidateTag("remarks", "default");
 }
 
 // get by date

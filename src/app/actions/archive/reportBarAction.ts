@@ -65,7 +65,7 @@ export async function createReportBar({ data }: { data: any }) {
     },
   });
 
-  revalidateTag("reportBar");
+  revalidateTag("reportBar", "default");
 
   return report.id;
 }
@@ -149,7 +149,7 @@ export async function updateReportBar({ data }: { data: any }) {
   });
 
   // Очистка кеша
-  revalidateTag("reportBar");
+  revalidateTag("reportBar", "default");
 
   return updatedReport;
 }
@@ -159,7 +159,7 @@ export async function deleteReportBar(id: string) {
   await prisma.dailyReport.delete({
     where: { id: Number(id) },
   });
-  revalidateTag("reportBar");
+  revalidateTag("reportBar", "default");
 }
 
 // get by id

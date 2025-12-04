@@ -3,10 +3,7 @@ import createNextIntlPlugin from "next-intl/plugin";
 const withNextIntl = createNextIntlPlugin();
 
 const nextConfig: NextConfig = {
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
-  /* config options here */
+  reactStrictMode: true,
 };
 
 export default withNextIntl(nextConfig);

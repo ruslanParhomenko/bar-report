@@ -8,7 +8,7 @@ export async function POST(req: Request) {
       return new Response("Missing tag", { status: 400 });
     }
 
-    revalidateTag(tag);
+    revalidateTag(tag, "default");
     return Response.json({ ok: true, tag });
   } catch (error) {
     return new Response("Error", { status: 500 });

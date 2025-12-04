@@ -92,7 +92,7 @@ export async function createReportCucina({ data }: { data: any }) {
     },
   });
 
-  revalidateTag("reportCucina");
+  revalidateTag("reportCucina", "default");
   return report.id;
 }
 
@@ -125,7 +125,7 @@ export async function deleteReportCucina(id: string) {
       writeOff: true,
     },
   });
-  revalidateTag("reportCucina");
+  revalidateTag("reportCucina", "default");
 }
 
 // get all

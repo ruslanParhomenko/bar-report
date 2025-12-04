@@ -3,7 +3,7 @@
 import { revalidateTag } from "next/cache";
 
 export async function invalidateEverywhere(tag: string) {
-  revalidateTag(tag);
+  revalidateTag(tag, "default");
 
   const endpoints = [
     "https://report-bar-n.netlify.app/api/revalidate",

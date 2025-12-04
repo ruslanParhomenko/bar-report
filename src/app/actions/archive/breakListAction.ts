@@ -39,7 +39,7 @@ export async function createBreakList(data: any) {
     },
   });
 
-  revalidateTag("breakList");
+  revalidateTag("breakList", "default");
 
   return breakList.id;
 }
@@ -59,7 +59,7 @@ export async function deleteBreakList(id: string) {
   await prisma.breakList.delete({
     where: { id: Number(id) },
   });
-  revalidateTag("breakList");
+  revalidateTag("breakList", "default");
 }
 
 // get all
