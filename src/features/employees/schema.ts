@@ -1,19 +1,24 @@
 import * as yup from "yup";
 
-//employees
+// Vacation pay schema
 export const vacationPaySchema = yup.object({
-  startDate: yup.string(),
-  endDate: yup.string(),
-  countDays: yup.string(),
+  startDate: yup.string().default(""),
+  endDate: yup.string().default(""),
+  countDays: yup.string().default(""),
 });
 export type VacationPaySchemaType = yup.InferType<typeof vacationPaySchema>;
+
+// Employee schema
 export const employeesSchema = yup.object({
-  name: yup.string().required("Name is required"),
+  name: yup.string().required("Name is required").default(""),
   mail: yup.string().email().default(""),
   tel: yup.string().default(""),
-  role: yup.string().required("Role is required"),
-  rate: yup.string().required("Rate is required"),
+  role: yup.string().required("Role is required").default(""),
+  rate: yup.string().required("Rate is required").default(""),
   employmentDate: yup.string().default(""),
+  dismissalDate: yup.string().default(""),
+  status: yup.string().oneOf(["active", "fired"]).default("active"),
+  reason: yup.string().default(""),
   vacationPay: yup.array().of(vacationPaySchema).default([]),
 });
 
@@ -23,19 +28,17 @@ export const defaultVacationPay = {
   endDate: "",
   countDays: "",
 };
-export const defaultEmployee = {
+export const defaultEmployeeSchemaValues: EmployeesSchemaTypeData = {
   name: "",
   mail: "",
+  tel: "",
   role: "",
   rate: "",
   employmentDate: "",
-  vacationPay: [
-    {
-      startDate: "",
-      endDate: "",
-      countDays: "",
-    },
-  ],
+  dismissalDate: "",
+  status: "active",
+  reason: "",
+  vacationPay: [defaultVacationPay],
 };
 
 // const

@@ -1,4 +1,4 @@
-import TabsNavSchedule from "@/features/nav/TabsNavSchedule";
+import TabsNavSchedule from "@/features/schedule/TabsNavSchedule";
 import { SCHEDULE_NAV_ITEMS } from "@/features/navigation/constants";
 
 export default function ScheduleLayout({

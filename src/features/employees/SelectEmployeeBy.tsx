@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/select";
 import { EMPLOYEES_ROLE } from "./schema";
 import { useTranslations } from "next-intl";
+import { startTransition } from "react";
 
 export default function SelectEmployeeBy({
   role,
@@ -19,8 +20,15 @@ export default function SelectEmployeeBy({
   const t = useTranslations("Home");
   return (
     <div className="flex items-center">
-      <Select value={role} onValueChange={(value) => setRole(value)}>
-        <SelectTrigger className="w-20 h-7! p-1 bg-border/30 border-0 text-muted-foreground [&>svg]:hidden justify-center">
+      <Select
+        value={role}
+        onValueChange={(value: string) => {
+          startTransition(() => {
+            setRole(value);
+          });
+        }}
+      >
+        <SelectTrigger className="w-24 h-7! p-1 bg-border/30 border-0 text-muted-foreground [&>svg]:hidden justify-center">
           <SelectValue placeholder="Select role" />
         </SelectTrigger>
         <SelectContent>

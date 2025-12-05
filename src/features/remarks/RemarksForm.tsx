@@ -17,7 +17,11 @@ import { REMARKS_ENDPOINT } from "@/constants/endpoint-tag";
 import { useLocalStorageForm } from "@/hooks/useLocalStorageForm";
 import { SaveRemarkById } from "./SaveRemarkById";
 
-export function RemarksForm({ dataRemark }: { dataRemark?: RemarksData }) {
+export default function RemarksForm({
+  dataRemark,
+}: {
+  dataRemark?: RemarksData;
+}) {
   const router = useRouter();
 
   const id = dataRemark?.id ? String(dataRemark.id) : null;

@@ -1,9 +1,9 @@
-import { getRemarks } from "@/app/actions/remarks/remarksAction";
+import { getRemarksByDate } from "@/app/actions/remarks/remarksAction";
 import {
-  getSchedule,
+  getScheduleByMonthYear,
   SchedulesContextValue,
 } from "@/app/actions/schedule/scheduleAction";
-import { getTipsForm, TipsData } from "@/app/actions/tips/tipsAction";
+import { getTipsFormById } from "@/app/actions/tips/tipsAction";
 import { InsufficientRights } from "@/components/wrapper/InsufficientRights";
 import { remarksByUniqueEmployee } from "@/features/penalty/utils";
 import { PageResult } from "@/features/result/PageResult";
@@ -27,6 +27,7 @@ export default async function Page({
   searchParams: Promise<{ [key: string]: string | undefined }>;
 }) {
   const { role, month, year } = await searchParams;
+  if (!month || !year) return null;
   // access control
   const session = await getServerSession(authOptions);
   if (!session) redirect("/");
@@ -35,25 +36,34 @@ export default async function Page({
   }
   // key
   const uniqueKey = `${year}-${month}`;
-  const uniqueKeySchedule = `${uniqueKey}-${
-    ROLE[role as keyof typeof ROLE] as string
-  }`;
+
+  const monthNum = Number(MONTHS.indexOf(month) + 1);
+  const yearNum = Number(year);
+
+  if (isNaN(monthNum) || isNaN(yearNum) || monthNum < 1 || monthNum > 12) {
+    throw new Error(`Invalid month/year: ${month}/${year}`);
+  }
+
+  //  UTC
+  const startDate = new Date(Date.UTC(yearNum, monthNum - 1, 1, 0, 0, 0));
+  const endDate = new Date(Date.UTC(yearNum, monthNum, 1, 0, 0, 0));
 
   const [schedule, remarks, tips] = await Promise.all([
-    getSchedule(),
-    getRemarks(),
-    getTipsForm(),
+    getScheduleByMonthYear(month, year),
+    await getRemarksByDate({
+      startDate,
+      endDate,
+    }),
+    getTipsFormById(uniqueKey),
   ]);
   const dataSchedule = schedule.filter(
-    (item: any) => item.uniqueKey === uniqueKeySchedule
+    (item: any) => item.role === ROLE[role as keyof typeof ROLE]
   );
   const remarksByMonth =
     remarks && getRemarksByMonth(remarks, uniqueKey, MONTHS);
   const remarksByEmployee =
     remarksByUniqueEmployee(remarksByMonth).formattedData;
-  const dataTips =
-    tips.find((item: TipsData) => item.unique_id === uniqueKey)?.form_data ??
-    null;
+  const dataTips = tips?.form_data ?? null;
 
   return (
     <PageResult

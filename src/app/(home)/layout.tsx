@@ -3,6 +3,7 @@ import { SidebarProvider } from "@/components/ui/sidebar";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { InsufficientRights } from "@/components/wrapper/InsufficientRights";
+import { redirect } from "next/navigation";
 
 const NavPage = async ({
   children,
@@ -10,6 +11,7 @@ const NavPage = async ({
   children: React.ReactNode;
 }>) => {
   const session = await getServerSession(authOptions);
+  if (!session) redirect("/");
   const role = session?.user?.role;
   return (
     <SidebarProvider>

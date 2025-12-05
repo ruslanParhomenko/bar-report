@@ -13,7 +13,7 @@ import { Table } from "@/components/ui/table";
 import { BreakTableHeader } from "./BreakTableHeader";
 import { BreakTableBody } from "./BreakTableBody";
 
-export function BreakForm() {
+export default function BreakForm() {
   // form
   const form = useForm<BreakFormData>({
     resolver: yupResolver(breakSchema),
@@ -44,7 +44,7 @@ export function BreakForm() {
 
   return (
     <FormWrapper form={form} onSubmit={onSubmit}>
-      <Table className="md:table-fixed mt-6">
+      <Table className="md:table-fixed">
         <BreakTableHeader />
         <BreakTableBody />
       </Table>

@@ -1,6 +1,6 @@
 import { SaveButton } from "@/components/buttons/SaveButton";
-import { BreakForm } from "../break/BreakForm";
-import { RemarksForm } from "../remarks/RemarksForm";
+import RemarksForm from "../remarks/RemarksForm";
+import BreakForm from "../break/BreakForm";
 
 export default function BreakRemarkPage() {
   return (

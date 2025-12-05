@@ -14,7 +14,7 @@ import { Button } from "@/components/ui/button";
 import { Plus, Trash } from "lucide-react";
 import { DatePickerRange } from "@/components/inputs/DatePickerRange";
 import {
-  defaultEmployee,
+  defaultEmployeeSchemaValues,
   defaultVacationPay,
   EMPLOYEES_ROLE,
   employeesSchema,
@@ -32,7 +32,6 @@ import {
   updateEmployee,
 } from "@/app/actions/employees/employeeAction";
 import { sendNotificationEmail } from "@/app/actions/mail/sendNotificationEmail";
-import { formatDataForInput } from "@/utils/formatNow";
 import { useEffect } from "react";
 import { useRouter } from "@/i18n/navigation";
 
@@ -51,7 +50,7 @@ export function AddEmployeeCard({
 
   const form = useForm<FormData>({
     resolver: yupResolver(employeesSchema),
-    defaultValues: defaultEmployee,
+    defaultValues: defaultEmployeeSchemaValues,
   });
   const { fields, append, remove, replace } = useFieldArray({
     control: form.control,
@@ -74,12 +73,10 @@ export function AddEmployeeCard({
       await createEmployee(data);
       toast.success("Employee added!");
       await sendNotificationEmail({
-        text: `add new employee:${data.name}-${data.role}-${
-          data.rate
-        }-${formatDataForInput({ date: data.employmentDate })}`,
+        text: `add new employee:${data.name}-${data.role}-${data.rate}`,
       });
     }
-    form.reset(defaultEmployee);
+    form.reset(defaultEmployeeSchemaValues);
     router.back();
   };
 
@@ -132,7 +129,18 @@ export function AddEmployeeCard({
           <DatePickerInput
             fieldName="employmentDate"
             fieldLabel={t("employmentDate")}
-            className={cn(fieldClassName, "!border-1")}
+            className={cn(fieldClassName, "border!")}
+          />
+          <DatePickerInput
+            fieldName="dismissalDate"
+            fieldLabel={t("dismissalDate")}
+            className={cn(fieldClassName, "border!")}
+          />
+          <TextInput
+            fieldName="reason"
+            fieldLabel={t("reason")}
+            type="text"
+            className={fieldClassName}
           />
 
           <Label className="py-4">{t("usedVacationDays")}</Label>
@@ -210,7 +218,9 @@ export function AddEmployeeCard({
           type="button"
           variant={"secondary"}
           onClick={() => {
-            employee?.id ? router.back() : form.reset(defaultEmployee);
+            employee?.id
+              ? router.back()
+              : form.reset(defaultEmployeeSchemaValues);
           }}
         >
           {employee?.id ? t("cancel") : t("reset")}

@@ -1,5 +1,5 @@
 import {
-  getSchedule,
+  getScheduleByMonthYear,
   SchedulesContextValue,
 } from "@/app/actions/schedule/scheduleAction";
 import SchedulePage from "@/features/schedule/SchedulePage";
@@ -15,17 +15,18 @@ export default async function Page({
   params: Promise<{ patch: string }>;
   searchParams: Promise<{ [key: string]: string }>;
 }) {
-  const { patch } = await params;
-  const { month, year } = await searchParams;
-
   const session = await getServerSession(authOptions);
 
   const isView =
     session?.user?.role === "ADMIN" || session?.user?.role === "MNGR";
 
-  const uniqueKey = `${year}-${month}-${patch}`;
-  const schedule = (await getSchedule()).find(
-    (s: any) => s.uniqueKey === uniqueKey
+  const { patch } = await params;
+  const { month, year } = await searchParams;
+
+  if (!month || !year) return null;
+
+  const schedule = (await getScheduleByMonthYear(month, year)).find(
+    (s: any) => s.role === patch
   );
   const monthDays = getMonthDays({ month: month, year: year });
 

@@ -65,3 +65,28 @@ export const getScheduleById = unstable_cache(_getScheduleById, ["schedule"], {
   revalidate: false,
   tags: ["schedule"],
 });
+
+// get by filters
+const _getScheduleByMonthYear = async (month: string, year: string) => {
+  const snapshot = await dbAdmin
+    .collection("schedule")
+    .where("month", "==", month)
+    .where("year", "==", year)
+    .get();
+
+  if (snapshot.empty) return [];
+
+  return snapshot.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  })) as (ScheduleData & { id: string })[];
+};
+
+export const getScheduleByMonthYear = unstable_cache(
+  _getScheduleByMonthYear,
+  ["schedule-by-month-year"],
+  {
+    revalidate: false,
+    tags: ["schedule"],
+  }
+);

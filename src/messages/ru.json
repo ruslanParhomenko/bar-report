@@ -1,5 +1,6 @@
 {
   "Home": {
+    "dismissalDate": "дата увольнения",
     "form": "форма",
     "vacation": "отпуск",
     "remaining": "остаток",
@@ -138,7 +139,7 @@
     "penalty": "штраф",
     "vacationDays": "Отпускные",
     "usedVacationDays": "использовано",
-    "employmentDate": "Прием на работу",
+    "employmentDate": "прием на работу",
     "days": "Дней",
     "filterByRole": "Фильтр по роли",
     "employeesList": "Список сотрудников",
