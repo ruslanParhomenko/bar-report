@@ -86,7 +86,7 @@ export function AddEmployeeCard({
     }
   }, [employee, form]);
 
-  const fieldClassName = "md:w-2/3 !h-8";
+  const fieldClassName = "md:w-2/3 !h-10";
   return (
     <FormWrapper
       form={form}
@@ -178,7 +178,7 @@ export function AddEmployeeCard({
                       }
                     }}
                     resetTrigger={false}
-                    className="flex-1 h-8 "
+                    className="flex-1 h-10"
                   />
                   <TextInput
                     fieldName={`vacationPay.${index}.countDays`}

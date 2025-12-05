@@ -50,7 +50,7 @@ function DatePickerInput({
       render={({ field }) => {
         return (
           <FormItem className="grid gap-2 pb-2">
-            {fieldLabel && <Label className="h-8">{fieldLabel}</Label>}
+            {fieldLabel && <Label className="h-10">{fieldLabel}</Label>}
             <Popover>
               <PopoverTrigger asChild>
                 <FormControl>

@@ -47,7 +47,7 @@ function SelectInput({
           control={control}
           name={fieldName}
           render={() => (
-            <FormItem className="grid gap-4 pb-2">
+            <FormItem className="grid gap-2 pb-2">
               {fieldLabel && <Label className={className}>{fieldLabel}</Label>}
               <Select
                 onValueChange={field.onChange}
