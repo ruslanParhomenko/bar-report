@@ -41,7 +41,7 @@ export function BreakTableBody() {
                 disabled
                 className={cn(
                   "p-0 border-0 shadow-none text-bl",
-                  theme === "dark" ? "!bg-background" : ""
+                  theme === "dark" ? "bg-background!" : ""
                 )}
                 readOnly
               />
@@ -54,7 +54,7 @@ export function BreakTableBody() {
                 placeHolder="..."
                 className={cn(
                   "border-0 shadow-none",
-                  rowHasTrue ? "!text-rd" : ""
+                  rowHasTrue ? "text-rd!" : ""
                 )}
               />
             </TableCell>
@@ -74,10 +74,10 @@ export function BreakTableBody() {
                     data={MINUTES_SELECT}
                     className={cn(
                       "justify-center",
-                      isTrue ? "!text-rd font-bold text-[18px]" : "",
+                      isTrue ? "text-rd! font-bold text-[18px]" : "",
                       selectedValue === "X"
                         ? theme === "dark"
-                          ? "!text-background  border-0 !bg-background"
+                          ? "text-background!  border-0 bg-background!"
                           : "bg-gr"
                         : ""
                     )}

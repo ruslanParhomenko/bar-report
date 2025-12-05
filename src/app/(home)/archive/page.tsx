@@ -1,7 +1,6 @@
 import { getReportBarByDate } from "@/app/actions/archive/reportBarAction";
 import { getReportsCucinaByDate } from "@/app/actions/archive/reportCucinaAction";
 import { ReportBarData, ReportCucinaData } from "@/constants/type";
-import { ArchivePage } from "@/features/archive/ArchiveForm";
 import ReportBar from "@/features/archive/ReportBar";
 import ReportCucina from "@/features/archive/ReportCucina";
 

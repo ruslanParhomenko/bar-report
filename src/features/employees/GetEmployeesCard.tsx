@@ -27,7 +27,7 @@ export function GetEmployeesCard({
 
   return (
     <ViewTransition>
-      <div className="h-[98vh] flex md:flex-1 flex-col md:overflow-hidden">
+      <div className="h-[90vh] flex md:flex-1 flex-col md:overflow-hidden">
         <Table className="md:table-fixed">
           <TableHeader className="sticky top-0 bg-background z-20">
             <TableRow className="text-gr h-12">

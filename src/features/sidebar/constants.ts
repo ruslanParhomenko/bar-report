@@ -28,7 +28,7 @@ export const SIDEBAR_NAVIGATION = [
   },
   {
     title: "reports",
-    url: "/reports/bar",
+    url: "/reports",
     icon: BarChart3,
   },
   {

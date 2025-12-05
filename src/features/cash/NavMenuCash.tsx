@@ -33,7 +33,6 @@ export default function NavMenuCash() {
           <SelectValue />
         </SelectTrigger>
         <SelectContent>
-          {/* <SelectItem value="all">{t("all")}</SelectItem> */}
           {MONTHS.map((month, idx) => (
             <SelectItem key={`${month}-${idx}`} value={month}>
               {t(month)}
@@ -46,7 +45,6 @@ export default function NavMenuCash() {
           <SelectValue />
         </SelectTrigger>
         <SelectContent>
-          {/* <SelectItem value="all">{t("all")}</SelectItem> */}
           {YEAR.map((year, idx) => (
             <SelectItem key={`${year}-${idx}`} value={year}>
               {year}

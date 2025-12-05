@@ -113,9 +113,14 @@ export default function ReportBarForm() {
     <FormWrapper
       form={form}
       onSubmit={onSubmit}
-      className="flex flex-col min-h-[90vh] my-2 gap-6"
+      className="flex flex-col min-h-[90vh] gap-4"
     >
-      <DatePickerInput fieldName="date" className="md:w-30" />
+      <div className="flex w-full justify-end">
+        <DatePickerInput
+          fieldName="date"
+          className="md:w-30 h-8 text-sm w-full text-rd"
+        />
+      </div>
 
       <div className="grid grid-cols-1 md:grid-cols-[20%_22%_28%_22%] md:gap-10">
         <TableTobacco />

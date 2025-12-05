@@ -99,9 +99,9 @@ export default function ReportCucinaForm() {
     <FormWrapper
       form={form}
       onSubmit={onSubmit}
-      className="w-full md:px-10 md:mx-auto md:max-w-6xl"
+      className="w-full  md:mx-auto md:max-w-6xl"
     >
-      <DatePickerInput fieldName="date" className="text-md" />
+      <DatePickerInput fieldName="date" className="text-sm h-8 text-rd" />
 
       {employees.length > 0 && (
         <RenderTableCucina

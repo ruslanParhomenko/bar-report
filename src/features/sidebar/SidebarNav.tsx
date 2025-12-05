@@ -1,7 +1,7 @@
 import { Sidebar, SidebarContent } from "../../components/ui/sidebar";
-import { SidebarToggleButton } from "@/components/switches/SidebarToggleButton";
+import { SidebarToggleButton } from "@/features/sidebar/SidebarToggleButton";
 import SidebarFooterButtons from "./SidebarFooterButtons";
-import SidebarMenuButtons from "./SidebarMeniuButtons";
+import SidebarMenuButtons from "./SidebarMenuButtons";
 import SidebarRoleUserButton from "./SidebarRoleUserButton";
 
 const SidebarNav = () => {

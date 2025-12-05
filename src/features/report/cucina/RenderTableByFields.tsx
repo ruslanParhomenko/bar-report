@@ -76,7 +76,7 @@ const RenderTableCucina = ({
   }, [form, name, field1, field4, fieldsArray.fields]);
 
   return (
-    <div className="pt-6">
+    <div className="pb-4">
       <Label className="py-1 text-md text-bl">{t(name as string)} :</Label>
       <Separator className="py-px mb-1 bg-bl" />
 

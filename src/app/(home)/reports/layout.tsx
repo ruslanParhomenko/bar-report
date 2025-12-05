@@ -1,10 +1,9 @@
-import PageNav from "@/features/nav/PageNav";
-import { REPORT_NAV_ITEMS } from "@/features/navigation/constants";
+import TabsMenuReports from "@/features/report/TabsMenuReports";
 
 const ReportLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
-      <PageNav navItems={REPORT_NAV_ITEMS} mainRoute={"reports"} />
+      <TabsMenuReports />
       {children}
     </>
   );

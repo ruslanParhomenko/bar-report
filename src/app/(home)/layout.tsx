@@ -1,4 +1,4 @@
-import SidebarNav from "@/features/nav/SidebarNav";
+import SidebarNav from "@/features/sidebar/SidebarNav";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
