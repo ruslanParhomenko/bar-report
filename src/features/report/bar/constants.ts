@@ -42,7 +42,7 @@ import {
   VEGETABLES,
   VITAFOR,
   SAMPAREX,
-} from "@/features/order-list/constants";
+} from "@/features/orders/constants";
 
 export const WAREHOUSES = [
   "BAR",

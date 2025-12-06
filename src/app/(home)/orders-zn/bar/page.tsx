@@ -1,4 +1,4 @@
-import { OrderListBar } from "@/features/order-list/OrderListBarZN";
+import { OrderListBar } from "@/features/orders/OrderListBarZN";
 import { OrderListTelegramForm } from "@/providers/SendTelegramForm";
 
 const Page = () => {

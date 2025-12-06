@@ -1,10 +1,10 @@
-import { OrderListCuisine } from "@/features/order-list/OrderListCucineZN";
+import { OrderListCucina } from "@/features/orders/OrderListCucinaZN";
 import { OrderListTelegramForm } from "@/providers/SendTelegramForm";
 
 const Page = () => {
   return (
     <OrderListTelegramForm user="cucinaZN" url="zn">
-      <OrderListCuisine />
+      <OrderListCucina />
     </OrderListTelegramForm>
   );
 };

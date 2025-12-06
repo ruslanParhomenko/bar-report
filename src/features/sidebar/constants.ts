@@ -38,12 +38,12 @@ export const SIDEBAR_NAVIGATION = [
   },
   {
     title: "ordersList",
-    url: "/orders-list-ttn/ttn-bar",
+    url: "/orders-ttn",
     icon: List,
   },
   {
     title: "orderListBar",
-    url: "/orders-list/zn-bar",
+    url: "/orders-zn",
     icon: List,
   },
   {

@@ -15,6 +15,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useAbility } from "@/providers/AbilityProvider";
+import SelectByMonthYear from "@/components/nav-menu-header/SelectByMonthYear";
 
 const navItems = [
   { title: "barmen", param: "barmen" },
@@ -34,7 +35,7 @@ export default function NavMenuResult() {
   const defaultMonth = MONTHS[new Date().getMonth() - 1];
   const defaultYear = new Date().getFullYear().toString();
   const [role, setRole] = useState("");
-  const [month, setMoth] = useState(defaultMonth);
+  const [month, setMonth] = useState(defaultMonth);
   const [year, setYear] = useState(defaultYear);
 
   useEffect(() => {
@@ -62,32 +63,13 @@ export default function NavMenuResult() {
           ))}
         </TabsList>
       </Tabs>
-      <div className="flex gap-2 justify-end md:justify-start items-center">
-        <Select value={month} onValueChange={(value) => setMoth(value)}>
-          <SelectTrigger className="w-20 h-7! p-1 bg-border/30 border-0 text-muted-foreground [&>svg]:hidden justify-center">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            {MONTHS.map((month, idx) => (
-              <SelectItem key={`${month}-${idx}`} value={month}>
-                {t(month)}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-        <Select value={year} onValueChange={(value) => setYear(value)}>
-          <SelectTrigger className="w-20 h-7! p-1 bg-border/30 border-0 text-muted-foreground [&>svg]:hidden justify-center">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            {YEAR.map((year, idx) => (
-              <SelectItem key={`${year}-${idx}`} value={year}>
-                {year}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
+      <SelectByMonthYear
+        month={month}
+        year={year}
+        setMonth={setMonth}
+        setYear={setYear}
+        typeMonth="string"
+      />
     </div>
   );
 }

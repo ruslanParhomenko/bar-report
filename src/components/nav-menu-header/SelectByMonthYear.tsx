@@ -7,27 +7,43 @@ import {
 } from "@/components/ui/select";
 import { MONTHS, YEAR } from "@/utils/getMonthDays";
 
-export default function SelectScheduleByMonth({
+const VALUE = {
+  string: (month: string) => month,
+  number: (month: string) => MONTHS[Number(month) - 1],
+};
+const SET_VALUE = {
+  string: (value: string) => value,
+  number: (value: string) =>
+    (MONTHS.indexOf(value as string) + 1).toString().padStart(2, "0"),
+};
+
+export default function SelectByMonthYear({
   month,
   setMonth,
   year,
   setYear,
   isLoading,
+  typeMonth,
 }: {
   month: string;
   setMonth: (value: string) => void;
   year: string;
   setYear: (value: string) => void;
   isLoading?: boolean;
+  typeMonth?: "string" | "number";
 }) {
+  const classNameSelect =
+    "w-26 h-7! p-1 bg-gr/60 border-0  [&>svg]:hidden justify-center";
   return (
-    <div className="flex items-center md:gap-2 gap-1">
+    <div className="flex justify-center items-center md:gap-4 gap-1">
       <Select
-        value={month}
-        onValueChange={(value) => setMonth(value)}
+        value={VALUE[typeMonth || "string"](month)}
+        onValueChange={(value) =>
+          setMonth(SET_VALUE[typeMonth || "string"](value))
+        }
         disabled={isLoading}
       >
-        <SelectTrigger className="w-20 h-7! p-1 bg-border/30 border-0 text-muted-foreground [&>svg]:hidden justify-center">
+        <SelectTrigger className={classNameSelect}>
           <SelectValue placeholder="month" />
         </SelectTrigger>
         <SelectContent>
@@ -43,7 +59,7 @@ export default function SelectScheduleByMonth({
         onValueChange={(value) => setYear(value)}
         disabled={isLoading}
       >
-        <SelectTrigger className="w-18 h-7! p-1 bg-border/30 border-0 [&>svg]:hidden justify-center text-muted-foreground">
+        <SelectTrigger className={classNameSelect}>
           <SelectValue placeholder="year" />
         </SelectTrigger>
         <SelectContent>

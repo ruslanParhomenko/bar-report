@@ -1,5 +1,6 @@
 "use client";
 
+import SelectByMonthYear from "@/components/nav-menu-header/SelectByMonthYear";
 import {
   Select,
   SelectContent,
@@ -37,37 +38,13 @@ export default function NavMenuPenalty() {
   }, [month, year, tabs]);
   return (
     <div className="my-2 flex gap-4 justify-end md:justify-start items-center">
-      <Select
-        value={MONTHS[Number(month) - 1]}
-        onValueChange={(value) =>
-          setMoth(
-            (MONTHS.indexOf(value as string) + 1).toString().padStart(2, "0")
-          )
-        }
-      >
-        <SelectTrigger className="w-22 h-7! p-1 bg-border/30 border-0 text-muted-foreground [&>svg]:hidden justify-center">
-          <SelectValue />
-        </SelectTrigger>
-        <SelectContent>
-          {MONTHS.map((month, idx) => (
-            <SelectItem key={`${month}-${idx}`} value={month}>
-              {t(month)}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
-      <Select value={year} onValueChange={(value) => setYear(value)}>
-        <SelectTrigger className="w-22 h-7! p-1 bg-border/30 border-0 text-muted-foreground [&>svg]:hidden justify-center">
-          <SelectValue />
-        </SelectTrigger>
-        <SelectContent>
-          {YEAR.map((year, idx) => (
-            <SelectItem key={`${year}-${idx}`} value={year}>
-              {year}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
+      <SelectByMonthYear
+        month={month}
+        setMonth={setMoth}
+        year={year}
+        setYear={setYear}
+        typeMonth="number"
+      />
       <Tabs
         value={tabs}
         onValueChange={(value) => setTabs(value)}

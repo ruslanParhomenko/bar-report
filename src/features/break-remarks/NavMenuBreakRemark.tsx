@@ -6,15 +6,8 @@ import { useRouter } from "next/navigation";
 
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useEffect, useState } from "react";
-import { MONTHS, YEAR } from "@/utils/getMonthDays";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { useAbility } from "@/providers/AbilityProvider";
+import SelectByMonthYear from "@/components/nav-menu-header/SelectByMonthYear";
 
 const navItems = [
   { title: "form", param: "form" },
@@ -67,42 +60,15 @@ export default function NavMenuBreakRemark() {
           ))}
         </TabsList>
       </Tabs>
+
       {isViewSelect && (
-        <div className="flex gap-2 justify-end md:justify-start items-center">
-          <Select
-            value={MONTHS[Number(month) - 1]}
-            onValueChange={(value) =>
-              setMoth(
-                (MONTHS.indexOf(value as string) + 1)
-                  .toString()
-                  .padStart(2, "0")
-              )
-            }
-          >
-            <SelectTrigger className="w-20 h-7! p-1 bg-border/30 border-0 text-muted-foreground [&>svg]:hidden justify-center">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              {MONTHS.map((month, idx) => (
-                <SelectItem key={`${month}-${idx}`} value={month}>
-                  {t(month)}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-          <Select value={year} onValueChange={(value) => setYear(value)}>
-            <SelectTrigger className="w-20 h-7! p-1 bg-border/30 border-0 text-muted-foreground [&>svg]:hidden justify-center">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              {YEAR.map((year, idx) => (
-                <SelectItem key={`${year}-${idx}`} value={year}>
-                  {year}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
+        <SelectByMonthYear
+          month={month}
+          setMonth={setMoth}
+          year={year}
+          setYear={setYear}
+          typeMonth="number"
+        />
       )}
     </div>
   );

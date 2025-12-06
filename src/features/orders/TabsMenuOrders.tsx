@@ -3,20 +3,18 @@
 import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
-
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useEffect, useState } from "react";
-
+import { useEffect, useState, useTransition } from "react";
 import { useAbility } from "@/providers/AbilityProvider";
 import { RefreshCcw } from "lucide-react";
-import SelectByMonthYear from "@/components/nav-menu-header/SelectByMonthYear";
 
 const navItems = [
   { title: "bar", param: "bar" },
   { title: "cucina", param: "cucina" },
 ];
 
-export default function NavMenuArchive() {
+export default function NavMenuOrders({ mainRoute }: { mainRoute: string }) {
+  const key = `tab_${mainRoute}`;
   const { isAdmin, isManager, isCash } = useAbility();
   const isDisabled = !isAdmin && !isManager && !isCash;
 
@@ -24,30 +22,38 @@ export default function NavMenuArchive() {
 
   const t = useTranslations("Home");
 
-  const [tab, setTab] = useState("");
-  const defaultMonth = new Date().getMonth() + 1;
+  const [patchTab, setPatchTab] = useState("");
+  const [hydrated, setHydrated] = useState(false);
 
-  const defaultYear = new Date().getFullYear().toString();
-  const [month, setMoth] = useState(defaultMonth.toString().padStart(2, "0"));
-  const [year, setYear] = useState(defaultYear);
+  const [isPending, startTransition] = useTransition();
 
   useEffect(() => {
-    if (!tab || !month || !year) return;
-    router.push(`/archive?tab=${tab}&month=${month}&year=${year}`);
-  }, [tab, month, year]);
+    const saved = localStorage.getItem(key);
+    if (saved) setPatchTab(saved);
+    setHydrated(true);
+  }, []);
+  useEffect(() => {
+    if (!hydrated) return;
+
+    localStorage.setItem(key, patchTab);
+    const url = `/${mainRoute}/${patchTab}`;
+
+    startTransition(() => {
+      router.push(url);
+    });
+  }, [patchTab, hydrated]);
 
   const resetParams = () => {
-    setTab("");
-    setMoth(defaultMonth.toString().padStart(2, "0"));
-    setYear(defaultYear);
-    router.push("/archive");
+    setPatchTab("");
+
+    router.push("/reports");
   };
 
   return (
-    <div className="md:mt-2 mt-1 md:mb-8 mb-4 sticky top-0 z-10 flex  gap-4 flex-col md:flex-row ">
+    <div className="md:mt-2 mt-1 sticky top-0 z-10 flex  gap-4 flex-col md:flex-row border-b pb-3">
       <Tabs
-        value={tab}
-        onValueChange={(value) => setTab(value)}
+        value={patchTab}
+        onValueChange={(value) => setPatchTab(value)}
         className="order-1 md:order-0"
       >
         <TabsList className="flex md:gap-2 h-8">
@@ -55,21 +61,15 @@ export default function NavMenuArchive() {
             <TabsTrigger
               key={page.title}
               value={page.param}
-              className={cn("text-nowrap hover:text-bl cursor-pointer")}
-              disabled={isDisabled}
+              className={cn("text-nowrap w-26 hover:text-bl cursor-pointer")}
+              disabled={isDisabled || isPending}
             >
               {t(page.title)}
             </TabsTrigger>
           ))}
         </TabsList>
       </Tabs>
-      <SelectByMonthYear
-        month={month}
-        setMonth={setMoth}
-        year={year}
-        setYear={setYear}
-        typeMonth="number"
-      />
+
       <button
         type="button"
         onClick={() => resetParams()}

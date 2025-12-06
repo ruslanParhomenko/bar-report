@@ -15,7 +15,7 @@ import { InputWrapper } from "@/components/wrapper/InputWrapper";
 import { OrderCardWrapper } from "@/components/wrapper/OrderCardWrapper";
 import { OrderEmptyCardWrapper } from "@/components/wrapper/OrderEmptyCardWrapper";
 import OrderPageWrapper from "@/components/wrapper/OrderPageWrapper";
-export const OrderListCuisine = () => {
+export const OrderListCucina = () => {
   return (
     <OrderPageWrapper>
       <InputWrapper>

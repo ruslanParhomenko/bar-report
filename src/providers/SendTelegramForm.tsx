@@ -7,7 +7,7 @@ import {
   defaultValuesZNBar,
   defaultValuesZNCucina,
   OrderListFormType,
-} from "@/features/order-list/schemas";
+} from "@/features/orders/schemas";
 import { useSendTelegram } from "@/hooks/use-send-telegram";
 import { useLocalStorageForm } from "@/hooks/useLocalStorageForm";
 import { FormWrapper } from "@/components/wrapper/FormWrapper";
