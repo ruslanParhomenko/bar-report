@@ -15,8 +15,8 @@ const navItems = [
 
 export default function NavMenuOrders({ mainRoute }: { mainRoute: string }) {
   const key = `tab_${mainRoute}`;
-  const { isAdmin, isManager, isCash } = useAbility();
-  const isDisabled = !isAdmin && !isManager && !isCash;
+  const { isAdmin, isBar, isCucina } = useAbility();
+  const isDisabled = !isAdmin && !isBar && !isCucina;
 
   const router = useRouter();
 
