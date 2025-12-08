@@ -1,4 +1,9 @@
-import NavMenuPenalty from "@/features/penalty/NavMenuPenalty";
+import NavMenuHeader from "@/components/nav-menu-header/NavMenuHeader";
+
+const navItems = [
+  { title: "details", href: "details" },
+  { title: "general", href: "general" },
+];
 
 export default function LayoutResult({
   children,
@@ -7,7 +12,12 @@ export default function LayoutResult({
 }) {
   return (
     <>
-      <NavMenuPenalty />
+      <NavMenuHeader
+        defaultPatch="details"
+        navItems={navItems}
+        mainRoute="penalty"
+        filterType="month"
+      />
       {children}
     </>
   );

@@ -6,9 +6,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { EMPLOYEES_ROLE } from "./schema";
 import { useTranslations } from "next-intl";
 import { startTransition } from "react";
+
+export const EMPLOYEES_ROLE = [
+  { label: "waiters", value: "waiters" },
+  { label: "barmen", value: "barmen" },
+  { label: "cook", value: "cook" },
+  { label: "mngr", value: "mngr" },
+  { label: "dish", value: "dish" },
+  { label: "buyer", value: "buyer" },
+];
 
 export default function SelectEmployeeBy({
   role,

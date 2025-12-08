@@ -1,5 +1,5 @@
 import {
-  getSchedule,
+  getScheduleById,
   SchedulesContextValue,
 } from "@/app/actions/schedule/scheduleAction";
 import { ScheduleCreatePage } from "@/features/schedule/create/ScheduleCreatePage";
@@ -13,7 +13,7 @@ export default async function Page({
 }) {
   const { id, patch } = await params;
   const { month, year } = await searchParams;
-  const schedule = (await getSchedule()).find((s: any) => s.id === id);
+  const schedule = (await getScheduleById(id)) as SchedulesContextValue;
   return (
     <ScheduleCreatePage
       schedule={schedule as SchedulesContextValue}

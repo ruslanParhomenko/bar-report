@@ -1,5 +1,9 @@
-import NavMenuArchive from "@/features/archive/NavMenuArchive";
+import NavMenuHeader from "@/components/nav-menu-header/NavMenuHeader";
 
+const navItems = [
+  { title: "bar", href: "bar" },
+  { title: "cucina", href: "cucina" },
+];
 export default function LayoutArchive({
   children,
 }: {
@@ -7,7 +11,12 @@ export default function LayoutArchive({
 }) {
   return (
     <>
-      <NavMenuArchive />
+      <NavMenuHeader
+        navItems={navItems}
+        mainRoute={"archive"}
+        filterType="month"
+        resetButton={true}
+      />
       {children}
     </>
   );

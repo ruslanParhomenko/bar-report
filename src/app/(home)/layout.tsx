@@ -5,6 +5,8 @@ import { authOptions } from "@/lib/auth";
 import { InsufficientRights } from "@/components/wrapper/InsufficientRights";
 import { redirect } from "next/navigation";
 
+const CLOSE_ACCESS = ["OBSERVER"];
+
 const NavPage = async ({
   children,
 }: Readonly<{
@@ -17,7 +19,11 @@ const NavPage = async ({
     <SidebarProvider>
       <SidebarNav />
       <section className="bg-background pt-2 md:px-4 px-1 w-full ">
-        {role === "OBSERVER" ? <InsufficientRights /> : children}
+        {CLOSE_ACCESS.includes(role as string) ? (
+          <InsufficientRights />
+        ) : (
+          children
+        )}
       </section>
     </SidebarProvider>
   );

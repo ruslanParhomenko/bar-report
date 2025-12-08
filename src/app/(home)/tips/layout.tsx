@@ -1,5 +1,4 @@
-import NavMenuTips from "@/features/tips/NavMenuTips";
-import { Nav } from "react-day-picker";
+import NavMenuHeader from "@/components/nav-menu-header/NavMenuHeader";
 
 export default function TipsLayout({
   children,
@@ -8,7 +7,7 @@ export default function TipsLayout({
 }) {
   return (
     <>
-      <NavMenuTips />
+      <NavMenuHeader navItems={[]} mainRoute={"tips"} filterType="month" />
       {children}
     </>
   );

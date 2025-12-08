@@ -33,7 +33,6 @@ export default function TableProductsTransfer() {
 
   useEffect(() => {
     const subscription = form.watch((_, { name: changedName }) => {
-      // реагируем ТОЛЬКО на изменение имени продукта
       if (
         changedName?.startsWith("productTransfer.") &&
         changedName.endsWith(".name")

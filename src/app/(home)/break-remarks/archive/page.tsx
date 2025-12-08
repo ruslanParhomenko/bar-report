@@ -1,5 +1,6 @@
 import { getBreakListByDate } from "@/app/actions/archive/breakListAction";
 import { BreakListPageByData } from "@/features/break-remarks/BreakListPageByData";
+import { MONTHS } from "@/utils/getMonthDays";
 
 export default async function Page({
   searchParams,
@@ -7,7 +8,8 @@ export default async function Page({
   searchParams: Promise<{ [key: string]: string | undefined }>;
 }) {
   const { month, year } = await searchParams;
-  const monthNum = Number(month);
+  if (!month || !year) return null;
+  const monthNum = Number(MONTHS.indexOf(month) + 1);
   const yearNum = Number(year);
 
   if (isNaN(monthNum) || isNaN(yearNum) || monthNum < 1 || monthNum > 12) {

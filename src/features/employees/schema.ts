@@ -42,11 +42,3 @@ export const defaultEmployeeSchemaValues: EmployeesSchemaTypeData = {
 };
 
 // const
-export const EMPLOYEES_ROLE = [
-  { label: "barmen", value: "barmen" },
-  { label: "waiters", value: "waiters" },
-  { label: "cook", value: "cook" },
-  { label: "mngr", value: "mngr" },
-  { label: "dish", value: "dish" },
-  { label: "buyer", value: "buyer" },
-];

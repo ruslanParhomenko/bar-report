@@ -58,9 +58,10 @@ function SelectField({
                   <SelectTrigger
                     data-placeholder=""
                     className={cn(
-                      "flex justify-start min-w-12 [&>svg]:hidden !h-8",
+                      "flex justify-start min-w-12 [&>svg]:hidden h-8!",
                       className,
-                      theme === "dark" ? "border-0 !bg-background" : ""
+                      theme === "dark" ? "border-0 bg-background!" : "",
+                      field.value && "border-0 shadow-none  font-bold"
                     )}
                     style={style}
                   >

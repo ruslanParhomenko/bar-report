@@ -4,7 +4,6 @@ import { InsufficientRights } from "@/components/wrapper/InsufficientRights";
 import { PageTips } from "@/features/tips/PageTips";
 import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
-import { redirect } from "next/navigation";
 
 const SET_ACCESS = ["ADMIN", "CASH", "MNGR"];
 export default async function Page({
@@ -16,7 +15,6 @@ export default async function Page({
   const uniqueKey = `${year}-${month}`;
 
   const session = await getServerSession(authOptions);
-  if (!session) redirect("/signin");
   if (!SET_ACCESS.includes(session?.user?.role as string))
     return <InsufficientRights />;
 

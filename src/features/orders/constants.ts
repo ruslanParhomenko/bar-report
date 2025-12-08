@@ -275,12 +275,12 @@ export const UBFB = [
   "вино PICINI белое",
   "вино PICINI красное",
   "Jagermeister",
-  "Heineken",
   "Martini Bianco",
   "Martini prosecco",
   "Glenmorange",
 ];
 export const UBFB2 = [
+  "Heineken",
   "Боржоми 0,5 пластик уп",
   "Евиан 0,33 пластик уп",
   "JP CHANET красное",

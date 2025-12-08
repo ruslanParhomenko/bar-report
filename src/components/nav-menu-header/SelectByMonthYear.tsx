@@ -6,16 +6,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { MONTHS, YEAR } from "@/utils/getMonthDays";
-
-const VALUE = {
-  string: (month: string) => month,
-  number: (month: string) => MONTHS[Number(month) - 1],
-};
-const SET_VALUE = {
-  string: (value: string) => value,
-  number: (value: string) =>
-    (MONTHS.indexOf(value as string) + 1).toString().padStart(2, "0"),
-};
+import { useSidebar } from "../ui/sidebar";
 
 export default function SelectByMonthYear({
   month,
@@ -23,24 +14,21 @@ export default function SelectByMonthYear({
   year,
   setYear,
   isLoading,
-  typeMonth,
 }: {
   month: string;
   setMonth: (value: string) => void;
   year: string;
   setYear: (value: string) => void;
   isLoading?: boolean;
-  typeMonth?: "string" | "number";
 }) {
+  const { isMobile } = useSidebar();
   const classNameSelect =
-    "w-26 h-7! p-1 bg-gr/60 border-0  [&>svg]:hidden justify-center";
+    "md:w-24 w-12 h-7! p-0! bg-gr/60 border-0  [&>svg]:hidden justify-center";
   return (
     <div className="flex justify-center items-center md:gap-4 gap-1">
       <Select
-        value={VALUE[typeMonth || "string"](month)}
-        onValueChange={(value) =>
-          setMonth(SET_VALUE[typeMonth || "string"](value))
-        }
+        value={month}
+        onValueChange={(value) => setMonth(value)}
         disabled={isLoading}
       >
         <SelectTrigger className={classNameSelect}>
@@ -49,7 +37,7 @@ export default function SelectByMonthYear({
         <SelectContent>
           {MONTHS.map((month) => (
             <SelectItem key={month} value={month}>
-              {month}
+              {isMobile ? MONTHS.indexOf(month) + 1 : month}
             </SelectItem>
           ))}
         </SelectContent>

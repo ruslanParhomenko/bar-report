@@ -68,7 +68,6 @@ export default function NavMenuArchive() {
         setMonth={setMoth}
         year={year}
         setYear={setYear}
-        typeMonth="number"
       />
       <button
         type="button"

@@ -1,7 +1,8 @@
 "use client";
-import { useRouter } from "@/i18n/navigation";
+
 import { cn } from "@/lib/utils";
-import { DoorClosed, LogOutIcon } from "lucide-react";
+import { LogOutIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export default function ExitButton({
   className,
@@ -17,7 +18,8 @@ export default function ExitButton({
     <button
       type="button"
       onClick={() => {
-        url ? router.push(url) : router.back();
+        console.log(url);
+        url ? router.replace(url) : router.back();
       }}
       disabled={disabled}
       className={cn("cursor-pointer", className, disabled && "opacity-50")}

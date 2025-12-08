@@ -1,7 +1,5 @@
+import EmptyPage from "@/components/page/EmptyPage";
+
 export default function Page() {
-  return (
-    <div className="w-full h-[90vh] flex justify-center items-center">
-      select a report
-    </div>
-  );
+  return <EmptyPage name="report" />;
 }

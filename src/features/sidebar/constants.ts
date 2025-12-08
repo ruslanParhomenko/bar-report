@@ -67,8 +67,8 @@ export const SIDEBAR_NAVIGATION = [
     icon: Star,
   },
   {
-    title: "settings",
-    url: "/settings",
+    title: "users",
+    url: "/users",
     icon: Settings,
   },
   {

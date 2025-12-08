@@ -1,4 +1,8 @@
-import TabsNavEmployees from "@/features/employees/TabsNavEmployees";
+import NavMenuHeader from "@/components/nav-menu-header/NavMenuHeader";
+const navItems = [
+  { title: "employees", href: "" },
+  { title: "add", href: "create" },
+];
 
 export default function EmployeeLayout({
   children,
@@ -7,7 +11,11 @@ export default function EmployeeLayout({
 }) {
   return (
     <>
-      <TabsNavEmployees />
+      <NavMenuHeader
+        navItems={navItems}
+        mainRoute={"employees"}
+        filterType="role"
+      />
 
       {children}
     </>

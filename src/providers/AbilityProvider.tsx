@@ -1,6 +1,6 @@
 "use client";
 
-import { UsersSchemaTypeData } from "@/features/settings/users/schema";
+import { UsersSchemaTypeData } from "@/features/users/schema";
 import React, { createContext, useContext, useMemo } from "react";
 
 type AbilityFlags = {

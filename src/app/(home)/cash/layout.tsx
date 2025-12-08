@@ -1,4 +1,4 @@
-import NavMenuCash from "@/features/cash/NavMenuCash";
+import NavMenuHeader from "@/components/nav-menu-header/NavMenuHeader";
 
 export default function LayoutCash({
   children,
@@ -7,7 +7,7 @@ export default function LayoutCash({
 }) {
   return (
     <>
-      <NavMenuCash />
+      <NavMenuHeader navItems={[]} mainRoute={"cash"} filterType="month" />
       {children}
     </>
   );

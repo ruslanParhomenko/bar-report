@@ -1,12 +1,23 @@
-import TabsMenuReports from "@/features/report/TabsMenuReports";
+import NavMenuHeader from "@/components/nav-menu-header/NavMenuHeader";
 
-const ReportLayout = ({ children }: { children: React.ReactNode }) => {
+const navItems = [
+  { title: "bar", href: "bar" },
+  { title: "cucina", href: "cucina" },
+];
+export default function ReportLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <>
-      <TabsMenuReports />
+      <NavMenuHeader
+        navItems={navItems}
+        mainRoute={"reports"}
+        filterType="none"
+        resetButton={true}
+      />
       {children}
     </>
   );
-};
-
-export default ReportLayout;
+}

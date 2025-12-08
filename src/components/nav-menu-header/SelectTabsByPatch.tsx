@@ -1,10 +1,7 @@
 import { cn } from "@/lib/utils";
 import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
 import { useTranslations } from "next-intl";
-export type PageNavType = {
-  title: string;
-  href: string;
-};
+import { PageNavType } from "./NavMenuHeader";
 
 export default function SelectTabsByPatch({
   patch,
@@ -31,7 +28,7 @@ export default function SelectTabsByPatch({
             value={page.href}
             disabled={isPending}
             className={cn(
-              "text-nowrap hover:text-bl cursor-pointer",
+              "md:w-24 w-22 hover:text-bl cursor-pointer",
               isPending && "opacity-50"
             )}
           >

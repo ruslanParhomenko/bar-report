@@ -3,7 +3,7 @@
 import { dbAdmin } from "@/lib/firebaseAdmin";
 import { ScheduleType } from "@/features/schedule/create/schema";
 import { invalidateEverywhere } from "../invalidateEverywhere/invalidateEverywhere";
-import { unstable_cache } from "next/cache";
+import { revalidateTag, unstable_cache } from "next/cache";
 
 export type ScheduleData = ScheduleType & {
   uniqueKey: string;
@@ -51,7 +51,7 @@ export const getSchedule = unstable_cache(_getSchedule, ["schedule"], {
 });
 
 // get by id
-const _getScheduleById = async (id: string) => {
+export const getScheduleById = async (id: string) => {
   const doc = await dbAdmin.collection("schedule").doc(id).get();
   if (!doc.exists) return null;
 
@@ -61,13 +61,13 @@ const _getScheduleById = async (id: string) => {
   } as ScheduleData & { id: string };
 };
 
-export const getScheduleById = unstable_cache(_getScheduleById, ["schedule"], {
-  revalidate: false,
-  tags: ["schedule"],
-});
+// export const getScheduleById = unstable_cache(_getScheduleById, ["schedule"], {
+//   revalidate: false,
+//   tags: ["schedule"],
+// });
 
 // get by filters
-const _getScheduleByMonthYear = async (month: string, year: string) => {
+export const getScheduleByMonthYear = async (month: string, year: string) => {
   const snapshot = await dbAdmin
     .collection("schedule")
     .where("month", "==", month)
@@ -82,11 +82,11 @@ const _getScheduleByMonthYear = async (month: string, year: string) => {
   })) as (ScheduleData & { id: string })[];
 };
 
-export const getScheduleByMonthYear = unstable_cache(
-  _getScheduleByMonthYear,
-  ["schedule-by-month-year"],
-  {
-    revalidate: false,
-    tags: ["schedule"],
-  }
-);
+// export const getScheduleByMonthYear = unstable_cache(
+//   _getScheduleByMonthYear,
+//   ["schedule"],
+//   {
+//     // revalidate: false,
+//     tags: ["schedule"],
+//   }
+// );

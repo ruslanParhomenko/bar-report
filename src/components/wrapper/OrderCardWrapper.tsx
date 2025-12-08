@@ -1,7 +1,6 @@
 "use client";
 import { Label } from "../ui/label";
 import { Separator } from "../ui/separator";
-import { useAbility } from "@/providers/AbilityProvider";
 import { useFormContext, useWatch } from "react-hook-form";
 
 import NumericInput from "../inputs/NumericInput";
@@ -17,7 +16,7 @@ export function OrderCardWrapper({
 }) {
   return (
     <div>
-      <div className="flex flex-col w-full justify-center items-center py-2">
+      <div className="flex flex-col w-full justify-center items-center">
         <Label className="py-2 font-bold text-bl">{name}</Label>
       </div>
       {data.map((item, index) => (
@@ -33,15 +32,16 @@ export function OrderCardWrapper({
 
 function OrderCardField({ item, isLast }: { item: string; isLast: boolean }) {
   const { theme } = useTheme();
-  const { isObserver } = useAbility();
   const { setValue, control } = useFormContext();
 
   const value = useWatch({ control, name: item });
 
   return (
     <div>
-      <div className="grid-cols-[68%_10%_16%] grid">
-        <Label className={`text-sm ${value ? "text-rd" : ""}`}>{item}</Label>
+      <div className="grid-cols-[72%_10%_16%] grid">
+        <Label className={`pl-2 text-sm ${value ? "text-rd" : ""}`}>
+          {item}
+        </Label>
 
         <button
           type="button"
@@ -51,13 +51,7 @@ function OrderCardField({ item, isLast }: { item: string; isLast: boolean }) {
           {value ? <Trash2Icon className="w-4 h-4" /> : null}
         </button>
 
-        <NumericInput
-          fieldName={item}
-          disabled={isObserver}
-          className={`w-12! text-center h-7! ${
-            theme === "dark" ? "border-0" : ""
-          }`}
-        />
+        <NumericInput fieldName={item} className="w-10! text-center h-6.5!" />
       </div>
       {!isLast && (
         <Separator

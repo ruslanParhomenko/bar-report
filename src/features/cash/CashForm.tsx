@@ -15,6 +15,7 @@ import { Table } from "@/components/ui/table";
 import { CashHeaderTable } from "./CashHeaderTable";
 import { SendResetButton } from "@/components/buttons/SendResetButton";
 import { supabase } from "@/lib/supabaseClient";
+import { useRouter } from "next/navigation";
 
 export default function CashForm({
   dataCash,
@@ -27,6 +28,8 @@ export default function CashForm({
   month: string;
   year: string;
 }) {
+  const router = useRouter();
+
   const { isAdmin, isCash } = useAbility();
   const isDisabled = !isAdmin && !isCash;
 
@@ -113,7 +116,8 @@ export default function CashForm({
         (payload: any) => {
           if (payload.new?.unique_id === uniqueId) {
             // Обновляем форму Realtime данными от другого пользователя
-            form.reset(payload.new.form_data);
+            // form.reset(payload.new.form_data);
+            router.refresh();
             toast.info("Данные обновились в реальном времени!");
           }
         }

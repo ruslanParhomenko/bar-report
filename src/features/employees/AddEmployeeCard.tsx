@@ -16,7 +16,6 @@ import { DatePickerRange } from "@/components/inputs/DatePickerRange";
 import {
   defaultEmployeeSchemaValues,
   defaultVacationPay,
-  EMPLOYEES_ROLE,
   employeesSchema,
   EmployeesSchemaTypeData,
 } from "./schema";
@@ -34,6 +33,7 @@ import {
 import { sendNotificationEmail } from "@/app/actions/mail/sendNotificationEmail";
 import { useEffect } from "react";
 import { useRouter } from "@/i18n/navigation";
+import { EMPLOYEES_ROLE } from "./SelectEmployeeBy";
 
 type FormData = EmployeesSchemaTypeData & { id?: string };
 

@@ -1,5 +1,10 @@
-import TabsNavSchedule from "@/features/schedule/TabsNavSchedule";
-import { SCHEDULE_NAV_ITEMS } from "@/features/navigation/constants";
+import NavMenuHeader from "@/components/nav-menu-header/NavMenuHeader";
+
+const SCHEDULE_NAV_ITEMS = [
+  { title: "cucina", href: "cucina" },
+  { title: "bar", href: "bar" },
+  { title: "dish", href: "dish" },
+];
 
 export default function ScheduleLayout({
   children,
@@ -8,7 +13,11 @@ export default function ScheduleLayout({
 }) {
   return (
     <>
-      <TabsNavSchedule navItems={SCHEDULE_NAV_ITEMS} mainRoute={"schedule"} />
+      <NavMenuHeader
+        navItems={SCHEDULE_NAV_ITEMS}
+        mainRoute={"schedule"}
+        filterType="month"
+      />
 
       {children}
     </>

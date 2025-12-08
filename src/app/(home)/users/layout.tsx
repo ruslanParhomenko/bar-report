@@ -1,10 +1,10 @@
 import NavMenuHeader from "@/components/nav-menu-header/NavMenuHeader";
-
 const navItems = [
-  { title: "form", href: "form" },
-  { title: "archive", href: "archive" },
+  { title: "users", href: "" },
+  { title: "add", href: "create" },
 ];
-export default function LayoutBreakRemarks({
+
+export default function EmployeeLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -12,11 +12,11 @@ export default function LayoutBreakRemarks({
   return (
     <>
       <NavMenuHeader
-        defaultPatch="form"
         navItems={navItems}
-        mainRoute={"break-remarks"}
-        filterType="month"
+        mainRoute={"users"}
+        filterType="none"
       />
+
       {children}
     </>
   );
