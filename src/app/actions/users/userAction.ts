@@ -2,7 +2,6 @@
 
 import { dbAdmin } from "@/lib/firebaseAdmin";
 import { UsersSchemaTypeData } from "@/features/users/schema";
-import { unstable_cache } from "next/cache";
 import { invalidateEverywhere } from "../invalidateEverywhere/invalidateEverywhere";
 
 type UserData = UsersSchemaTypeData;
@@ -29,7 +28,7 @@ export async function deleteUser(id: string) {
 
 // get
 
-const fetchUsersAdmin = async () => {
+export const getUsers = async () => {
   const snapshot = await dbAdmin.collection("users").get();
   return snapshot.docs.map((doc) => ({
     id: doc.id,
@@ -37,7 +36,7 @@ const fetchUsersAdmin = async () => {
   })) as UsersSchemaTypeData[];
 };
 
-export const getUsers = unstable_cache(fetchUsersAdmin, ["users"], {
-  revalidate: false,
-  tags: ["users"],
-});
+// export const getUsers = unstable_cache(fetchUsersAdmin, ["users"], {
+//   revalidate: false,
+//   tags: ["users"],
+// });

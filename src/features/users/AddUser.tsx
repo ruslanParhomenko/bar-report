@@ -58,6 +58,7 @@ export default function AddUsersCard({ id }: { id?: string }) {
         toast.success("User is added !");
       }
       resetForm();
+      router.refresh();
     } catch (e) {
       toast.error("Error adding user");
     }
