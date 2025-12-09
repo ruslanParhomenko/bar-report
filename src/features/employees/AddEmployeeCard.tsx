@@ -36,6 +36,10 @@ import { useRouter } from "@/i18n/navigation";
 import { EMPLOYEES_ROLE } from "./SelectEmployeeBy";
 
 type FormData = EmployeesSchemaTypeData & { id?: string };
+const STATUS_OPTIONS = [
+  { label: "active", value: "active" },
+  { label: "fired", value: "fired" },
+];
 
 export function AddEmployeeCard({
   employee,
@@ -142,13 +146,19 @@ export function AddEmployeeCard({
             type="text"
             className={fieldClassName}
           />
+          <SelectInput
+            data={STATUS_OPTIONS}
+            fieldName="status"
+            fieldLabel={t("status")}
+            className={fieldClassName}
+          />
 
           <Label className="py-4">{t("usedVacationDays")}</Label>
           {fields.map((field, index) => {
             const startDate = vacationPayValues?.[index]?.startDate;
             const endDate = vacationPayValues?.[index]?.endDate;
             return (
-              <div key={field.id} className="flex flex-col w-2/3 gap-1">
+              <div key={field.id} className="flex flex-col md:w-2/3 gap-1">
                 <div className="flex w-full">
                   <DatePickerRange
                     value={{
@@ -178,7 +188,7 @@ export function AddEmployeeCard({
                       }
                     }}
                     resetTrigger={false}
-                    className="flex-1 h-10"
+                    className="flex-1 h-8"
                   />
                   <TextInput
                     fieldName={`vacationPay.${index}.countDays`}

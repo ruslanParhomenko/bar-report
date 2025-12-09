@@ -39,7 +39,7 @@ export const ActionsButton = ({
   };
 
   return (
-    <div className="flex flex-row  gap-4  justify-start">
+    <div className="flex flex-row  gap-6  justify-start">
       {(item || idx === formFields.fields.length - 1) && (
         <button
           type="button"

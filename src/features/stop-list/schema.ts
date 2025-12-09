@@ -9,9 +9,7 @@ export type StopListItemSchemaType = yup.InferType<typeof stopListItemSchema>;
 export const defaultStopList = stopListItemSchema.getDefault();
 
 export const stopListSchema = yup.object({
-  id: yup.number().required(),
   stopList: yup.array().of(stopListItemSchema).default([defaultStopList]),
-  stopListCucina: yup.array().of(stopListItemSchema).default([defaultStopList]),
 });
 
 export type StopListSchemaType = yup.InferType<typeof stopListSchema>;

@@ -19,12 +19,14 @@ export default function NavMenuHeader({
   filterType,
   resetButton = false,
   defaultPatch = "",
+  classNamePatch,
 }: {
   navItems: PageNavType[];
   mainRoute: string;
   filterType: "month" | "role" | "none";
   resetButton?: boolean;
   defaultPatch?: string;
+  classNamePatch?: string;
 }) {
   const key = `patch_${mainRoute}`;
   const router = useRouter();
@@ -70,6 +72,7 @@ export default function NavMenuHeader({
           setPatch={setPatch}
           isPending={isPending}
           navItems={navItems}
+          classNamePatch={classNamePatch}
         />
       )}
       {filterType === "month" && (

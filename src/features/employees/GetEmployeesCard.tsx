@@ -15,6 +15,7 @@ import ActionButtonEmployee from "./ActionButtonEmployee";
 import { ViewTransition } from "react";
 import { handleCopy } from "@/utils/handlerCopyText";
 import { formatShortDate } from "@/utils/formatDate";
+import { CheckCircle, UserX } from "lucide-react";
 
 export function GetEmployeesCard({
   data,
@@ -43,6 +44,7 @@ export function GetEmployeesCard({
             </TableHead>
             <TableHead className="w-12 truncate">{t("remaining")}</TableHead>
             <TableHead className="w-15">{t("rate")}</TableHead>
+            <TableHead className="w-15">{t("status")}</TableHead>
             <TableHead className="text-center w-25" />
           </TableRow>
         </TableHeader>
@@ -81,7 +83,12 @@ export function GetEmployeesCard({
                       : "-"}
                   </TableCell>
                   <TableCell
-                    className={cn("sticky left-0")}
+                    className={cn(
+                      "sticky left-0 bg-background/70 z-10",
+                      emp.status && emp.status === "fired"
+                        ? "text-muted-foreground!"
+                        : ""
+                    )}
                     onClick={() => handleCopy(emp.name)}
                   >
                     {emp.name}
@@ -103,6 +110,13 @@ export function GetEmployeesCard({
                   <TableCell>{usedVacationDays}</TableCell>
                   <TableCell>{vacationDays - usedVacationDays}</TableCell>
                   <TableCell>{isAdmin ? Number(emp.rate) : "-"}</TableCell>
+                  <TableCell>
+                    {emp.status && emp.status === "fired" ? (
+                      <UserX className="w-4 h-4 text-rd" />
+                    ) : (
+                      <CheckCircle className="w-4 h-4 text-bl" />
+                    )}
+                  </TableCell>
                   <TableCell>
                     <ActionButtonEmployee id={emp.id} />
                   </TableCell>

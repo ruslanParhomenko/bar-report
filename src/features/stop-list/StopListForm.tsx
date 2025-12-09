@@ -32,7 +32,7 @@ import { useAbility } from "@/providers/AbilityProvider";
 import { formatNowData } from "@/utils/formatNow";
 
 type StopLitTableProps = {
-  data: StopListSchemaType;
+  data: StopListSchemaType[];
   nameTag: "bar" | "cucina";
 };
 
@@ -62,15 +62,13 @@ export default function StopListForm({ data, nameTag }: StopLitTableProps) {
   });
   const stopListValues = useFieldArray({
     control: form.control,
-    name: LABEL[nameTag],
+    name: "stopList",
   });
-  const watchStopListBar =
+  const watchStopList =
     useWatch({ control: form.control, name: "stopList" }) ?? [];
-  const watchStopListCucina =
-    useWatch({ control: form.control, name: "stopListCucina" }) ?? [];
 
   // save data with debounce
-  const debouncedSave = (saveData: Omit<StopListSchemaType, "id">) => {
+  const debouncedSave = (saveData: StopListSchemaType) => {
     const currentDataString = JSON.stringify(saveData);
     if (currentDataString === lastSavedDataRef.current) {
       return;
@@ -80,7 +78,7 @@ export default function StopListForm({ data, nameTag }: StopLitTableProps) {
     }
     saveTimeoutRef.current = setTimeout(async () => {
       try {
-        await saveStopList({ dataStopList: saveData, mail: "bar-cucina" });
+        await saveStopList({ dataStopList: saveData, mail: nameTag });
         lastSavedDataRef.current = currentDataString;
         toast.success("Stop list saved successfully!");
       } catch (error) {
@@ -93,13 +91,10 @@ export default function StopListForm({ data, nameTag }: StopLitTableProps) {
   useEffect(() => {
     if (!data || isInitialized) return;
 
-    const resetData = {
-      stopList: data.stopList || [{ ...defaultStopList }],
-      stopListCucina: data.stopListCucina || [{ ...defaultStopList }],
-    };
+    console.log(data);
 
-    form.reset(resetData);
-    lastSavedDataRef.current = JSON.stringify(resetData);
+    form.reset(data[0]);
+    lastSavedDataRef.current = JSON.stringify(data[0]);
     setIsInitialized(true);
   }, [data, form, isInitialized]);
 
@@ -114,33 +109,10 @@ export default function StopListForm({ data, nameTag }: StopLitTableProps) {
 
   // save on change
   useEffect(() => {
-    if (!isBar || !Array.isArray(watchStopListBar) || !isInitialized) return;
-
-    watchStopListBar?.forEach((item, idx) => {
-      if (item?.product && !item.date) {
-        const date = formatNowData();
-        stopListValues.update(idx, {
-          ...stopListValues.fields[idx],
-          ...item,
-          date,
-        });
-      }
-    });
-
-    if (isBar && data) {
-      const saveData = {
-        stopList: watchStopListBar || [],
-        stopListCucina: data.stopListCucina || [],
-      };
-      debouncedSave(saveData);
-    }
-  }, [watchStopListBar, isBar, data, isInitialized]);
-
-  useEffect(() => {
-    if (!isCucina || !Array.isArray(watchStopListCucina) || !isInitialized)
+    if (!isBar || !Array.isArray(watchStopList) || !isInitialized || !isCucina)
       return;
 
-    watchStopListCucina?.forEach((item, idx) => {
+    watchStopList?.forEach((item, idx) => {
       if (item?.product && !item.date) {
         const date = formatNowData();
         stopListValues.update(idx, {
@@ -151,18 +123,17 @@ export default function StopListForm({ data, nameTag }: StopLitTableProps) {
       }
     });
 
-    if (isCucina && data) {
+    if ((isBar || isCucina) && data) {
       const saveData = {
-        stopList: data.stopList || [],
-        stopListCucina: watchStopListCucina || [],
+        stopList: watchStopList || [],
       };
       debouncedSave(saveData);
     }
-  }, [watchStopListCucina, isCucina, data, isInitialized]);
+  }, [watchStopList, isBar, isCucina, data, isInitialized]);
+
   return (
-    <FormWrapper form={form} className="xl:px-5">
-      <Label className="text-lg font-semibold pb-7 text-bl">{t(nameTag)}</Label>
-      <Table className="[&_th]:text-center [&_td]:text-center table-fixed md:w-160 ">
+    <FormWrapper form={form} className="md:py-4">
+      <Table className="[&_th]:text-center [&_td]:text-center table-fixed md:w-200 ">
         <TableHeader>
           <TableRow className="h-10">
             <TableHead className="md:w-90 w-32">Product</TableHead>

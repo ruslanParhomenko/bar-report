@@ -1,13 +1,12 @@
 "use client";
 import PrintButton from "@/components/buttons/PrintButton";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Spinner } from "@/components/ui/spinner";
-import { useGoogleData } from "@/hooks/useGoogleData";
 import { columns, LABELS } from "./constants";
 import { useRef } from "react";
+import { Menu } from "@/app/actions/google/googleSheetAction";
 
-export default function StatusMenu() {
-  const { statusMenu: data } = useGoogleData();
+export default function StatusMenu({ data }: { data: Menu }) {
+  const selectData = data && data.statusMenu;
   const componentRef = useRef<HTMLDivElement>(null);
 
   return (
@@ -34,22 +33,18 @@ export default function StatusMenu() {
             </CardHeader>
             <CardContent>
               <ul className="space-y-1 text-sm">
-                {data ? (
-                  data[col.key].map((item, idx) => (
-                    <li
-                      key={idx}
-                      className={
-                        LABELS.includes(item)
-                          ? "font-bold text-bl text-center pb-1"
-                          : "truncate"
-                      }
-                    >
-                      {item === "-" ? <span> .</span> : item}
-                    </li>
-                  ))
-                ) : (
-                  <Spinner />
-                )}
+                {selectData[col.key].map((item, idx) => (
+                  <li
+                    key={idx}
+                    className={
+                      LABELS.includes(item)
+                        ? "font-bold text-bl text-center pb-1"
+                        : "truncate"
+                    }
+                  >
+                    {item === "-" ? <span> .</span> : item}
+                  </li>
+                ))}
               </ul>
             </CardContent>
           </Card>

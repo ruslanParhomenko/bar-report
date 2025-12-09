@@ -1,6 +1,5 @@
-"use client";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Spinner } from "@/components/ui/spinner";
+import { StandardKitchen } from "@/app/actions/google/googleSheetAction";
+import { Card } from "@/components/ui/card";
 import {
   Table,
   TableBody,
@@ -9,54 +8,45 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useGoogleData } from "@/hooks/useGoogleData";
 import { useTranslations } from "next-intl";
 
-export function StandardKitchenTable() {
+export default function StandardKitchenTable({
+  data,
+}: {
+  data: StandardKitchen[];
+}) {
   const t = useTranslations("Home");
-  const { sk: data } = useGoogleData();
-
   return (
-    <Card className="h-screen flex flex-col">
-      <CardHeader className="flex-shrink-0">
-        <Table className="table-fixed w-full">
-          <TableHeader>
-            <TableRow>
-              <TableHead className="truncate">{t("semifabricat")}</TableHead>
-              <TableHead className="text-center truncate">
-                {t("fridge")} +2…+3°C
-              </TableHead>
-              <TableHead className="text-center truncate">
-                {t("freezer")} -18°C
-              </TableHead>
-            </TableRow>
-          </TableHeader>
-        </Table>
-      </CardHeader>
+    <Card className="h-[92vh] overflow-auto py-3 md:px-10">
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead className="truncate">{t("semifabricat")}</TableHead>
+            <TableHead className="text-center truncate">
+              {t("fridge")} +2…+3°C
+            </TableHead>
+            <TableHead className="text-center truncate">
+              {t("freezer")} -18°C
+            </TableHead>
+          </TableRow>
+        </TableHeader>
 
-      <CardContent className="flex-1 overflow-y-auto no-scrollbar">
-        <Table className="table-fixed w-full">
-          <TableBody>
-            {data ? (
-              data
-                ?.filter((_emp: any, idx: number) => idx !== 0)
-                .map((emp: any, idx: number) => (
-                  <TableRow key={`${emp.date}-${idx}`}>
-                    <TableCell className="truncate">{emp.name}</TableCell>
-                    <TableCell className="text-center truncate">
-                      {emp.timePlus ?? "-"}
-                    </TableCell>
-                    <TableCell className="text-center">
-                      {emp.timeMinus ?? "-"}
-                    </TableCell>
-                  </TableRow>
-                ))
-            ) : (
-              <Spinner />
-            )}
-          </TableBody>
-        </Table>
-      </CardContent>
+        <TableBody>
+          {data
+            ?.filter((_emp: any, idx: number) => idx !== 0)
+            .map((emp: any, idx: number) => (
+              <TableRow key={`${emp.date}-${idx}`} className="p-0 h-7!">
+                <TableCell className="truncate p-0 px-2">{emp.name}</TableCell>
+                <TableCell className="text-center truncate p-0 px-2">
+                  {emp.timePlus ?? "-"}
+                </TableCell>
+                <TableCell className="text-center p-0 px-2">
+                  {emp.timeMinus ?? "-"}
+                </TableCell>
+              </TableRow>
+            ))}
+        </TableBody>
+      </Table>
     </Card>
   );
 }

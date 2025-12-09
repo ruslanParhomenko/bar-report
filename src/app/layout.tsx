@@ -9,7 +9,6 @@ import "./globals.css";
 
 // providers
 import { SessionProviders } from "@/providers/SessionProviders";
-import ReactQueryProvider from "@/providers/ReactQueryProvider";
 import { ThemeProvider } from "next-themes";
 import { UsersEmployeesProviderLayout } from "./data-provider-layout";
 // ui
@@ -49,11 +48,9 @@ export default async function RootLayout({
           <Toaster position="top-center" />
           <SessionProviders>
             <NextIntlClientProvider>
-              <ReactQueryProvider>
-                <UsersEmployeesProviderLayout>
-                  {children}
-                </UsersEmployeesProviderLayout>
-              </ReactQueryProvider>
+              <UsersEmployeesProviderLayout>
+                {children}
+              </UsersEmployeesProviderLayout>
             </NextIntlClientProvider>
           </SessionProviders>
         </ThemeProvider>

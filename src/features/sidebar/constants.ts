@@ -62,11 +62,6 @@ export const SIDEBAR_NAVIGATION = [
     icon: Ban,
   },
   {
-    title: "menuVip",
-    url: "/menu-vip",
-    icon: Star,
-  },
-  {
     title: "users",
     url: "/users",
     icon: Settings,

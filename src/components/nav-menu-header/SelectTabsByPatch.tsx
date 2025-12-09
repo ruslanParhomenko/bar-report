@@ -8,11 +8,13 @@ export default function SelectTabsByPatch({
   setPatch,
   isPending,
   navItems,
+  classNamePatch,
 }: {
   patch: string;
   setPatch: (value: string) => void;
   isPending: boolean;
   navItems: PageNavType[];
+  classNamePatch?: string;
 }) {
   const t = useTranslations("Home");
   return (
@@ -29,7 +31,8 @@ export default function SelectTabsByPatch({
             disabled={isPending}
             className={cn(
               "md:w-24 w-22 hover:text-bl cursor-pointer",
-              isPending && "opacity-50"
+              isPending && "opacity-50",
+              classNamePatch
             )}
           >
             {t(page.title)}

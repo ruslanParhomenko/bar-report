@@ -1,5 +1,5 @@
-import InfoTable from "@/features/info/InfoTable";
+import EmptyPage from "@/components/page/EmptyPage";
 
-export default async function InfoPage() {
-  return <InfoTable />;
+export default function Page() {
+  return <EmptyPage name="data" />;
 }

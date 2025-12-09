@@ -1,12 +1,10 @@
 import NavMenuHeader from "@/components/nav-menu-header/NavMenuHeader";
 
-const SCHEDULE_NAV_ITEMS = [
-  { title: "cucina", href: "cucina" },
+const navItems = [
   { title: "bar", href: "bar" },
-  { title: "dish", href: "dish" },
+  { title: "cucina", href: "cucina" },
 ];
-
-export default function ScheduleLayout({
+export default function LayoutStopList({
   children,
 }: {
   children: React.ReactNode;
@@ -14,12 +12,11 @@ export default function ScheduleLayout({
   return (
     <>
       <NavMenuHeader
-        navItems={SCHEDULE_NAV_ITEMS}
-        mainRoute={"schedule"}
-        filterType="month"
+        navItems={navItems}
+        mainRoute={"stop-list"}
+        filterType="none"
         resetButton={true}
       />
-
       {children}
     </>
   );

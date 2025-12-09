@@ -1,7 +1,5 @@
+import EmptyPage from "@/components/page/EmptyPage";
+
 export default function Page() {
-  return (
-    <div className="flex justify-center items-center h-[90vh]">
-      select an schedule
-    </div>
-  );
+  return <EmptyPage name="schedule" />;
 }

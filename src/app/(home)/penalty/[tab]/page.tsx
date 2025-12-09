@@ -30,7 +30,7 @@ export default async function Page({
     throw new Error(`Invalid month/year: ${month}/${year}`);
   }
 
-  // Даты в UTC
+  // UTC
   const startDate = new Date(Date.UTC(yearNum, monthNum - 1, 1, 0, 0, 0));
   const endDate = new Date(Date.UTC(yearNum, monthNum, 1, 0, 0, 0));
 

@@ -1,14 +1,12 @@
-"use client";
 import { useTranslations } from "next-intl";
 import { Dot } from "lucide-react";
-import { useGoogleData } from "@/hooks/useGoogleData";
+import { Menu } from "@/app/actions/google/googleSheetAction";
 
-export function MenuDaily() {
-  const { menu: data, isLoading } = useGoogleData();
+export function MenuDaily({ data }: { data: Menu }) {
   const dataDaily = data && data.daily;
   const t = useTranslations("Menu");
 
-  if (isLoading) return null;
+  if (!dataDaily) return null;
   return (
     <div className="flex flex-col items-center justify-center w-full relative tracking-wider">
       <h1 className="flex justify-center items-center font-bold text-[20px] py-5 ">

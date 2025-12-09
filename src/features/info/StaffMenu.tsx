@@ -1,45 +1,45 @@
-"use client";
-
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import { Spinner } from "@/components/ui/spinner";
-import { useGoogleData } from "@/hooks/useGoogleData";
 import { menu } from "./constants";
+import { Menu } from "@/app/actions/google/googleSheetAction";
 
-export default function StaffMenu() {
-  const { menuDepartments: data } = useGoogleData();
+const MENU_STAFF_BY_DAY = [
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+  "Sunday",
+] as const;
 
-  const dataSecuruty = menu;
+export default function StaffMenu({ data }: { data: Menu }) {
+  const menuStaffDaily = data && data.staff;
+  const selectData = data && data.menuDepartament;
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-      <Card className="shadow-md border border-gray-200">
+    <div className="grid grid-cols-1 md:grid-cols-4 gap-4 h-[90vh]">
+      <Card>
         <CardHeader>
           <CardTitle className="text-xl font-semibold">
-            Reteption \ FM
+            Reception \ FM
           </CardTitle>
         </CardHeader>
 
         <CardContent>
           <div className="space-y-1 text-sm">
-            {data ? (
-              data.map((item, idx) => (
-                <div key={idx} className="text-center">
-                  <Label className="font-bold text-bl py-4">
-                    {item.product}
+            {selectData?.map((item, idx) => (
+              <div key={idx} className="text-center">
+                <Label className="font-bold text-bl py-4">{item.product}</Label>
+                {item?.description.map((item, idx) => (
+                  <Label
+                    key={idx}
+                    className="text-center text-muted-foreground py-1"
+                  >
+                    - {item}
                   </Label>
-                  {item?.description.map((item, idx) => (
-                    <Label
-                      key={idx}
-                      className="text-center text-muted-foreground py-1"
-                    >
-                      - {item}
-                    </Label>
-                  ))}
-                </div>
-              ))
-            ) : (
-              <Spinner />
-            )}
+                ))}
+              </div>
+            ))}
           </div>
         </CardContent>
       </Card>
@@ -50,20 +50,14 @@ export default function StaffMenu() {
 
         <CardContent>
           <div className="space-y-1 text-sm">
-            {dataSecuruty ? (
-              dataSecuruty?.map((item, idx) => (
-                <div key={idx} className="text-center">
-                  <Label className="font-bold text-bl py-4">
-                    {item.product}
-                  </Label>
-                  <Label className="text-center text-muted-foreground py-1">
-                    - 2 шт
-                  </Label>
-                </div>
-              ))
-            ) : (
-              <Spinner />
-            )}
+            {menu?.map((item, idx) => (
+              <div key={idx} className="text-center">
+                <Label className="font-bold text-bl py-4">{item.product}</Label>
+                <Label className="text-center text-muted-foreground py-1">
+                  - 2 шт
+                </Label>
+              </div>
+            ))}
           </div>
         </CardContent>
       </Card>
@@ -74,20 +68,43 @@ export default function StaffMenu() {
 
         <CardContent>
           <div className="space-y-1 text-sm">
-            {dataSecuruty ? (
-              dataSecuruty?.map((item, idx) => (
-                <div key={idx} className="text-center">
-                  <Label className="font-bold text-bl py-4">
-                    {item.product}
-                  </Label>
-                  <Label className="text-center text-muted-foreground py-1">
-                    - 1 шт {item.product === "Сэндвич" ? " -- смена 12 ч" : ""}
-                  </Label>
+            {menu?.map((item, idx) => (
+              <div key={idx} className="text-center">
+                <Label className="font-bold text-bl py-4">{item.product}</Label>
+                <Label className="text-center text-muted-foreground py-1">
+                  - 1 шт {item.product === "Сэндвич" ? " -- смена 12 ч" : ""}
+                </Label>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+      <Card className="shadow-md border border-gray-200">
+        <CardHeader>
+          <CardTitle className="text-xl font-semibold">Daily</CardTitle>
+        </CardHeader>
+
+        <CardContent>
+          <div className="space-y-4 text-sm">
+            {MENU_STAFF_BY_DAY.map((day) => {
+              const key = day.toLowerCase();
+              const list =
+                menuStaffDaily?.[key as keyof typeof menuStaffDaily] ?? [];
+
+              return (
+                <div key={day}>
+                  <Label className="text-bl">{day}</Label>
+
+                  {list.map((menu, idx) =>
+                    menu ? (
+                      <div className="pl-2" key={idx}>
+                        {menu}
+                      </div>
+                    ) : null
+                  )}
                 </div>
-              ))
-            ) : (
-              <Spinner />
-            )}
+              );
+            })}
           </div>
         </CardContent>
       </Card>

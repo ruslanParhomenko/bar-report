@@ -1,12 +1,10 @@
 import GoogleButton from "@/components/buttons/GoogleButton";
 import AuthRedirect from "@/providers/AuthRedirect";
 
-const Page = () => {
+export default function Page() {
   return (
     <AuthRedirect>
       <GoogleButton />
     </AuthRedirect>
   );
-};
-
-export default Page;
+}

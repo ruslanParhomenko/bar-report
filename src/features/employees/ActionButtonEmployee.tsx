@@ -1,13 +1,6 @@
 "use client";
 import { deleteEmployee } from "@/app/actions/employees/employeeAction";
-import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+import ModalConfirm from "@/components/modal/ModalConfirm";
 import { useRouter } from "@/i18n/navigation";
 import { useAbility } from "@/providers/AbilityProvider";
 import { PenBox, Trash2Icon, TreePalmIcon } from "lucide-react";
@@ -39,21 +32,13 @@ export default function ActionButtonEmployee({ id }: { id: string }) {
   };
   return (
     <>
-      <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Подтверждение</DialogTitle>
-          </DialogHeader>
-          <p>Вы уверены, что хотите удалить данные?</p>
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setOpen(false)}>
-              Отмена
-            </Button>
-            <Button onClick={handleConfirm}>Подтвердить</Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-      <div className="flex gap-6 justify-center">
+      <ModalConfirm
+        open={open}
+        setOpen={setOpen}
+        handleConfirm={handleConfirm}
+        message="delete"
+      />
+      <div className="flex gap-8 justify-center">
         <button
           className="cursor-pointer hover:bg-bl"
           type="button"
