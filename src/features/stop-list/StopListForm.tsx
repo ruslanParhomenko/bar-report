@@ -1,5 +1,5 @@
 "use client";
-import { Label } from "@/components/ui/label";
+
 import {
   Table,
   TableBody,
@@ -91,8 +91,6 @@ export default function StopListForm({ data, nameTag }: StopLitTableProps) {
   useEffect(() => {
     if (!data || isInitialized) return;
 
-    console.log(data);
-
     form.reset(data[0]);
     lastSavedDataRef.current = JSON.stringify(data[0]);
     setIsInitialized(true);
@@ -135,10 +133,10 @@ export default function StopListForm({ data, nameTag }: StopLitTableProps) {
     <FormWrapper form={form} className="md:py-4">
       <Table className="[&_th]:text-center [&_td]:text-center table-fixed md:w-200 ">
         <TableHeader>
-          <TableRow className="h-10">
-            <TableHead className="md:w-90 w-32">Product</TableHead>
-            <TableHead className="md:w-50 w-16">Date</TableHead>
-            <TableHead className="text-left md:w-30 w-12">Actions</TableHead>
+          <TableRow>
+            <TableHead className="md:w-90 w-32" />
+            <TableHead className="md:w-50 w-16">date</TableHead>
+            <TableHead className="text-left md:w-30 w-12">actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -149,7 +147,7 @@ export default function StopListForm({ data, nameTag }: StopLitTableProps) {
                   data={DATA_PRODUCTS[nameTag]}
                   fieldName={`${LABEL[nameTag]}.${idx}.product`}
                   disabled={isDisabled}
-                  className="h-10"
+                  className="h-9"
                 />
               </TableCell>
               <TableCell className="text-center">

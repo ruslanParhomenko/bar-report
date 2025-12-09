@@ -23,9 +23,9 @@ export default function SelectByMonthYear({
 }) {
   const { isMobile } = useSidebar();
   const classNameSelect =
-    "md:w-24 w-12 h-7! p-0! bg-gr/60 border-0  [&>svg]:hidden justify-center";
+    "md:w-24 w-11 h-7! px-0 bg-gr/60 border-0 md:text-sm text-xs  [&>svg]:hidden justify-center";
   return (
-    <div className="flex justify-center items-center md:gap-4 gap-1">
+    <div className="flex justify-center items-center md:gap-4 gap-1 order-2">
       <Select
         value={month}
         onValueChange={(value) => setMonth(value)}

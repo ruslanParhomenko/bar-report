@@ -8,7 +8,7 @@ export function MenuDaily({ data }: { data: Menu }) {
 
   if (!dataDaily) return null;
   return (
-    <div className="flex flex-col items-center justify-center w-full relative tracking-wider">
+    <div className="flex flex-col items-center justify-center tracking-wider">
       <h1 className="flex justify-center items-center font-bold text-[20px] py-5 ">
         <Dot />
         {t("Saids & Appetizers")}

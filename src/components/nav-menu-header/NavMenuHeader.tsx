@@ -5,7 +5,6 @@ import SelectTabsByPatch from "./SelectTabsByPatch";
 import SelectByMonthYear from "./SelectByMonthYear";
 import { useRouter } from "next/navigation";
 import SelectEmployeeBy from "@/features/employees/SelectEmployeeBy";
-import { Button } from "../ui/button";
 import { RefreshCcw } from "lucide-react";
 
 export type PageNavType = {
@@ -65,7 +64,7 @@ export default function NavMenuHeader({
     router.push(`/${mainRoute}`);
   };
   return (
-    <div className="md:mt-2 mt-1 mb-4 sticky top-0 z-9 flex justify-end md:justify-start md:gap-4 gap-2">
+    <div className="md:py-2 mt-1 mb-4 sticky top-0 z-9 flex justify-center md:justify-start md:gap-4 gap-1.5">
       {navItems.length > 0 && (
         <SelectTabsByPatch
           patch={patch}
@@ -88,13 +87,12 @@ export default function NavMenuHeader({
         <SelectEmployeeBy role={role} setRole={setRole} />
       )}
       {resetButton && (
-        <Button
-          variant={"default"}
+        <button
           onClick={resetParams}
-          className="bg-gr/50 hover:text-bl hover:bg-transparent h-7.5 py-0 cursor-pointer md:w-24"
+          className="hover:text-bl hover:bg-transparent cursor-pointer md:w-24 md:order-3 order-0 px-2"
         >
           <RefreshCcw className="w-4 h-4" />
-        </Button>
+        </button>
       )}
     </div>
   );

@@ -7,8 +7,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Button } from "@/components/ui/button";
-import { Minus, Pencil } from "lucide-react";
+import { Pencil, Trash2Icon } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 import { deleteUser } from "@/app/actions/users/userAction";
@@ -19,18 +18,17 @@ export function GetUsersCard() {
   const router = useRouter();
   const { query: users } = useAbility();
   const t = useTranslations("Home");
-  // const form = useFormContext<UsersSchemaTypeData>();
 
   const handleDeleteUser = (id: string) => deleteUser(id);
 
   return (
-    <Table>
+    <Table className="table-fixed">
       <TableHeader>
         <TableRow className="text-gr">
-          <TableHead>#</TableHead>
-          <TableHead>{t("email")}</TableHead>
-          <TableHead>{t("role")}</TableHead>
-          <TableHead className="text-center">Action</TableHead>
+          <TableHead className="w-6">#</TableHead>
+          <TableHead className="w-30" />
+          <TableHead className="w-10" />
+          <TableHead className="text-center w-15">Action</TableHead>
         </TableRow>
       </TableHeader>
 
@@ -40,25 +38,21 @@ export function GetUsersCard() {
             <TableCell>{idx + 1}</TableCell>
             <TableCell className="truncate">{user.mail}</TableCell>
             <TableCell>{user.role}</TableCell>
-            <TableCell className="gap-2 flex justify-center">
-              <Button
+            <TableCell className="gap-6 flex justify-center">
+              <button
                 className="cursor-pointer hover:bg-bl"
-                variant="secondary"
                 type="button"
-                size="sm"
                 onClick={() => router.push(`/users/${user.id}`)}
               >
-                <Pencil />
-              </Button>
-              <Button
+                <Pencil className="w-4 h-4 text-bl" />
+              </button>
+              <button
                 className="cursor-pointer hover:bg-rd"
-                variant="secondary"
-                size={"sm"}
                 type="button"
                 onClick={() => handleDeleteUser(user.id as string)}
               >
-                <Minus />
-              </Button>
+                <Trash2Icon className="w-4 h-4 text-rd" />
+              </button>
             </TableCell>
           </TableRow>
         ))}

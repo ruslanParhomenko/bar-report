@@ -19,6 +19,7 @@ export default function LayoutResult({
         mainRoute={"result"}
         filterType="month"
         resetButton={true}
+        classNamePatch="w-15"
       />
       {children}
     </>

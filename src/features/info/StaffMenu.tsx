@@ -17,7 +17,7 @@ export default function StaffMenu({ data }: { data: Menu }) {
   const menuStaffDaily = data && data.staff;
   const selectData = data && data.menuDepartament;
   return (
-    <div className="grid grid-cols-1 md:grid-cols-4 gap-4 h-[90vh]">
+    <div className="grid grid-cols-1 md:grid-cols-4 gap-4 h-[90vh] px-1">
       <Card>
         <CardHeader>
           <CardTitle className="text-xl font-semibold">

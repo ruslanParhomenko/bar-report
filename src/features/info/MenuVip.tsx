@@ -8,7 +8,7 @@ export function MenuVip({ data }: { data: Menu }) {
   const menuData = data.vip;
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+    <div className="grid grid-cols-1 md:grid-cols-3 md:gap-8 gap-2 px-1">
       {menuData?.map((column: any[], colIndex: number) => (
         <Card key={colIndex} className="px-4">
           <CardContent className="md:px-10">

@@ -45,7 +45,7 @@ export const ActionsButton = ({
           type="button"
           onClick={handleRemove}
           disabled={disabled}
-          className={cn("h-10 cursor-pointer")}
+          className={cn("h-9 cursor-pointer")}
         >
           <Trash2Icon className="w-4 h-4 text-rd" />
         </button>
@@ -55,12 +55,12 @@ export const ActionsButton = ({
           type="button"
           onClick={handleAdd}
           disabled={disabled || !item}
-          className={cn("h-10 cursor-pointer")}
+          className={cn("h-9 cursor-pointer")}
         >
           <Plus className="h-4 w-4 text-bl font-bold" />
         </button>
       ) : (
-        <div className="h-10 w-4"></div>
+        <div className="h-9 w-4"></div>
       )}
     </div>
   );

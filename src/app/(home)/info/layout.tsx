@@ -18,7 +18,7 @@ export default function LayoutInfo({
         navItems={navItems}
         mainRoute={"info"}
         filterType="none"
-        classNamePatch="w-36!"
+        classNamePatch="md:w-36! w-16!"
         resetButton={true}
       />
       {children}
