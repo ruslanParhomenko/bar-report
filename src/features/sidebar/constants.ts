@@ -6,7 +6,6 @@ import {
   Info,
   Archive,
   Ban,
-  Star,
   Settings,
   ShieldAlert,
   DollarSign,
