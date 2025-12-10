@@ -1,6 +1,7 @@
 "use server";
 import { prisma } from "@/lib/prisma";
-import { revalidateTag, unstable_cache } from "next/cache";
+import { unstable_cache, updateTag } from "next/cache";
+import { invalidateEverywhere } from "../invalidateEverywhere/invalidateEverywhere";
 
 // create report
 export async function createReportBar({ data }: { data: any }) {
@@ -64,8 +65,8 @@ export async function createReportBar({ data }: { data: any }) {
       inventory: true,
     },
   });
-
-  revalidateTag("reportBar", "default");
+  updateTag("reportBar");
+  await invalidateEverywhere("reportBar");
 
   return report.id;
 }
@@ -147,9 +148,8 @@ export async function updateReportBar({ data }: { data: any }) {
 
     return report;
   });
-
-  // Очистка кеша
-  revalidateTag("reportBar", "default");
+  updateTag("reportBar");
+  await invalidateEverywhere("reportBar");
 
   return updatedReport;
 }
@@ -159,7 +159,8 @@ export async function deleteReportBar(id: string) {
   await prisma.dailyReport.delete({
     where: { id: Number(id) },
   });
-  revalidateTag("reportBar", "default");
+  updateTag("reportBar");
+  await invalidateEverywhere("reportBar");
 }
 
 // get by id
@@ -230,7 +231,7 @@ export async function _getReportBarByDate({
 
 export const getReportBarByDate = unstable_cache(
   _getReportBarByDate,
-  ["reportBar-by-date"],
+  ["reportBar"],
   {
     revalidate: false,
     tags: ["reportBar"],

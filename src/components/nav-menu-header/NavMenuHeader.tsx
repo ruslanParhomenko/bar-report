@@ -51,12 +51,17 @@ export default function NavMenuHeader({
 
     localStorage.setItem(key, patch);
 
-    const url = `/${mainRoute}/${patch}?month=${month}&year=${year}&role=${role}`;
+    const url =
+      filterType === "role"
+        ? `/${mainRoute}/${patch}?role=${role}`
+        : filterType === "month"
+        ? `/${mainRoute}/${patch}?month=${month}&year=${year}`
+        : `/${mainRoute}/${patch}`;
 
     startTransition(() => {
       router.push(url);
     });
-  }, [patch, month, year, role, hydrated]);
+  }, [patch, month, year, role, hydrated, filterType]);
 
   const resetParams = () => {
     setPatch("");

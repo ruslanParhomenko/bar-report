@@ -3,7 +3,7 @@
 import { dbAdmin } from "@/lib/firebaseAdmin";
 import { EmployeesSchemaTypeData } from "@/features/employees/schema";
 import { invalidateEverywhere } from "../invalidateEverywhere/invalidateEverywhere";
-import { unstable_cache } from "next/cache";
+import { unstable_cache, updateTag } from "next/cache";
 
 export type EmployeeData = EmployeesSchemaTypeData;
 
@@ -22,7 +22,7 @@ export async function createEmployee(data: EmployeeData) {
       countDays: pay.countDays,
     })),
   });
-
+  updateTag("employees");
   invalidateEverywhere("employees");
   return docRef.id;
 }
@@ -33,12 +33,14 @@ export async function updateEmployee(
   data: Omit<EmployeeData, "id">
 ) {
   await dbAdmin.collection("employees").doc(id).update(data);
+  updateTag("employees");
   invalidateEverywhere("employees");
 }
 
 // delete
 export async function deleteEmployee(id: string) {
   await dbAdmin.collection("employees").doc(id).delete();
+  updateTag("employees");
   invalidateEverywhere("employees");
 }
 

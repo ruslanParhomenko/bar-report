@@ -4,6 +4,7 @@ import { CashFormType } from "@/features/cash/schema";
 import { supabase } from "@/lib/supabaseClient";
 import { unstable_cache } from "next/cache";
 import { invalidateEverywhere } from "../invalidateEverywhere/invalidateEverywhere";
+import { updateTag } from "next/cache";
 
 // type
 export type CashData = {
@@ -37,7 +38,7 @@ export async function saveCashForm(data: CashFormType) {
     console.error("Ошибка при сохранении формы:", error);
     throw error;
   }
-
+  updateTag("cash");
   await invalidateEverywhere("cash");
 
   return savedData;
@@ -68,7 +69,7 @@ export async function _getCashFormById(unique_id: string) {
     .from("cash")
     .select("*")
     .eq("unique_id", unique_id)
-    .maybeSingle(); // <-- НЕ выбрасывает ошибку, если нет данных
+    .maybeSingle();
 
   if (error) {
     console.error("Ошибка при получении данных формы:", error);
@@ -78,11 +79,7 @@ export async function _getCashFormById(unique_id: string) {
   return data ?? null;
 }
 
-export const getCashFormById = unstable_cache(
-  _getCashFormById,
-  ["cash-by-id"],
-  {
-    revalidate: false,
-    tags: ["cash"],
-  }
-);
+export const getCashFormById = unstable_cache(_getCashFormById, ["cash"], {
+  revalidate: false,
+  tags: ["cash"],
+});

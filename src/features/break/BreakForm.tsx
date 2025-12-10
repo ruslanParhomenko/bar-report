@@ -12,6 +12,7 @@ import { LoadingSkeletonBreak } from "../break-remarks/LoadingSkeleton";
 import { Table } from "@/components/ui/table";
 import { BreakTableHeader } from "./BreakTableHeader";
 import { BreakTableBody } from "./BreakTableBody";
+import { ViewTransition } from "react";
 
 export default function BreakForm() {
   // form
@@ -44,10 +45,12 @@ export default function BreakForm() {
 
   return (
     <FormWrapper form={form} onSubmit={onSubmit}>
-      <Table className="md:table-fixed">
-        <BreakTableHeader />
-        <BreakTableBody />
-      </Table>
+      <ViewTransition>
+        <Table className="md:table-fixed">
+          <BreakTableHeader />
+          <BreakTableBody />
+        </Table>
+      </ViewTransition>
     </FormWrapper>
   );
 }

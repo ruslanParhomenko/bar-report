@@ -1,7 +1,8 @@
 "use server";
 import { Movement, Remain, Shift, Staff, WriteOff } from "@/generated/prisma";
 import { prisma } from "@/lib/prisma";
-import { revalidateTag, unstable_cache } from "next/cache";
+import { revalidateTag, unstable_cache, updateTag } from "next/cache";
+import { invalidateEverywhere } from "../invalidateEverywhere/invalidateEverywhere";
 
 // create report
 export async function createReportCucina({ data }: { data: any }) {
@@ -92,7 +93,8 @@ export async function createReportCucina({ data }: { data: any }) {
     },
   });
 
-  revalidateTag("reportCucina", "default");
+  updateTag("reportCucina");
+  await invalidateEverywhere("reportCucina");
   return report.id;
 }
 
@@ -125,7 +127,8 @@ export async function deleteReportCucina(id: string) {
       writeOff: true,
     },
   });
-  revalidateTag("reportCucina", "default");
+  updateTag("reportCucina");
+  await invalidateEverywhere("reportCucina");
 }
 
 // get all
@@ -185,7 +188,7 @@ export async function _getReportsCucinaByDate({
 
 export const getReportsCucinaByDate = unstable_cache(
   _getReportsCucinaByDate,
-  ["reportsCucina-by-date"],
+  ["reportsCucina"],
   {
     revalidate: false,
     tags: ["reportCucina"],

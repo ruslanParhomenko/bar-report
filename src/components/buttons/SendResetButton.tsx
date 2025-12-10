@@ -12,14 +12,18 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { useRouter } from "next/navigation";
 
 export function SendResetButton({
   resetForm,
   reset = false,
+  refreshUrl,
 }: {
   resetForm?: () => void;
   reset?: boolean;
+  refreshUrl?: string;
 }) {
+  const router = useRouter();
   const { isObserver, isUser } = useAbility();
   const isDisabled = isObserver || isUser;
   const t = useTranslations("Home");
@@ -31,6 +35,7 @@ export function SendResetButton({
   const handleConfirm = () => {
     if (openModal === "save") {
       document.querySelector<HTMLFormElement>("form")?.requestSubmit();
+      refreshUrl && router.replace(refreshUrl);
     } else if (openModal === "reset") {
       resetForm && resetForm();
     }

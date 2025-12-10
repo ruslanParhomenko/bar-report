@@ -24,6 +24,7 @@ import { createReportBar } from "@/app/actions/archive/reportBarAction";
 import { useLocalStorageForm } from "@/hooks/useLocalStorageForm";
 import { FormWrapper } from "@/components/wrapper/FormWrapper";
 import { INVENTORY_DATA } from "./constants";
+import { ViewTransition } from "react";
 
 export default function ReportBarForm() {
   const STORAGE_KEY = "report-bar";
@@ -110,34 +111,36 @@ export default function ReportBarForm() {
   }
 
   return (
-    <FormWrapper
-      form={form}
-      onSubmit={onSubmit}
-      className="flex flex-col min-h-[90vh] gap-4"
-    >
-      <div className="flex w-full justify-end">
-        <DatePickerInput
-          fieldName="date"
-          className="md:w-30 h-8 text-sm w-full text-rd"
+    <ViewTransition>
+      <FormWrapper
+        form={form}
+        onSubmit={onSubmit}
+        className="flex flex-col min-h-[90vh] gap-4"
+      >
+        <div className="flex w-full justify-end">
+          <DatePickerInput
+            fieldName="date"
+            className="md:w-30 h-8 text-sm w-full text-rd"
+          />
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-[20%_22%_28%_22%] md:gap-10">
+          <TableTobacco />
+          <TableExpenses />
+          <TableProductsTransfer />
+          <TableInventory />
+        </div>
+        <Textarea
+          placeholder="notes ..."
+          {...form.register("notes")}
+          className="resize-none"
         />
-      </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-[20%_22%_28%_22%] md:gap-10">
-        <TableTobacco />
-        <TableExpenses />
-        <TableProductsTransfer />
-        <TableInventory />
-      </div>
-      <Textarea
-        placeholder="notes ..."
-        {...form.register("notes")}
-        className="resize-none"
-      />
-
-      <TableCashVerify />
-      <div className="mt-auto">
-        <SendResetButton />
-      </div>
-    </FormWrapper>
+        <TableCashVerify />
+        <div className="mt-auto">
+          <SendResetButton />
+        </div>
+      </FormWrapper>
+    </ViewTransition>
   );
 }

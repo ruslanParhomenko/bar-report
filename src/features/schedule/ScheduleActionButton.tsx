@@ -2,7 +2,7 @@
 import { isCanEdit } from "./utils";
 import PrintButton from "@/components/buttons/PrintButton";
 import { useAbility } from "@/providers/AbilityProvider";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import EditButton from "@/components/buttons/EditButton";
 import MailButton from "@/components/buttons/MailButton";
 import ExitButton from "@/components/buttons/ExitButton";
@@ -21,6 +21,7 @@ export default function ScheduleActionButton({
   scheduleId: string;
   isSave?: boolean;
 }) {
+  const router = useRouter();
   const params = useSearchParams();
   const patch = usePathname();
 
@@ -53,10 +54,7 @@ export default function ScheduleActionButton({
       />
       <button
         type="submit"
-        onClick={() => {
-          // router.back();
-          // router.replace(`schedule/${patch}?month=${month}&year=${year}`);
-        }}
+        onClick={() => router.back()}
         className={cn("cursor-pointer text-bl", ref && "opacity-50")}
         disabled={ref ? true : false}
       >

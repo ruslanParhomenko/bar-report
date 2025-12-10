@@ -2,6 +2,7 @@
 import { deleteBreakList } from "@/app/actions/archive/breakListAction";
 import { deleteReportBar } from "@/app/actions/archive/reportBarAction";
 import { deleteReportCucina } from "@/app/actions/archive/reportCucinaAction";
+import ModalConfirm from "@/components/modal/ModalConfirm";
 import {
   BREAK_LIST_ENDPOINT,
   REPORT_BAR_ENDPOINT,
@@ -10,8 +11,8 @@ import {
 import { useAbility } from "@/providers/AbilityProvider";
 import { formatDataForInput } from "@/utils/formatNow";
 import { Pencil, Trash2Icon } from "lucide-react";
-import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 type BaseData = {
   id: number;
@@ -35,19 +36,28 @@ export const DeleteListButton = <T extends BaseData>({
 }: DeleteListButtonProps<T>) => {
   const router = useRouter();
   const { isAdmin, isManager } = useAbility();
-  const t = useTranslations("Home");
 
-  const removeItem = async () => {
+  const [open, setOpen] = useState(false);
+
+  const removeItem = () => {
     if (!nameTag) return;
 
     const action = actionByNameTag[nameTag as keyof typeof actionByNameTag];
-    await action(data.id.toString());
+    action(data.id.toString());
+    setOpen(false);
   };
   const editForm = () => {
     router.push(`/${nameTag}/${data.id}`);
   };
+
   return (
     <div className="flex w-full justify-between items-center px-4">
+      <ModalConfirm
+        open={open}
+        setOpen={setOpen}
+        handleConfirm={removeItem}
+        message="delete"
+      />
       <div className="text-md font-semibold text-bl">
         {formatDataForInput({ date: data.date })}
       </div>
@@ -61,7 +71,7 @@ export const DeleteListButton = <T extends BaseData>({
         </button>
         <button
           type="button"
-          onClick={() => removeItem()}
+          onClick={() => setOpen(true)}
           className="cursor-pointer"
           disabled={!isAdmin}
         >

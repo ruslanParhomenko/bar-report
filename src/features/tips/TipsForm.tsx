@@ -21,7 +21,7 @@ import { groupRowsByRole } from "./utils";
 import { CashData } from "@/app/actions/cash/cashAction";
 import { useAbility } from "@/providers/AbilityProvider";
 import { SendResetButton } from "@/components/buttons/SendResetButton";
-import { LoadingSkeletonBreak } from "../break-remarks/LoadingSkeleton";
+import { useRouter } from "next/navigation";
 
 const SELECTED_ROLE = ["barmen", "waiters", "dish"];
 
@@ -38,6 +38,7 @@ export default function TipsForm({
   month: string;
   year: string;
 }) {
+  const router = useRouter();
   const { isAdmin } = useAbility();
   const [showSendButton, setShowSendButton] = useState(false);
   const employees = useEmployees();
@@ -59,10 +60,11 @@ export default function TipsForm({
       .sort((a, b) => a.name.localeCompare(b.name));
   }, [employees]);
   // submit
-  const onSubmit: SubmitHandler<TipsFormType> = async (data) => {
+  const onSubmit: SubmitHandler<TipsFormType> = (data) => {
     const { cashTips, ...dataWithoutCash } = data;
 
-    await saveTipsForm(dataWithoutCash);
+    saveTipsForm(dataWithoutCash);
+
     toast.success("Форма сохранена успешно!");
   };
 

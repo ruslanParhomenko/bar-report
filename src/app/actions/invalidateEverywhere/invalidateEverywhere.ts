@@ -1,9 +1,9 @@
 "use server";
 
-import { revalidateTag } from "next/cache";
+import { updateTag } from "next/cache";
 
 export async function invalidateEverywhere(tag: string) {
-  revalidateTag(tag, "default");
+  updateTag(tag);
 
   const endpoints = [
     "https://report-bar-n.netlify.app/api/revalidate",

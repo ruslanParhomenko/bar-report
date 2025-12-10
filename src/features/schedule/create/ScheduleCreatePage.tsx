@@ -72,13 +72,11 @@ export function ScheduleCreatePage({
     if (schedule?.id) {
       await updateSchedule(schedule.id as string, formatData);
       toast.success("График успешно обновлён!");
-      router.replace(`/schedule/${patch}?month=${month}&year=${year}`);
 
       return;
     } else {
       await createSchedule(formatData);
       toast.success("График успешно создан!");
-      router.replace(`/schedule/${patch}?month=${month}&year=${year}`);
 
       form.reset(defaultSchedule);
       return;
