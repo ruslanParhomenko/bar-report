@@ -117,12 +117,12 @@ export default function ScheduleCreateTableBody({
             <TableCell className="text-center">
               <input
                 {...form.register(`rowShifts.${rowIndex}.totalHours`)}
-                className="font-bold w-8"
+                className="font-bold w-6"
                 readOnly
               />
             </TableCell>
 
-            <TableCell className="text-xs">
+            <TableCell className="text-xs p-0">
               {rate / 1000}:{totalPay && ` ${totalPay.toFixed()}`}
             </TableCell>
             <TableCell className="p-0">
@@ -155,7 +155,7 @@ export default function ScheduleCreateTableBody({
               );
             })}
 
-            <TableCell className="p-0 flex flex-col justify-center items-center">
+            <TableCell className="py-0 flex flex-col justify-center items-center">
               <button
                 type="button"
                 disabled={rowIndex === 0}

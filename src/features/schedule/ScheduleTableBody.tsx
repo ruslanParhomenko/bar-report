@@ -28,7 +28,7 @@ export default function ScheduleTableBody({
             <TableCell className="text-bl text-xs">{row.nightHours}</TableCell>
             <TableCell className="font-bold">{row.totalHours}</TableCell>
             <TableCell
-              className="text-xs text-gn p-0"
+              className="text-xs text-gn p-0  print:hidden"
               data-html2canvas-ignore="true"
             >
               {totalPay}

@@ -21,18 +21,22 @@ export default function ScheduleTableHeader({
   return (
     <TableHeader>
       <TableRow className="h-14!">
-        <TableCell colSpan={5} className="w-46">
+        <TableCell colSpan={4} className="w-44">
           <ScheduleActionButton
             scheduleId={scheduleId as string}
             isSave={isSave}
             addNewRow={addNewRow}
           />
         </TableCell>
+        <TableCell
+          className="w-10 print:hidden"
+          data-html2canvas-ignore="true"
+        ></TableCell>
         <TableCell className="text-base pl-3 w-34">
           {month?.toUpperCase() || ""}
         </TableCell>
 
-        {monthDays?.map((day, index) => {
+        {monthDays?.map((day, _index) => {
           return (
             <TableCell
               key={day.day}
