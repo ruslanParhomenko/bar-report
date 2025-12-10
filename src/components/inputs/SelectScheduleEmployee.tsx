@@ -60,7 +60,7 @@ export default function SelectScheduleEmployee({
                     className={cn(
                       "flex justify-center min-w-8 [&>svg]:hidden border-0 shadow-none",
                       className,
-                      theme === "dark" ? "border-0" : ""
+                      theme === "dark" ? "border-0 bg-transparent!" : ""
                     )}
                     style={style}
                   >

@@ -105,7 +105,6 @@ export default function CashForm({
     setShowSendButton(show);
   }, [month, year]);
 
-  // supabase real-time subscription can be added here if needed
   useEffect(() => {
     const uniqueId = dataCash?.unique_id;
     const channel = supabase
@@ -115,8 +114,6 @@ export default function CashForm({
         { event: "*", schema: "public", table: "cash" },
         (payload: any) => {
           if (payload.new?.unique_id === uniqueId) {
-            // Обновляем форму Realtime данными от другого пользователя
-            // form.reset(payload.new.form_data);
             router.refresh();
             toast.info("Данные обновились в реальном времени!");
           }

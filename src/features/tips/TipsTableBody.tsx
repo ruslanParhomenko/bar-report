@@ -6,7 +6,6 @@ import SelectScheduleEmployee from "@/components/inputs/SelectScheduleEmployee";
 import { handleTableNavigation } from "@/utils/handleTableNavigation";
 import { cn } from "@/lib/utils";
 import { useEffect } from "react";
-import { Input } from "@/components/ui/input";
 import { useAbility } from "@/providers/AbilityProvider";
 
 const ROLES: Array<"waiters" | "barmen" | "dish"> = [
@@ -89,23 +88,23 @@ export function TipsTableBody({
               return (
                 <TableRow key={row.id} className="hover:bg-gr/10 hover:text-rd">
                   <TableCell
-                    className="text-rd p-0"
+                    className="text-rd py-0"
                     onClick={() => !isDisabled && remove(globalIndex)}
                   >
                     {rowIndex + 1}
                   </TableCell>
 
-                  <TableCell className="sticky left-0 p-0">
+                  <TableCell className="sticky left-0 py-0">
                     <SelectScheduleEmployee
                       fieldName={`rowEmployeesTips.${globalIndex}.employee`}
                       data={selectedEmployees.filter(
                         (emp) => emp.role === role
                       )}
-                      className="justify-start text-center h-6!"
+                      className="justify-start  h-6! text-[13px]"
                       disabled={isDisabled}
                     />
                   </TableCell>
-                  <TableCell className="p-0">
+                  <TableCell className="p-0 border-r">
                     <input
                       type="text"
                       readOnly
@@ -114,28 +113,30 @@ export function TipsTableBody({
                           `rowEmployeesTips.${globalIndex}.tips`
                         ) || 0
                       }
-                      className="w-full text-center text-muted-foreground p-0 font-medium"
+                      className="w-full text-center text-[13px] p-0 font-medium"
                     />
                   </TableCell>
 
-                  {monthDays.map((_day, dayIndex) => (
-                    <TableCell key={dayIndex} className="p-0.5">
-                      <Input
-                        {...form.register(
-                          `rowEmployeesTips.${globalIndex}.tipsByDay.${dayIndex}`
-                        )}
-                        data-row={rowNumber}
-                        data-col={dayIndex}
-                        onKeyDown={(e) =>
-                          handleTableNavigation(e, rowNumber, dayIndex)
-                        }
-                        className={cn(
-                          "w-full h-6 bg-border text-xs text-center p-0"
-                        )}
-                        disabled={isDisabled}
-                      />
-                    </TableCell>
-                  ))}
+                  {monthDays.map((_day, dayIndex) => {
+                    return (
+                      <TableCell key={dayIndex} className="p-0.5 border-r">
+                        <input
+                          {...form.register(
+                            `rowEmployeesTips.${globalIndex}.tipsByDay.${dayIndex}`
+                          )}
+                          data-row={rowNumber}
+                          data-col={dayIndex}
+                          onKeyDown={(e) =>
+                            handleTableNavigation(e, rowNumber, dayIndex)
+                          }
+                          className={cn(
+                            "w-full h-6  text-xs text-center p-0 border-0 shadow-none"
+                          )}
+                          disabled={isDisabled}
+                        />
+                      </TableCell>
+                    );
+                  })}
 
                   <TableCell className="flex flex-col justify-center items-center p-0">
                     <button
@@ -175,7 +176,7 @@ export function TipsTableBody({
             <TableRow>
               <TableCell
                 colSpan={monthDays.length + 3}
-                className="p-1 text-start"
+                className="p-1 text-start border-b"
               >
                 <button
                   type="button"

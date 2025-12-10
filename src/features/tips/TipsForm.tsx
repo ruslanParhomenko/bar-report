@@ -21,7 +21,6 @@ import { groupRowsByRole } from "./utils";
 import { CashData } from "@/app/actions/cash/cashAction";
 import { useAbility } from "@/providers/AbilityProvider";
 import { SendResetButton } from "@/components/buttons/SendResetButton";
-import { useRouter } from "next/navigation";
 
 const SELECTED_ROLE = ["barmen", "waiters", "dish"];
 
@@ -38,7 +37,6 @@ export default function TipsForm({
   month: string;
   year: string;
 }) {
-  const router = useRouter();
   const { isAdmin } = useAbility();
   const [showSendButton, setShowSendButton] = useState(false);
   const employees = useEmployees();
@@ -74,7 +72,6 @@ export default function TipsForm({
 
     form.reset({
       ...dataTips?.form_data,
-      //   cashTips: dataCash && dataCash?.form_data?.rowCashData?.tipsByDay,
     } as TipsFormType);
   }, [dataTips]);
 

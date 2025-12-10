@@ -55,9 +55,9 @@ export function CashBodyTable({
                 return (
                   <TableCell
                     key={dayIndex}
-                    className="p-0.5 text-center border-x"
+                    className="p-0 text-center border-x"
                   >
-                    <Input
+                    <input
                       type="text"
                       disabled={isDisabled}
                       data-row={index}
@@ -66,8 +66,8 @@ export function CashBodyTable({
                         `rowCashData.${row.key}.${dayIndex}` as FieldPath<CashFormType>
                       )}
                       className={cn(
-                        "border-0  p-0 h-7 text-center  shadow-none text-xs!",
-                        value ? row.colorText : row.colorBg
+                        "border-0  p-0 h-7 text-center  shadow-none text-xs w-12",
+                        value ? row.colorText : ""
                       )}
                       onKeyDown={(e) =>
                         handleTableNavigation(e, +index, dayIndex)

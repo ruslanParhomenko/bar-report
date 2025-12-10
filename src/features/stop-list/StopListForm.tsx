@@ -9,7 +9,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { ActionsButton } from "../../components/buttons/ActionsButton";
-import { useTranslations } from "next-intl";
 import {
   MENU_ITEMS_CUCINA,
   PRODUCTS,
@@ -37,8 +36,6 @@ type StopLitTableProps = {
 };
 
 export default function StopListForm({ data, nameTag }: StopLitTableProps) {
-  const t = useTranslations("Home");
-
   const { isBar, isCucina, isAdmin } = useAbility();
   const isDisabled = !isBar && !isCucina && !isAdmin;
 
@@ -107,8 +104,7 @@ export default function StopListForm({ data, nameTag }: StopLitTableProps) {
 
   // save on change
   useEffect(() => {
-    if (!isBar || !Array.isArray(watchStopList) || !isInitialized || !isCucina)
-      return;
+    if (!isBar || !Array.isArray(watchStopList) || !isInitialized) return;
 
     watchStopList?.forEach((item, idx) => {
       if (item?.product && !item.date) {
@@ -121,13 +117,36 @@ export default function StopListForm({ data, nameTag }: StopLitTableProps) {
       }
     });
 
-    if ((isBar || isCucina) && data) {
+    if (isBar && data) {
       const saveData = {
         stopList: watchStopList || [],
       };
       debouncedSave(saveData);
     }
-  }, [watchStopList, isBar, isCucina, data, isInitialized]);
+  }, [watchStopList, isBar, data, isInitialized]);
+
+  // cucina
+  useEffect(() => {
+    if (!isCucina || !Array.isArray(watchStopList) || !isInitialized) return;
+
+    watchStopList?.forEach((item, idx) => {
+      if (item?.product && !item.date) {
+        const date = formatNowData();
+        stopListValues.update(idx, {
+          ...stopListValues.fields[idx],
+          ...item,
+          date,
+        });
+      }
+    });
+
+    if (isCucina && data) {
+      const saveData = {
+        stopList: watchStopList || [],
+      };
+      debouncedSave(saveData);
+    }
+  }, [watchStopList, isCucina, data, isInitialized]);
 
   return (
     <FormWrapper form={form} className="md:py-4">

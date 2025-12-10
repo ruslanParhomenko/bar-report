@@ -10,6 +10,5 @@ export default function StopListPage({
   data: StopListSchemaType[];
   nameTag: "bar" | "cucina";
 }) {
-  console.log("data page", data);
   return <StopListForm data={data} nameTag={nameTag} />;
 }

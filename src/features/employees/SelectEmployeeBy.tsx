@@ -36,7 +36,7 @@ export default function SelectEmployeeBy({
           });
         }}
       >
-        <SelectTrigger className="w-24 h-7! p-1 bg-border/30 border-0 text-muted-foreground [&>svg]:hidden justify-center">
+        <SelectTrigger className="w-24 h-7! p-1 rounded-full text-bl md:text-md text-xs [&>svg]:hidden justify-center">
           <SelectValue placeholder="Select role" />
         </SelectTrigger>
         <SelectContent>

@@ -30,12 +30,12 @@ export default function SelectTabsByPatch({
             value={page.href}
             disabled={isPending}
             className={cn(
-              "md:w-24 w-20 hover:text-bl cursor-pointer",
+              "md:w-24 w-18 hover:text-bl cursor-pointer",
               isPending && "opacity-50",
               classNamePatch
             )}
           >
-            <span className="truncate block w-full text-xs md:text-md">
+            <span className="truncate block w-full text-xs md:text-md text-bl">
               {t(page.title)}
             </span>
           </TabsTrigger>

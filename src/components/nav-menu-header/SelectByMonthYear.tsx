@@ -14,16 +14,19 @@ export default function SelectByMonthYear({
   year,
   setYear,
   isLoading,
+  classNameMonthYear,
 }: {
   month: string;
   setMonth: (value: string) => void;
   year: string;
   setYear: (value: string) => void;
   isLoading?: boolean;
+  classNameMonthYear?: string;
 }) {
   const { isMobile } = useSidebar();
-  const classNameSelect =
-    "md:w-24 w-11 h-7! px-0 bg-gr/60 border-0 md:text-sm text-xs  [&>svg]:hidden justify-center";
+  const classNameSelect = `md:w-24 ${
+    classNameMonthYear ? classNameMonthYear : "w-14"
+  } h-7! border-0 md:border p-1 rounded-full text-bl md:text-md text-xs  [&>svg]:hidden justify-center`;
   return (
     <div className="flex justify-center items-center md:gap-4 gap-1 order-2">
       <Select

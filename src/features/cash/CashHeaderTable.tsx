@@ -18,7 +18,7 @@ export function CashHeaderTable({
       <TableRow className="h-10">
         <TableCell
           colSpan={2}
-          className="min-w-30 p-0 px-1 front-bold text-center text-xs"
+          className="p-0 px-1 front-bold text-center text-xs"
         >
           {t(month?.toLocaleLowerCase())}
         </TableCell>
@@ -28,7 +28,7 @@ export function CashHeaderTable({
             <TableCell
               key={day.day}
               className={cn(
-                "min-w-12 cursor-pointer p-0 ",
+                "w-12 cursor-pointer p-0 ",
                 day.day === todayDay && "text-blue-900 front-bold"
               )}
             >

@@ -86,6 +86,7 @@ export default function NavMenuHeader({
           setMonth={setMonth}
           setYear={setYear}
           isLoading={isPending}
+          classNameMonthYear={navItems.length > 0 ? "w-15" : "w-24"}
         />
       )}
       {filterType === "role" && (
@@ -94,7 +95,7 @@ export default function NavMenuHeader({
       {resetButton && (
         <button
           onClick={resetParams}
-          className="hover:text-bl hover:bg-transparent cursor-pointer md:w-24 md:order-3 order-0 px-2"
+          className="hover:text-black text-bl hover:bg-transparent cursor-pointer md:w-24 md:order-3 order-0 px-2"
         >
           <RefreshCcw className="w-4 h-4" />
         </button>
