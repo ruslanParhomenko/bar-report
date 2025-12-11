@@ -31,7 +31,7 @@ export function EmployeeVacationCard() {
 
   if (!id) return null;
   return (
-    <div className="md:w-95 h-[92vh] w-full md:order-last order-first p-2 md:py-5">
+    <div className="md:min-w-100 md:py-5">
       <button
         onClick={() => {
           const params = new URLSearchParams(searchParams.toString());
@@ -40,7 +40,7 @@ export function EmployeeVacationCard() {
           router.replace(`?${params.toString()}`);
         }}
         type="button"
-        className={cn("cursor-pointer flex  items-center")}
+        className={cn("cursor-pointer flex items-center")}
       >
         <MinusCircle className="w-4 h-4" />
       </button>

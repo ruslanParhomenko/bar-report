@@ -35,7 +35,7 @@ export default function ScheduleActionButton({
 
   const ref = useContext(RefContext);
   return (
-    <div className="flex justify-center items-start md:gap-2 p-0 gap-1">
+    <div className="flex justify-center items-start  p-0 gap-3">
       <EditButton
         canEdit={canEdit}
         url={scheduleId ? urlEdit : urlCreate}

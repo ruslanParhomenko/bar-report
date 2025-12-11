@@ -29,10 +29,10 @@ export default function ScheduleTableHeader({
           />
         </TableCell>
         <TableCell
-          className="w-10 print:hidden"
+          className="w-8 print:hidden"
           data-html2canvas-ignore="true"
         ></TableCell>
-        <TableCell className="text-base pl-3 w-34">
+        <TableCell className="text-base pl-3 w-36">
           {month?.toUpperCase() || ""}
         </TableCell>
 
@@ -41,7 +41,7 @@ export default function ScheduleTableHeader({
             <TableCell
               key={day.day}
               className={cn(
-                "w-11 cursor-pointer p-0",
+                "w-10 cursor-pointer p-0",
                 day.day === todayDay && "text-rd front-bold"
               )}
             >

@@ -37,16 +37,16 @@ type StopLitTableProps = {
 
 export default function StopListForm({ data, nameTag }: StopLitTableProps) {
   const { isBar, isCucina, isAdmin } = useAbility();
-  const isDisabled = !isBar && !isCucina && !isAdmin;
+
+  const isAccount =
+    (isBar && nameTag === "bar") ||
+    (isCucina && nameTag === "cucina") ||
+    isAdmin;
 
   const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const lastSavedDataRef = useRef<string>("");
   const [isInitialized, setIsInitialized] = useState(false);
 
-  const LABEL = {
-    bar: "stopList",
-    cucina: "stopListCucina",
-  } as const;
   const DATA_PRODUCTS = {
     bar: PRODUCTS,
     cucina: [...new Set([...PRODUCTS_CUCINA, ...MENU_ITEMS_CUCINA])],
@@ -79,9 +79,10 @@ export default function StopListForm({ data, nameTag }: StopLitTableProps) {
         lastSavedDataRef.current = currentDataString;
         toast.success("Stop list saved successfully!");
       } catch (error) {
+        console.error("Error saving stop list:", error);
         toast.error("Error saving stop list");
       }
-    }, 3000);
+    }, 2000);
   };
 
   // set form data on mount
@@ -102,9 +103,8 @@ export default function StopListForm({ data, nameTag }: StopLitTableProps) {
     };
   }, []);
 
-  // save on change
   useEffect(() => {
-    if (!isBar || !Array.isArray(watchStopList) || !isInitialized) return;
+    if (!isInitialized) return;
 
     watchStopList?.forEach((item, idx) => {
       if (item?.product && !item.date) {
@@ -117,36 +117,13 @@ export default function StopListForm({ data, nameTag }: StopLitTableProps) {
       }
     });
 
-    if (isBar && data) {
+    if (isAccount) {
       const saveData = {
         stopList: watchStopList || [],
       };
       debouncedSave(saveData);
     }
-  }, [watchStopList, isBar, data, isInitialized]);
-
-  // cucina
-  useEffect(() => {
-    if (!isCucina || !Array.isArray(watchStopList) || !isInitialized) return;
-
-    watchStopList?.forEach((item, idx) => {
-      if (item?.product && !item.date) {
-        const date = formatNowData();
-        stopListValues.update(idx, {
-          ...stopListValues.fields[idx],
-          ...item,
-          date,
-        });
-      }
-    });
-
-    if (isCucina && data) {
-      const saveData = {
-        stopList: watchStopList || [],
-      };
-      debouncedSave(saveData);
-    }
-  }, [watchStopList, isCucina, data, isInitialized]);
+  }, [watchStopList, data, isInitialized, isAccount]);
 
   return (
     <FormWrapper form={form} className="md:py-4">
@@ -164,8 +141,8 @@ export default function StopListForm({ data, nameTag }: StopLitTableProps) {
               <TableCell>
                 <SelectFieldWithSearch
                   data={DATA_PRODUCTS[nameTag]}
-                  fieldName={`${LABEL[nameTag]}.${idx}.product`}
-                  disabled={isDisabled}
+                  fieldName={`stopList.${idx}.product`}
+                  disabled={!isAccount}
                   className="h-9"
                 />
               </TableCell>
@@ -179,7 +156,7 @@ export default function StopListForm({ data, nameTag }: StopLitTableProps) {
                   formFields={stopListValues}
                   idx={idx}
                   item={item.product}
-                  disabled={isDisabled}
+                  disabled={!isAccount}
                   defaultValues={defaultStopList}
                 />
               </TableCell>

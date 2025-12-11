@@ -40,29 +40,25 @@ export default function ActionButtonEmployee({ id }: { id: string }) {
       />
       <div className="flex gap-8 justify-center">
         <button
-          className="cursor-pointer hover:bg-bl"
+          className="cursor-pointer"
           type="button"
           onClick={() => {
             router.push(`/employees/create/${id}`);
           }}
           disabled={isDisabled}
         >
-          <PenBox className="h-4 w-4 " />
+          <PenBox className="h-4 w-4  hover:text-rd" />
         </button>
         <button
-          className="cursor-pointer hover:bg-rd"
+          className="cursor-pointer"
           type="button"
           onClick={() => setOpen(true)}
           disabled={isDisabled}
         >
           <Trash2Icon className="h-4 w-4 hover:text-rd" />
         </button>
-        <button
-          className="cursor-pointer hover:bg-gn"
-          type="button"
-          onClick={viewVacation}
-        >
-          <TreePalmIcon className="h-4 w-4 hover:text-gn" />
+        <button className="cursor-pointer" type="button" onClick={viewVacation}>
+          <TreePalmIcon className="h-4 w-4 hover:text-rd" />
         </button>
       </div>
     </>

@@ -10,7 +10,7 @@ export function EmployeesPage({
   isAdmin: boolean;
 }) {
   return (
-    <div className="flex">
+    <div className="flex flex-col md:flex-row gap-2">
       <GetEmployeesCard data={employees} isAdmin={isAdmin} />
 
       <EmployeeVacationCard />

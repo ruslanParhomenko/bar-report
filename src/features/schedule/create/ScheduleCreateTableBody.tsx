@@ -93,13 +93,13 @@ export default function ScheduleCreateTableBody({
         return (
           <TableRow key={row.id} className="hover:text-rd">
             <TableCell
-              className="text-rd cursor-pointer text-xs"
+              className="text-rd cursor-pointer text-xs w-8"
               onClick={() => remove(rowIndex)}
             >
               {rowIndex + 1}
             </TableCell>
 
-            <TableCell className="text-bl text-xs">
+            <TableCell className="text-bl text-xs w-8">
               <input
                 {...form.register(`rowShifts.${rowIndex}.dayHours`)}
                 className="w-6"
@@ -114,22 +114,22 @@ export default function ScheduleCreateTableBody({
               />
             </TableCell>
 
-            <TableCell className="text-center">
+            <TableCell className="text-center w-10">
               <input
                 {...form.register(`rowShifts.${rowIndex}.totalHours`)}
-                className="font-bold w-6"
+                className="font-bold w-10"
                 readOnly
               />
             </TableCell>
 
-            <TableCell className="text-xs p-0">
+            <TableCell className="text-xs">
               {rate / 1000}:{totalPay && ` ${totalPay.toFixed()}`}
             </TableCell>
-            <TableCell className="p-0">
+            <TableCell className="py-0 w-44">
               <SelectScheduleEmployee
                 fieldName={`rowShifts.${rowIndex}.employee`}
                 data={selectedEmployees}
-                className="hover:text-rd justify-start w-32"
+                className="hover:text-rd justify-start"
               />
             </TableCell>
 
@@ -146,7 +146,7 @@ export default function ScheduleCreateTableBody({
                       handleTableNavigation(e, rowIndex, dayIndex)
                     }
                     className={cn(
-                      "w-11 h-9 text-center",
+                      "w-10 h-9 text-center",
                       value === "" ? "bg-border/20" : "",
                       color[value as keyof typeof color]
                     )}
@@ -162,7 +162,7 @@ export default function ScheduleCreateTableBody({
                 onClick={() => move(rowIndex, rowIndex - 1)}
                 className="cursor-pointer"
               >
-                <ChevronUp className="w-4 h-4" />
+                <ChevronUp className="w-5 h-4" />
               </button>
               <button
                 type="button"
@@ -170,7 +170,7 @@ export default function ScheduleCreateTableBody({
                 onClick={() => move(rowIndex, rowIndex + 1)}
                 className="cursor-pointer"
               >
-                <ChevronDown className="w-4 h-4" />
+                <ChevronDown className="w-5 h-4" />
               </button>
             </TableCell>
           </TableRow>

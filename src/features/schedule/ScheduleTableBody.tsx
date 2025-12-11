@@ -35,7 +35,7 @@ export default function ScheduleTableBody({
             </TableCell>
             <TableCell
               className={cn(
-                "sticky left-0 bg-card/20 pl-3 truncate text-muted-foreground",
+                "sticky left-0 bg-card/20 pl-2 truncate text-muted-foreground",
                 isSelected && "text-rd font-bold"
               )}
             >
