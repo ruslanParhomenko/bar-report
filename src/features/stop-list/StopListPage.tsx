@@ -1,7 +1,5 @@
 import { StopListSchemaType } from "./schema";
-import dynamic from "next/dynamic";
-
-const StopListForm = dynamic(() => import("./StopListForm"));
+import StopListForm from "./StopListForm";
 
 export default function StopListPage({
   data,

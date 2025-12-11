@@ -1,7 +1,7 @@
-import { supabase } from "@/lib/supabaseClient";
 import { unstable_cache } from "next/cache";
 import { invalidateEverywhere } from "../invalidateEverywhere/invalidateEverywhere";
 import { StopListSchemaType } from "@/features/stop-list/schema";
+import { supabaseServer } from "@/lib/supabaseServer";
 
 export type StopListType = {
   id: string;
@@ -10,6 +10,7 @@ export type StopListType = {
 };
 // get
 export async function _getStopList() {
+  const supabase = supabaseServer();
   const { data, error } = await supabase.from("stop_list_realtime").select("*");
   if (error) {
     console.error("Ошибка при получении данных формы:", error);
@@ -26,6 +27,7 @@ export const getStopList = unstable_cache(_getStopList, ["stopList"], {
 
 // create
 export async function saveStopList(data: any) {
+  const supabase = supabaseServer();
   const { mail, dataStopList } = data;
   const { data: savedData, error } = await supabase
     .from("stop_list_realtime")

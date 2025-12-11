@@ -25,7 +25,6 @@ import SelectFieldWithSearch from "@/components/inputs/SelectWithSearch";
 import { FormWrapper } from "@/components/wrapper/FormWrapper";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect, useRef, useState } from "react";
-import { saveStopList } from "@/app/actions/stop-list/stopListAction";
 import { toast } from "sonner";
 import { useAbility } from "@/providers/AbilityProvider";
 import { formatNowData } from "@/utils/formatNow";
@@ -75,7 +74,14 @@ export default function StopListForm({ data, nameTag }: StopLitTableProps) {
     }
     saveTimeoutRef.current = setTimeout(async () => {
       try {
-        await saveStopList({ dataStopList: saveData, mail: nameTag });
+        const res = await fetch("/api/stop-list", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ mail: nameTag, dataStopList: saveData }),
+        });
+
+        const result = await res.json();
+        if (!res.ok) throw new Error(result.error || "Unknown error");
         lastSavedDataRef.current = currentDataString;
         toast.success("Stop list saved successfully!");
       } catch (error) {
