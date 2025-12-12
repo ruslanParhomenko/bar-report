@@ -51,7 +51,11 @@ export const MISCELLANEOUS = [
   "палочки мешалки",
 ];
 
-export const CHEMICALS = ["Вода дистиллированная", "Мыло DOVE"];
+export const CHEMICALS = [
+  "Вода дистиллированная",
+  "Мыло DOVE",
+  "Бумага туалет ВИП уп",
+];
 
 //cucina
 
@@ -385,6 +389,7 @@ export const VITAFOR = [
   "чечевица кг",
   "молоко бар литр",
   "молоко 0,9 уп",
+  "сыр тост кг",
 ];
 
 export const FORWARD_CUCINE = [
@@ -403,6 +408,7 @@ export const FORWARD_CUCINE = [
   "фасоль кр консервы уп",
   "фасоль стручковая зам шт",
   "картошка фри 2,5кг",
+  "сыр тост Чедар 140гр (Бургер)",
 ];
 
 export const DELPHI = [
