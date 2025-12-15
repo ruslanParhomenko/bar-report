@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabaseServer } from "@/lib/supabaseServer";
+import { revalidateTag } from "next/cache";
 
 export async function POST(req: NextRequest) {
   try {
@@ -15,7 +16,7 @@ export async function POST(req: NextRequest) {
         { user_email: mail, form_data: dataStopList },
         { onConflict: "user_email" }
       );
-
+    revalidateTag("stopList", "default");
     if (error)
       return NextResponse.json({ error: error.message }, { status: 500 });
 
