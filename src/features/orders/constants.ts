@@ -163,6 +163,7 @@ export const BAKERY = [
   "тесто слоенное",
   "спагетти Barilla №5",
   "каша овсяная",
+  "тортилья, шт",
 ];
 
 export const SPICES = [
@@ -257,6 +258,7 @@ export const FORWARD = [
   "буковина 0,5 уп",
   "буковина 0,5 газ уп",
   "тайгер жб уп",
+  "молоко 3,5% л",
 ];
 
 export const UBFB = [

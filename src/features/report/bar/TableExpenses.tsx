@@ -11,7 +11,7 @@ import {
 import NumericInput from "@/components/inputs/NumericInput";
 import SelectField from "@/components/inputs/SelectField";
 import { useAbility } from "@/providers/AbilityProvider";
-import { expensesDefault, ExpensesSchemaType } from "./schema";
+import { ExpensesSchemaType } from "./schema";
 import { RECIPIENTS } from "./constants";
 import { useFormContext } from "react-hook-form";
 import { Trash2Icon } from "lucide-react";
@@ -24,9 +24,15 @@ export default function TableExpenses() {
   const form = useFormContext();
 
   const reset = (idx: number) => {
-    const current = form.getValues("expenses");
-    current[idx] = expensesDefault[0];
-    form.setValue("expenses", current);
+    form.setValue(
+      `expenses.${idx}`,
+      {
+        name: "",
+        sum: "",
+        time: "",
+      },
+      { shouldDirty: true, shouldTouch: true }
+    );
   };
   const fieldsValues = form.watch("expenses") as ExpensesSchemaType;
 
@@ -58,7 +64,7 @@ export default function TableExpenses() {
             Expenses
           </TableHead>
         </TableRow>
-        <TableRow className="!h-8">
+        <TableRow>
           <TableHead className="md:w-38">recipient</TableHead>
           <TableHead className="md:w-15">sum</TableHead>
           <TableHead className="md:w-15">time</TableHead>
@@ -73,14 +79,14 @@ export default function TableExpenses() {
                 data={RECIPIENTS}
                 fieldName={`expenses.${idx}.name`}
                 disabled={isDisabled}
-                className="w-full !h-8"
+                className="w-full h-8!"
               />
             </TableCell>
             <TableCell>
               <NumericInput
                 fieldName={`expenses.${idx}.sum`}
                 disabled={isDisabled}
-                className="!w-20 !h-8 text-center"
+                className="w-20! h-8! text-center"
               />
             </TableCell>
             <TableCell className="text-xs text-rd">

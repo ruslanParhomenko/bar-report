@@ -12,10 +12,12 @@ export function CashBodyTable({
   form,
   monthDays,
   isDisabled,
+  isClosed = false,
 }: {
   form: UseFormReturn<CashFormType>;
   monthDays: { day: number; weekday: string }[];
   isDisabled?: boolean;
+  isClosed?: boolean;
 }) {
   const { register } = form;
   const value = form.watch("rowCashData");
@@ -52,6 +54,11 @@ export function CashBodyTable({
                 const fieldName =
                   `rowCashData.${row.key}.${dayIndex}` as FieldPath<CashFormType>;
                 const value = form.watch(fieldName);
+                if (
+                  isClosed &&
+                  (row.key === "tipsByDay" || row.key === "nbmPayByDay")
+                )
+                  return null;
                 return (
                   <TableCell
                     key={dayIndex}
@@ -76,7 +83,9 @@ export function CashBodyTable({
                   </TableCell>
                 );
               })}
-              <TableCell className="text-rd font-bold">{total}</TableCell>
+              <TableCell className="text-rd font-bold">
+                {!isClosed && total}
+              </TableCell>
             </TableRow>
             {(row.key === "visaCasinoByDay" ||
               row.key === "visaCasinoBarByDay") && (

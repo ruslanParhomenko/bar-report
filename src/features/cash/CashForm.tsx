@@ -30,7 +30,7 @@ export default function CashForm({
 }) {
   const router = useRouter();
 
-  const { isAdmin, isCash } = useAbility();
+  const { isAdmin, isCash, isBar } = useAbility();
   const isDisabled = !isAdmin && !isCash;
 
   const [showSendButton, setShowSendButton] = useState(false);
@@ -138,6 +138,7 @@ export default function CashForm({
           form={form}
           monthDays={monthDays}
           isDisabled={isDisabled}
+          isClosed={isBar}
         />
         <CashFooterTable monthDays={monthDays} form={form} />
       </Table>

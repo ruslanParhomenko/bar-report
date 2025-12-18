@@ -18,7 +18,7 @@ import {
 import { Remark } from "@/generated/prisma";
 import { useRouter } from "@/i18n/navigation";
 import { useAbility } from "@/providers/AbilityProvider";
-import { Pencil, Trash2 } from "lucide-react";
+import { PenBox, Pencil, Trash2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useMemo, useState } from "react";
 export type PenaltyTableProps = Omit<Remark, "reportId"> & {
@@ -87,9 +87,7 @@ export default function TableDetails({ data }: { data: PenaltyTableProps[] }) {
                 <TableHead className="w-60"></TableHead>
                 <TableHead className="text-center">{t("bonus")}</TableHead>
                 <TableHead className="text-center">{t("penalty")}</TableHead>
-                <TableHead colSpan={2} className="text-center">
-                  action
-                </TableHead>
+                <TableHead className="text-center w-10">action</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -104,34 +102,32 @@ export default function TableDetails({ data }: { data: PenaltyTableProps[] }) {
                     key={index}
                     className="hover:text-rd hover:bg-accent"
                   >
-                    <TableCell className="p-1">{row.date}</TableCell>
-                    <TableCell className="sticky left-0 bg-background/90 md:bg-inherit z-20 p-0">
+                    <TableCell className="p-1 text-xs">{row.date}</TableCell>
+                    <TableCell className="sticky left-0 bg-background/90 md:bg-inherit z-20 p-0 text-xs">
                       {row.name}
                     </TableCell>
-                    <TableCell className="text-center p-0">
+                    <TableCell className="text-center p-0 text-xs">
                       {row.dayHours}
                     </TableCell>
-                    <TableCell className="text-center p-0">
+                    <TableCell className="text-center p-0 text-xs">
                       {row.nightHours}
                     </TableCell>
-                    <TableCell className="p-0">{row.reason}</TableCell>
-                    <TableCell className="text-center p-0">
+                    <TableCell className="p-0 text-xs">{row.reason}</TableCell>
+                    <TableCell className="text-center p-0 text-xs">
                       {row.bonus}
                     </TableCell>
-                    <TableCell className="text-center p-0">
+                    <TableCell className="text-center p-0 text-xs">
                       {row.penalty}
                     </TableCell>
-                    <TableCell
-                      className="text-center cursor-pointer p-0"
-                      onClick={() => editRemarks(row.id.toLocaleString())}
-                    >
-                      <Pencil className="w-4 h-3.5" />
-                    </TableCell>
-                    <TableCell
-                      className="text-center cursor-pointer p-0"
-                      onClick={() => deleteRemarks(row.id.toLocaleString())}
-                    >
-                      <Trash2 className="w-4 h-3.5 text-rd" />
+                    <TableCell className="flex justify-between items-center h-6 cursor-pointer p-0">
+                      <PenBox
+                        className="w-4 h-3.5 text-bl"
+                        onClick={() => editRemarks(row.id.toLocaleString())}
+                      />
+                      <Trash2
+                        className="w-4 h-3.5 text-rd mr-2"
+                        onClick={() => deleteRemarks(row.id.toLocaleString())}
+                      />
                     </TableCell>
                   </TableRow>
                 ))}

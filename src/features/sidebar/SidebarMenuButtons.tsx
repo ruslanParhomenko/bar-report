@@ -20,10 +20,6 @@ export default function SidebarMenuButtons() {
     }
   };
 
-  const styleIcon = {
-    width: "20px",
-    height: "20px",
-  };
   return (
     <SidebarMenu className="flex h-full flex-col gap-4 pt-2">
       {SIDEBAR_NAVIGATION.map((item) => {
@@ -35,15 +31,15 @@ export default function SidebarMenuButtons() {
             <Link
               href={item.url}
               onClick={handleMenuClick}
-              className={cn("flex items-center w-full", {
-                "bg-bl text-base [&>span]:text-[#ffff]": isActivePath,
-              })}
+              className={cn(
+                "flex items-center w-full",
+                isActivePath && "bg-bl"
+              )}
             >
-              <Icon
-                className={isActivePath ? "text-[#000000]" : "text-bl"}
-                style={styleIcon}
-              />
-              <span className="ml-2">{t(item.title)}</span>
+              <Icon className={isActivePath ? "" : "text-bl"} />
+              <span className={cn("ml-2", isActivePath ? "" : "text-bl")}>
+                {t(item.title)}
+              </span>
             </Link>
           </SidebarMenuButton>
         );

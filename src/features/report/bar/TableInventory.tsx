@@ -9,7 +9,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { inventoryDefault, InventorySchemaType } from "./schema";
+import { InventorySchemaType } from "./schema";
 import { PRODUCTS } from "./constants";
 import { useAbility } from "@/providers/AbilityProvider";
 import { useFormContext } from "react-hook-form";
@@ -23,9 +23,14 @@ export function TableInventory() {
   const form = useFormContext();
 
   const reset = (idx: number) => {
-    const current = form.getValues("inventory");
-    current[idx] = inventoryDefault[idx];
-    form.setValue("inventory", current);
+    form.setValue(
+      `inventory.${idx}`,
+      {
+        quantity: "",
+        time: "",
+      },
+      { shouldDirty: true, shouldTouch: true }
+    );
   };
   const fieldsValues = form.watch("inventory") as InventorySchemaType;
 

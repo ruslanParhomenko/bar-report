@@ -6,7 +6,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { productTransferDefault, ProductTransferSchemaType } from "./schema";
+import { ProductTransferSchemaType } from "./schema";
 import SelectFieldWithSearch from "@/components/inputs/SelectWithSearch";
 import { PRODUCTS, WAREHOUSES } from "./constants";
 import { useAbility } from "@/providers/AbilityProvider";
@@ -23,9 +23,16 @@ export default function TableProductsTransfer() {
   const form = useFormContext();
 
   const reset = (idx: number) => {
-    const current = form.getValues("productTransfer");
-    current[idx] = productTransferDefault[0];
-    form.setValue("productTransfer", current);
+    form.setValue(
+      `productTransfer.${idx}`,
+      {
+        name: "",
+        destination: "",
+        quantity: "",
+        time: "",
+      },
+      { shouldDirty: true, shouldTouch: true }
+    );
   };
   const fieldsValues = form.watch(
     "productTransfer"
