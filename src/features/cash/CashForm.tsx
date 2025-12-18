@@ -142,7 +142,7 @@ export default function CashForm({
         />
         <CashFooterTable monthDays={monthDays} form={form} />
       </Table>
-      {(showSendButton || isAdmin) && <SendResetButton />}
+      {(showSendButton || isAdmin) && !isBar && <SendResetButton />}
     </FormWrapper>
   );
 }
