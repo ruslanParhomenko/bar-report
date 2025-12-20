@@ -13,6 +13,7 @@ import {
   Expense,
   Inventory,
   ProductTransfer,
+  Tobacco,
 } from "@/generated/prisma";
 
 export const classNameHead = "text-shadow-muted-foreground font-bold";
@@ -25,23 +26,20 @@ export default function ReportBarTable({ data }: { data: ReportDataById }) {
           <DeleteListButton data={data} nameTag={REPORT_BAR_ENDPOINT} />
         </CardTitle>
       </CardHeader>
-      <CardContent className="grid grid-cols-1  xl:grid-cols-[25%_75%] gap-4">
-        <TobaccoTable data={data?.tobacco as any[]} />
-        <div className="flex flex-col w-full">
-          <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
-            <ExpensesTable data={data?.expenses as Expense[]} />
-            <ProductTransferTable
-              data={data?.productTransfer as ProductTransfer[]}
-            />
-            <InventoryTable data={data?.inventory as Inventory[]} />
-          </div>
-          <div className="mt-auto"></div>
-          <div className="mt-auto">
-            <CashVerifyTable data={data?.cashVerify as CashVerify[]} />
-          </div>
+      <CardContent className="flex flex-col gap-4">
+        <div className="grid grid-cols-1 xl:grid-cols-4 gap-4">
+          <TobaccoTable data={data?.tobacco as Tobacco[]} />
+          <ExpensesTable data={data?.expenses as Expense[]} />
+          <ProductTransferTable
+            data={data?.productTransfer as ProductTransfer[]}
+          />
+          <InventoryTable data={data?.inventory as Inventory[]} />
+        </div>
+        <div>
+          <CashVerifyTable data={data?.cashVerify as CashVerify[]} />
+          <NotesTable data={data?.notes as string} />
         </div>
       </CardContent>
-      <NotesTable data={data?.notes as string} />
     </Card>
   );
 }

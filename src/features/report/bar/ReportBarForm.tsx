@@ -56,7 +56,7 @@ export default function ReportBarForm() {
     };
 
     await createReportBar({
-      data: formateData as any,
+      data: formateData,
     });
 
     const updatedTobacco = data?.tobacco?.map((item) => {

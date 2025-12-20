@@ -4,9 +4,8 @@ import { FieldPath, UseFormReturn } from "react-hook-form";
 import { CashFormType } from "./schema";
 import { handleTableNavigation } from "@/utils/handleTableNavigation";
 import { cn } from "@/lib/utils";
-import React from "react";
 import { rows } from "./constants";
-import { Input } from "@/components/ui/input";
+import React from "react";
 
 export function CashBodyTable({
   form,
@@ -21,6 +20,26 @@ export function CashBodyTable({
 }) {
   const { register } = form;
   const value = form.watch("rowCashData");
+  const totalCashBar = value?.cash
+    ? Object.values(value.cash)
+        .reduce((acc, val) => acc + +val, 0)
+        .toFixed(2)
+    : 0;
+  const totalVisa = value?.visaTerminalByDay
+    ? Object.values(value.visaTerminalByDay)
+        .reduce((acc, val) => acc + +val, 0)
+        .toFixed(2)
+    : 0;
+  const totalBank = value?.bankCollectionByDay
+    ? Object.values(value.bankCollectionByDay)
+        .reduce((acc, val) => acc + +val, 0)
+        .toFixed(2)
+    : 0;
+  const totalNbmCollection = value?.nbmCollectionByDay
+    ? Object.values(value.nbmCollectionByDay)
+        .reduce((acc, val) => acc + +val, 0)
+        .toFixed(2)
+    : 0;
   return (
     <TableBody>
       <TableRow>
@@ -51,9 +70,6 @@ export function CashBodyTable({
               </TableCell>
 
               {monthDays.map((_, dayIndex) => {
-                const fieldName =
-                  `rowCashData.${row.key}.${dayIndex}` as FieldPath<CashFormType>;
-                const value = form.watch(fieldName);
                 if (
                   isClosed &&
                   (row.key === "tipsByDay" || row.key === "nbmPayByDay")
@@ -74,7 +90,7 @@ export function CashBodyTable({
                       )}
                       className={cn(
                         "border-0  p-0 h-7 text-center  shadow-none text-xs w-12",
-                        value ? row.colorText : ""
+                        row.colorText
                       )}
                       onKeyDown={(e) =>
                         handleTableNavigation(e, +index, dayIndex)
@@ -101,6 +117,15 @@ export function CashBodyTable({
           </React.Fragment>
         );
       })}
+      <TableRow>
+        <TableCell className="h-10 border-0 text-bl">remaining cash</TableCell>
+        <TableCell
+          className="h-10 border-0 text-bl"
+          colSpan={monthDays.length + 1}
+        >
+          {totalCashBar - totalVisa - totalBank - totalNbmCollection}
+        </TableCell>
+      </TableRow>
     </TableBody>
   );
 }
