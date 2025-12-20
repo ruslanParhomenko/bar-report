@@ -22,10 +22,8 @@ import { TableInventory } from "./TableInventory";
 import { createReportBar } from "@/app/actions/archive/reportBarAction";
 import { useLocalStorageForm } from "@/hooks/useLocalStorageForm";
 import { FormWrapper } from "@/components/wrapper/FormWrapper";
-import { useAbility } from "@/providers/AbilityProvider";
 
 export default function ReportBarForm() {
-  const { isAdmin } = useAbility();
   const STORAGE_KEY = "report-bar";
 
   //form
@@ -97,7 +95,17 @@ export default function ReportBarForm() {
     );
   }
   const reset = () => {
-    resetForm(defaultValuesReportBar);
+    const currentTobacco = form.getValues("tobacco")?.map((item) => ({
+      ...item,
+      stock: +item.stock,
+      incoming: "",
+      outgoing: "",
+    }));
+
+    resetForm({
+      ...defaultValuesReportBar,
+      tobacco: currentTobacco,
+    });
   };
 
   return (
@@ -127,7 +135,7 @@ export default function ReportBarForm() {
 
       <TableCashVerify />
       <div className="mt-auto">
-        <SendResetButton resetForm={reset} reset={isAdmin} />
+        <SendResetButton resetForm={reset} reset={true} />
       </div>
     </FormWrapper>
   );
