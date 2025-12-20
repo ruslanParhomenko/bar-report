@@ -10,7 +10,6 @@ import {
 
 import NumericInput from "@/components/inputs/NumericInput";
 import SelectField from "@/components/inputs/SelectField";
-import { useAbility } from "@/providers/AbilityProvider";
 import { ExpensesSchemaType } from "./schema";
 import { RECIPIENTS } from "./constants";
 import { useFormContext } from "react-hook-form";
@@ -19,8 +18,6 @@ import { useEffect } from "react";
 import { formatNow } from "@/utils/formatNow";
 
 export default function TableExpenses() {
-  const { isObserver, isUser } = useAbility();
-  const isDisabled = isObserver || isUser;
   const form = useFormContext();
 
   const reset = (idx: number) => {
@@ -37,24 +34,14 @@ export default function TableExpenses() {
   const fieldsValues = form.watch("expenses") as ExpensesSchemaType;
 
   useEffect(() => {
-    const subscription = form.watch((_, { name: changedName }) => {
-      if (
-        changedName?.startsWith("expenses.") &&
-        changedName.endsWith(".name")
-      ) {
-        const idx = Number(changedName.split(".")[1]);
-
-        const nameValue = form.getValues(`expenses.${idx}.name`);
-        if (nameValue) {
-          form.setValue(`expenses.${idx}.time`, formatNow());
-        }
+    fieldsValues?.forEach((item, idx) => {
+      if (item?.sum && item?.name && !item?.time) {
+        form.setValue(`expenses.${idx}.time`, formatNow(), {
+          shouldDirty: true,
+        });
       }
     });
-
-    return () => {
-      subscription.unsubscribe();
-    };
-  }, [form]);
+  }, [fieldsValues, form]);
 
   return (
     <Table>
@@ -78,19 +65,17 @@ export default function TableExpenses() {
               <SelectField
                 data={RECIPIENTS}
                 fieldName={`expenses.${idx}.name`}
-                disabled={isDisabled}
                 className="w-full h-8!"
               />
             </TableCell>
             <TableCell>
               <NumericInput
                 fieldName={`expenses.${idx}.sum`}
-                disabled={isDisabled}
                 className="w-20! h-8! text-center"
               />
             </TableCell>
             <TableCell className="text-xs text-rd">
-              {form.watch(`expenses.${idx}.time`)}
+              {fieldsValues?.[idx]?.time}
             </TableCell>
             <TableCell onClick={() => reset(idx)} className="cursor-pointer">
               {fieldsValues?.[idx]?.name && (

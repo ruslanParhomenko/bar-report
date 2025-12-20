@@ -1,6 +1,6 @@
 import { getReportBar } from "@/app/actions/archive/reportBarAction";
 import { ReportBarData } from "@/constants/type";
-import ReportBarFormById from "@/features/report/bar/ReportBarFormById";
+import ReportBarForm from "@/features/report/bar/ReportBarForm";
 
 export default async function Page({
   params,
@@ -8,6 +8,8 @@ export default async function Page({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
+  if (!id) return null;
   const report = await getReportBar(id as string);
-  return <ReportBarFormById data={report as ReportBarData} />;
+
+  return <ReportBarForm report={report as ReportBarData} />;
 }

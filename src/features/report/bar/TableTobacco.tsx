@@ -9,14 +9,9 @@ import {
 } from "@/components/ui/table";
 import { tobaccoDefault, TobaccoSchemaType } from "./schema";
 import { useFormContext, useWatch } from "react-hook-form";
-import { useAbility } from "@/providers/AbilityProvider";
 import NumericInput from "@/components/inputs/NumericInput";
 
 export default function TableTobacco() {
-  const { isObserver, isUser } = useAbility();
-
-  const isDisabled = isObserver || isUser;
-
   const { control } = useFormContext();
   const tobacco =
     (useWatch({ name: "tobacco", control }) as TobaccoSchemaType) ||
@@ -40,20 +35,18 @@ export default function TableTobacco() {
       </TableHeader>
       <TableBody>
         {tobacco?.map((item, idx) => (
-          <TableRow key={idx} className="!h-8">
+          <TableRow key={idx} className="h-8!">
             <TableCell className="px-2">{item.name}</TableCell>
             <TableCell className="px-2">{item.stock}</TableCell>
             <TableCell className="px-2">
               <NumericInput
                 fieldName={`tobacco.${idx}.incoming`}
-                disabled={isDisabled}
                 className="h-8"
               />
             </TableCell>
             <TableCell className="px-2">
               <NumericInput
                 fieldName={`tobacco.${idx}.outgoing`}
-                disabled={isDisabled}
                 className="h-8"
               />
             </TableCell>

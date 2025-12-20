@@ -1,6 +1,5 @@
 "use client";
 import NumericInput from "@/components/inputs/NumericInput";
-import SelectFieldWithSearch from "@/components/inputs/SelectWithSearch";
 import {
   Table,
   TableBody,
@@ -10,16 +9,12 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { InventorySchemaType } from "./schema";
-import { PRODUCTS } from "./constants";
-import { useAbility } from "@/providers/AbilityProvider";
 import { useFormContext } from "react-hook-form";
 import { Trash2Icon } from "lucide-react";
 import { useEffect } from "react";
 import { formatNow } from "@/utils/formatNow";
 
 export function TableInventory() {
-  const { isObserver, isUser } = useAbility();
-  const isDisabled = isObserver || isUser;
   const form = useFormContext();
 
   const reset = (idx: number) => {
@@ -35,24 +30,14 @@ export function TableInventory() {
   const fieldsValues = form.watch("inventory") as InventorySchemaType;
 
   useEffect(() => {
-    const subscription = form.watch((_, { name: changedName }) => {
-      if (
-        changedName?.startsWith("inventory.") &&
-        changedName.endsWith(".quantity")
-      ) {
-        const idx = Number(changedName.split(".")[1]);
-
-        const nameValue = form.getValues(`inventory.${idx}.quantity`);
-        if (nameValue) {
-          form.setValue(`inventory.${idx}.time`, formatNow());
-        }
+    fieldsValues?.forEach((item, idx) => {
+      if (item?.quantity && !item?.time) {
+        form.setValue(`inventory.${idx}.time`, formatNow(), {
+          shouldDirty: true,
+        });
       }
     });
-
-    return () => {
-      subscription.unsubscribe();
-    };
-  }, [form]);
+  }, [fieldsValues, form]);
   return (
     <Table>
       <TableHeader>
@@ -64,36 +49,34 @@ export function TableInventory() {
         </TableRow>
 
         <TableRow className="h-10">
-          <TableHead className="md:w-25">product</TableHead>
+          <TableHead className="md:w-25"></TableHead>
           <TableHead className="md:w-10">quantity</TableHead>
-          <TableHead className="md:w-10">time</TableHead>
-          <TableHead className="md:w-8">action</TableHead>
+          <TableHead className="md:w-14"></TableHead>
+          <TableHead className="md:w-12"></TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
         {fieldsValues?.map((_, idx) => (
           <TableRow key={idx}>
             <TableCell>
-              <SelectFieldWithSearch
-                data={PRODUCTS}
-                fieldName={`inventory.${idx}.name`}
-                disabled={isDisabled}
-                className="h-8 w-full text-center"
+              <input
+                {...form.register(`inventory.${idx}.name`)}
+                disabled
+                className="h-8 w-full"
               />
             </TableCell>
             <TableCell className="flex items-center justify-center">
               <NumericInput
                 fieldName={`inventory.${idx}.quantity`}
-                disabled={isDisabled}
                 className="w-10! text-center h-8!"
               />
             </TableCell>
             <TableCell className="text-xs text-rd">
-              {form.watch(`inventory.${idx}.time`)}
+              {fieldsValues?.[idx]?.time}
             </TableCell>
 
             <TableCell onClick={() => reset(idx)} className="cursor-pointer">
-              {fieldsValues?.[idx]?.name && (
+              {fieldsValues?.[idx]?.quantity && (
                 <Trash2Icon className="w-4 h-4 mx-2 text-rd" />
               )}
             </TableCell>

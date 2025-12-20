@@ -9,7 +9,6 @@ import {
 import { ProductTransferSchemaType } from "./schema";
 import SelectFieldWithSearch from "@/components/inputs/SelectWithSearch";
 import { PRODUCTS, WAREHOUSES } from "./constants";
-import { useAbility } from "@/providers/AbilityProvider";
 import SelectField from "@/components/inputs/SelectField";
 import { useFormContext } from "react-hook-form";
 import NumericInput from "@/components/inputs/NumericInput";
@@ -18,8 +17,6 @@ import { useEffect } from "react";
 import { formatNow } from "@/utils/formatNow";
 
 export default function TableProductsTransfer() {
-  const { isObserver, isUser } = useAbility();
-  const isDisabled = isObserver || isUser;
   const form = useFormContext();
 
   const reset = (idx: number) => {
@@ -39,23 +36,14 @@ export default function TableProductsTransfer() {
   ) as ProductTransferSchemaType;
 
   useEffect(() => {
-    const subscription = form.watch((_, { name: changedName }) => {
-      if (
-        changedName?.startsWith("productTransfer.") &&
-        changedName.endsWith(".name")
-      ) {
-        const idx = Number(changedName.split(".")[1]);
-
-        const nameValue = form.getValues(`productTransfer.${idx}.name`);
-
-        if (nameValue) {
-          form.setValue(`productTransfer.${idx}.time`, formatNow());
-        }
+    fieldsValues?.forEach((item, idx) => {
+      if (item?.quantity && item?.destination && item?.name && !item?.time) {
+        form.setValue(`productTransfer.${idx}.time`, formatNow(), {
+          shouldDirty: true,
+        });
       }
     });
-
-    return () => subscription.unsubscribe();
-  }, [form]);
+  }, [fieldsValues, form]);
 
   return (
     <Table>
@@ -69,8 +57,8 @@ export default function TableProductsTransfer() {
           <TableHead className="md:w-46">product</TableHead>
           <TableHead className="md:w-26">destination</TableHead>
           <TableHead className="md:w-10">quantity</TableHead>
-          <TableHead className="md:w-10">time</TableHead>
-          <TableHead className="md:w-10">action</TableHead>
+          <TableHead className="md:w-14"></TableHead>
+          <TableHead className="md:w-12"></TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -80,7 +68,6 @@ export default function TableProductsTransfer() {
               <SelectFieldWithSearch
                 data={PRODUCTS}
                 fieldName={`productTransfer.${idx}.name`}
-                disabled={isDisabled}
                 className="h-8 w-full text-center"
               />
             </TableCell>
@@ -88,19 +75,17 @@ export default function TableProductsTransfer() {
               <SelectField
                 fieldName={`productTransfer.${idx}.destination`}
                 data={WAREHOUSES}
-                disabled={isDisabled}
                 className="w-full text-center h-8! p-2"
               />
             </TableCell>
             <TableCell className="flex items-center justify-center">
               <NumericInput
                 fieldName={`productTransfer.${idx}.quantity`}
-                disabled={isDisabled}
                 className="w-10 text-center h-8!"
               />
             </TableCell>
             <TableCell className="text-xs text-rd">
-              {form.watch(`productTransfer.${idx}.time`)}
+              {fieldsValues?.[idx]?.time}
             </TableCell>
             <TableCell onClick={() => reset(idx)} className="cursor-pointer">
               {fieldsValues?.[idx]?.name && (

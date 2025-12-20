@@ -18,10 +18,12 @@ export function SendResetButton({
   resetForm,
   reset = false,
   refreshUrl,
+  returnButton = false,
 }: {
   resetForm?: () => void;
   reset?: boolean;
   refreshUrl?: string;
+  returnButton?: boolean;
 }) {
   const router = useRouter();
   const { isObserver, isUser } = useAbility();
@@ -68,6 +70,16 @@ export function SendResetButton({
               onClick={() => setOpenModal("reset")}
             >
               {t("reset")}
+            </Button>
+          )}
+          {returnButton && (
+            <Button
+              type="button"
+              variant={"destructive"}
+              className=""
+              onClick={() => router.back()}
+            >
+              return
             </Button>
           )}
         </div>
