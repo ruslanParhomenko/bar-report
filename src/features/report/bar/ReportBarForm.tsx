@@ -11,7 +11,6 @@ import {
   productTransferDefault,
   ReportBarFormValues,
   reportBarSchema,
-  TobaccoSchemaType,
 } from "./schema";
 import TableTobacco from "./TableTobacco";
 import TableExpenses from "./TableExpenses";
@@ -20,20 +19,12 @@ import { SendResetButton } from "@/components/buttons/SendResetButton";
 import TableProductsTransfer from "./TableProductsTransfer";
 import { Textarea } from "@/components/ui/textarea";
 import { TableInventory } from "./TableInventory";
-import {
-  createReportBar,
-  updateReportBar,
-} from "@/app/actions/archive/reportBarAction";
+import { createReportBar } from "@/app/actions/archive/reportBarAction";
 import { useLocalStorageForm } from "@/hooks/useLocalStorageForm";
 import { FormWrapper } from "@/components/wrapper/FormWrapper";
-import { ReportBarData } from "@/constants/type";
-import { use, useEffect } from "react";
-import { useRouter } from "next/navigation";
 
-export default function ReportBarForm({ report }: { report?: ReportBarData }) {
-  const STORAGE_KEY = report ? `report-bar-${report.id}` : "report-bar";
-
-  const router = useRouter();
+export default function ReportBarForm() {
+  const STORAGE_KEY = "report-bar";
 
   //form
   const form = useForm<ReportBarFormValues>({
@@ -50,14 +41,10 @@ export default function ReportBarForm({ report }: { report?: ReportBarData }) {
       date: new Date(data.date),
       tobacco: data.tobacco?.map((item) => ({
         ...item,
-        stock: Number(item.stock || 0),
-        incoming: Number(item.incoming || 0),
-        outgoing: Number(item.outgoing || 0),
-        finalStock: String(
-          Number(item.stock || 0) +
-            Number(item.incoming || 0) -
-            Number(item.outgoing || 0)
-        ),
+        stock: item.stock,
+        incoming: item.incoming ?? "0",
+        outgoing: item.outgoing ?? "0",
+        finalStock: item.stock + +item.incoming - +item.outgoing,
       })),
       cashVerify: data.cashVerify?.filter((item) => item.value),
       expenses: data.expenses?.filter((item) => item.name),
@@ -67,18 +54,15 @@ export default function ReportBarForm({ report }: { report?: ReportBarData }) {
     };
 
     await createReportBar({
-      data: formateData,
+      data: formateData as any,
     });
 
     const updatedTobacco = data?.tobacco?.map((item) => {
-      const finalStock =
-        Number(item.stock ?? 0) +
-        Number(item.incoming ?? 0) -
-        Number(item.outgoing ?? 0);
+      const finalStock = item.stock + +item.incoming - +item.outgoing;
 
       return {
         ...item,
-        stock: String(finalStock),
+        stock: finalStock,
         incoming: "",
         outgoing: "",
       };
@@ -87,7 +71,7 @@ export default function ReportBarForm({ report }: { report?: ReportBarData }) {
     const updatedData: ReportBarFormValues = {
       ...data,
       date: new Date(),
-      tobacco: updatedTobacco as TobaccoSchemaType,
+      tobacco: updatedTobacco,
       cashVerify: cashVerifyDefault,
       expenses: expensesDefault,
       productTransfer: productTransferDefault,
@@ -99,18 +83,9 @@ export default function ReportBarForm({ report }: { report?: ReportBarData }) {
     toast.success("Бар отчет успешно сохранён !");
   };
 
-  const onUpdate: SubmitHandler<ReportBarData> = async (data) => {
-    if (!report?.id) return;
-    await updateReportBar({ data });
-    toast.success("Report updated successfully");
-    router.back();
-  };
-
-  useEffect(() => {
-    if (report) {
-      form.reset(report as any);
-    }
-  }, [report]);
+  function mergeByIndex<T>(defaults: T[], data?: T[]) {
+    return defaults.map((item, index) => data?.[index] ?? item);
+  }
 
   if (!isLoaded) {
     return (
@@ -123,8 +98,8 @@ export default function ReportBarForm({ report }: { report?: ReportBarData }) {
   return (
     <FormWrapper
       form={form}
-      onSubmit={report ? onUpdate : onSubmit}
-      className="flex flex-col h-[90vh] gap-14"
+      onSubmit={onSubmit}
+      className="flex flex-col h-[90vh] gap-4"
     >
       <div className="flex w-full justify-end">
         <DatePickerInput
@@ -147,11 +122,7 @@ export default function ReportBarForm({ report }: { report?: ReportBarData }) {
 
       <TableCashVerify />
       <div className="mt-auto">
-        <SendResetButton
-          resetForm={form.reset}
-          reset={true}
-          returnButton={!!report}
-        />
+        <SendResetButton />
       </div>
     </FormWrapper>
   );

@@ -1,11 +1,11 @@
+import { ReportDataById } from "@/app/actions/archive/reportBarAction";
 import ReportBarTable from "@/components/table/report-bar-table/ReportBarTable";
-import { ReportBarData } from "@/constants/type";
 
-export default function ReportBar({ data }: { data: ReportBarData[] }) {
+export default function ReportBar({ data }: { data: ReportDataById[] }) {
   return (
     <>
       {data.length > 0 &&
-        data.map((item: ReportBarData, index: number) => (
+        data.map((item: ReportDataById, index: number) => (
           <ReportBarTable key={index} data={item} />
         ))}
     </>

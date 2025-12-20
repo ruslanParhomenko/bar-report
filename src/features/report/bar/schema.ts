@@ -1,126 +1,86 @@
 import * as yup from "yup";
-import { INVENTORY_DATA } from "./constants";
+import { INVENTORY_DATA, LIST_TOBACCO } from "./constants";
+
 //products transfer
-export const productTransferSchema = yup
-  .array(
-    yup.object().shape({
-      name: yup.string().default(""),
-      quantity: yup.string().default(""),
-      destination: yup.string().default(""),
-      time: yup.string().default(""),
-    })
-  )
-  .default([{ name: "", quantity: "", destination: "", time: "" }]);
+export const productTransferSchema = yup.object().shape({
+  name: yup.string().default(""),
+  quantity: yup.string().default(""),
+  destination: yup.string().default(""),
+  time: yup.string().default(""),
+});
 
 export type ProductTransferSchemaType = yup.InferType<
   typeof productTransferSchema
 >;
-export const productTransferDefault = Array.from({ length: 8 }, () => ({
-  name: "",
-  quantity: "",
-  destination: "",
-  time: "",
-}));
+export const productTransferDefault = Array.from({ length: 8 }, () =>
+  productTransferSchema.getDefault()
+);
 
 // inventory
-export const inventorySchema = yup
-  .array(
-    yup.object().shape({
-      name: yup.string().default(""),
-      quantity: yup.string().default(""),
-      time: yup.string().default(""),
-    })
-  )
-  .default([{ name: "", quantity: "", time: "" }]);
+export const inventorySchema = yup.object().shape({
+  name: yup.string().default(""),
+  quantity: yup.string().default(""),
+  time: yup.string().default(""),
+});
+
 export type InventorySchemaType = yup.InferType<typeof inventorySchema>;
 export const inventoryDefault = INVENTORY_DATA.map((item) => ({
+  ...inventorySchema.getDefault(),
   name: item,
-  quantity: "",
-  time: "",
 }));
 
 //expenses
-export const expenseSchema = yup
-  .array(
-    yup.object().shape({
-      name: yup.string().default(""),
-      sum: yup.string().default(""),
-      time: yup.string().default(""),
-    })
-  )
-  .default([{ name: "", sum: "", time: "" }]);
-
-export type ExpensesSchemaType = yup.InferType<typeof expenseSchema>;
-export const expensesDefault = new Array(8).fill({
-  name: "",
-  sum: "",
-  time: "",
+export const expenseSchema = yup.object().shape({
+  name: yup.string().default(""),
+  sum: yup.string().default(""),
+  time: yup.string().default(""),
 });
 
+export type ExpensesSchemaType = yup.InferType<typeof expenseSchema>;
+export const expensesDefault = Array.from({ length: 8 }, () =>
+  expenseSchema.getDefault()
+);
+
 //tobacco
-export const LIST_TOBACCO = [
-  "Marlboro",
-  "Parliament",
-  "Cohiba Siglo I",
-  "Guantonomera",
-  "Monte Cristo",
-  "R&J N3",
-  "Гильотина (2)",
-  "Зажигалка",
-];
-export const tobaccoSchema = yup
-  .array(
-    yup.object().shape({
-      name: yup
-        .string()
-        .oneOf(LIST_TOBACCO, "Name must be one of the predefined list"),
-      stock: yup.string(),
-      incoming: yup.string(),
-      outgoing: yup.string(),
-      finalStock: yup.string(),
-    })
-  )
-  .default([
-    { name: "", stock: "0", incoming: "", outgoing: "", finalStock: "0" },
-  ]);
+
+export const tobaccoSchema = yup.object().shape({
+  name: yup
+    .string()
+    .default("")
+    .oneOf(LIST_TOBACCO, "Name must be one of the predefined list"),
+  stock: yup.number().default(0),
+  incoming: yup.string().default(""),
+  outgoing: yup.string().default(""),
+  finalStock: yup.number().default(0),
+});
+
 export type TobaccoSchemaType = yup.InferType<typeof tobaccoSchema>;
-export const tobaccoDefault = LIST_TOBACCO.map((name) => ({
-  name,
-  stock: "0",
-  incoming: "",
-  outgoing: "",
-  finalStock: "0",
+export const defaultTobaccoValue = LIST_TOBACCO.map((name) => ({
+  ...tobaccoSchema.getDefault(),
+  name: name,
 }));
 
 // cash verify
-
-export const HOURS = Array.from({ length: 24 }).map((_, idx) => {
-  const hour = (8 + idx) % 24;
-  return hour.toString().padStart(2, "0") + ":00";
+export const cashVerifySchema = yup.object().shape({
+  hours: yup.string().default(""),
+  value: yup.string().default(""),
 });
-export const cashVerifySchema = yup
-  .array(
-    yup.object().shape({
-      hours: yup.string(),
-      value: yup.string(),
-    })
-  )
-  .default(HOURS.map((hour) => ({ hours: hour, value: "" })));
 
 export type CashVerifySchemaType = yup.InferType<typeof cashVerifySchema>;
-export const cashVerifyDefault = HOURS.map((hour) => ({
-  hours: hour,
-  value: "",
-}));
+export const cashVerifyDefault = Array.from({ length: 24 }, () =>
+  cashVerifySchema.getDefault()
+);
 
 //report bar
 export const reportBarSchema = yup.object().shape({
   date: yup.date().default(new Date()),
-  expenses: expenseSchema,
-  tobacco: tobaccoSchema,
-  cashVerify: cashVerifySchema,
-  productTransfer: productTransferSchema,
-  inventory: inventorySchema,
+  expenses: yup.array(expenseSchema).default(expensesDefault),
+  tobacco: yup.array(tobaccoSchema).default(defaultTobaccoValue),
+  cashVerify: yup.array(cashVerifySchema).default(cashVerifyDefault),
+  productTransfer: yup
+    .array(productTransferSchema)
+    .default(productTransferDefault),
+  inventory: yup.array(inventorySchema).default(inventoryDefault),
   notes: yup.string().nullable().default(""),
 });
 
@@ -128,7 +88,7 @@ export type ReportBarFormValues = yup.InferType<typeof reportBarSchema>;
 export const defaultValuesReportBar = {
   date: new Date(),
   expenses: expensesDefault,
-  tobacco: tobaccoDefault,
+  tobacco: defaultTobaccoValue,
   cashVerify: cashVerifyDefault,
   productTransfer: productTransferDefault,
   inventory: inventoryDefault,

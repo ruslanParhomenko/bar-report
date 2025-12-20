@@ -9,11 +9,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { ActionsButton } from "../../components/buttons/ActionsButton";
-import {
-  MENU_ITEMS_CUCINA,
-  PRODUCTS,
-  PRODUCTS_CUCINA,
-} from "../report/bar/constants";
+import { PRODUCTS, PRODUCTS_CUCINA } from "../report/bar/constants";
 import { useFieldArray, useForm, useWatch } from "react-hook-form";
 import {
   defaultStopList,
@@ -48,7 +44,7 @@ export default function StopListForm({ data, nameTag }: StopLitTableProps) {
 
   const DATA_PRODUCTS = {
     bar: PRODUCTS,
-    cucina: [...new Set([...PRODUCTS_CUCINA, ...MENU_ITEMS_CUCINA])],
+    cucina: [...new Set([...PRODUCTS_CUCINA])],
   };
 
   // set form

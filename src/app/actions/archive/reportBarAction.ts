@@ -2,9 +2,10 @@
 import { prisma } from "@/lib/prisma";
 import { unstable_cache, updateTag } from "next/cache";
 import { invalidateEverywhere } from "../invalidateEverywhere/invalidateEverywhere";
+import { ReportBarFormValues } from "@/features/report/bar/schema";
 
 // create report
-export async function createReportBar({ data }: { data: any }) {
+export async function createReportBar({ data }: { data: ReportBarFormValues }) {
   const {
     cashVerify,
     tobacco,
@@ -19,13 +20,13 @@ export async function createReportBar({ data }: { data: any }) {
     data: {
       date: new Date(date),
       cashVerify: {
-        create: cashVerify.map((c: any) => ({
+        create: cashVerify.map((c) => ({
           hours: c.hours,
           value: c.value,
         })),
       },
       tobacco: {
-        create: tobacco.map((t: any) => ({
+        create: tobacco.map((t) => ({
           name: t.name,
           stock: t.stock,
           incoming: t.incoming,
@@ -34,14 +35,14 @@ export async function createReportBar({ data }: { data: any }) {
         })),
       },
       expenses: {
-        create: expenses.map((e: any) => ({
+        create: expenses.map((e) => ({
           name: e.name,
           sum: e.sum,
           time: e.time,
         })),
       },
       productTransfer: {
-        create: productTransfer.map((p: any) => ({
+        create: productTransfer.map((p) => ({
           name: p.name,
           quantity: p.quantity,
           destination: p.destination,
@@ -49,13 +50,13 @@ export async function createReportBar({ data }: { data: any }) {
         })),
       },
       inventory: {
-        create: inventory.map((i: any) => ({
+        create: inventory.map((i) => ({
           name: i.name,
           quantity: i.quantity,
           time: i.time,
         })),
       },
-      notes: notes.length > 0 ? notes : null,
+      notes: notes,
     },
     include: {
       cashVerify: true,
@@ -71,89 +72,6 @@ export async function createReportBar({ data }: { data: any }) {
   return report.id;
 }
 
-// update report
-
-export async function updateReportBar({ data }: { data: any }) {
-  const reportId = Number(data.id);
-  if (isNaN(reportId)) throw new Error("Invalid report id");
-  const {
-    date,
-    notes,
-    cashVerify = [],
-    expenses = [],
-    tobacco = [],
-    productTransfer = [],
-    inventory = [],
-  } = data;
-
-  const updatedReport = await prisma.$transaction(async (tx) => {
-    // Удаляем старые данные, связанные с отчётом
-    await Promise.all([
-      tx.cashVerify.deleteMany({ where: { reportId } }),
-      tx.expense.deleteMany({ where: { reportId } }),
-      tx.tobacco.deleteMany({ where: { reportId } }),
-      tx.productTransfer.deleteMany({ where: { reportId } }),
-      tx.inventory.deleteMany({ where: { reportId } }),
-    ]);
-
-    // Обновляем сам отчёт + пересоздаём связи
-    const report = await tx.dailyReport.update({
-      where: { id: reportId },
-      data: {
-        date: date ? new Date(date) : undefined,
-        notes: notes?.length ? notes : null,
-        cashVerify: {
-          create: cashVerify.map((item: any) => ({
-            hours: item.hours || "",
-            value: item.value || "",
-          })),
-        },
-        expenses: {
-          create: expenses.map((item: any) => ({
-            name: item.name || "",
-            sum: item.sum || "",
-          })),
-        },
-        tobacco: {
-          create: tobacco.map((item: any) => ({
-            name: item.name || "",
-            stock: Number(item.stock) || 0,
-            incoming: Number(item.incoming) || 0,
-            outgoing: Number(item.outgoing) || 0,
-            finalStock: item.finalStock || "",
-          })),
-        },
-        productTransfer: {
-          create: productTransfer.map((item: any) => ({
-            name: item.name || "",
-            quantity: item.quantity || "",
-            destination: item.destination || "",
-          })),
-        },
-        inventory: {
-          create: inventory.map((item: any) => ({
-            name: item.name || "",
-            quantity: item.quantity || "",
-          })),
-        },
-      },
-      include: {
-        cashVerify: true,
-        expenses: true,
-        tobacco: true,
-        productTransfer: true,
-        inventory: true,
-      },
-    });
-
-    return report;
-  });
-  updateTag("reportBar");
-  await invalidateEverywhere("reportBar");
-
-  return updatedReport;
-}
-
 // delete report
 export async function deleteReportBar(id: string) {
   await prisma.dailyReport.delete({
@@ -165,7 +83,11 @@ export async function deleteReportBar(id: string) {
 
 // get by id
 
-export async function getReportBar(id: string) {
+export type ReportDataById = ReportBarFormValues & {
+  id: number;
+};
+
+export async function getReportBar(id: number) {
   const report = await prisma.dailyReport.findUnique({
     where: { id: Number(id) },
     include: {

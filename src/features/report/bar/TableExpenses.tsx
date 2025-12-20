@@ -31,7 +31,7 @@ export default function TableExpenses() {
       { shouldDirty: true, shouldTouch: true }
     );
   };
-  const fieldsValues = form.watch("expenses") as ExpensesSchemaType;
+  const fieldsValues = form.watch("expenses") as ExpensesSchemaType[];
 
   useEffect(() => {
     fieldsValues?.forEach((item, idx) => {

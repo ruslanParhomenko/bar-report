@@ -10,8 +10,7 @@ import {
 } from "@/constants/endpoint-tag";
 import { useAbility } from "@/providers/AbilityProvider";
 import { formatDataForInput } from "@/utils/formatNow";
-import { Pencil, Trash2Icon } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { Trash2Icon } from "lucide-react";
 import { useState } from "react";
 
 type BaseData = {
@@ -34,8 +33,7 @@ export const DeleteListButton = <T extends BaseData>({
   data,
   nameTag,
 }: DeleteListButtonProps<T>) => {
-  const router = useRouter();
-  const { isAdmin, isManager } = useAbility();
+  const { isAdmin } = useAbility();
 
   const [open, setOpen] = useState(false);
 
@@ -45,9 +43,6 @@ export const DeleteListButton = <T extends BaseData>({
     const action = actionByNameTag[nameTag as keyof typeof actionByNameTag];
     action(data.id.toString());
     setOpen(false);
-  };
-  const editForm = () => {
-    router.push(`/${nameTag}/${data.id}`);
   };
 
   return (
@@ -62,13 +57,6 @@ export const DeleteListButton = <T extends BaseData>({
         {formatDataForInput({ date: data.date })}
       </div>
       <div className="flex gap-4 items-center">
-        <button
-          onClick={() => editForm()}
-          className="cursor-pointer"
-          disabled={!isAdmin && !isManager}
-        >
-          <Pencil className="h-4 w-4" />
-        </button>
         <button
           type="button"
           onClick={() => setOpen(true)}

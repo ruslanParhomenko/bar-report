@@ -94,9 +94,9 @@ model Tobacco {
   id         Int         @id @default(autoincrement())
   name       String
   stock      Int         @default(0)
-  incoming   Int?
-  outgoing   Int?
-  finalStock String
+  incoming   String?
+  outgoing   String?
+  finalStock Int
   reportId   Int
   report     DailyReport @relation(fields: [reportId], references: [id], onDelete: Cascade)
 }

@@ -1,6 +1,9 @@
-import { getReportBarByDate } from "@/app/actions/archive/reportBarAction";
+import {
+  getReportBarByDate,
+  ReportDataById,
+} from "@/app/actions/archive/reportBarAction";
 import { getReportsCucinaByDate } from "@/app/actions/archive/reportCucinaAction";
-import { ReportBarData, ReportCucinaData } from "@/constants/type";
+import { ReportCucinaData } from "@/constants/type";
 import ReportBar from "@/features/archive/ReportBar";
 import ReportCucina from "@/features/archive/ReportCucina";
 import { MONTHS } from "@/utils/getMonthDays";
@@ -45,7 +48,7 @@ export default async function Page({
     ).reports;
 
   if (patch === "bar")
-    return <ReportBar data={dataReportBar as ReportBarData[]} />;
+    return <ReportBar data={dataReportBar as ReportDataById[]} />;
   else if (patch === "cucina")
     return <ReportCucina data={dataReportCucina as ReportCucinaData[]} />;
   else return null;

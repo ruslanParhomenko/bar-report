@@ -33,7 +33,7 @@ export default function TableProductsTransfer() {
   };
   const fieldsValues = form.watch(
     "productTransfer"
-  ) as ProductTransferSchemaType;
+  ) as ProductTransferSchemaType[];
 
   useEffect(() => {
     fieldsValues?.forEach((item, idx) => {

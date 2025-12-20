@@ -1,17 +1,24 @@
 import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
 import { DeleteListButton } from "../../../features/archive/DeleteListButton";
 import { REPORT_BAR_ENDPOINT } from "@/constants/endpoint-tag";
-import { ReportBarData } from "@/constants/type";
 import TobaccoTable from "./TobaccoTable";
 import ExpensesTable from "./ExpensesTable";
 import ProductTransferTable from "./ProductTransferTable";
 import InventoryTable from "./InventoryTable";
 import CashVerifyTable from "./CashVerifyTable";
 import NotesTable from "../NotesTable";
+import { ReportDataById } from "@/app/actions/archive/reportBarAction";
+import {
+  CashVerify,
+  Expense,
+  Inventory,
+  ProductTransfer,
+  Tobacco,
+} from "@/generated/prisma";
 
 export const classNameHead = "text-shadow-muted-foreground font-bold";
 export const classNameRowBorder = "border-b-bl";
-export default function ReportBarTable({ data }: { data: ReportBarData }) {
+export default function ReportBarTable({ data }: { data: ReportDataById }) {
   const visibleTables = [
     data.tobacco,
     data.expenses,
@@ -32,16 +39,18 @@ export default function ReportBarTable({ data }: { data: ReportBarData }) {
         </CardTitle>
       </CardHeader>
       <CardContent className={`grid grid-cols-1  ${gridCols} gap-4`}>
-        <TobaccoTable data={data?.tobacco} />
+        <TobaccoTable data={data?.tobacco as Tobacco[]} />
         <div className="flex flex-col w-full">
           <div className={`grid ${gridColsFooter} gap-4`}>
-            <ExpensesTable data={data?.expenses} />
-            <ProductTransferTable data={data?.productTransfer} />
-            <InventoryTable data={data?.inventory} />
+            <ExpensesTable data={data?.expenses as Expense[]} />
+            <ProductTransferTable
+              data={data?.productTransfer as ProductTransfer[]}
+            />
+            <InventoryTable data={data?.inventory as Inventory[]} />
           </div>
           <div className="mt-auto"></div>
           <div className="mt-auto">
-            <CashVerifyTable data={data?.cashVerify} />
+            <CashVerifyTable data={data?.cashVerify as CashVerify[]} />
           </div>
         </div>
       </CardContent>

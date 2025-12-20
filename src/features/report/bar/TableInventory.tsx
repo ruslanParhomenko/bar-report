@@ -27,7 +27,7 @@ export function TableInventory() {
       { shouldDirty: true, shouldTouch: true }
     );
   };
-  const fieldsValues = form.watch("inventory") as InventorySchemaType;
+  const fieldsValues = form.watch("inventory") as InventorySchemaType[];
 
   useEffect(() => {
     fieldsValues?.forEach((item, idx) => {

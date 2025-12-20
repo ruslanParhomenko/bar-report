@@ -7,15 +7,16 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { tobaccoDefault, TobaccoSchemaType } from "./schema";
+import { defaultTobaccoValue, TobaccoSchemaType } from "./schema";
 import { useFormContext, useWatch } from "react-hook-form";
 import NumericInput from "@/components/inputs/NumericInput";
 
 export default function TableTobacco() {
   const { control } = useFormContext();
-  const tobacco =
-    (useWatch({ name: "tobacco", control }) as TobaccoSchemaType) ||
-    tobaccoDefault;
+  const tobacco = (useWatch({
+    name: "tobacco",
+    control,
+  }) as TobaccoSchemaType[]) || [defaultTobaccoValue];
 
   return (
     <Table className="w-full [&_th]:text-center [&_td]:text-center">
