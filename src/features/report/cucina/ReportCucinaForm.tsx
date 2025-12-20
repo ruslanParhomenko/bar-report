@@ -6,7 +6,6 @@ import {
   defaultMovement,
   defaultReportCucina,
   defaultShift,
-  defaultStaff,
   defaultWriteOff,
   productPreparedDefault,
   ReportCucinaType,
