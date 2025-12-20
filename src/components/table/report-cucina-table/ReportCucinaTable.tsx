@@ -24,17 +24,6 @@ export default function ReportCucinaTable({
 }: {
   data: ReportCucinaData;
 }) {
-  const visibleTables = [
-    data.shifts,
-    data.writeOff,
-    data.prepared,
-    data.staff,
-    data.remains,
-    data.movement,
-    data.notes,
-  ].filter(Boolean).length;
-
-  const gridCols = visibleTables === 1 ? "md:grid-cols-1" : "md:grid-cols-4";
   return (
     <Card>
       <CardHeader>
@@ -42,7 +31,7 @@ export default function ReportCucinaTable({
           <DeleteListButton data={data} nameTag={REPORT_CUCINA_ENDPOINT} />
         </CardTitle>
       </CardHeader>
-      <CardContent className={`gap-6  grid grid-cols-1 ${gridCols}`}>
+      <CardContent className="grid grid-cols-1 xl:grid-cols-4 gap-4 ">
         <div>
           <ShiftsTable data={data.shifts} />
           <RemainsTable data={data.remains} />

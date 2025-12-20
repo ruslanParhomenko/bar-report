@@ -4,15 +4,11 @@ import { Textarea } from "@/components/ui/textarea";
 import DatePickerInput from "@/components/inputs/DatePickerInput";
 import {
   defaultMovement,
-  defaultProductsCutting,
-  defaultProductsDesserts,
-  defaultProductsSalad,
-  defaultProductsSeconds,
-  defaultRemains,
   defaultReportCucina,
   defaultShift,
   defaultStaff,
   defaultWriteOff,
+  productPreparedDefault,
   ReportCucinaType,
   schemaReportCucina,
 } from "./schema";
@@ -44,7 +40,6 @@ import { useEmployees } from "@/providers/EmployeesProvider";
 import { createReportCucina } from "@/app/actions/archive/reportCucinaAction";
 import { FormWrapper } from "@/components/wrapper/FormWrapper";
 import { useLocalStorageForm } from "@/hooks/useLocalStorageForm";
-import { ViewTransition } from "react";
 
 export default function ReportCucinaForm() {
   const t = useTranslations("Home");
@@ -97,142 +92,139 @@ export default function ReportCucinaForm() {
   }
 
   return (
-    <ViewTransition>
-      <FormWrapper
-        form={form}
-        onSubmit={onSubmit}
-        className="w-full  md:mx-auto md:max-w-6xl"
-      >
+    <FormWrapper
+      form={form}
+      onSubmit={onSubmit}
+      className="w-full  md:mx-auto md:max-w-6xl"
+    >
+      <div className="flex w-full justify-end">
         <DatePickerInput fieldName="date" className="text-sm h-8 text-rd" />
+      </div>
 
-        {employees.length > 0 && (
-          <RenderTableCucina
-            name="shifts"
-            form={form}
-            placeHolder={{
-              field1: "employees",
-              field2: "time",
-              field3: "over",
-            }}
-            dataArrayField1={employees}
-            dataArrayField2={SELECT_TIME}
-            dataArrayField3={OVER_HOURS}
-            defaultValue={defaultShift[0]}
-          />
-        )}
+      <RenderTableCucina
+        name="shifts"
+        form={form}
+        placeHolder={{
+          field1: "employees",
+          field2: "time",
+          field3: "over",
+        }}
+        dataArrayField1={employees}
+        dataArrayField2={SELECT_TIME}
+        dataArrayField3={OVER_HOURS}
+        defaultValue={defaultShift}
+      />
 
-        <RenderTableCucina
-          name="remains"
-          form={form}
-          placeHolder={{
-            field1: "product",
-            field2: "portions",
-            field3: "weight",
-          }}
-          dataArrayField1={REMAINS_PRODUCTS}
-          defaultValue={defaultRemains[0]}
-        />
+      <RenderTableCucina
+        name="remains"
+        form={form}
+        placeHolder={{
+          field1: "product",
+          field2: "portions",
+          field3: "weight",
+          field4: "time",
+        }}
+        dataArrayField1={REMAINS_PRODUCTS}
+        defaultValue={productPreparedDefault}
+      />
 
-        <RenderTableCucina
-          name="preparedSalads"
-          form={form}
-          placeHolder={{
-            field1: "product",
-            field2: "portions",
-            field3: "weight",
-            field4: "time",
-          }}
-          dataArrayField1={[
-            ...PRODUCTS_GARNISH,
-            ...PRODUCTS_SALAD,
-            ...PRODUCTS_SOUP,
-          ]}
-          defaultValue={defaultProductsSalad[0]}
-        />
+      <RenderTableCucina
+        name="preparedSalads"
+        form={form}
+        placeHolder={{
+          field1: "product",
+          field2: "portions",
+          field3: "weight",
+          field4: "time",
+        }}
+        dataArrayField1={[
+          ...PRODUCTS_GARNISH,
+          ...PRODUCTS_SALAD,
+          ...PRODUCTS_SOUP,
+        ]}
+        defaultValue={productPreparedDefault}
+      />
 
-        <RenderTableCucina
-          name="preparedSeconds"
-          form={form}
-          placeHolder={{
-            field1: "product",
-            field2: "portions",
-            field3: "weight",
-            field4: "time",
-          }}
-          dataArrayField1={PRODUCTS_MEAT}
-          defaultValue={defaultProductsSeconds[0]}
-        />
+      <RenderTableCucina
+        name="preparedSeconds"
+        form={form}
+        placeHolder={{
+          field1: "product",
+          field2: "portions",
+          field3: "weight",
+          field4: "time",
+        }}
+        dataArrayField1={PRODUCTS_MEAT}
+        defaultValue={productPreparedDefault}
+      />
 
-        <RenderTableCucina
-          name="preparedDesserts"
-          form={form}
-          placeHolder={{
-            field1: "product",
-            field2: "portions",
-            field3: "weight",
-            field4: "time",
-          }}
-          dataArrayField1={PRODUCTS_DESSERT}
-          defaultValue={defaultProductsDesserts[0]}
-        />
+      <RenderTableCucina
+        name="preparedDesserts"
+        form={form}
+        placeHolder={{
+          field1: "product",
+          field2: "portions",
+          field3: "weight",
+          field4: "time",
+        }}
+        dataArrayField1={PRODUCTS_DESSERT}
+        defaultValue={productPreparedDefault}
+      />
 
-        <RenderTableCucina
-          name="cutting"
-          form={form}
-          placeHolder={{
-            field1: "product",
-            field2: "portions",
-            field3: "weight",
-            field4: "time",
-          }}
-          dataArrayField1={[...PRODUCTS_SEMIFINISHED, ...PRODUCTS_MEAT_FISH]}
-          defaultValue={defaultProductsCutting[0]}
-        />
+      <RenderTableCucina
+        name="cutting"
+        form={form}
+        placeHolder={{
+          field1: "product",
+          field2: "portions",
+          field3: "weight",
+          field4: "time",
+        }}
+        dataArrayField1={[...PRODUCTS_SEMIFINISHED, ...PRODUCTS_MEAT_FISH]}
+        defaultValue={productPreparedDefault}
+      />
 
-        <RenderTableCucina
-          name="staff"
-          form={form}
-          placeHolder={{
-            field1: "product",
-            field2: "portions",
-            field3: "weight",
-            field4: "time",
-          }}
-          dataArrayField1={PRODUCTS_STAFF}
-          defaultValue={defaultStaff[0]}
-        />
+      <RenderTableCucina
+        name="staff"
+        form={form}
+        placeHolder={{
+          field1: "product",
+          field2: "portions",
+          field3: "weight",
+          field4: "time",
+        }}
+        dataArrayField1={PRODUCTS_STAFF}
+        defaultValue={productPreparedDefault}
+      />
 
-        <RenderTableCucina
-          name="movement"
-          form={form}
-          placeHolder={{
-            field1: "nameOutside",
-            field2: "nameInside",
-            field3: "weight",
-          }}
-          dataArrayField1={PRODUCTS_INGREDIENTS}
-          dataArrayField2={PRODUCTS_INGREDIENTS}
-          defaultValue={defaultMovement[0]}
-        />
+      <RenderTableCucina
+        name="movement"
+        form={form}
+        placeHolder={{
+          field1: "nameOutside",
+          field2: "nameInside",
+          field3: "weight",
+        }}
+        dataArrayField1={PRODUCTS_INGREDIENTS}
+        dataArrayField2={PRODUCTS_INGREDIENTS}
+        defaultValue={defaultMovement}
+      />
 
-        <RenderTableCucina
-          name="writeOff"
-          form={form}
-          placeHolder={{
-            field1: "product",
-            field2: "weight",
-            field3: "reason",
-          }}
-          dataArrayField1={PRODUCTS_INGREDIENTS}
-          dataArrayField3={REASON}
-          defaultValue={defaultWriteOff[0]}
-        />
-        <Label className="font-semibold py-4 text-md text-bl">
-          {t("notes")}
-        </Label>
-        <Textarea placeholder="notes ..." {...form.register("notes")} />
-        <SendResetButton resetForm={resetFormHandler} reset={true} />
-      </FormWrapper>
-    </ViewTransition>
+      <RenderTableCucina
+        name="writeOff"
+        form={form}
+        placeHolder={{
+          field1: "product",
+          field2: "weight",
+          field3: "reason",
+        }}
+        dataArrayField1={PRODUCTS_INGREDIENTS}
+        dataArrayField3={REASON}
+        defaultValue={defaultWriteOff}
+      />
+      <Label className="font-semibold py-4 text-md text-bl">{t("notes")}</Label>
+      <Textarea placeholder="notes ..." {...form.register("notes")} />
+      <SendResetButton resetForm={resetFormHandler} reset={true} />
+    </FormWrapper>
   );
 }

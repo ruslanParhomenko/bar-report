@@ -80,7 +80,9 @@ function SelectFieldWithSearch({
                       )}
                       disabled={disabled}
                     >
-                      {field.value || placeHolder}
+                      <span className="truncate">
+                        {field.value || placeHolder}
+                      </span>
                     </button>
                   </PopoverTrigger>
                   <PopoverContent className="w-full p-0">

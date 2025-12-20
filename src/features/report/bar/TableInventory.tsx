@@ -49,10 +49,10 @@ export function TableInventory() {
         </TableRow>
 
         <TableRow className="h-10">
-          <TableHead className="md:w-25"></TableHead>
-          <TableHead className="md:w-10">quantity</TableHead>
-          <TableHead className="md:w-14"></TableHead>
-          <TableHead className="md:w-12"></TableHead>
+          <TableHead className="md:w-25" />
+          <TableHead className="md:w-10">кол-во</TableHead>
+          <TableHead className="md:w-14" />
+          <TableHead className="md:w-12" />
         </TableRow>
       </TableHeader>
       <TableBody>

@@ -13,24 +13,11 @@ import {
   Expense,
   Inventory,
   ProductTransfer,
-  Tobacco,
 } from "@/generated/prisma";
 
 export const classNameHead = "text-shadow-muted-foreground font-bold";
 export const classNameRowBorder = "border-b-bl";
 export default function ReportBarTable({ data }: { data: ReportDataById }) {
-  const visibleTables = [
-    data.tobacco,
-    data.expenses,
-    data.productTransfer,
-    data.inventory,
-    data.notes,
-    data.cashVerify,
-  ].filter(Boolean).length;
-  const gridCols =
-    visibleTables === 1 ? "md:grid-cols-1" : "md:grid-cols-[25%_75%]";
-  const gridColsFooter =
-    visibleTables === 1 ? "md:grid-cols-1" : "md:grid-cols-3";
   return (
     <Card className="shadow-md border rounded-2xl md:p-4 mb-4">
       <CardHeader>
@@ -38,10 +25,10 @@ export default function ReportBarTable({ data }: { data: ReportDataById }) {
           <DeleteListButton data={data} nameTag={REPORT_BAR_ENDPOINT} />
         </CardTitle>
       </CardHeader>
-      <CardContent className={`grid grid-cols-1  ${gridCols} gap-4`}>
-        <TobaccoTable data={data?.tobacco as Tobacco[]} />
+      <CardContent className="grid grid-cols-1  xl:grid-cols-[25%_75%] gap-4">
+        <TobaccoTable data={data?.tobacco as any[]} />
         <div className="flex flex-col w-full">
-          <div className={`grid ${gridColsFooter} gap-4`}>
+          <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
             <ExpensesTable data={data?.expenses as Expense[]} />
             <ProductTransferTable
               data={data?.productTransfer as ProductTransfer[]}

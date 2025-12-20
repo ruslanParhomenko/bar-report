@@ -54,9 +54,9 @@ export default function TableProductsTransfer() {
           </TableHead>
         </TableRow>
         <TableRow>
-          <TableHead className="md:w-46">product</TableHead>
-          <TableHead className="md:w-26">destination</TableHead>
-          <TableHead className="md:w-10">quantity</TableHead>
+          <TableHead className="md:w-46" />
+          <TableHead className="md:w-20" />
+          <TableHead className="md:w-10">кол-во</TableHead>
           <TableHead className="md:w-14"></TableHead>
           <TableHead className="md:w-12"></TableHead>
         </TableRow>

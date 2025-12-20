@@ -22,8 +22,10 @@ import { TableInventory } from "./TableInventory";
 import { createReportBar } from "@/app/actions/archive/reportBarAction";
 import { useLocalStorageForm } from "@/hooks/useLocalStorageForm";
 import { FormWrapper } from "@/components/wrapper/FormWrapper";
+import { useAbility } from "@/providers/AbilityProvider";
 
 export default function ReportBarForm() {
+  const { isAdmin } = useAbility();
   const STORAGE_KEY = "report-bar";
 
   //form
@@ -94,12 +96,15 @@ export default function ReportBarForm() {
       </div>
     );
   }
+  const reset = () => {
+    resetForm(defaultValuesReportBar);
+  };
 
   return (
     <FormWrapper
       form={form}
       onSubmit={onSubmit}
-      className="flex flex-col h-[90vh] gap-4"
+      className="flex flex-col h-[90vh] gap-6"
     >
       <div className="flex w-full justify-end">
         <DatePickerInput
@@ -108,7 +113,7 @@ export default function ReportBarForm() {
         />
       </div>
 
-      <div className=" grid grid-cols-1 md:grid-cols-[20%_22%_28%_22%] md:gap-10">
+      <div className="grid grid-cols-1 xl:grid-cols-[22%_20%_26%_20%] xl:justify-between ">
         <TableTobacco />
         <TableExpenses />
         <TableProductsTransfer />
@@ -122,7 +127,7 @@ export default function ReportBarForm() {
 
       <TableCashVerify />
       <div className="mt-auto">
-        <SendResetButton />
+        <SendResetButton resetForm={reset} reset={isAdmin} />
       </div>
     </FormWrapper>
   );

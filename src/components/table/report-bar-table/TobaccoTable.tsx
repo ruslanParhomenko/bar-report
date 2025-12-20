@@ -1,4 +1,3 @@
-import { Tobacco } from "@/generated/prisma";
 import {
   Table,
   TableBody,
@@ -9,7 +8,7 @@ import {
 } from "../../ui/table";
 import { classNameHead, classNameRowBorder } from "./ReportBarTable";
 
-export default function TobaccoTable({ data }: { data: Tobacco[] }) {
+export default function TobaccoTable({ data }: { data: any[] }) {
   return data ? (
     <Table>
       <TableHeader>
@@ -18,7 +17,7 @@ export default function TobaccoTable({ data }: { data: Tobacco[] }) {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {data?.map((t: Tobacco) => (
+        {data?.map((t) => (
           <TableRow key={t.id}>
             <TableCell>{t?.name}</TableCell>
             <TableCell className="text-center">

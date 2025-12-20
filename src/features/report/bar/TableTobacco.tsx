@@ -27,11 +27,11 @@ export default function TableTobacco() {
           </TableHead>
         </TableRow>
         <TableRow>
-          <TableHead className="md:w-40 w-30"></TableHead>
-          <TableHead className="w-30">stock</TableHead>
+          <TableHead className="md:w-40 w-30" />
+          <TableHead className="w-30" />
           <TableHead className="w-20">+</TableHead>
           <TableHead className="w-20">-</TableHead>
-          <TableHead className="w-30">final</TableHead>
+          <TableHead className="w-30" />
         </TableRow>
       </TableHeader>
       <TableBody>

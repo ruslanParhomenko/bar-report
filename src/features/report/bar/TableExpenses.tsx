@@ -52,10 +52,10 @@ export default function TableExpenses() {
           </TableHead>
         </TableRow>
         <TableRow>
-          <TableHead className="md:w-38">recipient</TableHead>
-          <TableHead className="md:w-15">sum</TableHead>
-          <TableHead className="md:w-15">time</TableHead>
-          <TableHead className="md:w-10">action</TableHead>
+          <TableHead className="md:w-38" />
+          <TableHead className="md:w-15 text-center">sum</TableHead>
+          <TableHead className="md:w-15" />
+          <TableHead className="md:w-10" />
         </TableRow>
       </TableHeader>
       <TableBody>

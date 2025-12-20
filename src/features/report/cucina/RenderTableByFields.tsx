@@ -1,17 +1,17 @@
 "use client";
 import {
   ArrayPath,
-  FieldArrayPath,
+  FieldPath,
   useFieldArray,
   UseFormReturn,
+  useWatch,
 } from "react-hook-form";
 
 import SelectField from "@/components/inputs/SelectField";
 import { Label } from "@/components/ui/label";
 import { useTranslations } from "next-intl";
 import { Separator } from "@radix-ui/react-separator";
-import { useAbility } from "@/providers/AbilityProvider";
-import { ReportCucinaType } from "./schema";
+import { ProductPreparedType, ReportCucinaType } from "./schema";
 import SelectFieldWithSearch from "@/components/inputs/SelectWithSearch";
 import NumericInput from "@/components/inputs/NumericInput";
 import { useEffect } from "react";
@@ -44,36 +44,29 @@ const RenderTableCucina = ({
   defaultValue,
 }: RenderEmployeesTableProps) => {
   const t = useTranslations("Home");
-  const fieldsArray = useFieldArray({ control: form.control, name: name });
-  const { isObserver, isUser, isBar } = useAbility();
-
-  const isDisabled = isObserver || isUser || isBar;
-
   const { field1, field2, field3, field4 } = placeHolder;
+  const fieldsArray = useFieldArray({ control: form.control, name: name });
+  const fieldsValues = field4
+    ? (useWatch({
+        control: form.control,
+        name: name,
+      }) as ProductPreparedType[])
+    : [];
 
   useEffect(() => {
-    const subscription = form.watch((values, { name: changedName }) => {
-      if (changedName?.includes(field1)) {
-        fieldsArray.fields.forEach((_, idx) => {
-          const productValue = form.getValues(
-            `${name}.${idx}.${field1}` as FieldArrayPath<ReportCucinaType>
-          );
-          const dateValue = form.getValues(
-            `${name}.${idx}.${field4}` as FieldArrayPath<ReportCucinaType>
-          );
-
-          if (productValue && !dateValue) {
-            form.setValue(
-              `${name}.${idx}.${field4}` as FieldArrayPath<ReportCucinaType>,
-              formatNow() as any
-            );
+    if (fieldsValues.length === 0) return;
+    fieldsValues?.forEach((item, idx) => {
+      if (item?.product && !item?.time) {
+        form.setValue(
+          `${name}.${idx}.time` as FieldPath<ReportCucinaType>,
+          formatNow(),
+          {
+            shouldDirty: true,
           }
-        });
+        );
       }
     });
-
-    return () => subscription.unsubscribe();
-  }, [form, name, field1, field4, fieldsArray.fields]);
+  }, [fieldsValues, form]);
 
   return (
     <div className="pb-4">
@@ -81,36 +74,27 @@ const RenderTableCucina = ({
       <Separator className="py-px mb-1 bg-bl" />
 
       {fieldsArray.fields.map((field, index) => {
-        const productValue = form.watch(
-          `${name}.${index}.${field1}` as FieldArrayPath<ReportCucinaType>
-        );
-
         return (
           <div key={field.id} className="grid  grid-cols-[88%_12%] py-1">
-            <div className="grid grid-cols-[30%_20%_20%_15%] gap-2 md:gap-6">
-              {field1 && dataArrayField1 && (
-                <SelectFieldWithSearch
-                  fieldName={`${name}.${index}.${field1}`}
-                  data={dataArrayField1}
-                  placeHolder={field1 ? t(field1) : ""}
-                  disabled={isDisabled}
-                  className="text-muted-foreground"
-                />
-              )}
+            <div className="grid grid-cols-[40%_20%_20%_15%] gap-2 md:gap-6">
+              <SelectFieldWithSearch
+                placeHolder=".........."
+                fieldName={`${name}.${index}.${field1}`}
+                data={dataArrayField1 || []}
+                className="text-muted-foreground cursor-pointer border-0 shadow-none"
+              />
               {field2 && dataArrayField2 ? (
-                <SelectField
+                <SelectFieldWithSearch
                   fieldName={`${name}.${index}.${field2}`}
                   data={dataArrayField2}
-                  placeHolder={field2 ? t(field2) : ""}
-                  disabled={isDisabled}
-                  className="justify-center text-muted-foreground"
+                  placeHolder={"...из"}
+                  className="justify-center text-muted-foreground border-0 shadow-none"
                 />
               ) : (
                 <NumericInput
                   fieldName={`${name}.${index}.${field2}`}
-                  placeholder={field2 ? t(field2) : ""}
-                  disabled={isDisabled}
-                  className="text-muted-foreground"
+                  placeholder="...порции"
+                  className="text-muted-foreground w-30 border-0 shadow-none"
                 />
               )}
               {field3 && dataArrayField3 ? (
@@ -118,29 +102,24 @@ const RenderTableCucina = ({
                   fieldName={`${name}.${index}.${field3}`}
                   data={dataArrayField3}
                   placeHolder={field3 ? t(field3) : ""}
-                  disabled={isDisabled}
                   className="justify-center text-muted-foreground"
                 />
               ) : (
                 <NumericInput
                   fieldName={`${name}.${index}.${field3}`}
-                  placeholder={field3 ? t(field3) : ""}
-                  disabled={isDisabled}
-                  className="text-muted-foreground"
+                  placeholder="...вес"
+                  className="text-muted-foreground w-30 border-0 shadow-none"
                 />
               )}
-              {field4 && productValue && (
-                <div className="text-sm text-red-600 flex items-center justify-center md:w-10 w-8 h-8">
-                  {form.watch(`${name}.${index}.${field4}` as any)}
-                </div>
-              )}
+              <div className="text-sm text-red-600 flex items-center justify-center md:w-10 w-8 h-8">
+                {field4 && fieldsValues?.[index]?.time}
+              </div>
             </div>
 
             <AddRemoveFieldsButton
               formField={fieldsArray}
               defaultValues={defaultValue}
               index={index}
-              disabled={isDisabled}
             />
           </div>
         );

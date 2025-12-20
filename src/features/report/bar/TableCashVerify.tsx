@@ -26,28 +26,29 @@ export default function TableCashVerify() {
     });
   }, [fieldsValues, form]);
   return (
-    <Table>
-      <TableHeader>
-        <TableRow>
-          {fieldsValues.map((_hour, idx) => (
-            <TableHead key={idx} className="text-center text-xs text-rd">
-              {fieldsValues[idx].hours}
-            </TableHead>
-          ))}
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        <TableRow>
-          {fieldsValues.map((_hour, idx) => (
-            <TableCell key={idx}>
-              <NumericInput
-                fieldName={`cashVerify.${idx}.value`}
-                className="w-12 p-0"
-              />
-            </TableCell>
-          ))}
-        </TableRow>
-      </TableBody>
-    </Table>
+    <div className="w-full xl:overflow-x-auto">
+      <Table className="w-full md:table-fixed">
+        <TableBody>
+          <TableRow>
+            {fieldsValues.map((_hour, idx) => (
+              <TableCell key={idx} className=" text-center">
+                <NumericInput
+                  fieldName={`cashVerify.${idx}.value`}
+                  className="w-full text-center"
+                />
+              </TableCell>
+            ))}
+          </TableRow>
+
+          <TableRow>
+            {fieldsValues.map((hour, idx) => (
+              <TableCell key={idx} className=" text-center text-xs">
+                {hour.hours}
+              </TableCell>
+            ))}
+          </TableRow>
+        </TableBody>
+      </Table>
+    </div>
   );
 }
