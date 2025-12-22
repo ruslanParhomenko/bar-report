@@ -19,70 +19,83 @@ export async function createReportCucina({ data }: { data: any }) {
     movement = [],
     writeOff = [],
   } = data;
+
   const prepared = [
-    ...(preparedSalads || []),
-    ...(preparedSeconds || []),
-    ...(preparedDesserts || []),
-    ...(cutting || []),
+    ...preparedSalads,
+    ...preparedSeconds,
+    ...preparedDesserts,
+    ...cutting,
   ];
+
   const report = await prisma.dailyReportCucina.create({
     data: {
       date: new Date(date),
       notes: notes || null,
 
       shifts: {
-        create: shifts.map((s: Shift) => ({
-          name: s.name,
-          time: s.time,
-          over: s.over,
-          employees: s.employees,
-        })),
+        create: shifts
+          .filter((s: Shift) => s.name)
+          .map((s: Shift) => ({
+            name: s.name,
+            time: s.time || "",
+            over: s.over || "",
+            employees: s.employees || "",
+          })),
       },
 
       remains: {
-        create: remains.map((r: Remain) => ({
-          product: r.product,
-          portions: r.portions,
-          weight: r.weight,
-        })),
+        create: remains
+          .filter((r: Remain) => r.product)
+          .map((r: Remain) => ({
+            product: r.product,
+            portions: r.portions || "",
+            weight: r.weight || "",
+          })),
       },
 
       prepared: {
-        create: prepared.map(
-          (p: { product: any; portions: any; weight: any; time: any }) => ({
+        create: prepared
+          .filter((p: any) => p.product)
+          .map((p: any) => ({
             product: p.product,
-            portions: p.portions,
-            weight: p.weight,
-            time: p.time,
-          })
-        ),
+            portions: p.portions || "",
+            weight: p.weight || "",
+            time: p.time || "",
+          })),
       },
 
       staff: {
-        create: staff.map((s: Staff) => ({
-          product: s.product,
-          portions: s.portions,
-          weight: s.weight,
-          time: s.time,
-        })),
+        create: staff
+          .filter((s: Staff) => s.product)
+          .map((s: Staff) => ({
+            product: s.product,
+            portions: s.portions || "",
+            weight: s.weight || "",
+            time: s.time || "",
+          })),
       },
 
       movement: {
-        create: movement.map((m: Movement) => ({
-          nameOutside: m.nameOutside,
-          nameInside: m.nameInside,
-          weight: m.weight,
-        })),
+        create: movement
+          .filter((m: Movement) => m.nameOutside || m.nameInside)
+          .map((m: Movement) => ({
+            nameOutside: m.nameOutside || "",
+            nameInside: m.nameInside || "",
+            weight: m.weight || "",
+          })),
       },
 
       writeOff: {
-        create: writeOff.map((w: WriteOff) => ({
-          product: w.product,
-          weight: w.weight,
-          reason: w.reason,
-        })),
+        create: writeOff
+          .filter((w: WriteOff) => w.product)
+          .map((w: WriteOff) => ({
+            product: w.product,
+            weight: w.weight || "",
+            reason: w.reason || "",
+          })),
       },
     },
+
     include: {
       shifts: true,
       remains: true,
@@ -95,6 +108,7 @@ export async function createReportCucina({ data }: { data: any }) {
 
   updateTag("reportCucina");
   await invalidateEverywhere("reportCucina");
+
   return report.id;
 }
 
