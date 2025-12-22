@@ -16,7 +16,6 @@ import { cn } from "@/lib/utils";
 type NumericInputProps = {
   fieldName: string;
   id?: string;
-  readonly?: boolean;
   disabled?: boolean;
   placeholder?: string;
   className?: string;
@@ -26,7 +25,6 @@ function NumericInput({
   fieldName,
   id,
   placeholder,
-  readonly,
   disabled,
   className,
 }: NumericInputProps) {

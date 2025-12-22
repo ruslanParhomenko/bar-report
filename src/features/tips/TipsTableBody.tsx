@@ -2,11 +2,11 @@ import { TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { FieldArrayWithId } from "react-hook-form";
 import { TipsFormType } from "./schema";
 import { ChevronDown, ChevronUp, Plus } from "lucide-react";
-import SelectScheduleEmployee from "@/components/inputs/SelectScheduleEmployee";
 import { handleTableNavigation } from "@/utils/handleTableNavigation";
 import { cn } from "@/lib/utils";
 import { useEffect } from "react";
 import { useAbility } from "@/providers/AbilityProvider";
+import SelectField from "@/components/inputs/SelectField";
 
 const ROLES: Array<"waiters" | "barmen" | "dish"> = [
   "waiters",
@@ -95,13 +95,13 @@ export function TipsTableBody({
                   </TableCell>
 
                   <TableCell className="sticky left-0 py-0">
-                    <SelectScheduleEmployee
+                    <SelectField
                       fieldName={`rowEmployeesTips.${globalIndex}.employee`}
-                      data={selectedEmployees.filter(
-                        (emp) => emp.role === role
-                      )}
-                      className="justify-start  h-6! text-[13px]"
+                      data={selectedEmployees
+                        .filter((emp) => emp.role === role)
+                        .map((emp) => emp.name)}
                       disabled={isDisabled}
+                      className="justify-start  h-6! text-[13px]"
                     />
                   </TableCell>
                   <TableCell className="p-0 border-r">

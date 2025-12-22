@@ -1,9 +1,10 @@
-import { BreakListData } from "@/constants/type";
 import { DeleteListButton } from "../archive/DeleteListButton";
 import { Separator } from "@/components/ui/separator";
 import { BREAK_LIST_ENDPOINT } from "@/constants/endpoint-tag";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
-import { Row } from "@/generated/prisma";
+import { BreakList, Row } from "@/generated/prisma";
+
+type BreakListData = BreakList & { rows: Row[] };
 
 export function BreakTableByData({ data }: { data: BreakListData[] }) {
   return (

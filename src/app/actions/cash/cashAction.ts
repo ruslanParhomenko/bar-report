@@ -43,25 +43,6 @@ export async function saveCashForm(data: CashFormType) {
 
   return savedData;
 }
-// get
-export async function _getCashForm() {
-  const { data, error } = await supabase
-    .from("cash")
-    .select("*")
-    .order("created_at", { ascending: false });
-
-  if (error) {
-    console.error("Ошибка при получении данных формы:", error);
-    throw error;
-  }
-
-  return data;
-}
-
-export const getCashForm = unstable_cache(_getCashForm, ["cash"], {
-  revalidate: false,
-  tags: ["cash"],
-});
 
 // get by unique_id
 export async function _getCashFormById(unique_id: string) {

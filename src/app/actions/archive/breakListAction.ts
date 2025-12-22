@@ -1,7 +1,7 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
-import { revalidateTag, unstable_cache, updateTag } from "next/cache";
+import { unstable_cache, updateTag } from "next/cache";
 import { invalidateEverywhere } from "../invalidateEverywhere/invalidateEverywhere";
 
 // create break list
@@ -40,20 +40,10 @@ export async function createBreakList(data: any) {
     },
   });
 
-  updateTag("reportCucina");
-  invalidateEverywhere("reportCucina");
+  updateTag("breakList");
+  invalidateEverywhere("breakList");
 
   return breakList.id;
-}
-
-// get by id
-
-export async function getBreakListById(id: string) {
-  const report = await prisma.breakList.findUnique({
-    where: { id: Number(id) },
-    include: { rows: true },
-  });
-  return report;
 }
 
 // delete
@@ -61,24 +51,9 @@ export async function deleteBreakList(id: string) {
   await prisma.breakList.delete({
     where: { id: Number(id) },
   });
-  updateTag("reportCucina");
-  invalidateEverywhere("reportCucina");
+  updateTag("breakList");
+  invalidateEverywhere("breakList");
 }
-
-// get all
-export async function _getBreakList() {
-  const data = prisma.breakList.findMany({
-    take: 62,
-    include: { rows: true },
-    orderBy: { date: "desc" },
-  });
-  return data;
-}
-
-export const getBreakList = unstable_cache(_getBreakList, ["breakList"], {
-  revalidate: false,
-  tags: ["breakList"],
-});
 
 // get by date
 export async function _getBreakListByDate({

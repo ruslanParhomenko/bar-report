@@ -7,7 +7,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { ReportCucinaData } from "@/constants/type";
 import ShiftsTable from "./ShiftsTable";
 import RemainsTable from "./RemainsTable";
 import MovementTable from "./MovementTable";
@@ -15,6 +14,7 @@ import WriteOffTable from "./WriteOffTable";
 import PreparedTable from "./PreparedTable";
 import StaffTable from "./StaffTable";
 import NotesTable from "../NotesTable";
+import { ReportCucinaData } from "@/app/actions/archive/reportCucinaAction";
 
 export const classNameHeadCucina = "text-shadow-muted-foreground font-bold";
 export const classNameRowBorderCucina = "border-b-bl";

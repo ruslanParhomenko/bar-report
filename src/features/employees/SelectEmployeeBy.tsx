@@ -10,12 +10,12 @@ import { useTranslations } from "next-intl";
 import { startTransition } from "react";
 
 export const EMPLOYEES_ROLE = [
-  { label: "waiters", value: "waiters" },
-  { label: "barmen", value: "barmen" },
-  { label: "cook", value: "cook" },
-  { label: "mngr", value: "mngr" },
-  { label: "dish", value: "dish" },
-  { label: "buyer", value: "buyer" },
+  "waiters",
+  "barmen",
+  "cook",
+  "mngr",
+  "dish",
+  "buyer",
 ];
 
 export default function SelectEmployeeBy({
@@ -42,8 +42,8 @@ export default function SelectEmployeeBy({
         <SelectContent>
           <SelectItem value="all">{t("all")}</SelectItem>
           {EMPLOYEES_ROLE.map((role, idx) => (
-            <SelectItem key={`${role.value}-${idx}`} value={role.value}>
-              {t(role.value)}
+            <SelectItem key={`${role}-${idx}`} value={role}>
+              {t(role)}
             </SelectItem>
           ))}
         </SelectContent>

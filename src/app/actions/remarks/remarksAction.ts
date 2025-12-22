@@ -2,7 +2,7 @@
 
 import { Remark } from "@/generated/prisma";
 import { prisma } from "@/lib/prisma";
-import { revalidateTag, unstable_cache, updateTag } from "next/cache";
+import { unstable_cache, updateTag } from "next/cache";
 import { invalidateEverywhere } from "../invalidateEverywhere/invalidateEverywhere";
 
 export type RemarksData = {
@@ -40,20 +40,6 @@ export async function createRemarks(data: any) {
 
   return remarksData.id;
 }
-// get all
-
-export async function _getRemarks() {
-  const remarks = await prisma.remarkReport.findMany({
-    include: { remarks: true },
-    orderBy: { date: "desc" },
-  });
-  return { remarks };
-}
-
-export const getRemarks = unstable_cache(_getRemarks, ["remarks"], {
-  revalidate: false,
-  tags: ["remarks"],
-});
 
 // get by id
 

@@ -69,7 +69,7 @@ export default function NavMenuHeader({
     router.push(`/${mainRoute}`);
   };
   return (
-    <div className="md:py-2 mt-1 mb-4 sticky top-0 z-9 flex justify-center md:justify-start md:gap-4 gap-1.5">
+    <div className="md:py-2 mt-1 mb-1 sticky top-0 z-9 flex justify-center md:justify-start md:gap-4 gap-1.5">
       {navItems.length > 0 && (
         <SelectTabsByPatch
           patch={patch}

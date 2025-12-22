@@ -20,7 +20,6 @@ import {
   EmployeesSchemaTypeData,
 } from "./schema";
 import { cn } from "@/lib/utils";
-import SelectInput from "@/components/inputs/SelectInput";
 import { EmployeesContextValue } from "@/providers/EmployeesProvider";
 import { FormWrapper } from "@/components/wrapper/FormWrapper";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -34,12 +33,10 @@ import { sendNotificationEmail } from "@/app/actions/mail/sendNotificationEmail"
 import { useEffect } from "react";
 import { useRouter } from "@/i18n/navigation";
 import { EMPLOYEES_ROLE } from "./SelectEmployeeBy";
+import SelectField from "@/components/inputs/SelectField";
 
 type FormData = EmployeesSchemaTypeData & { id?: string };
-const STATUS_OPTIONS = [
-  { label: "active", value: "active" },
-  { label: "fired", value: "fired" },
-];
+const STATUS_OPTIONS = ["active", "fired"];
 
 export function AddEmployeeCard({
   employee,
@@ -105,10 +102,10 @@ export function AddEmployeeCard({
             type="text"
             className={fieldClassName}
           />
-          <SelectInput
+          <Label className="my-3">{t("role")}</Label>
+          <SelectField
             data={EMPLOYEES_ROLE}
             fieldName="role"
-            fieldLabel={t("role")}
             className={fieldClassName}
           />
           <TextInput
@@ -146,10 +143,10 @@ export function AddEmployeeCard({
             type="text"
             className={fieldClassName}
           />
-          <SelectInput
+          <Label className="my-3">{t("status")}</Label>
+          <SelectField
             data={STATUS_OPTIONS}
             fieldName="status"
-            fieldLabel={t("status")}
             className={fieldClassName}
           />
 

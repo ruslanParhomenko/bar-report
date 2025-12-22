@@ -144,7 +144,6 @@ model DailyReportCucina {
 
 model Shift {
   id        Int               @id @default(autoincrement())
-  name      String?
   time      String
   over      String
   employees String

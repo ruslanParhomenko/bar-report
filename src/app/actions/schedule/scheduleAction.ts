@@ -36,20 +36,6 @@ export async function updateSchedule(
   updateTag("schedule");
   await invalidateEverywhere("schedule");
 }
-// get
-
-const _getSchedule = async () => {
-  const snapshot = await dbAdmin.collection("schedule").get();
-  return snapshot.docs.map((doc) => ({
-    id: doc.id,
-    ...doc.data(),
-  }));
-};
-
-export const getSchedule = unstable_cache(_getSchedule, ["schedule"], {
-  revalidate: false,
-  tags: ["schedule"],
-});
 
 // get by id
 export const _getScheduleById = async (id: string) => {

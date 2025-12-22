@@ -8,7 +8,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { ActionsButton } from "../../components/buttons/ActionsButton";
 import { PRODUCTS, PRODUCTS_CUCINA } from "../report/bar/constants";
 import { useFieldArray, useForm, useWatch } from "react-hook-form";
 import {
@@ -24,6 +23,7 @@ import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { useAbility } from "@/providers/AbilityProvider";
 import { formatNowData } from "@/utils/formatNow";
+import { AddRemoveFieldsButton } from "@/components/buttons/AddRemoveFieldsButton";
 
 type StopLitTableProps = {
   data: StopListSchemaType[];
@@ -154,12 +154,11 @@ export default function StopListForm({ data, nameTag }: StopLitTableProps) {
                 )}
               </TableCell>
               <TableCell className="flex justify-center">
-                <ActionsButton
-                  formFields={stopListValues}
-                  idx={idx}
-                  item={item.product}
-                  disabled={!isAccount}
+                <AddRemoveFieldsButton
+                  formField={stopListValues}
                   defaultValues={defaultStopList}
+                  index={idx}
+                  disabled={!isAccount}
                 />
               </TableCell>
             </TableRow>

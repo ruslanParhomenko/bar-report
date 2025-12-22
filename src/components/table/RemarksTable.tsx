@@ -1,4 +1,4 @@
-import { Remark } from "@/generated/prisma";
+import { Remark, RemarkReport } from "@/generated/prisma";
 import {
   Table,
   TableBody,
@@ -9,7 +9,8 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { DeleteListButton } from "../../features/archive/DeleteListButton";
 import { REMARKS_ENDPOINT } from "@/constants/endpoint-tag";
-import { RemarkData } from "@/constants/type";
+
+type RemarkData = RemarkReport & { remarks: Remark[] };
 
 export default function RemarksTable({ data }: { data: RemarkData }) {
   return (

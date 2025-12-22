@@ -8,13 +8,13 @@ import {
   useFormContext,
 } from "react-hook-form";
 import { cn } from "@/lib/utils";
-import SelectScheduleEmployee from "@/components/inputs/SelectScheduleEmployee";
 import { handleTableNavigation } from "@/utils/handleTableNavigation";
 import { EmployeesContextValue } from "@/providers/EmployeesProvider";
 import { MonthDayType } from "@/utils/getMonthDays";
 import { ScheduleType } from "./schema";
 import { color, SHIFT_HOURS_MAP_DAY, SHIFT_HOURS_MAP_NIGHT } from "./constants";
 import { calculateSalaryByHours } from "../utils";
+import SelectField from "@/components/inputs/SelectField";
 
 export default function ScheduleCreateTableBody({
   fields,
@@ -126,9 +126,9 @@ export default function ScheduleCreateTableBody({
               {rate / 1000}:{totalPay && ` ${totalPay.toFixed()}`}
             </TableCell>
             <TableCell className="py-0 w-44">
-              <SelectScheduleEmployee
+              <SelectField
                 fieldName={`rowShifts.${rowIndex}.employee`}
-                data={selectedEmployees}
+                data={selectedEmployees.map((e) => e.name)}
                 className="hover:text-rd justify-start"
               />
             </TableCell>

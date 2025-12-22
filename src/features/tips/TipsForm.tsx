@@ -21,6 +21,7 @@ import { groupRowsByRole } from "./utils";
 import { CashData } from "@/app/actions/cash/cashAction";
 import { useAbility } from "@/providers/AbilityProvider";
 import { SendResetButton } from "@/components/buttons/SendResetButton";
+import BidForm from "./BidForm";
 
 const SELECTED_ROLE = ["barmen", "waiters", "dish"];
 
@@ -53,8 +54,11 @@ export default function TipsForm({
   // set employees
   const selectedEmployees = useMemo(() => {
     return employees
-      .filter((emp) => SELECTED_ROLE.includes(emp.role))
-      .filter((emp) => !["barmen", "waiter", "dish"].includes(emp.name))
+      .filter(
+        (emp) =>
+          SELECTED_ROLE.includes(emp.role) &&
+          !["barmen", "waiter", "dish"].includes(emp.name)
+      )
       .sort((a, b) => a.name.localeCompare(b.name));
   }, [employees]);
   // submit
@@ -67,25 +71,55 @@ export default function TipsForm({
   };
 
   // effect
+  // useEffect(() => {
+  //   if (!dataTips) return;
+
+  //   form.reset({
+  //     ...dataTips?.form_data,
+  //   } as TipsFormType);
+  // }, [dataTips]);
+
+  // useEffect(() => {
+  //   if (!dataCash) return;
+  //   form.setValue(
+  //     "cashTips",
+  //     dataCash?.form_data?.rowCashData?.tipsByDay as string[]
+  //   );
+  // }, [dataCash]);
+
+  // useEffect(() => {
+  //   if (dataTips) return;
+
+  //   const newRows = selectedEmployees.map((employee, index) => ({
+  //     id: (index + 1).toString(),
+  //     employee: employee.name ?? "",
+  //     role: employee.role ?? "",
+  //     tips: "",
+  //     tipsByDay: Array(monthDays.length).fill(""),
+  //   }));
+
+  //   form.setValue("rowEmployeesTips", newRows);
+  //   form.setValue("cashTips", Array(monthDays.length).fill(""));
+  // }, [dataTips, month, year]);
+
   useEffect(() => {
-    if (!dataTips) return;
+    // Если есть данные tips, восстанавливаем форму
+    if (dataTips) {
+      form.reset({
+        ...dataTips.form_data,
+      } as TipsFormType);
 
-    form.reset({
-      ...dataTips?.form_data,
-    } as TipsFormType);
-  }, [dataTips]);
+      // Если есть cash данные, обновляем cashTips
+      if (dataCash) {
+        form.setValue(
+          "cashTips",
+          dataCash.form_data?.rowCashData?.tipsByDay as string[]
+        );
+      }
+      return;
+    }
 
-  useEffect(() => {
-    if (!dataCash) return;
-    form.setValue(
-      "cashTips",
-      dataCash?.form_data?.rowCashData?.tipsByDay as string[]
-    );
-  }, [dataCash]);
-
-  useEffect(() => {
-    if (dataTips) return;
-
+    // Инициализация новой формы
     const newRows = selectedEmployees.map((employee, index) => ({
       id: (index + 1).toString(),
       employee: employee.name ?? "",
@@ -96,7 +130,15 @@ export default function TipsForm({
 
     form.setValue("rowEmployeesTips", newRows);
     form.setValue("cashTips", Array(monthDays.length).fill(""));
-  }, [dataTips, month, year]);
+  }, [
+    dataTips,
+    dataCash,
+    month,
+    year,
+    selectedEmployees,
+    form,
+    monthDays.length,
+  ]);
 
   useEffect(() => {
     const currentDate = new Date();
@@ -111,14 +153,17 @@ export default function TipsForm({
     setShowSendButton(show);
   }, [month, year]);
 
-  const rowsByRole = useMemo(() => groupRowsByRole(fields), [fields]);
-  const dataRowsCount = Object.values(rowsByRole).flat();
+  const dataRowsCount = useMemo(() => {
+    const grouped = groupRowsByRole(fields);
+    return Object.values(grouped).flat();
+  }, [fields]);
   return (
     <FormWrapper
       form={form}
       onSubmit={onSubmit}
       className="flex flex-col h-[92vh]"
     >
+      <BidForm disabled={!isAdmin} />
       <Table className="md:table-fixed">
         <TipsTableHeader monthDays={monthDays} month={month} />
         <TipsTableBody

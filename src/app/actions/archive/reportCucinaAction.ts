@@ -1,9 +1,27 @@
 "use server";
-import { Movement, Remain, Shift, Staff, WriteOff } from "@/generated/prisma";
+import {
+  DailyReportCucina,
+  Movement,
+  Prepared,
+  Remain,
+  Shift,
+  Staff,
+  WriteOff,
+} from "@/generated/prisma";
 import { prisma } from "@/lib/prisma";
-import { revalidateTag, unstable_cache, updateTag } from "next/cache";
+import { unstable_cache, updateTag } from "next/cache";
 import { invalidateEverywhere } from "../invalidateEverywhere/invalidateEverywhere";
 
+// type
+
+export type ReportCucinaData = DailyReportCucina & {
+  shifts: Shift[];
+  remains: Remain[];
+  prepared: Prepared[];
+  staff: Staff[];
+  movement: Movement[];
+  writeOff: WriteOff[];
+};
 // create report
 export async function createReportCucina({ data }: { data: any }) {
   const {
@@ -34,12 +52,11 @@ export async function createReportCucina({ data }: { data: any }) {
 
       shifts: {
         create: shifts
-          .filter((s: Shift) => s.name)
+          .filter((s: Shift) => s.employees)
           .map((s: Shift) => ({
-            name: s.name,
+            employees: s.employees,
             time: s.time || "",
             over: s.over || "",
-            employees: s.employees || "",
           })),
       },
 
@@ -55,8 +72,8 @@ export async function createReportCucina({ data }: { data: any }) {
 
       prepared: {
         create: prepared
-          .filter((p: any) => p.product)
-          .map((p: any) => ({
+          .filter((p: Prepared) => p.product)
+          .map((p: Prepared) => ({
             product: p.product,
             portions: p.portions || "",
             weight: p.weight || "",
@@ -112,22 +129,6 @@ export async function createReportCucina({ data }: { data: any }) {
   return report.id;
 }
 
-// get by id
-export async function getReportCucinaById(id: string) {
-  const report = await prisma.dailyReportCucina.findUnique({
-    where: { id: Number(id) },
-    include: {
-      shifts: true,
-      remains: true,
-      prepared: true,
-      staff: true,
-      movement: true,
-      writeOff: true,
-    },
-  });
-  return report;
-}
-
 // delete
 export async function deleteReportCucina(id: string) {
   await prisma.dailyReportCucina.delete({
@@ -144,32 +145,6 @@ export async function deleteReportCucina(id: string) {
   updateTag("reportCucina");
   await invalidateEverywhere("reportCucina");
 }
-
-// get all
-export async function _getReportsCucina() {
-  const reports = await prisma.dailyReportCucina.findMany({
-    take: 62,
-    include: {
-      shifts: true,
-      remains: true,
-      prepared: true,
-      staff: true,
-      movement: true,
-      writeOff: true,
-    },
-    orderBy: { date: "desc" },
-  });
-
-  return reports;
-}
-export const getReportsCucina = unstable_cache(
-  _getReportsCucina,
-  ["reportCucina"],
-  {
-    revalidate: false,
-    tags: ["reportCucina"],
-  }
-);
 
 // get by date
 export async function _getReportsCucinaByDate({

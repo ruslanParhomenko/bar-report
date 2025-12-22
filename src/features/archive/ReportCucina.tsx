@@ -1,5 +1,5 @@
+import { ReportCucinaData } from "@/app/actions/archive/reportCucinaAction";
 import ReportCucinaTable from "@/components/table/report-cucina-table/ReportCucinaTable";
-import { ReportCucinaData } from "@/constants/type";
 
 export default function ReportCucina({ data }: { data: ReportCucinaData[] }) {
   return (

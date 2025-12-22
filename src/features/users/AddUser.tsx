@@ -5,7 +5,6 @@ import { useTranslations } from "next-intl";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Plus } from "lucide-react";
 import { defaultUser, usersSchema, UsersSchemaTypeData } from "./schema";
-import SelectInput from "@/components/inputs/SelectInput";
 import { useAbility } from "@/providers/AbilityProvider";
 import { FormWrapper } from "@/components/wrapper/FormWrapper";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -14,13 +13,10 @@ import { toast } from "sonner";
 import { useEffect } from "react";
 
 import { useRouter } from "next/navigation";
+import SelectField from "@/components/inputs/SelectField";
+import { Label } from "@/components/ui/label";
 
-const ROLES = ["ADMIN", "BAR", "CUCINA", "USER", "MNGR", "CASH"].map(
-  (role) => ({
-    label: role,
-    value: role,
-  })
-);
+const ROLES = ["ADMIN", "BAR", "CUCINA", "USER", "MNGR", "CASH"];
 
 type FormData = UsersSchemaTypeData;
 
@@ -77,10 +73,10 @@ export default function AddUsersCard({ id }: { id?: string }) {
           type="mail"
           className="w-full h-8"
         />
-        <SelectInput
+        <Label className="my-3">{t("role")}</Label>
+        <SelectField
           data={ROLES}
           fieldName="role"
-          fieldLabel={t("role")}
           className="truncate w-full h-8"
         />
         <div className="flex flex-row justify-between py-8">

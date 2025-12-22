@@ -87,20 +87,6 @@ export type ReportDataById = ReportBarFormValues & {
   id: number;
 };
 
-export async function getReportBar(id: number) {
-  const report = await prisma.dailyReport.findUnique({
-    where: { id: Number(id) },
-    include: {
-      cashVerify: true,
-      tobacco: true,
-      expenses: true,
-      productTransfer: true,
-      inventory: true,
-    },
-  });
-  return report;
-}
-
 // get all
 
 export async function _getReportsBar() {

@@ -1,8 +1,6 @@
 import { useFormContext } from "react-hook-form";
-
 import { format, Locale } from "date-fns";
 import { ru, ro } from "date-fns/locale";
-
 import { useLocale } from "next-intl";
 import {
   FormControl,
@@ -19,7 +17,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Calendar } from "@/components/ui/calendar";
 
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Label } from "../ui/label";
 
 function DatePickerInput({

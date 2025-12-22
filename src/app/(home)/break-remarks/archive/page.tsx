@@ -1,5 +1,5 @@
 import { getBreakListByDate } from "@/app/actions/archive/breakListAction";
-import { BreakListPageByData } from "@/features/break-remarks/BreakListPageByData";
+import { BreakTableByData } from "@/features/break/BreakTableByData";
 import { MONTHS } from "@/utils/getMonthDays";
 
 export default async function Page({
@@ -25,5 +25,5 @@ export default async function Page({
     startDate,
     endDate,
   });
-  return <BreakListPageByData dataRemarks={dataRemarks.breakList} />;
+  return <BreakTableByData data={dataRemarks.breakList} />;
 }

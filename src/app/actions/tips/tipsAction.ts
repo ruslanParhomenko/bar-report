@@ -42,27 +42,6 @@ export async function saveTipsForm(data: Omit<TipsFormType, "cashTips">) {
   return savedData;
 }
 
-// get
-
-export async function _getTipsForm() {
-  const { data, error } = await supabase
-    .from("tips")
-    .select("*")
-    .order("created_at", { ascending: false });
-
-  if (error) {
-    console.error("Ошибка при получении данных формы:", error);
-    throw error;
-  }
-
-  return data;
-}
-
-export const getTipsForm = unstable_cache(_getTipsForm, ["tips"], {
-  revalidate: false,
-  tags: ["tips"],
-});
-
 // get by unique_id
 export async function _getTipsFormById(unique_id: string) {
   const { data, error } = await supabase

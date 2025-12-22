@@ -34,9 +34,23 @@ export function SendResetButton({
 
   const isDialogOpen = openModal !== null;
 
-  const handleConfirm = () => {
+  const handleConfirm = async () => {
     if (openModal === "save") {
-      document.querySelector<HTMLFormElement>("form")?.requestSubmit();
+      // document.querySelector<HTMLFormElement>("form")?.requestSubmit();
+      const forms = Array.from(
+        document.querySelectorAll<HTMLFormElement>("form")
+      );
+
+      for (const form of forms) {
+        await new Promise<void>((resolve) => {
+          const listener = () => {
+            form.removeEventListener("submit", listener);
+            resolve();
+          };
+          form.addEventListener("submit", listener);
+          form.requestSubmit();
+        });
+      }
       refreshUrl && router.replace(refreshUrl);
     } else if (openModal === "reset") {
       resetForm && resetForm();
