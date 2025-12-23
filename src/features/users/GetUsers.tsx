@@ -8,8 +8,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Pencil, Trash2Icon } from "lucide-react";
-import { useTranslations } from "next-intl";
-
 import { deleteUser } from "@/app/actions/users/userAction";
 import { useAbility } from "@/providers/AbilityProvider";
 import { useRouter } from "next/navigation";
@@ -17,7 +15,6 @@ import { useRouter } from "next/navigation";
 export function GetUsersCard() {
   const router = useRouter();
   const { query: users } = useAbility();
-  const t = useTranslations("Home");
 
   const handleDeleteUser = (id: string) => deleteUser(id);
 
@@ -25,10 +22,10 @@ export function GetUsersCard() {
     <Table className="table-fixed">
       <TableHeader>
         <TableRow className="text-gr">
-          <TableHead className="w-6">#</TableHead>
+          <TableHead className="w-6" />
           <TableHead className="w-30" />
           <TableHead className="w-10" />
-          <TableHead className="text-center w-15">Action</TableHead>
+          <TableHead className="text-center w-15" />
         </TableRow>
       </TableHeader>
 

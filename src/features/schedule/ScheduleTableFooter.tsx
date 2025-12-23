@@ -17,7 +17,8 @@ export default function ScheduleTableFooter({
           SHIFTS[schedule?.role as keyof typeof SHIFTS].includes(item)
         ).map((item, i) => (
           <TableRow key={i} className="border-0">
-            <TableCell colSpan={5} />
+            <TableCell colSpan={4} />
+            <TableCell colSpan={1} className="print:hidden" />
             <TableCell className="text-muted-gn py-0 px-3 text-end text-xs">
               {item}
             </TableCell>
