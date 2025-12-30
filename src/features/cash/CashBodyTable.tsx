@@ -25,6 +25,11 @@ export function CashBodyTable({
         .reduce((acc, val) => acc + +val, 0)
         .toFixed(2)
     : 0;
+  const totalVisaBar = value?.visaBarByDay
+    ? Object.values(value.visaBarByDay)
+        .reduce((acc, val) => acc + +val, 0)
+        .toFixed(2)
+    : 0;
   const totalVisa = value?.visaTerminalByDay
     ? Object.values(value.visaTerminalByDay)
         .reduce((acc, val) => acc + +val, 0)
@@ -119,11 +124,18 @@ export function CashBodyTable({
       })}
       <TableRow>
         <TableCell className="h-10 border-0 text-bl">remaining cash</TableCell>
-        <TableCell
-          className="h-10 border-0 text-bl"
-          colSpan={monthDays.length + 1}
-        >
-          {totalCashBar - totalVisa - totalBank - totalNbmCollection}
+        <TableCell className="h-10 border-0 text-bl" colSpan={2}>
+          {(totalCashBar - totalVisa - totalBank - totalNbmCollection).toFixed(
+            2
+          )}
+        </TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell className="h-10 border-0 text-bl">
+          visa difference:
+        </TableCell>
+        <TableCell className="h-10 border-0 text-bl" colSpan={2}>
+          {(totalVisaBar - totalVisa).toFixed(2)}
         </TableCell>
       </TableRow>
     </TableBody>
