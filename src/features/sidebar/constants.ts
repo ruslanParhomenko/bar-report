@@ -12,6 +12,7 @@ import {
   CreditCard,
   SigmaIcon,
   PersonStandingIcon,
+  CalculatorIcon,
 } from "lucide-react";
 
 export const SIDEBAR_NAVIGATION = [
@@ -79,6 +80,11 @@ export const SIDEBAR_NAVIGATION = [
     title: "cash",
     url: "/cash",
     icon: CreditCard,
+  },
+  {
+    title: "a-o",
+    url: "/a-o",
+    icon: CalculatorIcon,
   },
   {
     title: "result",

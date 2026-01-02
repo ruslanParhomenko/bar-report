@@ -23,7 +23,7 @@ export default function CashVerifyTable({ data }: { data: CashVerify[] }) {
       <TableBody>
         <TableRow>
           {data
-            ?.filter((c) => c.value !== "0")
+            ?.filter((c) => c.value !== "")
             .map((c) => (
               <TableCell className="text-xs px-0 text-rd" key={`h-${c.id}`}>
                 {c?.hours || "—"}
@@ -32,7 +32,7 @@ export default function CashVerifyTable({ data }: { data: CashVerify[] }) {
         </TableRow>
         <TableRow>
           {data
-            ?.filter((c) => c.value !== "0")
+            ?.filter((c) => c.value !== "")
             .map((c) => (
               <TableCell key={`v-${c.id}`}>{c.value || "—"}</TableCell>
             ))}
