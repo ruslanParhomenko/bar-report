@@ -1,7 +1,6 @@
 "use client";
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
-import { FieldPath, UseFormReturn } from "react-hook-form";
-import { handleTableNavigation } from "@/utils/handleTableNavigation";
+import { FieldPath, UseFormReturn, useWatch } from "react-hook-form";
 import { cn } from "@/lib/utils";
 import { AOFormType } from "./schema";
 import { rowsAdvance, rowsPurchaseModa, rowsPurchaseNMB } from "./constants";
@@ -19,56 +18,60 @@ export function AOBodyTable({
   isClosed?: boolean;
 }) {
   const { register } = form;
-  const value = form.watch("rowAOData");
+  const value = useWatch({
+    control: form.control,
+    name: "rowAOData",
+  });
+
   // +
-  const totalAdvanceModa = value?.advanceModaByDay
-    ? Object.values(value.advanceModaByDay)
-        .reduce((acc, val) => acc + +val, 0)
-        .toFixed(2)
-    : 0;
-  const totalAdvanceNBM = value?.advanceNBMByDay
-    ? Object.values(value.advanceNBMByDay)
-        .reduce((acc, val) => acc + +val, 0)
-        .toFixed(2)
-    : 0;
+  // const totalAdvanceModa = value?.advanceModaByDay
+  //   ? Object.values(value.advanceModaByDay)
+  //       .reduce((acc, val) => acc + +val, 0)
+  //       .toFixed(2)
+  //   : 0;
+  // const totalAdvanceNBM = value?.advanceNBMByDay
+  //   ? Object.values(value.advanceNBMByDay)
+  //       .reduce((acc, val) => acc + +val, 0)
+  //       .toFixed(2)
+  //   : 0;
 
-  // -
-  const totalPurchaseModa = value?.purchaseModaByDay
-    ? Object.values(value.purchaseModaByDay)
-        .reduce((acc, val) => acc + +val, 0)
-        .toFixed(2)
-    : 0;
-  const totalTTNModa = value?.ttnModaByDay
-    ? Object.values(value.ttnModaByDay)
-        .reduce((acc, val) => acc + +val, 0)
-        .toFixed(2)
-    : 0;
-  const totalPurchaseBar = value?.purchaseBarByDay
-    ? Object.values(value.purchaseBarByDay)
-        .reduce((acc, val) => acc + +val, 0)
-        .toFixed(2)
-    : 0;
-  const totalTTNBar = value?.ttnBarByDay
-    ? Object.values(value.ttnBarByDay)
-        .reduce((acc, val) => acc + +val, 0)
-        .toFixed(2)
-    : 0;
+  // // -
+  // const totalPurchaseModa = value?.purchaseModaByDay
+  //   ? Object.values(value.purchaseModaByDay)
+  //       .reduce((acc, val) => acc + +val, 0)
+  //       .toFixed(2)
+  //   : 0;
+  // const totalTTNModa = value?.ttnModaByDay
+  //   ? Object.values(value.ttnModaByDay)
+  //       .reduce((acc, val) => acc + +val, 0)
+  //       .toFixed(2)
+  //   : 0;
+  // const totalPurchaseBar = value?.purchaseBarByDay
+  //   ? Object.values(value.purchaseBarByDay)
+  //       .reduce((acc, val) => acc + +val, 0)
+  //       .toFixed(2)
+  //   : 0;
+  // const totalTTNBar = value?.ttnBarByDay
+  //   ? Object.values(value.ttnBarByDay)
+  //       .reduce((acc, val) => acc + +val, 0)
+  //       .toFixed(2)
+  //   : 0;
 
-  const totalFuelNBM = value?.fuelNBMByDay
-    ? Object.values(value.fuelNBMByDay)
-        .reduce((acc, val) => acc + +val, 0)
-        .toFixed(2)
-    : 0;
-  const totalPurchaseNBM = value?.purchaseNBMByDay
-    ? Object.values(value.purchaseNBMByDay)
-        .reduce((acc, val) => acc + +val, 0)
-        .toFixed(2)
-    : 0;
-  const totalTTNNBM = value?.ttnNBMByDay
-    ? Object.values(value.ttnNBMByDay)
-        .reduce((acc, val) => acc + +val, 0)
-        .toFixed(2)
-    : 0;
+  // const totalFuelNBM = value?.fuelNBMByDay
+  //   ? Object.values(value.fuelNBMByDay)
+  //       .reduce((acc, val) => acc + +val, 0)
+  //       .toFixed(2)
+  //   : 0;
+  // const totalPurchaseNBM = value?.purchaseNBMByDay
+  //   ? Object.values(value.purchaseNBMByDay)
+  //       .reduce((acc, val) => acc + +val, 0)
+  //       .toFixed(2)
+  //   : 0;
+  // const totalTTNNBM = value?.ttnNBMByDay
+  //   ? Object.values(value.ttnNBMByDay)
+  //       .reduce((acc, val) => acc + +val, 0)
+  //       .toFixed(2)
+  //   : 0;
 
   let globalRowIndex = 0;
   return (

@@ -9,7 +9,7 @@ import { AOFormType, aoSchema, defaultAOForm } from "./schema";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { AOBodyTable } from "./AOBodyTable";
 import { useAbility } from "@/providers/AbilityProvider";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { SendResetButton } from "@/components/buttons/SendResetButton";
 import {
   AOContextValue,
@@ -30,22 +30,14 @@ export default function AOForm({
   month: string;
   year: string;
 }) {
-  console.log("AOForm render", dataAo);
   const { isAdmin, isCash } = useAbility();
   const isDisabled = !isAdmin && !isCash;
 
-  const found = dataAo
-    ? dataAo
-    : {
-        ...defaultAOForm,
-        month: month as string,
-        year: year as string,
-      };
-
   const form = useForm<AOFormType>({
     resolver: yupResolver(aoSchema),
-    defaultValues: found,
+    defaultValues: defaultAOForm,
   });
+
   const onSubmit: SubmitHandler<AOFormType> = async (data) => {
     const formatData: AOData = {
       ...data,
@@ -67,12 +59,37 @@ export default function AOForm({
     }
   };
   useEffect(() => {
+    if (dataAo) return;
+
+    const makeArray = () => Array(monthDays.length).fill("");
+
+    const newRowCashData = {
+      advanceModaByDay: makeArray(),
+      advanceNBMByDay: makeArray(),
+
+      purchaseModaByDay: makeArray(),
+      ttnModaByDay: makeArray(),
+      nameTtnModaByDay: makeArray(),
+
+      fuelNBMByDay: makeArray(),
+      purchaseNBMByDay: makeArray(),
+      ttnNBMByDay: makeArray(),
+      nameTtnNBMByDay: makeArray(),
+
+      purchaseBarByDay: makeArray(),
+      ttnBarByDay: makeArray(),
+      nameTtnBarByDay: makeArray(),
+    };
+
+    form.setValue("rowAOData", newRowCashData);
+  }, [dataAo]);
+  useEffect(() => {
     if (!dataAo) return;
 
     form.reset({
-      ...dataAo.rowAOData,
-    } as AOFormType);
-  }, [dataAo]);
+      ...dataAo,
+    });
+  }, [dataAo, month, year, form]);
 
   return (
     <FormWrapper
