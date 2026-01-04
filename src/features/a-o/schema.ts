@@ -3,23 +3,25 @@ import * as yup from "yup";
 
 const dayValueSchema = yup.string().default("");
 
-export const rowAOSchema = yup.object({
-  advanceModaByDay: yup.array().of(dayValueSchema).default([]),
-  advanceNBMByDay: yup.array().of(dayValueSchema).default([]),
+export const rowAOSchema = yup
+  .object({
+    advanceModaByDay: yup.array().of(dayValueSchema).default([]).defined(),
+    advanceNBMByDay: yup.array().of(dayValueSchema).default([]).defined(),
 
-  purchaseModaByDay: yup.array().of(dayValueSchema).default([]),
-  ttnModaByDay: yup.array().of(dayValueSchema).default([]),
-  nameTtnModaByDay: yup.array().of(dayValueSchema).default([]),
+    purchaseModaByDay: yup.array().of(dayValueSchema).default([]).defined(),
+    ttnModaByDay: yup.array().of(dayValueSchema).default([]).defined(),
+    nameTtnModaByDay: yup.array().of(dayValueSchema).default([]).defined(),
 
-  fuelNBMByDay: yup.array().of(dayValueSchema).default([]),
-  purchaseNBMByDay: yup.array().of(dayValueSchema).default([]),
-  ttnNBMByDay: yup.array().of(dayValueSchema).default([]),
-  nameTtnNBMByDay: yup.array().of(dayValueSchema).default([]),
+    fuelNBMByDay: yup.array().of(dayValueSchema).default([]).defined(),
+    purchaseNBMByDay: yup.array().of(dayValueSchema).default([]).defined(),
+    ttnNBMByDay: yup.array().of(dayValueSchema).default([]).defined(),
+    nameTtnNBMByDay: yup.array().of(dayValueSchema).default([]).defined(),
 
-  purchaseBarByDay: yup.array().of(dayValueSchema).default([]),
-  ttnBarByDay: yup.array().of(dayValueSchema).default([]),
-  nameTtnBarByDay: yup.array().of(dayValueSchema).default([]),
-});
+    purchaseBarByDay: yup.array().of(dayValueSchema).default([]).defined(),
+    ttnBarByDay: yup.array().of(dayValueSchema).default([]).defined(),
+    nameTtnBarByDay: yup.array().of(dayValueSchema).default([]).defined(),
+  })
+  .defined();
 
 export type RowAOType = yup.InferType<typeof rowAOSchema>;
 
@@ -32,11 +34,7 @@ export const aoSchema = yup.object({
     .string()
     .default(MONTHS[new Date().getMonth()])
     .required("Month is required"),
-  rowAOData: yup
-    .object({
-      ...rowAOSchema.fields,
-    })
-    .default(rowAOSchema.getDefault()),
+  rowAOData: rowAOSchema.defined(),
 });
 
 export type AOFormType = yup.InferType<typeof aoSchema>;

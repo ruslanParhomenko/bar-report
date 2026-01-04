@@ -1,3 +1,5 @@
+import { arrayRowsType } from "./RenderRow";
+
 export const NAME_TTN = [
   "metro",
   "iutam",
@@ -6,7 +8,7 @@ export const NAME_TTN = [
   "yamato",
   "macelar",
   "other",
-] as const;
+];
 export const rowsAdvance = [
   {
     key: "advanceModaByDay",
@@ -22,7 +24,7 @@ export const rowsAdvance = [
     colorText: " text-bl",
     data: null,
   },
-] as const;
+] satisfies arrayRowsType[];
 export const rowsPurchaseModa = [
   {
     key: "purchaseModaByDay",
@@ -57,6 +59,7 @@ export const rowsPurchaseModa = [
     label: "ttn-bar",
     colorBg: "",
     colorText: " text-black",
+    data: null,
   },
   {
     key: "nameTtnBarByDay",
@@ -65,7 +68,7 @@ export const rowsPurchaseModa = [
     colorText: " text-muted-foreground text-xs",
     data: NAME_TTN,
   },
-] as const;
+] satisfies arrayRowsType[];
 
 export const rowsPurchaseNMB = [
   {
@@ -89,4 +92,4 @@ export const rowsPurchaseNMB = [
     colorText: " text-gn",
     data: null,
   },
-] as const;
+] satisfies arrayRowsType[];

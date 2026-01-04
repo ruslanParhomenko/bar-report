@@ -7,7 +7,6 @@ import { AOHeaderTable } from "./AOHeaderTable";
 import { Table } from "@/components/ui/table";
 import { AOFormType, aoSchema, defaultAOForm } from "./schema";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { AOBodyTable } from "./AOBodyTable";
 import { useAbility } from "@/providers/AbilityProvider";
 import { useEffect } from "react";
 import { SendResetButton } from "@/components/buttons/SendResetButton";
@@ -18,6 +17,8 @@ import {
   updateAO,
 } from "@/app/actions/a-o/ao-action";
 import { toast } from "sonner";
+import RenderRow from "./RenderRow";
+import { rowsAdvance, rowsPurchaseModa, rowsPurchaseNMB } from "./constants";
 
 export default function AOForm({
   dataAo,
@@ -99,7 +100,25 @@ export default function AOForm({
     >
       <Table>
         <AOHeaderTable month={month} monthDays={monthDays} />
-        <AOBodyTable
+        <RenderRow
+          nameLabel="+"
+          arrayRows={rowsAdvance}
+          form={form}
+          monthDays={monthDays}
+          isDisabled={isDisabled}
+        />
+
+        <RenderRow
+          nameLabel="- moda"
+          arrayRows={rowsPurchaseModa}
+          form={form}
+          monthDays={monthDays}
+          isDisabled={isDisabled}
+        />
+
+        <RenderRow
+          nameLabel="- nbm"
+          arrayRows={rowsPurchaseNMB}
           form={form}
           monthDays={monthDays}
           isDisabled={isDisabled}
