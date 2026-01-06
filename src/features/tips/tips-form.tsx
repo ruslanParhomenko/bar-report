@@ -1,7 +1,6 @@
 "use client";
 import { Table } from "@/components/ui/table";
-import { TipsTableHeader } from "./TipsTableHeader";
-import { TipsTableBody } from "./TipsTableBody";
+import { TipsTableBody } from "./tips-body-table";
 import { FormWrapper } from "@/components/wrapper/FormWrapper";
 import {
   Resolver,
@@ -14,14 +13,15 @@ import { defaultTipsForm, TipsFormType, tipsSchema } from "./schema";
 import { saveTipsForm, TipsData } from "@/app/actions/tips/tipsAction";
 import { toast } from "sonner";
 import { getMonthDays, MONTHS } from "@/utils/getMonthDays";
-import { TipsTableFooter } from "./TipsTableFooter";
+import { TipsTableFooter } from "./tips-footer-table";
 import { useEmployees } from "@/providers/EmployeesProvider";
 import { useEffect, useMemo, useState } from "react";
 import { groupRowsByRole } from "./utils";
 import { CashData } from "@/app/actions/cash/cashAction";
 import { useAbility } from "@/providers/AbilityProvider";
 import { SendResetButton } from "@/components/buttons/SendResetButton";
-import BidForm from "./BidForm";
+import BidForm from "./bid-form";
+import { DayByMonthTable } from "@/components/table/day-by-month-table";
 
 const SELECTED_ROLE = ["barmen", "waiters", "dish"];
 
@@ -70,46 +70,12 @@ export default function TipsForm({
     toast.success("Форма сохранена успешно!");
   };
 
-  // effect
-  // useEffect(() => {
-  //   if (!dataTips) return;
-
-  //   form.reset({
-  //     ...dataTips?.form_data,
-  //   } as TipsFormType);
-  // }, [dataTips]);
-
-  // useEffect(() => {
-  //   if (!dataCash) return;
-  //   form.setValue(
-  //     "cashTips",
-  //     dataCash?.form_data?.rowCashData?.tipsByDay as string[]
-  //   );
-  // }, [dataCash]);
-
-  // useEffect(() => {
-  //   if (dataTips) return;
-
-  //   const newRows = selectedEmployees.map((employee, index) => ({
-  //     id: (index + 1).toString(),
-  //     employee: employee.name ?? "",
-  //     role: employee.role ?? "",
-  //     tips: "",
-  //     tipsByDay: Array(monthDays.length).fill(""),
-  //   }));
-
-  //   form.setValue("rowEmployeesTips", newRows);
-  //   form.setValue("cashTips", Array(monthDays.length).fill(""));
-  // }, [dataTips, month, year]);
-
   useEffect(() => {
-    // Если есть данные tips, восстанавливаем форму
     if (dataTips) {
       form.reset({
         ...dataTips.form_data,
       } as TipsFormType);
 
-      // Если есть cash данные, обновляем cashTips
       if (dataCash) {
         form.setValue(
           "cashTips",
@@ -119,7 +85,6 @@ export default function TipsForm({
       return;
     }
 
-    // Инициализация новой формы
     const newRows = selectedEmployees.map((employee, index) => ({
       id: (index + 1).toString(),
       employee: employee.name ?? "",
@@ -164,8 +129,13 @@ export default function TipsForm({
       className="flex flex-col h-[92vh]"
     >
       <BidForm disabled={!isAdmin} />
-      <Table className="md:table-fixed">
-        <TipsTableHeader monthDays={monthDays} month={month} />
+      <Table>
+        <DayByMonthTable
+          month={month}
+          monthDays={monthDays}
+          navCell={true}
+          infoCell={true}
+        />
         <TipsTableBody
           data={fields}
           monthDays={monthDays}

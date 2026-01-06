@@ -28,9 +28,6 @@ export function CashFooterTable({
         <TableCell colSpan={2}></TableCell>
 
         {monthDays.map((_day, dayIndex) => {
-          const getNum = (val: string | undefined) =>
-            isNaN(Number(val)) ? 0 : Number(val);
-
           const cashBarByDay = Array.isArray(value?.cashBarByDay)
             ? Number(value.cashBarByDay[dayIndex] ?? 0)
             : 0;

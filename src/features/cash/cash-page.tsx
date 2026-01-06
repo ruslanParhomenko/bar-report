@@ -1,8 +1,8 @@
 import { getMonthDays } from "@/utils/getMonthDays";
 import { CashData } from "@/app/actions/cash/cashAction";
-import CashForm from "./CashForm";
+import CashForm from "./cash-form";
 
-export function PageCash({
+export function CashPage({
   dataCash,
   month,
   year,

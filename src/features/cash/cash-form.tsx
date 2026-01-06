@@ -7,15 +7,15 @@ import { CashData, saveCashForm } from "@/app/actions/cash/cashAction";
 import { toast } from "sonner";
 import { sendNotificationEmail } from "@/app/actions/mail/sendNotificationEmail";
 import { useAbility } from "@/providers/AbilityProvider";
-import { CashBodyTable } from "./CashBodyTable";
-import { CashFooterTable } from "./CashFooterTable";
+import { CashBodyTable } from "./cash-body-table";
+import { CashFooterTable } from "./cash-footer-table";
 import { useEffect, useState } from "react";
 import { getMonthDays, MONTHS } from "@/utils/getMonthDays";
 import { Table } from "@/components/ui/table";
-import { CashHeaderTable } from "./CashHeaderTable";
 import { SendResetButton } from "@/components/buttons/SendResetButton";
 import { supabase } from "@/lib/supabaseClient";
 import { useRouter } from "next/navigation";
+import { DayByMonthTable } from "@/components/table/day-by-month-table";
 
 export default function CashForm({
   dataCash,
@@ -133,7 +133,7 @@ export default function CashForm({
       className="flex flex-col h-[90vh] w-full"
     >
       <Table>
-        <CashHeaderTable monthDays={monthDays} month={month} />
+        <DayByMonthTable month={month} monthDays={monthDays} />
         <CashBodyTable
           form={form}
           monthDays={monthDays}

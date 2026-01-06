@@ -13,6 +13,7 @@ import {
   SigmaIcon,
   PersonStandingIcon,
   CalculatorIcon,
+  FileTextIcon,
 } from "lucide-react";
 
 export const SIDEBAR_NAVIGATION = [
@@ -85,6 +86,11 @@ export const SIDEBAR_NAVIGATION = [
     title: "a-o",
     url: "/a-o",
     icon: CalculatorIcon,
+  },
+  {
+    title: "ttn",
+    url: "/ttn",
+    icon: FileTextIcon,
   },
   {
     title: "result",

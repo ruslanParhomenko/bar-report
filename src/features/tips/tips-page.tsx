@@ -2,9 +2,9 @@ import { getMonthDays } from "@/utils/getMonthDays";
 import { TipsData } from "@/app/actions/tips/tipsAction";
 
 import { CashData } from "@/app/actions/cash/cashAction";
-import TipsForm from "./TipsForm";
+import TipsForm from "./tips-form";
 
-export function PageTips({
+export function TipsPage({
   dataTips,
   dataCash,
   month,

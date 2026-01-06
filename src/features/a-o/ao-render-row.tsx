@@ -1,6 +1,6 @@
 import { FieldPath, UseFormReturn, useWatch } from "react-hook-form";
 import { AOFormType } from "./schema";
-import { TableCell, TableRow } from "@/components/ui/table";
+import { TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import { handleMultiTableNavigation } from "@/utils/handleMultiTableNavigation";
 
@@ -19,7 +19,7 @@ type RenderRowProps = {
   monthDays: { day: number; weekday: string }[];
   isDisabled?: boolean;
 };
-export default function RenderRow({
+export default function AoRenderRow({
   nameLabel,
   arrayRows,
   form,
@@ -44,7 +44,7 @@ export default function RenderRow({
     }, 0);
   });
   return (
-    <>
+    <TableBody>
       <TableRow>
         <TableCell
           colSpan={monthDays.length + 2}
@@ -139,6 +139,6 @@ export default function RenderRow({
           {totalByDay.reduce((acc, t) => acc + t, 0).toFixed(2)}
         </TableCell>
       </TableRow>
-    </>
+    </TableBody>
   );
 }

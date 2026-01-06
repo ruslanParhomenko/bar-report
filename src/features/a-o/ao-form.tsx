@@ -3,7 +3,7 @@ import { FormWrapper } from "@/components/wrapper/FormWrapper";
 import { getMonthDays } from "@/utils/getMonthDays";
 
 import { SubmitHandler, useForm } from "react-hook-form";
-import { AOHeaderTable } from "./AOHeaderTable";
+import { DayByMonthTable } from "@/components/table/day-by-month-table";
 import { Table } from "@/components/ui/table";
 import { AOFormType, aoSchema, defaultAOForm } from "./schema";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -17,10 +17,10 @@ import {
   updateAO,
 } from "@/app/actions/a-o/ao-action";
 import { toast } from "sonner";
-import RenderRow from "./RenderRow";
+import AoRenderRow from "./ao-render-row";
 import { rowsAdvance, rowsPurchaseModa, rowsPurchaseNMB } from "./constants";
 
-export default function AOForm({
+export default function AoForm({
   dataAo,
   monthDays,
   month,
@@ -99,8 +99,8 @@ export default function AOForm({
       className="flex flex-col h-[90vh] w-full"
     >
       <Table>
-        <AOHeaderTable month={month} monthDays={monthDays} />
-        <RenderRow
+        <DayByMonthTable month={month} monthDays={monthDays} />
+        <AoRenderRow
           nameLabel="+"
           arrayRows={rowsAdvance}
           form={form}
@@ -108,7 +108,7 @@ export default function AOForm({
           isDisabled={isDisabled}
         />
 
-        <RenderRow
+        <AoRenderRow
           nameLabel="- moda"
           arrayRows={rowsPurchaseModa}
           form={form}
@@ -116,7 +116,7 @@ export default function AOForm({
           isDisabled={isDisabled}
         />
 
-        <RenderRow
+        <AoRenderRow
           nameLabel="- nbm"
           arrayRows={rowsPurchaseNMB}
           form={form}

@@ -31,7 +31,7 @@ export function TipsTableFooter({
         <TableCell colSpan={2} className="sticky left-0 p-0">
           cash tips
         </TableCell>
-        <TableCell className="px-1">
+        <TableCell className="px-1 p-1">
           <div className="flex flex-col items-center gap-2">
             <Label className="text-center text-xs">{totalTips}</Label>
             <Label className="text-center text-xs">{totalCash}</Label>
@@ -57,7 +57,7 @@ export function TipsTableFooter({
             ? "0"
             : differenceNum.toFixed(0);
           return (
-            <TableCell key={dayIndex} className="p-1 h-6">
+            <TableCell key={dayIndex} className="p-0 h-5">
               <div className="flex flex-col items-center gap-1">
                 <Label className="text-center text-xs text-bl">
                   {sumTipsForDay}
@@ -69,7 +69,7 @@ export function TipsTableFooter({
                   onKeyDown={(e) =>
                     handleTableNavigation(e, dataRowsCount, dayIndex)
                   }
-                  className={cn("w-full h-6  text-xs text-center")}
+                  className={cn("w-full h-5 text-xs text-center")}
                   readOnly
                 />
                 <Label

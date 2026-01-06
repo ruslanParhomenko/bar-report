@@ -1,13 +1,20 @@
 import { TableCell, TableHeader, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
+import { getMonthDays } from "@/utils/getMonthDays";
 import { useTranslations } from "next-intl";
 
-export function AOHeaderTable({
+export function DayByMonthTable({
   month,
   monthDays,
+  className,
+  navCell = false,
+  infoCell = false,
 }: {
   month: string;
-  monthDays: { day: number; weekday: string }[];
+  monthDays: ReturnType<typeof getMonthDays>;
+  className?: string;
+  navCell?: boolean;
+  infoCell?: boolean;
 }) {
   const t = useTranslations("Home");
   if (!month || !monthDays) return null;
@@ -22,6 +29,7 @@ export function AOHeaderTable({
         >
           {t(month?.toLocaleLowerCase())}
         </TableCell>
+        {infoCell && <TableCell className="w-7 text-center p-0" />}
 
         {monthDays.map((day) => {
           return (
@@ -29,7 +37,8 @@ export function AOHeaderTable({
               key={day.day}
               className={cn(
                 "w-12 cursor-pointer p-0 ",
-                day.day === todayDay && "text-blue-900 front-bold"
+                day.day === todayDay && "text-blue-900 front-bold",
+                className
               )}
             >
               <div className="text-sm font-semibold text-center">{day.day}</div>
@@ -40,6 +49,7 @@ export function AOHeaderTable({
           );
         })}
         <TableCell />
+        {navCell && <TableCell className="w-2 p-0" />}
       </TableRow>
     </TableHeader>
   );

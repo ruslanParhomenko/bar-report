@@ -1,12 +1,10 @@
-import { getAOByUniqueKey } from "@/app/actions/a-o/ao-action";
 import { InsufficientRights } from "@/components/wrapper/InsufficientRights";
-import AoPage from "@/features/a-o/ao-page";
-
+import TTNPage from "@/features/ttn/ttn-page";
 import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 
-const SET_ACCESS = ["ADMIN", "CASH"];
+const SET_ACCESS = ["ADMIN", "CASH-B"];
 
 export default async function Page({
   searchParams,
@@ -20,10 +18,7 @@ export default async function Page({
   if (!session) redirect("/");
   if (!SET_ACCESS.includes(session?.user?.role as string))
     return <InsufficientRights />;
-
-  const dataAo = await getAOByUniqueKey(uniqueKey);
-
   return (
-    <AoPage dataAo={dataAo} month={month as string} year={year as string} />
+    <TTNPage dataTtn={null} month={month as string} year={year as string} />
   );
 }

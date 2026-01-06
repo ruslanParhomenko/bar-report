@@ -53,7 +53,6 @@ export function TipsTableBody({
             form.getValues(`rowEmployeesTips.${rowIndex}.tips`) || "0"
           );
 
-          // Только если изменилось — обновляем
           if (currentTips !== totalTips) {
             form.setValue(
               `rowEmployeesTips.${rowIndex}.tips`,
@@ -101,7 +100,7 @@ export function TipsTableBody({
                         .filter((emp) => emp.role === role)
                         .map((emp) => emp.name)}
                       disabled={isDisabled}
-                      className="justify-start  h-6! text-[13px]"
+                      className="justify-start  h-6! text-[13px] pl-1"
                     />
                   </TableCell>
                   <TableCell className="p-0 border-r">
@@ -176,7 +175,7 @@ export function TipsTableBody({
             <TableRow>
               <TableCell
                 colSpan={monthDays.length + 3}
-                className="p-1 text-start border-b"
+                className="p-0 px-2 text-start border-b"
               >
                 <button
                   type="button"
@@ -192,7 +191,7 @@ export function TipsTableBody({
                     })
                   }
                 >
-                  <Plus size={14} className="text-bl" />
+                  <Plus size={12} className="text-bl" />
                 </button>
               </TableCell>
             </TableRow>

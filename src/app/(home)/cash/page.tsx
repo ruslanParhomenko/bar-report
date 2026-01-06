@@ -1,6 +1,6 @@
 import { getCashFormById } from "@/app/actions/cash/cashAction";
 import { InsufficientRights } from "@/components/wrapper/InsufficientRights";
-import { PageCash } from "@/features/cash/PageCash";
+import { CashPage } from "@/features/cash/cash-page";
 
 import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
@@ -24,7 +24,7 @@ export default async function Page({
   const dataCash = await getCashFormById(uniqueKey);
 
   return (
-    <PageCash
+    <CashPage
       dataCash={dataCash}
       month={month as string}
       year={year as string}

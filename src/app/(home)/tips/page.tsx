@@ -1,7 +1,7 @@
 import { getCashFormById } from "@/app/actions/cash/cashAction";
 import { getTipsFormById } from "@/app/actions/tips/tipsAction";
 import { InsufficientRights } from "@/components/wrapper/InsufficientRights";
-import { PageTips } from "@/features/tips/PageTips";
+import { TipsPage } from "@/features/tips/tips-page";
 import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
 
@@ -23,7 +23,7 @@ export default async function Page({
     getCashFormById(uniqueKey),
   ]);
   return (
-    <PageTips
+    <TipsPage
       dataTips={dataTips}
       dataCash={dataCash}
       month={month as string}
