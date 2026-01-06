@@ -87,13 +87,13 @@ export function TipsTableBody({
               return (
                 <TableRow key={row.id} className="hover:bg-gr/10 hover:text-rd">
                   <TableCell
-                    className="text-rd py-0"
+                    className="text-rd p-0 pr-1"
                     onClick={() => !isDisabled && remove(globalIndex)}
                   >
                     {rowIndex + 1}
                   </TableCell>
 
-                  <TableCell className="sticky left-0 py-0">
+                  <TableCell className="sticky left-0 p-0 w-42">
                     <SelectField
                       fieldName={`rowEmployeesTips.${globalIndex}.employee`}
                       data={selectedEmployees

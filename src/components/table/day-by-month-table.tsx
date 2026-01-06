@@ -36,7 +36,7 @@ export function DayByMonthTable({
             <TableCell
               key={day.day}
               className={cn(
-                "w-12 cursor-pointer p-0 ",
+                "w-14 cursor-pointer p-0 ",
                 day.day === todayDay && "text-blue-900 front-bold",
                 className
               )}

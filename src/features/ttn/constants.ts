@@ -9,7 +9,7 @@ export const suppliers = [
   "armas",
   "blue-shark",
   "bucuria-dulce",
-  "business-market",
+  "business-m",
   "caffe-vergn",
   "coca-cola",
   "cricova-vin",

@@ -37,7 +37,7 @@ export default function TTNBodyTable({
             <TableCell className="text-start p-0   h-6">
               <span className="truncate w-full">{row}</span>
             </TableCell>
-            <TableCell className="text-center text-xs w-12 p-0 h-6 border-l">
+            <TableCell className="text-center text-xs w-16 p-0 h-6 border-l">
               <input
                 {...register(
                   `rowSuppliers.${row}.start` as FieldPath<SuppliersFormType>
@@ -50,10 +50,7 @@ export default function TTNBodyTable({
               />
             </TableCell>
             {monthDays.map((_, dayIndex) => (
-              <TableCell
-                key={dayIndex}
-                className="p-0! text-center border-x h-6!"
-              >
+              <TableCell key={dayIndex} className="p-0! border-x h-6!">
                 <div className="flex flex-col h-6 p-0">
                   <input
                     {...register(
@@ -61,7 +58,7 @@ export default function TTNBodyTable({
                     )}
                     data-row={rowIndex * 2}
                     data-col={dayIndex}
-                    className="h-1/2 w-full text-center text-xs border-0 p-0 m-0 box-border leading-none"
+                    className="h-1/2 w-full text-end text-xs border-0 p-0 m-0 box-border leading-none pr-0.5 text-rd"
                     onKeyDown={(e) =>
                       handleTableNavigation(e, rowIndex * 2, dayIndex)
                     }
@@ -73,7 +70,7 @@ export default function TTNBodyTable({
                     )}
                     data-row={rowIndex * 2 + 1}
                     data-col={dayIndex}
-                    className="h-1/2 w-full text-center text-xs border-0 p-0 m-0 box-border leading-none"
+                    className="h-1/2 w-full text-end text-xs border-0 p-0 m-0 box-border leading-none pr-0.5 text-bl"
                     onKeyDown={(e) =>
                       handleTableNavigation(e, rowIndex * 2 + 1, dayIndex)
                     }
@@ -83,14 +80,14 @@ export default function TTNBodyTable({
               </TableCell>
             ))}
 
-            <TableCell className="text-xs h-6 p-0 px-1 w-16">
+            <TableCell className="text-xs h-6 p-0 px-1 w-14 border-r">
               <div className="flex flex-col p-0 items-end">
-                <span>{minusTotal.toFixed(2)}</span>
-                <span>{plusTotal.toFixed(2)}</span>
+                <span className="text-rd">{minusTotal.toFixed(2)}</span>
+                <span className="text-bl">{plusTotal.toFixed(2)}</span>
               </div>
             </TableCell>
 
-            <TableCell className="text-right  p-0 px-1 w-16 h-6">
+            <TableCell className="text-right  p-0 px-1 w-14.5 h-6 text-xs font-bold">
               {finalTotal.toFixed(2)}
             </TableCell>
           </TableRow>
@@ -101,18 +98,34 @@ export default function TTNBodyTable({
         <TableCell colSpan={2} />
 
         {monthDays.map((_, dayIndex) => {
-          const dayTotal = arrayRows.reduce((acc, row) => {
+          const dayTotalPlus = arrayRows.reduce((acc, row) => {
             const r = value?.[row];
-            return (
-              acc +
-              (Number(r?.minus?.[dayIndex]) || 0) +
-              (Number(r?.plus?.[dayIndex]) || 0)
-            );
+            return acc + (Number(r?.plus?.[dayIndex]) || 0);
+          }, 0);
+
+          const dayTotalMinus = arrayRows.reduce((acc, row) => {
+            const r = value?.[row];
+            return acc + (Number(r?.minus?.[dayIndex]) || 0);
           }, 0);
 
           return (
-            <TableCell key={dayIndex} className="text-center text-xs">
-              {dayTotal || ""}
+            <TableCell key={dayIndex} className="text-end text-xs h-8 p-0">
+              <div className="flex flex-col h-full justify-between">
+                <span className="text-rd">
+                  {dayTotalMinus ? (
+                    dayTotalMinus.toFixed(2)
+                  ) : (
+                    <div className="h-1/2" />
+                  )}
+                </span>
+                <span className="text-bl">
+                  {dayTotalPlus ? (
+                    dayTotalPlus.toFixed(2)
+                  ) : (
+                    <div className="h-1/2" />
+                  )}
+                </span>
+              </div>
             </TableCell>
           );
         })}
