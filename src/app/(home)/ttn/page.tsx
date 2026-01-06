@@ -1,3 +1,4 @@
+import { getTTNByUniqueKey } from "@/app/actions/ttn/ttn-actions";
 import { InsufficientRights } from "@/components/wrapper/InsufficientRights";
 import TTNPage from "@/features/ttn/ttn-page";
 import { authOptions } from "@/lib/auth";
@@ -12,13 +13,14 @@ export default async function Page({
   searchParams: Promise<{ [key: string]: string | undefined }>;
 }) {
   const { month, year } = await searchParams;
-  const uniqueKey = `${year}-${month}`;
+  const unique_key = `${year}-${month}`;
 
   const session = await getServerSession(authOptions);
   if (!session) redirect("/");
   if (!SET_ACCESS.includes(session?.user?.role as string))
     return <InsufficientRights />;
+  const dataTtn = await getTTNByUniqueKey(unique_key);
   return (
-    <TTNPage dataTtn={null} month={month as string} year={year as string} />
+    <TTNPage dataTtn={dataTtn} month={month as string} year={year as string} />
   );
 }

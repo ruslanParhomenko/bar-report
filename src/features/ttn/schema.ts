@@ -1,77 +1,23 @@
 import { z } from "zod";
-import { suppliers } from "./constants";
 
-/* =========================
-   Базовые схемы значений
-   ========================= */
+const numericStringSchema = z.string().default("");
 
-/** Пустая строка или число (для input) */
-const numericStringSchema = z
-  .string()
-  .regex(/^\d*$/, "Only numbers")
-  .default("");
-
-/* =========================
-   Схема одной строки поставщика
-   ========================= */
-
-const supplierRowSchema = z.object({
-  /** Начальная сумма */
+export const supplierRowSchema = z.object({
   start: numericStringSchema,
-
-  /** Минус по дням */
   minus: z.array(numericStringSchema).default([]),
-
-  /** Плюс по дням */
   plus: z.array(numericStringSchema).default([]),
 });
 
-/* =========================
-   rowSuppliers (динамические ключи)
-   ========================= */
-
-const rowSuppliersShape = Object.fromEntries(
-  suppliers.map((supplier) => [supplier, supplierRowSchema])
-);
-
-export const rowSuppliersSchema = z.object(rowSuppliersShape).strict();
-
-/* =========================
-   Default values для RHF
-   ========================= */
-
-const defaultRowSuppliers = Object.fromEntries(
-  suppliers.map((supplier) => [
-    supplier,
-    {
-      start: "",
-      minus: [],
-      plus: [],
-    },
-  ])
-);
-
-/* =========================
-   Корневая схема формы
-   ========================= */
-
 export const suppliersSchema = z.object({
+  unique_key: z.string().default(""),
   year: z.string().default(new Date().getFullYear().toString()),
-
   month: z.string().default((new Date().getMonth() + 1).toString()),
 
-  rowSuppliers: rowSuppliersSchema.default(defaultRowSuppliers),
+  rowSuppliers: z.record(z.string(), supplierRowSchema).default({}),
 });
 
-/* =========================
-   Типы
-   ========================= */
-
-export type RowSuppliersType = z.infer<typeof rowSuppliersSchema>;
+export type SupplierRowType = z.infer<typeof supplierRowSchema>;
 export type SuppliersFormType = z.infer<typeof suppliersSchema>;
-
-/* =========================
-   Default form values
-   ========================= */
+export type SuppliersFormTypeInput = z.input<typeof suppliersSchema>;
 
 export const defaultSuppliersForm = suppliersSchema.parse({});

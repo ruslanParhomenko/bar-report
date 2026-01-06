@@ -12,5 +12,6 @@
     "turbopack"
   ],
   "cSpell.language": "en,ru,ro",
-  "editor.defaultFormatter": "esbenp.prettier-vscode"
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "prisma.pinToPrisma6": true
 }

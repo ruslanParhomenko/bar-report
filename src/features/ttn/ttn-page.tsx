@@ -1,12 +1,13 @@
 import { getMonthDays } from "@/utils/getMonthDays";
 import TTNForm from "./ttn-form";
+import { TTNGetDataType } from "@/app/actions/ttn/ttn-actions";
 
 export default function TTNPage({
   dataTtn,
   month,
   year,
 }: {
-  dataTtn: any | null;
+  dataTtn: TTNGetDataType | null;
   month: string;
   year: string;
 }) {

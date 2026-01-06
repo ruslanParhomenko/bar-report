@@ -21,7 +21,7 @@ export function DayByMonthTable({
 
   const todayDay = new Date().getDate();
   return (
-    <TableHeader>
+    <TableHeader className="sticky top-0 bg-background">
       <TableRow className="h-10">
         <TableCell
           colSpan={2}
