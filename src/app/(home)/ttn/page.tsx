@@ -1,26 +1,5 @@
-import { getTTNByUniqueKey } from "@/app/actions/ttn/ttn-actions";
-import { InsufficientRights } from "@/components/wrapper/InsufficientRights";
-import TTNPage from "@/features/ttn/ttn-page";
-import { authOptions } from "@/lib/auth";
-import { getServerSession } from "next-auth";
-import { redirect } from "next/navigation";
+import EmptyPage from "@/components/page/EmptyPage";
 
-const SET_ACCESS = ["ADMIN", "CASH-B"];
-
-export default async function Page({
-  searchParams,
-}: {
-  searchParams: Promise<{ [key: string]: string | undefined }>;
-}) {
-  const { month, year } = await searchParams;
-  const unique_key = `${year}-${month}`;
-
-  const session = await getServerSession(authOptions);
-  if (!session) redirect("/");
-  if (!SET_ACCESS.includes(session?.user?.role as string))
-    return <InsufficientRights />;
-  const dataTtn = await getTTNByUniqueKey(unique_key);
-  return (
-    <TTNPage dataTtn={dataTtn} month={month as string} year={year as string} />
-  );
+export default function Page() {
+  return <EmptyPage name="ttn" />;
 }
