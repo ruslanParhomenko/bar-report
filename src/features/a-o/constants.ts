@@ -1,28 +1,19 @@
 import { arrayRowsType } from "./ao-render-row";
 
-export const NAME_TTN = [
-  "metro",
-  "iutam",
-  "armas",
-  "n-1",
-  "yamato",
-  "macelar",
-  "other",
-];
 export const rowsAdvance = [
   {
     key: "advanceModaByDay",
     label: "advance-moda",
     colorBg: " bg-bl",
     colorText: " text-bl",
-    data: null,
+    type: "input",
   },
   {
     key: "advanceNBMByDay",
     label: "advance-nbm",
     colorBg: " bg-gr/75",
     colorText: " text-bl",
-    data: null,
+    type: "input",
   },
 ] satisfies arrayRowsType[];
 export const rowsPurchaseModa = [
@@ -31,42 +22,42 @@ export const rowsPurchaseModa = [
     label: "purchase-moda",
     colorBg: " bg-gr/75",
     colorText: " text-black",
-    data: null,
+    type: "input",
   },
   {
     key: "ttnModaByDay",
     label: "ttn-moda",
     colorBg: " bg-gr/20",
     colorText: " text-black",
-    data: null,
+    type: "input",
   },
   {
     key: "nameTtnModaByDay",
     label: "name-ttn-moda",
     colorBg: " bg-gr/20",
     colorText: " text-muted-foreground text-xs",
-    data: NAME_TTN,
+    type: "text",
   },
   {
     key: "purchaseBarByDay",
     label: "purchase-bar",
     colorBg: " bg-gr/20",
     colorText: " text-black",
-    data: null,
+    type: "input",
   },
   {
     key: "ttnBarByDay",
     label: "ttn-bar",
     colorBg: "",
     colorText: " text-black",
-    data: null,
+    type: "input",
   },
   {
     key: "nameTtnBarByDay",
     label: "name-ttn-bar",
     colorBg: " bg-gr/20",
     colorText: " text-muted-foreground text-xs",
-    data: NAME_TTN,
+    type: "text",
   },
 ] satisfies arrayRowsType[];
 
@@ -76,20 +67,20 @@ export const rowsPurchaseNMB = [
     label: "fuel-nbm",
     colorBg: " bg-gr/20",
     colorText: " text-gn",
-    data: null,
+    type: "input",
   },
   {
     key: "purchaseNBMByDay",
     label: "purchase-nbm",
     colorBg: " bg-gr/20",
     colorText: " text-gn",
-    data: null,
+    type: "input",
   },
   {
     key: "ttnNBMByDay",
     label: "ttn-nbm",
     colorBg: " bg-gr/20",
     colorText: " text-gn",
-    data: null,
+    type: "input",
   },
 ] satisfies arrayRowsType[];

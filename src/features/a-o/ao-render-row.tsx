@@ -3,13 +3,14 @@ import { AOFormType } from "./schema";
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import { handleMultiTableNavigation } from "@/utils/handleMultiTableNavigation";
+import { handleTableNavigation } from "@/utils/handleTableNavigation";
 
 export type arrayRowsType = {
   key: keyof AOFormType["rowAOData"];
   label: string;
   colorBg: string;
   colorText: string;
-  data: string[] | null;
+  type: "input" | "text";
 };
 
 type RenderRowProps = {
@@ -31,7 +32,6 @@ export default function AoRenderRow({
     control: form.control,
     name: "rowAOData",
   });
-  let globalRowIndex = 0;
 
   const totalByDay = monthDays.map((_, dayIndex) => {
     return arrayRows.reduce((acc, row) => {
@@ -54,7 +54,7 @@ export default function AoRenderRow({
         </TableCell>
       </TableRow>
       {arrayRows.map((row, _index) => {
-        const currentRow = globalRowIndex++;
+        const currentRow = _index;
         const total = (
           value?.[row.key as keyof AOFormType["rowAOData"]] as string[]
         )
@@ -75,55 +75,25 @@ export default function AoRenderRow({
             {monthDays.map((_, dayIndex) => {
               return (
                 <TableCell key={dayIndex} className="p-0 text-center border-x">
-                  {"data" in row && row.data ? (
-                    <select
-                      disabled={isDisabled}
-                      data-row={currentRow}
-                      data-col={dayIndex}
-                      {...register(
-                        `rowAOData.${row.key}.${dayIndex}` as FieldPath<AOFormType>
-                      )}
-                      className={cn(
-                        "border-0 p-0 h-7 w-12 text-center text-xs shadow-none",
-                        "appearance-none bg-transparent",
-                        "focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0",
-                        "hover:bg-transparent active:bg-transparent",
-                        "[&_svg]:hidden",
-                        row.colorText
-                      )}
-                    >
-                      <option value="">--</option>
-                      {(row.data as unknown as string[])?.map(
-                        (option: string) => (
-                          <option key={option} value={option}>
-                            {option}
-                          </option>
-                        )
-                      )}
-                    </select>
-                  ) : (
-                    <input
-                      type="text"
-                      disabled={isDisabled}
-                      data-row={currentRow}
-                      data-col={dayIndex}
-                      {...register(
-                        `rowAOData.${row.key}.${dayIndex}` as FieldPath<AOFormType>
-                      )}
-                      className={cn(
-                        "border-0  p-0 h-7 text-center  shadow-none text-xs w-12",
-                        row.colorText
-                      )}
-                      onKeyDown={(e) =>
-                        handleMultiTableNavigation(e, currentRow, dayIndex)
-                      }
-                    />
-                  )}
+                  <input
+                    type="text"
+                    disabled={isDisabled}
+                    data-row={currentRow}
+                    data-col={dayIndex}
+                    {...register(
+                      `rowAOData.${row.key}.${dayIndex}` as FieldPath<AOFormType>
+                    )}
+                    className={cn(
+                      "border-0  p-0 h-7 text-center  shadow-none text-xs w-12",
+                      row.colorText
+                    )}
+                    onKeyDown={handleMultiTableNavigation}
+                  />
                 </TableCell>
               );
             })}
             <TableCell className="text-rd font-bold">
-              {!("data" in row && row.data) && total}
+              {row.type === "input" && total}
             </TableCell>
           </TableRow>
         );
