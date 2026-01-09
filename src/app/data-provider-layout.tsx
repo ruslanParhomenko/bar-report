@@ -34,6 +34,7 @@ export async function UsersEmployeesProviderLayout({
     isUser: user?.role === "USER",
     isManager: user?.role === "MNGR",
     isCash: user?.role === "CASH",
+    isFin: user?.role === "FIN",
     isObserver: user?.role === "OBSERVER",
   };
   return (
