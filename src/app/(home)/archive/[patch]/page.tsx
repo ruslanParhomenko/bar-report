@@ -3,9 +3,15 @@ import {
   getReportsCucinaByDate,
   ReportCucinaData,
 } from "@/app/actions/archive/reportCucinaAction";
+import { InsufficientRights } from "@/components/wrapper/InsufficientRights";
 import ReportBar from "@/features/archive/ReportBar";
 import ReportCucina from "@/features/archive/ReportCucina";
+import { authOptions } from "@/lib/auth";
 import { MONTHS } from "@/utils/getMonthDays";
+import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
+
+const SET_ACCESS = ["ADMIN", "BAR", "CUCINA", "MNGR", "USER"];
 
 export default async function Page({
   params,
@@ -14,6 +20,11 @@ export default async function Page({
   params: Promise<{ patch: string }>;
   searchParams: Promise<{ [key: string]: string | undefined }>;
 }) {
+  const session = await getServerSession(authOptions);
+  if (!session) redirect("/");
+  if (!SET_ACCESS.includes(session?.user?.role as string))
+    return <InsufficientRights />;
+
   const { month, year } = await searchParams;
   const { patch } = await params;
   if (!patch || !month || !year) return null;

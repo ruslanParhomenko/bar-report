@@ -11,6 +11,7 @@ type AbilityFlags = {
   isUser: boolean;
   isManager: boolean;
   isCash: boolean;
+  isFin: boolean;
 };
 
 type AbilityContextType = AbilityFlags & {
@@ -37,7 +38,8 @@ export function AbilityProvider({
         !serverAbility.isCucina &&
         !serverAbility.isUser &&
         !serverAbility.isManager &&
-        !serverAbility.isCash,
+        !serverAbility.isCash &&
+        !serverAbility.isFin,
     };
 
     return { ...ability, query: users || [] };

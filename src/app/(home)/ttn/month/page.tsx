@@ -5,7 +5,7 @@ import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 
-const SET_ACCESS = ["ADMIN", "CASH-B"];
+const SET_ACCESS = ["ADMIN", "FIN"];
 
 export default async function Page({
   searchParams,

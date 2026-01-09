@@ -9,7 +9,7 @@ import { MONTHS } from "@/utils/getMonthDays";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 
-const CLOSE_ACCESS = ["OBSERVER", "CASH"];
+const SET_ACCESS = ["ADMIN", "BAR", "CUCINA", "MNGR", "USER"];
 
 export default async function Page({
   params,
@@ -18,6 +18,11 @@ export default async function Page({
   params: Promise<{ tab: string }>;
   searchParams: Promise<{ [key: string]: string | undefined }>;
 }) {
+  const session = await getServerSession(authOptions);
+  if (!session) redirect("/");
+  if (!SET_ACCESS.includes(session?.user?.role as string))
+    return <InsufficientRights />;
+
   const { month, year } = await searchParams;
   const { tab } = await params;
 
@@ -33,12 +38,6 @@ export default async function Page({
   // UTC
   const startDate = new Date(Date.UTC(yearNum, monthNum - 1, 1, 0, 0, 0));
   const endDate = new Date(Date.UTC(yearNum, monthNum, 1, 0, 0, 0));
-
-  // access control
-  const session = await getServerSession(authOptions);
-  if (!session) redirect("/");
-  if (CLOSE_ACCESS.includes(session.user?.role ?? ""))
-    return <InsufficientRights />;
 
   // get data
   const remarks = await getRemarksByDate({

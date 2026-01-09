@@ -1,5 +1,5 @@
-import { LoadingSkeletonBreak } from "@/features/break-remarks/LoadingSkeleton";
+import EmptyPage from "@/components/page/EmptyPage";
 
-export default async function Page() {
-  return <LoadingSkeletonBreak />;
+export default function Page() {
+  return <EmptyPage name="penalty" />;
 }

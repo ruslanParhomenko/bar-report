@@ -16,7 +16,7 @@ import { useRouter } from "next/navigation";
 import SelectField from "@/components/inputs/SelectField";
 import { Label } from "@/components/ui/label";
 
-const ROLES = ["ADMIN", "BAR", "CUCINA", "USER", "MNGR", "CASH"];
+const ROLES = ["ADMIN", "BAR", "CUCINA", "USER", "MNGR", "CASH", "FIN"];
 
 type FormData = UsersSchemaTypeData;
 

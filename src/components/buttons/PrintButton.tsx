@@ -5,10 +5,12 @@ import { useReactToPrint } from "react-to-print";
 import { toast } from "sonner";
 
 export default function PrintButton({
+  formatPage = "A4 landscape",
   componentRef,
   className,
   disabled = false,
 }: {
+  formatPage?: string;
   componentRef?: React.RefObject<HTMLDivElement | null> | null;
   className?: string;
   disabled?: boolean;
@@ -18,7 +20,7 @@ export default function PrintButton({
     contentRef: componentRef,
     pageStyle: `
   @page {
-    size: A4 landscape; 
+    size: ${formatPage}; 
     margin: 4mm;
   }
 
