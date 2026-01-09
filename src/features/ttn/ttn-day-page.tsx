@@ -40,8 +40,12 @@ export default function TTNDayPage({
   const [selectedDay, setSelectedDay] = useState<number>(new Date().getDate());
   const [selectedDayData, setSelectedDayData] = useState<SupplierDayRow[]>([]);
 
-  const totalPlus = selectedDayData.reduce((acc, val) => acc + +val.plus, 0);
-  const totalMinus = selectedDayData.reduce((acc, val) => acc + +val.minus, 0);
+  const totalPlus = selectedDayData
+    .reduce((acc, val) => acc + +val.plus, 0)
+    .toFixed(2);
+  const totalMinus = selectedDayData
+    .reduce((acc, val) => acc + +val.minus, 0)
+    .toFixed(2);
 
   useEffect(() => {
     if (!dataTtn?.rowSuppliers) return;
@@ -150,8 +154,12 @@ export default function TTNDayPage({
             <TableFooter>
               <TableRow>
                 <TableHead>Итого</TableHead>
-                <TableHead className="text-center">{totalPlus}</TableHead>
-                <TableHead className="text-center">{totalMinus}</TableHead>
+                <TableHead className="text-center text-bl">
+                  {totalPlus}
+                </TableHead>
+                <TableHead className="text-center text-rd">
+                  {totalMinus}
+                </TableHead>
               </TableRow>
             </TableFooter>
           </Table>

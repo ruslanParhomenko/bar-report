@@ -141,8 +141,8 @@ export default function TTNBodyTable({
         );
       })}
 
-      <TableRow className="sticky bottom-0 bg-background">
-        <TableCell className="text-xs text-rd font-bold">
+      <TableRow className="sticky bottom-0.5 bg-background">
+        <TableCell className="text-xs text-rd font-bold h-8 p-0">
           <div className="flex flex-col h-full justify-between items-start">
             <span className="text-rd">
               {totalMinusSum ? (
@@ -161,8 +161,8 @@ export default function TTNBodyTable({
           </div>
         </TableCell>
         <TableCell />
-        <TableCell className="text-xs text-rd font-bold">
-          <div className="flex flex-col h-full justify-between items-end">
+        <TableCell className="text-xs text-rd font-bold h-8 p-0">
+          <div className="flex flex-col h-full ">
             <span className="text-rd">
               {totalCreditStartSum ? (
                 totalCreditStartSum.toFixed(2)
@@ -193,7 +193,7 @@ export default function TTNBodyTable({
 
           return (
             <TableCell key={dayIndex} className="text-end text-xs h-8 p-0">
-              <div className="flex flex-col h-full justify-between">
+              <div className="flex flex-col h-full">
                 <span className="text-rd">
                   {dayTotalMinus ? (
                     dayTotalMinus.toFixed(2)
