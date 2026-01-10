@@ -4,18 +4,14 @@ import { dbAdmin } from "@/lib/firebaseAdmin";
 
 import { invalidateEverywhere } from "../invalidateEverywhere/invalidateEverywhere";
 import { unstable_cache, updateTag } from "next/cache";
-import { AOFormType } from "@/features/a-o/schema";
+import { AOFormTypeInput } from "@/features/a-o/schema";
 
-export type AOData = AOFormType & {
-  uniqueKey: string;
-};
-export type AOContextValue = AOFormType & {
+export type AOContextValue = AOFormTypeInput & {
   id: string;
-  uniqueKey: string;
 };
 
 // create
-export async function createAO(data: AOData) {
+export async function createAO(data: AOFormTypeInput) {
   const docRef = await dbAdmin.collection("ao-report").add({
     uniqueKey: data.uniqueKey,
     year: data.year,
@@ -28,7 +24,7 @@ export async function createAO(data: AOData) {
 }
 
 // update
-export async function updateAO(id: string, data: Omit<AOData, "id">) {
+export async function updateAO(id: string, data: AOFormTypeInput) {
   await dbAdmin.collection("ao-report").doc(id).update(data);
   updateTag("ao-report");
   await invalidateEverywhere("ao-report");
@@ -42,7 +38,7 @@ export const _getAOById = async (id: string) => {
   return {
     id: doc.id,
     ...doc.data(),
-  } as AOData & { id: string };
+  } as AOContextValue;
 };
 
 export const getAOById = unstable_cache(_getAOById, ["ao-report"], {
@@ -55,17 +51,17 @@ export const _getAOByUniqueKey = async (uniqueKey: string) => {
   const snapshot = await dbAdmin
     .collection("ao-report")
     .where("uniqueKey", "==", uniqueKey)
-    .limit(1) // ограничиваем один результат
+    .limit(1)
     .get();
 
-  if (snapshot.empty) return null; // или {}
+  if (snapshot.empty) return null;
 
   const doc = snapshot.docs[0];
 
   return {
     id: doc.id,
     ...doc.data(),
-  } as AOData & { id: string };
+  } as AOContextValue;
 };
 
 export const getAOByUniqueKey = unstable_cache(

@@ -5,20 +5,20 @@ import { getMonthDays } from "@/utils/getMonthDays";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { DayByMonthTable } from "@/components/table/day-by-month-table";
 import { Table } from "@/components/ui/table";
-import { AOFormType, aoSchema, defaultAOForm } from "./schema";
-import { yupResolver } from "@hookform/resolvers/yup";
+
 import { useAbility } from "@/providers/AbilityProvider";
 import { useEffect } from "react";
 import { SendResetButton } from "@/components/buttons/SendResetButton";
 import {
   AOContextValue,
-  AOData,
   createAO,
   updateAO,
 } from "@/app/actions/a-o/ao-action";
 import { toast } from "sonner";
 import AoRenderRow from "./ao-render-row";
 import { rowsAdvance, rowsPurchaseModa, rowsPurchaseNMB } from "./constants";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { AOFormTypeInput, aoSchema, defaultAOForm } from "./schema";
 
 export default function AoForm({
   dataAo,
@@ -34,13 +34,13 @@ export default function AoForm({
   const { isAdmin, isCash } = useAbility();
   const isDisabled = !isAdmin && !isCash;
 
-  const form = useForm<AOFormType>({
-    resolver: yupResolver(aoSchema),
-    defaultValues: defaultAOForm,
+  const form = useForm<AOFormTypeInput>({
+    resolver: zodResolver(aoSchema),
+    defaultValues: aoSchema.parse(dataAo ?? {}),
   });
 
-  const onSubmit: SubmitHandler<AOFormType> = async (data) => {
-    const formatData: AOData = {
+  const onSubmit: SubmitHandler<AOFormTypeInput> = async (data) => {
+    const formatData = {
       ...data,
       uniqueKey: `${year}-${month}`,
       month: month as string,
@@ -63,27 +63,18 @@ export default function AoForm({
     if (dataAo) return;
 
     const makeArray = () => Array(monthDays.length).fill("");
-
     const newRowCashData = {
-      advanceModaByDay: makeArray(),
-      advanceNBMByDay: makeArray(),
-
-      purchaseModaByDay: makeArray(),
-      ttnModaByDay: makeArray(),
-      nameTtnModaByDay: makeArray(),
-
-      fuelNBMByDay: makeArray(),
-      purchaseNBMByDay: makeArray(),
-      ttnNBMByDay: makeArray(),
-      nameTtnNBMByDay: makeArray(),
-
-      purchaseBarByDay: makeArray(),
-      ttnBarByDay: makeArray(),
-      nameTtnBarByDay: makeArray(),
+      ...Object.fromEntries(rowsAdvance.map((row) => [row.key, makeArray()])),
+      ...Object.fromEntries(
+        rowsPurchaseModa.map((row) => [row.key, makeArray()])
+      ),
+      ...Object.fromEntries(
+        rowsPurchaseNMB.map((row) => [row.key, makeArray()])
+      ),
     };
 
     form.setValue("rowAOData", newRowCashData);
-  }, [dataAo]);
+  }, [dataAo, month, year, form]);
   useEffect(() => {
     if (!dataAo) return;
 

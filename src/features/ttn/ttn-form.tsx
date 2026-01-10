@@ -34,7 +34,6 @@ export default function TTNForm({
   month: string;
   year: string;
 }) {
-  console.log(dataTtn);
   const { isAdmin } = useAbility();
 
   const form = useForm<SuppliersFormTypeInput>({
@@ -45,13 +44,11 @@ export default function TTNForm({
   const onSubmit: SubmitHandler<SuppliersFormType> = async (data) => {
     const formatData = { ...data, month, year, unique_key: `${year}-${month}` };
     if (dataTtn?.id) {
-      console.log("update", formatData);
       await updateTTN(dataTtn.id as string, formatData);
       toast.success("TTN успешно обновлён!");
 
       return;
     } else {
-      console.log("create", formatData);
       await createTTN(formatData);
       toast.success("AO успешно создан!");
 
@@ -86,7 +83,7 @@ export default function TTNForm({
     <FormWrapper
       form={form}
       onSubmit={onSubmit}
-      className="flex flex-col h-[94vh] w-full"
+      className="flex flex-col h-[92vh]"
     >
       <Table>
         <DayByMonthTable month={month} monthDays={monthDays} infoCell={true} />
@@ -96,6 +93,7 @@ export default function TTNForm({
           form={form}
         />
       </Table>
+
       {isAdmin && <SendResetButton />}
     </FormWrapper>
   );

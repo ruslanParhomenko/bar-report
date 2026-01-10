@@ -62,10 +62,10 @@ export function SendResetButton({
     <>
       <div
         className={
-          "mt-auto flex flex-col justify-between md:flex-row bottom-2 sticky  bg-background/80 z-10 "
+          "mt-auto flex flex-col justify-between md:flex-row bottom-0 sticky z-10"
         }
       >
-        <div className="flex justify-between md:justify-start items-center py-2 md:gap-10">
+        <div className="flex justify-between md:justify-start items-center  md:gap-10 pt-2">
           <Button
             type="button"
             className="hover:bg-blue-600 bg-bl"

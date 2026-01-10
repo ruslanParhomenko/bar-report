@@ -141,7 +141,7 @@ export default function TTNBodyTable({
         );
       })}
 
-      <TableRow className="sticky bottom-0.5 bg-background">
+      <TableRow className="sticky bottom-0 bg-background">
         <TableCell className="text-xs text-rd font-bold h-8 p-0">
           <div className="flex flex-col h-full justify-between items-start">
             <span className="text-rd">

@@ -15,6 +15,13 @@ export const rowsAdvance = [
     colorText: " text-bl",
     type: "input",
   },
+  {
+    key: "advanceZBN",
+    label: "advance-zbn",
+    colorBg: " bg-gr/75",
+    colorText: " text-bl",
+    type: "input",
+  },
 ] satisfies arrayRowsType[];
 export const rowsPurchaseModa = [
   {

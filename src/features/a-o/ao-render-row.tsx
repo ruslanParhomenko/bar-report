@@ -1,9 +1,8 @@
 import { FieldPath, UseFormReturn, useWatch } from "react-hook-form";
-import { AOFormType } from "./schema";
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import { handleMultiTableNavigation } from "@/utils/handleMultiTableNavigation";
-import { handleTableNavigation } from "@/utils/handleTableNavigation";
+import { AOFormType, AOFormTypeInput } from "./schema";
 
 export type arrayRowsType = {
   key: keyof AOFormType["rowAOData"];
@@ -16,7 +15,7 @@ export type arrayRowsType = {
 type RenderRowProps = {
   nameLabel?: string;
   arrayRows: arrayRowsType[];
-  form: UseFormReturn<AOFormType>;
+  form: UseFormReturn<AOFormTypeInput>;
   monthDays: { day: number; weekday: string }[];
   isDisabled?: boolean;
 };
