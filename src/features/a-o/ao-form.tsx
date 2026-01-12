@@ -4,7 +4,7 @@ import { getMonthDays } from "@/utils/getMonthDays";
 
 import { SubmitHandler, useForm } from "react-hook-form";
 import { DayByMonthTable } from "@/components/table/day-by-month-table";
-import { Table } from "@/components/ui/table";
+import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 
 import { useAbility } from "@/providers/AbilityProvider";
 import { useEffect } from "react";
@@ -114,6 +114,26 @@ export default function AoForm({
           monthDays={monthDays}
           isDisabled={isDisabled}
         />
+        <TableBody>
+          <TableRow>
+            <TableCell colSpan={monthDays.length}>
+              <div className="flex gap-4 text-gn items-center">
+                <div>
+                  <span className=" font-bold">moda:</span>
+                  <span className="bg-accent h-7 py-1.5 px-2 ml-4 text-xs">
+                    {0}
+                  </span>
+                </div>
+                <div>
+                  <span className=" font-bold">nbm:</span>
+                  <span className="bg-accent h-7 py-1.5 px-2 ml-4 text-xs">
+                    {0}
+                  </span>
+                </div>
+              </div>
+            </TableCell>
+          </TableRow>
+        </TableBody>
       </Table>
       {isAdmin && <SendResetButton />}
     </FormWrapper>

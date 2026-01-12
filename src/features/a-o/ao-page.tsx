@@ -1,13 +1,14 @@
 import { getMonthDays } from "@/utils/getMonthDays";
 
 import AoForm from "./ao-form";
+import { AOContextValue } from "@/app/actions/a-o/ao-action";
 
 export default function AoPage({
   dataAo,
   month,
   year,
 }: {
-  dataAo: any | null;
+  dataAo: AOContextValue | null;
   month: string;
   year: string;
 }) {

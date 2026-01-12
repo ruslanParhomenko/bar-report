@@ -16,18 +16,22 @@ import { SendResetButton } from "@/components/buttons/SendResetButton";
 import { supabase } from "@/lib/supabaseClient";
 import { useRouter } from "next/navigation";
 import { DayByMonthTable } from "@/components/table/day-by-month-table";
+import { AOContextValue } from "@/app/actions/a-o/ao-action";
 
 export default function CashForm({
+  dataAo,
   dataCash,
   monthDays,
   month,
   year,
 }: {
+  dataAo: AOContextValue | null;
   dataCash: CashData | null;
   monthDays: ReturnType<typeof getMonthDays>;
   month: string;
   year: string;
 }) {
+  console.log(dataAo);
   const router = useRouter();
 
   const { isAdmin, isCash, isBar } = useAbility();
@@ -82,6 +86,9 @@ export default function CashForm({
     };
 
     form.setValue("rowCashData", newRowCashData);
+    form.setValue("start_241", "");
+    form.setValue("ao_532", "");
+    form.setValue("z_531", "");
   }, [dataCash]);
 
   useEffect(() => {
@@ -125,6 +132,20 @@ export default function CashForm({
       supabase.removeChannel(channel);
     };
   }, [dataCash, form]);
+
+  useEffect(() => {
+    if (!dataAo) return;
+
+    const totalTTNModa = (dataAo?.rowAOData?.ttnModaByDay as string[])?.reduce(
+      (acc: number, num: string) => acc + Number(num || 0),
+      0
+    );
+    const totalTTNBar = (dataAo?.rowAOData?.ttnBarByDay as string[])?.reduce(
+      (acc: number, num: string) => acc + Number(num || 0),
+      0
+    );
+    form.setValue("ao_532", (totalTTNModa + totalTTNBar).toString());
+  }, [dataAo]);
 
   return (
     <FormWrapper

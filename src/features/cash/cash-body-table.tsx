@@ -20,6 +20,9 @@ export function CashBodyTable({
 }) {
   const { register } = form;
   const value = form.watch("rowCashData");
+  const start_241 = Number(form.watch("start_241") || 0);
+  const z_531 = Number(form.watch("z_531") || 0);
+  const ao_532 = Number(form.watch("ao_532") || 0);
   const totalCashBar = value?.cash
     ? Object.values(value.cash)
         .reduce((acc, val) => acc + +val, 0)
@@ -123,19 +126,82 @@ export function CashBodyTable({
         );
       })}
       <TableRow>
-        <TableCell className="h-10 border-0 text-bl">remaining cash</TableCell>
-        <TableCell className="h-10 border-0 text-bl" colSpan={2}>
-          {(totalCashBar - totalVisa - totalBank - totalNbmCollection).toFixed(
-            2
-          )}
+        <TableCell colSpan={monthDays.length}>
+          <div className="flex gap-4 text-gn">
+            <div>
+              <span className=" font-bold">remaining cash:</span>
+              <span className=" font-bold pl-4">
+                {(
+                  totalCashBar -
+                  totalVisa -
+                  totalBank -
+                  totalNbmCollection
+                ).toFixed(2)}
+              </span>
+            </div>
+            <div>
+              <span className=" font-bold">visa difference:</span>
+              <span className=" font-bold pl-4">
+                {(totalVisaBar - totalVisa).toFixed(2)}
+              </span>
+            </div>
+          </div>
         </TableCell>
       </TableRow>
       <TableRow>
-        <TableCell className="h-10 border-0 text-bl">
-          visa difference:
-        </TableCell>
-        <TableCell className="h-10 border-0 text-bl" colSpan={2}>
-          {(totalVisaBar - totalVisa).toFixed(2)}
+        <TableCell colSpan={monthDays.length}>
+          <div className="flex gap-4 text-gn items-center">
+            <div>
+              <span className=" font-bold">start-241:</span>
+              <input
+                type="text"
+                disabled={isDisabled}
+                {...register(`start_241` as FieldPath<CashFormType>)}
+                className={cn(
+                  "border-0 bg-accent  p-0 ml-4 h-7 text-center  shadow-none text-xs w-24"
+                )}
+              />
+            </div>
+            <div>
+              <span className=" font-bold">832:</span>
+              <span className="bg-accent h-7 py-1.5 px-2 ml-4 text-xs">
+                {totalNbmCollection ?? 0}
+              </span>
+            </div>
+            <div>
+              <span className=" font-bold">z-531:</span>
+              <input
+                type="text"
+                disabled={isDisabled}
+                {...register(`z_531` as FieldPath<CashFormType>)}
+                className={cn(
+                  "border-0 bg-accent  p-0 ml-4 h-7 text-center  shadow-none text-xs w-24"
+                )}
+              />
+            </div>
+            <div>
+              <span className=" font-bold">ao-532:</span>
+              <input
+                type="text"
+                disabled={isDisabled}
+                {...register(`ao_532` as FieldPath<CashFormType>)}
+                className={cn(
+                  "border-0 bg-accent  p-0 ml-4 h-7 text-center  shadow-none text-xs w-24"
+                )}
+              />
+            </div>
+            <div>
+              <span className=" font-bold">final_241:</span>
+              <span className="bg-accent h-7 py-1.5 px-2 ml-4 text-xs">
+                {(
+                  start_241 +
+                  Number(totalNbmCollection ?? 0) -
+                  z_531 -
+                  ao_532
+                ).toFixed(2)}
+              </span>
+            </div>
+          </div>
         </TableCell>
       </TableRow>
     </TableBody>

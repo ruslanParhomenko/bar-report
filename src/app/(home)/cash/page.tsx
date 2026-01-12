@@ -1,3 +1,4 @@
+import { getAOByUniqueKey } from "@/app/actions/a-o/ao-action";
 import { getCashFormById } from "@/app/actions/cash/cashAction";
 import { InsufficientRights } from "@/components/wrapper/InsufficientRights";
 import { CashPage } from "@/features/cash/cash-page";
@@ -22,9 +23,11 @@ export default async function Page({
     return <InsufficientRights />;
 
   const dataCash = await getCashFormById(uniqueKey);
+  const dataAo = await getAOByUniqueKey(uniqueKey);
 
   return (
     <CashPage
+      dataAo={dataAo}
       dataCash={dataCash}
       month={month as string}
       year={year as string}

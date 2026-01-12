@@ -35,6 +35,10 @@ export const cashSchema = yup.object({
       ...rowCashSchema.fields,
     })
     .default(rowCashSchema.getDefault()),
+  start_241: yup.string().default(""),
+  ao_532: yup.string().default(""),
+  z_531: yup.string().default(""),
+  final_241: yup.string().default(""),
 });
 
 export type CashFormType = yup.InferType<typeof cashSchema>;

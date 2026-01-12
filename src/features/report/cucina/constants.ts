@@ -272,6 +272,8 @@ export const PRODUCTS_SOUP = [
 // meat
 
 export const PRODUCTS_MEAT = [
+  "Кесадилья",
+  "Куриное бедро в сливочном соусе",
   "Семга стейк",
   "Куриные колбаски",
   "Куриный стейк",

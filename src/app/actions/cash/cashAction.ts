@@ -29,6 +29,9 @@ export async function saveCashForm(data: CashFormType) {
         year: year,
         month: month,
         rowCashData: data.rowCashData,
+        start_241: data.start_241,
+        ao_532: data.ao_532,
+        z_531: data.z_531,
       },
     },
     { onConflict: "unique_id" }
