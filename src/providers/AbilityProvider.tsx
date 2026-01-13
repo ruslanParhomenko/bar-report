@@ -7,7 +7,6 @@ type AbilityFlags = {
   isAdmin: boolean;
   isBar: boolean;
   isCucina: boolean;
-  isObserver: boolean;
   isUser: boolean;
   isManager: boolean;
   isCash: boolean;
@@ -32,14 +31,6 @@ export function AbilityProvider({
   const value = useMemo(() => {
     const ability = {
       ...serverAbility,
-      isObserver:
-        !serverAbility.isAdmin &&
-        !serverAbility.isBar &&
-        !serverAbility.isCucina &&
-        !serverAbility.isUser &&
-        !serverAbility.isManager &&
-        !serverAbility.isCash &&
-        !serverAbility.isFin,
     };
 
     return { ...ability, query: users || [] };

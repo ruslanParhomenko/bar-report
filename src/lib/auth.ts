@@ -18,32 +18,45 @@ export const authOptions: NextAuthOptions = {
 
   pages: {
     signIn: "/signin",
+    error: "/403", // куда перенаправлять при отказе
   },
 
   debug: true,
 
   callbacks: {
+    // Проверяем JWT и устанавливаем роль
     async jwt({ token, account, profile }) {
       if (account && profile) {
         const users = await getUsers();
-
         const dbUser = users.find((u) => u.mail === profile.email);
 
         if (dbUser) {
           token.role = dbUser.role;
         } else {
-          token.role = "OBSERVER";
+          token.role = "OBSERVER"; // можно оставить для безопасности, но signIn блокирует
         }
       }
-
       return token;
     },
 
+    // Сессия получает роль
     async session({ session, token }) {
       if (session.user) {
         (session.user as any).role = token.role || "OBSERVER";
       }
       return session;
+    },
+
+    // Блокировка авторизации, если пользователя нет в базе
+    async signIn({ user, account, profile }) {
+      const users = await getUsers();
+      const dbUser = users.find((u) => u.mail === profile?.email);
+
+      if (!dbUser) {
+        return "/403"; // перенаправим с сообщением
+      }
+
+      return true; // разрешаем вход
     },
   },
 };

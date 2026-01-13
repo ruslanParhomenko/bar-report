@@ -2,7 +2,6 @@
 
 import { Label } from "../ui/label";
 import { Separator } from "../ui/separator";
-import { useAbility } from "@/providers/AbilityProvider";
 import { useFormContext, useWatch } from "react-hook-form";
 import { useTheme } from "next-themes";
 import TextInput from "../inputs/TextInput";
@@ -31,7 +30,6 @@ export function OrderEmptyCardWrapper({
 
 function EmptyField({ fieldName }: { fieldName: number }) {
   const { theme } = useTheme();
-  const { isObserver } = useAbility();
 
   const { setValue, control } = useFormContext();
 
@@ -65,7 +63,6 @@ function EmptyField({ fieldName }: { fieldName: number }) {
         <TextInput
           type="text"
           fieldName={`${fieldName}.quantity`}
-          disabled={isObserver}
           className={cn(
             "w-12! text-center h-7!",
             theme === "dark" ? "border-0" : "",

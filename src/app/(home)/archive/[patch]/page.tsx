@@ -11,7 +11,10 @@ import { MONTHS } from "@/utils/getMonthDays";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 
-const SET_ACCESS = ["ADMIN", "BAR", "CUCINA", "MNGR", "USER"];
+const SET_ACCESS_BY_PATCH = {
+  bar: ["ADMIN", "BAR", "MNGR", "USER"],
+  cucina: ["ADMIN", "CUCINA", "MNGR", "USER"],
+};
 
 export default async function Page({
   params,
@@ -22,12 +25,18 @@ export default async function Page({
 }) {
   const session = await getServerSession(authOptions);
   if (!session) redirect("/");
-  if (!SET_ACCESS.includes(session?.user?.role as string))
-    return <InsufficientRights />;
 
   const { month, year } = await searchParams;
   const { patch } = await params;
   if (!patch || !month || !year) return null;
+
+  if (
+    !SET_ACCESS_BY_PATCH[patch as "bar" | "cucina"].includes(
+      session?.user?.role as string
+    )
+  )
+    return <InsufficientRights />;
+
   const monthNum = Number(MONTHS.indexOf(month) + 1);
   const yearNum = Number(year);
 

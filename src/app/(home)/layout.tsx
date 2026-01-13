@@ -2,10 +2,9 @@ import SidebarNav from "@/features/sidebar/SidebarNav";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import { InsufficientRights } from "@/components/wrapper/InsufficientRights";
-import { redirect } from "next/navigation";
 
-const CLOSE_ACCESS = ["OBSERVER"];
+import { redirect } from "next/navigation";
+import NavMenuHeader from "@/components/nav-menu-header/NavMenuHeader";
 
 const NavPage = async ({
   children,
@@ -14,17 +13,13 @@ const NavPage = async ({
 }>) => {
   const session = await getServerSession(authOptions);
   if (!session) redirect("/");
-  const role = session?.user?.role;
   return (
     <SidebarProvider>
       <SidebarNav />
-      <section className="bg-background pt-2 md:px-4 px-1 w-full ">
-        {CLOSE_ACCESS.includes(role as string) ? (
-          <InsufficientRights />
-        ) : (
-          children
-        )}
-      </section>
+      <div className="pl-2 w-full">
+        <NavMenuHeader />
+        {children}
+      </div>
     </SidebarProvider>
   );
 };

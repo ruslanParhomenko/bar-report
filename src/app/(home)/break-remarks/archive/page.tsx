@@ -6,7 +6,7 @@ import { MONTHS } from "@/utils/getMonthDays";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 
-const SET_ACCESS = ["ADMIN", "BAR", "CUCINA", "MNGR", "USER"];
+const SET_ACCESS = ["ADMIN", "MNGR", "USER"];
 
 export default async function Page({
   searchParams,

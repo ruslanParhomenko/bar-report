@@ -35,7 +35,6 @@ export async function UsersEmployeesProviderLayout({
     isManager: user?.role === "MNGR",
     isCash: user?.role === "CASH",
     isFin: user?.role === "FIN",
-    isObserver: user?.role === "OBSERVER",
   };
   return (
     <AbilityProvider users={users} serverAbility={ability}>

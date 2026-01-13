@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { useAbility } from "@/providers/AbilityProvider";
 import { useTranslations } from "next-intl";
 import {
   Dialog,
@@ -19,15 +18,15 @@ export function SendResetButton({
   reset = false,
   refreshUrl,
   returnButton = false,
+  isDisabled = false,
 }: {
   resetForm?: () => void;
   reset?: boolean;
   refreshUrl?: string;
   returnButton?: boolean;
+  isDisabled?: boolean;
 }) {
   const router = useRouter();
-  const { isObserver, isUser } = useAbility();
-  const isDisabled = isObserver || isUser;
   const t = useTranslations("Home");
 
   const [openModal, setOpenModal] = useState<"save" | "reset" | null>(null);

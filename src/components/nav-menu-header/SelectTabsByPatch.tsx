@@ -1,20 +1,18 @@
 import { cn } from "@/lib/utils";
 import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
 import { useTranslations } from "next-intl";
-import { PageNavType } from "./NavMenuHeader";
+import { PageNavType } from "./constants";
 
 export default function SelectTabsByPatch({
   patch,
   setPatch,
   isPending,
   navItems,
-  classNamePatch,
 }: {
   patch: string;
   setPatch: (value: string) => void;
   isPending: boolean;
   navItems: PageNavType[];
-  classNamePatch?: string;
 }) {
   const t = useTranslations("Home");
   return (
@@ -30,9 +28,8 @@ export default function SelectTabsByPatch({
             value={page.href}
             disabled={isPending}
             className={cn(
-              "md:w-24 w-18 hover:text-bl cursor-pointer",
-              isPending && "opacity-50",
-              classNamePatch
+              "md:w-24 w-16 hover:text-bl cursor-pointer",
+              isPending && "opacity-50"
             )}
           >
             <span className="truncate block w-full text-xs md:text-md text-bl">

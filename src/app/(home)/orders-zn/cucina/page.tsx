@@ -5,7 +5,7 @@ import { OrderListTelegramForm } from "@/providers/SendTelegramForm";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 
-const SET_ACCESS = ["ADMIN", "BAR", "CUCINA"];
+const SET_ACCESS = ["ADMIN", "CUCINA"];
 
 export default async function Page() {
   const session = await getServerSession(authOptions);

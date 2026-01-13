@@ -23,7 +23,6 @@ import { cn } from "@/lib/utils";
 import { EmployeesContextValue } from "@/providers/EmployeesProvider";
 import { FormWrapper } from "@/components/wrapper/FormWrapper";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useAbility } from "@/providers/AbilityProvider";
 import { toast } from "sonner";
 import {
   createEmployee,
@@ -46,8 +45,6 @@ export function AddEmployeeCard({
   const router = useRouter();
   const nameTag = "vacationPay";
   const t = useTranslations("Home");
-  const { isAdmin, isManager } = useAbility();
-  const disabled = !isAdmin && !isManager;
 
   const form = useForm<FormData>({
     resolver: yupResolver(employeesSchema),
@@ -233,7 +230,7 @@ export function AddEmployeeCard({
           {employee?.id ? t("cancel") : t("reset")}
         </Button>
 
-        <Button className="h-8" type="submit" disabled={disabled}>
+        <Button className="h-8" type="submit">
           {employee?.id ? (
             t("update")
           ) : (
