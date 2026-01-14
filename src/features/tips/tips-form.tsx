@@ -19,7 +19,6 @@ import { useEffect, useMemo, useState } from "react";
 import { groupRowsByRole } from "./utils";
 import { CashData } from "@/app/actions/cash/cashAction";
 import { useAbility } from "@/providers/AbilityProvider";
-import SubmitButton from "@/components/buttons/submit-button";
 import BidForm from "./bid-form";
 import { DayByMonthTable } from "@/components/table/day-by-month-table";
 
@@ -28,19 +27,20 @@ const SELECTED_ROLE = ["barmen", "waiters", "dish"];
 export default function TipsForm({
   dataTips,
   dataCash,
-  monthDays,
   month,
   year,
 }: {
   dataTips: TipsData | null;
   dataCash: CashData | null;
-  monthDays: ReturnType<typeof getMonthDays>;
   month: string;
   year: string;
 }) {
   const { isAdmin } = useAbility();
   const [showSendButton, setShowSendButton] = useState(false);
   const employees = useEmployees();
+
+  const monthDays = getMonthDays({ month, year });
+
   // form
   const form = useForm<TipsFormType>({
     resolver: yupResolver(tipsSchema) as unknown as Resolver<TipsFormType>,
@@ -122,11 +122,12 @@ export default function TipsForm({
     const grouped = groupRowsByRole(fields);
     return Object.values(grouped).flat();
   }, [fields]);
+
   return (
     <FormWrapper
       form={form}
       onSubmit={onSubmit}
-      className="flex flex-col h-[92vh]"
+      withButtons={showSendButton || isAdmin || fields.length > 0}
     >
       <BidForm disabled={!isAdmin} />
       <Table>
@@ -152,7 +153,6 @@ export default function TipsForm({
           dataRowsCount={dataRowsCount.length}
         />
       </Table>
-      {(showSendButton || isAdmin) && fields.length > 0 && <SubmitButton />}
     </FormWrapper>
   );
 }

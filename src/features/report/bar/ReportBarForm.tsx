@@ -111,9 +111,9 @@ export default function ReportBarForm() {
     <FormWrapper
       form={form}
       onSubmit={onSubmit}
-      className="flex flex-col h-[90vh] gap-6"
       resetForm={reset}
       resetButton={true}
+      className="gap-12"
     >
       <div className="flex w-full justify-end">
         <DatePickerInput
@@ -122,7 +122,7 @@ export default function ReportBarForm() {
         />
       </div>
 
-      <div className="grid grid-cols-1 xl:grid-cols-[22%_20%_26%_20%] xl:justify-between ">
+      <div className="grid grid-cols-1 xl:grid-cols-[22%_20%_26%_20%] xl:justify-between">
         <TableTobacco />
         <TableExpenses />
         <TableProductsTransfer />

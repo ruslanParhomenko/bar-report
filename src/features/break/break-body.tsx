@@ -11,7 +11,7 @@ import { cn } from "@/lib/utils";
 import { Trash2 } from "lucide-react";
 
 const BAR_EMPLOYEES = ["waiters", "barmen"];
-export function BreakTableBody() {
+export default function BreakTableBody() {
   const { theme } = useTheme();
   const employees = useEmployees()
     .filter((emp) => BAR_EMPLOYEES.includes(emp.role))

@@ -1,7 +1,7 @@
 import { getAOByUniqueKey } from "@/app/actions/a-o/ao-action";
 import { getCashFormById } from "@/app/actions/cash/cashAction";
 import { InsufficientRights } from "@/components/wrapper/InsufficientRights";
-import { CashPage } from "@/features/cash/cash-page";
+import CashForm from "@/features/cash/cash-form";
 
 import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
@@ -15,6 +15,7 @@ export default async function Page({
   searchParams: Promise<{ [key: string]: string | undefined }>;
 }) {
   const { month, year } = await searchParams;
+  if (!month || !year) return null;
   const uniqueKey = `${year}-${month}`;
 
   const session = await getServerSession(authOptions);
@@ -26,7 +27,7 @@ export default async function Page({
   const dataAo = await getAOByUniqueKey(uniqueKey);
 
   return (
-    <CashPage
+    <CashForm
       dataAo={dataAo}
       dataCash={dataCash}
       month={month as string}

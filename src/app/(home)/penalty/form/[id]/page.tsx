@@ -2,7 +2,7 @@ import {
   getRemarksById,
   RemarksData,
 } from "@/app/actions/remarks/remarksAction";
-import RemarksForm from "@/features/remarks/RemarksForm";
+import RemarksForm from "@/features/penalty/penalty-form";
 
 export default async function Page({
   params,

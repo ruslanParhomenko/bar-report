@@ -25,15 +25,15 @@ import { useEffect } from "react";
 
 export default function TTNForm({
   dataTtn,
-  monthDays,
   month,
   year,
 }: {
   dataTtn: TTNGetDataType | null;
-  monthDays: ReturnType<typeof getMonthDays>;
   month: string;
   year: string;
 }) {
+  const monthDays = getMonthDays({ month, year });
+
   const { isAdmin } = useAbility();
 
   const form = useForm<SuppliersFormTypeInput>({
@@ -80,11 +80,7 @@ export default function TTNForm({
     });
   }, [dataTtn, month, year, form]);
   return (
-    <FormWrapper
-      form={form}
-      onSubmit={onSubmit}
-      className="flex flex-col h-[92vh]"
-    >
+    <FormWrapper form={form} onSubmit={onSubmit} withButtons={isAdmin}>
       <Table>
         <DayByMonthTable month={month} monthDays={monthDays} infoCell={true} />
         <TTNBodyTable
@@ -93,8 +89,6 @@ export default function TTNForm({
           form={form}
         />
       </Table>
-
-      {isAdmin && <SubmitButton />}
     </FormWrapper>
   );
 }

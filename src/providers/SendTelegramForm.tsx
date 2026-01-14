@@ -1,6 +1,5 @@
 "use client";
 import { SubmitHandler, useForm } from "react-hook-form";
-import SubmitButton from "@/components/buttons/submit-button";
 import {
   defaultEmptyValuesBar,
   defaultEmptyValuesCucina,
@@ -72,9 +71,11 @@ export const OrderListTelegramForm = ({
       form={form}
       onSubmit={onSubmit}
       className="flex flex-col min-h-[90vh]"
+      resetForm={resetFormValues}
+      reset={true}
+      resetButton={true}
     >
       {children}
-      <SubmitButton resetForm={resetFormValues} reset={true} />
     </FormWrapper>
   );
 };

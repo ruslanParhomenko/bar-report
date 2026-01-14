@@ -1,9 +1,7 @@
 "use client";
 import TextInput from "@/components/inputs/TextInput";
-import { Button } from "@/components/ui/button";
 import { useTranslations } from "next-intl";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Plus } from "lucide-react";
 import { defaultUser, usersSchema, UsersSchemaTypeData } from "./schema";
 import { useAbility } from "@/providers/AbilityProvider";
 import { FormWrapper } from "@/components/wrapper/form-wrapper";
@@ -20,10 +18,8 @@ const ROLES = ["ADMIN", "BAR", "CUCINA", "USER", "MNGR", "CASH", "FIN"];
 
 type FormData = UsersSchemaTypeData;
 
-export default function AddUsersCard({ id }: { id?: string }) {
+export default function UsersForm({ id }: { id?: string }) {
   const router = useRouter();
-  const { isAdmin } = useAbility();
-  const disabled = !isAdmin;
   const t = useTranslations("Home");
 
   const { query: users } = useAbility();
@@ -65,40 +61,27 @@ export default function AddUsersCard({ id }: { id?: string }) {
     form.reset(userData as FormData);
   }, [id]);
   return (
-    <FormWrapper form={form} onSubmit={handleSubmit} className="md:w-1/2">
-      <div>
+    <FormWrapper
+      form={form}
+      onSubmit={handleSubmit}
+      className="md:w-1/2"
+      resetForm={resetForm}
+      resetButton={id ? false : true}
+      returnButton={id ? true : false}
+    >
+      <div className="mt-6">
         <TextInput
           fieldName="mail"
           fieldLabel={t("mail")}
           type="mail"
-          className="w-full h-8"
+          className="w-full h-10"
         />
         <Label className="my-3">{t("role")}</Label>
         <SelectField
           data={ROLES}
           fieldName="role"
-          className="truncate w-full h-8"
+          className="truncate w-full h-10!"
         />
-        <div className="flex flex-row justify-between py-8">
-          <Button
-            className="cursor-pointer"
-            type="button"
-            variant={"secondary"}
-            onClick={() => (id ? router.back() : form.reset(defaultUser))}
-          >
-            {id ? t("exit") : t("reset")}
-          </Button>
-
-          <Button type="submit" disabled={disabled}>
-            {id ? (
-              t("update")
-            ) : (
-              <>
-                <Plus className="inline mr-1" /> {t("add")}
-              </>
-            )}
-          </Button>
-        </div>
       </div>
     </FormWrapper>
   );

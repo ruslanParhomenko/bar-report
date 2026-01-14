@@ -4,13 +4,13 @@ import { cn } from "@/lib/utils";
 import { TIME_LABELS } from "./constant";
 
 const currentHour = new Date().getHours();
-export function BreakTableHeader() {
+export default function BreakTableHeader() {
   return (
     <TableHeader>
       <TableRow>
         <TableHead className="w-8"></TableHead>
         <TableHead className="w-28">
-          <DatePickerInput fieldName="date" />
+          <DatePickerInput fieldName="date" className="text-md text-rd" />
         </TableHead>
 
         {TIME_LABELS.map((h, i) => {

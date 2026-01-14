@@ -12,7 +12,7 @@ import { deleteUser } from "@/app/actions/users/userAction";
 import { useAbility } from "@/providers/AbilityProvider";
 import { useRouter } from "next/navigation";
 
-export function GetUsersCard() {
+export default function UsersPage() {
   const router = useRouter();
   const { query: users } = useAbility();
 
@@ -37,7 +37,7 @@ export function GetUsersCard() {
             <TableCell>{user.role}</TableCell>
             <TableCell className="gap-6 flex justify-center">
               <button
-                className="cursor-pointer hover:bg-bl"
+                className="cursor-pointer"
                 type="button"
                 onClick={() => router.push(`/users/${user.id}`)}
               >

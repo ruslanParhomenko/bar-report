@@ -138,7 +138,6 @@ model DailyReportCucina {
   remains  Remain[]   @relation("DailyReportCucinaRemains")
   prepared Prepared[] @relation("DailyReportCucinaPreparedSalads")
   staff    Staff[]    @relation("DailyReportCucinaStaff")
-  movement Movement[] @relation("DailyReportCucinaMovement")
   writeOff WriteOff[] @relation("DailyReportCucinaWriteOff")
 }
 
@@ -178,15 +177,6 @@ model Staff {
   time     String?
   report   DailyReportCucina @relation("DailyReportCucinaStaff", fields: [reportId], references: [id], onDelete: Cascade)
   reportId Int
-}
-
-model Movement {
-  id          Int               @id @default(autoincrement())
-  nameOutside String
-  nameInside  String
-  weight      String
-  report      DailyReportCucina @relation("DailyReportCucinaMovement", fields: [reportId], references: [id], onDelete: Cascade)
-  reportId    Int
 }
 
 model WriteOff {

@@ -8,11 +8,9 @@ import { toast } from "sonner";
 import { BreakFormData, breakSchema, defaultValuesBrake } from "./schema";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useLocalStorageForm } from "@/hooks/useLocalStorageForm";
-import { LoadingSkeletonBreak } from "../break-remarks/LoadingSkeleton";
 import { Table } from "@/components/ui/table";
-import { BreakTableHeader } from "./BreakTableHeader";
-import { BreakTableBody } from "./BreakTableBody";
-import { ViewTransition } from "react";
+import BreakTableHeader from "./break-header";
+import BreakTableBody from "./break-body";
 
 export default function BreakForm() {
   // form
@@ -41,16 +39,24 @@ export default function BreakForm() {
     }
   };
 
-  if (!isLoaded) return <LoadingSkeletonBreak />;
+  if (!isLoaded)
+    return (
+      <div className="h-screen flex justify-center items-center">
+        Loading...
+      </div>
+    );
 
   return (
-    <FormWrapper form={form} onSubmit={onSubmit}>
-      <ViewTransition>
-        <Table className="md:table-fixed">
-          <BreakTableHeader />
-          <BreakTableBody />
-        </Table>
-      </ViewTransition>
+    <FormWrapper
+      form={form}
+      onSubmit={onSubmit}
+      resetButton={true}
+      resetForm={form.reset}
+    >
+      <Table className="md:table-fixed mt-6">
+        <BreakTableHeader />
+        <BreakTableBody />
+      </Table>
     </FormWrapper>
   );
 }

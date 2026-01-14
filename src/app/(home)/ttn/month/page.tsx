@@ -1,6 +1,6 @@
 import { getTTNByUniqueKey } from "@/app/actions/ttn/ttn-actions";
 import { InsufficientRights } from "@/components/wrapper/InsufficientRights";
-import TTNPage from "@/features/ttn/ttn-page";
+import TTNForm from "@/features/ttn/ttn-form";
 import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
@@ -21,6 +21,6 @@ export default async function Page({
     return <InsufficientRights />;
   const dataTtn = await getTTNByUniqueKey(unique_key);
   return (
-    <TTNPage dataTtn={dataTtn} month={month as string} year={year as string} />
+    <TTNForm dataTtn={dataTtn} month={month as string} year={year as string} />
   );
 }

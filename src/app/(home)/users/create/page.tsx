@@ -1,5 +1,5 @@
 import { InsufficientRights } from "@/components/wrapper/InsufficientRights";
-import AddUsersCard from "@/features/users/AddUser";
+import UsersForm from "@/features/users/users-form";
 import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
@@ -10,5 +10,5 @@ export default async function Page() {
   if (!session) redirect("/");
   if (!SET_ACCESS.includes(session?.user?.role as string))
     return <InsufficientRights />;
-  return <AddUsersCard />;
+  return <UsersForm />;
 }

@@ -3,7 +3,7 @@ import {
   StopListType,
 } from "@/app/actions/stop-list/stopListAction";
 import { InsufficientRights } from "@/components/wrapper/InsufficientRights";
-import StopListPage from "@/features/stop-list/StopListPage";
+import StopListForm from "@/features/stop-list/stop-list-form";
 import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
@@ -30,6 +30,6 @@ export default async function Page({
     .map((d) => d.form_data);
 
   return (
-    <StopListPage data={filteredData} nameTag={patch as "bar" | "cucina"} />
+    <StopListForm data={filteredData} nameTag={patch as "bar" | "cucina"} />
   );
 }

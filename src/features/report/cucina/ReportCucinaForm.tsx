@@ -3,7 +3,6 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { Textarea } from "@/components/ui/textarea";
 import DatePickerInput from "@/components/inputs/DatePickerInput";
 import {
-  defaultMovement,
   defaultReportCucina,
   defaultShift,
   defaultWriteOff,
@@ -195,19 +194,6 @@ export default function ReportCucinaForm() {
         }}
         dataArrayField1={PRODUCTS_STAFF}
         defaultValue={productPreparedDefault}
-      />
-
-      <RenderTableCucina
-        name="movement"
-        form={form}
-        placeHolder={{
-          field1: "nameOutside",
-          field2: "nameInside",
-          field3: "weight",
-        }}
-        dataArrayField1={PRODUCTS_INGREDIENTS}
-        dataArrayField2={PRODUCTS_INGREDIENTS}
-        defaultValue={defaultMovement}
       />
 
       <RenderTableCucina

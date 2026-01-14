@@ -22,15 +22,15 @@ import { AOFormTypeInput, aoSchema, defaultAOForm } from "./schema";
 
 export default function AoForm({
   dataAo,
-  monthDays,
   month,
   year,
 }: {
   dataAo: AOContextValue | null;
-  monthDays: ReturnType<typeof getMonthDays>;
   month: string;
   year: string;
 }) {
+  const monthDays = getMonthDays({ month, year });
+
   const { isAdmin, isCash } = useAbility();
   const isDisabled = !isAdmin && !isCash;
 
@@ -84,11 +84,7 @@ export default function AoForm({
   }, [dataAo, month, year, form]);
 
   return (
-    <FormWrapper
-      form={form}
-      onSubmit={onSubmit}
-      className="flex flex-col h-[90vh] w-full"
-    >
+    <FormWrapper form={form} onSubmit={onSubmit} withButtons={isAdmin}>
       <Table>
         <DayByMonthTable month={month} monthDays={monthDays} />
         <AoRenderRow
@@ -135,7 +131,6 @@ export default function AoForm({
           </TableRow>
         </TableBody>
       </Table>
-      {isAdmin && <SubmitButton />}
     </FormWrapper>
   );
 }

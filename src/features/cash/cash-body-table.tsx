@@ -97,7 +97,7 @@ export function CashBodyTable({
                         `rowCashData.${row.key}.${dayIndex}` as FieldPath<CashFormType>
                       )}
                       className={cn(
-                        "border-0  p-0 h-7 text-center  shadow-none text-xs w-12",
+                        "border-0  p-0 h-7 text-center  shadow-none text-xs w-11.5",
                         row.colorText
                       )}
                       onKeyDown={(e) =>

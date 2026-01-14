@@ -1,7 +1,6 @@
 "use server";
 import {
   DailyReportCucina,
-  Movement,
   Prepared,
   Remain,
   Shift,
@@ -19,7 +18,6 @@ export type ReportCucinaData = DailyReportCucina & {
   remains: Remain[];
   prepared: Prepared[];
   staff: Staff[];
-  movement: Movement[];
   writeOff: WriteOff[];
 };
 // create report
@@ -34,7 +32,6 @@ export async function createReportCucina({ data }: { data: any }) {
     preparedDesserts = [],
     cutting = [],
     staff = [],
-    movement = [],
     writeOff = [],
   } = data;
 
@@ -92,16 +89,6 @@ export async function createReportCucina({ data }: { data: any }) {
           })),
       },
 
-      movement: {
-        create: movement
-          .filter((m: Movement) => m.nameOutside || m.nameInside)
-          .map((m: Movement) => ({
-            nameOutside: m.nameOutside || "",
-            nameInside: m.nameInside || "",
-            weight: m.weight || "",
-          })),
-      },
-
       writeOff: {
         create: writeOff
           .filter((w: WriteOff) => w.product)
@@ -118,7 +105,6 @@ export async function createReportCucina({ data }: { data: any }) {
       remains: true,
       prepared: true,
       staff: true,
-      movement: true,
       writeOff: true,
     },
   });
@@ -138,7 +124,6 @@ export async function deleteReportCucina(id: string) {
       remains: true,
       prepared: true,
       staff: true,
-      movement: true,
       writeOff: true,
     },
   });
@@ -166,7 +151,6 @@ export async function _getReportsCucinaByDate({
       remains: true,
       prepared: true,
       staff: true,
-      movement: true,
       writeOff: true,
     },
     orderBy: { date: "desc" },

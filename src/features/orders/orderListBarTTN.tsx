@@ -28,6 +28,7 @@ export const OrderListTTNBar = () => {
         <OrderCardWrapper data={BUCURIA} name="BUCURIA" />
         <OrderCardWrapper data={BUISNESS} name="BUISNESS" />
         <OrderCardWrapper data={VERGNANO} name="VERGNANO" />
+        <OrderCardWrapper data={DAVIDAN} name="DAVIDAN" />
       </InputWrapper>
       <InputWrapper>
         <OrderCardWrapper data={ACVILIN} name="ACVILIN" />
@@ -35,19 +36,16 @@ export const OrderListTTNBar = () => {
       <InputWrapper>
         <OrderCardWrapper data={COCACOLA} name="COCACOLA" />
         <OrderCardWrapper data={GLOBARSPIRIT} name="GLOBARSPIRIT" />
-        <OrderCardWrapper data={DAVIDAN} name="DAVIDAN" />
+        <OrderCardWrapper data={ACVAMONT} name="ACVAMONT" />
+        <OrderCardWrapper data={CHOCO} name="CHOCO" />
       </InputWrapper>
       <InputWrapper>
         <OrderCardWrapper data={UBFB} name="UBFB" />
       </InputWrapper>
       <InputWrapper>
         <OrderCardWrapper data={UBFB2} name="UBFB2" />
-        <OrderCardWrapper data={ACVAMONT} name="ACVAMONT" />
-        <OrderCardWrapper data={CHOCO} name="CHOCO" />
         <OrderCardWrapper data={APIFERA} name="APIFERA" />
         <OrderCardWrapper data={FORWARD} name="FORWARD" />
-      </InputWrapper>
-      <InputWrapper>
         <OrderCardWrapper data={FRUITBOX} name="FRUITBOX" />
         <OrderCardWrapper data={SAMPAREX} name="SAMPAREX " />
       </InputWrapper>

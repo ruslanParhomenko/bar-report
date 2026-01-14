@@ -3,7 +3,7 @@ import {
   RemarksData,
 } from "@/app/actions/remarks/remarksAction";
 import { InsufficientRights } from "@/components/wrapper/InsufficientRights";
-import { PagePenalty } from "@/features/penalty/PagePenalty";
+import PenaltyPage from "@/features/penalty/penalty-page";
 import { authOptions } from "@/lib/auth";
 import { MONTHS } from "@/utils/getMonthDays";
 import { getServerSession } from "next-auth";
@@ -46,6 +46,6 @@ export default async function Page({
   });
 
   return (
-    <PagePenalty data={remarks.remarks as RemarksData[]} tab={tab as string} />
+    <PenaltyPage data={remarks.remarks as RemarksData[]} tab={tab as string} />
   );
 }

@@ -21,18 +21,17 @@ import { AOContextValue } from "@/app/actions/a-o/ao-action";
 export default function CashForm({
   dataAo,
   dataCash,
-  monthDays,
   month,
   year,
 }: {
   dataAo: AOContextValue | null;
   dataCash: CashData | null;
-  monthDays: ReturnType<typeof getMonthDays>;
   month: string;
   year: string;
 }) {
-  console.log(dataAo);
   const router = useRouter();
+
+  const monthDays = getMonthDays({ month, year });
 
   const { isAdmin, isCash, isBar } = useAbility();
   const isDisabled = !isAdmin && !isCash;
@@ -151,7 +150,7 @@ export default function CashForm({
     <FormWrapper
       form={form}
       onSubmit={onSubmit}
-      className="flex flex-col h-[90vh] w-full"
+      withButtons={showSendButton || isAdmin || !isBar}
     >
       <Table>
         <DayByMonthTable month={month} monthDays={monthDays} />
@@ -163,7 +162,6 @@ export default function CashForm({
         />
         <CashFooterTable monthDays={monthDays} form={form} />
       </Table>
-      {(showSendButton || isAdmin) && !isBar && <SubmitButton />}
     </FormWrapper>
   );
 }

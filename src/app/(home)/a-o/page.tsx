@@ -1,6 +1,6 @@
 import { getAOByUniqueKey } from "@/app/actions/a-o/ao-action";
 import { InsufficientRights } from "@/components/wrapper/InsufficientRights";
-import AoPage from "@/features/a-o/ao-page";
+import AoForm from "@/features/a-o/ao-form";
 
 import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
@@ -14,6 +14,7 @@ export default async function Page({
   searchParams: Promise<{ [key: string]: string | undefined }>;
 }) {
   const { month, year } = await searchParams;
+  if (!month || !year) return null;
   const uniqueKey = `${year}-${month}`;
 
   const session = await getServerSession(authOptions);
@@ -24,6 +25,6 @@ export default async function Page({
   const dataAo = await getAOByUniqueKey(uniqueKey);
 
   return (
-    <AoPage dataAo={dataAo} month={month as string} year={year as string} />
+    <AoForm dataAo={dataAo} month={month as string} year={year as string} />
   );
 }

@@ -19,15 +19,6 @@ export const productPreparedSchema = yup.object({
 export type ProductPreparedType = yup.InferType<typeof productPreparedSchema>;
 export const productPreparedDefault = productPreparedSchema.getDefault();
 
-// movement
-export const movementSchema = yup.object({
-  nameOutside: yup.string().default(""),
-  nameInside: yup.string().default(""),
-  weight: yup.string().default(""),
-});
-export type ReportMovementType = yup.InferType<typeof movementSchema>;
-export const defaultMovement: ReportMovementType = movementSchema.getDefault();
-
 // write off
 export const writeOffSchema = yup.object({
   product: yup.string().default(""),
@@ -53,7 +44,6 @@ export const schemaReportCucina = yup.object({
     .default([productPreparedDefault]),
   cutting: yup.array(productPreparedSchema).default([productPreparedDefault]),
   staff: yup.array(schemaShift).default([defaultShift]),
-  movement: yup.array(movementSchema).default([defaultMovement]),
   writeOff: yup.array(writeOffSchema).default([defaultWriteOff]),
   notes: yup.string().default(""),
 });

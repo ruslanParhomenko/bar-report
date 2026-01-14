@@ -11,12 +11,14 @@ import {
 import { FormWrapper } from "@/components/wrapper/form-wrapper";
 import { defaultRemarksValue, RemarksFormData, remarksSchema } from "./schema";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { RemarksTable } from "./RemarksTable";
 import { useEffect } from "react";
 import { REMARKS_ENDPOINT } from "@/constants/endpoint-tag";
 import { useLocalStorageForm } from "@/hooks/useLocalStorageForm";
+import { Table } from "@/components/ui/table";
+import { PenaltyTableHeader } from "./penalty-header";
+import { PenaltyTableBody } from "./penalty-body";
 
-export default function RemarksForm({
+export default function PenaltyForm({
   dataRemark,
 }: {
   dataRemark?: RemarksData;
@@ -72,7 +74,10 @@ export default function RemarksForm({
       resetButton={id ? false : true}
       resetForm={form.reset}
     >
-      <RemarksTable />
+      <Table className="md:table-fixed mt-6">
+        <PenaltyTableHeader />
+        <PenaltyTableBody />
+      </Table>
     </FormWrapper>
   );
 }

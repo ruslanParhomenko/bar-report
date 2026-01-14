@@ -1,17 +1,18 @@
 import { getCashFormById } from "@/app/actions/cash/cashAction";
 import { getTipsFormById } from "@/app/actions/tips/tipsAction";
 import { InsufficientRights } from "@/components/wrapper/InsufficientRights";
-import { TipsPage } from "@/features/tips/tips-page";
+import TipsForm from "@/features/tips/tips-form";
 import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
 
-const SET_ACCESS = ["ADMIN", "CASH", "MNGR"];
+const SET_ACCESS = ["ADMIN", "MNGR"];
 export default async function Page({
   searchParams,
 }: {
   searchParams: Promise<{ [key: string]: string | undefined }>;
 }) {
   const { month, year } = await searchParams;
+  if (!month || !year) return null;
   const uniqueKey = `${year}-${month}`;
 
   const session = await getServerSession(authOptions);
@@ -23,7 +24,7 @@ export default async function Page({
     getCashFormById(uniqueKey),
   ]);
   return (
-    <TipsPage
+    <TipsForm
       dataTips={dataTips}
       dataCash={dataCash}
       month={month as string}

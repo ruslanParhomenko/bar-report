@@ -9,7 +9,6 @@ import {
 } from "@/components/ui/card";
 import ShiftsTable from "./ShiftsTable";
 import RemainsTable from "./RemainsTable";
-import MovementTable from "./MovementTable";
 import WriteOffTable from "./WriteOffTable";
 import PreparedTable from "./PreparedTable";
 import StaffTable from "./StaffTable";
@@ -35,7 +34,6 @@ export default function ReportCucinaTable({
         <div>
           <ShiftsTable data={data.shifts} />
           <RemainsTable data={data.remains} />
-          <MovementTable data={data.movement} />
         </div>
         <WriteOffTable data={data.writeOff} />
         <PreparedTable data={data.prepared} />

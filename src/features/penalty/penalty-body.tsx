@@ -10,7 +10,7 @@ import { Plus, Trash2 } from "lucide-react";
 import { useParams } from "next/navigation";
 import TextInput from "@/components/inputs/TextInput";
 
-export function RemarksTableBody() {
+export function PenaltyTableBody() {
   const { id } = useParams();
 
   const employees = useEmployees();

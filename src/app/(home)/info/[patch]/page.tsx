@@ -3,7 +3,6 @@ import {
   getMenu,
   getStandardKitchen,
 } from "@/app/actions/google/googleSheetAction";
-import { LoadingSkeletonBreak } from "@/features/break-remarks/LoadingSkeleton";
 import { MenuDaily } from "@/features/info/MenuDaily";
 import { MenuVip } from "@/features/info/MenuVip";
 
@@ -38,7 +37,12 @@ export default async function InfoPage({
   const Component = RENDER_COMPONENTS[patch as keyof typeof RENDER_COMPONENTS];
   const getDataFn = GET_DATA[patch as keyof typeof GET_DATA];
 
-  if (!Component || !getDataFn) return <LoadingSkeletonBreak />;
+  if (!Component || !getDataFn)
+    return (
+      <div className="h-screen flex justify-center items-center">
+        Loading...
+      </div>
+    );
 
   const data = await getDataFn();
 

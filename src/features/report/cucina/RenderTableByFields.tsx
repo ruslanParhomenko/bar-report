@@ -87,7 +87,7 @@ const RenderTableCucina = ({
                 <SelectFieldWithSearch
                   fieldName={`${name}.${index}.${field2}`}
                   data={dataArrayField2}
-                  placeHolder={"...из"}
+                  placeHolder={"смена"}
                   className="justify-center text-muted-foreground border-0 shadow-none"
                 />
               ) : (
@@ -102,7 +102,7 @@ const RenderTableCucina = ({
                   fieldName={`${name}.${index}.${field3}`}
                   data={dataArrayField3}
                   placeHolder={field3 ? t(field3) : ""}
-                  className="justify-center text-muted-foreground"
+                  className="justify-center text-muted-foreground border-0 shadow-none"
                 />
               ) : (
                 <NumericInput

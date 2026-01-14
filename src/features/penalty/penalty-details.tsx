@@ -26,7 +26,11 @@ export type PenaltyTableProps = Omit<Remark, "reportId"> & {
   month: string;
 };
 
-export default function TableDetails({ data }: { data: PenaltyTableProps[] }) {
+export default function PenaltyDetails({
+  data,
+}: {
+  data: PenaltyTableProps[];
+}) {
   const router = useRouter();
   const t = useTranslations("Home");
 

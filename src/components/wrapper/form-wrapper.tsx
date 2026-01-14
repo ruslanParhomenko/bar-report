@@ -11,6 +11,7 @@ export function FormWrapper({
   resetButton = false,
   returnButton = false,
   resetForm,
+  withButtons = true,
   ...props
 }: {
   form: UseFormReturn<any>;
@@ -20,6 +21,7 @@ export function FormWrapper({
   resetButton?: boolean;
   returnButton?: boolean;
   resetForm?: () => void;
+  withButtons?: boolean;
   [key: string]: any;
 }) {
   return (
@@ -29,12 +31,14 @@ export function FormWrapper({
         className={cn("flex flex-col h-[92vh]", className)}
         {...props}
       >
-        <div className="flex-1">{children}</div>
-        <SubmitButton
-          reset={resetButton}
-          resetForm={resetForm}
-          returnButton={returnButton}
-        />
+        {children}
+        {withButtons && (
+          <SubmitButton
+            reset={resetButton}
+            resetForm={resetForm}
+            returnButton={returnButton}
+          />
+        )}
       </form>
     </Form>
   );

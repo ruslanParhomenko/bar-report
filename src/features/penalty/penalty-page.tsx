@@ -1,16 +1,15 @@
-import { PenaltyTableProps } from "./TableDetails";
+import PenaltyDetails, { PenaltyTableProps } from "./penalty-details";
 import { isValid } from "date-fns";
 import { RemarksData } from "@/app/actions/remarks/remarksAction";
-import TableGeneral from "./TableGeneral";
-import TableDetails from "./TableDetails";
+import PenaltyGeneral from "./penalty-general";
 
-export const PagePenalty = ({
+export default function PenaltyPage({
   data,
   tab,
 }: {
   data: RemarksData[];
   tab: string;
-}) => {
+}) {
   const filteredRows = data?.flatMap((report) => {
     const date = new Date(report.date);
     if (!isValid(date)) return [];
@@ -37,10 +36,10 @@ export const PagePenalty = ({
   });
 
   if (tab === "general") {
-    return <TableGeneral data={filteredRows ?? []} />;
+    return <PenaltyGeneral data={filteredRows ?? []} />;
   } else if (tab === "details") {
-    return <TableDetails data={filteredRows ?? []} />;
+    return <PenaltyDetails data={filteredRows ?? []} />;
   } else {
     return null;
   }
-};
+}

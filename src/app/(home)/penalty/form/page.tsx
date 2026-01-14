@@ -1,5 +1,5 @@
-import RemarksForm from "@/features/remarks/RemarksForm";
+import PenaltyForm from "@/features/penalty/penalty-form";
 
 export default function Page() {
-  return <RemarksForm />;
+  return <PenaltyForm />;
 }

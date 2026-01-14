@@ -128,7 +128,7 @@ export default function StopListForm({ data, nameTag }: StopLitTableProps) {
   }, [watchStopList, data, isInitialized, isAccount]);
 
   return (
-    <FormWrapper form={form} className="md:py-4">
+    <FormWrapper form={form} className="md:py-4" withButtons={false}>
       <Table className="[&_th]:text-center [&_td]:text-center table-fixed md:w-200 ">
         <TableHeader>
           <TableRow>
