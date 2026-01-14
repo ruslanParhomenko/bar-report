@@ -1,5 +1,5 @@
 "use client";
-import { FormWrapper } from "@/components/wrapper/FormWrapper";
+import { FormWrapper } from "@/components/wrapper/form-wrapper";
 import { getMonthDays } from "@/utils/getMonthDays";
 
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -8,7 +8,7 @@ import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 
 import { useAbility } from "@/providers/AbilityProvider";
 import { useEffect } from "react";
-import { SendResetButton } from "@/components/buttons/SendResetButton";
+import SubmitButton from "@/components/buttons/submit-button";
 import {
   AOContextValue,
   createAO,
@@ -135,7 +135,7 @@ export default function AoForm({
           </TableRow>
         </TableBody>
       </Table>
-      {isAdmin && <SendResetButton />}
+      {isAdmin && <SubmitButton />}
     </FormWrapper>
   );
 }

@@ -17,7 +17,7 @@ import {
   StopListSchemaType,
 } from "./schema";
 import SelectFieldWithSearch from "@/components/inputs/SelectWithSearch";
-import { FormWrapper } from "@/components/wrapper/FormWrapper";
+import { FormWrapper } from "@/components/wrapper/form-wrapper";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";

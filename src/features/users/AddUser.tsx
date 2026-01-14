@@ -6,7 +6,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { Plus } from "lucide-react";
 import { defaultUser, usersSchema, UsersSchemaTypeData } from "./schema";
 import { useAbility } from "@/providers/AbilityProvider";
-import { FormWrapper } from "@/components/wrapper/FormWrapper";
+import { FormWrapper } from "@/components/wrapper/form-wrapper";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { createUser, updateUser } from "@/app/actions/users/userAction";
 import { toast } from "sonner";

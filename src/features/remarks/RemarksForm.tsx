@@ -8,14 +8,13 @@ import {
   RemarksData,
   updateRemark,
 } from "@/app/actions/remarks/remarksAction";
-import { FormWrapper } from "@/components/wrapper/FormWrapper";
+import { FormWrapper } from "@/components/wrapper/form-wrapper";
 import { defaultRemarksValue, RemarksFormData, remarksSchema } from "./schema";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { RemarksTable } from "./RemarksTable";
 import { useEffect } from "react";
 import { REMARKS_ENDPOINT } from "@/constants/endpoint-tag";
 import { useLocalStorageForm } from "@/hooks/useLocalStorageForm";
-import { SaveRemarkById } from "./SaveRemarkById";
 
 export default function RemarksForm({
   dataRemark,
@@ -66,9 +65,14 @@ export default function RemarksForm({
   if (!isLoaded) return null;
 
   return (
-    <FormWrapper form={form} onSubmit={onSubmit}>
+    <FormWrapper
+      form={form}
+      onSubmit={onSubmit}
+      returnButton={id ? true : false}
+      resetButton={id ? false : true}
+      resetForm={form.reset}
+    >
       <RemarksTable />
-      {id && <SaveRemarkById />}
     </FormWrapper>
   );
 }

@@ -13,13 +13,15 @@ import {
 } from "@/components/ui/dialog";
 import { useRouter } from "next/navigation";
 
-export function SendResetButton({
+export default function SubmitButton({
+  idForm,
   resetForm,
   reset = false,
   refreshUrl,
   returnButton = false,
   isDisabled = false,
 }: {
+  idForm?: string;
   resetForm?: () => void;
   reset?: boolean;
   refreshUrl?: string;

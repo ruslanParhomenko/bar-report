@@ -1,5 +1,5 @@
 import { InsufficientRights } from "@/components/wrapper/InsufficientRights";
-import BreakRemarkPage from "@/features/break-remarks/BreakRemarkPage";
+import BreakRemarkPage from "@/features/break-remarks/break-page";
 import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";

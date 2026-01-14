@@ -48,6 +48,7 @@ export const USERS_NAV_ITEMS = [
 ];
 
 export const PENALTY_NAV_ITEMS = [
+  { title: "form", href: "form" },
   { title: "details", href: "details" },
   { title: "general", href: "general" },
 ];
@@ -75,7 +76,7 @@ export const NAV_BY_PATCH = {
   schedule: { navItems: SCHEDULE_NAV_ITEMS, filterType: "month" },
   employees: { navItems: EMPLOYEES_NAV_ITEMS, filterType: "role" },
   reports: { navItems: REPORTS_NAV_ITEMS, filterType: "none" },
-  "break-remarks": { navItems: BREAK_REMARKS_NAV_ITEMS, filterType: "month" },
+  break: { navItems: BREAK_REMARKS_NAV_ITEMS, filterType: "month" },
   "orders-ttn": { navItems: ORDERS_NAV_ITEMS, filterType: "none" },
   "orders-zn": { navItems: ORDERS_NAV_ITEMS, filterType: "none" },
   info: { navItems: INFO_NAV_ITEMS, filterType: "none" },

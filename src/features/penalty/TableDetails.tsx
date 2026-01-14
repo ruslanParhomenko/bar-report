@@ -50,7 +50,7 @@ export default function TableDetails({ data }: { data: PenaltyTableProps[] }) {
 
   const editRemarks = (id: string) => {
     if (!isAdmin && !isManager) return;
-    router.push(`/remarks/${id}`);
+    router.push(`/penalty/form/${id}`);
   };
   const deleteRemarks = async (id: string) => {
     if (!isAdmin) return;

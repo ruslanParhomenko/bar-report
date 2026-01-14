@@ -14,7 +14,7 @@ import { getMonthDays } from "@/utils/getMonthDays";
 import { toast } from "sonner";
 import { defaultSchedule, scheduleSchema, ScheduleType } from "./schema";
 import { EMPLOYEE_ROLES_BY_DEPARTMENT } from "./constants";
-import { FormWrapper } from "@/components/wrapper/FormWrapper";
+import { FormWrapper } from "@/components/wrapper/form-wrapper";
 import ScheduleTableHeader from "../ScheduleTableHeader";
 import ScheduleCreateTableBody from "./ScheduleCreateTableBody";
 import { getSelectedEmployeesByRole } from "../utils";

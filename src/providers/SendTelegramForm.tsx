@@ -1,6 +1,6 @@
 "use client";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { SendResetButton } from "@/components/buttons/SendResetButton";
+import SubmitButton from "@/components/buttons/submit-button";
 import {
   defaultEmptyValuesBar,
   defaultEmptyValuesCucina,
@@ -10,7 +10,7 @@ import {
 } from "@/features/orders/schemas";
 import { useSendTelegram } from "@/hooks/use-send-telegram";
 import { useLocalStorageForm } from "@/hooks/useLocalStorageForm";
-import { FormWrapper } from "@/components/wrapper/FormWrapper";
+import { FormWrapper } from "@/components/wrapper/form-wrapper";
 
 export const OrderListTelegramForm = ({
   children,
@@ -74,7 +74,7 @@ export const OrderListTelegramForm = ({
       className="flex flex-col min-h-[90vh]"
     >
       {children}
-      <SendResetButton resetForm={resetFormValues} reset={true} />
+      <SubmitButton resetForm={resetFormValues} reset={true} />
     </FormWrapper>
   );
 };

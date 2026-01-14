@@ -21,7 +21,7 @@ import {
 } from "./schema";
 import { cn } from "@/lib/utils";
 import { EmployeesContextValue } from "@/providers/EmployeesProvider";
-import { FormWrapper } from "@/components/wrapper/FormWrapper";
+import { FormWrapper } from "@/components/wrapper/form-wrapper";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { toast } from "sonner";
 import {
@@ -90,6 +90,9 @@ export function AddEmployeeCard({
       form={form}
       onSubmit={handleSubmit}
       className={cn("flex flex-col md:px-4 h-[90vh]")}
+      resetButton={employee?.id ? false : true}
+      returnButton={employee?.id ? true : false}
+      resetForm={form.reset}
     >
       <div className="grid grid-cols-1 md:grid-cols-2 md:gap-8">
         <div>
@@ -214,31 +217,6 @@ export function AddEmployeeCard({
             </Button>
           </div>
         </div>
-      </div>
-
-      <div className="flex flex-row justify-start gap-4 py-4 mt-auto">
-        <Button
-          className="cursor-pointer h-8"
-          type="button"
-          variant={"secondary"}
-          onClick={() => {
-            employee?.id
-              ? router.back()
-              : form.reset(defaultEmployeeSchemaValues);
-          }}
-        >
-          {employee?.id ? t("cancel") : t("reset")}
-        </Button>
-
-        <Button className="h-8" type="submit">
-          {employee?.id ? (
-            t("update")
-          ) : (
-            <>
-              <Plus /> {t("add")}
-            </>
-          )}
-        </Button>
       </div>
     </FormWrapper>
   );

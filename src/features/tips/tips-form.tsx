@@ -1,7 +1,7 @@
 "use client";
 import { Table } from "@/components/ui/table";
 import { TipsTableBody } from "./tips-body-table";
-import { FormWrapper } from "@/components/wrapper/FormWrapper";
+import { FormWrapper } from "@/components/wrapper/form-wrapper";
 import {
   Resolver,
   SubmitHandler,
@@ -19,7 +19,7 @@ import { useEffect, useMemo, useState } from "react";
 import { groupRowsByRole } from "./utils";
 import { CashData } from "@/app/actions/cash/cashAction";
 import { useAbility } from "@/providers/AbilityProvider";
-import { SendResetButton } from "@/components/buttons/SendResetButton";
+import SubmitButton from "@/components/buttons/submit-button";
 import BidForm from "./bid-form";
 import { DayByMonthTable } from "@/components/table/day-by-month-table";
 
@@ -152,7 +152,7 @@ export default function TipsForm({
           dataRowsCount={dataRowsCount.length}
         />
       </Table>
-      {(showSendButton || isAdmin) && fields.length > 0 && <SendResetButton />}
+      {(showSendButton || isAdmin) && fields.length > 0 && <SubmitButton />}
     </FormWrapper>
   );
 }

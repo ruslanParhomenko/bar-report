@@ -11,7 +11,6 @@ import {
   ReportCucinaType,
   schemaReportCucina,
 } from "./schema";
-import { SendResetButton } from "@/components/buttons/SendResetButton";
 import {
   CUCINA_EMPLOYEES,
   OVER_HOURS,
@@ -37,7 +36,7 @@ import { REPORT_CUCINA_ENDPOINT } from "@/constants/endpoint-tag";
 
 import { useEmployees } from "@/providers/EmployeesProvider";
 import { createReportCucina } from "@/app/actions/archive/reportCucinaAction";
-import { FormWrapper } from "@/components/wrapper/FormWrapper";
+import { FormWrapper } from "@/components/wrapper/form-wrapper";
 import { useLocalStorageForm } from "@/hooks/useLocalStorageForm";
 
 export default function ReportCucinaForm() {
@@ -95,6 +94,8 @@ export default function ReportCucinaForm() {
       form={form}
       onSubmit={onSubmit}
       className="w-full  md:mx-auto md:max-w-6xl"
+      resetButton={true}
+      resetForm={resetFormHandler}
     >
       <div className="flex w-full justify-end">
         <DatePickerInput fieldName="date" className="text-sm h-8 text-rd" />
@@ -223,7 +224,6 @@ export default function ReportCucinaForm() {
       />
       <Label className="font-semibold py-4 text-md text-bl">{t("notes")}</Label>
       <Textarea placeholder="notes ..." {...form.register("notes")} />
-      <SendResetButton resetForm={resetFormHandler} reset={true} />
     </FormWrapper>
   );
 }

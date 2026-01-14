@@ -34,7 +34,7 @@ export const SIDEBAR_NAVIGATION = [
   },
   {
     title: "breakList",
-    url: "/break-remarks",
+    url: "/break",
     icon: Pause,
   },
   {

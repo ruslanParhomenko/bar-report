@@ -1,7 +1,7 @@
 "use client";
 import { DayByMonthTable } from "@/components/table/day-by-month-table";
 import { Table } from "@/components/ui/table";
-import { FormWrapper } from "@/components/wrapper/FormWrapper";
+import { FormWrapper } from "@/components/wrapper/form-wrapper";
 import { getMonthDays } from "@/utils/getMonthDays";
 import { SubmitHandler, useForm } from "react-hook-form";
 import TTNBodyTable from "./ttn-body-table";
@@ -12,7 +12,7 @@ import {
   suppliersSchema,
 } from "./schema";
 import { suppliers } from "./constants";
-import { SendResetButton } from "@/components/buttons/SendResetButton";
+import SubmitButton from "@/components/buttons/submit-button";
 import { useAbility } from "@/providers/AbilityProvider";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -94,7 +94,7 @@ export default function TTNForm({
         />
       </Table>
 
-      {isAdmin && <SendResetButton />}
+      {isAdmin && <SubmitButton />}
     </FormWrapper>
   );
 }

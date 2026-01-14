@@ -15,13 +15,12 @@ import {
 import TableTobacco from "./TableTobacco";
 import TableExpenses from "./TableExpenses";
 import TableCashVerify from "./TableCashVerify";
-import { SendResetButton } from "@/components/buttons/SendResetButton";
 import TableProductsTransfer from "./TableProductsTransfer";
 import { Textarea } from "@/components/ui/textarea";
 import { TableInventory } from "./TableInventory";
 import { createReportBar } from "@/app/actions/archive/reportBarAction";
 import { useLocalStorageForm } from "@/hooks/useLocalStorageForm";
-import { FormWrapper } from "@/components/wrapper/FormWrapper";
+import { FormWrapper } from "@/components/wrapper/form-wrapper";
 
 export default function ReportBarForm() {
   const STORAGE_KEY = "report-bar";
@@ -113,6 +112,8 @@ export default function ReportBarForm() {
       form={form}
       onSubmit={onSubmit}
       className="flex flex-col h-[90vh] gap-6"
+      resetForm={reset}
+      resetButton={true}
     >
       <div className="flex w-full justify-end">
         <DatePickerInput
@@ -134,9 +135,6 @@ export default function ReportBarForm() {
       />
 
       <TableCashVerify />
-      <div className="mt-auto">
-        <SendResetButton resetForm={reset} reset={true} />
-      </div>
     </FormWrapper>
   );
 }

@@ -1,5 +1,5 @@
 "use client";
-import { FormWrapper } from "@/components/wrapper/FormWrapper";
+import { FormWrapper } from "@/components/wrapper/form-wrapper";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { CashFormType, cashSchema, defaultCashForm } from "./schema";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -12,7 +12,7 @@ import { CashFooterTable } from "./cash-footer-table";
 import { useEffect, useState } from "react";
 import { getMonthDays, MONTHS } from "@/utils/getMonthDays";
 import { Table } from "@/components/ui/table";
-import { SendResetButton } from "@/components/buttons/SendResetButton";
+import SubmitButton from "@/components/buttons/submit-button";
 import { supabase } from "@/lib/supabaseClient";
 import { useRouter } from "next/navigation";
 import { DayByMonthTable } from "@/components/table/day-by-month-table";
@@ -163,7 +163,7 @@ export default function CashForm({
         />
         <CashFooterTable monthDays={monthDays} form={form} />
       </Table>
-      {(showSendButton || isAdmin) && !isBar && <SendResetButton />}
+      {(showSendButton || isAdmin) && !isBar && <SubmitButton />}
     </FormWrapper>
   );
 }
