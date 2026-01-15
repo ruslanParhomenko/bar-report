@@ -13,6 +13,5 @@ export const cashSchema = z.object({
   final_241: z.string().default(""),
 });
 
-export type CashFormType = z.infer<typeof cashSchema>;
 export type CashFormTypeInput = z.input<typeof cashSchema>;
 export const defaultCashForm = cashSchema.parse({});

@@ -10,6 +10,5 @@ export const aoSchema = z.object({
   rowAOData: z.record(z.string(), rowAOSchema).default({}),
 });
 
-export type AOFormType = z.infer<typeof aoSchema>;
 export type AOFormTypeInput = z.input<typeof aoSchema>;
 export const defaultAOForm = aoSchema.parse({});

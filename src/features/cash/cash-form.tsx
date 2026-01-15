@@ -1,12 +1,7 @@
 "use client";
 import { FormWrapper } from "@/components/wrapper/form-wrapper";
 import { SubmitHandler, useForm } from "react-hook-form";
-import {
-  CashFormType,
-  CashFormTypeInput,
-  cashSchema,
-  defaultCashForm,
-} from "./schema";
+import { CashFormTypeInput, cashSchema, defaultCashForm } from "./schema";
 import { CashData, saveCashForm } from "@/app/actions/cash/cashAction";
 import { toast } from "sonner";
 import { sendNotificationEmail } from "@/app/actions/mail/sendNotificationEmail";
@@ -49,7 +44,7 @@ export default function CashForm({
     defaultValues: cashSchema.parse(dataCash ?? defaultCashForm),
   });
 
-  const onSubmit: SubmitHandler<CashFormType> = async (data) => {
+  const onSubmit: SubmitHandler<CashFormTypeInput> = async (data) => {
     try {
       await saveCashForm(data);
       toast.success("Форма сохранена успешно!");
@@ -91,7 +86,7 @@ export default function CashForm({
 
     form.reset({
       ...dataCash.form_data,
-    } as CashFormType);
+    } as CashFormTypeInput);
   }, [dataCash]);
 
   useEffect(() => {

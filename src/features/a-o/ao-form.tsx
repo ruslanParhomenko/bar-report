@@ -4,21 +4,20 @@ import { getMonthDays } from "@/utils/getMonthDays";
 
 import { SubmitHandler, useForm } from "react-hook-form";
 import { DayByMonthTable } from "@/components/table/day-by-month-table";
-import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
+import { Table } from "@/components/ui/table";
 
 import { useAbility } from "@/providers/AbilityProvider";
 import { useEffect } from "react";
-import SubmitButton from "@/components/buttons/submit-button";
 import {
   AOContextValue,
   createAO,
   updateAO,
 } from "@/app/actions/a-o/ao-action";
 import { toast } from "sonner";
-import AoRenderRow from "./ao-render-row";
 import { rowsAdvance, rowsPurchaseModa, rowsPurchaseNMB } from "./constants";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AOFormTypeInput, aoSchema, defaultAOForm } from "./schema";
+import { RowRender } from "@/components/table/row-render";
 
 export default function AoForm({
   dataAo,
@@ -86,8 +85,9 @@ export default function AoForm({
   return (
     <FormWrapper form={form} onSubmit={onSubmit} withButtons={isAdmin}>
       <Table>
-        <DayByMonthTable month={month} monthDays={monthDays} />
-        <AoRenderRow
+        <DayByMonthTable month={month} monthDays={monthDays} infoCell={true} />
+        <RowRender<AOFormTypeInput, "rowAOData">
+          nameField="rowAOData"
           nameLabel="+"
           arrayRows={rowsAdvance}
           form={form}
@@ -95,7 +95,8 @@ export default function AoForm({
           isDisabled={isDisabled}
         />
 
-        <AoRenderRow
+        <RowRender<AOFormTypeInput, "rowAOData">
+          nameField="rowAOData"
           nameLabel="- moda"
           arrayRows={rowsPurchaseModa}
           form={form}
@@ -103,33 +104,14 @@ export default function AoForm({
           isDisabled={isDisabled}
         />
 
-        <AoRenderRow
+        <RowRender<AOFormTypeInput, "rowAOData">
+          nameField="rowAOData"
           nameLabel="- nbm"
           arrayRows={rowsPurchaseNMB}
           form={form}
           monthDays={monthDays}
           isDisabled={isDisabled}
         />
-        <TableBody>
-          <TableRow>
-            <TableCell colSpan={monthDays.length}>
-              <div className="flex gap-4 text-gn items-center">
-                <div>
-                  <span className=" font-bold">moda:</span>
-                  <span className="bg-accent h-7 py-1.5 px-2 ml-4 text-xs">
-                    {0}
-                  </span>
-                </div>
-                <div>
-                  <span className=" font-bold">nbm:</span>
-                  <span className="bg-accent h-7 py-1.5 px-2 ml-4 text-xs">
-                    {0}
-                  </span>
-                </div>
-              </div>
-            </TableCell>
-          </TableRow>
-        </TableBody>
       </Table>
     </FormWrapper>
   );

@@ -126,15 +126,15 @@ export function RowRender<
 
       {withTotalFooter && (
         <TableRow>
+          <TableCell className="font-bold text-center">
+            {totalByDay.reduce((a, b) => a + b, 0).toFixed(2)}
+          </TableCell>
           <TableCell colSpan={2} />
           {totalByDay.map((t, i) => (
             <TableCell key={i} className="text-xs text-center">
               {t > 0 ? t.toFixed(0) : ""}
             </TableCell>
           ))}
-          <TableCell className="font-bold text-center">
-            {totalByDay.reduce((a, b) => a + b, 0).toFixed(2)}
-          </TableCell>
         </TableRow>
       )}
     </TableBody>

@@ -3,7 +3,6 @@ import { getMonthDays } from "@/utils/getMonthDays";
 import { UseFormReturn } from "react-hook-form";
 import { CashFormTypeInput } from "./schema";
 import { cn } from "@/lib/utils";
-import { Table } from "lucide-react";
 
 export default function CashInfo({
   monthDays,

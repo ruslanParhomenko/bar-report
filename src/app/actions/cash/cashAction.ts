@@ -1,6 +1,6 @@
 "use server";
 
-import { CashFormType } from "@/features/cash/schema";
+import { CashFormTypeInput } from "@/features/cash/schema";
 import { supabase } from "@/lib/supabaseClient";
 import { unstable_cache } from "next/cache";
 import { invalidateEverywhere } from "../invalidateEverywhere/invalidateEverywhere";
@@ -10,10 +10,10 @@ import { updateTag } from "next/cache";
 export type CashData = {
   id: string;
   unique_id: string;
-  form_data: CashFormType;
+  form_data: CashFormTypeInput;
 };
 // save
-export async function saveCashForm(data: CashFormType) {
+export async function saveCashForm(data: CashFormTypeInput) {
   const { year, month } = data;
 
   if (!year || !month) {
