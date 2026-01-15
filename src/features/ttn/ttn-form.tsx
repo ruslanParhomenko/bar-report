@@ -6,13 +6,11 @@ import { getMonthDays } from "@/utils/getMonthDays";
 import { SubmitHandler, useForm } from "react-hook-form";
 import TTNBodyTable from "./ttn-body-table";
 import {
-  defaultSuppliersForm,
   SuppliersFormType,
   SuppliersFormTypeInput,
   suppliersSchema,
 } from "./schema";
 import { suppliers } from "./constants";
-import SubmitButton from "@/components/buttons/submit-button";
 import { useAbility } from "@/providers/AbilityProvider";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -22,6 +20,7 @@ import {
 } from "@/app/actions/ttn/ttn-actions";
 import { toast } from "sonner";
 import { useEffect } from "react";
+import TTNFooterTable from "./ttn-footer-table";
 
 export default function TTNForm({
   dataTtn,
@@ -84,6 +83,11 @@ export default function TTNForm({
       <Table>
         <DayByMonthTable month={month} monthDays={monthDays} infoCell={true} />
         <TTNBodyTable
+          arrayRows={[...suppliers]}
+          monthDays={monthDays}
+          form={form}
+        />
+        <TTNFooterTable
           arrayRows={[...suppliers]}
           monthDays={monthDays}
           form={form}

@@ -37,12 +37,17 @@ export function DayByMonthTable({
               key={day.day}
               className={cn(
                 "w-14 cursor-pointer p-0 ",
-                day.day === todayDay && "text-blue-900 front-bold",
+                day.day === todayDay && "text-rd front-bold",
                 className
               )}
             >
               <div className="text-sm font-semibold text-center">{day.day}</div>
-              <div className="text-xs text-muted-foreground text-center">
+              <div
+                className={cn(
+                  "text-xs text-muted-foreground text-center",
+                  day.day === todayDay && "text-rd"
+                )}
+              >
                 {day.weekday}
               </div>
             </TableCell>

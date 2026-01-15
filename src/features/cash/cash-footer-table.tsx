@@ -1,31 +1,46 @@
-import { TableCell, TableFooter, TableRow } from "@/components/ui/table";
+import { TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import { UseFormReturn } from "react-hook-form";
-import { CashFormType } from "./schema";
+import { CashFormTypeInput } from "./schema";
+import { getMonthDays } from "@/utils/getMonthDays";
 
 export function CashFooterTable({
   monthDays,
   form,
 }: {
-  monthDays: { day: number; weekday: string }[];
-  form: UseFormReturn<CashFormType>;
+  monthDays: ReturnType<typeof getMonthDays>;
+  form: UseFormReturn<CashFormTypeInput>;
 }) {
   const value = form.watch("rowCashData");
 
   const totalCash = value?.cash
     ? Object.values(value.cash)
-        .reduce((acc, val) => acc + +val, 0)
+        .reduce((acc, val) => acc + Number(val || 0), 0)
         .toFixed(2)
     : 0;
   let totalCashBar = 0;
 
   return (
-    <TableFooter>
+    <TableBody>
+      <TableRow className="h-6" />
       <TableRow>
-        <TableCell colSpan={monthDays.length + 4} className="h-8" />
-      </TableRow>
-      <TableRow>
-        <TableCell colSpan={2}></TableCell>
+        <TableCell className="border-r">
+          <div className="flex flex-col items-center gap-1 p-0">
+            <div className="text-center text-xs p-0">
+              {totalCashBar.toFixed(2)}
+            </div>
+
+            <div
+              className={cn(
+                "text-center text-xs text-muted-foreground",
+                totalCashBar - Number(totalCash) < 0 ? "text-rd" : "text-gn"
+              )}
+            >
+              {totalCashBar - Number(totalCash)}
+            </div>
+          </div>
+        </TableCell>
+        <TableCell colSpan={2} className="border-r" />
 
         {monthDays.map((_day, dayIndex) => {
           const cashBarByDay = Array.isArray(value?.cashBarByDay)
@@ -72,23 +87,7 @@ export function CashFooterTable({
             </TableCell>
           );
         })}
-        <TableCell>
-          <div className="flex flex-col items-center gap-1 p-0">
-            <div className="text-center text-xs p-0">
-              {totalCashBar.toFixed(2)}
-            </div>
-
-            <div
-              className={cn(
-                "text-center text-xs text-muted-foreground",
-                totalCashBar - totalCash < 0 ? "text-rd" : "text-gn"
-              )}
-            >
-              {totalCashBar - totalCash}
-            </div>
-          </div>
-        </TableCell>
       </TableRow>
-    </TableFooter>
+    </TableBody>
   );
 }

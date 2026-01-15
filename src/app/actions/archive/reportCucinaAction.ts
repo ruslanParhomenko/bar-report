@@ -8,7 +8,7 @@ import {
   WriteOff,
 } from "@/generated/prisma";
 import { prisma } from "@/lib/prisma";
-import { unstable_cache, updateTag } from "next/cache";
+import { unstable_cache } from "next/cache";
 import { invalidateEverywhere } from "../invalidateEverywhere/invalidateEverywhere";
 
 // type
@@ -109,7 +109,7 @@ export async function createReportCucina({ data }: { data: any }) {
     },
   });
 
-  updateTag("reportCucina");
+  // updateTag("reportCucina");
   await invalidateEverywhere("reportCucina");
 
   return report.id;
@@ -127,7 +127,7 @@ export async function deleteReportCucina(id: string) {
       writeOff: true,
     },
   });
-  updateTag("reportCucina");
+  // updateTag("reportCucina");
   await invalidateEverywhere("reportCucina");
 }
 

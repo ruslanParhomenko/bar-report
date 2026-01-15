@@ -54,8 +54,8 @@ export const PENALTY_NAV_ITEMS = [
 ];
 
 export const TTN_NAV_ITEMS = [
-  { title: "day", href: "day" },
   { title: "month", href: "month" },
+  { title: "day", href: "day" },
   { title: "year", href: "year" },
 ];
 

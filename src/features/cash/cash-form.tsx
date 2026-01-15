@@ -1,22 +1,28 @@
 "use client";
 import { FormWrapper } from "@/components/wrapper/form-wrapper";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { CashFormType, cashSchema, defaultCashForm } from "./schema";
-import { yupResolver } from "@hookform/resolvers/yup";
+import {
+  CashFormType,
+  CashFormTypeInput,
+  cashSchema,
+  defaultCashForm,
+} from "./schema";
 import { CashData, saveCashForm } from "@/app/actions/cash/cashAction";
 import { toast } from "sonner";
 import { sendNotificationEmail } from "@/app/actions/mail/sendNotificationEmail";
 import { useAbility } from "@/providers/AbilityProvider";
-import { CashBodyTable } from "./cash-body-table";
 import { CashFooterTable } from "./cash-footer-table";
 import { useEffect, useState } from "react";
 import { getMonthDays, MONTHS } from "@/utils/getMonthDays";
 import { Table } from "@/components/ui/table";
-import SubmitButton from "@/components/buttons/submit-button";
 import { supabase } from "@/lib/supabaseClient";
 import { useRouter } from "next/navigation";
 import { DayByMonthTable } from "@/components/table/day-by-month-table";
 import { AOContextValue } from "@/app/actions/a-o/ao-action";
+import { zodResolver } from "@hookform/resolvers/zod";
+import CashInfo from "./cash-info";
+import { RowRender } from "@/components/table/row-render";
+import { rowCashBar, rowsCashCasino } from "./constants";
 
 export default function CashForm({
   dataAo,
@@ -38,9 +44,9 @@ export default function CashForm({
 
   const [showSendButton, setShowSendButton] = useState(false);
 
-  const form = useForm<CashFormType>({
-    resolver: yupResolver(cashSchema),
-    defaultValues: defaultCashForm,
+  const form = useForm<CashFormTypeInput>({
+    resolver: zodResolver(cashSchema),
+    defaultValues: cashSchema.parse(dataCash ?? defaultCashForm),
   });
 
   const onSubmit: SubmitHandler<CashFormType> = async (data) => {
@@ -70,18 +76,8 @@ export default function CashForm({
     const makeArray = () => Array(monthDays.length).fill("");
 
     const newRowCashData = {
-      tipsByDay: makeArray(),
-      chipsByDay: makeArray(),
-      visaCasinoByDay: makeArray(),
-      cashBarByDay: makeArray(),
-      visaBarByDay: makeArray(),
-      banquetBarByDay: makeArray(),
-      visaCasinoBarByDay: makeArray(),
-      cash: makeArray(),
-      visaTerminalByDay: makeArray(),
-      nbmPayByDay: makeArray(),
-      bankCollectionByDay: makeArray(),
-      nbmCollectionByDay: makeArray(),
+      ...Object.fromEntries(rowsCashCasino.map((row) => [row, makeArray()])),
+      ...Object.fromEntries(rowCashBar.map((row) => [row, makeArray()])),
     };
 
     form.setValue("rowCashData", newRowCashData);
@@ -152,15 +148,32 @@ export default function CashForm({
       onSubmit={onSubmit}
       withButtons={showSendButton || isAdmin || !isBar}
     >
-      <Table>
-        <DayByMonthTable month={month} monthDays={monthDays} />
-        <CashBodyTable
+      <Table className="md:mt-4">
+        <DayByMonthTable
+          month={month}
+          monthDays={monthDays}
+          infoCell={true}
+          navCell={true}
+        />
+        <RowRender<CashFormTypeInput, "rowCashData">
+          nameField="rowCashData"
+          nameLabel="CASH"
+          arrayRows={rowsCashCasino}
           form={form}
           monthDays={monthDays}
-          isDisabled={isDisabled}
-          isClosed={isBar}
+          withTotalFooter={false}
+        />
+
+        <RowRender<CashFormTypeInput, "rowCashData">
+          nameField="rowCashData"
+          nameLabel="BAR"
+          arrayRows={rowCashBar}
+          form={form}
+          monthDays={monthDays}
+          withTotalFooter={false}
         />
         <CashFooterTable monthDays={monthDays} form={form} />
+        <CashInfo monthDays={monthDays} form={form} isDisabled={isDisabled} />
       </Table>
     </FormWrapper>
   );

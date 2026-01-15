@@ -1,7 +1,7 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
-import { unstable_cache, updateTag } from "next/cache";
+import { unstable_cache } from "next/cache";
 import { invalidateEverywhere } from "../invalidateEverywhere/invalidateEverywhere";
 
 // create break list
@@ -40,7 +40,6 @@ export async function createBreakList(data: any) {
     },
   });
 
-  updateTag("breakList");
   invalidateEverywhere("breakList");
 
   return breakList.id;
@@ -51,7 +50,6 @@ export async function deleteBreakList(id: string) {
   await prisma.breakList.delete({
     where: { id: Number(id) },
   });
-  updateTag("breakList");
   invalidateEverywhere("breakList");
 }
 

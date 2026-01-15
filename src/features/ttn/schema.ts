@@ -6,6 +6,7 @@ export const supplierRowSchema = z.object({
   start: numericStringSchema,
   minus: z.array(numericStringSchema).default([]),
   plus: z.array(numericStringSchema).default([]),
+  final: numericStringSchema,
 });
 
 export const suppliersSchema = z.object({

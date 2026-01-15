@@ -18,22 +18,19 @@ export default function ResultTableBody({
             index
           ) => (
             <TableRow key={index}>
-              <TableCell className="sticky left-0 bg-background/60">
+              <TableCell className="sticky left-0 bg-card">
                 {e.employee}
               </TableCell>
               <TableCell className="text-center">{rate}</TableCell>
-              <TableCell className="text-center font-bold">
-                {sendTips}
-              </TableCell>
-              <TableCell className="text-center text-rd">{e.penalty}</TableCell>
-              <TableCell className="text-center">{e.bonus}</TableCell>
-              <TableCell></TableCell>
               <TableCell className="text-center">{dayH}</TableCell>
               <TableCell className="text-center">{nightH}</TableCell>
-              <TableCell className="text-center text-gn font-bold">
+              <TableCell className="text-center text-gn">
                 {totalHours}
               </TableCell>
-              <TableCell className="text-center">{salary}</TableCell>
+              <TableCell className="text-center border-r">{salary}</TableCell>
+              <TableCell className="text-center">{sendTips}</TableCell>
+              <TableCell className="text-center text-rd">{e.penalty}</TableCell>
+              <TableCell className="text-center border-r">{e.bonus}</TableCell>
               <TableCell className="text-center">{result}</TableCell>
             </TableRow>
           )
@@ -42,14 +39,13 @@ export default function ResultTableBody({
         <TableRow className="font-bold">
           <TableCell></TableCell>
           <TableCell></TableCell>
-          <TableCell className="text-center">{totals.sendTips}</TableCell>
-          <TableCell className="text-center">{totals.penalty}</TableCell>
-          <TableCell className="text-center">{totals.bonus}</TableCell>
-          <TableCell></TableCell>
           <TableCell className="text-center">{totals.dayH}</TableCell>
           <TableCell className="text-center">{totals.nightH}</TableCell>
           <TableCell className="text-center">{totals.totalHours}</TableCell>
           <TableCell className="text-center">{totals.salary}</TableCell>
+          <TableCell className="text-center">{totals.sendTips}</TableCell>
+          <TableCell className="text-center">{totals.penalty}</TableCell>
+          <TableCell className="text-center">{totals.bonus}</TableCell>
           <TableCell className="text-center">{totals.result}</TableCell>
         </TableRow>
       </TableBody>

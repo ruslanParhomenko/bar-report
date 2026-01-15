@@ -1,74 +1,89 @@
-export const rows = [
+import { ArrayRow } from "@/components/table/row-render";
+
+export const rowsCashCasino = [
   {
     key: "tipsByDay",
     label: "tips",
-    colorBg: " bg-bl",
     colorText: " text-bl",
+    type: "input",
   },
   {
     key: "chipsByDay",
     label: "f 1:18",
-    colorBg: " bg-gr/75",
     colorText: " text-black",
+    type: "input",
   },
   {
     key: "visaCasinoByDay",
     label: "visa-c",
-    colorBg: " bg-gr/75",
     colorText: " text-black",
+    type: "input",
   },
+] satisfies ArrayRow[];
+
+export const rowCashBar = [
   {
     key: "cashBarByDay",
     label: "cash-1c",
-    colorBg: " bg-gr/20",
     colorText: " text-gn",
+    type: "input",
   },
   {
     key: "visaBarByDay",
     label: "visa",
-    colorBg: " bg-gr/20",
     colorText: " text-gn",
+    type: "input",
   },
   {
     key: "banquetBarByDay",
     label: "banquet",
-    colorBg: " bg-gr/20",
     colorText: " text-gn",
+    type: "input",
   },
   {
     key: "visaCasinoBarByDay",
     label: "visa-c-b",
-    colorBg: " bg-gr/20",
     colorText: " text-gn",
+    type: "input",
   },
   {
     key: "cash",
     label: "cash",
-    colorBg: " bg-gr/20",
     colorText: " text-gn",
+    type: "input",
   },
   {
     key: "visaTerminalByDay",
     label: "visa-terminal",
-    colorBg: "",
     colorText: " text-yl",
+    type: "input",
   },
   {
     key: "nbmPayByDay",
     label: "nbm-pay",
-    colorBg: "",
     colorText: " text-bl",
+    type: "input",
   },
   {
     key: "bankCollectionByDay",
     label: "bank-coll",
-    colorBg: "",
+
     colorText: " text-rd",
+    type: "input",
   },
   {
     key: "nbmCollectionByDay",
     label: "nbm-coll",
-    colorBg: "",
     colorText: " text-rd",
+    type: "input",
   },
-] as const;
+] satisfies ArrayRow[];
+
+export const rowCash1C = [
+  {
+    key: "cash1CByDay",
+    label: "cash-1c",
+    colorText: " text-gn",
+    type: "input",
+  },
+] satisfies ArrayRow[];

@@ -1,13 +1,16 @@
 "use server";
 
+import { updateTag } from "next/cache";
+
 export async function invalidateEverywhere(tag: string) {
-  // updateTag(tag);
+  updateTag(tag);
 
   const endpoints = [
     "https://report-bar-n.netlify.app/api/revalidate",
     // "https://bar-report2.vercel.app/api/revalidate",
     "https://bar-report-rus.vercel.app/api/revalidate",
     "https://schedule-nuovo.vercel.app/api/revalidate",
+    "https://card-tech.netlify.app/cards/api/revalidate",
   ];
 
   await Promise.allSettled(

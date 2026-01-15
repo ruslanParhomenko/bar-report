@@ -1,6 +1,6 @@
 "use server";
 import { prisma } from "@/lib/prisma";
-import { unstable_cache, updateTag } from "next/cache";
+import { unstable_cache } from "next/cache";
 import { invalidateEverywhere } from "../invalidateEverywhere/invalidateEverywhere";
 import { ReportBarFormValues } from "@/features/report/bar/schema";
 
@@ -66,7 +66,7 @@ export async function createReportBar({ data }: { data: ReportBarFormValues }) {
       inventory: true,
     },
   });
-  updateTag("reportBar");
+
   await invalidateEverywhere("reportBar");
 
   return report.id;
@@ -77,7 +77,7 @@ export async function deleteReportBar(id: string) {
   await prisma.dailyReport.delete({
     where: { id: Number(id) },
   });
-  updateTag("reportBar");
+
   await invalidateEverywhere("reportBar");
 }
 
@@ -86,28 +86,6 @@ export async function deleteReportBar(id: string) {
 export type ReportDataById = ReportBarFormValues & {
   id: number;
 };
-
-// get all
-
-export async function _getReportsBar() {
-  const reports = await prisma.dailyReport.findMany({
-    take: 62,
-    include: {
-      cashVerify: true,
-      tobacco: true,
-      expenses: true,
-      productTransfer: true,
-      inventory: true,
-    },
-    orderBy: { date: "desc" },
-  });
-
-  return reports;
-}
-export const getReportsBar = unstable_cache(_getReportsBar, ["reportBar"], {
-  revalidate: false,
-  tags: ["reportBar"],
-});
 
 // get by date
 export async function _getReportBarByDate({
