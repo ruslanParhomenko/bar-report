@@ -6,7 +6,7 @@ import { FormWrapper } from "@/components/wrapper/form-wrapper";
 import { createBreakList } from "@/app/actions/archive/breakListAction";
 import { toast } from "sonner";
 import { BreakFormData, breakSchema, defaultValuesBrake } from "./schema";
-import { yupResolver } from "@hookform/resolvers/yup";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useLocalStorageForm } from "@/hooks/useLocalStorageForm";
 import { Table } from "@/components/ui/table";
 import BreakTableHeader from "./break-header";
@@ -15,8 +15,11 @@ import BreakTableBody from "./break-body";
 export default function BreakForm() {
   // form
   const form = useForm<BreakFormData>({
-    resolver: yupResolver(breakSchema),
+    resolver: zodResolver(breakSchema),
     defaultValues: defaultValuesBrake,
+    mode: "onSubmit",
+    reValidateMode: "onBlur",
+    shouldUnregister: false,
   });
 
   // localstorage
@@ -26,14 +29,10 @@ export default function BreakForm() {
   );
   // submit
   const onSubmit: SubmitHandler<BreakFormData> = async (data) => {
-    if (!data.date) {
-      toast.error("Дата не выбрана");
-      return;
-    }
     try {
       await createBreakList(data);
       toast.success("Брейк-лист успешно сохранён !");
-      resetForm({ ...defaultValuesBrake, date: new Date() });
+      resetForm({ ...defaultValuesBrake, date: new Date().toISOString() });
     } catch (e) {
       toast.error("Ошибка при сохранении брейк-листа");
     }

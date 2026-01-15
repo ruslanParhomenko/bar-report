@@ -12,8 +12,8 @@ import RemainsTable from "./RemainsTable";
 import WriteOffTable from "./WriteOffTable";
 import PreparedTable from "./PreparedTable";
 import StaffTable from "./StaffTable";
-import NotesTable from "../NotesTable";
 import { ReportCucinaData } from "@/app/actions/archive/reportCucinaAction";
+import { classNameHead } from "../report-bar-table/ReportBarTable";
 
 export const classNameHeadCucina = "text-shadow-muted-foreground font-bold";
 export const classNameRowBorderCucina = "border-b-bl";
@@ -40,7 +40,9 @@ export default function ReportCucinaTable({
         <StaffTable data={data.staff} />
       </CardContent>
       <CardFooter>
-        <NotesTable data={data.notes as string} />
+        <div className={classNameHead}>
+          notes: <span className="text-rd text-xs px-4">{data?.notes}</span>
+        </div>
       </CardFooter>
     </Card>
   );

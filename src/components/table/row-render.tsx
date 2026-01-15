@@ -126,7 +126,7 @@ export function RowRender<
 
       {withTotalFooter && (
         <TableRow>
-          <TableCell className="font-bold text-center">
+          <TableCell className="text-center text-black">
             {totalByDay.reduce((a, b) => a + b, 0).toFixed(2)}
           </TableCell>
           <TableCell colSpan={2} />

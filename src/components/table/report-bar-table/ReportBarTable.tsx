@@ -6,7 +6,6 @@ import ExpensesTable from "./ExpensesTable";
 import ProductTransferTable from "./ProductTransferTable";
 import InventoryTable from "./InventoryTable";
 import CashVerifyTable from "./CashVerifyTable";
-import NotesTable from "../NotesTable";
 import { ReportDataById } from "@/app/actions/archive/reportBarAction";
 import {
   CashVerify,
@@ -37,7 +36,9 @@ export default function ReportBarTable({ data }: { data: ReportDataById }) {
         </div>
         <div>
           <CashVerifyTable data={data?.cashVerify as CashVerify[]} />
-          <NotesTable data={data?.notes as string} />
+          <div className={classNameHead}>
+            notes: <span className="text-rd text-xs px-4">{data?.notes}</span>
+          </div>
         </div>
       </CardContent>
     </Card>

@@ -17,21 +17,15 @@ export default function BreakTableBody() {
     .filter((emp) => BAR_EMPLOYEES.includes(emp.role))
     .map((e) => e.name);
 
-  const { watch, getValues, reset } = useFormContext<BreakFormData>();
+  const { watch, setValue } = useFormContext<BreakFormData>();
   const dataRows = watch("rows") ?? [];
+
   return (
     <TableBody>
-      {dataRows?.map((row, rowIndex) => {
+      {dataRows.map((row, rowIndex) => {
         const rowHasTrue = TIME_LABELS.some((time) =>
-          isCurrentCell(
-            time,
-            watch(`rows.${rowIndex}.hours.${time}` as Path<BreakFormData>) as
-              | string
-              | string[]
-          )
+          isCurrentCell(time, row.hours[time])
         );
-
-        const nameValue = watch(`rows.${rowIndex}.name`);
 
         return (
           <TableRow key={`${row.id}-${rowIndex}`}>
@@ -49,7 +43,7 @@ export default function BreakTableBody() {
 
             <TableCell className="sticky left-0 z-10 text-left p-0">
               <SelectField
-                fieldName={`rows[${rowIndex}].name`}
+                fieldName={`rows.${rowIndex}.name` as Path<BreakFormData>}
                 data={employees}
                 placeHolder="..."
                 className={cn(
@@ -60,24 +54,23 @@ export default function BreakTableBody() {
             </TableCell>
 
             {TIME_LABELS.map((time, timeIndex) => {
-              const value = watch(
-                `rows.${rowIndex}.hours.${time}` as Path<BreakFormData>
-              );
+              const value = row.hours[time];
 
-              const isTrue = isCurrentCell(time, value as string | string[]);
-              const selectedValue = Array.isArray(value) ? value[0] : value;
+              const isTrue = isCurrentCell(time, value);
 
               return (
                 <TableCell key={timeIndex}>
                   <SelectField
-                    fieldName={`rows[${rowIndex}].hours.${time}`}
+                    fieldName={
+                      `rows.${rowIndex}.hours.${time}` as Path<BreakFormData>
+                    }
                     data={MINUTES_SELECT}
                     className={cn(
                       "justify-center",
                       isTrue ? "text-rd! font-bold text-[18px]" : "",
-                      selectedValue === "X"
+                      value === "X"
                         ? theme === "dark"
-                          ? "text-background!  border-0 bg-background!"
+                          ? "text-background! border-0 bg-background!"
                           : "bg-gr"
                         : ""
                     )}
@@ -86,18 +79,10 @@ export default function BreakTableBody() {
               );
             })}
 
-            {nameValue && (
+            {row.name && (
               <TableCell
                 className="p-0 cursor-pointer"
-                onClick={() => {
-                  const currentValues = getValues();
-                  reset({
-                    ...currentValues,
-                    rows: currentValues.rows.map((r, i) =>
-                      i === rowIndex ? { ...r, name: "" } : r
-                    ),
-                  });
-                }}
+                onClick={() => setValue(`rows.${rowIndex}.name`, "")}
               >
                 <Trash2 className="w-4 h-4 text-rd" />
               </TableCell>

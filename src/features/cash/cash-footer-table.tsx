@@ -18,7 +18,16 @@ export function CashFooterTable({
         .reduce((acc, val) => acc + Number(val || 0), 0)
         .toFixed(2)
     : 0;
-  let totalCashBar = 0;
+  const totalCashBar = value?.cashBarByDay
+    ? Object.values(value.cashBarByDay)
+        .reduce((acc, val) => acc + Number(val || 0), 0)
+        .toFixed(2)
+    : 0;
+  const totalVisaBar = value?.visaBarByDay
+    ? Object.values(value.visaBarByDay)
+        .reduce((acc, val) => acc + Number(val || 0), 0)
+        .toFixed(2)
+    : 0;
 
   return (
     <TableBody>
@@ -26,17 +35,20 @@ export function CashFooterTable({
       <TableRow>
         <TableCell className="border-r">
           <div className="flex flex-col items-center gap-1 p-0">
-            <div className="text-center text-xs p-0">
-              {totalCashBar.toFixed(2)}
-            </div>
+            <div className="text-center text-xs p-0">{Number(totalCash)}</div>
 
             <div
               className={cn(
                 "text-center text-xs text-muted-foreground",
-                totalCashBar - Number(totalCash) < 0 ? "text-rd" : "text-gn"
+                Number(totalCashBar) +
+                  Number(totalVisaBar) -
+                  Number(totalCash) <
+                  0
+                  ? "text-rd"
+                  : "text-gn"
               )}
             >
-              {totalCashBar - Number(totalCash)}
+              {Number(totalCashBar) + Number(totalVisaBar) - Number(totalCash)}
             </div>
           </div>
         </TableCell>
@@ -67,8 +79,6 @@ export function CashFooterTable({
           const sumBarByDay = sumCashBarByDay.toFixed(0);
 
           const difference = cashByDay - sumCashBarByDay;
-
-          totalCashBar += sumCashBarByDay;
 
           return (
             <TableCell key={dayIndex} className="p-0">

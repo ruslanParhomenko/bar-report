@@ -13,7 +13,7 @@ export default function ResultTableHeader() {
         <TableHead className={classNameRow}>{t("dayHours")}</TableHead>
         <TableHead className={classNameRow}>{t("nightHours")}</TableHead>
         <TableHead className={classNameRow}></TableHead>
-        <TableHead className={cn(classNameRow, "border-r")}>зп</TableHead>{" "}
+        <TableHead className={cn(classNameRow, "border-r")}>зп</TableHead>
         <TableHead className={classNameRow}>{t("tips")}</TableHead>
         <TableHead className={classNameRow}>{t("penalty")}</TableHead>
         <TableHead className={cn(classNameRow, "border-r")}>
