@@ -7,7 +7,6 @@ import {
   useFieldArray,
   useForm,
 } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
 
 import {
   createSchedule,
@@ -124,7 +123,7 @@ export function ScheduleCreatePage({
   }, [month, patch, selectedEmployees, monthDays.length, fields.length]);
 
   return (
-    <FormWrapper form={form} onSubmit={onSubmit}>
+    <FormWrapper form={form} onSubmit={onSubmit} withButtons={false}>
       <Table>
         <ScheduleTableHeader
           addNewRow={addRow}
