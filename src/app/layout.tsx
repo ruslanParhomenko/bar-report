@@ -10,7 +10,6 @@ import "./globals.css";
 // providers
 import { SessionProviders } from "@/providers/SessionProviders";
 import { ThemeProvider } from "next-themes";
-import { UsersEmployeesProviderLayout } from "./data-provider-layout";
 // ui
 import { Toaster } from "@/components/ui/sonner";
 
@@ -44,11 +43,7 @@ export default async function RootLayout({
         >
           <Toaster position="top-center" />
           <SessionProviders>
-            <NextIntlClientProvider>
-              <UsersEmployeesProviderLayout>
-                {children}
-              </UsersEmployeesProviderLayout>
-            </NextIntlClientProvider>
+            <NextIntlClientProvider>{children}</NextIntlClientProvider>
           </SessionProviders>
         </ThemeProvider>
       </body>

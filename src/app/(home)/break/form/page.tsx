@@ -1,15 +1,11 @@
 import { InsufficientRights } from "@/components/wrapper/InsufficientRights";
 import BreakForm from "@/features/break/break-form";
-import { authOptions } from "@/lib/auth";
-import { getServerSession } from "next-auth";
-import { redirect } from "next/navigation";
+import { checkAccess } from "@/lib/check-access";
 
 const SET_ACCESS = ["ADMIN", "BAR"];
 
 export default async function Page() {
-  const session = await getServerSession(authOptions);
-  if (!session) redirect("/");
-  if (!SET_ACCESS.includes(session?.user?.role as string))
-    return <InsufficientRights />;
+  const hasAccess = await checkAccess(SET_ACCESS);
+  if (!hasAccess) return <InsufficientRights />;
   return <BreakForm />;
 }

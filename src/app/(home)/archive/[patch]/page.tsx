@@ -6,10 +6,8 @@ import {
 import { InsufficientRights } from "@/components/wrapper/InsufficientRights";
 import ReportBar from "@/features/archive/ReportBar";
 import ReportCucina from "@/features/archive/ReportCucina";
-import { authOptions } from "@/lib/auth";
+import { checkAccess } from "@/lib/check-access";
 import { MONTHS } from "@/utils/getMonthDays";
-import { getServerSession } from "next-auth";
-import { redirect } from "next/navigation";
 
 const SET_ACCESS_BY_PATCH = {
   bar: ["ADMIN", "BAR", "MNGR", "USER"],
@@ -23,19 +21,14 @@ export default async function Page({
   params: Promise<{ patch: string }>;
   searchParams: Promise<{ [key: string]: string | undefined }>;
 }) {
-  const session = await getServerSession(authOptions);
-  if (!session) redirect("/");
+  const { patch } = await params;
+  const hasAccess = await checkAccess(
+    SET_ACCESS_BY_PATCH[patch as "bar" | "cucina"]
+  );
+  if (!hasAccess) return <InsufficientRights />;
 
   const { month, year } = await searchParams;
-  const { patch } = await params;
-  if (!patch || !month || !year) return null;
-
-  if (
-    !SET_ACCESS_BY_PATCH[patch as "bar" | "cucina"].includes(
-      session?.user?.role as string
-    )
-  )
-    return <InsufficientRights />;
+  if (!month || !year) return null;
 
   const monthNum = Number(MONTHS.indexOf(month) + 1);
   const yearNum = Number(year);

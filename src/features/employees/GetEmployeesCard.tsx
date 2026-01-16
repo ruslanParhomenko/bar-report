@@ -15,15 +15,14 @@ import ActionButtonEmployee from "./ActionButtonEmployee";
 import { handleCopy } from "@/utils/handlerCopyText";
 import { formatShortDate } from "@/utils/formatDate";
 import { CheckCircle, UserX } from "lucide-react";
+import { useAbility } from "@/providers/AbilityProvider";
 
-export function GetEmployeesCard({
-  data,
-  isAdmin,
-}: {
-  data: EmployeesContextValue[];
-  isAdmin: boolean;
-}) {
+export function GetEmployeesCard({ data }: { data: EmployeesContextValue[] }) {
   const t = useTranslations("Home");
+
+  const { isAdmin, isManager } = useAbility();
+
+  const isViewer = isAdmin || isManager;
 
   return (
     <Table className="md:table-fixed">
@@ -105,7 +104,7 @@ export function GetEmployeesCard({
                 <TableCell>{vacationDays}</TableCell>
                 <TableCell>{usedVacationDays}</TableCell>
                 <TableCell>{vacationDays - usedVacationDays}</TableCell>
-                <TableCell>{isAdmin ? Number(emp.rate) : "-"}</TableCell>
+                <TableCell>{isViewer ? Number(emp.rate) : "-"}</TableCell>
                 <TableCell>
                   {emp.status && emp.status === "fired" ? (
                     <UserX className="w-4 h-4 text-rd" />

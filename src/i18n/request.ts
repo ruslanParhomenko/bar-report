@@ -2,9 +2,9 @@ import { getRequestConfig } from "next-intl/server";
 import { cookies } from "next/headers";
 
 export default getRequestConfig(async () => {
-  const cookieStore = cookies();
-  const localeFromCookie =
-    (await cookieStore).get("NEXT_LOCALE_BAR")?.value ?? "ru";
+  // cookies() возвращает Promise
+  const cookieStore = await cookies();
+  const localeFromCookie = cookieStore.get("NEXT_LOCALE_BAR")?.value ?? "ru";
 
   const locale = localeFromCookie;
 

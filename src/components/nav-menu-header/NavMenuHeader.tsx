@@ -7,7 +7,6 @@ import { usePathname, useRouter } from "next/navigation";
 import SelectEmployeeBy from "@/features/employees/SelectEmployeeBy";
 import { RefreshCcw } from "lucide-react";
 import { NAV_BY_PATCH } from "./constants";
-import { set } from "zod";
 
 export default function NavMenuHeader() {
   const mainRoute = usePathname().split("/")[1];

@@ -1,17 +1,13 @@
 import { InsufficientRights } from "@/components/wrapper/InsufficientRights";
 import { OrderListTTNCucina } from "@/features/orders/orderListCucinaTTN";
-import { authOptions } from "@/lib/auth";
+import { checkAccess } from "@/lib/check-access";
 import { OrderListTelegramForm } from "@/providers/SendTelegramForm";
-import { getServerSession } from "next-auth";
-import { redirect } from "next/navigation";
 
 const SET_ACCESS = ["ADMIN", "CUCINA"];
 
 export default async function Page() {
-  const session = await getServerSession(authOptions);
-  if (!session) redirect("/");
-  if (!SET_ACCESS.includes(session?.user?.role as string))
-    return <InsufficientRights />;
+  const hasAccess = await checkAccess(SET_ACCESS);
+  if (!hasAccess) return <InsufficientRights />;
   return (
     <OrderListTelegramForm user="cucinaTTN" url="ttn">
       <OrderListTTNCucina />

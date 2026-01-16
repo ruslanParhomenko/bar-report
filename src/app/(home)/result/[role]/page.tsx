@@ -8,10 +8,9 @@ import { InsufficientRights } from "@/components/wrapper/InsufficientRights";
 import { remarksByUniqueEmployee } from "@/features/penalty/utils";
 import { PageResult } from "@/features/result/result-page";
 import { getRemarksByMonth } from "@/features/result/utils";
-import { authOptions } from "@/lib/auth";
+import { checkAccess } from "@/lib/check-access";
 import { MONTHS } from "@/utils/getMonthDays";
-import { getServerSession } from "next-auth";
-import { redirect } from "next/navigation";
+
 const ROLE = {
   barmen: "bar",
   waiters: "bar",
@@ -28,15 +27,13 @@ export default async function Page({
   params: Promise<{ role: string }>;
   searchParams: Promise<{ [key: string]: string | undefined }>;
 }) {
+  // access control
+  const hasAccess = await checkAccess(SET_ACCESS);
+  if (!hasAccess) return <InsufficientRights />;
+
   const { month, year } = await searchParams;
   const { role } = await params;
   if (!role || !month || !year) return null;
-  // access control
-  const session = await getServerSession(authOptions);
-  if (!session) redirect("/");
-  if (!SET_ACCESS.includes(session.user?.role ?? "")) {
-    return <InsufficientRights />;
-  }
   // key
   const uniqueKey = `${year}-${month}`;
 

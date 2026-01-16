@@ -4,12 +4,10 @@ import {
 } from "@/app/actions/remarks/remarksAction";
 import { InsufficientRights } from "@/components/wrapper/InsufficientRights";
 import PenaltyPage from "@/features/penalty/penalty-page";
-import { authOptions } from "@/lib/auth";
+import { checkAccess } from "@/lib/check-access";
 import { MONTHS } from "@/utils/getMonthDays";
-import { getServerSession } from "next-auth";
-import { redirect } from "next/navigation";
 
-const SET_ACCESS = ["ADMIN", "BAR", "CUCINA", "MNGR", "USER"];
+const SET_ACCESS = ["ADMIN", "BAR", "MNGR", "USER"];
 
 export default async function Page({
   params,
@@ -18,15 +16,12 @@ export default async function Page({
   params: Promise<{ tab: string }>;
   searchParams: Promise<{ [key: string]: string | undefined }>;
 }) {
-  const session = await getServerSession(authOptions);
-  if (!session) redirect("/");
-  if (!SET_ACCESS.includes(session?.user?.role as string))
-    return <InsufficientRights />;
+  const hasAccess = await checkAccess(SET_ACCESS);
+  if (!hasAccess) return <InsufficientRights />;
 
   const { month, year } = await searchParams;
+  if (!month || !year) return null;
   const { tab } = await params;
-
-  if (!tab || !month || !year) return null;
 
   const monthNum = Number(MONTHS.indexOf(month) + 1);
   const yearNum = Number(year);
