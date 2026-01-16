@@ -1,7 +1,12 @@
 "use client";
 import { useEffect } from "react";
 import { Table } from "@/components/ui/table";
-import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
+import {
+  Resolver,
+  SubmitHandler,
+  useFieldArray,
+  useForm,
+} from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import {
@@ -19,6 +24,7 @@ import ScheduleTableHeader from "../ScheduleTableHeader";
 import ScheduleCreateTableBody from "./ScheduleCreateTableBody";
 import { getSelectedEmployeesByRole } from "../utils";
 import ScheduleTableFooter from "../ScheduleTableFooter";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 export function ScheduleCreatePage({
   schedule,
@@ -42,7 +48,7 @@ export function ScheduleCreatePage({
 
   // set form
   const form = useForm<ScheduleType>({
-    resolver: yupResolver(scheduleSchema),
+    resolver: zodResolver(scheduleSchema) as Resolver<ScheduleType>,
     defaultValues: found,
   });
   const { fields, remove, replace, move } = useFieldArray({

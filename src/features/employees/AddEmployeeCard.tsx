@@ -4,6 +4,7 @@ import { Label } from "@/components/ui/label";
 import { useTranslations } from "next-intl";
 import {
   FieldArrayPath,
+  Resolver,
   SubmitHandler,
   useFieldArray,
   useForm,
@@ -22,7 +23,6 @@ import {
 import { cn } from "@/lib/utils";
 import { EmployeesContextValue } from "@/providers/EmployeesProvider";
 import { FormWrapper } from "@/components/wrapper/form-wrapper";
-import { yupResolver } from "@hookform/resolvers/yup";
 import { toast } from "sonner";
 import {
   createEmployee,
@@ -33,6 +33,7 @@ import { useEffect } from "react";
 import { useRouter } from "@/i18n/navigation";
 import { EMPLOYEES_ROLE } from "./SelectEmployeeBy";
 import SelectField from "@/components/inputs/SelectField";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 type FormData = EmployeesSchemaTypeData & { id?: string };
 const STATUS_OPTIONS = ["active", "fired"];
@@ -47,7 +48,7 @@ export function AddEmployeeCard({
   const t = useTranslations("Home");
 
   const form = useForm<FormData>({
-    resolver: yupResolver(employeesSchema),
+    resolver: zodResolver(employeesSchema) as Resolver<FormData>,
     defaultValues: defaultEmployeeSchemaValues,
   });
   const { fields, append, remove, replace } = useFieldArray({

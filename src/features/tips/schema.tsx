@@ -1,49 +1,35 @@
+import { z } from "zod";
 import { MONTHS } from "@/utils/getMonthDays";
 
-import * as yup from "yup";
+const tipsByDaySchema = z.string().default("");
 
-const tipsByDaySchema = yup.string().default("");
-
-const rowEmployeesTipsSchema = yup.object({
-  id: yup.string().default("").required("Id is required"),
-  employee: yup.string().default("").required("Employee is required"),
-  role: yup.string().default(""),
-  tips: yup.string().default(""),
-  tipsByDay: yup.array().of(tipsByDaySchema).default([]),
+export const rowEmployeesTipsSchema = z.object({
+  id: z.string().default(""),
+  employee: z.string().default(""),
+  role: z.string().default(""),
+  tips: z.string().default(""),
+  tipsByDay: z.array(tipsByDaySchema).default([]),
 });
 
-export type RowEmployeesTipsType = yup.InferType<typeof rowEmployeesTipsSchema>;
+export type RowEmployeesTipsType = z.infer<typeof rowEmployeesTipsSchema>;
+
 export const defaultRowEmployeesTips: RowEmployeesTipsType =
-  rowEmployeesTipsSchema.getDefault();
+  rowEmployeesTipsSchema.parse({});
 
-export const tipsSchema = yup.object({
-  id: yup.string().default(undefined),
-  year: yup
-    .string()
-    .default(new Date().getFullYear().toString())
-    .required("Year is required"),
-  month: yup
-    .string()
-    .default(MONTHS[new Date().getMonth()])
-    .required("Month is required"),
-  rowEmployeesTips: yup.array().of(rowEmployeesTipsSchema).default([]),
-  cashTips: yup.array().of(tipsByDaySchema).default([]),
-  waitersDishBid: yup
-    .string()
-    .default("0.03")
-    .required("WaitersDishBid is required"),
-  barmenDishBid: yup
-    .string()
-    .default("0.07")
-    .required("BarmenDishBid is required"),
-  dishDishBid: yup.string().default("0.07").required("DishDishBid is required"),
-  percentTips: yup.string().default("0.28").required("PercentTips is required"),
-  percentBarmen: yup
-    .string()
-    .default("0.6")
-    .required("PercentBarmen is required"),
-  percentDish: yup.string().default("0.4").required("PercentDish is required"),
+export const tipsSchema = z.object({
+  id: z.string().optional(),
+  year: z.string().default(new Date().getFullYear().toString()),
+  month: z.string().default(MONTHS[new Date().getMonth()]),
+  rowEmployeesTips: z.array(rowEmployeesTipsSchema).default([]),
+  cashTips: z.array(tipsByDaySchema).default([]),
+  waitersDishBid: z.string().default("0.03"),
+  barmenDishBid: z.string().default("0.07"),
+  dishDishBid: z.string().default("0.07"),
+  percentTips: z.string().default("0.28"),
+  percentBarmen: z.string().default("0.6"),
+  percentDish: z.string().default("0.4"),
 });
 
-export type TipsFormType = yup.InferType<typeof tipsSchema>;
-export const defaultTipsForm: TipsFormType = tipsSchema.getDefault();
+export type TipsFormType = z.infer<typeof tipsSchema>;
+
+export const defaultTipsForm: TipsFormType = tipsSchema.parse({});

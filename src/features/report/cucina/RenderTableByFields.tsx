@@ -70,8 +70,8 @@ const RenderTableCucina = ({
 
   return (
     <div className="pb-4">
-      <Label className="py-1 text-md text-bl">{t(name as string)} :</Label>
-      <Separator className="py-px mb-1 bg-bl" />
+      <Label className="text-md text-bl">{t(name as string)} :</Label>
+      <Separator className="p-[0.5px] bg-bl" />
 
       {fieldsArray.fields.map((field, index) => {
         return (

@@ -8,7 +8,6 @@ import {
   useFieldArray,
   useForm,
 } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
 import { defaultTipsForm, TipsFormType, tipsSchema } from "./schema";
 import { saveTipsForm, TipsData } from "@/app/actions/tips/tipsAction";
 import { toast } from "sonner";
@@ -21,6 +20,7 @@ import { CashData } from "@/app/actions/cash/cashAction";
 import { useAbility } from "@/providers/AbilityProvider";
 import BidForm from "./bid-form";
 import { DayByMonthTable } from "@/components/table/day-by-month-table";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 const SELECTED_ROLE = ["barmen", "waiters", "dish"];
 
@@ -43,7 +43,7 @@ export default function TipsForm({
 
   // form
   const form = useForm<TipsFormType>({
-    resolver: yupResolver(tipsSchema) as unknown as Resolver<TipsFormType>,
+    resolver: zodResolver(tipsSchema) as Resolver<TipsFormType>,
     defaultValues: defaultTipsForm,
   });
   const { fields, remove, append, move } = useFieldArray<TipsFormType>({

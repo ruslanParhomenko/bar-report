@@ -1,28 +1,33 @@
-import * as yup from "yup";
+import { z } from "zod";
 
-const shiftsSchema = yup.string().default("");
+const shiftsSchema = z.string().default("");
 
-const rowShiftSchema = yup.object({
-  id: yup.string().default("").required("Id is required"),
-  dayHours: yup.string().default(""),
-  nightHours: yup.string().default(""),
-  totalHours: yup.string().default(""),
-  employee: yup.string().default("").required("is required"),
-  role: yup.string().default("").required("Role is required"),
-  rate: yup.string().default("").required("Rate is required"),
-  employeeId: yup.string().default("").required("is required"),
-  shifts: yup.array().of(shiftsSchema).default([]),
+export const rowShiftSchema = z.object({
+  id: z.string().min(1, { message: "Id is required" }).default(""),
+  dayHours: z.string().default(""),
+  nightHours: z.string().default(""),
+  totalHours: z.string().default(""),
+  employee: z.string().min(1, { message: "Employee is required" }).default(""),
+  role: z.string().min(1, { message: "Role is required" }).default(""),
+  rate: z.string().min(1, { message: "Rate is required" }).default(""),
+  employeeId: z
+    .string()
+    .min(1, { message: "EmployeeId is required" })
+    .default(""),
+  shifts: z.array(shiftsSchema).default([]),
 });
 
-export type RowShiftType = yup.InferType<typeof rowShiftSchema>;
-export const defaultRowShift: RowShiftType = rowShiftSchema.getDefault();
+export type RowShiftType = z.infer<typeof rowShiftSchema>;
 
-export const scheduleSchema = yup.object({
-  year: yup.string().default(""),
-  month: yup.string().default(""),
-  role: yup.string().default(""),
-  rowShifts: yup.array().of(rowShiftSchema).default([]),
+export const defaultRowShift: RowShiftType = rowShiftSchema.parse({});
+
+export const scheduleSchema = z.object({
+  year: z.string().default(""),
+  month: z.string().default(""),
+  role: z.string().default(""),
+  rowShifts: z.array(rowShiftSchema).default([]),
 });
 
-export type ScheduleType = yup.InferType<typeof scheduleSchema>;
-export const defaultSchedule: ScheduleType = scheduleSchema.getDefault();
+export type ScheduleType = z.infer<typeof scheduleSchema>;
+
+export const defaultSchedule: ScheduleType = scheduleSchema.parse({});

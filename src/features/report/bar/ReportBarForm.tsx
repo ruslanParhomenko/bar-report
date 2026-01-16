@@ -1,11 +1,9 @@
 "use client";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
+import { useForm } from "react-hook-form";
 import DatePickerInput from "@/components/inputs/DatePickerInput";
 import { toast } from "sonner";
 import {
   cashVerifyDefault,
-  defaultValuesReportBar,
   expensesDefault,
   inventoryDefault,
   productTransferDefault,
@@ -21,23 +19,24 @@ import { TableInventory } from "./TableInventory";
 import { createReportBar } from "@/app/actions/archive/reportBarAction";
 import { useLocalStorageForm } from "@/hooks/useLocalStorageForm";
 import { FormWrapper } from "@/components/wrapper/form-wrapper";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 export default function ReportBarForm() {
   const STORAGE_KEY = "report-bar";
 
   //form
-  const form = useForm<ReportBarFormValues>({
-    defaultValues: defaultValuesReportBar,
-    resolver: yupResolver(reportBarSchema),
+  const form = useForm({
+    defaultValues: reportBarSchema.parse({}),
+    resolver: zodResolver(reportBarSchema),
   });
+
   // localstorage
   const { isLoaded, resetForm } = useLocalStorageForm(form, STORAGE_KEY);
 
   //submit
-  const onSubmit: SubmitHandler<ReportBarFormValues> = async (data) => {
+  const onSubmit = async (data: ReportBarFormValues) => {
     const formateData = {
       ...data,
-      date: new Date(data.date),
       tobacco: data.tobacco?.map((item) => ({
         ...item,
         stock: item.stock,
@@ -57,7 +56,8 @@ export default function ReportBarForm() {
     });
 
     const updatedTobacco = data?.tobacco?.map((item) => {
-      const finalStock = item.stock + +item.incoming - +item.outgoing;
+      const finalStock =
+        item.stock + Number(item.incoming || 0) - Number(item.outgoing || 0);
 
       return {
         ...item,
@@ -67,7 +67,7 @@ export default function ReportBarForm() {
       };
     });
 
-    const updatedData: ReportBarFormValues = {
+    const updatedData = {
       ...data,
       date: new Date(),
       tobacco: updatedTobacco,
@@ -82,10 +82,6 @@ export default function ReportBarForm() {
     toast.success("Бар отчет успешно сохранён !");
   };
 
-  function mergeByIndex<T>(defaults: T[], data?: T[]) {
-    return defaults.map((item, index) => data?.[index] ?? item);
-  }
-
   if (!isLoaded) {
     return (
       <div className="flex items-center justify-center h-full w-full">
@@ -96,13 +92,13 @@ export default function ReportBarForm() {
   const reset = () => {
     const currentTobacco = form.getValues("tobacco")?.map((item) => ({
       ...item,
-      stock: +item.stock,
+      stock: Number(item.stock),
       incoming: "",
       outgoing: "",
     }));
 
     resetForm({
-      ...defaultValuesReportBar,
+      ...reportBarSchema.parse({}),
       tobacco: currentTobacco,
     });
   };
@@ -113,7 +109,7 @@ export default function ReportBarForm() {
       onSubmit={onSubmit}
       resetForm={reset}
       resetButton={true}
-      className="gap-12"
+      className="gap-10"
     >
       <div className="flex w-full justify-end">
         <DatePickerInput

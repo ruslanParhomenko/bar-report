@@ -1,51 +1,56 @@
-import * as yup from "yup";
+import { z } from "zod";
 
-export const schemaShift = yup.object({
-  employees: yup.string().default(""),
-  time: yup.string().default(""),
-  over: yup.string().default(""),
+// --- shifts
+export const schemaShift = z.object({
+  employees: z.string().default(""),
+  time: z.string().default(""),
+  over: z.string().default(""),
 });
-export type ReportShiftType = yup.InferType<typeof schemaShift>;
-export const defaultShift: ReportShiftType = schemaShift.getDefault();
+export type ReportShiftType = z.infer<typeof schemaShift>;
+export const defaultShift: ReportShiftType = schemaShift.parse({});
 
-//  prepared
-
-export const productPreparedSchema = yup.object({
-  product: yup.string().default(""),
-  portions: yup.string().default(""),
-  weight: yup.string().default(""),
-  time: yup.string().default(""),
+// --- prepared products
+export const productPreparedSchema = z.object({
+  product: z.string().default(""),
+  portions: z.string().default(""),
+  weight: z.string().default(""),
+  time: z.string().default(""),
 });
-export type ProductPreparedType = yup.InferType<typeof productPreparedSchema>;
-export const productPreparedDefault = productPreparedSchema.getDefault();
+export type ProductPreparedType = z.infer<typeof productPreparedSchema>;
+export const productPreparedDefault: ProductPreparedType =
+  productPreparedSchema.parse({});
 
-// write off
-export const writeOffSchema = yup.object({
-  product: yup.string().default(""),
-  weight: yup.string().default(""),
-  reason: yup.string().default(""),
+// --- write off
+export const writeOffSchema = z.object({
+  product: z.string().default(""),
+  weight: z.string().default(""),
+  reason: z.string().default(""),
 });
-export type ReportWriteOffType = yup.InferType<typeof writeOffSchema>;
-export const defaultWriteOff: ReportWriteOffType = writeOffSchema.getDefault();
+export type ReportWriteOffType = z.infer<typeof writeOffSchema>;
+export const defaultWriteOff: ReportWriteOffType = writeOffSchema.parse({});
 
-// form schema
-export const schemaReportCucina = yup.object({
-  date: yup.date().default(new Date()),
-  shifts: yup.array(schemaShift).default([defaultShift]),
-  remains: yup.array(productPreparedSchema).default([productPreparedDefault]),
-  preparedSalads: yup
+// --- main form schema
+export const schemaReportCucina = z.object({
+  date: z.coerce.date().default(() => new Date()),
+  shifts: z.array(schemaShift).default([defaultShift]),
+  remains: z.array(productPreparedSchema).default([productPreparedDefault]),
+  preparedSalads: z
     .array(productPreparedSchema)
     .default([productPreparedDefault]),
-  preparedSeconds: yup
+  preparedSeconds: z
     .array(productPreparedSchema)
     .default([productPreparedDefault]),
-  preparedDesserts: yup
+  preparedDesserts: z
     .array(productPreparedSchema)
     .default([productPreparedDefault]),
-  cutting: yup.array(productPreparedSchema).default([productPreparedDefault]),
-  staff: yup.array(schemaShift).default([defaultShift]),
-  writeOff: yup.array(writeOffSchema).default([defaultWriteOff]),
-  notes: yup.string().default(""),
+  cutting: z.array(productPreparedSchema).default([productPreparedDefault]),
+  staff: z.array(schemaShift).default([defaultShift]),
+  writeOff: z.array(writeOffSchema).default([defaultWriteOff]),
+  notes: z.string().default(""),
 });
-export type ReportCucinaType = yup.InferType<typeof schemaReportCucina>;
-export const defaultReportCucina = schemaReportCucina.getDefault();
+
+export type ReportCucinaType = z.infer<typeof schemaReportCucina>;
+export type ReportCucinaFormInput = z.input<typeof schemaReportCucina>;
+export const defaultReportCucina: ReportCucinaType = schemaReportCucina.parse(
+  {}
+);

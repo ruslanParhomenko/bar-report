@@ -1,44 +1,30 @@
-import * as yup from "yup";
+import { z } from "zod";
 
-// Vacation pay schema
-export const vacationPaySchema = yup.object({
-  startDate: yup.string().default(""),
-  endDate: yup.string().default(""),
-  countDays: yup.string().default(""),
-});
-export type VacationPaySchemaType = yup.InferType<typeof vacationPaySchema>;
-
-// Employee schema
-export const employeesSchema = yup.object({
-  name: yup.string().required("Name is required").default(""),
-  mail: yup.string().email().default(""),
-  tel: yup.string().default(""),
-  role: yup.string().required("Role is required").default(""),
-  rate: yup.string().required("Rate is required").default(""),
-  employmentDate: yup.string().default(""),
-  dismissalDate: yup.string().default(""),
-  status: yup.string().oneOf(["active", "fired"]).default("active"),
-  reason: yup.string().default(""),
-  vacationPay: yup.array().of(vacationPaySchema).default([]),
+export const vacationPaySchema = z.object({
+  startDate: z.string().default(""),
+  endDate: z.string().default(""),
+  countDays: z.string().default(""),
 });
 
-export type EmployeesSchemaTypeData = yup.InferType<typeof employeesSchema>;
-export const defaultVacationPay = {
-  startDate: "",
-  endDate: "",
-  countDays: "",
-};
-export const defaultEmployeeSchemaValues: EmployeesSchemaTypeData = {
-  name: "",
-  mail: "",
-  tel: "",
-  role: "",
-  rate: "",
-  employmentDate: "",
-  dismissalDate: "",
-  status: "active",
-  reason: "",
-  vacationPay: [defaultVacationPay],
-};
+export type VacationPaySchemaType = z.infer<typeof vacationPaySchema>;
 
-// const
+export const defaultVacationPay: VacationPaySchemaType =
+  vacationPaySchema.parse({});
+
+export const employeesSchema = z.object({
+  name: z.string().min(1, { message: "Name is required" }).default(""),
+  mail: z.string().email({ message: "Invalid email" }).default(""),
+  tel: z.string().default(""),
+  role: z.string().min(1, { message: "Role is required" }).default(""),
+  rate: z.string().min(1, { message: "Rate is required" }).default(""),
+  employmentDate: z.string().default(""),
+  dismissalDate: z.string().default(""),
+  status: z.enum(["active", "fired"]).default("active"),
+  reason: z.string().default(""),
+  vacationPay: z.array(vacationPaySchema).default([defaultVacationPay]),
+});
+
+export type EmployeesSchemaTypeData = z.infer<typeof employeesSchema>;
+
+export const defaultEmployeeSchemaValues: EmployeesSchemaTypeData =
+  employeesSchema.parse({});

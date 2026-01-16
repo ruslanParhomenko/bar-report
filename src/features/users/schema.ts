@@ -1,14 +1,15 @@
-import * as yup from "yup";
-//users
-export const usersSchema = yup.object({
-  mail: yup.string().email().required("required"),
-  role: yup.string().required("required"),
+import { z } from "zod";
+
+export const usersSchema = z.object({
+  mail: z.string().email({ message: "required" }),
+  role: z.string().min(1, { message: "required" }),
 });
 
-export type UsersSchemaTypeData = yup.InferType<typeof usersSchema> & {
+export type UsersSchemaTypeData = z.infer<typeof usersSchema> & {
   id?: string;
 };
-export const defaultUser = {
+
+export const defaultUser: UsersSchemaTypeData = {
   mail: "",
   role: "",
 };

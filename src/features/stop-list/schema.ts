@@ -1,16 +1,23 @@
-import * as yup from "yup";
+import { z } from "zod";
 
-export const stopListItemSchema = yup.object({
-  key: yup.number(),
-  product: yup.string().default(""),
-  date: yup.string().default(""),
-});
-export type StopListItemSchemaType = yup.InferType<typeof stopListItemSchema>;
-export const defaultStopList = stopListItemSchema.getDefault();
-
-export const stopListSchema = yup.object({
-  stopList: yup.array().of(stopListItemSchema).default([defaultStopList]),
+export const stopListItemSchema = z.object({
+  key: z.number(),
+  product: z.string().default(""),
+  date: z.string().default(""),
 });
 
-export type StopListSchemaType = yup.InferType<typeof stopListSchema>;
-export const defaultStopListSchema = stopListSchema.getDefault();
+export type StopListItemSchemaType = z.infer<typeof stopListItemSchema>;
+
+export const defaultStopList: StopListItemSchemaType = stopListItemSchema.parse(
+  { key: 0 }
+);
+
+export const stopListSchema = z.object({
+  stopList: z.array(stopListItemSchema).default([defaultStopList]),
+});
+
+export type StopListSchemaType = z.infer<typeof stopListSchema>;
+
+export const defaultStopListSchema: StopListSchemaType = stopListSchema.parse(
+  {}
+);

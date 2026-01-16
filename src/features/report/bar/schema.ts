@@ -1,91 +1,94 @@
-import * as yup from "yup";
+import { z } from "zod";
 import { INVENTORY_DATA, LIST_TOBACCO } from "./constants";
 
-//products transfer
-export const productTransferSchema = yup.object().shape({
-  name: yup.string().default(""),
-  quantity: yup.string().default(""),
-  destination: yup.string().default(""),
-  time: yup.string().default(""),
+// products transfer
+export const productTransferSchema = z.object({
+  name: z.string().default(""),
+  quantity: z.string().default(""),
+  destination: z.string().default(""),
+  time: z.string().default(""),
 });
 
-export type ProductTransferSchemaType = yup.InferType<
-  typeof productTransferSchema
->;
+export type ProductTransferSchemaType = z.infer<typeof productTransferSchema>;
+
 export const productTransferDefault = Array.from({ length: 8 }, () =>
-  productTransferSchema.getDefault()
+  productTransferSchema.parse({})
 );
 
 // inventory
-export const inventorySchema = yup.object().shape({
-  name: yup.string().default(""),
-  quantity: yup.string().default(""),
-  time: yup.string().default(""),
+export const inventorySchema = z.object({
+  name: z.string().default(""),
+  quantity: z.string().default(""),
+  time: z.string().default(""),
 });
 
-export type InventorySchemaType = yup.InferType<typeof inventorySchema>;
+export type InventorySchemaType = z.infer<typeof inventorySchema>;
+
 export const inventoryDefault = INVENTORY_DATA.map((item) => ({
-  ...inventorySchema.getDefault(),
+  ...inventorySchema.parse({}),
   name: item,
 }));
 
-//expenses
-export const expenseSchema = yup.object().shape({
-  name: yup.string().default(""),
-  sum: yup.string().default(""),
-  time: yup.string().default(""),
+// expenses
+export const expenseSchema = z.object({
+  name: z.string().default(""),
+  sum: z.string().default(""),
+  time: z.string().default(""),
 });
 
-export type ExpensesSchemaType = yup.InferType<typeof expenseSchema>;
+export type ExpensesSchemaType = z.infer<typeof expenseSchema>;
+
 export const expensesDefault = Array.from({ length: 8 }, () =>
-  expenseSchema.getDefault()
+  expenseSchema.parse({})
 );
 
-//tobacco
-
-export const tobaccoSchema = yup.object().shape({
-  name: yup
-    .string()
-    .default("")
-    .oneOf(LIST_TOBACCO, "Name must be one of the predefined list"),
-  stock: yup.number().default(0),
-  incoming: yup.string().default(""),
-  outgoing: yup.string().default(""),
-  finalStock: yup.number().default(0),
+// tobacco
+export const tobaccoSchema = z.object({
+  name: z.enum(LIST_TOBACCO),
+  stock: z.number().default(0),
+  incoming: z.string().default(""),
+  outgoing: z.string().default(""),
+  finalStock: z.number().default(0),
 });
 
-export type TobaccoSchemaType = yup.InferType<typeof tobaccoSchema>;
+export type TobaccoSchemaType = z.infer<typeof tobaccoSchema>;
+
 export const defaultTobaccoValue = LIST_TOBACCO.map((name) => ({
-  ...tobaccoSchema.getDefault(),
-  name: name,
+  name,
+  stock: 0,
+  incoming: "",
+  outgoing: "",
+  finalStock: 0,
 }));
-
 // cash verify
-export const cashVerifySchema = yup.object().shape({
-  hours: yup.string().default(""),
-  value: yup.string().default(""),
+export const cashVerifySchema = z.object({
+  hours: z.string().default(""),
+  value: z.string().default(""),
 });
 
-export type CashVerifySchemaType = yup.InferType<typeof cashVerifySchema>;
+export type CashVerifySchemaType = z.infer<typeof cashVerifySchema>;
+
 export const cashVerifyDefault = Array.from({ length: 24 }, () =>
-  cashVerifySchema.getDefault()
+  cashVerifySchema.parse({})
 );
 
-//report bar
-export const reportBarSchema = yup.object().shape({
-  date: yup.date().default(new Date()),
-  expenses: yup.array(expenseSchema).default(expensesDefault),
-  tobacco: yup.array(tobaccoSchema).default(defaultTobaccoValue),
-  cashVerify: yup.array(cashVerifySchema).default(cashVerifyDefault),
-  productTransfer: yup
+// report bar
+export const reportBarSchema = z.object({
+  date: z.coerce.date().default(new Date()),
+
+  expenses: z.array(expenseSchema).default(expensesDefault),
+  tobacco: z.array(tobaccoSchema).default(defaultTobaccoValue),
+  cashVerify: z.array(cashVerifySchema).default(cashVerifyDefault),
+  productTransfer: z
     .array(productTransferSchema)
     .default(productTransferDefault),
-  inventory: yup.array(inventorySchema).default(inventoryDefault),
-  notes: yup.string().nullable().default(""),
+  inventory: z.array(inventorySchema).default(inventoryDefault),
+  notes: z.string().nullable().default(""),
 });
 
-export type ReportBarFormValues = yup.InferType<typeof reportBarSchema>;
-export const defaultValuesReportBar = {
+export type ReportBarFormValues = z.infer<typeof reportBarSchema>;
+
+export const defaultValuesReportBar: ReportBarFormValues = {
   date: new Date(),
   expenses: expensesDefault,
   tobacco: defaultTobaccoValue,

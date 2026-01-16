@@ -5,7 +5,6 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { defaultUser, usersSchema, UsersSchemaTypeData } from "./schema";
 import { useAbility } from "@/providers/AbilityProvider";
 import { FormWrapper } from "@/components/wrapper/form-wrapper";
-import { yupResolver } from "@hookform/resolvers/yup";
 import { createUser, updateUser } from "@/app/actions/users/userAction";
 import { toast } from "sonner";
 import { useEffect } from "react";
@@ -13,6 +12,7 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import SelectField from "@/components/inputs/SelectField";
 import { Label } from "@/components/ui/label";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 const ROLES = ["ADMIN", "BAR", "CUCINA", "USER", "MNGR", "CASH", "FIN"];
 
@@ -26,7 +26,7 @@ export default function UsersForm({ id }: { id?: string }) {
   const userData = id && users.find((u: any) => u.id === id);
 
   const form = useForm<FormData>({
-    resolver: yupResolver(usersSchema),
+    resolver: zodResolver(usersSchema),
     defaultValues: defaultUser,
   });
 

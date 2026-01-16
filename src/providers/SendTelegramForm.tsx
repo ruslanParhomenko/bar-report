@@ -72,7 +72,6 @@ export const OrderListTelegramForm = ({
       onSubmit={onSubmit}
       className="flex flex-col min-h-[90vh]"
       resetForm={resetFormValues}
-      reset={true}
       resetButton={true}
     >
       {children}

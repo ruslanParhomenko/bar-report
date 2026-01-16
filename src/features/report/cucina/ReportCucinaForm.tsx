@@ -1,5 +1,5 @@
 "use client";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { Resolver, useForm } from "react-hook-form";
 import { Textarea } from "@/components/ui/textarea";
 import DatePickerInput from "@/components/inputs/DatePickerInput";
 import {
@@ -26,9 +26,7 @@ import {
   REMAINS_PRODUCTS,
   SELECT_TIME,
 } from "./constants";
-import { Label } from "@/components/ui/label";
 import { useTranslations } from "next-intl";
-import { yupResolver } from "@hookform/resolvers/yup";
 import { toast } from "sonner";
 import RenderTableCucina from "./RenderTableByFields";
 import { REPORT_CUCINA_ENDPOINT } from "@/constants/endpoint-tag";
@@ -37,6 +35,7 @@ import { useEmployees } from "@/providers/EmployeesProvider";
 import { createReportCucina } from "@/app/actions/archive/reportCucinaAction";
 import { FormWrapper } from "@/components/wrapper/form-wrapper";
 import { useLocalStorageForm } from "@/hooks/useLocalStorageForm";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 export default function ReportCucinaForm() {
   const t = useTranslations("Home");
@@ -48,8 +47,8 @@ export default function ReportCucinaForm() {
 
   //form
   const form = useForm<ReportCucinaType>({
-    defaultValues: defaultReportCucina,
-    resolver: yupResolver(schemaReportCucina),
+    defaultValues: schemaReportCucina.parse({}),
+    resolver: zodResolver(schemaReportCucina) as Resolver<ReportCucinaType>,
   });
 
   // localstorage
@@ -63,13 +62,7 @@ export default function ReportCucinaForm() {
     toast.success("Форма успешно очищена!");
   };
 
-  const onSubmit: SubmitHandler<ReportCucinaType> = async (data) => {
-    const invalidShift = data.shifts.some((shift) => !shift.employees?.trim());
-    if (invalidShift) {
-      toast.error("Заполните всех сотрудников в сменах!");
-      return;
-    }
-
+  const onSubmit = async (data: ReportCucinaType) => {
     try {
       await createReportCucina({ data: data });
 
@@ -97,7 +90,7 @@ export default function ReportCucinaForm() {
       resetForm={resetFormHandler}
     >
       <div className="flex w-full justify-end">
-        <DatePickerInput fieldName="date" className="text-sm h-8 text-rd" />
+        <DatePickerInput fieldName="date" className="text-sm h-6 text-rd" />
       </div>
 
       <RenderTableCucina
@@ -208,7 +201,7 @@ export default function ReportCucinaForm() {
         dataArrayField3={REASON}
         defaultValue={defaultWriteOff}
       />
-      <Label className="font-semibold py-4 text-md text-bl">{t("notes")}</Label>
+
       <Textarea placeholder="notes ..." {...form.register("notes")} />
     </FormWrapper>
   );
