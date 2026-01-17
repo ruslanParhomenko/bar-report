@@ -114,7 +114,7 @@ export default function CashForm({
             router.refresh();
             toast.info("Данные обновились в реальном времени!");
           }
-        }
+        },
       )
       .subscribe();
 
@@ -126,15 +126,16 @@ export default function CashForm({
   useEffect(() => {
     if (!dataAo) return;
 
-    const totalTTNModa = (dataAo?.rowAOData?.ttnModaByDay as string[])?.reduce(
-      (acc: number, num: string) => acc + Number(num || 0),
-      0
+    const totalTTNModa = (dataAo?.rowAOData?.ttnModaByDay as string[])
+      ?.reduce((acc: number, num: string) => acc + Number(num || 0), 0)
+      .toFixed(2);
+    const totalTTNBar = (dataAo?.rowAOData?.ttnBarByDay as string[])
+      ?.reduce((acc: number, num: string) => acc + Number(num || 0), 0)
+      .toFixed(2);
+    form.setValue(
+      "ao_532",
+      (Number(totalTTNModa) + Number(totalTTNBar)).toString(),
     );
-    const totalTTNBar = (dataAo?.rowAOData?.ttnBarByDay as string[])?.reduce(
-      (acc: number, num: string) => acc + Number(num || 0),
-      0
-    );
-    form.setValue("ao_532", (totalTTNModa + totalTTNBar).toString());
   }, [dataAo]);
 
   return (

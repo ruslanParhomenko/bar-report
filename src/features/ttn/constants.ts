@@ -4,7 +4,6 @@ export const suppliers = [
   "acvilin",
   "apifera",
   "aqua-trade",
-  "aquastar",
   "arta-culinar",
   "armas",
   "blue-shark",

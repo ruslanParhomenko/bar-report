@@ -1,9 +1,10 @@
+"use client";
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { FieldPath, UseFormReturn, useWatch } from "react-hook-form";
 import { SuppliersFormTypeInput } from "./schema";
 import { handleTableNavigation } from "@/utils/handleTableNavigation";
 import { cn } from "@/lib/utils";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function TTNBodyTable({
   arrayRows,
@@ -23,6 +24,8 @@ export default function TTNBodyTable({
   });
 
   const currentDay = new Date().getDate();
+
+  const [focusedRow, setFocusedRow] = useState<number | null>(null);
 
   const sum = (arr?: Array<string | undefined>) =>
     (arr ?? []).reduce((acc, v) => acc + (Number(v ?? 0) || 0), 0);
@@ -63,14 +66,17 @@ export default function TTNBodyTable({
           "h-4 w-full text-end text-xs border-0 p-0 m-0 box-border leading-none px-0.5";
 
         return (
-          <TableRow key={row}>
+          <TableRow
+            key={row}
+            className={cn(focusedRow === rowIndex ? "bg-gray-200" : "")}
+          >
             <TableCell className="text-xs p-0 pr-0.5  border-r">
               <div className="w-30 grid grid-cols-2 gap-1">
                 <div className="flex flex-col  items-end">
                   <span
                     className={cn(
                       "text-rd",
-                      minusTotal === 0 && "text-muted-foreground"
+                      minusTotal === 0 && "text-muted-foreground",
                     )}
                   >
                     {minusTotal.toFixed(2)}
@@ -78,7 +84,7 @@ export default function TTNBodyTable({
                   <span
                     className={cn(
                       "text-bl",
-                      plusTotal === 0 && "text-muted-foreground"
+                      plusTotal === 0 && "text-muted-foreground",
                     )}
                   >
                     {plusTotal.toFixed(2)}
@@ -87,7 +93,7 @@ export default function TTNBodyTable({
                 <div className="flex items-center">
                   <input
                     {...register(
-                      `rowSuppliers.${row}.final` as FieldPath<SuppliersFormTypeInput>
+                      `rowSuppliers.${row}.final` as FieldPath<SuppliersFormTypeInput>,
                     )}
                     className={cn(classNameInput, "text-gn")}
                     disabled={isDisabled}
@@ -100,7 +106,7 @@ export default function TTNBodyTable({
               <span
                 className={cn(
                   "truncate font-bold",
-                  isRowByCurrentDay && "text-rd"
+                  isRowByCurrentDay && "text-rd",
                 )}
               >
                 {row}
@@ -109,7 +115,7 @@ export default function TTNBodyTable({
             <TableCell className="p-0 pr-0.5 border-l text-xs">
               <input
                 {...register(
-                  `rowSuppliers.${row}.start` as FieldPath<SuppliersFormTypeInput>
+                  `rowSuppliers.${row}.start` as FieldPath<SuppliersFormTypeInput>,
                 )}
                 className={cn(classNameInput)}
                 disabled={isDisabled}
@@ -120,7 +126,7 @@ export default function TTNBodyTable({
                 <div className="flex flex-col h-8">
                   <input
                     {...register(
-                      `rowSuppliers.${row}.minus.${dayIndex}` as FieldPath<SuppliersFormTypeInput>
+                      `rowSuppliers.${row}.minus.${dayIndex}` as FieldPath<SuppliersFormTypeInput>,
                     )}
                     data-row={rowIndex * 2}
                     data-col={dayIndex}
@@ -128,11 +134,13 @@ export default function TTNBodyTable({
                     onKeyDown={(e) =>
                       handleTableNavigation(e, rowIndex * 2, dayIndex)
                     }
+                    onFocus={() => setFocusedRow(rowIndex)}
+                    onBlur={() => setFocusedRow(null)}
                     disabled={isDisabled}
                   />
                   <input
                     {...register(
-                      `rowSuppliers.${row}.plus.${dayIndex}` as FieldPath<SuppliersFormTypeInput>
+                      `rowSuppliers.${row}.plus.${dayIndex}` as FieldPath<SuppliersFormTypeInput>,
                     )}
                     data-row={rowIndex * 2 + 1}
                     data-col={dayIndex}
@@ -140,6 +148,8 @@ export default function TTNBodyTable({
                     onKeyDown={(e) =>
                       handleTableNavigation(e, rowIndex * 2 + 1, dayIndex)
                     }
+                    onFocus={() => setFocusedRow(rowIndex)}
+                    onBlur={() => setFocusedRow(null)}
                     disabled={isDisabled}
                   />
                 </div>
