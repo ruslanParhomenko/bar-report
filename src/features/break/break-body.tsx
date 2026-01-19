@@ -72,7 +72,7 @@ export default function BreakTableBody() {
                       value === "X"
                         ? theme === "dark"
                           ? "text-background! border-0 bg-background!"
-                          : "bg-gr"
+                          : "bg-gr text-gr"
                         : "",
                     )}
                   />

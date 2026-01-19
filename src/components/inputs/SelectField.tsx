@@ -45,7 +45,11 @@ function SelectField({
       control={control}
       name={fieldName}
       render={({ field, fieldState }) => (
-        <FormItem className="grid gap-2 pb-2 grid-cols-1 justify-items-start">
+        <FormItem
+          className={cn(
+            fieldLabel && "grid gap-2 pb-2 grid-cols-1 justify-items-start",
+          )}
+        >
           {fieldLabel && <Label>{fieldLabel}</Label>}
           <Select
             value={field.value ?? ""}

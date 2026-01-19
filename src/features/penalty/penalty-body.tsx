@@ -3,7 +3,7 @@ import { useFieldArray, useFormContext } from "react-hook-form";
 import { defaultRemarkValue, RemarksFormData } from "./schema";
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
 import SelectField from "@/components/inputs/SelectField";
-import { OVER_HOURS, REASON } from "./constants";
+import { REASON } from "./constants";
 import NumericInput from "@/components/inputs/NumericInput";
 import SelectWithInput from "@/components/inputs/SelectWithInput";
 import { Plus, Trash2 } from "lucide-react";
@@ -40,16 +40,14 @@ export function PenaltyTableBody() {
             />
           </TableCell>
           <TableCell>
-            <SelectField
+            <NumericInput
               fieldName={`remarks.${idx}.dayHours`}
-              data={OVER_HOURS}
               className="justify-center"
             />
           </TableCell>
           <TableCell>
-            <SelectField
+            <NumericInput
               fieldName={`remarks.${idx}.nightHours`}
-              data={OVER_HOURS}
               className="justify-center"
             />
           </TableCell>

@@ -31,21 +31,21 @@ export function BreakListArchive({ data }: { data: BreakListData[] }) {
                         key={row.id}
                         className="hover:text-rd  cursor-pointer"
                       >
-                        <TableCell className="font-bold md:w-3xs sticky left-0 bg-card">
+                        <TableCell className="py-1 md:w-3xs sticky left-0 bg-background">
                           {row.name ?? "-"}
                         </TableCell>
-                        <TableCell className="text-sm text-gr  md:w-xs">
+                        <TableCell className="text-sm text-gr  md:w-xs py-1">
                           {row.externalId}
                         </TableCell>
-                        <TableCell className="text-center">
+                        <TableCell className="text-center py-1">
                           {hoursEntries.length}
                         </TableCell>
-                        <TableCell className="text-center">...</TableCell>
+                        <TableCell className="text-center py-1">...</TableCell>
 
                         {hoursEntries.map(({ hour, value }) => (
                           <TableCell
                             key={`${row.id}-${hour}`}
-                            className="text-center"
+                            className="text-center py-1"
                           >
                             {hour}:{value}
                           </TableCell>
