@@ -30,7 +30,7 @@ export async function createEmployee(data: EmployeeData) {
 // update
 export async function updateEmployee(
   id: string,
-  data: Omit<EmployeeData, "id">
+  data: Omit<EmployeeData, "id">,
 ) {
   await dbAdmin.collection("employees").doc(id).update(data);
   updateTag("employees");
@@ -58,3 +58,15 @@ export const getEmployees = unstable_cache(_getEmployees, ["employees"], {
   revalidate: false,
   tags: ["employees"],
 });
+
+// export const getEmployees = async () => {
+//   "use cache";
+
+//   cacheTag("employees");
+
+//   const snapshot = await dbAdmin.collection("employees").get();
+//   return snapshot.docs.map((doc) => ({
+//     id: doc.id,
+//     ...doc.data(),
+//   }));
+// };

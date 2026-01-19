@@ -18,8 +18,9 @@ export default function NavMenuHeader() {
 
   const router = useRouter();
 
-  const [month, setMonth] = useState(MONTHS[new Date().getMonth()]);
-  const [year, setYear] = useState(new Date().getFullYear().toString());
+  const [month, setMonth] = useState(() => MONTHS[new Date().getMonth()]);
+  const [year, setYear] = useState(() => new Date().getFullYear().toString());
+
   const [patch, setPatch] = useState<string>("");
 
   const [role, setRole] = useState("waiters");
@@ -40,8 +41,8 @@ export default function NavMenuHeader() {
       filterType === "role"
         ? `/${mainRoute}/${patch}?role=${role}`
         : filterType === "month"
-        ? `/${mainRoute}/${patch}?month=${month}&year=${year}`
-        : `/${mainRoute}/${patch}`;
+          ? `/${mainRoute}/${patch}?month=${month}&year=${year}`
+          : `/${mainRoute}/${patch}`;
 
     startTransition(() => {
       router.push(url);

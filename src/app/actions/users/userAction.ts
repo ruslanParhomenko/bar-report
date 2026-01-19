@@ -44,3 +44,15 @@ export const getUsers = unstable_cache(_getUsers, ["users"], {
   revalidate: false,
   tags: ["users"],
 });
+
+// export const getUsers = async () => {
+//   "use cache";
+
+//   cacheTag("users");
+
+//   const snapshot = await dbAdmin.collection("users").get();
+//   return snapshot.docs.map((doc) => ({
+//     id: doc.id,
+//     ...doc.data(),
+//   })) as UsersSchemaTypeData[];
+// };

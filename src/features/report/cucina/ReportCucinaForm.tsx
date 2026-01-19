@@ -54,7 +54,7 @@ export default function ReportCucinaForm() {
   // localstorage
   const { isLoaded, resetForm } = useLocalStorageForm(
     form,
-    REPORT_CUCINA_ENDPOINT
+    REPORT_CUCINA_ENDPOINT,
   );
 
   const resetFormHandler = () => {
@@ -63,6 +63,7 @@ export default function ReportCucinaForm() {
   };
 
   const onSubmit = async (data: ReportCucinaType) => {
+    console.log("data onSubmit", data);
     try {
       await createReportCucina({ data: data });
 

@@ -1,9 +1,10 @@
 "use client";
 
 import { UsersSchemaTypeData } from "@/features/users/schema";
+import { useSession } from "next-auth/react";
 import React, { createContext, useContext, useMemo } from "react";
 
-type AbilityFlags = {
+type Ability = {
   isAdmin: boolean;
   isBar: boolean;
   isCucina: boolean;
@@ -13,7 +14,7 @@ type AbilityFlags = {
   isFin: boolean;
 };
 
-type AbilityContextType = AbilityFlags & {
+type AbilityContextType = Ability & {
   query: UsersSchemaTypeData[];
 };
 
@@ -22,22 +23,28 @@ const AbilityContext = createContext<AbilityContextType | null>(null);
 export function AbilityProvider({
   children,
   users,
-  serverAbility,
 }: {
   children: React.ReactNode;
   users: any[];
-  serverAbility: AbilityFlags;
 }) {
-  const value = useMemo(() => {
-    const ability = {
-      ...serverAbility,
-    };
-
-    return { ...ability, query: users || [] };
-  }, [serverAbility, users]);
+  const { data: session } = useSession();
+  const currentUserEmail = session?.user?.email ?? null;
+  const user = users.find((u) => u.mail === currentUserEmail);
+  const ability: Ability = {
+    isAdmin:
+      currentUserEmail === "parhomenkogm@gmail.com" || user?.role === "ADMIN",
+    isBar: user?.role === "BAR",
+    isCucina: user?.role === "CUCINA",
+    isUser: user?.role === "USER",
+    isManager: user?.role === "MNGR",
+    isCash: user?.role === "CASH",
+    isFin: user?.role === "FIN",
+  };
 
   return (
-    <AbilityContext.Provider value={value}>{children}</AbilityContext.Provider>
+    <AbilityContext.Provider value={{ ...ability, query: users }}>
+      {children}
+    </AbilityContext.Provider>
   );
 }
 

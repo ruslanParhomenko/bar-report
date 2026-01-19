@@ -44,7 +44,7 @@ export const schemaReportCucina = z.object({
     .array(productPreparedSchema)
     .default([productPreparedDefault]),
   cutting: z.array(productPreparedSchema).default([productPreparedDefault]),
-  staff: z.array(schemaShift).default([defaultShift]),
+  staff: z.array(productPreparedSchema).default([productPreparedDefault]),
   writeOff: z.array(writeOffSchema).default([defaultWriteOff]),
   notes: z.string().default(""),
 });
@@ -52,5 +52,5 @@ export const schemaReportCucina = z.object({
 export type ReportCucinaType = z.infer<typeof schemaReportCucina>;
 export type ReportCucinaFormInput = z.input<typeof schemaReportCucina>;
 export const defaultReportCucina: ReportCucinaType = schemaReportCucina.parse(
-  {}
+  {},
 );
