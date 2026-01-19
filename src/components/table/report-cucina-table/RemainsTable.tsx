@@ -6,13 +6,17 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Remain } from "@/generated/prisma";
 import {
   classNameHeadCucina,
   classNameRowBorderCucina,
 } from "./ReportCucinaTable";
+import { ReportCucinaData } from "@/app/actions/archive/reportCucinaAction";
 
-export default function RemainsTable({ data }: { data: Remain[] }) {
+export default function RemainsTable({
+  data,
+}: {
+  data: ReportCucinaData["remains"];
+}) {
   return (
     data && (
       <Table>

@@ -1,4 +1,3 @@
-import { Inventory } from "@/generated/prisma";
 import { classNameHead, classNameRowBorder } from "./ReportBarTable";
 import {
   Table,
@@ -9,7 +8,13 @@ import {
   TableRow,
 } from "../../ui/table";
 
-export default function InventoryTable({ data }: { data: Inventory[] }) {
+import { ReportBarType } from "@/app/actions/archive/reportBarAction";
+
+export default function InventoryTable({
+  data,
+}: {
+  data: ReportBarType["inventory"];
+}) {
   return data ? (
     <Table>
       <TableHeader>

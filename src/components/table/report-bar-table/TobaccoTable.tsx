@@ -1,4 +1,3 @@
-import { Tobacco } from "@/generated/prisma";
 import {
   Table,
   TableBody,
@@ -8,8 +7,13 @@ import {
   TableRow,
 } from "../../ui/table";
 import { classNameHead, classNameRowBorder } from "./ReportBarTable";
+import { ReportBarType } from "@/app/actions/archive/reportBarAction";
 
-export default function TobaccoTable({ data }: { data: Tobacco[] }) {
+export default function TobaccoTable({
+  data,
+}: {
+  data: ReportBarType["tobacco"];
+}) {
   if (!data) return <div>not found</div>;
   return (
     <Table>

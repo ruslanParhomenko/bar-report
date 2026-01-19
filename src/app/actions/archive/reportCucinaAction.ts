@@ -1,4 +1,7 @@
 "use server";
+
+import { unstable_cache } from "next/cache";
+import { invalidateEverywhere } from "../invalidateEverywhere/invalidateEverywhere";
 import {
   DailyReportCucina,
   Prepared,
@@ -6,10 +9,9 @@ import {
   Shift,
   Staff,
   WriteOff,
-} from "@/generated/prisma";
-import { prisma } from "@/lib/prisma";
-import { unstable_cache } from "next/cache";
-import { invalidateEverywhere } from "../invalidateEverywhere/invalidateEverywhere";
+} from "@/prisma/generated/prisma/client";
+import prisma from "@/lib/prisma";
+import { ReportCucinaType } from "@/features/report/cucina/schema";
 
 // type
 
@@ -21,7 +23,7 @@ export type ReportCucinaData = DailyReportCucina & {
   writeOff: WriteOff[];
 };
 // create report
-export async function createReportCucina({ data }: { data: any }) {
+export async function createReportCucina({ data }: { data: ReportCucinaType }) {
   const {
     date,
     notes,
@@ -49,8 +51,8 @@ export async function createReportCucina({ data }: { data: any }) {
 
       shifts: {
         create: shifts
-          .filter((s: Shift) => s.employees)
-          .map((s: Shift) => ({
+          .filter((s) => s.employees)
+          .map((s) => ({
             employees: s.employees,
             time: s.time || "",
             over: s.over || "",
@@ -59,8 +61,8 @@ export async function createReportCucina({ data }: { data: any }) {
 
       remains: {
         create: remains
-          .filter((r: Remain) => r.product)
-          .map((r: Remain) => ({
+          .filter((r) => r.product)
+          .map((r) => ({
             product: r.product,
             portions: r.portions || "",
             weight: r.weight || "",
@@ -69,8 +71,8 @@ export async function createReportCucina({ data }: { data: any }) {
 
       prepared: {
         create: prepared
-          .filter((p: Prepared) => p.product)
-          .map((p: Prepared) => ({
+          .filter((p) => p.product)
+          .map((p) => ({
             product: p.product,
             portions: p.portions || "",
             weight: p.weight || "",
@@ -80,8 +82,8 @@ export async function createReportCucina({ data }: { data: any }) {
 
       staff: {
         create: staff
-          .filter((s: Staff) => s.product)
-          .map((s: Staff) => ({
+          .filter((s) => s.product)
+          .map((s) => ({
             product: s.product,
             portions: s.portions || "",
             weight: s.weight || "",
@@ -91,8 +93,8 @@ export async function createReportCucina({ data }: { data: any }) {
 
       writeOff: {
         create: writeOff
-          .filter((w: WriteOff) => w.product)
-          .map((w: WriteOff) => ({
+          .filter((w) => w.product)
+          .map((w) => ({
             product: w.product,
             weight: w.weight || "",
             reason: w.reason || "",
@@ -165,5 +167,5 @@ export const getReportsCucinaByDate = unstable_cache(
   {
     revalidate: false,
     tags: ["reportCucina"],
-  }
+  },
 );

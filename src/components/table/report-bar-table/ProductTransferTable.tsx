@@ -1,4 +1,3 @@
-import { ProductTransfer } from "@/generated/prisma";
 import {
   Table,
   TableBody,
@@ -8,11 +7,12 @@ import {
   TableRow,
 } from "../../ui/table";
 import { classNameHead, classNameRowBorder } from "./ReportBarTable";
+import { ReportBarType } from "@/app/actions/archive/reportBarAction";
 
 export default function ProductTransferTable({
   data,
 }: {
-  data: ProductTransfer[];
+  data: ReportBarType["productTransfer"];
 }) {
   return data ? (
     <Table>

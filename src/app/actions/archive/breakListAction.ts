@@ -1,14 +1,14 @@
 "use server";
 
-import { prisma } from "@/lib/prisma";
 import { unstable_cache } from "next/cache";
 import { invalidateEverywhere } from "../invalidateEverywhere/invalidateEverywhere";
+import prisma from "@/lib/prisma";
 
 // create break list
 export async function createBreakList(data: any) {
   const { date, rows } = data;
   const rowsWithName = rows.filter(
-    (row: any) => row.name && row.name.trim() !== ""
+    (row: any) => row.name && row.name.trim() !== "",
   );
 
   const breakList = await prisma.breakList.create({
@@ -81,5 +81,5 @@ export const getBreakListByDate = unstable_cache(
   {
     revalidate: false,
     tags: ["breakList"],
-  }
+  },
 );

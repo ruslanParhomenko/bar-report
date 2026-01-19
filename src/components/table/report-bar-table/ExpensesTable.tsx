@@ -1,4 +1,3 @@
-import { Expense } from "@/generated/prisma";
 import {
   Table,
   TableBody,
@@ -8,8 +7,13 @@ import {
   TableRow,
 } from "../../ui/table";
 import { classNameHead, classNameRowBorder } from "./ReportBarTable";
+import { ReportBarType } from "@/app/actions/archive/reportBarAction";
 
-export default function ExpensesTable({ data }: { data: Expense[] }) {
+export default function ExpensesTable({
+  data,
+}: {
+  data: ReportBarType["expenses"];
+}) {
   return data ? (
     <Table>
       <TableHeader>
@@ -19,8 +23,8 @@ export default function ExpensesTable({ data }: { data: Expense[] }) {
       </TableHeader>
       <TableBody>
         {data
-          ?.filter((e: Expense) => e.name !== "")
-          .map((e: any, idx: number) => (
+          ?.filter((e) => e.name !== "")
+          .map((e, idx) => (
             <TableRow key={idx}>
               <TableCell>{e.name || "—"} -</TableCell>
               <TableCell>{e.sum || "0"}</TableCell>

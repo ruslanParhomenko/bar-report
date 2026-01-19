@@ -4,7 +4,7 @@ import { FieldPath, UseFormReturn, useWatch } from "react-hook-form";
 import { SuppliersFormTypeInput } from "./schema";
 import { handleTableNavigation } from "@/utils/handleTableNavigation";
 import { cn } from "@/lib/utils";
-import { useEffect, useState } from "react";
+import { useEffect, useEffectEvent, useState } from "react";
 
 export default function TTNBodyTable({
   arrayRows,
@@ -30,29 +30,24 @@ export default function TTNBodyTable({
   const sum = (arr?: Array<string | undefined>) =>
     (arr ?? []).reduce((acc, v) => acc + (Number(v ?? 0) || 0), 0);
 
+  const updateFinal = useEffectEvent((row: string) => {
+    const rowData = value?.[row];
+    if (!rowData) return;
+
+    const minusTotal = sum(rowData.minus);
+    const plusTotal = sum(rowData.plus);
+    const startAmount = Number(rowData.start || 0);
+    const finalTotal = (startAmount + minusTotal + plusTotal).toFixed(2);
+
+    const currentFinal = rowData.final ?? "0";
+    if (currentFinal !== finalTotal) {
+      form.setValue(`rowSuppliers.${row}.final`, finalTotal);
+    }
+  });
+
   useEffect(() => {
-    arrayRows.forEach((row) => {
-      const rowData = value?.[row];
-      if (!rowData) return;
-
-      const minusTotal = sum(rowData.minus);
-      const plusTotal = sum(rowData.plus);
-      const startAmount = Number(rowData.start || 0);
-      const finalTotal = startAmount + minusTotal + plusTotal;
-
-      form.setValue(`rowSuppliers.${row}.final`, finalTotal.toFixed(2), {
-        shouldDirty: false,
-        shouldTouch: false,
-      });
-    });
-  }, [
-    value?.rowSuppliers?.minus,
-    value?.rowSuppliers?.plus,
-    value?.rowSuppliers?.start,
-    arrayRows,
-    form,
-  ]);
-
+    arrayRows.forEach((row) => updateFinal(row));
+  }, [arrayRows, updateFinal]);
   return (
     <TableBody>
       {arrayRows.map((row, rowIndex) => {

@@ -7,12 +7,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Remark } from "@/generated/prisma";
 
 import { useTranslations } from "next-intl";
 import PrintButton from "@/components/buttons/PrintButton";
 import { remarksByUniqueEmployee } from "./utils";
 import { useRef } from "react";
+import { Remark } from "@/prisma/generated/prisma/client";
 
 export type PenaltyTableProps = Omit<Remark, "id" | "reportId"> & {
   date?: string;

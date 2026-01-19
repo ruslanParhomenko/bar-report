@@ -6,18 +6,11 @@ import ExpensesTable from "./ExpensesTable";
 import ProductTransferTable from "./ProductTransferTable";
 import InventoryTable from "./InventoryTable";
 import CashVerifyTable from "./CashVerifyTable";
-import { ReportDataById } from "@/app/actions/archive/reportBarAction";
-import {
-  CashVerify,
-  Expense,
-  Inventory,
-  ProductTransfer,
-  Tobacco,
-} from "@/generated/prisma";
+import { ReportBarType } from "@/app/actions/archive/reportBarAction";
 
 export const classNameHead = "text-shadow-muted-foreground font-bold";
 export const classNameRowBorder = "border-b-bl";
-export default function ReportBarTable({ data }: { data: ReportDataById }) {
+export default function ReportBarTable({ data }: { data: ReportBarType }) {
   return (
     <Card className="shadow-md border rounded-2xl md:p-4 mb-4">
       <CardHeader>
@@ -27,15 +20,13 @@ export default function ReportBarTable({ data }: { data: ReportDataById }) {
       </CardHeader>
       <CardContent className="flex flex-col gap-4">
         <div className="grid grid-cols-1 xl:grid-cols-4 gap-4">
-          <TobaccoTable data={data?.tobacco as Tobacco[]} />
-          <ExpensesTable data={data?.expenses as Expense[]} />
-          <ProductTransferTable
-            data={data?.productTransfer as ProductTransfer[]}
-          />
-          <InventoryTable data={data?.inventory as Inventory[]} />
+          <TobaccoTable data={data?.tobacco} />
+          <ExpensesTable data={data?.expenses} />
+          <ProductTransferTable data={data?.productTransfer} />
+          <InventoryTable data={data?.inventory} />
         </div>
         <div>
-          <CashVerifyTable data={data?.cashVerify as CashVerify[]} />
+          <CashVerifyTable data={data?.cashVerify} />
           <div className={classNameHead}>
             notes: <span className="text-rd text-xs px-4">{data?.notes}</span>
           </div>

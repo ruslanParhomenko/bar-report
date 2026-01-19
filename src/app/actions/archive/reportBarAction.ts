@@ -1,9 +1,25 @@
 "use server";
-import { prisma } from "@/lib/prisma";
+
 import { unstable_cache } from "next/cache";
 import { invalidateEverywhere } from "../invalidateEverywhere/invalidateEverywhere";
 import { ReportBarFormValues } from "@/features/report/bar/schema";
-
+import prisma from "@/lib/prisma";
+import {
+  CashVerify,
+  DailyReport,
+  Expense,
+  Inventory,
+  ProductTransfer,
+  Tobacco,
+} from "@/prisma/generated/prisma/client";
+export type ReportBarType = DailyReport & {
+  cashVerify: CashVerify[];
+  tobacco: Tobacco[];
+  expenses: Expense[];
+  productTransfer: ProductTransfer[];
+  inventory: Inventory[];
+  notes: string;
+};
 // create report
 export async function createReportBar({ data }: { data: ReportBarFormValues }) {
   const {
@@ -81,12 +97,6 @@ export async function deleteReportBar(id: string) {
   await invalidateEverywhere("reportBar");
 }
 
-// get by id
-
-export type ReportDataById = ReportBarFormValues & {
-  id: number;
-};
-
 // get by date
 export async function _getReportBarByDate({
   startDate,
@@ -121,5 +131,5 @@ export const getReportBarByDate = unstable_cache(
   {
     revalidate: false,
     tags: ["reportBar"],
-  }
+  },
 );

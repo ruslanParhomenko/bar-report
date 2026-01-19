@@ -6,11 +6,15 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Shift } from "@/generated/prisma";
 import { classNameRowBorder } from "../report-bar-table/ReportBarTable";
 import { classNameHeadCucina } from "./ReportCucinaTable";
+import { ReportCucinaData } from "@/app/actions/archive/reportCucinaAction";
 
-export default function ShiftsTable({ data }: { data: Shift[] }) {
+export default function ShiftsTable({
+  data,
+}: {
+  data: ReportCucinaData["shifts"];
+}) {
   return (
     data && (
       <Table>

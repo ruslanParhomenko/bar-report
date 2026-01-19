@@ -1,9 +1,9 @@
 "use server";
 
-import { Remark } from "@/generated/prisma";
-import { prisma } from "@/lib/prisma";
 import { unstable_cache, updateTag } from "next/cache";
 import { invalidateEverywhere } from "../invalidateEverywhere/invalidateEverywhere";
+import { Remark } from "@/prisma/generated/prisma/client";
+import prisma from "@/lib/prisma";
 
 export type RemarksData = {
   id: number;
@@ -16,7 +16,7 @@ export type RemarksData = {
 export async function createRemarks(data: any) {
   const { date, remarks } = data;
   const remarksWithName = remarks.filter(
-    (remark: any) => remark.name && remark.name.trim() !== ""
+    (remark: any) => remark.name && remark.name.trim() !== "",
   );
   const remarksData = await prisma.remarkReport.create({
     data: {
@@ -124,5 +124,5 @@ export const getRemarksByDate = unstable_cache(
   {
     revalidate: false,
     tags: ["remarks"],
-  }
+  },
 );

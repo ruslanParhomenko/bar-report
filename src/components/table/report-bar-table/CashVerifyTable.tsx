@@ -1,4 +1,3 @@
-import { CashVerify } from "@/generated/prisma";
 import {
   Table,
   TableBody,
@@ -8,8 +7,13 @@ import {
   TableRow,
 } from "../../ui/table";
 import { classNameHead, classNameRowBorder } from "./ReportBarTable";
+import { ReportBarType } from "@/app/actions/archive/reportBarAction";
 
-export default function CashVerifyTable({ data }: { data: CashVerify[] }) {
+export default function CashVerifyTable({
+  data,
+}: {
+  data: ReportBarType["cashVerify"];
+}) {
   return data ? (
     <Table>
       <TableHeader>

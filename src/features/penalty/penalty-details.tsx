@@ -15,10 +15,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Remark } from "@/generated/prisma";
 import { useRouter } from "@/i18n/navigation";
+import { Remark } from "@/prisma/generated/prisma/client";
 import { useAbility } from "@/providers/AbilityProvider";
-import { PenBox, Pencil, Trash2 } from "lucide-react";
+import { PenBox, Trash2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useMemo, useState } from "react";
 export type PenaltyTableProps = Omit<Remark, "reportId"> & {
@@ -99,7 +99,7 @@ export default function PenaltyDetails({
                 .filter((row) =>
                   selectedEmployee === "all"
                     ? row
-                    : row.name === selectedEmployee
+                    : row.name === selectedEmployee,
                 )
                 .map((row, index) => (
                   <TableRow

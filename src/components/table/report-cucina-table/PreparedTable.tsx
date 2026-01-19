@@ -6,10 +6,14 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Prepared } from "@/generated/prisma";
 import { classNameRowBorder } from "../report-bar-table/ReportBarTable";
+import { ReportCucinaData } from "@/app/actions/archive/reportCucinaAction";
 
-export default function PreparedTable({ data }: { data: Prepared[] }) {
+export default function PreparedTable({
+  data,
+}: {
+  data: ReportCucinaData["prepared"];
+}) {
   return data ? (
     <Table>
       <TableHeader>

@@ -6,10 +6,14 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Staff } from "@/generated/prisma";
 import { classNameRowBorder } from "../report-bar-table/ReportBarTable";
+import { ReportCucinaData } from "@/app/actions/archive/reportCucinaAction";
 
-export default function StaffTable({ data }: { data: Staff[] }) {
+export default function StaffTable({
+  data,
+}: {
+  data: ReportCucinaData["staff"];
+}) {
   return (
     data && (
       <Table>

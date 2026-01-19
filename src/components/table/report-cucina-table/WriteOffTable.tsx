@@ -6,10 +6,14 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { WriteOff } from "@/generated/prisma";
 import { classNameRowBorder } from "../report-bar-table/ReportBarTable";
+import { ReportCucinaData } from "@/app/actions/archive/reportCucinaAction";
 
-export default function WriteOffTable({ data }: { data: WriteOff[] }) {
+export default function WriteOffTable({
+  data,
+}: {
+  data: ReportCucinaData["writeOff"];
+}) {
   return (
     data && (
       <Table>
