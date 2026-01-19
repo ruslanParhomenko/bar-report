@@ -1,7 +1,7 @@
 "use server";
 
 import { TipsFormType } from "@/features/tips/schema";
-import { supabase } from "@/lib/supabaseClient";
+import { supabase } from "@/lib/supabase-client";
 
 import { invalidateEverywhere } from "../invalidateEverywhere/invalidateEverywhere";
 import { unstable_cache, updateTag } from "next/cache";
@@ -29,7 +29,7 @@ export async function saveTipsForm(data: Omit<TipsFormType, "cashTips">) {
       unique_id: unique_id,
       form_data: data,
     },
-    { onConflict: "unique_id" }
+    { onConflict: "unique_id" },
   );
 
   if (error) {

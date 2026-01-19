@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { supabaseServer } from "@/lib/supabaseServer";
+import { supabaseServer } from "@/lib/supabase-server";
 import { revalidateTag } from "next/cache";
 
 export async function POST(req: NextRequest) {
@@ -14,7 +14,7 @@ export async function POST(req: NextRequest) {
       .from("stop_list_realtime")
       .upsert(
         { user_email: mail, form_data: dataStopList },
-        { onConflict: "user_email" }
+        { onConflict: "user_email" },
       );
     revalidateTag("stopList", "default");
     if (error)

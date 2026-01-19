@@ -1,5 +1,5 @@
 import { getEmployees } from "@/app/actions/employees/employeeAction";
-import { AddEmployeeCard } from "@/features/employees/AddEmployeeCard";
+import { EmployeeForm } from "@/features/employees/employee-form";
 import { EmployeesContextValue } from "@/providers/EmployeesProvider";
 
 export default async function Page({
@@ -10,7 +10,5 @@ export default async function Page({
   const data = await getEmployees();
   const { id } = await params;
   const employee = id ? data.find((e: any) => e.id === id) : null;
-  return (
-    <AddEmployeeCard employee={employee as EmployeesContextValue | null} />
-  );
+  return <EmployeeForm employee={employee as EmployeesContextValue | null} />;
 }

@@ -1,6 +1,6 @@
 "use server";
 
-import { dbAdmin } from "@/lib/firebaseAdmin";
+import { dbAdmin } from "@/lib/firebase-admin";
 import { EmployeesSchemaTypeData } from "@/features/employees/schema";
 import { invalidateEverywhere } from "../invalidateEverywhere/invalidateEverywhere";
 import { unstable_cache, updateTag } from "next/cache";

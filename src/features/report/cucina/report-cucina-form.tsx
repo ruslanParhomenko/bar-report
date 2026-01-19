@@ -28,7 +28,7 @@ import {
 } from "./constants";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
-import RenderTableCucina from "./RenderTableByFields";
+import RenderTableCucina from "./fields-form";
 import { REPORT_CUCINA_ENDPOINT } from "@/constants/endpoint-tag";
 
 import { useEmployees } from "@/providers/EmployeesProvider";

@@ -1,6 +1,6 @@
 import { getBreakListByDate } from "@/app/actions/archive/breakListAction";
 import { InsufficientRights } from "@/components/wrapper/InsufficientRights";
-import { BreakTableByData } from "@/features/break/BreakTableByData";
+import { BreakListArchive } from "@/features/break/break-list-archive";
 import { authOptions } from "@/lib/auth";
 import { MONTHS } from "@/utils/getMonthDays";
 import { getServerSession } from "next-auth";
@@ -36,5 +36,5 @@ export default async function Page({
     startDate,
     endDate,
   });
-  return <BreakTableByData data={dataRemarks.breakList} />;
+  return <BreakListArchive data={dataRemarks.breakList} />;
 }

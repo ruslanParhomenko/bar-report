@@ -33,7 +33,7 @@ export function TipsTableBody({
   form: any;
   selectedEmployees: { id: string; name: string; role: string }[];
 }) {
-  const { isAdmin, isManager, isCash } = useAbility();
+  const { isAdmin, isManager } = useAbility();
   const isDisabled = !isAdmin && !isManager;
   useEffect(() => {
     const subscription = form.watch((_: any, { name }: any) => {
@@ -46,21 +46,21 @@ export function TipsTableBody({
 
           const totalTips = tipsByDay.reduce(
             (sum: number, t: string) => sum + (parseFloat(t) || 0),
-            0
+            0,
           );
 
           const currentTips = parseFloat(
-            form.getValues(`rowEmployeesTips.${rowIndex}.tips`) || "0"
+            form.getValues(`rowEmployeesTips.${rowIndex}.tips`) || "0",
           );
 
           if (currentTips !== totalTips) {
             form.setValue(
               `rowEmployeesTips.${rowIndex}.tips`,
-              totalTips.toString()
+              totalTips.toString(),
             );
             form.setValue(
               `rowEmployeesTips.${rowIndex}.rate`,
-              totalTips.toString()
+              totalTips.toString(),
             );
           }
         }
@@ -81,7 +81,7 @@ export function TipsTableBody({
             {roleRows.map((row, rowIndex) => {
               const globalIndex = data.indexOf(row);
               const rowNumber = dataRowsCount.findIndex(
-                (r: any) => r.id === row.id
+                (r: any) => r.id === row.id,
               );
 
               return (
@@ -109,7 +109,7 @@ export function TipsTableBody({
                       readOnly
                       value={
                         form.getValues(
-                          `rowEmployeesTips.${globalIndex}.tips`
+                          `rowEmployeesTips.${globalIndex}.tips`,
                         ) || 0
                       }
                       className="w-full text-center text-[13px] p-0 font-medium"
@@ -121,7 +121,7 @@ export function TipsTableBody({
                       <TableCell key={dayIndex} className="p-0.5 border-r">
                         <input
                           {...form.register(
-                            `rowEmployeesTips.${globalIndex}.tipsByDay.${dayIndex}`
+                            `rowEmployeesTips.${globalIndex}.tipsByDay.${dayIndex}`,
                           )}
                           data-row={rowNumber}
                           data-col={dayIndex}
@@ -129,7 +129,7 @@ export function TipsTableBody({
                             handleTableNavigation(e, rowNumber, dayIndex)
                           }
                           className={cn(
-                            "w-full h-6  text-xs text-center p-0 border-0 shadow-none"
+                            "w-full h-6  text-xs text-center p-0 border-0 shadow-none",
                           )}
                           disabled={isDisabled}
                         />
@@ -144,7 +144,7 @@ export function TipsTableBody({
                       onClick={() => {
                         if (rowIndex > 0) {
                           const targetGlobalIndex = data.indexOf(
-                            roleRows[rowIndex - 1]
+                            roleRows[rowIndex - 1],
                           );
                           move(globalIndex, targetGlobalIndex);
                         }
@@ -159,7 +159,7 @@ export function TipsTableBody({
                       onClick={() => {
                         if (rowIndex < roleRows.length - 1) {
                           const targetGlobalIndex = data.indexOf(
-                            roleRows[rowIndex + 1]
+                            roleRows[rowIndex + 1],
                           );
                           move(globalIndex, targetGlobalIndex);
                         }

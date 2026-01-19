@@ -10,7 +10,7 @@ import { CashFooterTable } from "./cash-footer-table";
 import { useEffect, useState } from "react";
 import { getMonthDays, MONTHS } from "@/utils/getMonthDays";
 import { Table } from "@/components/ui/table";
-import { supabase } from "@/lib/supabaseClient";
+import { supabase } from "@/lib/supabase-client";
 import { useRouter } from "next/navigation";
 import { DayByMonthTable } from "@/components/table/day-by-month-table";
 import { AOContextValue } from "@/app/actions/a-o/ao-action";

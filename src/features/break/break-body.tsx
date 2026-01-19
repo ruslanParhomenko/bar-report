@@ -13,18 +13,20 @@ import { Trash2 } from "lucide-react";
 const BAR_EMPLOYEES = ["waiters", "barmen"];
 export default function BreakTableBody() {
   const { theme } = useTheme();
+
   const employees = useEmployees()
     .filter((emp) => BAR_EMPLOYEES.includes(emp.role))
     .map((e) => e.name);
 
   const { watch, setValue } = useFormContext<BreakFormData>();
+
   const dataRows = watch("rows") ?? [];
 
   return (
     <TableBody>
       {dataRows.map((row, rowIndex) => {
         const rowHasTrue = TIME_LABELS.some((time) =>
-          isCurrentCell(time, row.hours[time])
+          isCurrentCell(time, row.hours[time]),
         );
 
         return (
@@ -35,7 +37,7 @@ export default function BreakTableBody() {
                 disabled
                 className={cn(
                   "p-0 border-0 shadow-none text-bl",
-                  theme === "dark" ? "bg-background!" : ""
+                  theme === "dark" ? "bg-background!" : "",
                 )}
                 readOnly
               />
@@ -48,14 +50,13 @@ export default function BreakTableBody() {
                 placeHolder="..."
                 className={cn(
                   "border-0 shadow-none",
-                  rowHasTrue ? "text-rd!" : ""
+                  rowHasTrue ? "text-rd!" : "",
                 )}
               />
             </TableCell>
 
             {TIME_LABELS.map((time, timeIndex) => {
               const value = row.hours[time];
-
               const isTrue = isCurrentCell(time, value);
 
               return (
@@ -72,7 +73,7 @@ export default function BreakTableBody() {
                         ? theme === "dark"
                           ? "text-background! border-0 bg-background!"
                           : "bg-gr"
-                        : ""
+                        : "",
                     )}
                   />
                 </TableCell>

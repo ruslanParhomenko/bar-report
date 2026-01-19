@@ -2,7 +2,7 @@
 
 import { UsersSchemaTypeData } from "@/features/users/schema";
 import { useSession } from "next-auth/react";
-import React, { createContext, useContext, useMemo } from "react";
+import React, { createContext, useContext } from "react";
 
 type Ability = {
   isAdmin: boolean;
@@ -14,11 +14,7 @@ type Ability = {
   isFin: boolean;
 };
 
-type AbilityContextType = Ability & {
-  query: UsersSchemaTypeData[];
-};
-
-const AbilityContext = createContext<AbilityContextType | null>(null);
+const AbilityContext = createContext<Ability | null>(null);
 
 export function AbilityProvider({
   children,
@@ -42,7 +38,7 @@ export function AbilityProvider({
   };
 
   return (
-    <AbilityContext.Provider value={{ ...ability, query: users }}>
+    <AbilityContext.Provider value={{ ...ability }}>
       {children}
     </AbilityContext.Provider>
   );

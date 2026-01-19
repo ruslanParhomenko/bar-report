@@ -1,6 +1,6 @@
 "use server";
 
-import { dbAdmin } from "@/lib/firebaseAdmin";
+import { dbAdmin } from "@/lib/firebase-admin";
 import { ScheduleType } from "@/features/schedule/create/schema";
 import { invalidateEverywhere } from "../invalidateEverywhere/invalidateEverywhere";
 import { unstable_cache, updateTag } from "next/cache";
@@ -30,7 +30,7 @@ export async function createSchedule(data: ScheduleData) {
 // update
 export async function updateSchedule(
   id: string,
-  data: Omit<ScheduleData, "id">
+  data: Omit<ScheduleData, "id">,
 ) {
   await dbAdmin.collection("schedule").doc(id).update(data);
   updateTag("schedule");
@@ -75,5 +75,5 @@ export const getScheduleByMonthYear = unstable_cache(
   {
     revalidate: false,
     tags: ["schedule"],
-  }
+  },
 );

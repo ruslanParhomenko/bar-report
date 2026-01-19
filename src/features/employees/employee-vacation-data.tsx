@@ -9,7 +9,7 @@ import { MinusCircle } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
-export function EmployeeVacationCard() {
+export function EmployeeVacationData() {
   const [vacationData, setVacationData] = useState<{
     name: string;
     vacationPay: any[];
@@ -66,7 +66,7 @@ export function EmployeeVacationCard() {
               <TableCell colSpan={5} className="text-end">
                 {vacationData?.vacationPay.reduce(
                   (acc: number, item: any) => acc + Number(item.countDays || 0),
-                  0
+                  0,
                 )}
               </TableCell>
             </TableRow>

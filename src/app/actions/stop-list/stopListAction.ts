@@ -1,7 +1,7 @@
 import { unstable_cache } from "next/cache";
 import { invalidateEverywhere } from "../invalidateEverywhere/invalidateEverywhere";
 import { StopListSchemaType } from "@/features/stop-list/schema";
-import { supabaseServer } from "@/lib/supabaseServer";
+import { supabaseServer } from "@/lib/supabase-server";
 
 export type StopListType = {
   id: string;
@@ -36,7 +36,7 @@ export async function saveStopList(data: any) {
         user_email: mail,
         form_data: dataStopList,
       },
-      { onConflict: "user_email" }
+      { onConflict: "user_email" },
     );
 
   if (error) {

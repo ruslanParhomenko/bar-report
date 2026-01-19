@@ -1,5 +1,5 @@
 import { InsufficientRights } from "@/components/wrapper/InsufficientRights";
-import { AddEmployeeCard } from "@/features/employees/AddEmployeeCard";
+import { EmployeeForm } from "@/features/employees/employee-form";
 import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
@@ -11,5 +11,5 @@ export default async function Page() {
   if (!session) redirect("/");
   if (!SET_ACCESS.includes(session?.user?.role as string))
     return <InsufficientRights />;
-  return <AddEmployeeCard employee={null} />;
+  return <EmployeeForm employee={null} />;
 }

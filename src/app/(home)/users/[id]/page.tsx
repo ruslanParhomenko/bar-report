@@ -1,3 +1,4 @@
+import { getUsersById, UserData } from "@/app/actions/users/userAction";
 import UsersForm from "@/features/users/users-form";
 export default async function Page({
   params,
@@ -6,5 +7,6 @@ export default async function Page({
 }) {
   const { id } = await params;
   if (!id) return null;
-  return <UsersForm id={id as string} />;
+  const data = (await getUsersById(id as string)) as UserData;
+  return <UsersForm data={data} />;
 }

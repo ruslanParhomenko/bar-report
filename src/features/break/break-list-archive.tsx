@@ -6,7 +6,7 @@ import { BreakList, Row } from "@/prisma/generated/prisma/client";
 
 type BreakListData = BreakList & { rows: Row[] };
 
-export function BreakTableByData({ data }: { data: BreakListData[] }) {
+export function BreakListArchive({ data }: { data: BreakListData[] }) {
   return (
     <div className="h-[90vh] overflow-auto">
       {data?.length > 0 &&

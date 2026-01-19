@@ -1,11 +1,11 @@
 "use server";
 
-import { dbAdmin } from "@/lib/firebaseAdmin";
+import { dbAdmin } from "@/lib/firebase-admin";
 import { UsersSchemaTypeData } from "@/features/users/schema";
 import { invalidateEverywhere } from "../invalidateEverywhere/invalidateEverywhere";
 import { unstable_cache, updateTag } from "next/cache";
 
-type UserData = UsersSchemaTypeData;
+export type UserData = UsersSchemaTypeData;
 
 // create
 export async function createUser(data: UserData) {
@@ -41,6 +41,22 @@ export const _getUsers = async () => {
 };
 
 export const getUsers = unstable_cache(_getUsers, ["users"], {
+  revalidate: false,
+  tags: ["users"],
+});
+
+// get by id
+
+export const _getUsersById = async (id: string) => {
+  const snapshot = await dbAdmin.collection("users").doc(id).get();
+  if (!snapshot.exists) return null;
+  return {
+    id: snapshot.id,
+    ...snapshot.data(),
+  } as UsersSchemaTypeData;
+};
+
+export const getUsersById = unstable_cache(_getUsersById, ["users"], {
   revalidate: false,
   tags: ["users"],
 });

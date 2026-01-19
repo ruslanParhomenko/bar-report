@@ -1,5 +1,5 @@
-import { EmployeeVacationCard } from "./EmployeeVacationCard";
-import { GetEmployeesCard } from "./GetEmployeesCard";
+import { EmployeeVacationData } from "./employee-vacation-data";
+import { EmployeesData } from "./employees-data";
 import { EmployeesContextValue } from "@/providers/EmployeesProvider";
 
 export function EmployeesPage({
@@ -9,9 +9,9 @@ export function EmployeesPage({
 }) {
   return (
     <div className="flex flex-col md:flex-row gap-2">
-      <GetEmployeesCard data={employees} />
+      <EmployeesData data={employees} />
 
-      <EmployeeVacationCard />
+      <EmployeeVacationData />
     </div>
   );
 }

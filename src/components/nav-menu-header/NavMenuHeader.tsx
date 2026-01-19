@@ -4,7 +4,7 @@ import { useEffect, useState, useTransition } from "react";
 import SelectTabsByPatch from "./SelectTabsByPatch";
 import SelectByMonthYear from "./SelectByMonthYear";
 import { usePathname, useRouter } from "next/navigation";
-import SelectEmployeeBy from "@/features/employees/SelectEmployeeBy";
+import SelectEmployeeBy from "@/components/nav-menu-header/SelectEmployeeBy";
 import { RefreshCcw } from "lucide-react";
 import { NAV_BY_PATCH } from "./constants";
 

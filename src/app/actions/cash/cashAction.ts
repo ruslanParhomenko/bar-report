@@ -1,7 +1,7 @@
 "use server";
 
 import { CashFormTypeInput } from "@/features/cash/schema";
-import { supabase } from "@/lib/supabaseClient";
+import { supabase } from "@/lib/supabase-client";
 import { unstable_cache } from "next/cache";
 import { invalidateEverywhere } from "../invalidateEverywhere/invalidateEverywhere";
 import { updateTag } from "next/cache";
@@ -34,7 +34,7 @@ export async function saveCashForm(data: CashFormTypeInput) {
         z_531: data.z_531,
       },
     },
-    { onConflict: "unique_id" }
+    { onConflict: "unique_id" },
   );
 
   if (error) {

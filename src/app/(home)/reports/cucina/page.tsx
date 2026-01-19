@@ -1,5 +1,5 @@
 import { InsufficientRights } from "@/components/wrapper/InsufficientRights";
-import ReportCucinaForm from "@/features/report/cucina/ReportCucinaForm";
+import ReportCucinaForm from "@/features/report/cucina/report-cucina-form";
 import { checkAccess } from "@/lib/check-access";
 const SET_ACCESS = ["ADMIN", "CUCINA"];
 

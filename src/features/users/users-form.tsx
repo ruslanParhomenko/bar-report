@@ -3,7 +3,6 @@ import TextInput from "@/components/inputs/TextInput";
 import { useTranslations } from "next-intl";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { defaultUser, usersSchema, UsersSchemaTypeData } from "./schema";
-import { useAbility } from "@/providers/AbilityProvider";
 import { FormWrapper } from "@/components/wrapper/form-wrapper";
 import { createUser, updateUser } from "@/app/actions/users/userAction";
 import { toast } from "sonner";
@@ -18,24 +17,22 @@ const ROLES = ["ADMIN", "BAR", "CUCINA", "USER", "MNGR", "CASH", "FIN"];
 
 type FormData = UsersSchemaTypeData;
 
-export default function UsersForm({ id }: { id?: string }) {
+export default function UsersForm({ data }: { data?: FormData }) {
+  const id = data?.id;
   const router = useRouter();
   const t = useTranslations("Home");
 
-  const { query: users } = useAbility();
-  const userData = id && users.find((u: any) => u.id === id);
-
   const form = useForm<FormData>({
     resolver: zodResolver(usersSchema),
-    defaultValues: defaultUser,
+    defaultValues: data ? usersSchema.parse(data) : defaultUser,
   });
 
   const { reset: resetForm } = form;
 
   const handleSubmit: SubmitHandler<FormData> = async (data) => {
     try {
-      if (data.id) {
-        await updateUser(data.id, {
+      if (id) {
+        await updateUser(id, {
           mail: data.mail,
           role: data.role,
         });
@@ -56,10 +53,10 @@ export default function UsersForm({ id }: { id?: string }) {
     }
   };
   useEffect(() => {
-    if (!id && !userData) return;
+    if (!data) return;
 
-    form.reset(userData as FormData);
-  }, [id]);
+    form.reset(data as FormData);
+  }, [data]);
   return (
     <FormWrapper
       form={form}
@@ -69,18 +66,18 @@ export default function UsersForm({ id }: { id?: string }) {
       resetButton={id ? false : true}
       returnButton={id ? true : false}
     >
-      <div className="mt-6">
+      <div className="mt-6 flex flex-col gap-4">
         <TextInput
           fieldName="mail"
           fieldLabel={t("mail")}
           type="mail"
-          className="w-full h-10"
+          className="w-full h-12"
         />
-        <Label className="my-3">{t("role")}</Label>
         <SelectField
+          fieldLabel={t("role")}
           data={ROLES}
           fieldName="role"
-          className="truncate w-full h-10!"
+          className="truncate w-full h-12!"
         />
       </div>
     </FormWrapper>

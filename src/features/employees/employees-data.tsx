@@ -11,13 +11,13 @@ import { differenceInMonths } from "date-fns";
 import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
 import { EmployeesContextValue } from "@/providers/EmployeesProvider";
-import ActionButtonEmployee from "./ActionButtonEmployee";
+import ActionButtonEmployee from "./employee-actions";
 import { handleCopy } from "@/utils/handlerCopyText";
 import { formatShortDate } from "@/utils/formatDate";
 import { CheckCircle, UserX } from "lucide-react";
 import { useAbility } from "@/providers/AbilityProvider";
 
-export function GetEmployeesCard({ data }: { data: EmployeesContextValue[] }) {
+export function EmployeesData({ data }: { data: EmployeesContextValue[] }) {
   const t = useTranslations("Home");
 
   const { isAdmin, isManager } = useAbility();
@@ -57,7 +57,7 @@ export function GetEmployeesCard({ data }: { data: EmployeesContextValue[] }) {
             const usedVacationDays =
               emp.vacationPay?.reduce(
                 (acc, r) => acc + Number(r.countDays),
-                0
+                0,
               ) ?? 0;
 
             return (
@@ -65,7 +65,7 @@ export function GetEmployeesCard({ data }: { data: EmployeesContextValue[] }) {
                 key={emp.id}
                 className={cn(
                   "hover:text-bl cursor-pointer h-10 [&>td]:py-1 [&>th]:py-1",
-                  !emp.employmentDate && "text-rd font-bold"
+                  !emp.employmentDate && "text-rd font-bold",
                 )}
               >
                 <TableCell className="font-medium">{idx + 1}</TableCell>
@@ -82,7 +82,7 @@ export function GetEmployeesCard({ data }: { data: EmployeesContextValue[] }) {
                     "sticky left-0 bg-background/70 z-10",
                     emp.status && emp.status === "fired"
                       ? "text-muted-foreground!"
-                      : ""
+                      : "",
                   )}
                   onClick={() => handleCopy(emp.name)}
                 >

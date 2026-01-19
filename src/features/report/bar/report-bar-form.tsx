@@ -10,12 +10,12 @@ import {
   ReportBarFormValues,
   reportBarSchema,
 } from "./schema";
-import TableTobacco from "./TableTobacco";
-import TableExpenses from "./TableExpenses";
-import TableCashVerify from "./TableCashVerify";
-import TableProductsTransfer from "./TableProductsTransfer";
+import TableTobacco from "./tobacco-table";
+import TableExpenses from "./expenses-table";
+import TableCashVerify from "./cash-table";
+import TableProductsTransfer from "./transfer-table";
 import { Textarea } from "@/components/ui/textarea";
-import { TableInventory } from "./TableInventory";
+import { TableInventory } from "./inventory-table";
 import { createReportBar } from "@/app/actions/archive/reportBarAction";
 import { useLocalStorageForm } from "@/hooks/useLocalStorageForm";
 import { FormWrapper } from "@/components/wrapper/form-wrapper";
@@ -109,7 +109,7 @@ export default function ReportBarForm() {
       onSubmit={onSubmit}
       resetForm={reset}
       resetButton={true}
-      className="gap-10"
+      className="gap-6"
     >
       <div className="flex w-full justify-end">
         <DatePickerInput

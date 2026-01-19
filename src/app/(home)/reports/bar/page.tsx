@@ -1,5 +1,5 @@
 import { InsufficientRights } from "@/components/wrapper/InsufficientRights";
-import ReportBarForm from "@/features/report/bar/ReportBarForm";
+import ReportBarForm from "@/features/report/bar/report-bar-form";
 import { checkAccess } from "@/lib/check-access";
 
 const SET_ACCESS = ["ADMIN", "BAR"];

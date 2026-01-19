@@ -1,5 +1,5 @@
 import { getEmployees } from "@/app/actions/employees/employeeAction";
-import { EmployeesPage } from "@/features/employees/EmployeesPage";
+import { EmployeesPage } from "@/features/employees/employees-page";
 import { EmployeesContextValue } from "@/providers/EmployeesProvider";
 
 export default async function Page({

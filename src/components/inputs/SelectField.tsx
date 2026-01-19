@@ -16,9 +16,11 @@ import {
 } from "@/components/ui/select";
 import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
+import { Label } from "../ui/label";
 
 type Props = {
   fieldName: string;
+  fieldLabel?: string;
   placeHolder?: string;
   data: string[];
   disabled?: boolean;
@@ -28,6 +30,7 @@ type Props = {
 
 function SelectField({
   fieldName,
+  fieldLabel,
   placeHolder,
   data,
   disabled,
@@ -37,53 +40,43 @@ function SelectField({
   const { theme } = useTheme();
   const { control } = useFormContext();
 
-  const options = data?.map((item) => ({ label: item, value: item }));
-
   return (
-    <Controller
+    <FormField
       control={control}
       name={fieldName}
       render={({ field, fieldState }) => (
-        <FormField
-          control={control}
-          name={fieldName}
-          render={() => (
-            <FormItem>
-              <Select
-                onValueChange={field.onChange}
-                value={field.value}
-                disabled={disabled}
+        <FormItem className="grid gap-2 pb-2 grid-cols-1 justify-items-start">
+          {fieldLabel && <Label>{fieldLabel}</Label>}
+          <Select
+            value={field.value ?? ""}
+            onValueChange={field.onChange}
+            disabled={disabled}
+          >
+            <FormControl>
+              <SelectTrigger
+                className={cn(
+                  "flex justify-start min-w-12 [&>svg]:hidden",
+                  className,
+                  theme === "dark" ? "border-0 bg-background!" : "",
+                  field.value && "border-0 shadow-none font-bold",
+                )}
+                style={style}
               >
-                <FormControl className="w-full">
-                  <SelectTrigger
-                    data-placeholder=""
-                    className={cn(
-                      "flex justify-start min-w-12 [&>svg]:hidden h-8!",
-                      className,
-                      theme === "dark" ? "border-0 bg-background!" : "",
-                      field.value && "border-0 shadow-none  font-bold"
-                    )}
-                    style={style}
-                  >
-                    <SelectValue placeholder={placeHolder} />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  {options.map((item, index) => (
-                    <SelectItem
-                      key={`${item.value}-${index}`}
-                      value={item.value}
-                      className="cursor-pointer"
-                    >
-                      {item.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <FormMessage>{fieldState?.error?.message}</FormMessage>
-            </FormItem>
-          )}
-        />
+                <SelectValue placeholder={placeHolder} />
+              </SelectTrigger>
+            </FormControl>
+
+            <SelectContent>
+              {data.map((item) => (
+                <SelectItem key={item} value={item}>
+                  {item}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+
+          <FormMessage>{fieldState.error?.message}</FormMessage>
+        </FormItem>
       )}
     />
   );

@@ -1,6 +1,6 @@
 "use server";
 
-import { dbAdmin } from "@/lib/firebaseAdmin";
+import { dbAdmin } from "@/lib/firebase-admin";
 
 import { invalidateEverywhere } from "../invalidateEverywhere/invalidateEverywhere";
 import { unstable_cache, updateTag } from "next/cache";
@@ -70,5 +70,5 @@ export const getTTNByUniqueKey = unstable_cache(
   {
     revalidate: false,
     tags: ["ttn-report"],
-  }
+  },
 );
