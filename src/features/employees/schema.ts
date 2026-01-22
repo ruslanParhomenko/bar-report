@@ -18,7 +18,8 @@ export const employeesSchema = z.object({
   role: z.string().min(1, { message: "Role is required" }).default(""),
   rate: z.string().min(1, { message: "Rate is required" }).default(""),
   employmentDate: z.string().default(""),
-  dismissalDate: z.string().default(""),
+  dismissalDate: z.string().nullable().default(""),
+
   status: z.enum(["active", "fired"]).default("active"),
   reason: z.string().default(""),
   vacationPay: z.array(vacationPaySchema).default([defaultVacationPay]),
