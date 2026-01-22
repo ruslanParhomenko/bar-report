@@ -1,25 +1,24 @@
 "use server";
 
-import { updateTag } from "next/cache";
-
 export async function invalidateEverywhere(tag: string) {
-  updateTag(tag);
-
   const endpoints = [
     "https://report-bar-n.netlify.app/api/revalidate",
-    // "https://bar-report2.vercel.app/api/revalidate",
     "https://bar-report-rus.vercel.app/api/revalidate",
     "https://schedule-nuovo.vercel.app/api/revalidate",
-    "https://card-tech.netlify.app/cards/api/revalidate",
+    "https://card-tech.netlify.app/api/revalidate",
+    "http://localhost:3000/api/revalidate",
   ];
 
   await Promise.allSettled(
     endpoints.map((url) =>
       fetch(url, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(tag),
-      })
-    )
+        headers: {
+          "Content-Type": "application/json",
+          "x-revalidate-secret": process.env.REVALIDATE_SECRET!,
+        },
+        body: JSON.stringify({ tag }),
+      }),
+    ),
   );
 }
