@@ -2,14 +2,15 @@
 
 import { dbAdmin } from "@/lib/firebase-admin";
 import { EmployeesSchemaTypeData } from "@/features/employees/schema";
-import { invalidateEverywhere } from "../invalidateEverywhere/invalidateEverywhere";
 import { unstable_cache, updateTag } from "next/cache";
+import { redis } from "@/lib/redis";
 
 export type EmployeeData = EmployeesSchemaTypeData;
+const EMPLOYEES_KEY = "employees";
 
 // create
 export async function createEmployee(data: EmployeeData) {
-  const docRef = await dbAdmin.collection("employees").add({
+  const docRef = await dbAdmin.collection(EMPLOYEES_KEY).add({
     name: data.name,
     role: data.role,
     rate: data.rate,
@@ -22,8 +23,8 @@ export async function createEmployee(data: EmployeeData) {
       countDays: pay.countDays,
     })),
   });
-  updateTag("employees");
-  invalidateEverywhere("employees");
+  updateTag(EMPLOYEES_KEY);
+  await redis.del(EMPLOYEES_KEY);
   return docRef.id;
 }
 
@@ -32,31 +33,31 @@ export async function updateEmployee(
   id: string,
   data: Omit<EmployeeData, "id">,
 ) {
-  await dbAdmin.collection("employees").doc(id).update(data);
-  updateTag("employees");
-  invalidateEverywhere("employees");
+  await dbAdmin.collection(EMPLOYEES_KEY).doc(id).update(data);
+  updateTag(EMPLOYEES_KEY);
+  await redis.del(EMPLOYEES_KEY);
 }
 
 // delete
 export async function deleteEmployee(id: string) {
-  await dbAdmin.collection("employees").doc(id).delete();
-  updateTag("employees");
-  invalidateEverywhere("employees");
+  await dbAdmin.collection(EMPLOYEES_KEY).doc(id).delete();
+  updateTag(EMPLOYEES_KEY);
+  await redis.del(EMPLOYEES_KEY);
 }
 
 // get
 
 const _getEmployees = async () => {
-  const snapshot = await dbAdmin.collection("employees").get();
+  const snapshot = await dbAdmin.collection(EMPLOYEES_KEY).get();
   return snapshot.docs.map((doc) => ({
     id: doc.id,
     ...doc.data(),
   }));
 };
 
-export const getEmployees = unstable_cache(_getEmployees, ["employees"], {
+export const getEmployees = unstable_cache(_getEmployees, [EMPLOYEES_KEY], {
   revalidate: false,
-  tags: ["employees"],
+  tags: [EMPLOYEES_KEY],
 });
 
 // export const getEmployees = async () => {
