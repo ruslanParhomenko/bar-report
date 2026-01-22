@@ -5,8 +5,7 @@ export async function invalidateEverywhere(tag: string) {
     "https://report-bar-n.netlify.app/api/revalidate",
     "https://bar-report-rus.vercel.app/api/revalidate",
     "https://schedule-nuovo.vercel.app/api/revalidate",
-    "https://card-tech.netlify.app/api/revalidate",
-    "http://localhost:3000/api/revalidate",
+    "https://card-tech.netlify.app/cards/api/revalidate",
   ];
 
   await Promise.allSettled(

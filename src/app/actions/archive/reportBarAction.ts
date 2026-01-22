@@ -1,6 +1,6 @@
 "use server";
 
-import { unstable_cache } from "next/cache";
+import { unstable_cache, updateTag } from "next/cache";
 import { invalidateEverywhere } from "../invalidateEverywhere/invalidateEverywhere";
 import { ReportBarFormValues } from "@/features/report/bar/schema";
 import prisma from "@/lib/prisma";
@@ -82,7 +82,7 @@ export async function createReportBar({ data }: { data: ReportBarFormValues }) {
       inventory: true,
     },
   });
-
+  updateTag("reportBar");
   await invalidateEverywhere("reportBar");
 
   return report.id;
@@ -93,7 +93,7 @@ export async function deleteReportBar(id: string) {
   await prisma.dailyReport.delete({
     where: { id: Number(id) },
   });
-
+  updateTag("reportBar");
   await invalidateEverywhere("reportBar");
 }
 

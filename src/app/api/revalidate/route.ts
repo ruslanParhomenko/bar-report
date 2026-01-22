@@ -1,23 +1,22 @@
-"use server";
+import { revalidateTag } from "next/cache";
 
-export async function invalidateEverywhere(tag: string) {
-  const endpoints = [
-    "https://report-bar-n.netlify.app/api/revalidate",
-    "https://bar-report-rus.vercel.app/api/revalidate",
-    "https://schedule-nuovo.vercel.app/api/revalidate",
-    "https://card-tech.netlify.app/cards/api/revalidate",
-  ];
+export async function POST(req: Request) {
+  try {
+    const secret = req.headers.get("x-revalidate-secret");
+    if (secret !== process.env.REVALIDATE_SECRET) {
+      return new Response("Unauthorized", { status: 401 });
+    }
 
-  await Promise.allSettled(
-    endpoints.map((url) =>
-      fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "x-revalidate-secret": process.env.REVALIDATE_SECRET!,
-        },
-        body: JSON.stringify({ tag }),
-      }),
-    ),
-  );
+    const { tag } = await req.json();
+    if (!tag) return new Response("Missing tag", { status: 400 });
+
+    revalidateTag(tag, "max");
+
+    return new Response(JSON.stringify({ ok: true, tag }), {
+      headers: { "Content-Type": "application/json" },
+    });
+  } catch (error) {
+    console.error(error);
+    return new Response("Error", { status: 500 });
+  }
 }

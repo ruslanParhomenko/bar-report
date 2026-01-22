@@ -1,6 +1,6 @@
 "use server";
 
-import { unstable_cache } from "next/cache";
+import { unstable_cache, updateTag } from "next/cache";
 import { invalidateEverywhere } from "../invalidateEverywhere/invalidateEverywhere";
 import {
   DailyReportCucina,
@@ -111,7 +111,7 @@ export async function createReportCucina({ data }: { data: ReportCucinaType }) {
     },
   });
 
-  // updateTag("reportCucina");
+  updateTag("reportCucina");
   await invalidateEverywhere("reportCucina");
 
   return report.id;
@@ -129,7 +129,7 @@ export async function deleteReportCucina(id: string) {
       writeOff: true,
     },
   });
-  // updateTag("reportCucina");
+  updateTag("reportCucina");
   await invalidateEverywhere("reportCucina");
 }
 

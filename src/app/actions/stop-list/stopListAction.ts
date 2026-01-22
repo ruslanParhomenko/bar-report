@@ -1,4 +1,4 @@
-import { unstable_cache } from "next/cache";
+import { unstable_cache, updateTag } from "next/cache";
 import { invalidateEverywhere } from "../invalidateEverywhere/invalidateEverywhere";
 import { StopListSchemaType } from "@/features/stop-list/schema";
 import { supabaseServer } from "@/lib/supabase-server";
@@ -44,6 +44,7 @@ export async function saveStopList(data: any) {
     throw error;
   }
 
+  updateTag("stopList");
   await invalidateEverywhere("stopList");
 
   return savedData;
