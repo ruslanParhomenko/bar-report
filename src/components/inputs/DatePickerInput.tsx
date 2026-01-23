@@ -19,6 +19,7 @@ import { Calendar } from "@/components/ui/calendar";
 
 import { useState, useEffect } from "react";
 import { Label } from "../ui/label";
+import { useTheme } from "next-themes";
 
 function DatePickerInput({
   fieldName,
@@ -35,6 +36,7 @@ function DatePickerInput({
     ro,
   };
   const { control } = useFormContext();
+  const { theme } = useTheme();
 
   const [isClient, setIsClient] = useState(false);
   useEffect(() => {
@@ -47,27 +49,28 @@ function DatePickerInput({
       name={fieldName}
       render={({ field }) => {
         return (
-           <FormItem
-          className={cn(
-            fieldLabel && "grid gap-2 pb-2 grid-cols-1 justify-items-start",
-          )}
-        >
-          {fieldLabel && <Label>{fieldLabel}</Label>}
+          <FormItem
+            className={cn(
+              fieldLabel && "grid gap-2 pb-2 grid-cols-1 justify-items-start",
+            )}
+          >
+            {fieldLabel && <Label>{fieldLabel}</Label>}
             <Popover>
               <PopoverTrigger asChild>
                 <FormControl>
                   <Button
                     variant={"outline"}
                     className={cn(
-                      "text-base border-0 shadow-none bg-background",
-                      className
+                      "text-base border-0 shadow-none bg-none",
+                      className,
+                      theme === "dark" ? "bg-background!" : "",
                     )}
                   >
-                    {field.value && isClient && (
+                    {field.value &&
+                      isClient &&
                       format(new Date(field.value), "dd. MM. yy", {
                         locale: locales[locale],
-                      })
-                    )}
+                      })}
                   </Button>
                 </FormControl>
               </PopoverTrigger>

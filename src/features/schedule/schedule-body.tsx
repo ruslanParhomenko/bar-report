@@ -16,7 +16,7 @@ export default function ScheduleTableBody({
     <TableBody>
       {schedule?.rowShifts?.map((row, rowIndex) => {
         const isSelected = !SHIFT_COLOR_MAP.includes(
-          row.shifts?.[todayDay - 1]
+          row.shifts?.[todayDay - 1],
         );
         const totalPay = isView
           ? calculateSalaryByHours(row).toFixed(0).toString()
@@ -35,8 +35,8 @@ export default function ScheduleTableBody({
             </TableCell>
             <TableCell
               className={cn(
-                "sticky left-0 bg-card/20 pl-2 truncate text-muted-foreground",
-                isSelected && "text-rd font-bold"
+                "sticky left-0 bg-background pl-2 truncate text-muted-foreground",
+                isSelected && "text-rd font-bold",
               )}
             >
               {row.employee}
@@ -51,7 +51,7 @@ export default function ScheduleTableBody({
                   className={cn(
                     "text-center border-x",
                     color[day as keyof typeof color],
-                    isSelected && "text-rd font-bold"
+                    isSelected && "text-rd font-bold",
                   )}
                 >
                   {SHIFT_COLOR_MAP.includes(day) ? null : day}

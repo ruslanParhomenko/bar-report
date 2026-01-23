@@ -24,7 +24,7 @@ export default function ReportCucinaTable({
   data: ReportCucinaData;
 }) {
   return (
-    <Card>
+    <Card className="bg-background!">
       <CardHeader>
         <CardTitle>
           <DeleteListButton data={data} nameTag={REPORT_CUCINA_ENDPOINT} />

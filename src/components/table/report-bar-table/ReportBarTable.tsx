@@ -12,7 +12,7 @@ export const classNameHead = "text-shadow-muted-foreground font-bold";
 export const classNameRowBorder = "border-b-bl";
 export default function ReportBarTable({ data }: { data: ReportBarType }) {
   return (
-    <Card className="shadow-md border rounded-2xl md:p-4 mb-4">
+    <Card className="shadow-md border rounded-2xl md:p-4 mb-4 bg-background!">
       <CardHeader>
         <CardTitle>
           <DeleteListButton data={data} nameTag={REPORT_BAR_ENDPOINT} />

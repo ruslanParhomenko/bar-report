@@ -2,7 +2,7 @@ import {
   getScheduleByMonthYear,
   SchedulesContextValue,
 } from "@/app/actions/schedule/scheduleAction";
-import SchedulePage from "@/features/schedule/SchedulePage";
+import SchedulePage from "@/features/schedule/schedule-page";
 import { authOptions } from "@/lib/auth";
 import ClientRefProvider from "@/providers/ClientRefProvider";
 import { getMonthDays } from "@/utils/getMonthDays";
@@ -26,7 +26,7 @@ export default async function Page({
   if (!month || !year) return null;
 
   const schedule = (await getScheduleByMonthYear(month, year)).find(
-    (s: any) => s.role === patch
+    (s: any) => s.role === patch,
   );
   const monthDays = getMonthDays({ month: month, year: year });
 

@@ -19,10 +19,10 @@ import { toast } from "sonner";
 import { defaultSchedule, scheduleSchema, ScheduleType } from "./schema";
 import { EMPLOYEE_ROLES_BY_DEPARTMENT } from "./constants";
 import { FormWrapper } from "@/components/wrapper/form-wrapper";
-import ScheduleTableHeader from "../ScheduleTableHeader";
-import ScheduleCreateTableBody from "./ScheduleCreateTableBody";
+import ScheduleTableHeader from "../schedule-header";
+import ScheduleCreateTableBody from "./schedule-form-body";
 import { getSelectedEmployeesByRole } from "../utils";
-import ScheduleTableFooter from "../ScheduleTableFooter";
+import ScheduleTableFooter from "../schedule-footer";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 export function ScheduleCreatePage({
@@ -57,7 +57,7 @@ export function ScheduleCreatePage({
 
   // set employees
   const selectedEmployees = getSelectedEmployeesByRole(
-    patch as keyof typeof EMPLOYEE_ROLES_BY_DEPARTMENT
+    patch as keyof typeof EMPLOYEE_ROLES_BY_DEPARTMENT,
   );
 
   // set days

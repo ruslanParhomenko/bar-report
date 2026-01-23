@@ -1,7 +1,7 @@
 import { TableCell, TableHeader, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import { MonthDayType } from "@/utils/getMonthDays";
-import ScheduleActionButton from "./ScheduleActionButton";
+import ScheduleActionButton from "./schedule-action";
 
 export default function ScheduleTableHeader({
   scheduleId,
@@ -42,7 +42,7 @@ export default function ScheduleTableHeader({
               key={day.day}
               className={cn(
                 "w-10 cursor-pointer p-0",
-                day.day === todayDay && "text-rd front-bold"
+                day.day === todayDay && "text-rd front-bold",
               )}
             >
               <div className="text-sm font-semibold text-center">{day.day}</div>

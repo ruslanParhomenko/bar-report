@@ -1,8 +1,8 @@
 import { Table } from "@/components/ui/table";
-import ScheduleTableFooter from "./ScheduleTableFooter";
-import ScheduleTableHeader from "./ScheduleTableHeader";
+import ScheduleTableFooter from "./schedule-footer";
+import ScheduleTableHeader from "./schedule-header";
 import { MonthDayType } from "@/utils/getMonthDays";
-import ScheduleTableBody from "./ScheduleTableBody";
+import ScheduleTableBody from "./schedule-body";
 import { SchedulesContextValue } from "@/app/actions/schedule/scheduleAction";
 
 export default function SchedulePage({

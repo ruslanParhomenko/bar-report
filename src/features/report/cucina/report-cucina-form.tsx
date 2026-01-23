@@ -91,7 +91,7 @@ export default function ReportCucinaForm() {
       resetForm={resetFormHandler}
     >
       <div className="flex w-full justify-end">
-        <DatePickerInput fieldName="date" className="text-sm h-6 text-rd" />
+        <DatePickerInput fieldName="date" className="text-sm h-8 text-rd" />
       </div>
 
       <RenderTableCucina

@@ -1,4 +1,4 @@
-import { ScheduleCreatePage } from "@/features/schedule/create/ScheduleCreatePage";
+import { ScheduleCreatePage } from "@/features/schedule/create/schedule-form";
 
 export default async function Page({
   params,
