@@ -53,7 +53,6 @@ export function DayByMonthTable({
             </TableCell>
           );
         })}
-        <TableCell />
         {navCell && <TableCell className="w-2 p-0" />}
       </TableRow>
     </TableHeader>

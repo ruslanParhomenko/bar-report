@@ -1,6 +1,4 @@
 import { z } from "zod";
-import { EMPLOYEES_ROLE } from "./constants";
-
 export const vacationPaySchema = z.object({
   startDate: z.string().default(""),
   endDate: z.string().default(""),
@@ -19,10 +17,7 @@ export const employeesSchema = z.object({
   role: z.string().default(""),
   rate: z.string().min(1, { message: "Rate is required" }).default(""),
   employmentDate: z.string().default(""),
-  dismissalDate: z.string().nullable().default(""),
-
   status: z.enum(["active", "fired"]).default("active"),
-  reason: z.string().default(""),
   vacationPay: z.array(vacationPaySchema).default([defaultVacationPay]),
 });
 

@@ -47,8 +47,12 @@ function DatePickerInput({
       name={fieldName}
       render={({ field }) => {
         return (
-          <FormItem className="grid gap-2">
-            {fieldLabel && <Label className="h-10">{fieldLabel}</Label>}
+           <FormItem
+          className={cn(
+            fieldLabel && "grid gap-2 pb-2 grid-cols-1 justify-items-start",
+          )}
+        >
+          {fieldLabel && <Label>{fieldLabel}</Label>}
             <Popover>
               <PopoverTrigger asChild>
                 <FormControl>
@@ -59,12 +63,10 @@ function DatePickerInput({
                       className
                     )}
                   >
-                    {field.value && isClient ? (
+                    {field.value && isClient && (
                       format(new Date(field.value), "dd. MM. yy", {
                         locale: locales[locale],
                       })
-                    ) : (
-                      <span className="text-muted-foreground">...date</span>
                     )}
                   </Button>
                 </FormControl>

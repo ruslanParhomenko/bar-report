@@ -21,7 +21,7 @@ export default function ActionButtonEmployee({ id }: { id: string }) {
     const params = new URLSearchParams(searchParams.toString());
     params.set("vacationId", String(id));
 
-    router.push(`/employees?${params.toString()}`);
+    router.push(`/employees/data?${params.toString()}`);
   };
   const handleDeleteUser = (id: string) =>
     isAdmin ? deleteEmployee(id) : toast.error("Access denied");

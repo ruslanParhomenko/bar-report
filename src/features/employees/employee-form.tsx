@@ -86,7 +86,7 @@ export function EmployeeForm({
     }
   }, [employee, form]);
 
-  const fieldClassName = "md:w-2/3 !h-10";
+  const fieldClassName = "w-full h-12! border!";
   return (
     <FormWrapper
       form={form}
@@ -96,18 +96,18 @@ export function EmployeeForm({
       returnButton={employee?.id ? true : false}
       resetForm={form.reset}
     >
-      <div className="grid grid-cols-1 md:grid-cols-2 md:gap-8">
-        <div>
+      <div className="grid grid-cols-1 md:grid-cols-3 md:gap-8 mt-4">
+        <div className="flex flex-col md:gap-6">
           <TextInput
             fieldName="name"
             fieldLabel={t("name")}
             type="text"
             className={fieldClassName}
           />
-          <Label className="my-3">{t("role")}</Label>
           <SelectField
             data={EMPLOYEES_ROLE}
             fieldName="role"
+            fieldLabel={t("role")}
             className={fieldClassName}
           />
           <TextInput
@@ -127,96 +127,86 @@ export function EmployeeForm({
             type="tel"
             className={fieldClassName}
           />
-        </div>
-        <div>
+          <SelectField
+            data={STATUS_OPTIONS}
+            fieldName="status"
+            fieldLabel={t("status")}
+            className={fieldClassName}
+          />
           <DatePickerInput
             fieldName="employmentDate"
             fieldLabel={t("employmentDate")}
             className={cn(fieldClassName, "border!")}
           />
-          <DatePickerInput
-            fieldName="dismissalDate"
-            fieldLabel={t("dismissalDate")}
-            className={cn(fieldClassName, "border!")}
-          />
-          <TextInput
-            fieldName="reason"
-            fieldLabel={t("reason")}
-            type="text"
-            className={fieldClassName}
-          />
-          <Label className="my-3">{t("status")}</Label>
-          <SelectField
-            data={STATUS_OPTIONS}
-            fieldName="status"
-            className={fieldClassName}
-          />
+        </div>
+        <div>
+          <Label className="mb-2">{t("usedVacationDays")}</Label>
+          <div className="flex flex-col gap-6">
+            {fields.map((field, index) => {
+              const startDate = vacationPayValues?.[index]?.startDate;
+              const endDate = vacationPayValues?.[index]?.endDate;
+              return (
+                <div key={field.id} className="flex flex-col  gap-4">
+                  <div className="flex w-full">
+                    <DatePickerRange
+                      value={{
+                        from: startDate ? new Date(startDate) : undefined,
+                        to: endDate ? new Date(endDate) : undefined,
+                      }}
+                      onDataChange={(range) => {
+                        if (range?.from && range?.to) {
+                          const diffTime = Math.abs(
+                            range.to.getTime() - range.from.getTime(),
+                          );
+                          const diffDays =
+                            Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
 
-          <Label className="py-4">{t("usedVacationDays")}</Label>
-          {fields.map((field, index) => {
-            const startDate = vacationPayValues?.[index]?.startDate;
-            const endDate = vacationPayValues?.[index]?.endDate;
-            return (
-              <div key={field.id} className="flex flex-col md:w-2/3 gap-1">
-                <div className="flex w-full">
-                  <DatePickerRange
-                    value={{
-                      from: startDate ? new Date(startDate) : undefined,
-                      to: endDate ? new Date(endDate) : undefined,
-                    }}
-                    onDataChange={(range) => {
-                      if (range?.from && range?.to) {
-                        const diffTime = Math.abs(
-                          range.to.getTime() - range.from.getTime(),
-                        );
-                        const diffDays =
-                          Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
-
-                        form.setValue(
-                          `vacationPay.${index}.startDate`,
-                          range.from.toISOString(),
-                        );
-                        form.setValue(
-                          `vacationPay.${index}.endDate`,
-                          range.to.toISOString(),
-                        );
-                        form.setValue(
-                          `vacationPay.${index}.countDays`,
-                          diffDays.toString(),
-                        );
+                          form.setValue(
+                            `vacationPay.${index}.startDate`,
+                            range.from.toISOString(),
+                          );
+                          form.setValue(
+                            `vacationPay.${index}.endDate`,
+                            range.to.toISOString(),
+                          );
+                          form.setValue(
+                            `vacationPay.${index}.countDays`,
+                            diffDays.toString(),
+                          );
+                        }
+                      }}
+                      resetTrigger={false}
+                      className="flex-1 h-11"
+                    />
+                    <TextInput
+                      fieldName={`vacationPay.${index}.countDays`}
+                      className="flex-none w-11 p-0 h-11 text-center mx-4"
+                    />
+                    <Button
+                      type="button"
+                      variant="destructive"
+                      className="h-11 w-11 flex-none"
+                      onClick={() =>
+                        fields.length === 1
+                          ? replace(defaultVacationPay)
+                          : remove(index)
                       }
-                    }}
-                    resetTrigger={false}
-                    className="flex-1 h-8"
-                  />
-                  <TextInput
-                    fieldName={`vacationPay.${index}.countDays`}
-                    className="flex-none w-12 p-0 h-8 text-center mx-4"
-                  />
-                  <Button
-                    type="button"
-                    variant="destructive"
-                    className="h-8 w-8 flex-none"
-                    onClick={() =>
-                      fields.length === 1
-                        ? replace(defaultVacationPay)
-                        : remove(index)
-                    }
-                  >
-                    <Trash />
-                  </Button>
+                    >
+                      <Trash />
+                    </Button>
+                  </div>
                 </div>
-              </div>
-            );
-          })}
-          <div className="w-2/3 flex justify-end">
-            <Button
-              type="button"
-              className="h-8 w-8 flex-none"
-              onClick={() => append(defaultVacationPay)}
-            >
-              <Plus />
-            </Button>
+              );
+            })}
+            <div className="flex justify-end">
+              <Button
+                type="button"
+                className="h-11 w-11 flex-none"
+                onClick={() => append(defaultVacationPay)}
+              >
+                <Plus />
+              </Button>
+            </div>
           </div>
         </div>
       </div>
