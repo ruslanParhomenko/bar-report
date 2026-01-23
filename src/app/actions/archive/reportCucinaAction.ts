@@ -1,7 +1,6 @@
 "use server";
 
 import { unstable_cache, updateTag } from "next/cache";
-import { invalidateEverywhere } from "../invalidateEverywhere/invalidateEverywhere";
 import {
   DailyReportCucina,
   Prepared,
@@ -12,6 +11,7 @@ import {
 } from "@/prisma/generated/prisma/client";
 import prisma from "@/lib/prisma";
 import { ReportCucinaType } from "@/features/report/cucina/schema";
+import { REPORT_CUCINA_ACTION_TAG } from "@/constants/action-tag";
 
 // type
 
@@ -111,9 +111,7 @@ export async function createReportCucina({ data }: { data: ReportCucinaType }) {
     },
   });
 
-  updateTag("reportCucina");
-  await invalidateEverywhere("reportCucina");
-
+  updateTag(REPORT_CUCINA_ACTION_TAG);
   return report.id;
 }
 
@@ -129,8 +127,7 @@ export async function deleteReportCucina(id: string) {
       writeOff: true,
     },
   });
-  updateTag("reportCucina");
-  await invalidateEverywhere("reportCucina");
+  updateTag(REPORT_CUCINA_ACTION_TAG);
 }
 
 // get by date
@@ -163,9 +160,9 @@ export async function _getReportsCucinaByDate({
 
 export const getReportsCucinaByDate = unstable_cache(
   _getReportsCucinaByDate,
-  ["reportsCucina"],
+  [REPORT_CUCINA_ACTION_TAG],
   {
     revalidate: false,
-    tags: ["reportCucina"],
+    tags: [REPORT_CUCINA_ACTION_TAG],
   },
 );

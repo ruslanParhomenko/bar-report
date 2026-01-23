@@ -23,17 +23,17 @@ export default function SidebarMenuButtons() {
   return (
     <SidebarMenu className="flex h-full flex-col gap-4 pt-2">
       {SIDEBAR_NAVIGATION.map((item) => {
-        const isActivePath = pathname.split("/")[1] === item.url.split("/")[1];
+        const isActivePath = pathname.split("/")[1] === item.url;
         const Icon = item.icon;
 
         return (
           <SidebarMenuButton key={item.title} asChild>
             <Link
-              href={item.url}
+              href={`/${item.url}`}
               onClick={handleMenuClick}
               className={cn(
                 "flex items-center w-full",
-                isActivePath && "bg-bl"
+                isActivePath && "bg-bl",
               )}
             >
               <Icon className={isActivePath ? "" : "text-bl"} />

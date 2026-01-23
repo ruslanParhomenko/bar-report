@@ -1,10 +1,9 @@
 "use server";
 
 import { dbAdmin } from "@/lib/firebase-admin";
-
-import { invalidateEverywhere } from "../invalidateEverywhere/invalidateEverywhere";
 import { unstable_cache, updateTag } from "next/cache";
 import { AOFormTypeInput } from "@/features/a-o/schema";
+import { AO_REPORT_ACTION_TAG } from "@/constants/action-tag";
 
 export type AOContextValue = AOFormTypeInput & {
   id: string;
@@ -12,27 +11,25 @@ export type AOContextValue = AOFormTypeInput & {
 
 // create
 export async function createAO(data: AOFormTypeInput) {
-  const docRef = await dbAdmin.collection("ao-report").add({
+  const docRef = await dbAdmin.collection(AO_REPORT_ACTION_TAG).add({
     uniqueKey: data.uniqueKey,
     year: data.year,
     month: data.month,
     rowAOData: data.rowAOData,
   });
-  updateTag("ao-report");
-  await invalidateEverywhere("ao-report");
+  updateTag(AO_REPORT_ACTION_TAG);
   return docRef.id;
 }
 
 // update
 export async function updateAO(id: string, data: AOFormTypeInput) {
-  await dbAdmin.collection("ao-report").doc(id).update(data);
-  updateTag("ao-report");
-  await invalidateEverywhere("ao-report");
+  await dbAdmin.collection(AO_REPORT_ACTION_TAG).doc(id).update(data);
+  updateTag(AO_REPORT_ACTION_TAG);
 }
 
 // get by id
 export const _getAOById = async (id: string) => {
-  const doc = await dbAdmin.collection("ao-report").doc(id).get();
+  const doc = await dbAdmin.collection(AO_REPORT_ACTION_TAG).doc(id).get();
   if (!doc.exists) return null;
 
   return {
@@ -41,15 +38,15 @@ export const _getAOById = async (id: string) => {
   } as AOContextValue;
 };
 
-export const getAOById = unstable_cache(_getAOById, ["ao-report"], {
+export const getAOById = unstable_cache(_getAOById, [AO_REPORT_ACTION_TAG], {
   revalidate: false,
-  tags: ["ao-report"],
+  tags: [AO_REPORT_ACTION_TAG],
 });
 
 // get by filters
 export const _getAOByUniqueKey = async (uniqueKey: string) => {
   const snapshot = await dbAdmin
-    .collection("ao-report")
+    .collection(AO_REPORT_ACTION_TAG)
     .where("uniqueKey", "==", uniqueKey)
     .limit(1)
     .get();
@@ -66,9 +63,9 @@ export const _getAOByUniqueKey = async (uniqueKey: string) => {
 
 export const getAOByUniqueKey = unstable_cache(
   _getAOByUniqueKey,
-  ["ao-report"],
+  [AO_REPORT_ACTION_TAG],
   {
     revalidate: false,
-    tags: ["ao-report"],
+    tags: [AO_REPORT_ACTION_TAG],
   },
 );

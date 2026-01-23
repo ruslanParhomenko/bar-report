@@ -3,8 +3,8 @@
 import { TipsFormType } from "@/features/tips/schema";
 import { supabase } from "@/lib/supabase-client";
 
-import { invalidateEverywhere } from "../invalidateEverywhere/invalidateEverywhere";
 import { unstable_cache, updateTag } from "next/cache";
+import { TIPS_ACTION_TAG } from "@/constants/action-tag";
 
 // type
 export type TipsData = {
@@ -24,20 +24,21 @@ export async function saveTipsForm(data: Omit<TipsFormType, "cashTips">) {
 
   const unique_id = `${year}-${month}`;
 
-  const { data: savedData, error } = await supabase.from("tips").upsert(
-    {
-      unique_id: unique_id,
-      form_data: data,
-    },
-    { onConflict: "unique_id" },
-  );
+  const { data: savedData, error } = await supabase
+    .from(TIPS_ACTION_TAG)
+    .upsert(
+      {
+        unique_id: unique_id,
+        form_data: data,
+      },
+      { onConflict: "unique_id" },
+    );
 
   if (error) {
     console.error("Ошибка при сохранении формы:", error);
     throw error;
   }
-  updateTag("tips");
-  invalidateEverywhere("tips");
+  updateTag(TIPS_ACTION_TAG);
 
   return savedData;
 }
@@ -45,7 +46,7 @@ export async function saveTipsForm(data: Omit<TipsFormType, "cashTips">) {
 // get by unique_id
 export async function _getTipsFormById(unique_id: string) {
   const { data, error } = await supabase
-    .from("tips")
+    .from(TIPS_ACTION_TAG)
     .select("*")
     .eq("unique_id", unique_id)
     .maybeSingle();
@@ -58,7 +59,11 @@ export async function _getTipsFormById(unique_id: string) {
   return data ?? null;
 }
 
-export const getTipsFormById = unstable_cache(_getTipsFormById, ["tips"], {
-  revalidate: false,
-  tags: ["tips"],
-});
+export const getTipsFormById = unstable_cache(
+  _getTipsFormById,
+  [TIPS_ACTION_TAG],
+  {
+    revalidate: false,
+    tags: [TIPS_ACTION_TAG],
+  },
+);

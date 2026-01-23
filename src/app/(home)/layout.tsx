@@ -1,6 +1,6 @@
 import SidebarNav from "@/features/sidebar/SidebarNav";
 import { SidebarProvider } from "@/components/ui/sidebar";
-import NavMenuHeader from "@/components/nav-menu-header/NavMenuHeader";
+import NavMenuHeader from "@/components/nav-menu-header/nav-menu";
 import { AbilityProvider } from "@/providers/AbilityProvider";
 import {
   EmployeesContextValue,

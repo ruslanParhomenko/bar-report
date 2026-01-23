@@ -11,7 +11,7 @@ import {
 import { FormWrapper } from "@/components/wrapper/form-wrapper";
 import { defaultRemarksValue, RemarksFormData, remarksSchema } from "./schema";
 import { useEffect } from "react";
-import { REMARKS_ENDPOINT } from "@/constants/endpoint-tag";
+import { REMARKS_MAIN_ROUTE } from "@/constants/endpoint-tag";
 import { useLocalStorageForm } from "@/hooks/useLocalStorageForm";
 import { Table } from "@/components/ui/table";
 import { PenaltyTableHeader } from "./penalty-header";
@@ -26,7 +26,7 @@ export default function PenaltyForm({
   const router = useRouter();
 
   const id = dataRemark?.id ? String(dataRemark.id) : null;
-  const key = dataRemark?.id ? "edit-remarks" : REMARKS_ENDPOINT;
+  const key = dataRemark?.id ? "edit-remarks" : REMARKS_MAIN_ROUTE;
   const dataRemarksById = dataRemark ? dataRemark : null;
 
   // form

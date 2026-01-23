@@ -1,8 +1,8 @@
 "use server";
 
 import { unstable_cache, updateTag } from "next/cache";
-import { invalidateEverywhere } from "../invalidateEverywhere/invalidateEverywhere";
 import prisma from "@/lib/prisma";
+import { BREAK_ACTION_TAG } from "@/constants/action-tag";
 
 // create break list
 export async function createBreakList(data: any) {
@@ -39,8 +39,7 @@ export async function createBreakList(data: any) {
       rows: true,
     },
   });
-  updateTag("breakList");
-  invalidateEverywhere("breakList");
+  updateTag(BREAK_ACTION_TAG);
 
   return breakList.id;
 }
@@ -50,8 +49,7 @@ export async function deleteBreakList(id: string) {
   await prisma.breakList.delete({
     where: { id: Number(id) },
   });
-  updateTag("breakList");
-  invalidateEverywhere("breakList");
+  updateTag(BREAK_ACTION_TAG);
 }
 
 // get by date
@@ -78,9 +76,9 @@ export async function _getBreakListByDate({
 
 export const getBreakListByDate = unstable_cache(
   _getBreakListByDate,
-  ["breakList"],
+  [BREAK_ACTION_TAG],
   {
     revalidate: false,
-    tags: ["breakList"],
+    tags: [BREAK_ACTION_TAG],
   },
 );

@@ -1,9 +1,8 @@
 "use client";
 
 import { SubmitHandler, useForm } from "react-hook-form";
-import { BREAK_LIST_ENDPOINT } from "@/constants/endpoint-tag";
+import { BREAK_MAIN_ROUTE } from "@/constants/endpoint-tag";
 import { FormWrapper } from "@/components/wrapper/form-wrapper";
-import { createBreakList } from "@/app/actions/archive/breakListAction";
 import { toast } from "sonner";
 import { BreakFormData, breakSchema, defaultValuesBrake } from "./schema";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -11,6 +10,7 @@ import { useLocalStorageForm } from "@/hooks/useLocalStorageForm";
 import { Table } from "@/components/ui/table";
 import BreakTableHeader from "./break-header";
 import BreakTableBody from "./break-body";
+import { createBreakList } from "@/app/actions/break/break-action";
 
 export default function BreakForm() {
   // form
@@ -23,10 +23,7 @@ export default function BreakForm() {
   });
 
   // localstorage
-  const { isLoaded, resetForm } = useLocalStorageForm(
-    form,
-    BREAK_LIST_ENDPOINT
-  );
+  const { isLoaded, resetForm } = useLocalStorageForm(form, BREAK_MAIN_ROUTE);
   // submit
   const onSubmit: SubmitHandler<BreakFormData> = async (data) => {
     try {

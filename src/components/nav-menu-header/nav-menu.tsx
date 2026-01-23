@@ -7,6 +7,7 @@ import { usePathname, useRouter } from "next/navigation";
 import SelectEmployeeBy from "@/components/nav-menu-header/SelectEmployeeBy";
 import { RefreshCcw } from "lucide-react";
 import { NAV_BY_PATCH } from "./constants";
+import { revalidateNav } from "@/app/actions/revalidate-tag/revalidate-teg";
 
 export default function NavMenuHeader() {
   const mainRoute = usePathname().split("/")[1];
@@ -51,6 +52,7 @@ export default function NavMenuHeader() {
 
   const resetParams = () => {
     setPatch("");
+    revalidateNav(mainRoute);
 
     router.push(`/${mainRoute}`);
   };

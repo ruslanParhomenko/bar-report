@@ -4,6 +4,7 @@ import { dbAdmin } from "@/lib/firebase-admin";
 import { ScheduleType } from "@/features/schedule/create/schema";
 import { invalidateEverywhere } from "../invalidateEverywhere/invalidateEverywhere";
 import { unstable_cache, updateTag } from "next/cache";
+import { SCHEDULE_ACTION_TAG } from "@/constants/action-tag";
 
 export type ScheduleData = ScheduleType & {
   uniqueKey: string;
@@ -15,15 +16,15 @@ export type SchedulesContextValue = ScheduleType & {
 
 // create
 export async function createSchedule(data: ScheduleData) {
-  const docRef = await dbAdmin.collection("schedule").add({
+  const docRef = await dbAdmin.collection(SCHEDULE_ACTION_TAG).add({
     uniqueKey: data.uniqueKey,
     year: data.year,
     month: data.month,
     role: data.role,
     rowShifts: data.rowShifts,
   });
-  updateTag("schedule");
-  await invalidateEverywhere("schedule");
+  updateTag(SCHEDULE_ACTION_TAG);
+  await invalidateEverywhere(SCHEDULE_ACTION_TAG);
   return docRef.id;
 }
 
@@ -32,14 +33,14 @@ export async function updateSchedule(
   id: string,
   data: Omit<ScheduleData, "id">,
 ) {
-  await dbAdmin.collection("schedule").doc(id).update(data);
-  updateTag("schedule");
-  await invalidateEverywhere("schedule");
+  await dbAdmin.collection(SCHEDULE_ACTION_TAG).doc(id).update(data);
+  updateTag(SCHEDULE_ACTION_TAG);
+  await invalidateEverywhere(SCHEDULE_ACTION_TAG);
 }
 
 // get by id
 export const _getScheduleById = async (id: string) => {
-  const doc = await dbAdmin.collection("schedule").doc(id).get();
+  const doc = await dbAdmin.collection(SCHEDULE_ACTION_TAG).doc(id).get();
   if (!doc.exists) return null;
 
   return {
@@ -48,15 +49,19 @@ export const _getScheduleById = async (id: string) => {
   } as ScheduleData & { id: string };
 };
 
-export const getScheduleById = unstable_cache(_getScheduleById, ["schedule"], {
-  revalidate: false,
-  tags: ["schedule"],
-});
+export const getScheduleById = unstable_cache(
+  _getScheduleById,
+  [SCHEDULE_ACTION_TAG],
+  {
+    revalidate: false,
+    tags: [SCHEDULE_ACTION_TAG],
+  },
+);
 
 // get by filters
 export const _getScheduleByMonthYear = async (month: string, year: string) => {
   const snapshot = await dbAdmin
-    .collection("schedule")
+    .collection(SCHEDULE_ACTION_TAG)
     .where("month", "==", month)
     .where("year", "==", year)
     .get();
@@ -71,9 +76,9 @@ export const _getScheduleByMonthYear = async (month: string, year: string) => {
 
 export const getScheduleByMonthYear = unstable_cache(
   _getScheduleByMonthYear,
-  ["schedule"],
+  [SCHEDULE_ACTION_TAG],
   {
     revalidate: false,
-    tags: ["schedule"],
+    tags: [SCHEDULE_ACTION_TAG],
   },
 );

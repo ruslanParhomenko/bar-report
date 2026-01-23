@@ -1,10 +1,10 @@
 "use client";
-import { deleteBreakList } from "@/app/actions/archive/breakListAction";
 import { deleteReportBar } from "@/app/actions/archive/reportBarAction";
 import { deleteReportCucina } from "@/app/actions/archive/reportCucinaAction";
+import { deleteBreakList } from "@/app/actions/break/break-action";
 import ModalConfirm from "@/components/modal/ModalConfirm";
 import {
-  BREAK_LIST_ENDPOINT,
+  BREAK_MAIN_ROUTE,
   REPORT_BAR_ENDPOINT,
   REPORT_CUCINA_ENDPOINT,
 } from "@/constants/endpoint-tag";
@@ -24,7 +24,7 @@ type DeleteListButtonProps<T extends BaseData> = {
 };
 
 const actionByNameTag = {
-  [BREAK_LIST_ENDPOINT]: deleteBreakList,
+  [BREAK_MAIN_ROUTE]: deleteBreakList,
   [REPORT_BAR_ENDPOINT]: deleteReportBar,
   [REPORT_CUCINA_ENDPOINT]: deleteReportCucina,
 };

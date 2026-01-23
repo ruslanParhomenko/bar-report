@@ -1,10 +1,9 @@
 "use server";
 
 import { dbAdmin } from "@/lib/firebase-admin";
-
-import { invalidateEverywhere } from "../invalidateEverywhere/invalidateEverywhere";
 import { unstable_cache, updateTag } from "next/cache";
 import { SuppliersFormType } from "@/features/ttn/schema";
+import { TTN_ACTION_TAG } from "@/constants/action-tag";
 
 export type TTNGetDataType = SuppliersFormType & {
   id: string;
@@ -12,27 +11,26 @@ export type TTNGetDataType = SuppliersFormType & {
 
 // create
 export async function createTTN(data: SuppliersFormType) {
-  const docRef = await dbAdmin.collection("ttn-report").add({
+  const docRef = await dbAdmin.collection(TTN_ACTION_TAG).add({
     unique_key: data.unique_key,
     year: data.year,
     month: data.month,
     rowAOData: data.rowSuppliers,
   });
-  updateTag("ttn-report");
-  await invalidateEverywhere("ttn-report");
+  updateTag(TTN_ACTION_TAG);
+
   return docRef.id;
 }
 
 // update
 export async function updateTTN(id: string, data: SuppliersFormType) {
-  await dbAdmin.collection("ttn-report").doc(id).update(data);
-  updateTag("ttn-report");
-  await invalidateEverywhere("ttn-report");
+  await dbAdmin.collection(TTN_ACTION_TAG).doc(id).update(data);
+  updateTag(TTN_ACTION_TAG);
 }
 
 // get by id
 export const _getTTNById = async (id: string) => {
-  const doc = await dbAdmin.collection("ttn-report").doc(id).get();
+  const doc = await dbAdmin.collection(TTN_ACTION_TAG).doc(id).get();
   if (!doc.exists) return null;
 
   return {
@@ -41,15 +39,15 @@ export const _getTTNById = async (id: string) => {
   } as TTNGetDataType;
 };
 
-export const getAOById = unstable_cache(_getTTNById, ["ttn-report"], {
+export const getAOById = unstable_cache(_getTTNById, [TTN_ACTION_TAG], {
   revalidate: false,
-  tags: ["ttn-report"],
+  tags: [TTN_ACTION_TAG],
 });
 
 // get by filters
 export const _getTTNByUniqueKey = async (unique_key: string) => {
   const snapshot = await dbAdmin
-    .collection("ttn-report")
+    .collection(TTN_ACTION_TAG)
     .where("unique_key", "==", unique_key)
     .limit(1)
     .get();
@@ -66,9 +64,9 @@ export const _getTTNByUniqueKey = async (unique_key: string) => {
 
 export const getTTNByUniqueKey = unstable_cache(
   _getTTNByUniqueKey,
-  ["ttn-report"],
+  [TTN_ACTION_TAG],
   {
     revalidate: false,
-    tags: ["ttn-report"],
+    tags: [TTN_ACTION_TAG],
   },
 );

@@ -1,7 +1,8 @@
+"use server";
 import { unstable_cache, updateTag } from "next/cache";
-import { invalidateEverywhere } from "../invalidateEverywhere/invalidateEverywhere";
 import { StopListSchemaType } from "@/features/stop-list/schema";
 import { supabaseServer } from "@/lib/supabase-server";
+import { STOP_LIST_ACTION_TAG } from "@/constants/action-tag";
 
 export type StopListType = {
   id: string;
@@ -11,7 +12,7 @@ export type StopListType = {
 // get
 export async function _getStopList() {
   const supabase = supabaseServer();
-  const { data, error } = await supabase.from("stop_list_realtime").select("*");
+  const { data, error } = await supabase.from(STOP_LIST_ACTION_TAG).select("*");
   if (error) {
     console.error("Ошибка при получении данных формы:", error);
     throw error;
@@ -20,17 +21,21 @@ export async function _getStopList() {
   return data;
 }
 
-export const getStopList = unstable_cache(_getStopList, ["stopList"], {
-  revalidate: false,
-  tags: ["stopList"],
-});
+export const getStopList = unstable_cache(
+  _getStopList,
+  [STOP_LIST_ACTION_TAG],
+  {
+    revalidate: false,
+    tags: [STOP_LIST_ACTION_TAG],
+  },
+);
 
 // create
 export async function saveStopList(data: any) {
   const supabase = supabaseServer();
   const { mail, dataStopList } = data;
   const { data: savedData, error } = await supabase
-    .from("stop_list_realtime")
+    .from(STOP_LIST_ACTION_TAG)
     .upsert(
       {
         user_email: mail,
@@ -44,8 +49,6 @@ export async function saveStopList(data: any) {
     throw error;
   }
 
-  updateTag("stopList");
-  await invalidateEverywhere("stopList");
-
+  updateTag(STOP_LIST_ACTION_TAG);
   return savedData;
 }

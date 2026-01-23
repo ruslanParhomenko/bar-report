@@ -1,4 +1,4 @@
-import { getBreakListByDate } from "@/app/actions/archive/breakListAction";
+import { getBreakListByDate } from "@/app/actions/break/break-action";
 import { InsufficientRights } from "@/components/wrapper/InsufficientRights";
 import { BreakListArchive } from "@/features/break/break-list-archive";
 import { authOptions } from "@/lib/auth";

@@ -10,7 +10,6 @@ import { useEffect } from "react";
 
 import { useRouter } from "next/navigation";
 import SelectField from "@/components/inputs/SelectField";
-import { Label } from "@/components/ui/label";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 const ROLES = ["ADMIN", "BAR", "CUCINA", "USER", "MNGR", "CASH", "FIN"];
@@ -47,7 +46,7 @@ export default function UsersForm({ data }: { data?: FormData }) {
         toast.success("User is added !");
       }
       resetForm();
-      router.refresh();
+      router.back();
     } catch (e) {
       toast.error("Error adding user");
     }

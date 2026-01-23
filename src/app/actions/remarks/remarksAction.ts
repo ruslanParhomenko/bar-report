@@ -1,9 +1,9 @@
 "use server";
 
 import { unstable_cache, updateTag } from "next/cache";
-import { invalidateEverywhere } from "../invalidateEverywhere/invalidateEverywhere";
 import { Remark } from "@/prisma/generated/prisma/client";
 import prisma from "@/lib/prisma";
+import { REMARKS_ACTION_TAG } from "@/constants/action-tag";
 
 export type RemarksData = {
   id: number;
@@ -35,8 +35,7 @@ export async function createRemarks(data: any) {
     include: { remarks: true },
   });
 
-  updateTag("remarks");
-  invalidateEverywhere("remarks");
+  updateTag(REMARKS_ACTION_TAG);
 
   return remarksData.id;
 }
@@ -81,8 +80,7 @@ export async function updateRemark(data: any) {
     return remark;
   });
 
-  updateTag("remarks");
-  invalidateEverywhere("remarks");
+  updateTag(REMARKS_ACTION_TAG);
   return updatedReport.id;
 }
 
@@ -92,8 +90,7 @@ export async function deleteRemark(id: string) {
     where: { id: Number(id) },
     include: { remarks: true },
   });
-  updateTag("remarks");
-  invalidateEverywhere("remarks");
+  updateTag(REMARKS_ACTION_TAG);
 }
 
 // get by date
@@ -120,9 +117,9 @@ export async function _getRemarksByDate({
 
 export const getRemarksByDate = unstable_cache(
   _getRemarksByDate,
-  ["remarks-by-date"],
+  [REMARKS_ACTION_TAG],
   {
     revalidate: false,
-    tags: ["remarks"],
+    tags: [REMARKS_ACTION_TAG],
   },
 );

@@ -1,7 +1,6 @@
 "use server";
 
 import { unstable_cache, updateTag } from "next/cache";
-import { invalidateEverywhere } from "../invalidateEverywhere/invalidateEverywhere";
 import { ReportBarFormValues } from "@/features/report/bar/schema";
 import prisma from "@/lib/prisma";
 import {
@@ -12,6 +11,7 @@ import {
   ProductTransfer,
   Tobacco,
 } from "@/prisma/generated/prisma/client";
+import { REPORT_BAR_ACTION_TAG } from "@/constants/action-tag";
 export type ReportBarType = DailyReport & {
   cashVerify: CashVerify[];
   tobacco: Tobacco[];
@@ -82,8 +82,7 @@ export async function createReportBar({ data }: { data: ReportBarFormValues }) {
       inventory: true,
     },
   });
-  updateTag("reportBar");
-  await invalidateEverywhere("reportBar");
+  updateTag(REPORT_BAR_ACTION_TAG);
 
   return report.id;
 }
@@ -93,8 +92,7 @@ export async function deleteReportBar(id: string) {
   await prisma.dailyReport.delete({
     where: { id: Number(id) },
   });
-  updateTag("reportBar");
-  await invalidateEverywhere("reportBar");
+  updateTag(REPORT_BAR_ACTION_TAG);
 }
 
 // get by date
@@ -127,9 +125,9 @@ export async function _getReportBarByDate({
 
 export const getReportBarByDate = unstable_cache(
   _getReportBarByDate,
-  ["reportBar"],
+  [REPORT_BAR_ACTION_TAG],
   {
     revalidate: false,
-    tags: ["reportBar"],
+    tags: [REPORT_BAR_ACTION_TAG],
   },
 );

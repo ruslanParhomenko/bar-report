@@ -31,9 +31,9 @@ import {
 import { sendNotificationEmail } from "@/app/actions/mail/sendNotificationEmail";
 import { useEffect } from "react";
 import { useRouter } from "@/i18n/navigation";
-import { EMPLOYEES_ROLE } from "../../components/nav-menu-header/SelectEmployeeBy";
 import SelectField from "@/components/inputs/SelectField";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { EMPLOYEES_ROLE } from "./constants";
 
 type FormData = EmployeesSchemaTypeData & { id?: string };
 const STATUS_OPTIONS = ["active", "fired"];
@@ -49,10 +49,9 @@ export function EmployeeForm({
 
   const form = useForm<FormData>({
     resolver: zodResolver(employeesSchema) as Resolver<FormData>,
-    defaultValues: employee
-      ? employeesSchema.parse(employee)
-      : defaultEmployeeSchemaValues,
+    defaultValues: employee ?? defaultEmployeeSchemaValues,
   });
+
   const { fields, append, remove, replace } = useFieldArray({
     control: form.control,
     name: nameTag as FieldArrayPath<FormData>,

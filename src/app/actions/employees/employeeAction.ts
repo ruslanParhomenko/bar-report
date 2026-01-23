@@ -4,13 +4,13 @@ import { dbAdmin } from "@/lib/firebase-admin";
 import { EmployeesSchemaTypeData } from "@/features/employees/schema";
 import { unstable_cache, updateTag } from "next/cache";
 import { redis } from "@/lib/redis";
+import { EMPLOYEES_ACTION_TAG } from "@/constants/action-tag";
 
 export type EmployeeData = EmployeesSchemaTypeData;
-const EMPLOYEES_KEY = "employees";
 
 // create
 export async function createEmployee(data: EmployeeData) {
-  const docRef = await dbAdmin.collection(EMPLOYEES_KEY).add({
+  const docRef = await dbAdmin.collection(EMPLOYEES_ACTION_TAG).add({
     name: data.name,
     role: data.role,
     rate: data.rate,
@@ -23,8 +23,8 @@ export async function createEmployee(data: EmployeeData) {
       countDays: pay.countDays,
     })),
   });
-  updateTag(EMPLOYEES_KEY);
-  await redis.del(EMPLOYEES_KEY);
+  updateTag(EMPLOYEES_ACTION_TAG);
+  await redis.del(EMPLOYEES_ACTION_TAG);
   return docRef.id;
 }
 
@@ -33,32 +33,36 @@ export async function updateEmployee(
   id: string,
   data: Omit<EmployeeData, "id">,
 ) {
-  await dbAdmin.collection(EMPLOYEES_KEY).doc(id).update(data);
-  updateTag(EMPLOYEES_KEY);
-  await redis.del(EMPLOYEES_KEY);
+  await dbAdmin.collection(EMPLOYEES_ACTION_TAG).doc(id).update(data);
+  updateTag(EMPLOYEES_ACTION_TAG);
+  await redis.del(EMPLOYEES_ACTION_TAG);
 }
 
 // delete
 export async function deleteEmployee(id: string) {
-  await dbAdmin.collection(EMPLOYEES_KEY).doc(id).delete();
-  updateTag(EMPLOYEES_KEY);
-  await redis.del(EMPLOYEES_KEY);
+  await dbAdmin.collection(EMPLOYEES_ACTION_TAG).doc(id).delete();
+  updateTag(EMPLOYEES_ACTION_TAG);
+  await redis.del(EMPLOYEES_ACTION_TAG);
 }
 
 // get
 
 const _getEmployees = async () => {
-  const snapshot = await dbAdmin.collection(EMPLOYEES_KEY).get();
+  const snapshot = await dbAdmin.collection(EMPLOYEES_ACTION_TAG).get();
   return snapshot.docs.map((doc) => ({
     id: doc.id,
     ...doc.data(),
   }));
 };
 
-export const getEmployees = unstable_cache(_getEmployees, [EMPLOYEES_KEY], {
-  revalidate: false,
-  tags: [EMPLOYEES_KEY],
-});
+export const getEmployees = unstable_cache(
+  _getEmployees,
+  [EMPLOYEES_ACTION_TAG],
+  {
+    revalidate: false,
+    tags: [EMPLOYEES_ACTION_TAG],
+  },
+);
 
 // export const getEmployees = async () => {
 //   "use cache";

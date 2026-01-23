@@ -1,6 +1,6 @@
 import { DeleteListButton } from "../archive/DeleteListButton";
 import { Separator } from "@/components/ui/separator";
-import { BREAK_LIST_ENDPOINT } from "@/constants/endpoint-tag";
+import { BREAK_MAIN_ROUTE } from "@/constants/endpoint-tag";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { BreakList, Row } from "@/prisma/generated/prisma/client";
 
@@ -13,7 +13,7 @@ export function BreakListArchive({ data }: { data: BreakListData[] }) {
         data.map((data, index) => {
           return (
             <div key={index}>
-              <DeleteListButton data={data} nameTag={BREAK_LIST_ENDPOINT} />
+              <DeleteListButton data={data} nameTag={BREAK_MAIN_ROUTE} />
               <Separator className="my-1 bg-bl" />
               <Table>
                 <TableBody>

@@ -1,3 +1,16 @@
+import {
+  AO_REPORT_ACTION_TAG,
+  BREAK_ACTION_TAG,
+  CASH_ACTION_TAG,
+  EMPLOYEES_ACTION_TAG,
+  REMARKS_ACTION_TAG,
+  SCHEDULE_ACTION_TAG,
+  STOP_LIST_ACTION_TAG,
+  TIPS_ACTION_TAG,
+  TTN_ACTION_TAG,
+  USERS_ACTION_TAG,
+} from "@/constants/action-tag";
+
 export const SCHEDULE_NAV_ITEMS = [
   { title: "bar", href: "bar" },
   { title: "cucina", href: "cucina" },
@@ -94,4 +107,17 @@ export const NAV_BY_PATCH = {
 export type PageNavType = {
   title: string;
   href: string;
+};
+
+export const REVALIDATE_TAGS_BY_PATCH = {
+  schedule: SCHEDULE_ACTION_TAG,
+  employees: EMPLOYEES_ACTION_TAG,
+  break: BREAK_ACTION_TAG,
+  users: USERS_ACTION_TAG,
+  "stop-list": STOP_LIST_ACTION_TAG,
+  "a-o": AO_REPORT_ACTION_TAG,
+  cash: CASH_ACTION_TAG,
+  remarks: REMARKS_ACTION_TAG,
+  tips: TIPS_ACTION_TAG,
+  ttn: TTN_ACTION_TAG,
 };
