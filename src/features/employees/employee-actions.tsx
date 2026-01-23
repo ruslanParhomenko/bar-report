@@ -43,7 +43,7 @@ export default function ActionButtonEmployee({ id }: { id: string }) {
           className="cursor-pointer"
           type="button"
           onClick={() => {
-            router.push(`/employees/create/${id}`);
+            router.push(`/employees/${id}`);
           }}
           disabled={isDisabled}
         >
