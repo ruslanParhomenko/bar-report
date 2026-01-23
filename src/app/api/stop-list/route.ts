@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabaseServer } from "@/lib/supabase-server";
 import { revalidateTag } from "next/cache";
+import { STOP_LIST_ACTION_TAG } from "@/constants/action-tag";
 
 export async function POST(req: NextRequest) {
   try {
@@ -11,12 +12,12 @@ export async function POST(req: NextRequest) {
 
     const supabase = supabaseServer();
     const { data, error } = await supabase
-      .from("stop_list_realtime")
+      .from(STOP_LIST_ACTION_TAG)
       .upsert(
         { user_email: mail, form_data: dataStopList },
         { onConflict: "user_email" },
       );
-    revalidateTag("stopList", "default");
+    revalidateTag(STOP_LIST_ACTION_TAG, "default");
     if (error)
       return NextResponse.json({ error: error.message }, { status: 500 });
 

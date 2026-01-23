@@ -1,88 +1,126 @@
 "use client";
+
 import { MONTHS } from "@/utils/getMonthDays";
 import { useEffect, useState, useTransition } from "react";
+import { usePathname, useRouter } from "next/navigation";
+
 import SelectTabsByPatch from "./SelectTabsByPatch";
 import SelectByMonthYear from "./SelectByMonthYear";
-import { usePathname, useRouter } from "next/navigation";
 import SelectEmployeeBy from "@/components/nav-menu-header/SelectEmployeeBy";
-import { RefreshCcw } from "lucide-react";
-import { NAV_BY_PATCH } from "./constants";
+
+import { RefreshCcw, RotateCcw } from "lucide-react";
+import { NAV_BY_PATCH, REVALIDATE_TAGS_BY_PATCH } from "./constants";
 import { revalidateNav } from "@/app/actions/revalidate-tag/revalidate-teg";
 
 export default function NavMenuHeader() {
-  const mainRoute = usePathname().split("/")[1];
-  const filterType =
-    NAV_BY_PATCH[mainRoute as keyof typeof NAV_BY_PATCH]?.filterType;
-
-  const navItems =
-    NAV_BY_PATCH[mainRoute as keyof typeof NAV_BY_PATCH]?.navItems;
-
+  const pathname = usePathname();
   const router = useRouter();
+  const [isPending, startTransition] = useTransition();
+
+  const segments = pathname.split("/").filter(Boolean);
+  const mainRoute = segments[0] ?? "";
+
+  const config = NAV_BY_PATCH[mainRoute as keyof typeof NAV_BY_PATCH];
+  const filterType = config?.filterType;
+  const navItems = config?.navItems ?? [];
+
+  const patch =
+    navItems.length === 0
+      ? ""
+      : navItems.some((item) => item.href === segments[1])
+        ? segments[1]
+        : navItems[0].href;
 
   const [month, setMonth] = useState(() => MONTHS[new Date().getMonth()]);
   const [year, setYear] = useState(() => new Date().getFullYear().toString());
-
-  const [patch, setPatch] = useState<string>("");
-
   const [role, setRole] = useState("waiters");
 
-  const [isPending, startTransition] = useTransition();
-
   useEffect(() => {
-    if (!navItems || navItems.length === 0) {
-      setPatch("");
-      return;
+    const params = new URLSearchParams();
+
+    if (filterType === "role" && role) params.set("role", role);
+    if (filterType === "month") {
+      params.set("month", month);
+      params.set("year", year);
     }
 
-    setPatch(navItems[0].href);
-  }, [navItems]);
-
-  useEffect(() => {
     const url =
-      filterType === "role"
-        ? `/${mainRoute}/${patch}?role=${role}`
-        : filterType === "month"
-          ? `/${mainRoute}/${patch}?month=${month}&year=${year}`
-          : `/${mainRoute}/${patch}`;
+      navItems.length > 0
+        ? `/${mainRoute}/${patch}?${params.toString()}`
+        : `/${mainRoute}?${params.toString()}`;
 
     startTransition(() => {
-      router.push(url);
+      router.replace(url);
     });
-  }, [patch, month, year, role, filterType, mainRoute, router]);
+  }, [
+    patch,
+    filterType,
+    role,
+    month,
+    year,
+    mainRoute,
+    navItems.length,
+    router,
+  ]);
 
-  const resetParams = () => {
-    setPatch("");
-    revalidateNav(mainRoute);
-
-    router.push(`/${mainRoute}`);
+  const setPatch = (nextPatch: string) => {
+    startTransition(() => router.replace(`/${mainRoute}/${nextPatch}`));
   };
+
+  const resetPatch = () => {
+    startTransition(() => router.replace(`/${mainRoute}`));
+  };
+
+  const resetData = () => {
+    const tag =
+      REVALIDATE_TAGS_BY_PATCH[
+        mainRoute as keyof typeof REVALIDATE_TAGS_BY_PATCH
+      ];
+    if (tag) revalidateNav(tag);
+    router.refresh();
+  };
+
   return (
-    <div className="md:py-2 mt-1 mb-1 sticky top-0 z-9 flex justify-center md:justify-start md:gap-4 gap-1.5 bg-background">
-      {navItems?.length > 0 && (
-        <SelectTabsByPatch
-          patch={navItems.length > 0 ? patch : ""}
-          setPatch={setPatch}
-          isPending={isPending}
-          navItems={navItems}
-        />
-      )}
-      {filterType === "month" && (
-        <SelectByMonthYear
-          month={month}
-          year={year}
-          setMonth={setMonth}
-          setYear={setYear}
-          isLoading={isPending}
-          classNameMonthYear={navItems.length > 0 ? "w-15" : "w-24"}
-        />
-      )}
-      {filterType === "role" && (
-        <SelectEmployeeBy role={role} setRole={setRole} />
-      )}
+    <div className="md:py-2 mt-1 mb-1 sticky top-0 z-10 flex justify-between items-center bg-background md:px-4">
+      <div className="flex items-center md:gap-4 gap-2 order-2 md:order-1">
+        {navItems.length > 0 && (
+          <>
+            <SelectTabsByPatch
+              patch={patch}
+              setPatch={setPatch}
+              isPending={isPending}
+              navItems={navItems}
+            />
+            {patch && (
+              <button
+                onClick={resetPatch}
+                className="cursor-pointer items-center justify-center w-6 h-8 hidden md:flex"
+              >
+                <RotateCcw className="w-4 h-4 text-bl" />
+              </button>
+            )}
+          </>
+        )}
+
+        {filterType === "month" && (
+          <SelectByMonthYear
+            month={month}
+            year={year}
+            setMonth={setMonth}
+            setYear={setYear}
+            isLoading={isPending}
+            classNameMonthYear={navItems.length > 0 ? "md:w-22 w-10" : "w-24"}
+          />
+        )}
+
+        {filterType === "role" && (
+          <SelectEmployeeBy role={role} setRole={setRole} />
+        )}
+      </div>
 
       <button
-        onClick={resetParams}
-        className="hover:text-black text-bl hover:bg-transparent cursor-pointer md:w-24 md:order-3 order-0 px-2"
+        onClick={resetData}
+        className="hover:text-black hover:bg-transparent cursor-pointer flex items-center justify-center md:w-10 w-8 h-8 order-1 md:order-2"
       >
         <RefreshCcw className="w-4 h-4" />
       </button>

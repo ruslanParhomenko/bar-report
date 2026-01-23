@@ -10,6 +10,18 @@ import {
   TTN_ACTION_TAG,
   USERS_ACTION_TAG,
 } from "@/constants/action-tag";
+import {
+  AO_REPORT_MAIN_ROUTE,
+  BREAK_MAIN_ROUTE,
+  CASH_MAIN_ROUTE,
+  EMPLOYEES_MAIN_ROUTE,
+  REMARKS_MAIN_ROUTE,
+  SCHEDULE_MAIN_ROUTE,
+  STOP_LIST_MAIN_ROUTE,
+  TIPS_MAIN_ROUTE,
+  TTN_MAIN_ROUTE,
+  USERS_MAIN_ROUTE,
+} from "@/constants/endpoint-tag";
 
 export const SCHEDULE_NAV_ITEMS = [
   { title: "bar", href: "bar" },
@@ -18,7 +30,7 @@ export const SCHEDULE_NAV_ITEMS = [
 ];
 
 export const EMPLOYEES_NAV_ITEMS = [
-  { title: "employees", href: "" },
+  { title: "employees", href: "data" },
   { title: "add", href: "create" },
 ];
 
@@ -110,14 +122,14 @@ export type PageNavType = {
 };
 
 export const REVALIDATE_TAGS_BY_PATCH = {
-  schedule: SCHEDULE_ACTION_TAG,
-  employees: EMPLOYEES_ACTION_TAG,
-  break: BREAK_ACTION_TAG,
-  users: USERS_ACTION_TAG,
-  "stop-list": STOP_LIST_ACTION_TAG,
-  "a-o": AO_REPORT_ACTION_TAG,
-  cash: CASH_ACTION_TAG,
-  remarks: REMARKS_ACTION_TAG,
-  tips: TIPS_ACTION_TAG,
-  ttn: TTN_ACTION_TAG,
+  [SCHEDULE_MAIN_ROUTE]: SCHEDULE_ACTION_TAG,
+  [EMPLOYEES_MAIN_ROUTE]: EMPLOYEES_ACTION_TAG,
+  [BREAK_MAIN_ROUTE]: BREAK_ACTION_TAG,
+  [USERS_MAIN_ROUTE]: USERS_ACTION_TAG,
+  [STOP_LIST_MAIN_ROUTE]: STOP_LIST_ACTION_TAG,
+  [AO_REPORT_MAIN_ROUTE]: AO_REPORT_ACTION_TAG,
+  [CASH_MAIN_ROUTE]: CASH_ACTION_TAG,
+  [REMARKS_MAIN_ROUTE]: REMARKS_ACTION_TAG,
+  [TIPS_MAIN_ROUTE]: TIPS_ACTION_TAG,
+  [TTN_MAIN_ROUTE]: TTN_ACTION_TAG,
 };

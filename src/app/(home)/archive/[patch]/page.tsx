@@ -22,9 +22,10 @@ export default async function Page({
   searchParams: Promise<{ [key: string]: string | undefined }>;
 }) {
   const { patch } = await params;
-  const hasAccess = await checkAccess(
-    SET_ACCESS_BY_PATCH[patch as "bar" | "cucina"]
-  );
+  const accessSet =
+    SET_ACCESS_BY_PATCH[patch as keyof typeof SET_ACCESS_BY_PATCH];
+  if (!accessSet) return null;
+  const hasAccess = await checkAccess(accessSet);
   if (!hasAccess) return <InsufficientRights />;
 
   const { month, year } = await searchParams;
