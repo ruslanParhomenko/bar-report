@@ -1,10 +1,12 @@
 "use server";
 
 import { TipsFormType } from "@/features/tips/schema";
-import { supabase } from "@/lib/supabase-client";
 
 import { unstable_cache, updateTag } from "next/cache";
 import { TIPS_ACTION_TAG } from "@/constants/action-tag";
+import { supabaseServer } from "@/lib/supabase-server";
+
+const supabase = supabaseServer();
 
 // type
 export type TipsData = {
