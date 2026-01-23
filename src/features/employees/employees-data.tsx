@@ -30,7 +30,6 @@ export function EmployeesData({ data }: { data: EmployeesContextValue[] }) {
         <TableRow className="text-gr h-12">
           <TableHead className="w-5" />
           <TableHead className="w-15">{t("date")}</TableHead>
-          <TableHead className="w-15"></TableHead>
           <TableHead className="sticky left-0 md:w-30">{t("name")}</TableHead>
           <TableHead className="w-15"></TableHead>
           <TableHead className="w-40">{t("mail")}</TableHead>
@@ -74,9 +73,7 @@ export function EmployeesData({ data }: { data: EmployeesContextValue[] }) {
                     ? formatShortDate(emp.employmentDate)
                     : "-"}
                 </TableCell>
-                <TableCell className="text-rd">
-                  {emp.dismissalDate ? formatShortDate(emp.dismissalDate) : "-"}
-                </TableCell>
+
                 <TableCell
                   className={cn(
                     "sticky left-0 bg-background/70 z-10",
