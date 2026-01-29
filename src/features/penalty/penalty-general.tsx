@@ -12,13 +12,7 @@ import { useTranslations } from "next-intl";
 import PrintButton from "@/components/buttons/PrintButton";
 import { remarksByUniqueEmployee } from "./utils";
 import { useRef } from "react";
-import { Remark } from "@/prisma/generated/prisma/client";
 import { RemarksDataByUniqueKey } from "@/app/actions/remarks/remarks-action";
-
-export type PenaltyTableProps = Omit<Remark, "id" | "reportId"> & {
-  date?: string;
-  month: string;
-};
 
 export default function PenaltyGeneral({
   data,
