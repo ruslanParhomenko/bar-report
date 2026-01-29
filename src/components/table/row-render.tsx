@@ -87,7 +87,9 @@ export function RowRender<
 
         return (
           <TableRow key={String(row.key)} className="border-b!">
-            <TableCell className="text-right border-r  pr-2 text-xs">
+            <TableCell
+              className={cn("text-right border-r  pr-2 text-xs", row.colorText)}
+            >
               {total}
             </TableCell>
             <TableCell
@@ -126,7 +128,7 @@ export function RowRender<
 
       {withTotalFooter && (
         <TableRow>
-          <TableCell className="text-center text-black">
+          <TableCell className="text-center text-black text-xs font-bold">
             {totalByDay.reduce((a, b) => a + b, 0).toFixed(2)}
           </TableCell>
           <TableCell colSpan={2} />

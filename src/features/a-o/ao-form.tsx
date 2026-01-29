@@ -4,7 +4,7 @@ import { getMonthDays } from "@/utils/getMonthDays";
 
 import { SubmitHandler, useForm } from "react-hook-form";
 import { DayByMonthTable } from "@/components/table/day-by-month-table";
-import { Table } from "@/components/ui/table";
+import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 
 import { useAbility } from "@/providers/AbilityProvider";
 import { useEffect } from "react";
@@ -18,13 +18,15 @@ import { rowsAdvance, rowsPurchaseModa, rowsPurchaseNMB } from "./constants";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AOFormTypeInput, aoSchema, defaultAOForm } from "./schema";
 import { RowRender } from "@/components/table/row-render";
+import { calculateRowAOTotals } from "./utils";
+import { cn } from "@/lib/utils";
 
 export default function AoForm({
   dataAo,
   month,
   year,
 }: {
-  dataAo: AOContextValue | null;
+  dataAo: AOContextValue;
   month: string;
   year: string;
 }) {
@@ -65,10 +67,10 @@ export default function AoForm({
     const newRowCashData = {
       ...Object.fromEntries(rowsAdvance.map((row) => [row.key, makeArray()])),
       ...Object.fromEntries(
-        rowsPurchaseModa.map((row) => [row.key, makeArray()])
+        rowsPurchaseModa.map((row) => [row.key, makeArray()]),
       ),
       ...Object.fromEntries(
-        rowsPurchaseNMB.map((row) => [row.key, makeArray()])
+        rowsPurchaseNMB.map((row) => [row.key, makeArray()]),
       ),
     };
 
@@ -81,6 +83,24 @@ export default function AoForm({
       ...dataAo,
     });
   }, [dataAo, month, year, form]);
+
+  const rowAOData = dataAo && dataAo.rowAOData;
+  const totals = calculateRowAOTotals(rowAOData);
+
+  const differenceModa = (
+    totals.advanceModaByDay -
+    totals.purchaseBarByDay -
+    totals.purchaseModaByDay -
+    totals.ttnBarByDay -
+    totals.ttnModaByDay
+  ).toFixed(2);
+
+  const differenceNBM = (
+    totals.advanceNBMByDay -
+    totals.fuelNBMByDay -
+    totals.purchaseNBMByDay -
+    totals.ttnNBMByDay
+  ).toFixed(2);
 
   return (
     <FormWrapper form={form} onSubmit={onSubmit} withButtons={isAdmin}>
@@ -112,6 +132,34 @@ export default function AoForm({
           monthDays={monthDays}
           isDisabled={isDisabled}
         />
+        <TableBody>
+          <TableRow className="h-12">
+            <TableCell>
+              moda:
+              <span
+                className={cn(
+                  "text-xs pl-2 font-bold",
+                  Number(differenceModa) < 0
+                    ? "text-red-600"
+                    : "text-green-600",
+                )}
+              >
+                {differenceModa}
+              </span>
+            </TableCell>
+            <TableCell>
+              nbm:
+              <span
+                className={cn(
+                  "text-xs pl-2 font-bold",
+                  Number(differenceNBM) < 0 ? "text-red-600" : "text-green-600",
+                )}
+              >
+                {differenceNBM}
+              </span>
+            </TableCell>
+          </TableRow>
+        </TableBody>
       </Table>
     </FormWrapper>
   );
