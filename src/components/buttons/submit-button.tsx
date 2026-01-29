@@ -39,7 +39,7 @@ export default function SubmitButton({
     if (openModal === "save") {
       // document.querySelector<HTMLFormElement>("form")?.requestSubmit();
       const forms = Array.from(
-        document.querySelectorAll<HTMLFormElement>("form")
+        document.querySelectorAll<HTMLFormElement>("form"),
       );
 
       for (const form of forms) {
@@ -61,43 +61,37 @@ export default function SubmitButton({
 
   return (
     <>
-      <div
-        className={
-          "mt-auto flex flex-col justify-between md:flex-row bottom-0 sticky z-10"
-        }
-      >
-        <div className="flex justify-between md:justify-start items-center  md:gap-10 pt-2">
+      <div className="flex justify-between md:justify-start items-center  md:gap-10 sticky bottom-0 z-12 mt-auto p-2">
+        <Button
+          type="button"
+          className="hover:bg-blue-600 bg-bl h-8"
+          disabled={isDisabled}
+          onClick={() => setOpenModal("save")}
+        >
+          {t("save")}
+        </Button>
+
+        {reset && resetForm && (
           <Button
             type="button"
-            className="hover:bg-blue-600 bg-bl"
+            variant="secondary"
+            className="hover:bg-rd text-bl hover:text-black h-8"
             disabled={isDisabled}
-            onClick={() => setOpenModal("save")}
+            onClick={() => setOpenModal("reset")}
           >
-            {t("save")}
+            {t("reset")}
           </Button>
-
-          {reset && resetForm && (
-            <Button
-              type="button"
-              variant="secondary"
-              className="hover:bg-rd text-bl hover:text-black"
-              disabled={isDisabled}
-              onClick={() => setOpenModal("reset")}
-            >
-              {t("reset")}
-            </Button>
-          )}
-          {returnButton && (
-            <Button
-              type="button"
-              variant={"destructive"}
-              className=""
-              onClick={() => router.back()}
-            >
-              return
-            </Button>
-          )}
-        </div>
+        )}
+        {returnButton && (
+          <Button
+            type="button"
+            variant={"destructive"}
+            className="h-8"
+            onClick={() => router.back()}
+          >
+            return
+          </Button>
+        )}
       </div>
 
       <Dialog

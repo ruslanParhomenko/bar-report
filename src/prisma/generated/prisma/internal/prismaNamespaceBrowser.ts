@@ -59,8 +59,6 @@ export const ModelName = {
   CashVerify: 'CashVerify',
   Tobacco: 'Tobacco',
   Expense: 'Expense',
-  RemarkReport: 'RemarkReport',
-  Remark: 'Remark',
   DailyReportCucina: 'DailyReportCucina',
   Shift: 'Shift',
   Remain: 'Remain',
@@ -192,29 +190,6 @@ export const ExpenseScalarFieldEnum = {
 } as const
 
 export type ExpenseScalarFieldEnum = (typeof ExpenseScalarFieldEnum)[keyof typeof ExpenseScalarFieldEnum]
-
-
-export const RemarkReportScalarFieldEnum = {
-  id: 'id',
-  date: 'date',
-  createdAt: 'createdAt'
-} as const
-
-export type RemarkReportScalarFieldEnum = (typeof RemarkReportScalarFieldEnum)[keyof typeof RemarkReportScalarFieldEnum]
-
-
-export const RemarkScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  dayHours: 'dayHours',
-  nightHours: 'nightHours',
-  reason: 'reason',
-  bonus: 'bonus',
-  penalty: 'penalty',
-  reportId: 'reportId'
-} as const
-
-export type RemarkScalarFieldEnum = (typeof RemarkScalarFieldEnum)[keyof typeof RemarkScalarFieldEnum]
 
 
 export const DailyReportCucinaScalarFieldEnum = {

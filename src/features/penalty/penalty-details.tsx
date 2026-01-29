@@ -1,5 +1,9 @@
 "use client";
-import { deleteRemark } from "@/app/actions/remarks/remarksAction";
+
+import {
+  deleteRemarksDay,
+  RemarksDataByUniqueKey,
+} from "@/app/actions/remarks/remarks-action";
 import {
   Select,
   SelectContent,
@@ -16,50 +20,59 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useRouter } from "@/i18n/navigation";
-import { Remark } from "@/prisma/generated/prisma/client";
 import { useAbility } from "@/providers/AbilityProvider";
 import { PenBox, Trash2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useMemo, useState } from "react";
-export type PenaltyTableProps = Omit<Remark, "reportId"> & {
-  date?: string;
-  month: string;
-};
 
 export default function PenaltyDetails({
   data,
 }: {
-  data: PenaltyTableProps[];
+  data: RemarksDataByUniqueKey;
 }) {
   const router = useRouter();
   const t = useTranslations("Home");
 
   const { isAdmin, isManager } = useAbility();
-  const employeesList = ["all", ...new Set(data.map((item) => item.name))];
+  const employeesList = [
+    "all",
+    ...new Set(
+      data.data.map((item) => item.remarks.map((r: any) => r.name)).flat(),
+    ),
+  ];
 
   const [selectedEmployee, setSelectedEmployee] = useState("all");
 
   const totalPenalty = useMemo(() => {
-    return data.reduce((acc, r) => {
-      const val = Number(r.penalty);
+    return data.data.reduce((acc, r) => {
+      const val = r.remarks.reduce(
+        (acc: number, r: any) => acc + Number(r.penalty),
+        0,
+      );
       return acc + (isNaN(val) ? 0 : val);
     }, 0);
   }, [data]);
   const totalBonus = useMemo(() => {
-    return data.reduce((acc, r) => {
-      const val = Number(r.bonus);
+    return data.data.reduce((acc, r) => {
+      const val = r.remarks.reduce(
+        (acc: number, r: any) => acc + Number(r.bonus),
+        0,
+      );
       return acc + (isNaN(val) ? 0 : val);
     }, 0);
   }, [data]);
 
-  const editRemarks = (id: string) => {
+  const editRemarks = (day: string) => {
     if (!isAdmin && !isManager) return;
-    router.push(`/penalty/form/${id}`);
+    router.push(
+      `/penalty/details/${day}?month=${data.month}&year=${data.year}`,
+    );
   };
-  const deleteRemarks = async (id: string) => {
+  const deleteRemarks = async (uniqueKey: string, day: string) => {
     if (!isAdmin) return;
-    await deleteRemark(id);
+    await deleteRemarksDay(uniqueKey, day);
   };
+
   return (
     <div className="overflow-hidden max-h-[92vh] flex flex-col">
       <div className="overflow-y-auto">
@@ -95,18 +108,26 @@ export default function PenaltyDetails({
               </TableRow>
             </TableHeader>
             <TableBody>
-              {data
-                .filter((row) =>
-                  selectedEmployee === "all"
-                    ? row
-                    : row.name === selectedEmployee,
+              {data.data
+                .flatMap((doc) =>
+                  doc.remarks
+                    .filter(
+                      (r: any) =>
+                        selectedEmployee === "all" ||
+                        r.name === selectedEmployee,
+                    )
+                    .map((r: any) => ({
+                      ...r,
+                      day: doc.day,
+                      uniqueKey: data.id,
+                    })),
                 )
                 .map((row, index) => (
                   <TableRow
                     key={index}
                     className="hover:text-rd hover:bg-accent"
                   >
-                    <TableCell className="p-1 text-xs">{row.date}</TableCell>
+                    <TableCell className="p-1 text-xs">{row.day}</TableCell>
                     <TableCell className="sticky left-0 bg-background/90 md:bg-inherit z-20 p-0 text-xs">
                       {row.name}
                     </TableCell>
@@ -126,18 +147,18 @@ export default function PenaltyDetails({
                     <TableCell className="flex justify-between items-center h-6 cursor-pointer p-0">
                       <PenBox
                         className="w-4 h-3.5 text-bl"
-                        onClick={() => editRemarks(row.id.toLocaleString())}
+                        onClick={() => editRemarks(row.day)}
                       />
                       <Trash2
                         className="w-4 h-3.5 text-rd mr-2"
-                        onClick={() => deleteRemarks(row.id.toLocaleString())}
+                        onClick={() => deleteRemarks(row.uniqueKey, row.day)}
                       />
                     </TableCell>
                   </TableRow>
                 ))}
               <TableRow className="font-semibold ">
                 <TableCell className="text-right" colSpan={5}>
-                  {t("total")}:
+                  {t("total")}
                 </TableCell>
                 <TableCell className="text-center">{totalBonus}</TableCell>
                 <TableCell className="text-center">{totalPenalty}</TableCell>

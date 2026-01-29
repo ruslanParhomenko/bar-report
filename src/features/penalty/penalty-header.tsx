@@ -1,13 +1,21 @@
 import DatePickerInput from "@/components/inputs/DatePickerInput";
 import { TableCell, TableHeader, TableRow } from "@/components/ui/table";
 
-export function PenaltyTableHeader() {
+export function PenaltyTableHeader({
+  isUpdate = false,
+}: {
+  isUpdate?: boolean;
+}) {
   return (
     <TableHeader>
       <TableRow>
         <TableCell className="w-8"></TableCell>
         <TableCell className="w-38">
-          <DatePickerInput fieldName="date" className="text-md text-rd " />
+          <DatePickerInput
+            fieldName="date"
+            className="text-md text-rd"
+            disabled={isUpdate}
+          />
         </TableCell>
         <TableCell className="text-center md:w-20 w-5">day</TableCell>
         <TableCell className="text-center md:w-20 w-5">night</TableCell>

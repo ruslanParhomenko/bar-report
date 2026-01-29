@@ -15,6 +15,7 @@ export default function SelectTabsByPatch({
   navItems: PageNavType[];
 }) {
   const t = useTranslations("Home");
+  const weighPath = navItems.length <= 2 ? "w-24" : "md:w-24 w-16";
   return (
     <Tabs
       value={patch}
@@ -28,8 +29,9 @@ export default function SelectTabsByPatch({
             value={page.href}
             disabled={isPending}
             className={cn(
-              "md:w-24 w-16 hover:text-bl cursor-pointer",
-              isPending && "opacity-50"
+              "hover:text-bl cursor-pointer",
+              isPending && "opacity-50",
+              weighPath,
             )}
           >
             <span className="truncate block w-full text-xs md:text-md text-bl">

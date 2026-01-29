@@ -15,7 +15,7 @@ export type ResultUniqueEmployeeType = {
 export function extractUniqueEmployees(
   schedules: any[],
   remarksByEmployee: any[],
-  dataTipsForMonth: any[]
+  dataTipsForMonth: any[],
 ): ResultUniqueEmployeeType[] {
   const result = [];
   const seen = new Set<string>();
@@ -30,8 +30,13 @@ export function extractUniqueEmployees(
       seen.add(employee);
 
       const remark = remarksByEmployee?.find((r) => r.name === employee);
+      const tipRecord = dataTipsForMonth?.find((t) => t.employee === employee);
 
-      const tip = dataTipsForMonth?.find((t) => t.employee === employee);
+      const tip =
+        tipRecord?.tipsByDay?.reduce(
+          (total: number, day: string) => total + Number(day || 0),
+          0,
+        ) ?? 0;
 
       result.push({
         employee,
@@ -41,52 +46,12 @@ export function extractUniqueEmployees(
         role,
         bonus: remark?.bonus ?? 0,
         penalty: remark?.penalty ?? 0,
-        tips: tip?.tips ?? 0,
+        tips: tip ?? 0,
       });
     }
   }
 
   return result;
-}
-
-type RemarkItem = {
-  name: string;
-  dayHours: number;
-  nightHours: number;
-  penalty: number;
-  bonus: number;
-};
-
-export function getRemarksByMonth(
-  remarksData: any,
-  uniqueKey: string,
-  MONTHS: string[]
-): RemarkItem[] {
-  if (!remarksData) return [];
-
-  return remarksData?.remarks
-    ?.filter((r: any) => {
-      const dateStr =
-        r.date instanceof Date ? r.date.toISOString().split("T")[0] : r.date;
-
-      if (!dateStr || typeof dateStr !== "string") return false;
-
-      const [year, month] = dateStr.split("-");
-      const key = `${year}-${MONTHS[Number(month) - 1]}`;
-
-      return key === uniqueKey;
-    })
-    .flatMap((r: any) =>
-      r.remarks
-        .filter((item: any) => item.name && item.name.trim() !== "")
-        .map((item: any) => ({
-          name: item.name.trim(),
-          dayHours: Number(item.dayHours) || 0,
-          nightHours: Number(item.nightHours) || 0,
-          penalty: Number(item.penalty) || 0,
-          bonus: Number(item.bonus) || 0,
-        }))
-    );
 }
 
 // salary
@@ -127,7 +92,7 @@ export function useResultCalculations({
   role: string;
 }) {
   const monthNumber = MONTHS.findIndex(
-    (m) => m.toLowerCase() === month?.toLowerCase()
+    (m) => m.toLowerCase() === month?.toLowerCase(),
   );
   const daysInMonth = new Date(Number(year), monthNumber + 1, 0).getDate();
 
@@ -144,21 +109,26 @@ export function useResultCalculations({
     dish: data.filter((e) => e.role === "dish"),
     cucina: data.filter((e) => e.role === "cook"),
   };
-
-  const totalWaitersTips = dataTipsBid?.rowEmployeesTips
-    ?.filter((w) => w.role === "waiters")
-    .reduce((acc, w) => acc + Number(w.tips || 0), 0);
+  const totalWaitersTips =
+    dataTipsBid?.rowEmployeesTips
+      ?.filter((w) => w.role === "waiters")
+      .reduce((acc, w) => {
+        const sumTipsByDay = w.tipsByDay
+          .map((t) => Number(t) || 0)
+          .reduce((sum, t) => sum + t, 0);
+        return acc + sumTipsByDay;
+      }, 0) || 0;
 
   const tipsForBarmen = totalWaitersTips * percentTips * percentBarmen;
   const tipsForDish = totalWaitersTips * percentTips * percentDish;
 
   const totalBarmenHours = roles.barmen.reduce(
     (acc, b) => acc + Number(b.dayHours || 0) + Number(b.nightHours || 0),
-    0
+    0,
   );
   const totalDishHours = roles.dish.reduce(
     (acc, d) => acc + Number(d.dayHours || 0) + Number(d.nightHours || 0),
-    0
+    0,
   );
 
   const maxHours = daysInMonth * 24;
@@ -169,8 +139,8 @@ export function useResultCalculations({
     roles.barmen.reduce((acc, b) => acc + Number(b.dayHours || 0), 0) /
     (totalBarmenHours || 1);
 
-  const coefficientBarmen = tipsForBarmen / (constantHoursByMonth || 1);
-  const coefficientDish = tipsForDish / (totalDishHours || 1);
+  const coefficientBarmen = (tipsForBarmen ?? 0) / (constantHoursByMonth || 1);
+  const coefficientDish = (tipsForDish ?? 0) / (totalDishHours || 1);
 
   const round5 = (v: number) => Math.round(v / 5) * 5;
 
@@ -178,7 +148,7 @@ export function useResultCalculations({
     e: ResultUniqueEmployeeType,
     tips: number,
     dayH: number,
-    nightH: number
+    nightH: number,
   ) {
     if (e.role === "waiters") {
       return round5(tips - tips * waitersDishBid - tips * percentTips);
@@ -192,14 +162,14 @@ export function useResultCalculations({
         nightH * coefficientBarmen * 0.1 * coefficientDayNight;
 
       return round5(
-        tips + tipsByWaiters - (tips + tipsByWaiters) * barmenDishBid
+        tips + tipsByWaiters - (tips + tipsByWaiters) * barmenDishBid,
       );
     }
 
     if (e.role === "dish") {
       const tipsByWaiters = (dayH + nightH) * coefficientDish;
       return round5(
-        tips + tipsByWaiters - (tips + tipsByWaiters) * dishDishBid
+        tips + tipsByWaiters - (tips + tipsByWaiters) * dishDishBid,
       );
     }
 
@@ -225,8 +195,12 @@ export function useResultCalculations({
         calculateSalary(e);
 
       const sendTips = getSendTips(e, tips, dayH, nightH);
+
       const result =
-        Number(salary) + Number(sendTips) - Number(e.penalty) + Number(e.bonus);
+        Number(salary) +
+        Number(sendTips || 0) -
+        Number(e.penalty) +
+        Number(e.bonus);
 
       totals.sendTips += Number(sendTips || 0);
       totals.penalty += Number(e.penalty || 0);
@@ -235,7 +209,7 @@ export function useResultCalculations({
       totals.nightH += Number(nightH);
       totals.totalHours += Number(totalHours);
       totals.salary += Number(salary);
-      totals.result += Number(result);
+      totals.result += Number(result || 0);
 
       return {
         e,

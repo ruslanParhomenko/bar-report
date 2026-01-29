@@ -81,7 +81,7 @@ export default function NavMenuHeader() {
   };
 
   return (
-    <div className="md:py-2 mt-1 mb-1 sticky top-0 z-10 flex justify-between items-center bg-background md:px-4">
+    <div className="md:py-2 mt-1 mb-1 sticky top-0 z-10 flex justify-between items-center bg-background md:px-4 px-1">
       <div className="flex items-center md:gap-4 gap-2 order-2 md:order-1">
         {navItems.length > 0 && (
           <>

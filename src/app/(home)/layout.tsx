@@ -22,7 +22,7 @@ const NavPage = async ({
       <EmployeesProvider employees={employees as EmployeesContextValue[]}>
         <SidebarProvider>
           <SidebarNav />
-          <div className="pl-2 w-full">
+          <div className="md:pl-2 w-full">
             <Suspense fallback={<div>Loading...</div>}>
               <NavMenuHeader />
             </Suspense>

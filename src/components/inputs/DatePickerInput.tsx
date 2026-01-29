@@ -25,10 +25,12 @@ function DatePickerInput({
   fieldName,
   fieldLabel,
   className,
+  disabled = false,
 }: {
   fieldName: string;
   fieldLabel?: string;
   className?: string;
+  disabled?: boolean;
 }) {
   const locale = useLocale();
   const locales: Record<string, Locale> = {
@@ -59,6 +61,7 @@ function DatePickerInput({
               <PopoverTrigger asChild>
                 <FormControl>
                   <Button
+                    disabled={disabled}
                     variant={"outline"}
                     className={cn(
                       "text-base border-0 shadow-none bg-none",

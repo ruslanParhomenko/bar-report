@@ -109,25 +109,6 @@ model Expense {
   report   DailyReport @relation(fields: [reportId], references: [id], onDelete: Cascade)
 }
 
-model RemarkReport {
-  id        Int      @id @default(autoincrement())
-  date      DateTime
-  createdAt DateTime @default(now())
-  remarks   Remark[]
-}
-
-model Remark {
-  id         Int          @id @default(autoincrement())
-  name       String       @default("")
-  dayHours   String       @default("")
-  nightHours String       @default("")
-  reason     String       @default("")
-  bonus      String       @default("")
-  penalty    String       @default("") @map("penality")
-  reportId   Int
-  report     RemarkReport @relation(fields: [reportId], references: [id], onDelete: Cascade)
-}
-
 model DailyReportCucina {
   id    Int      @id @default(autoincrement())
   date  DateTime

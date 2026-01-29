@@ -97,7 +97,7 @@ export default function TTNBodyTable({
               </div>
             </TableCell>
 
-            <TableCell className="text-start p-0 pl-1">
+            <TableCell className="text-start p-0 pl-1 sticky left-0 bg-background">
               <span
                 className={cn(
                   "truncate font-bold",

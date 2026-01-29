@@ -58,16 +58,6 @@ export type Tobacco = Prisma.TobaccoModel
  */
 export type Expense = Prisma.ExpenseModel
 /**
- * Model RemarkReport
- * 
- */
-export type RemarkReport = Prisma.RemarkReportModel
-/**
- * Model Remark
- * 
- */
-export type Remark = Prisma.RemarkModel
-/**
  * Model DailyReportCucina
  * 
  */

@@ -13,6 +13,7 @@ import PrintButton from "@/components/buttons/PrintButton";
 import { remarksByUniqueEmployee } from "./utils";
 import { useRef } from "react";
 import { Remark } from "@/prisma/generated/prisma/client";
+import { RemarksDataByUniqueKey } from "@/app/actions/remarks/remarks-action";
 
 export type PenaltyTableProps = Omit<Remark, "id" | "reportId"> & {
   date?: string;
@@ -22,14 +23,15 @@ export type PenaltyTableProps = Omit<Remark, "id" | "reportId"> & {
 export default function PenaltyGeneral({
   data,
 }: {
-  data: PenaltyTableProps[];
+  data: RemarksDataByUniqueKey;
 }) {
   const t = useTranslations("Home");
 
   const componentRef = useRef<HTMLDivElement>(null);
 
-  const { formattedData, totalBonus, totalPenalty } =
-    remarksByUniqueEmployee(data);
+  const { formattedData, totalBonus, totalPenalty } = remarksByUniqueEmployee(
+    data.data,
+  );
   return (
     <div ref={componentRef} className="pt-4">
       <Table>

@@ -28,7 +28,7 @@ export function FormWrapper({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit || (() => {}))}
-        className={cn("flex flex-col h-[92vh]", className)}
+        className={cn("flex flex-col h-[93vh]", className)}
         {...props}
       >
         {children}

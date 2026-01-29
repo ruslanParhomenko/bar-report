@@ -1,26 +1,20 @@
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
-import { FieldArrayWithId } from "react-hook-form";
+import { FieldArrayWithId, useWatch } from "react-hook-form";
 import { TipsFormType } from "./schema";
-import { ChevronDown, ChevronUp, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 import { handleTableNavigation } from "@/utils/handleTableNavigation";
-import { cn } from "@/lib/utils";
-import { useEffect } from "react";
 import { useAbility } from "@/providers/AbilityProvider";
 import SelectField from "@/components/inputs/SelectField";
+import { cn } from "@/lib/utils";
+import { calculateTipsTotal } from "./utils";
 
-const ROLES: Array<"waiters" | "barmen" | "dish"> = [
-  "waiters",
-  "barmen",
-  "dish",
-];
+const ROLES: Array<"waiters" | "barmen"> = ["waiters", "barmen"];
 
 export function TipsTableBody({
   data,
   monthDays,
   append,
   remove,
-  move,
-  dataRowsCount,
   form,
   selectedEmployees,
 }: {
@@ -28,176 +22,109 @@ export function TipsTableBody({
   monthDays: { day: number; weekday: string }[];
   append: any;
   remove: (index: number) => void;
-  move: (from: number, to: number) => void;
-  dataRowsCount: any;
   form: any;
   selectedEmployees: { id: string; name: string; role: string }[];
 }) {
   const { isAdmin, isManager } = useAbility();
   const isDisabled = !isAdmin && !isManager;
-  useEffect(() => {
-    const subscription = form.watch((_: any, { name }: any) => {
-      if (name?.includes("rowEmployeesTips")) {
-        const match = name.match(/rowEmployeesTips\.(\d+)\.tipsByDay/);
-        if (match) {
-          const rowIndex = parseInt(match[1]);
-          const tipsByDay =
-            form.getValues(`rowEmployeesTips.${rowIndex}.tipsByDay`) || [];
+  const value = useWatch({
+    control: form.control,
+    name: "rowEmployeesTips",
+  });
 
-          const totalTips = tipsByDay.reduce(
-            (sum: number, t: string) => sum + (parseFloat(t) || 0),
-            0,
-          );
-
-          const currentTips = parseFloat(
-            form.getValues(`rowEmployeesTips.${rowIndex}.tips`) || "0",
-          );
-
-          if (currentTips !== totalTips) {
-            form.setValue(
-              `rowEmployeesTips.${rowIndex}.tips`,
-              totalTips.toString(),
-            );
-            form.setValue(
-              `rowEmployeesTips.${rowIndex}.rate`,
-              totalTips.toString(),
-            );
-          }
-        }
-      }
-    });
-
-    return () => subscription.unsubscribe();
-  }, [form]);
+  const { perEmployee } = calculateTipsTotal(value);
 
   return (
-    <>
-      {ROLES.map((role) => {
-        const roleRows = data.filter((row) => row.role === role);
-        if (roleRows.length === 0) return null;
-
+    <TableBody>
+      {data.map((role, roleIndex) => {
+        const employeeTotal = perEmployee[roleIndex]?.total ?? 0;
         return (
-          <TableBody key={role}>
-            {roleRows.map((row, rowIndex) => {
-              const globalIndex = data.indexOf(row);
-              const rowNumber = dataRowsCount.findIndex(
-                (r: any) => r.id === row.id,
-              );
+          <TableRow
+            key={role.id}
+            className="hover:bg-gr/10 hover:text-rd group"
+          >
+            <TableCell
+              className="text-rd p-1 cursor-pointer"
+              onClick={() => !isDisabled && remove(roleIndex)}
+            >
+              {roleIndex + 1}
+            </TableCell>
 
+            <TableCell className="sticky left-0 p-1 bg-background w-24 employee-cell">
+              <SelectField
+                fieldName={`rowEmployeesTips.${roleIndex}.employee`}
+                data={selectedEmployees
+                  .filter((emp) =>
+                    ROLES.includes(emp.role as "waiters" | "barmen"),
+                  )
+                  .map((emp) => emp.name)}
+                disabled={isDisabled}
+                className={cn(
+                  "justify-start  h-6! text-[13px] pl-1 w-34",
+                  value[roleIndex]?.role === "barmen" &&
+                    "text-muted-foreground font-light!",
+                )}
+              />
+            </TableCell>
+            <TableCell className="p-0 border-r">
+              <span className="text-xs font-bold text-green-700">
+                {employeeTotal}
+              </span>
+            </TableCell>
+
+            {monthDays.map((_day, dayIndex) => {
               return (
-                <TableRow key={row.id} className="hover:bg-gr/10 hover:text-rd">
-                  <TableCell
-                    className="text-rd p-0 pr-1"
-                    onClick={() => !isDisabled && remove(globalIndex)}
-                  >
-                    {rowIndex + 1}
-                  </TableCell>
-
-                  <TableCell className="sticky left-0 p-0 w-42">
-                    <SelectField
-                      fieldName={`rowEmployeesTips.${globalIndex}.employee`}
-                      data={selectedEmployees
-                        .filter((emp) => emp.role === role)
-                        .map((emp) => emp.name)}
-                      disabled={isDisabled}
-                      className="justify-start  h-6! text-[13px] pl-1"
-                    />
-                  </TableCell>
-                  <TableCell className="p-0 border-r">
-                    <input
-                      type="text"
-                      readOnly
-                      value={
-                        form.getValues(
-                          `rowEmployeesTips.${globalIndex}.tips`,
-                        ) || 0
+                <TableCell key={dayIndex} className="p-0.5 border-r relative">
+                  <input
+                    {...form.register(
+                      `rowEmployeesTips.${roleIndex}.tipsByDay.${dayIndex}`,
+                    )}
+                    data-row={roleIndex}
+                    data-col={dayIndex}
+                    onKeyDown={(e) =>
+                      handleTableNavigation(e, roleIndex, dayIndex)
+                    }
+                    className="w-11 h-6 text-xs text-center p-0 border-0 shadow-none"
+                    disabled={isDisabled}
+                  />
+                  {form.formState.errors?.rowEmployeesTips?.[roleIndex]
+                    ?.tipsByDay?.[dayIndex]?.message && (
+                    <span className="text-red-500 text-xs absolute bottom-[-6] left-0">
+                      {
+                        form.formState.errors.rowEmployeesTips[roleIndex]
+                          .tipsByDay[dayIndex].message
                       }
-                      className="w-full text-center text-[13px] p-0 font-medium"
-                    />
-                  </TableCell>
-
-                  {monthDays.map((_day, dayIndex) => {
-                    return (
-                      <TableCell key={dayIndex} className="p-0.5 border-r">
-                        <input
-                          {...form.register(
-                            `rowEmployeesTips.${globalIndex}.tipsByDay.${dayIndex}`,
-                          )}
-                          data-row={rowNumber}
-                          data-col={dayIndex}
-                          onKeyDown={(e) =>
-                            handleTableNavigation(e, rowNumber, dayIndex)
-                          }
-                          className={cn(
-                            "w-full h-6  text-xs text-center p-0 border-0 shadow-none",
-                          )}
-                          disabled={isDisabled}
-                        />
-                      </TableCell>
-                    );
-                  })}
-
-                  <TableCell className="flex flex-col justify-center items-center p-0">
-                    <button
-                      type="button"
-                      disabled={rowIndex === 0 || isDisabled}
-                      onClick={() => {
-                        if (rowIndex > 0) {
-                          const targetGlobalIndex = data.indexOf(
-                            roleRows[rowIndex - 1],
-                          );
-                          move(globalIndex, targetGlobalIndex);
-                        }
-                      }}
-                      className="p-0 flex items-center justify-center"
-                    >
-                      <ChevronUp className="w-3.5 h-3" />
-                    </button>
-                    <button
-                      type="button"
-                      disabled={rowIndex === roleRows.length - 1 || isDisabled}
-                      onClick={() => {
-                        if (rowIndex < roleRows.length - 1) {
-                          const targetGlobalIndex = data.indexOf(
-                            roleRows[rowIndex + 1],
-                          );
-                          move(globalIndex, targetGlobalIndex);
-                        }
-                      }}
-                      className="p-0 flex items-center justify-center"
-                    >
-                      <ChevronDown className="w-3.5 h-3" />
-                    </button>
-                  </TableCell>
-                </TableRow>
+                    </span>
+                  )}
+                </TableCell>
               );
             })}
-            <TableRow>
-              <TableCell
-                colSpan={monthDays.length + 3}
-                className="p-0 px-2 text-start border-b"
-              >
-                <button
-                  type="button"
-                  disabled={isDisabled}
-                  className="cursor-pointer hover:bg-accent"
-                  onClick={() =>
-                    append({
-                      id: (data.length + 1).toString(),
-                      employee: "",
-                      role: role,
-                      tips: "",
-                      tipsByDay: Array(monthDays.length).fill(""),
-                    })
-                  }
-                >
-                  <Plus size={12} className="text-bl" />
-                </button>
-              </TableCell>
-            </TableRow>
-          </TableBody>
+          </TableRow>
         );
       })}
-    </>
+      <TableRow>
+        <TableCell
+          colSpan={monthDays.length + 3}
+          className="text-start border-b"
+        >
+          <button
+            type="button"
+            disabled={isDisabled}
+            className="cursor-pointer hover:bg-accent"
+            onClick={() =>
+              append({
+                id: (data.length + 1).toString(),
+                employee: "",
+                role: "",
+                tips: "",
+                tipsByDay: Array(monthDays.length).fill(""),
+              })
+            }
+          >
+            <Plus size={12} className="text-bl" />
+          </button>
+        </TableCell>
+      </TableRow>
+    </TableBody>
   );
 }

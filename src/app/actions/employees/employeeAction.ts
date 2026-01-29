@@ -6,10 +6,10 @@ import { unstable_cache, updateTag } from "next/cache";
 import { redis } from "@/lib/redis";
 import { EMPLOYEES_ACTION_TAG } from "@/constants/action-tag";
 
-export type EmployeeData = EmployeesSchemaTypeData;
+export type EmployeeData = EmployeesSchemaTypeData & { id: string };
 
 // create
-export async function createEmployee(data: EmployeeData) {
+export async function createEmployee(data: Omit<EmployeeData, "id">) {
   const docRef = await dbAdmin.collection(EMPLOYEES_ACTION_TAG).add({
     name: data.name,
     role: data.role,
@@ -48,12 +48,15 @@ export async function deleteEmployee(id: string) {
 
 // get
 
-const _getEmployees = async () => {
+const _getEmployees = async (): Promise<EmployeeData[]> => {
   const snapshot = await dbAdmin.collection(EMPLOYEES_ACTION_TAG).get();
-  return snapshot.docs.map((doc) => ({
-    id: doc.id,
-    ...doc.data(),
-  }));
+  return snapshot.docs.map((doc) => {
+    const data = doc.data() as Omit<EmployeeData, "id">;
+    return {
+      id: doc.id,
+      ...data,
+    };
+  });
 };
 
 export const getEmployees = unstable_cache(

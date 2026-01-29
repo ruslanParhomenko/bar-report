@@ -22,7 +22,7 @@ export type ArrayRow = {
 
 type RowRenderProps<
   TForm extends FieldValues,
-  TSection extends FieldPath<TForm>
+  TSection extends FieldPath<TForm>,
 > = {
   nameField: TSection;
   nameLabel?: string;
@@ -35,7 +35,7 @@ type RowRenderProps<
 
 export function RowRender<
   TForm extends FieldValues,
-  TSection extends FieldPath<TForm>
+  TSection extends FieldPath<TForm>,
 >({
   nameField,
   nameLabel,
@@ -59,7 +59,7 @@ export function RowRender<
 
       const num = Number(rowData[dayIndex]);
       return acc + (isNaN(num) ? 0 : num);
-    }, 0)
+    }, 0),
   );
 
   return (
@@ -93,8 +93,8 @@ export function RowRender<
             <TableCell
               colSpan={2}
               className={cn(
-                "font-medium sticky left-0 p-0 px-1 text-left text-md",
-                row.colorText
+                "font-medium sticky left-0 p-0 px-1 text-left text-md bg-background",
+                row.colorText,
               )}
             >
               {row.label}
@@ -109,12 +109,12 @@ export function RowRender<
                   data-col={dayIndex}
                   {...register(
                     `${nameField}.${String(
-                      row.key
-                    )}.${dayIndex}` as FieldPath<TForm>
+                      row.key,
+                    )}.${dayIndex}` as FieldPath<TForm>,
                   )}
                   className={cn(
                     "border-0 h-7 w-12 text-xs text-center",
-                    row.colorText
+                    row.colorText,
                   )}
                   onKeyDown={handleMultiTableNavigation}
                 />

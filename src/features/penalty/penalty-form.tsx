@@ -6,8 +6,8 @@ import { toast } from "sonner";
 import {
   createRemarks,
   RemarksData,
-  updateRemark,
-} from "@/app/actions/remarks/remarksAction";
+  updateRemarks,
+} from "@/app/actions/remarks/remarks-action";
 import { FormWrapper } from "@/components/wrapper/form-wrapper";
 import { defaultRemarksValue, RemarksFormData, remarksSchema } from "./schema";
 import { useEffect } from "react";
@@ -17,16 +17,20 @@ import { Table } from "@/components/ui/table";
 import { PenaltyTableHeader } from "./penalty-header";
 import { PenaltyTableBody } from "./penalty-body";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { buildDate, MONTHS } from "@/utils/getMonthDays";
 
 export default function PenaltyForm({
   dataRemark,
+  month,
+  year,
 }: {
   dataRemark?: RemarksData;
+  month?: string;
+  year?: string;
 }) {
   const router = useRouter();
-
-  const id = dataRemark?.id ? String(dataRemark.id) : null;
-  const key = dataRemark?.id ? "edit-remarks" : REMARKS_MAIN_ROUTE;
+  const dayId = dataRemark?.day ? String(dataRemark.day) : null;
+  const key = dataRemark?.day ? "edit-remarks" : REMARKS_MAIN_ROUTE;
   const dataRemarksById = dataRemark ? dataRemark : null;
 
   // form
@@ -40,15 +44,26 @@ export default function PenaltyForm({
 
   //submit
   const onSubmit: SubmitHandler<RemarksFormData> = async (data) => {
-    if (id) {
-      await updateRemark({
-        id,
-        remarks: data.remarks,
-      });
+    const month = MONTHS[new Date(data.date).getMonth()];
+    const year = new Date(data.date).getFullYear().toString();
+    const day = new Date(data.date).getDate().toLocaleString();
+    const uniqueKey = `${year}-${month}`;
+    const formattedData = {
+      remarks: data.remarks,
+      uniqueKey: uniqueKey,
+      month: month,
+      year: year,
+      day: day,
+    };
+
+    if (dayId) {
+      const dbUniqueKey = `${year}-${month}`;
+      await updateRemarks(dbUniqueKey, dayId, data.remarks);
+
       toast.success("Журнал успешно обновлен!");
       router.back();
     } else {
-      await createRemarks(data);
+      await createRemarks(uniqueKey, formattedData);
       toast.success("Журнал успешно сохранён!");
       resetForm(defaultRemarksValue);
     }
@@ -56,13 +71,19 @@ export default function PenaltyForm({
 
   // reset dat by id
   useEffect(() => {
-    if (dataRemarksById) {
-      form.reset({
-        remarks: dataRemarksById.remarks,
-        date: dataRemarksById.date,
-      });
-    }
-  }, [id]);
+    if (!dataRemarksById || !month || !year || !dayId) return;
+
+    const date = buildDate({
+      year: Number(year),
+      month: month,
+      day: dataRemarksById.day,
+    });
+
+    form.reset({
+      remarks: dataRemarksById.remarks,
+      date: date,
+    });
+  }, [dayId]);
 
   if (!isLoaded) return null;
 
@@ -70,12 +91,12 @@ export default function PenaltyForm({
     <FormWrapper
       form={form}
       onSubmit={onSubmit}
-      returnButton={id ? true : false}
-      resetButton={id ? false : true}
+      returnButton={dayId ? true : false}
+      resetButton={dayId ? false : true}
       resetForm={form.reset}
     >
       <Table className="md:table-fixed mt-6">
-        <PenaltyTableHeader />
+        <PenaltyTableHeader isUpdate={!!dayId} />
         <PenaltyTableBody />
       </Table>
     </FormWrapper>

@@ -392,8 +392,6 @@ export const ModelName = {
   CashVerify: 'CashVerify',
   Tobacco: 'Tobacco',
   Expense: 'Expense',
-  RemarkReport: 'RemarkReport',
-  Remark: 'Remark',
   DailyReportCucina: 'DailyReportCucina',
   Shift: 'Shift',
   Remain: 'Remain',
@@ -415,7 +413,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "breakList" | "row" | "dailyReport" | "inventory" | "productTransfer" | "cashVerify" | "tobacco" | "expense" | "remarkReport" | "remark" | "dailyReportCucina" | "shift" | "remain" | "prepared" | "staff" | "writeOff"
+    modelProps: "breakList" | "row" | "dailyReport" | "inventory" | "productTransfer" | "cashVerify" | "tobacco" | "expense" | "dailyReportCucina" | "shift" | "remain" | "prepared" | "staff" | "writeOff"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1011,154 +1009,6 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
-    RemarkReport: {
-      payload: Prisma.$RemarkReportPayload<ExtArgs>
-      fields: Prisma.RemarkReportFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.RemarkReportFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RemarkReportPayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.RemarkReportFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RemarkReportPayload>
-        }
-        findFirst: {
-          args: Prisma.RemarkReportFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RemarkReportPayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.RemarkReportFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RemarkReportPayload>
-        }
-        findMany: {
-          args: Prisma.RemarkReportFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RemarkReportPayload>[]
-        }
-        create: {
-          args: Prisma.RemarkReportCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RemarkReportPayload>
-        }
-        createMany: {
-          args: Prisma.RemarkReportCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.RemarkReportCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RemarkReportPayload>[]
-        }
-        delete: {
-          args: Prisma.RemarkReportDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RemarkReportPayload>
-        }
-        update: {
-          args: Prisma.RemarkReportUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RemarkReportPayload>
-        }
-        deleteMany: {
-          args: Prisma.RemarkReportDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.RemarkReportUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.RemarkReportUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RemarkReportPayload>[]
-        }
-        upsert: {
-          args: Prisma.RemarkReportUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RemarkReportPayload>
-        }
-        aggregate: {
-          args: Prisma.RemarkReportAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateRemarkReport>
-        }
-        groupBy: {
-          args: Prisma.RemarkReportGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.RemarkReportGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.RemarkReportCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.RemarkReportCountAggregateOutputType> | number
-        }
-      }
-    }
-    Remark: {
-      payload: Prisma.$RemarkPayload<ExtArgs>
-      fields: Prisma.RemarkFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.RemarkFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RemarkPayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.RemarkFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RemarkPayload>
-        }
-        findFirst: {
-          args: Prisma.RemarkFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RemarkPayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.RemarkFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RemarkPayload>
-        }
-        findMany: {
-          args: Prisma.RemarkFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RemarkPayload>[]
-        }
-        create: {
-          args: Prisma.RemarkCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RemarkPayload>
-        }
-        createMany: {
-          args: Prisma.RemarkCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.RemarkCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RemarkPayload>[]
-        }
-        delete: {
-          args: Prisma.RemarkDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RemarkPayload>
-        }
-        update: {
-          args: Prisma.RemarkUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RemarkPayload>
-        }
-        deleteMany: {
-          args: Prisma.RemarkDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.RemarkUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.RemarkUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RemarkPayload>[]
-        }
-        upsert: {
-          args: Prisma.RemarkUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RemarkPayload>
-        }
-        aggregate: {
-          args: Prisma.RemarkAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateRemark>
-        }
-        groupBy: {
-          args: Prisma.RemarkGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.RemarkGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.RemarkCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.RemarkCountAggregateOutputType> | number
-        }
-      }
-    }
     DailyReportCucina: {
       payload: Prisma.$DailyReportCucinaPayload<ExtArgs>
       fields: Prisma.DailyReportCucinaFieldRefs
@@ -1751,29 +1601,6 @@ export const ExpenseScalarFieldEnum = {
 export type ExpenseScalarFieldEnum = (typeof ExpenseScalarFieldEnum)[keyof typeof ExpenseScalarFieldEnum]
 
 
-export const RemarkReportScalarFieldEnum = {
-  id: 'id',
-  date: 'date',
-  createdAt: 'createdAt'
-} as const
-
-export type RemarkReportScalarFieldEnum = (typeof RemarkReportScalarFieldEnum)[keyof typeof RemarkReportScalarFieldEnum]
-
-
-export const RemarkScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  dayHours: 'dayHours',
-  nightHours: 'nightHours',
-  reason: 'reason',
-  bonus: 'bonus',
-  penalty: 'penalty',
-  reportId: 'reportId'
-} as const
-
-export type RemarkScalarFieldEnum = (typeof RemarkScalarFieldEnum)[keyof typeof RemarkScalarFieldEnum]
-
-
 export const DailyReportCucinaScalarFieldEnum = {
   id: 'id',
   date: 'date',
@@ -2028,8 +1855,6 @@ export type GlobalOmitConfig = {
   cashVerify?: Prisma.CashVerifyOmit
   tobacco?: Prisma.TobaccoOmit
   expense?: Prisma.ExpenseOmit
-  remarkReport?: Prisma.RemarkReportOmit
-  remark?: Prisma.RemarkOmit
   dailyReportCucina?: Prisma.DailyReportCucinaOmit
   shift?: Prisma.ShiftOmit
   remain?: Prisma.RemainOmit

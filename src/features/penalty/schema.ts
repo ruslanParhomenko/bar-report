@@ -1,14 +1,12 @@
 import { z } from "zod";
 
 export const remarkSchema = z.object({
-  id: z.number().optional(),
   name: z.string().default(""),
   dayHours: z.string().default(""),
   nightHours: z.string().default(""),
   penalty: z.string().default(""),
   reason: z.string().default(""),
   bonus: z.string().default(""),
-  reportId: z.number().optional(),
 });
 
 export type RemarkFormData = z.infer<typeof remarkSchema>;
@@ -27,6 +25,10 @@ export const remarksSchema = z.object({
     },
   ]),
   date: z.date().default(() => new Date()),
+  day: z.string().default(""),
+  year: z.string().default(""),
+  month: z.string().default(""),
+  uniqueKey: z.string().default(""),
 });
 
 export type RemarksFormData = z.infer<typeof remarksSchema>;

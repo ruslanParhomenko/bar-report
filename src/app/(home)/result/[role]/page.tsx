@@ -1,4 +1,4 @@
-import { getRemarksByDate } from "@/app/actions/remarks/remarksAction";
+import { getRemarksByUniqueKey } from "@/app/actions/remarks/remarks-action";
 import {
   getScheduleByMonthYear,
   SchedulesContextValue,
@@ -7,9 +7,7 @@ import { getTipsFormById } from "@/app/actions/tips/tipsAction";
 import { InsufficientRights } from "@/components/wrapper/InsufficientRights";
 import { remarksByUniqueEmployee } from "@/features/penalty/utils";
 import { PageResult } from "@/features/result/result-page";
-import { getRemarksByMonth } from "@/features/result/utils";
 import { checkAccess } from "@/lib/check-access";
-import { MONTHS } from "@/utils/getMonthDays";
 
 const ROLE = {
   barmen: "bar",
@@ -37,32 +35,17 @@ export default async function Page({
   // key
   const uniqueKey = `${year}-${month}`;
 
-  const monthNum = Number(MONTHS.indexOf(month) + 1);
-  const yearNum = Number(year);
-
-  if (isNaN(monthNum) || isNaN(yearNum) || monthNum < 1 || monthNum > 12) {
-    throw new Error(`Invalid month/year: ${month}/${year}`);
-  }
-
-  //  UTC
-  const startDate = new Date(Date.UTC(yearNum, monthNum - 1, 1, 0, 0, 0));
-  const endDate = new Date(Date.UTC(yearNum, monthNum, 1, 0, 0, 0));
-
   const [schedule, remarks, tips] = await Promise.all([
     getScheduleByMonthYear(month, year),
-    await getRemarksByDate({
-      startDate,
-      endDate,
-    }),
+    getRemarksByUniqueKey(uniqueKey),
     getTipsFormById(uniqueKey),
   ]);
   const dataSchedule = schedule.filter(
-    (item: any) => item.role === ROLE[role as keyof typeof ROLE]
+    (item: any) => item.role === ROLE[role as keyof typeof ROLE],
   );
-  const remarksByMonth =
-    remarks && getRemarksByMonth(remarks, uniqueKey, MONTHS);
+
   const remarksByEmployee =
-    remarksByUniqueEmployee(remarksByMonth).formattedData;
+    remarks && remarksByUniqueEmployee(remarks.data).formattedData;
   const dataTips = tips?.form_data ?? null;
 
   return (

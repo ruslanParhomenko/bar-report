@@ -187,3 +187,7 @@ body::-webkit-scrollbar {
     visibility: hidden !important;
   }
 }
+
+.group:focus-within .employee-cell {
+  @apply text-red-600 font-bold;
+}

@@ -1,16 +1,32 @@
-// src/utils/groupRowsByRole.ts
-export function groupRowsByRole<T extends { role: string }>(fields: T[]) {
-  const groups: Record<string, T[]> = {
-    waiters: [],
-    barmen: [],
-    dish: [],
-  };
+import { RowEmployeesTipsType } from "./schema";
 
-  fields.forEach((row) => {
-    if (row.role === "waiters") groups.waiters.push(row);
-    else if (row.role === "barmen") groups.barmen.push(row);
-    else if (row.role === "dish") groups.dish.push(row);
+type EmployeeTipTotal = {
+  id: string;
+  role: string;
+  employee: string;
+  total: number;
+};
+type TipsSummary = {
+  perEmployee: EmployeeTipTotal[];
+  totalAll: number;
+};
+
+export function calculateTipsTotal(
+  employees: RowEmployeesTipsType[],
+): TipsSummary {
+  const perEmployee: EmployeeTipTotal[] = employees.map((e) => {
+    const total = e.tipsByDay
+      .map((t) => Number(t) || 0)
+      .reduce((sum, t) => sum + t, 0);
+    return {
+      id: e.id,
+      role: e.role,
+      employee: e.employee,
+      total,
+    };
   });
 
-  return groups;
+  const totalAll = perEmployee.reduce((sum, e) => sum + e.total, 0);
+
+  return { perEmployee, totalAll };
 }

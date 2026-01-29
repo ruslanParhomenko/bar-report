@@ -26,7 +26,7 @@ export function PageResult({
   const employees = extractUniqueEmployees(
     dataSchedule,
     dataRemarks,
-    dataTips?.rowEmployeesTips
+    dataTips?.rowEmployeesTips,
   );
 
   const { rows, totals } = useResultCalculations({
