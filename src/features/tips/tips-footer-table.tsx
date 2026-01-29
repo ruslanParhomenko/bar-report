@@ -45,8 +45,7 @@ export function TipsTableFooter({
             return acc + Number(tip || 0);
           }, 0);
 
-          const cashForDay =
-            Number(form.getValues(`cashTips.${dayIndex}`)) || 0;
+          const cashForDay = Number(cashTips?.[dayIndex]) || 0;
           const differenceNum = cashForDay - sumTipsForDay;
 
           return (

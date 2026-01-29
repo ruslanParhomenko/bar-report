@@ -78,7 +78,7 @@ export default function TipsForm({
     }));
 
     form.setValue("rowEmployeesTips", newRows);
-  }, [dataTips, dataCash, month, year, form, monthDays.length]);
+  }, [dataTips, month, year, form, monthDays.length]);
 
   useEffect(() => {
     const currentDate = new Date();
