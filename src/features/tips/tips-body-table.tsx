@@ -39,10 +39,7 @@ export function TipsTableBody({
       {data.map((role, roleIndex) => {
         const employeeTotal = perEmployee[roleIndex]?.total ?? 0;
         return (
-          <TableRow
-            key={role.id}
-            className="hover:bg-gr/10 hover:text-rd group"
-          >
+          <TableRow key={role.id} className="group">
             <TableCell
               className="text-rd p-1 cursor-pointer"
               onClick={() => !isDisabled && remove(roleIndex)}
@@ -50,7 +47,7 @@ export function TipsTableBody({
               {roleIndex + 1}
             </TableCell>
 
-            <TableCell className="sticky left-0 p-1 bg-background w-24 employee-cell">
+            <TableCell className="sticky left-0 p-1 bg-background w-24 hover-cell">
               <SelectField
                 fieldName={`rowEmployeesTips.${roleIndex}.employee`}
                 data={selectedEmployees
@@ -84,7 +81,7 @@ export function TipsTableBody({
                     onKeyDown={(e) =>
                       handleTableNavigation(e, roleIndex, dayIndex)
                     }
-                    className="w-11 h-6 text-xs text-center p-0 border-0 shadow-none"
+                    className="w-11 h-6 text-xs text-center p-0 border-0 shadow-none hover-cell"
                     disabled={isDisabled}
                   />
                   {form.formState.errors?.rowEmployeesTips?.[roleIndex]

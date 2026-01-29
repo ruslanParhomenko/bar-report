@@ -188,6 +188,6 @@ body::-webkit-scrollbar {
   }
 }
 
-.group:focus-within .employee-cell {
+.group:focus-within .hover-cell {
   @apply text-red-600 font-bold;
 }
