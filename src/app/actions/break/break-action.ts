@@ -121,7 +121,7 @@ export async function realtimeBreakList(data: BreakFormData) {
   updateTag("break-realtime");
 }
 
-export async function getRealtimeBreakList() {
+export async function _getRealtimeBreakList() {
   const docRef = dbAdmin.collection("break-realtime").doc("break-realtime");
   const snap = await docRef.get();
 
@@ -137,3 +137,12 @@ export async function getRealtimeBreakList() {
       : new Date().toISOString(),
   } as BreakFormData;
 }
+
+export const getRealtimeBreakList = unstable_cache(
+  _getRealtimeBreakList,
+  ["break-realtime"],
+  {
+    revalidate: false,
+    tags: ["break-realtime"],
+  },
+);
