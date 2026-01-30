@@ -24,8 +24,6 @@ export default function BreakForm({
   const form = useForm<BreakFormData>({
     resolver: zodResolver(breakSchema),
     defaultValues: defaultValues ?? defaultValuesBrake,
-    mode: "onSubmit",
-    shouldUnregister: false,
   });
 
   useEffect(() => {
@@ -69,12 +67,7 @@ export default function BreakForm({
   };
 
   return (
-    <FormWrapper
-      form={form}
-      onSubmit={onSubmit}
-      resetButton
-      resetForm={form.reset}
-    >
+    <FormWrapper form={form} onSubmit={onSubmit}>
       <Table className="md:table-fixed mt-6">
         <BreakTableHeader />
         <BreakTableBody employeesName={employeesName} />

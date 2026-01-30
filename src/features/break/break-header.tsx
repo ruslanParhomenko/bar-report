@@ -8,10 +8,11 @@ export default function BreakTableHeader() {
   return (
     <TableHeader>
       <TableRow>
-        <TableHead className="w-8"></TableHead>
-        <TableHead className="w-28">
+        <TableHead className="w-7"></TableHead>
+        <TableHead className="w-26">
           <DatePickerInput fieldName="date" className="text-md text-rd" />
         </TableHead>
+        <TableHead className="w-6" />
 
         {TIME_LABELS.map((h, i) => {
           const isCurrentHour = Number(h === "24" ? "0" : h) === currentHour;
@@ -20,7 +21,7 @@ export default function BreakTableHeader() {
               key={i}
               className={cn(
                 "text-center text-md w-12",
-                isCurrentHour ? "text-rd font-bold text-lg" : "text-bl"
+                isCurrentHour ? "text-rd font-bold text-lg" : "text-bl",
               )}
             >
               {h}:

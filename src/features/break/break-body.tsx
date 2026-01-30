@@ -30,6 +30,11 @@ export default function BreakTableBody({
   return (
     <TableBody>
       {dataRows.map((row, rowIndex) => {
+        console.log("row", row);
+        const totalBreak = row.hours.reduce(
+          (acc, value) => acc + (["00", "20", "40"].includes(value) ? 1 : 0),
+          0,
+        );
         const rowHasTrue = row.hours.some((value, index) => {
           const time = TIME_LABELS[index];
           return isCurrentCell(time, value);
@@ -42,8 +47,8 @@ export default function BreakTableBody({
                 value={row.id}
                 disabled
                 className={cn(
-                  "p-0 border-0 shadow-none text-bl",
-                  theme === "dark" ? "bg-background!" : "",
+                  "px-0.5 border-0 shadow-none text-bl text-xs",
+                  // theme === "dark" ? "bg-background!" : "",
                 )}
                 readOnly
               />
@@ -61,29 +66,34 @@ export default function BreakTableBody({
                 disabled={isDisabled}
               />
             </TableCell>
+            <TableCell className="p-0 text-bl">
+              {row.name && totalBreak}
+            </TableCell>
 
             {TIME_LABELS.map((_time, timeIndex) => {
               const value = row.hours[timeIndex];
               const isTrue = isCurrentCell(TIME_LABELS[timeIndex], value);
+              const isView = value !== "X";
 
               return (
                 <TableCell key={timeIndex}>
-                  <SelectField
-                    fieldName={
-                      `rows.${rowIndex}.hours.${timeIndex}` as Path<BreakFormData>
-                    }
-                    data={MINUTES_SELECT}
-                    className={cn(
-                      "justify-center",
-                      isTrue ? "text-rd! font-bold text-[18px]" : "",
-                      value === "X"
-                        ? theme === "dark"
-                          ? "text-background! border-0 bg-background!"
-                          : "bg-gr text-gr"
-                        : "",
-                    )}
-                    disabled={isDisabled}
-                  />
+                  {isView ? (
+                    <SelectField
+                      fieldName={
+                        `rows.${rowIndex}.hours.${timeIndex}` as Path<BreakFormData>
+                      }
+                      data={MINUTES_SELECT}
+                      className={cn(
+                        "justify-center",
+                        isTrue ? "text-rd! font-bold text-[18px]" : "",
+                      )}
+                      disabled={isDisabled}
+                    />
+                  ) : (
+                    <div
+                      className={cn(!isView && "bg-gr p-1 h-8 rounded-md")}
+                    ></div>
+                  )}
                 </TableCell>
               );
             })}
