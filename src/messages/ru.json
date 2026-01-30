@@ -173,6 +173,7 @@
     "dailyMenu": "Обеды дня"
   },
   "Menu": {
+    "-": "-",
     "Homemade Cake": "Торт Домашний",
     "Șold de pui în sos de frișcă": "Куриное бедро в сосе",
     "Salata din varza": "Салат из капусты",
@@ -292,7 +293,7 @@
     "Ficatei de pui": "Куриная печень",
     "Supa zilei": "Суп дня",
     "Supă cremă de dovleac": "Тыквенный крем-суп",
-    "Bors rosu": "Красный борщ",
+    "Borș roșu": "Красный борщ",
     "Supă de linte": "Чечевичный суп",
     "Supă cu perișoare": "Суп с фрикадельками",
     "Zeama": "Зама",

@@ -1,6 +1,5 @@
-import { useEmployees } from "@/providers/EmployeesProvider";
 import { useTheme } from "next-themes";
-import { Path, useFormContext } from "react-hook-form";
+import { Path, useFormContext, useWatch } from "react-hook-form";
 import { BreakFormData } from "./schema";
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { MINUTES_SELECT, TIME_LABELS } from "./constant";
@@ -9,25 +8,32 @@ import { Input } from "@/components/ui/input";
 import SelectField from "@/components/inputs/SelectField";
 import { cn } from "@/lib/utils";
 import { Trash2 } from "lucide-react";
+import { useAbility } from "@/providers/AbilityProvider";
 
-const BAR_EMPLOYEES = ["waiters", "barmen"];
-export default function BreakTableBody() {
+export default function BreakTableBody({
+  employeesName,
+}: {
+  employeesName: string[];
+}) {
   const { theme } = useTheme();
 
-  const employees = useEmployees()
-    .filter((emp) => BAR_EMPLOYEES.includes(emp.role))
-    .map((e) => e.name);
+  const { isAdmin, isBar } = useAbility();
+  const isDisabled = !isAdmin && !isBar;
 
-  const { watch, setValue } = useFormContext<BreakFormData>();
+  const form = useFormContext<BreakFormData>();
 
-  const dataRows = watch("rows") ?? [];
+  const dataRows = useWatch({
+    control: form.control,
+    name: "rows",
+  });
 
   return (
     <TableBody>
       {dataRows.map((row, rowIndex) => {
-        const rowHasTrue = TIME_LABELS.some((time) =>
-          isCurrentCell(time, row.hours[time]),
-        );
+        const rowHasTrue = row.hours.some((value, index) => {
+          const time = TIME_LABELS[index];
+          return isCurrentCell(time, value);
+        });
 
         return (
           <TableRow key={`${row.id}-${rowIndex}`}>
@@ -46,24 +52,25 @@ export default function BreakTableBody() {
             <TableCell className="sticky left-0 z-10 text-left p-0">
               <SelectField
                 fieldName={`rows.${rowIndex}.name` as Path<BreakFormData>}
-                data={employees}
+                data={employeesName}
                 placeHolder="..."
                 className={cn(
                   "border-0 shadow-none",
                   rowHasTrue ? "text-rd!" : "",
                 )}
+                disabled={isDisabled}
               />
             </TableCell>
 
-            {TIME_LABELS.map((time, timeIndex) => {
-              const value = row.hours[time];
-              const isTrue = isCurrentCell(time, value);
+            {TIME_LABELS.map((_time, timeIndex) => {
+              const value = row.hours[timeIndex];
+              const isTrue = isCurrentCell(TIME_LABELS[timeIndex], value);
 
               return (
                 <TableCell key={timeIndex}>
                   <SelectField
                     fieldName={
-                      `rows.${rowIndex}.hours.${time}` as Path<BreakFormData>
+                      `rows.${rowIndex}.hours.${timeIndex}` as Path<BreakFormData>
                     }
                     data={MINUTES_SELECT}
                     className={cn(
@@ -75,6 +82,7 @@ export default function BreakTableBody() {
                           : "bg-gr text-gr"
                         : "",
                     )}
+                    disabled={isDisabled}
                   />
                 </TableCell>
               );
@@ -83,7 +91,7 @@ export default function BreakTableBody() {
             {row.name && (
               <TableCell
                 className="p-0 cursor-pointer"
-                onClick={() => setValue(`rows.${rowIndex}.name`, "")}
+                onClick={() => form.setValue(`rows.${rowIndex}.name`, "")}
               >
                 <Trash2 className="w-4 h-4 text-rd" />
               </TableCell>

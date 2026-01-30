@@ -384,8 +384,6 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 
 export const ModelName = {
-  BreakList: 'BreakList',
-  Row: 'Row',
   DailyReport: 'DailyReport',
   Inventory: 'Inventory',
   ProductTransfer: 'ProductTransfer',
@@ -413,158 +411,10 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "breakList" | "row" | "dailyReport" | "inventory" | "productTransfer" | "cashVerify" | "tobacco" | "expense" | "dailyReportCucina" | "shift" | "remain" | "prepared" | "staff" | "writeOff"
+    modelProps: "dailyReport" | "inventory" | "productTransfer" | "cashVerify" | "tobacco" | "expense" | "dailyReportCucina" | "shift" | "remain" | "prepared" | "staff" | "writeOff"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
-    BreakList: {
-      payload: Prisma.$BreakListPayload<ExtArgs>
-      fields: Prisma.BreakListFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.BreakListFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$BreakListPayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.BreakListFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$BreakListPayload>
-        }
-        findFirst: {
-          args: Prisma.BreakListFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$BreakListPayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.BreakListFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$BreakListPayload>
-        }
-        findMany: {
-          args: Prisma.BreakListFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$BreakListPayload>[]
-        }
-        create: {
-          args: Prisma.BreakListCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$BreakListPayload>
-        }
-        createMany: {
-          args: Prisma.BreakListCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.BreakListCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$BreakListPayload>[]
-        }
-        delete: {
-          args: Prisma.BreakListDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$BreakListPayload>
-        }
-        update: {
-          args: Prisma.BreakListUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$BreakListPayload>
-        }
-        deleteMany: {
-          args: Prisma.BreakListDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.BreakListUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.BreakListUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$BreakListPayload>[]
-        }
-        upsert: {
-          args: Prisma.BreakListUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$BreakListPayload>
-        }
-        aggregate: {
-          args: Prisma.BreakListAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateBreakList>
-        }
-        groupBy: {
-          args: Prisma.BreakListGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.BreakListGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.BreakListCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.BreakListCountAggregateOutputType> | number
-        }
-      }
-    }
-    Row: {
-      payload: Prisma.$RowPayload<ExtArgs>
-      fields: Prisma.RowFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.RowFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RowPayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.RowFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RowPayload>
-        }
-        findFirst: {
-          args: Prisma.RowFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RowPayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.RowFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RowPayload>
-        }
-        findMany: {
-          args: Prisma.RowFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RowPayload>[]
-        }
-        create: {
-          args: Prisma.RowCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RowPayload>
-        }
-        createMany: {
-          args: Prisma.RowCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.RowCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RowPayload>[]
-        }
-        delete: {
-          args: Prisma.RowDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RowPayload>
-        }
-        update: {
-          args: Prisma.RowUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RowPayload>
-        }
-        deleteMany: {
-          args: Prisma.RowDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.RowUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.RowUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RowPayload>[]
-        }
-        upsert: {
-          args: Prisma.RowUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RowPayload>
-        }
-        aggregate: {
-          args: Prisma.RowAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateRow>
-        }
-        groupBy: {
-          args: Prisma.RowGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.RowGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.RowCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.RowCountAggregateOutputType> | number
-        }
-      }
-    }
     DailyReport: {
       payload: Prisma.$DailyReportPayload<ExtArgs>
       fields: Prisma.DailyReportFieldRefs
@@ -1492,48 +1342,6 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
-export const BreakListScalarFieldEnum = {
-  id: 'id',
-  date: 'date'
-} as const
-
-export type BreakListScalarFieldEnum = (typeof BreakListScalarFieldEnum)[keyof typeof BreakListScalarFieldEnum]
-
-
-export const RowScalarFieldEnum = {
-  id: 'id',
-  externalId: 'externalId',
-  name: 'name',
-  scheduleId: 'scheduleId',
-  h_9: 'h_9',
-  h_10: 'h_10',
-  h_11: 'h_11',
-  h_12: 'h_12',
-  h_13: 'h_13',
-  h_14: 'h_14',
-  h_15: 'h_15',
-  h_16: 'h_16',
-  h_17: 'h_17',
-  h_18: 'h_18',
-  h_19: 'h_19',
-  h_20: 'h_20',
-  h_21: 'h_21',
-  h_22: 'h_22',
-  h_23: 'h_23',
-  h_24: 'h_24',
-  h_01: 'h_01',
-  h_02: 'h_02',
-  h_03: 'h_03',
-  h_04: 'h_04',
-  h_05: 'h_05',
-  h_06: 'h_06',
-  h_07: 'h_07',
-  h_00: 'h_00'
-} as const
-
-export type RowScalarFieldEnum = (typeof RowScalarFieldEnum)[keyof typeof RowScalarFieldEnum]
-
-
 export const DailyReportScalarFieldEnum = {
   id: 'id',
   date: 'date',
@@ -1847,8 +1655,6 @@ export type PrismaClientOptions = ({
   comments?: runtime.SqlCommenterPlugin[]
 }
 export type GlobalOmitConfig = {
-  breakList?: Prisma.BreakListOmit
-  row?: Prisma.RowOmit
   dailyReport?: Prisma.DailyReportOmit
   inventory?: Prisma.InventoryOmit
   productTransfer?: Prisma.ProductTransferOmit

@@ -1,12 +1,11 @@
+import { unique } from "next/dist/build/utils";
 import { BREAK_LIST_DEFAULT, TIME_LABELS } from "./constant";
 
 import { z } from "zod";
 
 const hourValueSchema = z.enum(["X", "", "00", "20", "40"]);
 
-const hoursSchema = z.object({
-  ...Object.fromEntries(TIME_LABELS.map((item) => [item, hourValueSchema])),
-});
+const hoursSchema = z.array(hourValueSchema).length(TIME_LABELS.length);
 
 export const rowsSchema = z.object({
   id: z.enum(["8-20", "9-21", "14-02", "18-06", "20-08"]),

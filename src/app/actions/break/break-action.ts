@@ -1,77 +1,101 @@
 "use server";
 
 import { unstable_cache, updateTag } from "next/cache";
-import prisma from "@/lib/prisma";
 import { BREAK_ACTION_TAG } from "@/constants/action-tag";
+import { BreakFormData } from "@/features/break/schema";
+import { dbAdmin } from "@/lib/firebase-admin";
 
+const REALTIME_DOC = "break-realtime";
+
+type BreakCreateType = {
+  day: string;
+  month: string;
+  year: string;
+  uniqueKey: string;
+  rows: BreakFormData["rows"];
+};
+
+type BreakData = {
+  day: string;
+  rows: BreakFormData["rows"];
+};
+export type BreakGetType = {
+  id: string;
+  year: string;
+  month: string;
+  data: BreakData[];
+};
 // create break list
-export async function createBreakList(data: any) {
-  const { date, rows } = data;
-  const rowsWithName = rows.filter(
-    (row: any) => row.name && row.name.trim() !== "",
+
+export async function createBreakList(data: BreakCreateType) {
+  const { uniqueKey, ...restData } = data;
+  const docRef = dbAdmin.collection(BREAK_ACTION_TAG).doc(uniqueKey);
+  const snap = await docRef.get();
+
+  if (!snap.exists) {
+    const doc = {
+      year: restData.year,
+      month: restData.month,
+      data: [
+        {
+          day: restData.day,
+          rows: restData.rows,
+        },
+      ],
+    };
+
+    await docRef.set(doc);
+    updateTag(BREAK_ACTION_TAG);
+    return;
+  }
+
+  const raw = snap.data();
+
+  const isDayExists = raw?.data.some(
+    (d: BreakCreateType) => d.day === restData.day,
   );
 
-  const breakList = await prisma.breakList.create({
-    data: {
-      date: new Date(date),
-      rows: {
-        create: rowsWithName.map((row: any) => {
-          const rowData: any = {
-            externalId: row.id,
-            name: row.name,
-          };
-
-          if (row.hours && typeof row.hours === "object") {
-            Object.entries(row.hours).forEach(([hour, value]) => {
-              if (!value || value === "X" || value === "x") {
-                return;
-              }
-              const fieldName = `h_${hour}`;
-              rowData[fieldName] = String(value);
-            });
-          }
-
-          return rowData;
-        }),
+  if (isDayExists) return;
+  await docRef.update({
+    data: [
+      ...raw?.data,
+      {
+        day: data.day,
+        rows: data.rows,
       },
-    },
-    include: {
-      rows: true,
-    },
+    ],
   });
-  updateTag(BREAK_ACTION_TAG);
 
-  return breakList.id;
+  updateTag(BREAK_ACTION_TAG);
 }
 
 // delete
-export async function deleteBreakList(id: string) {
-  await prisma.breakList.delete({
-    where: { id: Number(id) },
-  });
+export async function deleteBreakList(uniqueKey: string, day: string) {
+  const docRef = dbAdmin.collection(BREAK_ACTION_TAG).doc(uniqueKey);
+  const snap = await docRef.get();
+
+  if (!snap.exists) return;
+
+  const raw = snap.data() as BreakGetType;
+
+  const filtered = raw.data.filter((d) => d.day !== day);
+
+  if (filtered.length === raw.data.length) return;
+
+  await docRef.update({ data: filtered });
   updateTag(BREAK_ACTION_TAG);
 }
 
-// get by date
-export async function _getBreakListByDate({
-  startDate,
-  endDate,
-}: {
-  startDate: Date;
-  endDate: Date;
-}) {
-  const breakList = await prisma.breakList.findMany({
-    where: {
-      date: {
-        gte: startDate,
-        lt: endDate,
-      },
-    },
-    include: { rows: true },
-    orderBy: { date: "desc" },
-  });
+// get by uniqueKey
+export async function _getBreakListByDate(uniqueKey: string) {
+  const doc = await dbAdmin.collection(BREAK_ACTION_TAG).doc(uniqueKey).get();
 
-  return { breakList };
+  if (!doc.exists) return null;
+
+  return {
+    id: doc.id,
+    ...doc.data(),
+  } as BreakGetType;
 }
 
 export const getBreakListByDate = unstable_cache(
@@ -82,3 +106,34 @@ export const getBreakListByDate = unstable_cache(
     tags: [BREAK_ACTION_TAG],
   },
 );
+
+// realtime
+
+export async function realtimeBreakList(data: BreakFormData) {
+  const docRef = dbAdmin.collection("break-realtime").doc(REALTIME_DOC);
+
+  // Полностью перезаписываем документ
+  await docRef.set({
+    date: data.date,
+    rows: data.rows,
+  });
+
+  updateTag("break-realtime");
+}
+
+export async function getRealtimeBreakList() {
+  const docRef = dbAdmin.collection("break-realtime").doc("break-realtime");
+  const snap = await docRef.get();
+
+  if (!snap.exists) return null;
+
+  const data = snap.data() as any;
+
+  // Преобразуем Firebase Timestamp в строку ISO
+  return {
+    ...data,
+    date: data.date?.toDate?.()
+      ? data.date.toDate().toISOString()
+      : new Date().toISOString(),
+  } as BreakFormData;
+}

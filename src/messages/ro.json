@@ -173,6 +173,7 @@
     "dailyMenu": "Mesele zilei"
   },
   "Menu": {
+    "-": "-",
     "Homemade Cake": "Tort de acasa",
     "Șold de pui în sos de frișcă": "Șold de pui în sos de frišcă",
     "Salata din varza": "Salata din varza",
@@ -291,7 +292,7 @@
     "Ficatei de pui": "Ficăței de pui",
     "Supa zilei": "Supă zilei",
     "Supă cremă de dovleac": "Supă cremă de dovleac",
-    "Bors rosu": "Borș roșu",
+    "Borș roșu": "Borș roșu",
     "Supă de linte": "Supă de linte",
     "Supă cu perișoare": "Supă cu perișoare",
     "Zeama": "Zama",

@@ -406,6 +406,10 @@ export type InventoryUncheckedUpdateManyWithoutReportNestedInput = {
   deleteMany?: Prisma.InventoryScalarWhereInput | Prisma.InventoryScalarWhereInput[]
 }
 
+export type StringFieldUpdateOperationsInput = {
+  set?: string
+}
+
 export type InventoryCreateWithoutReportInput = {
   name: string
   quantity: string

@@ -1,57 +1,83 @@
 "use client";
-
-import { SubmitHandler, useForm } from "react-hook-form";
-import { BREAK_MAIN_ROUTE } from "@/constants/endpoint-tag";
-import { FormWrapper } from "@/components/wrapper/form-wrapper";
-import { toast } from "sonner";
+import { useEffect } from "react";
+import { useForm, SubmitHandler } from "react-hook-form";
 import { BreakFormData, breakSchema, defaultValuesBrake } from "./schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useLocalStorageForm } from "@/hooks/useLocalStorageForm";
+import {
+  realtimeBreakList,
+  createBreakList,
+} from "@/app/actions/break/break-action";
+import { toast } from "sonner";
+import { MONTHS } from "@/utils/getMonthDays";
+import { FormWrapper } from "@/components/wrapper/form-wrapper";
 import { Table } from "@/components/ui/table";
 import BreakTableHeader from "./break-header";
 import BreakTableBody from "./break-body";
-import { createBreakList } from "@/app/actions/break/break-action";
 
-export default function BreakForm() {
-  // form
+export default function BreakForm({
+  employeesName,
+  defaultValues,
+}: {
+  employeesName: string[];
+  defaultValues?: BreakFormData;
+}) {
   const form = useForm<BreakFormData>({
     resolver: zodResolver(breakSchema),
-    defaultValues: defaultValuesBrake,
+    defaultValues: defaultValues ?? defaultValuesBrake,
     mode: "onSubmit",
-    reValidateMode: "onBlur",
     shouldUnregister: false,
   });
 
-  // localstorage
-  const { isLoaded, resetForm } = useLocalStorageForm(form, BREAK_MAIN_ROUTE);
-  // submit
+  useEffect(() => {
+    const timeoutRef = { current: null as NodeJS.Timeout | null };
+
+    const subscription = form.watch((value) => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+
+      timeoutRef.current = setTimeout(() => {
+        realtimeBreakList(value as BreakFormData).catch(console.error);
+      }, 5000);
+    });
+
+    return () => {
+      subscription.unsubscribe();
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    };
+  }, [form]);
+
   const onSubmit: SubmitHandler<BreakFormData> = async (data) => {
+    const day = new Date(data.date).getDate().toLocaleString();
+    const month = MONTHS[new Date(data.date).getMonth()];
+    const year = new Date(data.date).getFullYear().toString();
+    const uniqueKey = `${year}-${month}`;
+
+    const formattedData = {
+      day,
+      month,
+      year,
+      uniqueKey,
+      rows: data.rows,
+    };
+
     try {
-      await createBreakList(data);
+      await createBreakList(formattedData);
       toast.success("Брейк-лист успешно сохранён !");
-      resetForm({ ...defaultValuesBrake, date: new Date().toISOString() });
+      form.reset({ ...defaultValuesBrake, date: new Date().toISOString() });
     } catch (e) {
       toast.error("Ошибка при сохранении брейк-листа");
     }
   };
 
-  if (!isLoaded)
-    return (
-      <div className="h-screen flex justify-center items-center">
-        Loading...
-      </div>
-    );
-
   return (
     <FormWrapper
       form={form}
       onSubmit={onSubmit}
-      resetButton={true}
+      resetButton
       resetForm={form.reset}
     >
       <Table className="md:table-fixed mt-6">
         <BreakTableHeader />
-        <BreakTableBody />
+        <BreakTableBody employeesName={employeesName} />
       </Table>
     </FormWrapper>
   );

@@ -13,6 +13,7 @@ import { useFormContext } from "react-hook-form";
 import { Trash2Icon } from "lucide-react";
 import { useEffect } from "react";
 import { formatNow } from "@/utils/formatNow";
+import { INVENTORY_DATA } from "./constants";
 
 export function TableInventory() {
   const form = useFormContext();
@@ -21,10 +22,11 @@ export function TableInventory() {
     form.setValue(
       `inventory.${idx}`,
       {
+        name: INVENTORY_DATA[idx],
         quantity: "",
         time: "",
       },
-      { shouldDirty: true, shouldTouch: true }
+      { shouldDirty: true, shouldTouch: true },
     );
   };
   const fieldsValues = form.watch("inventory") as InventorySchemaType[];

@@ -18,16 +18,6 @@ export { Prisma }
 export * as $Enums from './enums'
 export * from './enums';
 /**
- * Model BreakList
- * 
- */
-export type BreakList = Prisma.BreakListModel
-/**
- * Model Row
- * 
- */
-export type Row = Prisma.RowModel
-/**
  * Model DailyReport
  * 
  */

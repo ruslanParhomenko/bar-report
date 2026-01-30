@@ -20,6 +20,7 @@ export default async function Page({
 
   const { month, year } = await searchParams;
   if (!month || !year) return null;
+  const uniqueKey = `${year}-${month}`;
   const monthNum = Number(MONTHS.indexOf(month) + 1);
   const yearNum = Number(year);
 
@@ -32,9 +33,14 @@ export default async function Page({
   const endDate = new Date(Date.UTC(yearNum, monthNum, 1, 0, 0, 0));
 
   // get data
-  const dataRemarks = await getBreakListByDate({
-    startDate,
-    endDate,
-  });
-  return <BreakListArchive data={dataRemarks.breakList} />;
+  const breakData = await getBreakListByDate(uniqueKey);
+
+  if (!breakData)
+    return (
+      <div className="text-bl flex justify-center h-[30vh] items-center">
+        not found data
+      </div>
+    );
+
+  return <BreakListArchive data={breakData} />;
 }

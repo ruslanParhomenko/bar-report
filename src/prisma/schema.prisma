@@ -5,50 +5,6 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
-}
-
-model BreakList {
-  id   Int      @id @default(autoincrement())
-  date DateTime @unique
-  rows Row[]
-
-  @@index([date])
-}
-
-model Row {
-  id         Int       @id @default(autoincrement())
-  externalId String
-  name       String?
-  scheduleId Int
-  schedule   BreakList @relation(fields: [scheduleId], references: [id], onDelete: Cascade)
-
-  h_9  String? @db.Char(2)
-  h_10 String? @db.Char(2)
-  h_11 String? @db.Char(2)
-  h_12 String? @db.Char(2)
-  h_13 String? @db.Char(2)
-  h_14 String? @db.Char(2)
-  h_15 String? @db.Char(2)
-  h_16 String? @db.Char(2)
-  h_17 String? @db.Char(2)
-  h_18 String? @db.Char(2)
-  h_19 String? @db.Char(2)
-  h_20 String? @db.Char(2)
-  h_21 String? @db.Char(2)
-  h_22 String? @db.Char(2)
-  h_23 String? @db.Char(2)
-  h_24 String? @db.Char(2)
-  h_01 String? @db.Char(2)
-  h_02 String? @db.Char(2)
-  h_03 String? @db.Char(2)
-  h_04 String? @db.Char(2)
-  h_05 String? @db.Char(2)
-  h_06 String? @db.Char(2)
-  h_07 String? @db.Char(2)
-  h_00 String? @db.Char(2)
-
-  @@index([scheduleId])
 }
 
 model DailyReport {

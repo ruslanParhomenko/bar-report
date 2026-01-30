@@ -342,6 +342,22 @@ export type DailyReportScalarRelationFilter = {
   isNot?: Prisma.DailyReportWhereInput
 }
 
+export type DateTimeFieldUpdateOperationsInput = {
+  set?: Date | string
+}
+
+export type NullableStringFieldUpdateOperationsInput = {
+  set?: string | null
+}
+
+export type IntFieldUpdateOperationsInput = {
+  set?: number
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
 export type DailyReportCreateNestedOneWithoutInventoryInput = {
   create?: Prisma.XOR<Prisma.DailyReportCreateWithoutInventoryInput, Prisma.DailyReportUncheckedCreateWithoutInventoryInput>
   connectOrCreate?: Prisma.DailyReportCreateOrConnectWithoutInventoryInput
