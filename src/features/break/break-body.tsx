@@ -1,4 +1,3 @@
-import { useTheme } from "next-themes";
 import { Path, useFormContext, useWatch } from "react-hook-form";
 import { BreakFormData } from "./schema";
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
@@ -15,8 +14,6 @@ export default function BreakTableBody({
 }: {
   employeesName: string[];
 }) {
-  const { theme } = useTheme();
-
   const { isAdmin, isBar } = useAbility();
   const isDisabled = !isAdmin && !isBar;
 
@@ -30,7 +27,6 @@ export default function BreakTableBody({
   return (
     <TableBody>
       {dataRows.map((row, rowIndex) => {
-        console.log("row", row);
         const totalBreak = row.hours.reduce(
           (acc, value) => acc + (["00", "20", "40"].includes(value) ? 1 : 0),
           0,
@@ -47,8 +43,7 @@ export default function BreakTableBody({
                 value={row.id}
                 disabled
                 className={cn(
-                  "px-0.5 border-0 shadow-none text-bl text-xs",
-                  // theme === "dark" ? "bg-background!" : "",
+                  "px-0.5 border-0 shadow-none text-bl text-xs bg-transparent!",
                 )}
                 readOnly
               />
@@ -60,7 +55,7 @@ export default function BreakTableBody({
                 data={employeesName}
                 placeHolder="..."
                 className={cn(
-                  "border-0 shadow-none",
+                  "border-0 shadow-none w-full bg-transparent!",
                   rowHasTrue ? "text-rd!" : "",
                 )}
                 disabled={isDisabled}
@@ -90,9 +85,7 @@ export default function BreakTableBody({
                       disabled={isDisabled}
                     />
                   ) : (
-                    <div
-                      className={cn(!isView && "bg-gr p-1 h-8 rounded-md")}
-                    ></div>
+                    <div className={cn("bg-gr p-1 h-8 rounded-md")}></div>
                   )}
                 </TableCell>
               );

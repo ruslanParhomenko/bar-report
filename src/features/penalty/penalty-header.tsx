@@ -14,7 +14,7 @@ export function PenaltyTableHeader({
           <DatePickerInput
             fieldName="date"
             className="text-md text-rd"
-            disabled={isUpdate}
+            disabled
           />
         </TableCell>
         <TableCell className="text-center md:w-20 w-5">day</TableCell>

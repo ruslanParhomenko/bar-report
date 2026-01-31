@@ -1,4 +1,3 @@
-import { unique } from "next/dist/build/utils";
 import { BREAK_LIST_DEFAULT, TIME_LABELS } from "./constant";
 
 import { z } from "zod";
@@ -14,12 +13,12 @@ export const rowsSchema = z.object({
 });
 
 export const breakSchema = z.object({
-  date: z.string(),
+  date: z.date(),
   rows: z.array(rowsSchema),
 });
 export type BreakFormData = z.input<typeof breakSchema>;
 
 export const defaultValuesBrake: BreakFormData = {
-  date: new Date().toISOString(),
+  date: new Date(),
   rows: BREAK_LIST_DEFAULT as z.infer<typeof rowsSchema>[],
 };

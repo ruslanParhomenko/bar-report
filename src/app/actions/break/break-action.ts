@@ -112,7 +112,6 @@ export const getBreakListByDate = unstable_cache(
 export async function realtimeBreakList(data: BreakFormData) {
   const docRef = dbAdmin.collection("break-realtime").doc(REALTIME_DOC);
 
-  // Полностью перезаписываем документ
   await docRef.set({
     date: data.date,
     rows: data.rows,
@@ -129,12 +128,9 @@ export async function _getRealtimeBreakList() {
 
   const data = snap.data() as any;
 
-  // Преобразуем Firebase Timestamp в строку ISO
   return {
     ...data,
-    date: data.date?.toDate?.()
-      ? data.date.toDate().toISOString()
-      : new Date().toISOString(),
+    date: data.date?.toDate?.() ? data.date.toDate() : new Date(),
   } as BreakFormData;
 }
 

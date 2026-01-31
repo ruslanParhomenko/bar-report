@@ -14,7 +14,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
 import { Label } from "../ui/label";
 
@@ -37,7 +36,6 @@ function SelectField({
   className,
   style,
 }: Props) {
-  const { theme } = useTheme();
   const { control } = useFormContext();
 
   return (
@@ -61,7 +59,6 @@ function SelectField({
                 className={cn(
                   "flex justify-start min-w-12 [&>svg]:hidden",
                   className,
-                  theme === "dark" ? "border-0 bg-background!" : "",
                   field.value && "border-0 shadow-none font-bold",
                 )}
                 style={style}

@@ -1,6 +1,6 @@
 "use client";
 import { useEffect } from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm, SubmitHandler, useWatch } from "react-hook-form";
 import { BreakFormData, breakSchema, defaultValuesBrake } from "./schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -23,30 +23,40 @@ export default function BreakForm({
 }) {
   const form = useForm<BreakFormData>({
     resolver: zodResolver(breakSchema),
-    defaultValues: defaultValues ?? defaultValuesBrake,
+    defaultValues: defaultValues
+      ? {
+          date: new Date(defaultValues.date),
+          rows: defaultValues.rows,
+        }
+      : defaultValuesBrake,
+  });
+
+  const rowsUse = useWatch({
+    control: form.control,
+    name: "rows",
   });
 
   useEffect(() => {
     const timeoutRef = { current: null as NodeJS.Timeout | null };
 
-    const subscription = form.watch((value) => {
-      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
 
-      timeoutRef.current = setTimeout(() => {
-        realtimeBreakList(value as BreakFormData).catch(console.error);
-      }, 5000);
-    });
+    timeoutRef.current = setTimeout(() => {
+      const data = form.getValues() as BreakFormData;
+
+      realtimeBreakList(data).catch(console.error);
+    }, 6000);
 
     return () => {
-      subscription.unsubscribe();
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
     };
-  }, [form]);
+  }, [rowsUse]);
 
   const onSubmit: SubmitHandler<BreakFormData> = async (data) => {
-    const day = new Date(data.date).getDate().toLocaleString();
-    const month = MONTHS[new Date(data.date).getMonth()];
-    const year = new Date(data.date).getFullYear().toString();
+    const date = new Date(data.date);
+    const day = date.getDate().toLocaleString();
+    const month = MONTHS[date.getMonth()];
+    const year = date.getFullYear().toString();
     const uniqueKey = `${year}-${month}`;
 
     const formattedData = {
@@ -60,7 +70,7 @@ export default function BreakForm({
     try {
       await createBreakList(formattedData);
       toast.success("Брейк-лист успешно сохранён !");
-      form.reset({ ...defaultValuesBrake, date: new Date().toISOString() });
+      form.reset({ ...defaultValuesBrake, date: new Date() });
     } catch (e) {
       toast.error("Ошибка при сохранении брейк-листа");
     }

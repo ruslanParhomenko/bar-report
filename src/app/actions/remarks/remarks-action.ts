@@ -5,7 +5,13 @@ import { REMARKS_ACTION_TAG } from "@/constants/action-tag";
 import { dbAdmin } from "@/lib/firebase-admin";
 import { RemarkFormData, RemarksFormData } from "@/features/penalty/schema";
 
-type RemarksCreateType = Omit<RemarksFormData, "date">;
+const REALTIME_DOC = "remarks-realtime";
+
+type RemarksCreateType = Omit<RemarksFormData, "date"> & {
+  day: string;
+  month: string;
+  year: string;
+};
 
 export type RemarksData = {
   day: string;
@@ -43,9 +49,7 @@ export async function createRemarks(
 
   const raw = snap.data();
 
-  const isDayExists = raw?.data.some(
-    (d: Omit<RemarksFormData, "year" | "month">) => d.day === data.day,
-  );
+  const isDayExists = raw?.data.some((d: RemarksData) => d.day === data.day);
 
   if (isDayExists) return;
 
@@ -139,3 +143,39 @@ export async function getRemarksByDay(uniqueKey: string, day: string) {
 
   return dayData ?? null;
 }
+
+// realtime
+
+export async function realtimeRemarksList(data: RemarksFormData) {
+  const docRef = dbAdmin.collection(REALTIME_DOC).doc(REALTIME_DOC);
+
+  await docRef.set({
+    date: data.date,
+    remarks: data.remarks,
+  });
+
+  updateTag("remarks-realtime");
+}
+
+export async function _getRealtimeRemarksList() {
+  const docRef = dbAdmin.collection(REALTIME_DOC).doc(REALTIME_DOC);
+  const snap = await docRef.get();
+
+  if (!snap.exists) return null;
+
+  const data = snap.data() as any;
+
+  return {
+    ...data,
+    date: data.date?.toDate?.() ? data.date.toDate() : new Date(),
+  } as RemarksFormData;
+}
+
+export const getRealtimeRemarksList = unstable_cache(
+  _getRealtimeRemarksList,
+  [REALTIME_DOC],
+  {
+    revalidate: false,
+    tags: [REALTIME_DOC],
+  },
+);

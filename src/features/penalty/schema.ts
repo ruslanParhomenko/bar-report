@@ -25,10 +25,6 @@ export const remarksSchema = z.object({
     },
   ]),
   date: z.date().default(() => new Date()),
-  day: z.string().default(""),
-  year: z.string().default(""),
-  month: z.string().default(""),
-  uniqueKey: z.string().default(""),
 });
 
 export type RemarksFormData = z.infer<typeof remarksSchema>;

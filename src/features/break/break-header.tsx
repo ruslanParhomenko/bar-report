@@ -1,3 +1,4 @@
+"use client";
 import DatePickerInput from "@/components/inputs/DatePickerInput";
 import { TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
@@ -10,7 +11,11 @@ export default function BreakTableHeader() {
       <TableRow>
         <TableHead className="w-7"></TableHead>
         <TableHead className="w-26">
-          <DatePickerInput fieldName="date" className="text-md text-rd" />
+          <DatePickerInput
+            fieldName="date"
+            className="text-md text-rd"
+            disabled
+          />
         </TableHead>
         <TableHead className="w-6" />
 

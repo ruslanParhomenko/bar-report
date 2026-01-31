@@ -38,7 +38,6 @@ function DatePickerInput({
     ro,
   };
   const { control } = useFormContext();
-  const { theme } = useTheme();
 
   const [isClient, setIsClient] = useState(false);
   useEffect(() => {
@@ -64,9 +63,8 @@ function DatePickerInput({
                     disabled={disabled}
                     variant={"outline"}
                     className={cn(
-                      "text-base border-0 shadow-none bg-none",
+                      "text-base border-0 shadow-none bg-transparent!",
                       className,
-                      theme === "dark" ? "bg-background!" : "",
                     )}
                   >
                     {field.value &&
