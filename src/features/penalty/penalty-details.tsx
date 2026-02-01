@@ -37,14 +37,14 @@ export default function PenaltyDetails({
   const employeesList = [
     "all",
     ...new Set(
-      data.data.map((item) => item.remarks.map((r: any) => r.name)).flat(),
+      data?.data.map((item) => item.remarks.map((r: any) => r.name)).flat(),
     ),
   ];
 
   const [selectedEmployee, setSelectedEmployee] = useState("all");
 
   const totalPenalty = useMemo(() => {
-    return data.data.reduce((acc, r) => {
+    return data?.data.reduce((acc, r) => {
       const val = r.remarks.reduce(
         (acc: number, r: any) => acc + Number(r.penalty),
         0,
@@ -53,7 +53,7 @@ export default function PenaltyDetails({
     }, 0);
   }, [data]);
   const totalBonus = useMemo(() => {
-    return data.data.reduce((acc, r) => {
+    return data?.data.reduce((acc, r) => {
       const val = r.remarks.reduce(
         (acc: number, r: any) => acc + Number(r.bonus),
         0,

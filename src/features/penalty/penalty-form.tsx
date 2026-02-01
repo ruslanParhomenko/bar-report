@@ -51,6 +51,7 @@ export default function PenaltyForm({
   });
 
   useEffect(() => {
+    if (!isBar) return;
     const timeoutRef = { current: null as NodeJS.Timeout | null };
 
     if (timeoutRef.current) clearTimeout(timeoutRef.current);

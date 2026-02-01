@@ -13,6 +13,7 @@ import { FormWrapper } from "@/components/wrapper/form-wrapper";
 import { Table } from "@/components/ui/table";
 import BreakTableHeader from "./break-header";
 import BreakTableBody from "./break-body";
+import { useAbility } from "@/providers/AbilityProvider";
 
 export default function BreakForm({
   employeesName,
@@ -21,6 +22,7 @@ export default function BreakForm({
   employeesName: string[];
   defaultValues?: BreakFormData;
 }) {
+  const { isBar } = useAbility();
   const form = useForm<BreakFormData>({
     resolver: zodResolver(breakSchema),
     defaultValues: defaultValues
@@ -37,6 +39,7 @@ export default function BreakForm({
   });
 
   useEffect(() => {
+    if (!isBar) return;
     const timeoutRef = { current: null as NodeJS.Timeout | null };
 
     if (timeoutRef.current) clearTimeout(timeoutRef.current);

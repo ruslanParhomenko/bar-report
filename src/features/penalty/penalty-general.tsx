@@ -24,7 +24,7 @@ export default function PenaltyGeneral({
   const componentRef = useRef<HTMLDivElement>(null);
 
   const { formattedData, totalBonus, totalPenalty } = remarksByUniqueEmployee(
-    data.data,
+    data?.data,
   );
   return (
     <div ref={componentRef} className="pt-4">
