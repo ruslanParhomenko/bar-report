@@ -26,7 +26,7 @@ export default function AoForm({
   month,
   year,
 }: {
-  dataAo: AOContextValue;
+  dataAo: AOContextValue | null;
   month: string;
   year: string;
 }) {
@@ -85,21 +85,23 @@ export default function AoForm({
   }, [dataAo, month, year, form]);
 
   const rowAOData = dataAo && dataAo.rowAOData;
-  const totals = calculateRowAOTotals(rowAOData);
+  const totals = calculateRowAOTotals(rowAOData ?? {});
+
+  const n = (v: unknown) => Number(v) || 0;
 
   const differenceModa = (
-    totals.advanceModaByDay -
-    totals.purchaseBarByDay -
-    totals.purchaseModaByDay -
-    totals.ttnBarByDay -
-    totals.ttnModaByDay
+    n(totals.advanceModaByDay) -
+    n(totals.purchaseBarByDay) -
+    n(totals.purchaseModaByDay) -
+    n(totals.ttnBarByDay) -
+    n(totals.ttnModaByDay)
   ).toFixed(2);
 
   const differenceNBM = (
-    totals.advanceNBMByDay -
-    totals.fuelNBMByDay -
-    totals.purchaseNBMByDay -
-    totals.ttnNBMByDay
+    n(totals.advanceNBMByDay) -
+    n(totals.fuelNBMByDay) -
+    n(totals.purchaseNBMByDay) -
+    n(totals.ttnNBMByDay)
   ).toFixed(2);
 
   return (

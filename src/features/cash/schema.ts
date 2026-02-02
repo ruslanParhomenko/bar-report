@@ -4,8 +4,6 @@ const dayValueSchema = z.string().default("");
 
 export const rowCashSchema = z.array(dayValueSchema).default([]);
 export const cashSchema = z.object({
-  year: z.string().default(new Date().getFullYear().toString()),
-  month: z.string().default((new Date().getMonth() + 1).toString()),
   rowCashData: z.record(z.string(), rowCashSchema).default({}),
   start_241: z.string().default(""),
   ao_532: z.string().default(""),

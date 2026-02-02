@@ -53,7 +53,7 @@ export default function TipsForm({
 
   const onSubmit: SubmitHandler<TipsFormType> = (data) => {
     try {
-      saveTipsForm(data);
+      saveTipsForm(data, year, month);
 
       toast.success("Форма сохранена успешно!");
     } catch (error) {

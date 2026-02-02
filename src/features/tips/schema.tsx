@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { MONTHS } from "@/utils/getMonthDays";
 const tipsByDaySchema = z.string().regex(/^\d*$/, "только цифры");
 
 export const rowEmployeesTipsSchema = z.object({
@@ -13,8 +12,6 @@ export type RowEmployeesTipsType = z.infer<typeof rowEmployeesTipsSchema>;
 
 export const tipsSchema = z.object({
   id: z.string().optional(),
-  year: z.string().default(new Date().getFullYear().toString()),
-  month: z.string().default(MONTHS[new Date().getMonth()]),
   rowEmployeesTips: z.array(rowEmployeesTipsSchema).default([]),
   waitersDishBid: z.string().default("0.03"),
   barmenDishBid: z.string().default("0.07"),

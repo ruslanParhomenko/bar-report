@@ -24,10 +24,12 @@ import TTNFooterTable from "./ttn-footer-table";
 
 export default function TTNForm({
   dataTtn,
+  dataTtnPrev,
   month,
   year,
 }: {
   dataTtn: TTNGetDataType | null;
+  dataTtnPrev: TTNGetDataType | null;
   month: string;
   year: string;
 }) {
@@ -78,6 +80,16 @@ export default function TTNForm({
       ...dataTtn,
     });
   }, [dataTtn, month, year, form]);
+
+  useEffect(() => {
+    if (!dataTtnPrev) return;
+    suppliers.map((s) => {
+      form.setValue(
+        `rowSuppliers.${s}.start`,
+        dataTtnPrev.rowSuppliers[s].final,
+      );
+    });
+  }, [dataTtnPrev, month, year, form]);
   return (
     <FormWrapper form={form} onSubmit={onSubmit} withButtons={isAdmin}>
       <Table>

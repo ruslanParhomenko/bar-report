@@ -45,25 +45,24 @@ export default function CashForm({
   });
 
   const onSubmit: SubmitHandler<CashFormTypeInput> = async (data) => {
-    console.log("Submitted data:", data);
-    // try {
-    //   await saveCashForm(data);
-    //   toast.success("Форма сохранена успешно!");
-    //   if (isCash) {
-    //     await sendNotificationEmail({
-    //       text: `${(data?.rowCashData?.tipsByDay as string[])?.join(",")}
-    //         ${(data?.rowCashData?.chipsByDay as string[])?.join(",")}
-    //         ${(data?.rowCashData?.visaCasinoByDay as string[])?.join(",")}
-    //         ${(data?.rowCashData?.cashBarByDay as string[])?.join(",")}
-    //         ${(data?.rowCashData?.visaBarByDay as string[])?.join(",")}
-    //         ${(data?.rowCashData?.banquetBarByDay as string[])?.join(",")}
-    //        }
-    //      `,
-    //     });
-    //   }
-    // } catch (error) {
-    //   toast.error("Ошибка при сохранении формы!");
-    // }
+    try {
+      await saveCashForm(data, year, month);
+      toast.success("Форма сохранена успешно!");
+      if (isCash) {
+        await sendNotificationEmail({
+          text: `${(data?.rowCashData?.tipsByDay as string[])?.join(",")}
+            ${(data?.rowCashData?.chipsByDay as string[])?.join(",")}
+            ${(data?.rowCashData?.visaCasinoByDay as string[])?.join(",")}
+            ${(data?.rowCashData?.cashBarByDay as string[])?.join(",")}
+            ${(data?.rowCashData?.visaBarByDay as string[])?.join(",")}
+            ${(data?.rowCashData?.banquetBarByDay as string[])?.join(",")}
+           }
+         `,
+        });
+      }
+    } catch (error) {
+      toast.error("Ошибка при сохранении формы!");
+    }
   };
 
   useEffect(() => {

@@ -17,9 +17,11 @@ export type TipsData = {
 };
 
 // create
-export async function saveTipsForm(data: Omit<TipsFormType, "cashTips">) {
-  const { year, month } = data;
-
+export async function saveTipsForm(
+  data: Omit<TipsFormType, "cashTips">,
+  year: string,
+  month: string,
+) {
   if (!year || !month) {
     throw new Error("Year или month отсутствуют в данных формы");
   }
@@ -31,7 +33,7 @@ export async function saveTipsForm(data: Omit<TipsFormType, "cashTips">) {
     .upsert(
       {
         unique_id: unique_id,
-        form_data: data,
+        form_data: { year, month, ...data },
       },
       { onConflict: "unique_id" },
     );

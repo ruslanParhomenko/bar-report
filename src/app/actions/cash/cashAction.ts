@@ -15,9 +15,11 @@ export type CashData = {
 
 const supabase = supabaseServer();
 // save
-export async function saveCashForm(data: CashFormTypeInput) {
-  const { year, month } = data;
-
+export async function saveCashForm(
+  data: CashFormTypeInput,
+  year?: string,
+  month?: string,
+) {
   if (!year || !month) {
     throw new Error("Year или month отсутствуют в данных формы");
   }

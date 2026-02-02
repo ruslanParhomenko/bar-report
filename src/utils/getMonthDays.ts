@@ -66,3 +66,23 @@ export function buildDate({
 
   return new Date(Number(year), monthIndex, Number(day));
 }
+
+// get prev month
+
+export type Month = (typeof MONTHS)[number];
+export function getPrevUniqueKey(year: string, month: Month) {
+  const yearNum = Number(year);
+  const monthIndex = MONTHS.indexOf(month);
+
+  if (monthIndex === -1) {
+    throw new Error(`Invalid month: ${month}`);
+  }
+
+  const isJanuary = monthIndex === 0;
+
+  const prevMonth = isJanuary ? MONTHS[11] : MONTHS[monthIndex - 1];
+
+  const prevYear = isJanuary ? yearNum - 1 : yearNum;
+
+  return `${prevYear}-${prevMonth}`;
+}

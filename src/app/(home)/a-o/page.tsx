@@ -18,7 +18,6 @@ export default async function Page({
   const uniqueKey = `${year}-${month}`;
 
   const dataAo = await getAOByUniqueKey(uniqueKey);
-  if (!dataAo) return null;
 
   return (
     <AoForm dataAo={dataAo} month={month as string} year={year as string} />

@@ -15,7 +15,7 @@ export async function createTTN(data: SuppliersFormType) {
     unique_key: data.unique_key,
     year: data.year,
     month: data.month,
-    rowAOData: data.rowSuppliers,
+    rowSuppliers: data.rowSuppliers,
   });
   updateTag(TTN_ACTION_TAG);
 
