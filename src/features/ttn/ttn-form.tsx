@@ -66,7 +66,7 @@ export default function TTNForm({
           minus: Array(monthDays.length).fill(""),
           plus: Array(monthDays.length).fill(""),
         },
-      ])
+      ]),
     );
 
     form.setValue("rowSuppliers", newRowTtnData);

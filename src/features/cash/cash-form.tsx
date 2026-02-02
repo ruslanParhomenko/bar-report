@@ -45,49 +45,50 @@ export default function CashForm({
   });
 
   const onSubmit: SubmitHandler<CashFormTypeInput> = async (data) => {
-    try {
-      await saveCashForm(data);
-      toast.success("Форма сохранена успешно!");
-      if (isCash) {
-        await sendNotificationEmail({
-          text: `${(data?.rowCashData?.tipsByDay as string[])?.join(",")}
-            ${(data?.rowCashData?.chipsByDay as string[])?.join(",")}
-            ${(data?.rowCashData?.visaCasinoByDay as string[])?.join(",")}
-            ${(data?.rowCashData?.cashBarByDay as string[])?.join(",")}
-            ${(data?.rowCashData?.visaBarByDay as string[])?.join(",")}
-            ${(data?.rowCashData?.banquetBarByDay as string[])?.join(",")}
-           }
-         `,
-        });
-      }
-    } catch (error) {
-      toast.error("Ошибка при сохранении формы!");
-    }
+    console.log("Submitted data:", data);
+    // try {
+    //   await saveCashForm(data);
+    //   toast.success("Форма сохранена успешно!");
+    //   if (isCash) {
+    //     await sendNotificationEmail({
+    //       text: `${(data?.rowCashData?.tipsByDay as string[])?.join(",")}
+    //         ${(data?.rowCashData?.chipsByDay as string[])?.join(",")}
+    //         ${(data?.rowCashData?.visaCasinoByDay as string[])?.join(",")}
+    //         ${(data?.rowCashData?.cashBarByDay as string[])?.join(",")}
+    //         ${(data?.rowCashData?.visaBarByDay as string[])?.join(",")}
+    //         ${(data?.rowCashData?.banquetBarByDay as string[])?.join(",")}
+    //        }
+    //      `,
+    //     });
+    //   }
+    // } catch (error) {
+    //   toast.error("Ошибка при сохранении формы!");
+    // }
   };
 
   useEffect(() => {
-    if (dataCash) return;
-
     const makeArray = () => Array(monthDays.length).fill("");
 
-    const newRowCashData = {
-      ...Object.fromEntries(rowsCashCasino.map((row) => [row, makeArray()])),
-      ...Object.fromEntries(rowCashBar.map((row) => [row, makeArray()])),
-    };
+    if (!dataCash) {
+      const newRowCashData = {
+        ...Object.fromEntries(
+          rowsCashCasino.map((row) => [row.key, makeArray()]),
+        ),
+        ...Object.fromEntries(rowCashBar.map((row) => [row.key, makeArray()])),
+      };
 
-    form.setValue("rowCashData", newRowCashData);
-    form.setValue("start_241", "");
-    form.setValue("ao_532", "");
-    form.setValue("z_531", "");
-  }, [dataCash]);
+      form.reset({
+        ...defaultCashForm,
+        rowCashData: newRowCashData,
+        start_241: "",
+        ao_532: "",
+        z_531: "",
+      });
+      return;
+    }
 
-  useEffect(() => {
-    if (!dataCash) return;
-
-    form.reset({
-      ...dataCash.form_data,
-    } as CashFormTypeInput);
-  }, [dataCash]);
+    form.reset(dataCash.form_data as CashFormTypeInput);
+  }, [dataCash, month, year]);
 
   useEffect(() => {
     const currentDate = new Date();
