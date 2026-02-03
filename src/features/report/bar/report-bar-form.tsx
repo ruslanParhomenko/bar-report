@@ -121,7 +121,7 @@ export default function ReportBarForm({
         <DatePickerInput
           fieldName="date"
           className="md:w-30 h-8 text-sm w-full text-rd"
-          disabled={!isAdmin && !isBar}
+          disabled={!isAdmin}
         />
       </div>
 
