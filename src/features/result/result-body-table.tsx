@@ -1,5 +1,8 @@
+"use client";
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { useResultCalculations } from "./utils";
+import { useAbility } from "@/providers/AbilityProvider";
+import { handleCopy } from "@/utils/handlerCopyText";
 
 export default function ResultTableBody({
   rows,
@@ -8,6 +11,7 @@ export default function ResultTableBody({
   rows: ReturnType<typeof useResultCalculations>["rows"];
   totals: ReturnType<typeof useResultCalculations>["totals"];
 }) {
+  const { isAdmin } = useAbility();
   return (
     <TableBody>
       {rows.map(
@@ -16,18 +20,44 @@ export default function ResultTableBody({
           index,
         ) => (
           <TableRow key={index}>
-            <TableCell className="sticky left-0 bg-card">
+            <TableCell
+              className="sticky left-0 bg-card cursor-copy"
+              onClick={() => handleCopy(e.employee)}
+            >
               {e.employee}
             </TableCell>
-            <TableCell className="text-center">{rate}</TableCell>
+            <TableCell className="text-center border-r">
+              {Number(rate) / 1000}
+            </TableCell>
             <TableCell className="text-center">{dayH}</TableCell>
             <TableCell className="text-center">{nightH}</TableCell>
-            <TableCell className="text-center text-gn">{totalHours}</TableCell>
-            <TableCell className="text-center border-r">{salary}</TableCell>
-            <TableCell className="text-center">{sendTips}</TableCell>
-            <TableCell className="text-center text-rd">{e.penalty}</TableCell>
-            <TableCell className="text-center border-r">{e.bonus}</TableCell>
-            <TableCell className="text-center">{result}</TableCell>
+            <TableCell className="text-center text-gn border-r">
+              {totalHours}
+            </TableCell>
+            <TableCell className="text-center border-r">
+              {isAdmin ? salary : "****"}
+            </TableCell>
+            <TableCell
+              className="text-center cursor-copy"
+              onClick={() => handleCopy(String(sendTips))}
+            >
+              {sendTips}
+            </TableCell>
+            <TableCell
+              className="text-center text-rd cursor-copy"
+              onClick={() => handleCopy(String(e.penalty))}
+            >
+              {e.penalty}
+            </TableCell>
+            <TableCell
+              className="text-center border-r cursor-copy"
+              onClick={() => handleCopy(String(e.bonus))}
+            >
+              {e.bonus}
+            </TableCell>
+            <TableCell className="text-center">
+              {isAdmin ? result : "*****"}
+            </TableCell>
           </TableRow>
         ),
       )}
@@ -38,11 +68,15 @@ export default function ResultTableBody({
         <TableCell className="text-center">{totals.dayH}</TableCell>
         <TableCell className="text-center">{totals.nightH}</TableCell>
         <TableCell className="text-center">{totals.totalHours}</TableCell>
-        <TableCell className="text-center">{totals.salary}</TableCell>
+        <TableCell className="text-center">
+          {isAdmin ? totals.salary : "****"}
+        </TableCell>
         <TableCell className="text-center">{totals.sendTips}</TableCell>
         <TableCell className="text-center">{totals.penalty}</TableCell>
         <TableCell className="text-center">{totals.bonus}</TableCell>
-        <TableCell className="text-center">{totals.result}</TableCell>
+        <TableCell className="text-center">
+          {isAdmin ? totals.result : "*****"}
+        </TableCell>
       </TableRow>
     </TableBody>
   );

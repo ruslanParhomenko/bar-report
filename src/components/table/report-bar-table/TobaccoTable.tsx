@@ -1,3 +1,4 @@
+import { TobaccoSchemaType } from "@/features/report/bar/schema";
 import {
   Table,
   TableBody,
@@ -7,12 +8,11 @@ import {
   TableRow,
 } from "../../ui/table";
 import { classNameHead, classNameRowBorder } from "./ReportBarTable";
-import { ReportBarType } from "@/app/actions/archive/reportBarAction";
 
 export default function TobaccoTable({
   data,
 }: {
-  data: ReportBarType["tobacco"];
+  data: TobaccoSchemaType[] | null;
 }) {
   if (!data) return <div>not found</div>;
   return (
@@ -23,8 +23,8 @@ export default function TobaccoTable({
         </TableRow>
       </TableHeader>
       <TableBody>
-        {data?.map((t) => (
-          <TableRow key={t.id}>
+        {data?.map((t, idx) => (
+          <TableRow key={`${idx}-${t.name}`}>
             <TableCell>{t?.name}</TableCell>
             <TableCell className="text-center">
               {t?.stock.toLocaleString()}

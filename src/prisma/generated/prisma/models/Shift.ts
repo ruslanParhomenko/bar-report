@@ -406,6 +406,10 @@ export type ShiftUncheckedUpdateManyWithoutReportNestedInput = {
   deleteMany?: Prisma.ShiftScalarWhereInput | Prisma.ShiftScalarWhereInput[]
 }
 
+export type StringFieldUpdateOperationsInput = {
+  set?: string
+}
+
 export type ShiftCreateWithoutReportInput = {
   time: string
   over: string

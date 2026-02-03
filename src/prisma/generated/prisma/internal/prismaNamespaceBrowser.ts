@@ -51,12 +51,6 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
-  DailyReport: 'DailyReport',
-  Inventory: 'Inventory',
-  ProductTransfer: 'ProductTransfer',
-  CashVerify: 'CashVerify',
-  Tobacco: 'Tobacco',
-  Expense: 'Expense',
   DailyReportCucina: 'DailyReportCucina',
   Shift: 'Shift',
   Remain: 'Remain',
@@ -79,73 +73,6 @@ export const TransactionIsolationLevel = {
 } as const
 
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
-
-
-export const DailyReportScalarFieldEnum = {
-  id: 'id',
-  date: 'date',
-  notes: 'notes'
-} as const
-
-export type DailyReportScalarFieldEnum = (typeof DailyReportScalarFieldEnum)[keyof typeof DailyReportScalarFieldEnum]
-
-
-export const InventoryScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  quantity: 'quantity',
-  time: 'time',
-  reportId: 'reportId'
-} as const
-
-export type InventoryScalarFieldEnum = (typeof InventoryScalarFieldEnum)[keyof typeof InventoryScalarFieldEnum]
-
-
-export const ProductTransferScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  quantity: 'quantity',
-  destination: 'destination',
-  time: 'time',
-  reportId: 'reportId'
-} as const
-
-export type ProductTransferScalarFieldEnum = (typeof ProductTransferScalarFieldEnum)[keyof typeof ProductTransferScalarFieldEnum]
-
-
-export const CashVerifyScalarFieldEnum = {
-  id: 'id',
-  hours: 'hours',
-  value: 'value',
-  time: 'time',
-  reportId: 'reportId'
-} as const
-
-export type CashVerifyScalarFieldEnum = (typeof CashVerifyScalarFieldEnum)[keyof typeof CashVerifyScalarFieldEnum]
-
-
-export const TobaccoScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  stock: 'stock',
-  incoming: 'incoming',
-  outgoing: 'outgoing',
-  finalStock: 'finalStock',
-  reportId: 'reportId'
-} as const
-
-export type TobaccoScalarFieldEnum = (typeof TobaccoScalarFieldEnum)[keyof typeof TobaccoScalarFieldEnum]
-
-
-export const ExpenseScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  sum: 'sum',
-  time: 'time',
-  reportId: 'reportId'
-} as const
-
-export type ExpenseScalarFieldEnum = (typeof ExpenseScalarFieldEnum)[keyof typeof ExpenseScalarFieldEnum]
 
 
 export const DailyReportCucinaScalarFieldEnum = {

@@ -1,3 +1,4 @@
+import { ProductTransferSchemaType } from "@/features/report/bar/schema";
 import {
   Table,
   TableBody,
@@ -7,12 +8,11 @@ import {
   TableRow,
 } from "../../ui/table";
 import { classNameHead, classNameRowBorder } from "./ReportBarTable";
-import { ReportBarType } from "@/app/actions/archive/reportBarAction";
 
 export default function ProductTransferTable({
   data,
 }: {
-  data: ReportBarType["productTransfer"];
+  data: ProductTransferSchemaType[] | null;
 }) {
   return data ? (
     <Table>

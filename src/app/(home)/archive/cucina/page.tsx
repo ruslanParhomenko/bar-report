@@ -1,18 +1,15 @@
-import { getReportBarByDate } from "@/app/actions/archive/reportBarAction";
 import {
   getReportsCucinaByDate,
   ReportCucinaData,
 } from "@/app/actions/archive/reportCucinaAction";
+import { getReportByUniqueKey } from "@/app/actions/report-bar/report-bar-action";
+import ReportBarTable from "@/components/table/report-bar-table/ReportBarTable";
 import { InsufficientRights } from "@/components/wrapper/InsufficientRights";
-import ReportBar from "@/features/archive/ReportBar";
 import ReportCucina from "@/features/archive/ReportCucina";
 import { checkAccess } from "@/lib/check-access";
 import { MONTHS } from "@/utils/getMonthDays";
 
-const SET_ACCESS_BY_PATCH = {
-  bar: ["ADMIN", "BAR", "MNGR", "USER"],
-  cucina: ["ADMIN", "CUCINA", "MNGR", "USER"],
-};
+const SET_ACCESS = ["ADMIN", "CUCINA", "MNGR", "USER"];
 
 export default async function Page({
   params,
@@ -21,15 +18,13 @@ export default async function Page({
   params: Promise<{ patch: string }>;
   searchParams: Promise<{ [key: string]: string | undefined }>;
 }) {
-  const { patch } = await params;
-  const accessSet =
-    SET_ACCESS_BY_PATCH[patch as keyof typeof SET_ACCESS_BY_PATCH];
-  if (!accessSet) return null;
-  const hasAccess = await checkAccess(accessSet);
+  const hasAccess = await checkAccess(SET_ACCESS);
   if (!hasAccess) return <InsufficientRights />;
 
   const { month, year } = await searchParams;
   if (!month || !year) return null;
+
+  const uniqueKey = `${year}-${month}`;
 
   const monthNum = Number(MONTHS.indexOf(month) + 1);
   const yearNum = Number(year);
@@ -43,25 +38,13 @@ export default async function Page({
   const endDate = new Date(Date.UTC(yearNum, monthNum, 1, 0, 0, 0));
 
   // get data
-  const dataReportBar =
-    patch === "bar" &&
-    (
-      await getReportBarByDate({
-        startDate,
-        endDate,
-      })
-    ).reports;
-  const dataReportCucina =
-    patch === "cucina" &&
-    (
-      await getReportsCucinaByDate({
-        startDate,
-        endDate,
-      })
-    ).reports;
 
-  if (patch === "bar") return <ReportBar data={dataReportBar as any[]} />;
-  else if (patch === "cucina")
-    return <ReportCucina data={dataReportCucina as ReportCucinaData[]} />;
-  else return null;
+  const dataReportCucina = (
+    await getReportsCucinaByDate({
+      startDate,
+      endDate,
+    })
+  ).reports;
+
+  return <ReportCucina data={dataReportCucina as ReportCucinaData[]} />;
 }

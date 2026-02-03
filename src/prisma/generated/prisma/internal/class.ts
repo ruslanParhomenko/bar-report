@@ -20,7 +20,7 @@ const config: runtime.GetPrismaClientConfig = {
   "clientVersion": "7.2.0",
   "engineVersion": "0c8ef2ce45c83248ab3df073180d5eda9e8be7a3",
   "activeProvider": "postgresql",
-  "inlineSchema": "generator client {\n  provider = \"prisma-client\"\n  output   = \"./generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nmodel DailyReport {\n  id              Int               @id @default(autoincrement())\n  date            DateTime\n  cashVerify      CashVerify[]\n  expenses        Expense[]\n  tobacco         Tobacco[]\n  productTransfer ProductTransfer[]\n  inventory       Inventory[]\n  notes           String?\n}\n\nmodel Inventory {\n  id       Int         @id @default(autoincrement())\n  name     String\n  quantity String\n  time     String?\n  reportId Int\n  report   DailyReport @relation(fields: [reportId], references: [id], onDelete: Cascade)\n}\n\nmodel ProductTransfer {\n  id          Int         @id @default(autoincrement())\n  name        String\n  quantity    String\n  destination String\n  time        String?\n  reportId    Int\n  report      DailyReport @relation(fields: [reportId], references: [id], onDelete: Cascade)\n}\n\nmodel CashVerify {\n  id       Int         @id @default(autoincrement())\n  hours    String\n  value    String\n  time     String?\n  reportId Int\n  report   DailyReport @relation(fields: [reportId], references: [id], onDelete: Cascade)\n}\n\nmodel Tobacco {\n  id         Int         @id @default(autoincrement())\n  name       String\n  stock      Int         @default(0)\n  incoming   String?\n  outgoing   String?\n  finalStock Int\n  reportId   Int\n  report     DailyReport @relation(fields: [reportId], references: [id], onDelete: Cascade)\n}\n\nmodel Expense {\n  id       Int         @id @default(autoincrement())\n  name     String\n  sum      String\n  time     String?\n  reportId Int\n  report   DailyReport @relation(fields: [reportId], references: [id], onDelete: Cascade)\n}\n\nmodel DailyReportCucina {\n  id    Int      @id @default(autoincrement())\n  date  DateTime\n  notes String?\n\n  shifts   Shift[]    @relation(\"DailyReportCucinaShifts\")\n  remains  Remain[]   @relation(\"DailyReportCucinaRemains\")\n  prepared Prepared[] @relation(\"DailyReportCucinaPreparedSalads\")\n  staff    Staff[]    @relation(\"DailyReportCucinaStaff\")\n  writeOff WriteOff[] @relation(\"DailyReportCucinaWriteOff\")\n}\n\nmodel Shift {\n  id        Int               @id @default(autoincrement())\n  time      String\n  over      String\n  employees String\n  report    DailyReportCucina @relation(\"DailyReportCucinaShifts\", fields: [reportId], references: [id], onDelete: Cascade)\n  reportId  Int\n}\n\nmodel Remain {\n  id       Int               @id @default(autoincrement())\n  product  String\n  portions String\n  weight   String\n  report   DailyReportCucina @relation(\"DailyReportCucinaRemains\", fields: [reportId], references: [id], onDelete: Cascade)\n  reportId Int\n}\n\nmodel Prepared {\n  id       Int               @id @default(autoincrement())\n  product  String\n  portions String\n  weight   String\n  time     String?\n  report   DailyReportCucina @relation(\"DailyReportCucinaPreparedSalads\", fields: [reportId], references: [id], onDelete: Cascade)\n  reportId Int\n}\n\nmodel Staff {\n  id       Int               @id @default(autoincrement())\n  product  String\n  portions String\n  weight   String\n  time     String?\n  report   DailyReportCucina @relation(\"DailyReportCucinaStaff\", fields: [reportId], references: [id], onDelete: Cascade)\n  reportId Int\n}\n\nmodel WriteOff {\n  id       Int               @id @default(autoincrement())\n  product  String\n  weight   String\n  reason   String\n  report   DailyReportCucina @relation(\"DailyReportCucinaWriteOff\", fields: [reportId], references: [id], onDelete: Cascade)\n  reportId Int\n}\n",
+  "inlineSchema": "generator client {\n  provider = \"prisma-client\"\n  output   = \"./generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nmodel DailyReportCucina {\n  id    Int      @id @default(autoincrement())\n  date  DateTime\n  notes String?\n\n  shifts   Shift[]    @relation(\"DailyReportCucinaShifts\")\n  remains  Remain[]   @relation(\"DailyReportCucinaRemains\")\n  prepared Prepared[] @relation(\"DailyReportCucinaPreparedSalads\")\n  staff    Staff[]    @relation(\"DailyReportCucinaStaff\")\n  writeOff WriteOff[] @relation(\"DailyReportCucinaWriteOff\")\n}\n\nmodel Shift {\n  id        Int               @id @default(autoincrement())\n  time      String\n  over      String\n  employees String\n  report    DailyReportCucina @relation(\"DailyReportCucinaShifts\", fields: [reportId], references: [id], onDelete: Cascade)\n  reportId  Int\n}\n\nmodel Remain {\n  id       Int               @id @default(autoincrement())\n  product  String\n  portions String\n  weight   String\n  report   DailyReportCucina @relation(\"DailyReportCucinaRemains\", fields: [reportId], references: [id], onDelete: Cascade)\n  reportId Int\n}\n\nmodel Prepared {\n  id       Int               @id @default(autoincrement())\n  product  String\n  portions String\n  weight   String\n  time     String?\n  report   DailyReportCucina @relation(\"DailyReportCucinaPreparedSalads\", fields: [reportId], references: [id], onDelete: Cascade)\n  reportId Int\n}\n\nmodel Staff {\n  id       Int               @id @default(autoincrement())\n  product  String\n  portions String\n  weight   String\n  time     String?\n  report   DailyReportCucina @relation(\"DailyReportCucinaStaff\", fields: [reportId], references: [id], onDelete: Cascade)\n  reportId Int\n}\n\nmodel WriteOff {\n  id       Int               @id @default(autoincrement())\n  product  String\n  weight   String\n  reason   String\n  report   DailyReportCucina @relation(\"DailyReportCucinaWriteOff\", fields: [reportId], references: [id], onDelete: Cascade)\n  reportId Int\n}\n",
   "runtimeDataModel": {
     "models": {},
     "enums": {},
@@ -28,7 +28,7 @@ const config: runtime.GetPrismaClientConfig = {
   }
 }
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"DailyReport\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"date\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"cashVerify\",\"kind\":\"object\",\"type\":\"CashVerify\",\"relationName\":\"CashVerifyToDailyReport\"},{\"name\":\"expenses\",\"kind\":\"object\",\"type\":\"Expense\",\"relationName\":\"DailyReportToExpense\"},{\"name\":\"tobacco\",\"kind\":\"object\",\"type\":\"Tobacco\",\"relationName\":\"DailyReportToTobacco\"},{\"name\":\"productTransfer\",\"kind\":\"object\",\"type\":\"ProductTransfer\",\"relationName\":\"DailyReportToProductTransfer\"},{\"name\":\"inventory\",\"kind\":\"object\",\"type\":\"Inventory\",\"relationName\":\"DailyReportToInventory\"},{\"name\":\"notes\",\"kind\":\"scalar\",\"type\":\"String\"}],\"dbName\":null},\"Inventory\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"quantity\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"time\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"reportId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"report\",\"kind\":\"object\",\"type\":\"DailyReport\",\"relationName\":\"DailyReportToInventory\"}],\"dbName\":null},\"ProductTransfer\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"quantity\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"destination\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"time\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"reportId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"report\",\"kind\":\"object\",\"type\":\"DailyReport\",\"relationName\":\"DailyReportToProductTransfer\"}],\"dbName\":null},\"CashVerify\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"hours\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"value\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"time\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"reportId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"report\",\"kind\":\"object\",\"type\":\"DailyReport\",\"relationName\":\"CashVerifyToDailyReport\"}],\"dbName\":null},\"Tobacco\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"stock\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"incoming\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"outgoing\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"finalStock\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"reportId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"report\",\"kind\":\"object\",\"type\":\"DailyReport\",\"relationName\":\"DailyReportToTobacco\"}],\"dbName\":null},\"Expense\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"sum\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"time\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"reportId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"report\",\"kind\":\"object\",\"type\":\"DailyReport\",\"relationName\":\"DailyReportToExpense\"}],\"dbName\":null},\"DailyReportCucina\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"date\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"notes\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"shifts\",\"kind\":\"object\",\"type\":\"Shift\",\"relationName\":\"DailyReportCucinaShifts\"},{\"name\":\"remains\",\"kind\":\"object\",\"type\":\"Remain\",\"relationName\":\"DailyReportCucinaRemains\"},{\"name\":\"prepared\",\"kind\":\"object\",\"type\":\"Prepared\",\"relationName\":\"DailyReportCucinaPreparedSalads\"},{\"name\":\"staff\",\"kind\":\"object\",\"type\":\"Staff\",\"relationName\":\"DailyReportCucinaStaff\"},{\"name\":\"writeOff\",\"kind\":\"object\",\"type\":\"WriteOff\",\"relationName\":\"DailyReportCucinaWriteOff\"}],\"dbName\":null},\"Shift\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"time\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"over\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"employees\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"report\",\"kind\":\"object\",\"type\":\"DailyReportCucina\",\"relationName\":\"DailyReportCucinaShifts\"},{\"name\":\"reportId\",\"kind\":\"scalar\",\"type\":\"Int\"}],\"dbName\":null},\"Remain\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"product\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"portions\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"weight\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"report\",\"kind\":\"object\",\"type\":\"DailyReportCucina\",\"relationName\":\"DailyReportCucinaRemains\"},{\"name\":\"reportId\",\"kind\":\"scalar\",\"type\":\"Int\"}],\"dbName\":null},\"Prepared\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"product\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"portions\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"weight\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"time\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"report\",\"kind\":\"object\",\"type\":\"DailyReportCucina\",\"relationName\":\"DailyReportCucinaPreparedSalads\"},{\"name\":\"reportId\",\"kind\":\"scalar\",\"type\":\"Int\"}],\"dbName\":null},\"Staff\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"product\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"portions\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"weight\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"time\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"report\",\"kind\":\"object\",\"type\":\"DailyReportCucina\",\"relationName\":\"DailyReportCucinaStaff\"},{\"name\":\"reportId\",\"kind\":\"scalar\",\"type\":\"Int\"}],\"dbName\":null},\"WriteOff\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"product\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"weight\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"reason\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"report\",\"kind\":\"object\",\"type\":\"DailyReportCucina\",\"relationName\":\"DailyReportCucinaWriteOff\"},{\"name\":\"reportId\",\"kind\":\"scalar\",\"type\":\"Int\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"DailyReportCucina\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"date\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"notes\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"shifts\",\"kind\":\"object\",\"type\":\"Shift\",\"relationName\":\"DailyReportCucinaShifts\"},{\"name\":\"remains\",\"kind\":\"object\",\"type\":\"Remain\",\"relationName\":\"DailyReportCucinaRemains\"},{\"name\":\"prepared\",\"kind\":\"object\",\"type\":\"Prepared\",\"relationName\":\"DailyReportCucinaPreparedSalads\"},{\"name\":\"staff\",\"kind\":\"object\",\"type\":\"Staff\",\"relationName\":\"DailyReportCucinaStaff\"},{\"name\":\"writeOff\",\"kind\":\"object\",\"type\":\"WriteOff\",\"relationName\":\"DailyReportCucinaWriteOff\"}],\"dbName\":null},\"Shift\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"time\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"over\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"employees\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"report\",\"kind\":\"object\",\"type\":\"DailyReportCucina\",\"relationName\":\"DailyReportCucinaShifts\"},{\"name\":\"reportId\",\"kind\":\"scalar\",\"type\":\"Int\"}],\"dbName\":null},\"Remain\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"product\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"portions\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"weight\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"report\",\"kind\":\"object\",\"type\":\"DailyReportCucina\",\"relationName\":\"DailyReportCucinaRemains\"},{\"name\":\"reportId\",\"kind\":\"scalar\",\"type\":\"Int\"}],\"dbName\":null},\"Prepared\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"product\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"portions\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"weight\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"time\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"report\",\"kind\":\"object\",\"type\":\"DailyReportCucina\",\"relationName\":\"DailyReportCucinaPreparedSalads\"},{\"name\":\"reportId\",\"kind\":\"scalar\",\"type\":\"Int\"}],\"dbName\":null},\"Staff\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"product\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"portions\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"weight\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"time\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"report\",\"kind\":\"object\",\"type\":\"DailyReportCucina\",\"relationName\":\"DailyReportCucinaStaff\"},{\"name\":\"reportId\",\"kind\":\"scalar\",\"type\":\"Int\"}],\"dbName\":null},\"WriteOff\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"product\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"weight\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"reason\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"report\",\"kind\":\"object\",\"type\":\"DailyReportCucina\",\"relationName\":\"DailyReportCucinaWriteOff\"},{\"name\":\"reportId\",\"kind\":\"scalar\",\"type\":\"Int\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
 
 async function decodeBase64AsWasm(wasmBase64: string): Promise<WebAssembly.Module> {
   const { Buffer } = await import('node:buffer')
@@ -58,8 +58,8 @@ export interface PrismaClientConstructor {
    * @example
    * ```
    * const prisma = new PrismaClient()
-   * // Fetch zero or more DailyReports
-   * const dailyReports = await prisma.dailyReport.findMany()
+   * // Fetch zero or more DailyReportCucinas
+   * const dailyReportCucinas = await prisma.dailyReportCucina.findMany()
    * ```
    * 
    * Read more in our [docs](https://pris.ly/d/client).
@@ -80,8 +80,8 @@ export interface PrismaClientConstructor {
  * @example
  * ```
  * const prisma = new PrismaClient()
- * // Fetch zero or more DailyReports
- * const dailyReports = await prisma.dailyReport.findMany()
+ * // Fetch zero or more DailyReportCucinas
+ * const dailyReportCucinas = await prisma.dailyReportCucina.findMany()
  * ```
  * 
  * Read more in our [docs](https://pris.ly/d/client).
@@ -175,66 +175,6 @@ export interface PrismaClient<
   }>>
 
       /**
-   * `prisma.dailyReport`: Exposes CRUD operations for the **DailyReport** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more DailyReports
-    * const dailyReports = await prisma.dailyReport.findMany()
-    * ```
-    */
-  get dailyReport(): Prisma.DailyReportDelegate<ExtArgs, { omit: OmitOpts }>;
-
-  /**
-   * `prisma.inventory`: Exposes CRUD operations for the **Inventory** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more Inventories
-    * const inventories = await prisma.inventory.findMany()
-    * ```
-    */
-  get inventory(): Prisma.InventoryDelegate<ExtArgs, { omit: OmitOpts }>;
-
-  /**
-   * `prisma.productTransfer`: Exposes CRUD operations for the **ProductTransfer** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more ProductTransfers
-    * const productTransfers = await prisma.productTransfer.findMany()
-    * ```
-    */
-  get productTransfer(): Prisma.ProductTransferDelegate<ExtArgs, { omit: OmitOpts }>;
-
-  /**
-   * `prisma.cashVerify`: Exposes CRUD operations for the **CashVerify** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more CashVerifies
-    * const cashVerifies = await prisma.cashVerify.findMany()
-    * ```
-    */
-  get cashVerify(): Prisma.CashVerifyDelegate<ExtArgs, { omit: OmitOpts }>;
-
-  /**
-   * `prisma.tobacco`: Exposes CRUD operations for the **Tobacco** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more Tobaccos
-    * const tobaccos = await prisma.tobacco.findMany()
-    * ```
-    */
-  get tobacco(): Prisma.TobaccoDelegate<ExtArgs, { omit: OmitOpts }>;
-
-  /**
-   * `prisma.expense`: Exposes CRUD operations for the **Expense** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more Expenses
-    * const expenses = await prisma.expense.findMany()
-    * ```
-    */
-  get expense(): Prisma.ExpenseDelegate<ExtArgs, { omit: OmitOpts }>;
-
-  /**
    * `prisma.dailyReportCucina`: Exposes CRUD operations for the **DailyReportCucina** model.
     * Example usage:
     * ```ts

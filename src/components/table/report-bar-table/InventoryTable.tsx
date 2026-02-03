@@ -7,13 +7,12 @@ import {
   TableHeader,
   TableRow,
 } from "../../ui/table";
-
-import { ReportBarType } from "@/app/actions/archive/reportBarAction";
+import { InventorySchemaType } from "@/features/report/bar/schema";
 
 export default function InventoryTable({
   data,
 }: {
-  data: ReportBarType["inventory"];
+  data: InventorySchemaType[] | null;
 }) {
   return data ? (
     <Table>

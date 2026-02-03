@@ -1,5 +1,4 @@
 "use client";
-import { deleteReportBar } from "@/app/actions/archive/reportBarAction";
 import { deleteReportCucina } from "@/app/actions/archive/reportCucinaAction";
 import ModalConfirm from "@/components/modal/ModalConfirm";
 import {
@@ -22,7 +21,6 @@ type DeleteListButtonProps<T extends BaseData> = {
 };
 
 const actionByNameTag = {
-  [REPORT_BAR_ENDPOINT]: deleteReportBar,
   [REPORT_CUCINA_ENDPOINT]: deleteReportCucina,
 };
 

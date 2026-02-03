@@ -7,65 +7,6 @@ datasource db {
   provider = "postgresql"
 }
 
-model DailyReport {
-  id              Int               @id @default(autoincrement())
-  date            DateTime
-  cashVerify      CashVerify[]
-  expenses        Expense[]
-  tobacco         Tobacco[]
-  productTransfer ProductTransfer[]
-  inventory       Inventory[]
-  notes           String?
-}
-
-model Inventory {
-  id       Int         @id @default(autoincrement())
-  name     String
-  quantity String
-  time     String?
-  reportId Int
-  report   DailyReport @relation(fields: [reportId], references: [id], onDelete: Cascade)
-}
-
-model ProductTransfer {
-  id          Int         @id @default(autoincrement())
-  name        String
-  quantity    String
-  destination String
-  time        String?
-  reportId    Int
-  report      DailyReport @relation(fields: [reportId], references: [id], onDelete: Cascade)
-}
-
-model CashVerify {
-  id       Int         @id @default(autoincrement())
-  hours    String
-  value    String
-  time     String?
-  reportId Int
-  report   DailyReport @relation(fields: [reportId], references: [id], onDelete: Cascade)
-}
-
-model Tobacco {
-  id         Int         @id @default(autoincrement())
-  name       String
-  stock      Int         @default(0)
-  incoming   String?
-  outgoing   String?
-  finalStock Int
-  reportId   Int
-  report     DailyReport @relation(fields: [reportId], references: [id], onDelete: Cascade)
-}
-
-model Expense {
-  id       Int         @id @default(autoincrement())
-  name     String
-  sum      String
-  time     String?
-  reportId Int
-  report   DailyReport @relation(fields: [reportId], references: [id], onDelete: Cascade)
-}
-
 model DailyReportCucina {
   id    Int      @id @default(autoincrement())
   date  DateTime

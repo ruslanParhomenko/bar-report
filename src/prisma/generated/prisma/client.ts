@@ -29,8 +29,8 @@ export * from "./enums"
  * @example
  * ```
  * const prisma = new PrismaClient()
- * // Fetch zero or more DailyReports
- * const dailyReports = await prisma.dailyReport.findMany()
+ * // Fetch zero or more DailyReportCucinas
+ * const dailyReportCucinas = await prisma.dailyReportCucina.findMany()
  * ```
  * 
  * Read more in our [docs](https://pris.ly/d/client).
@@ -39,36 +39,6 @@ export const PrismaClient = $Class.getPrismaClientClass()
 export type PrismaClient<LogOpts extends Prisma.LogLevel = never, OmitOpts extends Prisma.PrismaClientOptions["omit"] = Prisma.PrismaClientOptions["omit"], ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = $Class.PrismaClient<LogOpts, OmitOpts, ExtArgs>
 export { Prisma }
 
-/**
- * Model DailyReport
- * 
- */
-export type DailyReport = Prisma.DailyReportModel
-/**
- * Model Inventory
- * 
- */
-export type Inventory = Prisma.InventoryModel
-/**
- * Model ProductTransfer
- * 
- */
-export type ProductTransfer = Prisma.ProductTransferModel
-/**
- * Model CashVerify
- * 
- */
-export type CashVerify = Prisma.CashVerifyModel
-/**
- * Model Tobacco
- * 
- */
-export type Tobacco = Prisma.TobaccoModel
-/**
- * Model Expense
- * 
- */
-export type Expense = Prisma.ExpenseModel
 /**
  * Model DailyReportCucina
  * 

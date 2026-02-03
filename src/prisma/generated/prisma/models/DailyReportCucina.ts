@@ -342,6 +342,22 @@ export type DailyReportCucinaScalarRelationFilter = {
   isNot?: Prisma.DailyReportCucinaWhereInput
 }
 
+export type DateTimeFieldUpdateOperationsInput = {
+  set?: Date | string
+}
+
+export type NullableStringFieldUpdateOperationsInput = {
+  set?: string | null
+}
+
+export type IntFieldUpdateOperationsInput = {
+  set?: number
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
 export type DailyReportCucinaCreateNestedOneWithoutShiftsInput = {
   create?: Prisma.XOR<Prisma.DailyReportCucinaCreateWithoutShiftsInput, Prisma.DailyReportCucinaUncheckedCreateWithoutShiftsInput>
   connectOrCreate?: Prisma.DailyReportCucinaCreateOrConnectWithoutShiftsInput

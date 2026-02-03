@@ -18,36 +18,6 @@ export { Prisma }
 export * as $Enums from './enums'
 export * from './enums';
 /**
- * Model DailyReport
- * 
- */
-export type DailyReport = Prisma.DailyReportModel
-/**
- * Model Inventory
- * 
- */
-export type Inventory = Prisma.InventoryModel
-/**
- * Model ProductTransfer
- * 
- */
-export type ProductTransfer = Prisma.ProductTransferModel
-/**
- * Model CashVerify
- * 
- */
-export type CashVerify = Prisma.CashVerifyModel
-/**
- * Model Tobacco
- * 
- */
-export type Tobacco = Prisma.TobaccoModel
-/**
- * Model Expense
- * 
- */
-export type Expense = Prisma.ExpenseModel
-/**
  * Model DailyReportCucina
  * 
  */

@@ -15,6 +15,7 @@ export default async function Page({
   if (!hasAccess) return <InsufficientRights />;
 
   const { month, year } = await searchParams;
+  if (!month || !year) return null;
   const unique_key = `${year}-${month}`;
   const unique_key_prev = getPrevUniqueKey(year!, month as Month);
 

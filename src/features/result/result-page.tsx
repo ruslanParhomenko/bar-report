@@ -37,14 +37,16 @@ export function PageResult({
     role,
   });
 
+  if (employees.length === 0)
+    return (
+      <div className="flex justify-center h-[30vh] items-center text-md font-bold text-rd">
+        not data
+      </div>
+    );
   return (
-    <Card className="md:mr-12 mt-4 md:ml-2">
-      <CardContent className="md:pl-10 md:pr-30">
-        <Table className={cn(employees.length === 0 && "hidden")}>
-          <ResultTableHeader />
-          <ResultTableBody rows={rows} totals={totals} />
-        </Table>
-      </CardContent>
-    </Card>
+    <Table className={cn(employees.length === 0 && "hidden")}>
+      <ResultTableHeader />
+      <ResultTableBody rows={rows} totals={totals} />
+    </Table>
   );
 }

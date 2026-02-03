@@ -36,9 +36,15 @@ export default function TableTobacco() {
       </TableHeader>
       <TableBody>
         {tobacco?.map((item, idx) => (
-          <TableRow key={idx} className="h-8!">
-            <TableCell className="px-2">{item.name}</TableCell>
-            <TableCell className="px-2">{item.stock}</TableCell>
+          <TableRow key={idx}>
+            <TableCell className="px-2 h-12">{item.name}</TableCell>
+            <TableCell className="px-2">
+              <NumericInput
+                fieldName={`tobacco.${idx}.stock`}
+                className="h-8 border-0! shadow-none"
+                disabled
+              />
+            </TableCell>
             <TableCell className="px-2">
               <NumericInput
                 fieldName={`tobacco.${idx}.incoming`}

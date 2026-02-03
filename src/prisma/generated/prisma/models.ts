@@ -8,12 +8,6 @@
  *
  * 🟢 You can import this file directly.
  */
-export type * from './models/DailyReport'
-export type * from './models/Inventory'
-export type * from './models/ProductTransfer'
-export type * from './models/CashVerify'
-export type * from './models/Tobacco'
-export type * from './models/Expense'
 export type * from './models/DailyReportCucina'
 export type * from './models/Shift'
 export type * from './models/Remain'

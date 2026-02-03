@@ -1,3 +1,4 @@
+import { CashVerifySchemaType } from "@/features/report/bar/schema";
 import {
   Table,
   TableBody,
@@ -7,12 +8,11 @@ import {
   TableRow,
 } from "../../ui/table";
 import { classNameHead, classNameRowBorder } from "./ReportBarTable";
-import { ReportBarType } from "@/app/actions/archive/reportBarAction";
 
 export default function CashVerifyTable({
   data,
 }: {
-  data: ReportBarType["cashVerify"];
+  data: CashVerifySchemaType[] | null;
 }) {
   return data ? (
     <Table>
@@ -29,7 +29,7 @@ export default function CashVerifyTable({
           {data
             ?.filter((c) => c.value !== "")
             .map((c) => (
-              <TableCell className="text-xs px-0 text-rd" key={`h-${c.id}`}>
+              <TableCell className="text-xs px-0 text-rd" key={`h-${c.hours}`}>
                 {c?.hours || "—"}
               </TableCell>
             ))}
@@ -38,7 +38,7 @@ export default function CashVerifyTable({
           {data
             ?.filter((c) => c.value !== "")
             .map((c) => (
-              <TableCell key={`v-${c.id}`}>{c.value || "—"}</TableCell>
+              <TableCell key={`v-${c.hours}`}>{c.value || "—"}</TableCell>
             ))}
         </TableRow>
       </TableBody>

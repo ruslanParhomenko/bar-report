@@ -1,37 +1,54 @@
 import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
-import { DeleteListButton } from "../../../features/archive/DeleteListButton";
-import { REPORT_BAR_ENDPOINT } from "@/constants/endpoint-tag";
 import TobaccoTable from "./TobaccoTable";
 import ExpensesTable from "./ExpensesTable";
 import ProductTransferTable from "./ProductTransferTable";
 import InventoryTable from "./InventoryTable";
 import CashVerifyTable from "./CashVerifyTable";
-import { ReportBarType } from "@/app/actions/archive/reportBarAction";
+
+import { ReportDataByUniqueKey } from "@/app/actions/report-bar/report-bar-action";
 
 export const classNameHead = "text-shadow-muted-foreground font-bold";
 export const classNameRowBorder = "border-b-bl";
-export default function ReportBarTable({ data }: { data: ReportBarType }) {
+export default function ReportBarTable({
+  data,
+}: {
+  data: ReportDataByUniqueKey | null;
+}) {
   return (
-    <Card className="shadow-md border rounded-2xl md:p-4 mb-4 bg-background!">
-      <CardHeader>
-        <CardTitle>
-          <DeleteListButton data={data} nameTag={REPORT_BAR_ENDPOINT} />
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="flex flex-col gap-4">
-        <div className="grid grid-cols-1 xl:grid-cols-4 gap-4">
-          <TobaccoTable data={data?.tobacco} />
-          <ExpensesTable data={data?.expenses} />
-          <ProductTransferTable data={data?.productTransfer} />
-          <InventoryTable data={data?.inventory} />
-        </div>
-        <div>
-          <CashVerifyTable data={data?.cashVerify} />
-          <div className={classNameHead}>
-            notes: <span className="text-rd text-xs px-4">{data?.notes}</span>
-          </div>
-        </div>
-      </CardContent>
-    </Card>
+    <>
+      {data &&
+        data?.data.map((item, index) => {
+          const reportData = item.report;
+          return (
+            <Card
+              key={index}
+              className="shadow-none border rounded-2xl md:p-4 mb-4 bg-background! m-2"
+            >
+              <CardHeader>
+                <CardTitle className="text-xs text-bl">
+                  day: {item.day}
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="flex flex-col gap-4">
+                <div className="grid grid-cols-1 xl:grid-cols-4 gap-4">
+                  <TobaccoTable data={reportData?.tobacco} />
+                  <ExpensesTable data={reportData?.expenses} />
+                  <ProductTransferTable data={reportData?.productTransfer} />
+                  <InventoryTable data={reportData?.inventory} />
+                </div>
+                <div>
+                  <CashVerifyTable data={reportData?.cashVerify} />
+                  <div className={classNameHead}>
+                    notes:{" "}
+                    <span className="text-rd text-xs px-4">
+                      {reportData?.notes}
+                    </span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          );
+        })}
+    </>
   );
 }

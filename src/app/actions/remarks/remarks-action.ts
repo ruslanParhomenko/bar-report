@@ -154,7 +154,7 @@ export async function realtimeRemarksList(data: RemarksFormData) {
     remarks: data.remarks,
   });
 
-  updateTag("remarks-realtime");
+  updateTag(REALTIME_DOC);
 }
 
 export async function _getRealtimeRemarksList() {
