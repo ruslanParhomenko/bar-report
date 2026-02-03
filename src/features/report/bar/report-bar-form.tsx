@@ -34,7 +34,6 @@ export default function ReportBarForm({
 }) {
   const { isBar, isAdmin } = useAbility();
 
-  //form
   const form = useForm<ReportBarFormValues>({
     defaultValues: realtimeData ? realtimeData : defaultValuesReportBar,
     resolver: zodResolver(reportBarSchema) as Resolver<ReportBarFormValues>,
