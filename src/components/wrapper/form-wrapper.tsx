@@ -13,6 +13,7 @@ export function FormWrapper({
   returnButton = false,
   resetForm,
   withButtons = true,
+  disabled = false,
   ...props
 }: {
   form: UseFormReturn<any>;
@@ -24,6 +25,7 @@ export function FormWrapper({
   returnButton?: boolean;
   resetForm?: () => void;
   withButtons?: boolean;
+  disabled?: boolean;
   [key: string]: any;
 }) {
   return (
@@ -42,6 +44,7 @@ export function FormWrapper({
             reset={resetButton}
             resetForm={resetForm}
             returnButton={returnButton}
+            isDisabled={disabled}
           />
         )}
       </form>

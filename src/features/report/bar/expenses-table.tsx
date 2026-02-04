@@ -17,7 +17,11 @@ import { Trash2Icon } from "lucide-react";
 import { useEffect } from "react";
 import { formatNow } from "@/utils/formatNow";
 
-export default function TableExpenses() {
+export default function TableExpenses({
+  disabled = false,
+}: {
+  disabled?: boolean;
+}) {
   const form = useFormContext();
 
   const reset = (idx: number) => {
@@ -28,7 +32,7 @@ export default function TableExpenses() {
         sum: "",
         time: "",
       },
-      { shouldDirty: true, shouldTouch: true }
+      { shouldDirty: true, shouldTouch: true },
     );
   };
   const fieldsValues = form.watch("expenses") as ExpensesSchemaType[];
@@ -66,18 +70,23 @@ export default function TableExpenses() {
                 data={RECIPIENTS}
                 fieldName={`expenses.${idx}.name`}
                 className="w-full h-8!"
+                disabled={disabled}
               />
             </TableCell>
             <TableCell>
               <NumericInput
                 fieldName={`expenses.${idx}.sum`}
                 className="w-20! h-8! text-center"
+                disabled={disabled}
               />
             </TableCell>
             <TableCell className="text-xs text-rd">
               {fieldsValues?.[idx]?.time}
             </TableCell>
-            <TableCell onClick={() => reset(idx)} className="cursor-pointer">
+            <TableCell
+              onClick={() => !disabled && reset(idx)}
+              className="cursor-pointer"
+            >
               {fieldsValues?.[idx]?.name && (
                 <Trash2Icon className="w-4 h-4 mx-2 text-rd" />
               )}

@@ -6,7 +6,7 @@ export function AddRemoveFieldsButton({
   formField,
   defaultValues,
   index,
-  disabled,
+  disabled = false,
   className,
 }: {
   formField: UseFieldArrayReturn<any>;
@@ -30,7 +30,7 @@ export function AddRemoveFieldsButton({
     <div
       className={cn(
         "flex gap-2 md:gap-6 justify-center items-start",
-        className
+        className,
       )}
     >
       {isOnlyOne || isLast ? (

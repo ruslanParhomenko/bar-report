@@ -94,7 +94,9 @@ export default function BreakTableBody({
             {row.name && (
               <TableCell
                 className="p-0 cursor-pointer"
-                onClick={() => form.setValue(`rows.${rowIndex}.name`, "")}
+                onClick={() =>
+                  !isDisabled && form.setValue(`rows.${rowIndex}.name`, "")
+                }
               >
                 <Trash2 className="w-4 h-4 text-rd" />
               </TableCell>

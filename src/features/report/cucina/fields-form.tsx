@@ -32,6 +32,7 @@ type RenderEmployeesTableProps = {
   dataArrayField2?: string[];
   dataArrayField3?: string[];
   defaultValue: {};
+  isDisabled?: boolean;
 };
 
 const RenderTableCucina = ({
@@ -42,6 +43,7 @@ const RenderTableCucina = ({
   dataArrayField2,
   dataArrayField3,
   defaultValue,
+  isDisabled = false,
 }: RenderEmployeesTableProps) => {
   const t = useTranslations("Home");
   const { field1, field2, field3, field4 } = placeHolder;
@@ -62,7 +64,7 @@ const RenderTableCucina = ({
           formatNow(),
           {
             shouldDirty: true,
-          }
+          },
         );
       }
     });
@@ -82,6 +84,7 @@ const RenderTableCucina = ({
                 fieldName={`${name}.${index}.${field1}`}
                 data={dataArrayField1 || []}
                 className="text-muted-foreground cursor-pointer border-0 shadow-none"
+                disabled={isDisabled}
               />
               {field2 && dataArrayField2 ? (
                 <SelectFieldWithSearch
@@ -89,12 +92,14 @@ const RenderTableCucina = ({
                   data={dataArrayField2}
                   placeHolder={"смена"}
                   className="justify-center text-muted-foreground border-0 shadow-none"
+                  disabled={isDisabled}
                 />
               ) : (
                 <NumericInput
                   fieldName={`${name}.${index}.${field2}`}
                   placeholder="...порции"
                   className="text-muted-foreground w-30 border-0 shadow-none"
+                  disabled={isDisabled}
                 />
               )}
               {field3 && dataArrayField3 ? (
@@ -103,12 +108,14 @@ const RenderTableCucina = ({
                   data={dataArrayField3}
                   placeHolder={field3 ? t(field3) : ""}
                   className="justify-center text-muted-foreground border-0 shadow-none"
+                  disabled={isDisabled}
                 />
               ) : (
                 <NumericInput
                   fieldName={`${name}.${index}.${field3}`}
                   placeholder="...вес"
                   className="text-muted-foreground w-30 border-0 shadow-none"
+                  disabled={isDisabled}
                 />
               )}
               <div className="text-sm text-red-600 flex items-center justify-center md:w-10 w-8 h-8">
@@ -120,6 +127,7 @@ const RenderTableCucina = ({
               formField={fieldsArray}
               defaultValues={defaultValue}
               index={index}
+              disabled={isDisabled}
             />
           </div>
         );

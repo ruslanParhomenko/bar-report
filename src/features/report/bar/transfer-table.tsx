@@ -16,7 +16,11 @@ import { Trash2Icon } from "lucide-react";
 import { useEffect } from "react";
 import { formatNow } from "@/utils/formatNow";
 
-export default function TableProductsTransfer() {
+export default function TableProductsTransfer({
+  disabled = false,
+}: {
+  disabled?: boolean;
+}) {
   const form = useFormContext();
 
   const reset = (idx: number) => {
@@ -28,11 +32,11 @@ export default function TableProductsTransfer() {
         quantity: "",
         time: "",
       },
-      { shouldDirty: true, shouldTouch: true }
+      { shouldDirty: true, shouldTouch: true },
     );
   };
   const fieldsValues = form.watch(
-    "productTransfer"
+    "productTransfer",
   ) as ProductTransferSchemaType[];
 
   useEffect(() => {
@@ -69,6 +73,7 @@ export default function TableProductsTransfer() {
                 data={PRODUCTS}
                 fieldName={`productTransfer.${idx}.name`}
                 className="h-8 w-full text-center"
+                disabled={disabled}
               />
             </TableCell>
             <TableCell>
@@ -76,18 +81,23 @@ export default function TableProductsTransfer() {
                 fieldName={`productTransfer.${idx}.destination`}
                 data={WAREHOUSES}
                 className="w-full text-center h-8! p-2"
+                disabled={disabled}
               />
             </TableCell>
             <TableCell className="flex items-center justify-center">
               <NumericInput
                 fieldName={`productTransfer.${idx}.quantity`}
                 className="w-10 text-center h-8!"
+                disabled={disabled}
               />
             </TableCell>
             <TableCell className="text-xs text-rd">
               {fieldsValues?.[idx]?.time}
             </TableCell>
-            <TableCell onClick={() => reset(idx)} className="cursor-pointer">
+            <TableCell
+              onClick={() => !disabled && reset(idx)}
+              className="cursor-pointer"
+            >
               {fieldsValues?.[idx]?.name && (
                 <Trash2Icon className="w-4 h-4 mx-2 text-rd" />
               )}

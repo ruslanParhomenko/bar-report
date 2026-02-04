@@ -33,6 +33,7 @@ export default function ReportBarForm({
   realtimeData?: ReportBarFormValues;
 }) {
   const { isBar, isAdmin } = useAbility();
+  const isDisabled = !(isAdmin || isBar);
 
   const form = useForm<ReportBarFormValues>({
     defaultValues: realtimeData ? realtimeData : defaultValuesReportBar,
@@ -115,7 +116,12 @@ export default function ReportBarForm({
   };
 
   return (
-    <FormWrapper form={form} onSubmit={onSubmit} className="gap-6">
+    <FormWrapper
+      form={form}
+      onSubmit={onSubmit}
+      className="gap-6"
+      disabled={isDisabled}
+    >
       <div className="flex w-full justify-end">
         <DatePickerInput
           fieldName="date"
@@ -125,18 +131,19 @@ export default function ReportBarForm({
       </div>
 
       <div className="grid grid-cols-1 xl:grid-cols-[22%_20%_26%_20%] xl:justify-between">
-        <TableTobacco />
-        <TableExpenses />
-        <TableProductsTransfer />
-        <TableInventory />
+        <TableTobacco disabled={isDisabled} />
+        <TableExpenses disabled={isDisabled} />
+        <TableProductsTransfer disabled={isDisabled} />
+        <TableInventory disabled={isDisabled} />
       </div>
       <Textarea
         placeholder="notes ..."
         {...form.register("notes")}
         className="resize-none"
+        disabled={isDisabled}
       />
 
-      <TableCashVerify />
+      <TableCashVerify disabled={isDisabled} />
     </FormWrapper>
   );
 }

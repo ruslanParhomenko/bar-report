@@ -13,7 +13,11 @@ import { useFormContext } from "react-hook-form";
 import { useEffect } from "react";
 import { formatNow } from "@/utils/formatNow";
 
-export default function TableCashVerify() {
+export default function TableCashVerify({
+  disabled = false,
+}: {
+  disabled?: boolean;
+}) {
   const form = useFormContext();
   const fieldsValues = form.watch("cashVerify") as CashVerifySchemaType[];
   useEffect(() => {
@@ -35,6 +39,7 @@ export default function TableCashVerify() {
                 <NumericInput
                   fieldName={`cashVerify.${idx}.value`}
                   className="w-full text-center"
+                  disabled={disabled}
                 />
               </TableCell>
             ))}

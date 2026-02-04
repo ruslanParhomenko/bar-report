@@ -11,7 +11,11 @@ import { defaultTobaccoValue, TobaccoSchemaType } from "./schema";
 import { useFormContext, useWatch } from "react-hook-form";
 import NumericInput from "@/components/inputs/NumericInput";
 
-export default function TableTobacco() {
+export default function TableTobacco({
+  disabled = false,
+}: {
+  disabled?: boolean;
+}) {
   const { control } = useFormContext();
   const tobacco = (useWatch({
     name: "tobacco",
@@ -49,12 +53,14 @@ export default function TableTobacco() {
               <NumericInput
                 fieldName={`tobacco.${idx}.incoming`}
                 className="h-8"
+                disabled={disabled}
               />
             </TableCell>
             <TableCell className="px-2">
               <NumericInput
                 fieldName={`tobacco.${idx}.outgoing`}
                 className="h-8"
+                disabled={disabled}
               />
             </TableCell>
             <TableCell className="px-2">

@@ -15,7 +15,7 @@ import { useEffect } from "react";
 import { formatNow } from "@/utils/formatNow";
 import { INVENTORY_DATA } from "./constants";
 
-export function TableInventory() {
+export function TableInventory({ disabled = false }: { disabled?: boolean }) {
   const form = useFormContext();
 
   const reset = (idx: number) => {
@@ -71,13 +71,17 @@ export function TableInventory() {
               <NumericInput
                 fieldName={`inventory.${idx}.quantity`}
                 className="w-10! text-center h-8!"
+                disabled={disabled}
               />
             </TableCell>
             <TableCell className="text-xs text-rd">
               {fieldsValues?.[idx]?.time}
             </TableCell>
 
-            <TableCell onClick={() => reset(idx)} className="cursor-pointer">
+            <TableCell
+              onClick={() => !disabled && reset(idx)}
+              className="cursor-pointer"
+            >
               {fieldsValues?.[idx]?.quantity && (
                 <Trash2Icon className="w-4 h-4 mx-2 text-rd" />
               )}

@@ -46,6 +46,7 @@ export default function ReportCucinaForm({
   realtimeData?: ReportCucinaType;
 }) {
   const { isCucina, isAdmin } = useAbility();
+  const isDisabled = !(isAdmin || isCucina);
   //employees
   const employees = useEmployees()
     .filter((emp) => CUCINA_EMPLOYEES.includes(emp.role))
@@ -102,6 +103,7 @@ export default function ReportCucinaForm({
       form={form}
       onSubmit={onSubmit}
       className="w-full  md:mx-auto md:max-w-6xl"
+      disabled={isDisabled}
     >
       <div className="flex w-full justify-end">
         <DatePickerInput
@@ -123,6 +125,7 @@ export default function ReportCucinaForm({
         dataArrayField2={SELECT_TIME}
         dataArrayField3={OVER_HOURS}
         defaultValue={defaultShift}
+        isDisabled={isDisabled}
       />
 
       <RenderTableCucina
@@ -136,6 +139,7 @@ export default function ReportCucinaForm({
         }}
         dataArrayField1={REMAINS_PRODUCTS}
         defaultValue={productPreparedDefault}
+        isDisabled={isDisabled}
       />
 
       <RenderTableCucina
@@ -153,6 +157,7 @@ export default function ReportCucinaForm({
           ...PRODUCTS_SOUP,
         ]}
         defaultValue={productPreparedDefault}
+        isDisabled={isDisabled}
       />
 
       <RenderTableCucina
@@ -166,6 +171,7 @@ export default function ReportCucinaForm({
         }}
         dataArrayField1={PRODUCTS_MEAT}
         defaultValue={productPreparedDefault}
+        isDisabled={isDisabled}
       />
 
       <RenderTableCucina
@@ -179,6 +185,7 @@ export default function ReportCucinaForm({
         }}
         dataArrayField1={PRODUCTS_DESSERT}
         defaultValue={productPreparedDefault}
+        isDisabled={isDisabled}
       />
 
       <RenderTableCucina
@@ -192,6 +199,7 @@ export default function ReportCucinaForm({
         }}
         dataArrayField1={[...PRODUCTS_SEMIFINISHED, ...PRODUCTS_MEAT_FISH]}
         defaultValue={productPreparedDefault}
+        isDisabled={isDisabled}
       />
 
       <RenderTableCucina
@@ -205,6 +213,7 @@ export default function ReportCucinaForm({
         }}
         dataArrayField1={PRODUCTS_STAFF}
         defaultValue={productPreparedDefault}
+        isDisabled={isDisabled}
       />
 
       <RenderTableCucina
@@ -218,9 +227,14 @@ export default function ReportCucinaForm({
         dataArrayField1={PRODUCTS_INGREDIENTS}
         dataArrayField3={REASON}
         defaultValue={defaultWriteOff}
+        isDisabled={isDisabled}
       />
 
-      <Textarea placeholder="notes ..." {...form.register("notes")} />
+      <Textarea
+        placeholder="notes ..."
+        {...form.register("notes")}
+        disabled={isDisabled}
+      />
     </FormWrapper>
   );
 }
