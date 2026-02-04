@@ -7,13 +7,9 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { classNameRowBorder } from "../report-bar-table/ReportBarTable";
-import { ReportCucinaData } from "@/app/actions/archive/reportCucinaAction";
+import { ProductPreparedType } from "@/features/report/cucina/schema";
 
-export default function StaffTable({
-  data,
-}: {
-  data: ReportCucinaData["staff"];
-}) {
+export default function StaffTable({ data }: { data: ProductPreparedType[] }) {
   return (
     data && (
       <Table>

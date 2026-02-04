@@ -10,12 +10,12 @@ import {
   classNameHeadCucina,
   classNameRowBorderCucina,
 } from "./ReportCucinaTable";
-import { ReportCucinaData } from "@/app/actions/archive/reportCucinaAction";
+import { ProductPreparedType } from "@/features/report/cucina/schema";
 
 export default function RemainsTable({
   data,
 }: {
-  data: ReportCucinaData["remains"];
+  data: ProductPreparedType[];
 }) {
   return (
     data && (
@@ -33,6 +33,7 @@ export default function RemainsTable({
               <TableCell>{r.product}</TableCell>
               <TableCell>{r.portions}</TableCell>
               <TableCell>{r.weight}</TableCell>
+              <TableCell>{r.time}</TableCell>
             </TableRow>
           ))}
         </TableBody>

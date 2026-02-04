@@ -7,6 +7,7 @@ export function FormWrapper({
   form,
   children,
   onSubmit,
+  onError,
   className,
   resetButton = false,
   returnButton = false,
@@ -17,6 +18,7 @@ export function FormWrapper({
   form: UseFormReturn<any>;
   children: React.ReactNode;
   onSubmit?: SubmitHandler<any>;
+  onError?: (errors: any) => void;
   className?: string;
   resetButton?: boolean;
   returnButton?: boolean;
@@ -27,7 +29,10 @@ export function FormWrapper({
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit(onSubmit || (() => {}))}
+        onSubmit={form.handleSubmit(
+          onSubmit || (() => {}),
+          onError || (() => {}),
+        )}
         className={cn("flex flex-col h-[93vh]", className)}
         {...props}
       >

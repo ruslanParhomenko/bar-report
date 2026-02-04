@@ -7,12 +7,12 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { classNameRowBorder } from "../report-bar-table/ReportBarTable";
-import { ReportCucinaData } from "@/app/actions/archive/reportCucinaAction";
+import { ReportWriteOffType } from "@/features/report/cucina/schema";
 
 export default function WriteOffTable({
   data,
 }: {
-  data: ReportCucinaData["writeOff"];
+  data: ReportWriteOffType[];
 }) {
   return (
     data && (

@@ -1,6 +1,8 @@
 import { z } from "zod";
 
-const numericStringSchema = z.string().default("");
+const numericStringSchema = z
+  .string()
+  .regex(/^$|^-?\d+(\.\d+)?$/, "число, точка и минус");
 
 export const supplierRowSchema = z.object({
   start: numericStringSchema,

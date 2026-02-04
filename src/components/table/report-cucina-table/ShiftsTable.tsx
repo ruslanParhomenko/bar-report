@@ -8,13 +8,9 @@ import {
 } from "@/components/ui/table";
 import { classNameRowBorder } from "../report-bar-table/ReportBarTable";
 import { classNameHeadCucina } from "./ReportCucinaTable";
-import { ReportCucinaData } from "@/app/actions/archive/reportCucinaAction";
+import { ReportShiftType } from "@/features/report/cucina/schema";
 
-export default function ShiftsTable({
-  data,
-}: {
-  data: ReportCucinaData["shifts"];
-}) {
+export default function ShiftsTable({ data }: { data: ReportShiftType[] }) {
   return (
     data && (
       <Table>
@@ -26,8 +22,8 @@ export default function ShiftsTable({
           </TableRow>
         </TableHeader>
         <TableBody>
-          {data?.map((shift) => (
-            <TableRow key={shift.id}>
+          {data?.map((shift, idx) => (
+            <TableRow key={idx}>
               <TableCell>{shift.employees}</TableCell>
               <TableCell>{shift.time}</TableCell>
               <TableCell>{shift.over}</TableCell>

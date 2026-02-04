@@ -1,5 +1,5 @@
 "use client";
-import { Resolver, useForm } from "react-hook-form";
+import { Resolver, useForm, useWatch } from "react-hook-form";
 import { Textarea } from "@/components/ui/textarea";
 import DatePickerInput from "@/components/inputs/DatePickerInput";
 import {
@@ -26,20 +26,26 @@ import {
   REMAINS_PRODUCTS,
   SELECT_TIME,
 } from "./constants";
-import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import RenderTableCucina from "./fields-form";
-import { REPORT_CUCINA_ENDPOINT } from "@/constants/endpoint-tag";
 
 import { useEmployees } from "@/providers/EmployeesProvider";
-import { createReportCucina } from "@/app/actions/archive/reportCucinaAction";
 import { FormWrapper } from "@/components/wrapper/form-wrapper";
-import { useLocalStorageForm } from "@/hooks/useLocalStorageForm";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect } from "react";
+import { useAbility } from "@/providers/AbilityProvider";
+import {
+  createReportCucina,
+  realtimeReportCucina,
+} from "@/app/actions/report-cucina/report-cucina-action";
+import { MONTHS } from "@/utils/getMonthDays";
 
-export default function ReportCucinaForm() {
-  const t = useTranslations("Home");
-
+export default function ReportCucinaForm({
+  realtimeData,
+}: {
+  realtimeData?: ReportCucinaType;
+}) {
+  const { isCucina, isAdmin } = useAbility();
   //employees
   const employees = useEmployees()
     .filter((emp) => CUCINA_EMPLOYEES.includes(emp.role))
@@ -47,51 +53,62 @@ export default function ReportCucinaForm() {
 
   //form
   const form = useForm<ReportCucinaType>({
-    defaultValues: schemaReportCucina.parse({}),
+    defaultValues: realtimeData ? realtimeData : defaultReportCucina,
     resolver: zodResolver(schemaReportCucina) as Resolver<ReportCucinaType>,
   });
 
-  // localstorage
-  const { isLoaded, resetForm } = useLocalStorageForm(
-    form,
-    REPORT_CUCINA_ENDPOINT,
-  );
+  const reportValues = useWatch({
+    control: form.control,
+  });
 
-  const resetFormHandler = () => {
-    resetForm(defaultReportCucina);
-    toast.success("Форма успешно очищена!");
-  };
+  useEffect(() => {
+    if (!isCucina) return;
+    const timeoutRef = { current: null as NodeJS.Timeout | null };
+
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+
+    timeoutRef.current = setTimeout(() => {
+      const data = form.getValues() as ReportCucinaType;
+
+      realtimeReportCucina(data).catch(console.error);
+      toast.info("Автосохранение отчёта ...", { duration: 4000 });
+    }, 7000);
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    };
+  }, [reportValues]);
 
   const onSubmit = async (data: ReportCucinaType) => {
-    console.log("data onSubmit", data);
+    const { date, ...rest } = data;
+    const dateValue = new Date(date);
+    const month = MONTHS[dateValue.getMonth()];
+    const year = dateValue.getFullYear().toString();
+    const day = dateValue.getDate().toLocaleString();
+    const uniqueKey = `${year}-${month}`;
     try {
-      await createReportCucina({ data: data });
+      await createReportCucina(uniqueKey, year, month, { day, report: rest });
 
-      resetForm(defaultReportCucina);
+      await realtimeReportCucina(defaultReportCucina);
+
+      form.reset(defaultReportCucina);
       toast.success("Форма успешно отправлена!");
     } catch (error: any) {
       toast.error(error?.message || "Произошла ошибка");
     }
   };
 
-  if (!isLoaded) {
-    return (
-      <div className="w-full h-full flex justify-center items-center">
-        ...loading
-      </div>
-    );
-  }
-
   return (
     <FormWrapper
       form={form}
       onSubmit={onSubmit}
       className="w-full  md:mx-auto md:max-w-6xl"
-      resetButton={true}
-      resetForm={resetFormHandler}
     >
       <div className="flex w-full justify-end">
-        <DatePickerInput fieldName="date" className="text-sm h-8 text-rd" />
+        <DatePickerInput
+          fieldName="date"
+          className="text-sm h-8 text-rd"
+          disabled={!isAdmin}
+        />
       </div>
 
       <RenderTableCucina

@@ -1,7 +1,4 @@
 {
-  "[prisma]": {
-    "editor.defaultFormatter": "Prisma.prisma"
-  },
   "cSpell.words": [
     "cmdk",
     "Cucina",
@@ -14,6 +11,5 @@
   "cSpell.language": "en,ru,ro",
   "cSpell.checkStrings": true,
   "cSpell.checkComments": true,
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "prisma.pinToPrisma6": true
+  "editor.defaultFormatter": "esbenp.prettier-vscode"
 }

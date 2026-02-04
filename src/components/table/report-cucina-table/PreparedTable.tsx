@@ -7,12 +7,12 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { classNameRowBorder } from "../report-bar-table/ReportBarTable";
-import { ReportCucinaData } from "@/app/actions/archive/reportCucinaAction";
+import { ProductPreparedType } from "@/features/report/cucina/schema";
 
 export default function PreparedTable({
   data,
 }: {
-  data: ReportCucinaData["prepared"];
+  data: ProductPreparedType[];
 }) {
   return data ? (
     <Table>

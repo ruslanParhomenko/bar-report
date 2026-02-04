@@ -25,6 +25,7 @@ export const suppliers = [
   "lux-proba",
   "macelarie",
   "melion-prim",
+  "melitax",
   "metro",
   "papagrill",
   "premier-d",

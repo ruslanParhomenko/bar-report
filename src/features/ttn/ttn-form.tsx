@@ -3,9 +3,10 @@ import { DayByMonthTable } from "@/components/table/day-by-month-table";
 import { Table } from "@/components/ui/table";
 import { FormWrapper } from "@/components/wrapper/form-wrapper";
 import { getMonthDays } from "@/utils/getMonthDays";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { FieldErrors, SubmitHandler, useForm } from "react-hook-form";
 import TTNBodyTable from "./ttn-body-table";
 import {
+  defaultSuppliersForm,
   SuppliersFormType,
   SuppliersFormTypeInput,
   suppliersSchema,
@@ -39,8 +40,14 @@ export default function TTNForm({
 
   const form = useForm<SuppliersFormTypeInput>({
     resolver: zodResolver(suppliersSchema),
-    defaultValues: suppliersSchema.parse(dataTtn ?? {}),
+    defaultValues: dataTtn ? dataTtn : defaultSuppliersForm,
   });
+
+  const onError = (errors: FieldErrors<SuppliersFormTypeInput>) => {
+    toast.error(
+      "Ошибка: проверьте числовые поля (допустимы только цифры и точка)",
+    );
+  };
 
   const onSubmit: SubmitHandler<SuppliersFormType> = async (data) => {
     const formatData = { ...data, month, year, unique_key: `${year}-${month}` };
@@ -65,6 +72,7 @@ export default function TTNForm({
         s,
         {
           start: "",
+          final: "",
           minus: Array(monthDays.length).fill(""),
           plus: Array(monthDays.length).fill(""),
         },
@@ -91,7 +99,12 @@ export default function TTNForm({
     });
   }, [dataTtnPrev, month, year, form]);
   return (
-    <FormWrapper form={form} onSubmit={onSubmit} withButtons={isAdmin}>
+    <FormWrapper
+      form={form}
+      onSubmit={onSubmit}
+      onError={onError}
+      withButtons={isAdmin}
+    >
       <Table>
         <DayByMonthTable month={month} monthDays={monthDays} infoCell={true} />
         <TTNBodyTable
