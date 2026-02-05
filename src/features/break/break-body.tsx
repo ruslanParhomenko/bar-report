@@ -8,6 +8,7 @@ import SelectField from "@/components/inputs/SelectField";
 import { cn } from "@/lib/utils";
 import { Trash2 } from "lucide-react";
 import { useAbility } from "@/providers/AbilityProvider";
+import { RealtimeData } from "../report/bar/report-bar-form";
 
 export default function BreakTableBody({
   employeesName,
@@ -17,11 +18,11 @@ export default function BreakTableBody({
   const { isAdmin, isBar } = useAbility();
   const isDisabled = !isAdmin && !isBar;
 
-  const form = useFormContext<BreakFormData>();
+  const form = useFormContext<RealtimeData>();
 
   const dataRows = useWatch({
     control: form.control,
-    name: "rows",
+    name: "breakForm.rows",
   });
 
   return (
@@ -51,7 +52,9 @@ export default function BreakTableBody({
 
             <TableCell className="sticky left-0 z-10 text-left p-0">
               <SelectField
-                fieldName={`rows.${rowIndex}.name` as Path<BreakFormData>}
+                fieldName={
+                  `breakForm.rows.${rowIndex}.name` as Path<BreakFormData>
+                }
                 data={employeesName}
                 placeHolder="..."
                 className={cn(
@@ -75,7 +78,7 @@ export default function BreakTableBody({
                   {isView ? (
                     <SelectField
                       fieldName={
-                        `rows.${rowIndex}.hours.${timeIndex}` as Path<BreakFormData>
+                        `breakForm.rows.${rowIndex}.hours.${timeIndex}` as Path<BreakFormData>
                       }
                       data={MINUTES_SELECT}
                       className={cn(
@@ -95,7 +98,8 @@ export default function BreakTableBody({
               <TableCell
                 className="p-0 cursor-pointer"
                 onClick={() =>
-                  !isDisabled && form.setValue(`rows.${rowIndex}.name`, "")
+                  !isDisabled &&
+                  form.setValue(`breakForm.rows.${rowIndex}.name`, "")
                 }
               >
                 <Trash2 className="w-4 h-4 text-rd" />

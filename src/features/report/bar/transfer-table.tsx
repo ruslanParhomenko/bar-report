@@ -25,7 +25,7 @@ export default function TableProductsTransfer({
 
   const reset = (idx: number) => {
     form.setValue(
-      `productTransfer.${idx}`,
+      `report.productTransfer.${idx}`,
       {
         name: "",
         destination: "",
@@ -36,13 +36,13 @@ export default function TableProductsTransfer({
     );
   };
   const fieldsValues = form.watch(
-    "productTransfer",
+    "report.productTransfer",
   ) as ProductTransferSchemaType[];
 
   useEffect(() => {
     fieldsValues?.forEach((item, idx) => {
       if (item?.quantity && item?.destination && item?.name && !item?.time) {
-        form.setValue(`productTransfer.${idx}.time`, formatNow(), {
+        form.setValue(`report.productTransfer.${idx}.time`, formatNow(), {
           shouldDirty: true,
         });
       }
@@ -71,14 +71,14 @@ export default function TableProductsTransfer({
             <TableCell>
               <SelectFieldWithSearch
                 data={PRODUCTS}
-                fieldName={`productTransfer.${idx}.name`}
+                fieldName={`report.productTransfer.${idx}.name`}
                 className="h-8 w-full text-center"
                 disabled={disabled}
               />
             </TableCell>
             <TableCell>
               <SelectField
-                fieldName={`productTransfer.${idx}.destination`}
+                fieldName={`report.productTransfer.${idx}.destination`}
                 data={WAREHOUSES}
                 className="w-full text-center h-8! p-2"
                 disabled={disabled}
@@ -86,7 +86,7 @@ export default function TableProductsTransfer({
             </TableCell>
             <TableCell className="flex items-center justify-center">
               <NumericInput
-                fieldName={`productTransfer.${idx}.quantity`}
+                fieldName={`report.productTransfer.${idx}.quantity`}
                 className="w-10 text-center h-8!"
                 disabled={disabled}
               />

@@ -1,5 +1,8 @@
 import { z } from "zod";
 import { INVENTORY_DATA, LIST_TOBACCO } from "./constants";
+import { remarksSchema } from "@/features/penalty/schema";
+import { breakSchema } from "@/features/break/schema";
+import BreakForm from "@/features/break/break-form";
 
 // products transfer
 export const productTransferSchema = z.object({
@@ -12,7 +15,7 @@ export const productTransferSchema = z.object({
 export type ProductTransferSchemaType = z.infer<typeof productTransferSchema>;
 
 export const productTransferDefault = Array.from({ length: 8 }, () =>
-  productTransferSchema.parse({})
+  productTransferSchema.parse({}),
 );
 
 // inventory
@@ -39,7 +42,7 @@ export const expenseSchema = z.object({
 export type ExpensesSchemaType = z.infer<typeof expenseSchema>;
 
 export const expensesDefault = Array.from({ length: 8 }, () =>
-  expenseSchema.parse({})
+  expenseSchema.parse({}),
 );
 
 // tobacco
@@ -69,7 +72,7 @@ export const cashVerifySchema = z.object({
 export type CashVerifySchemaType = z.infer<typeof cashVerifySchema>;
 
 export const cashVerifyDefault = Array.from({ length: 24 }, () =>
-  cashVerifySchema.parse({})
+  cashVerifySchema.parse({}),
 );
 
 // report bar
@@ -97,3 +100,9 @@ export const defaultValuesReportBar: ReportBarFormValues = {
   inventory: inventoryDefault,
   notes: "",
 };
+
+export const barSchema = z.object({
+  report: reportBarSchema,
+  penalty: remarksSchema,
+  breakForm: breakSchema,
+});

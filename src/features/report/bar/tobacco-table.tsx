@@ -18,7 +18,7 @@ export default function TableTobacco({
 }) {
   const { control } = useFormContext();
   const tobacco = (useWatch({
-    name: "tobacco",
+    name: "report.tobacco",
     control,
   }) as TobaccoSchemaType[]) || [defaultTobaccoValue];
 
@@ -44,21 +44,21 @@ export default function TableTobacco({
             <TableCell className="px-2 h-12">{item.name}</TableCell>
             <TableCell className="px-2">
               <NumericInput
-                fieldName={`tobacco.${idx}.stock`}
+                fieldName={`report.tobacco.${idx}.stock`}
                 className="h-8 border-0! shadow-none"
                 disabled
               />
             </TableCell>
             <TableCell className="px-2">
               <NumericInput
-                fieldName={`tobacco.${idx}.incoming`}
+                fieldName={`report.tobacco.${idx}.incoming`}
                 className="h-8"
                 disabled={disabled}
               />
             </TableCell>
             <TableCell className="px-2">
               <NumericInput
-                fieldName={`tobacco.${idx}.outgoing`}
+                fieldName={`report.tobacco.${idx}.outgoing`}
                 className="h-8"
                 disabled={disabled}
               />

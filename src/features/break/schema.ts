@@ -18,7 +18,7 @@ export const breakSchema = z.object({
 });
 export type BreakFormData = z.input<typeof breakSchema>;
 
-export const defaultValuesBrake: BreakFormData = {
+export const defaultValuesBreak: BreakFormData = {
   date: new Date(),
   rows: BREAK_LIST_DEFAULT as z.infer<typeof rowsSchema>[],
 };

@@ -19,11 +19,13 @@ export default function TableCashVerify({
   disabled?: boolean;
 }) {
   const form = useFormContext();
-  const fieldsValues = form.watch("cashVerify") as CashVerifySchemaType[];
+  const fieldsValues = form.watch(
+    "report.cashVerify",
+  ) as CashVerifySchemaType[];
   useEffect(() => {
     fieldsValues?.forEach((item, idx) => {
       if (item?.value && !item?.hours) {
-        form.setValue(`cashVerify.${idx}.hours`, formatNow(), {
+        form.setValue(`report.cashVerify.${idx}.hours`, formatNow(), {
           shouldDirty: true,
         });
       }
@@ -34,10 +36,10 @@ export default function TableCashVerify({
       <Table className="w-full md:table-fixed">
         <TableBody>
           <TableRow>
-            {fieldsValues.map((_hour, idx) => (
+            {fieldsValues?.map((_hour, idx) => (
               <TableCell key={idx} className=" text-center">
                 <NumericInput
-                  fieldName={`cashVerify.${idx}.value`}
+                  fieldName={`report.cashVerify.${idx}.value`}
                   className="w-full text-center"
                   disabled={disabled}
                 />

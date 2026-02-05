@@ -12,7 +12,7 @@ export default function BreakTableHeader() {
         <TableHead className="w-7"></TableHead>
         <TableHead className="w-26">
           <DatePickerInput
-            fieldName="date"
+            fieldName="breakForm.date"
             className="text-md text-rd"
             disabled
           />

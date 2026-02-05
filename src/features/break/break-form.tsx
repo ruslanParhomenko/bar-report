@@ -1,7 +1,7 @@
 "use client";
 import { useEffect } from "react";
 import { useForm, SubmitHandler, useWatch } from "react-hook-form";
-import { BreakFormData, breakSchema, defaultValuesBrake } from "./schema";
+import { BreakFormData, breakSchema, defaultValuesBreak } from "./schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   realtimeBreakList,
@@ -27,7 +27,7 @@ export default function BreakForm({
           date: new Date(defaultValues.date),
           rows: defaultValues.rows,
         }
-      : defaultValuesBrake,
+      : defaultValuesBreak,
   });
 
   const rowsUse = useWatch({
@@ -70,7 +70,7 @@ export default function BreakForm({
     try {
       await createBreakList(formattedData);
       toast.success("Брейк-лист успешно сохранён !");
-      form.reset({ ...defaultValuesBrake, date: new Date() });
+      form.reset({ ...defaultValuesBreak, date: new Date() });
     } catch (e) {
       toast.error("Ошибка при сохранении брейк-листа");
     }

@@ -26,7 +26,7 @@ export default function TableExpenses({
 
   const reset = (idx: number) => {
     form.setValue(
-      `expenses.${idx}`,
+      `report.expenses.${idx}`,
       {
         name: "",
         sum: "",
@@ -35,12 +35,12 @@ export default function TableExpenses({
       { shouldDirty: true, shouldTouch: true },
     );
   };
-  const fieldsValues = form.watch("expenses") as ExpensesSchemaType[];
+  const fieldsValues = form.watch("report.expenses") as ExpensesSchemaType[];
 
   useEffect(() => {
     fieldsValues?.forEach((item, idx) => {
       if (item?.sum && item?.name && !item?.time) {
-        form.setValue(`expenses.${idx}.time`, formatNow(), {
+        form.setValue(`report.expenses.${idx}.time`, formatNow(), {
           shouldDirty: true,
         });
       }
@@ -68,14 +68,14 @@ export default function TableExpenses({
             <TableCell>
               <SelectField
                 data={RECIPIENTS}
-                fieldName={`expenses.${idx}.name`}
+                fieldName={`report.expenses.${idx}.name`}
                 className="w-full h-8!"
                 disabled={disabled}
               />
             </TableCell>
             <TableCell>
               <NumericInput
-                fieldName={`expenses.${idx}.sum`}
+                fieldName={`report.expenses.${idx}.sum`}
                 className="w-20! h-8! text-center"
                 disabled={disabled}
               />

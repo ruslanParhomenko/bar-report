@@ -8,7 +8,7 @@ export function PenaltyTableHeader() {
         <TableCell className="w-8"></TableCell>
         <TableCell className="w-38">
           <DatePickerInput
-            fieldName="date"
+            fieldName="penalty.date"
             className="text-md text-rd"
             disabled
           />

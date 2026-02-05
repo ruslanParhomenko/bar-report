@@ -12,6 +12,7 @@ import { useParams } from "next/navigation";
 import TextInput from "@/components/inputs/TextInput";
 import { cn } from "@/lib/utils";
 import { useAbility } from "@/providers/AbilityProvider";
+import { RealtimeData } from "../report/bar/report-bar-form";
 
 export function PenaltyTableBody() {
   const { isAdmin, isBar, isManager } = useAbility();
@@ -21,7 +22,7 @@ export function PenaltyTableBody() {
   const employees = useEmployees();
   const selectedEmployees = employees.map((e) => e.name);
 
-  const { control, reset } = useFormContext<RemarksFormData>();
+  const { control, reset } = useFormContext<RealtimeData>();
 
   const {
     fields: dataRemarks,
@@ -29,8 +30,9 @@ export function PenaltyTableBody() {
     remove,
   } = useFieldArray({
     control: control,
-    name: "remarks",
+    name: "penalty.remarks",
   });
+  console.log("dataRemarks", dataRemarks);
   return (
     <TableBody>
       {dataRemarks.map((item, idx) => (
@@ -38,7 +40,7 @@ export function PenaltyTableBody() {
           <TableCell>{idx + 1}</TableCell>
           <TableCell>
             <SelectField
-              fieldName={`remarks.${idx}.name`}
+              fieldName={`penalty.remarks.${idx}.name`}
               placeHolder="..."
               data={selectedEmployees}
               className="border-0 shadow-none"
@@ -47,40 +49,40 @@ export function PenaltyTableBody() {
           </TableCell>
           <TableCell>
             <NumericInput
-              fieldName={`remarks.${idx}.dayHours`}
+              fieldName={`penalty.remarks.${idx}.dayHours`}
               className="justify-center"
               disabled={isDisabled}
             />
           </TableCell>
           <TableCell>
             <NumericInput
-              fieldName={`remarks.${idx}.nightHours`}
+              fieldName={`penalty.remarks.${idx}.nightHours`}
               className="justify-center"
               disabled={isDisabled}
             />
           </TableCell>
           <TableCell>
             <NumericInput
-              fieldName={`remarks.${idx}.penalty`}
+              fieldName={`penalty.remarks.${idx}.penalty`}
               disabled={isDisabled}
             />
           </TableCell>
           <TableCell>
             <NumericInput
-              fieldName={`remarks.${idx}.bonus`}
+              fieldName={`penalty.remarks.${idx}.bonus`}
               disabled={isDisabled}
             />
           </TableCell>
           <TableCell>
             {id ? (
               <TextInput
-                fieldName={`remarks.${idx}.reason`}
+                fieldName={`penalty.remarks.${idx}.reason`}
                 className="w-auto"
                 disabled={isDisabled}
               />
             ) : (
               <SelectWithInput
-                fieldName={`remarks.${idx}.reason`}
+                fieldName={`penalty.remarks.${idx}.reason`}
                 data={REASON}
                 placeHolder="...reason"
                 className="border-0 shadow-none"
@@ -100,7 +102,9 @@ export function PenaltyTableBody() {
               isDisabled && "hidden",
             )}
             onClick={() =>
-              idx === 0 ? reset({ remarks: [defaultRemarkValue] }) : remove(idx)
+              idx === 0
+                ? reset({ penalty: { remarks: [defaultRemarkValue] } })
+                : remove(idx)
             }
           >
             <Trash2 className="w-4 h-4" />

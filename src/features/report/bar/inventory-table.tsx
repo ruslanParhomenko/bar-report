@@ -20,7 +20,7 @@ export function TableInventory({ disabled = false }: { disabled?: boolean }) {
 
   const reset = (idx: number) => {
     form.setValue(
-      `inventory.${idx}`,
+      `report.inventory.${idx}`,
       {
         name: INVENTORY_DATA[idx],
         quantity: "",
@@ -29,12 +29,12 @@ export function TableInventory({ disabled = false }: { disabled?: boolean }) {
       { shouldDirty: true, shouldTouch: true },
     );
   };
-  const fieldsValues = form.watch("inventory") as InventorySchemaType[];
+  const fieldsValues = form.watch("report.inventory") as InventorySchemaType[];
 
   useEffect(() => {
     fieldsValues?.forEach((item, idx) => {
       if (item?.quantity && !item?.time) {
-        form.setValue(`inventory.${idx}.time`, formatNow(), {
+        form.setValue(`report.inventory.${idx}.time`, formatNow(), {
           shouldDirty: true,
         });
       }
@@ -62,14 +62,14 @@ export function TableInventory({ disabled = false }: { disabled?: boolean }) {
           <TableRow key={idx}>
             <TableCell>
               <input
-                {...form.register(`inventory.${idx}.name`)}
+                {...form.register(`report.inventory.${idx}.name`)}
                 disabled
                 className="h-8 w-full"
               />
             </TableCell>
             <TableCell className="flex items-center justify-center">
               <NumericInput
-                fieldName={`inventory.${idx}.quantity`}
+                fieldName={`report.inventory.${idx}.quantity`}
                 className="w-10! text-center h-8!"
                 disabled={disabled}
               />
