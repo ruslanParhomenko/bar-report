@@ -1,4 +1,4 @@
-import { ExpensesSchemaType } from "@/features/report/bar/schema";
+import { ExpensesSchemaType } from "@/features/bar/report/schema";
 import {
   Table,
   TableBody,

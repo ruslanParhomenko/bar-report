@@ -10,22 +10,22 @@ import {
 
 import NumericInput from "@/components/inputs/NumericInput";
 import SelectField from "@/components/inputs/SelectField";
-import { ExpensesSchemaType } from "./schema";
-import { RECIPIENTS } from "./constants";
-import { useFormContext } from "react-hook-form";
+import { useFormContext, useWatch } from "react-hook-form";
 import { Trash2Icon } from "lucide-react";
 import { useEffect } from "react";
 import { formatNow } from "@/utils/formatNow";
+import { ExpensesSchemaType } from "./schema";
+import { RECIPIENTS } from "./constants";
 
 export default function TableExpenses({
   disabled = false,
 }: {
   disabled?: boolean;
 }) {
-  const form = useFormContext();
+  const { control, setValue } = useFormContext();
 
   const reset = (idx: number) => {
-    form.setValue(
+    setValue(
       `report.expenses.${idx}`,
       {
         name: "",
@@ -35,17 +35,20 @@ export default function TableExpenses({
       { shouldDirty: true, shouldTouch: true },
     );
   };
-  const fieldsValues = form.watch("report.expenses") as ExpensesSchemaType[];
+  const fieldsValues = useWatch({
+    name: "report.expenses",
+    control,
+  }) as ExpensesSchemaType[];
 
   useEffect(() => {
     fieldsValues?.forEach((item, idx) => {
       if (item?.sum && item?.name && !item?.time) {
-        form.setValue(`report.expenses.${idx}.time`, formatNow(), {
+        setValue(`report.expenses.${idx}.time`, formatNow(), {
           shouldDirty: true,
         });
       }
     });
-  }, [fieldsValues, form]);
+  }, [fieldsValues]);
 
   return (
     <Table>

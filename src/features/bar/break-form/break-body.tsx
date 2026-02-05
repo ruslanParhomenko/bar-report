@@ -2,28 +2,30 @@ import { Path, useFormContext, useWatch } from "react-hook-form";
 import { BreakFormData } from "./schema";
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { MINUTES_SELECT, TIME_LABELS } from "./constant";
-import { isCurrentCell } from "./utils";
 import { Input } from "@/components/ui/input";
 import SelectField from "@/components/inputs/SelectField";
 import { cn } from "@/lib/utils";
 import { Trash2 } from "lucide-react";
-import { useAbility } from "@/providers/AbilityProvider";
-import { RealtimeData } from "../report/bar/report-bar-form";
+import { useEmployees } from "@/providers/EmployeesProvider";
+import { BarFormValues } from "../schema";
+import { isCurrentCell } from "./utils";
+import { useEffect } from "react";
 
 export default function BreakTableBody({
   employeesName,
+  isDisabled,
 }: {
   employeesName: string[];
+  isDisabled: boolean;
 }) {
-  const { isAdmin, isBar } = useAbility();
-  const isDisabled = !isAdmin && !isBar;
-
-  const form = useFormContext<RealtimeData>();
+  const { control, setValue } = useFormContext<BarFormValues>();
 
   const dataRows = useWatch({
-    control: form.control,
+    control,
     name: "breakForm.rows",
   });
+
+  console.log("break rows", dataRows);
 
   return (
     <TableBody>
@@ -98,8 +100,7 @@ export default function BreakTableBody({
               <TableCell
                 className="p-0 cursor-pointer"
                 onClick={() =>
-                  !isDisabled &&
-                  form.setValue(`breakForm.rows.${rowIndex}.name`, "")
+                  !isDisabled && setValue(`breakForm.rows.${rowIndex}.name`, "")
                 }
               >
                 <Trash2 className="w-4 h-4 text-rd" />

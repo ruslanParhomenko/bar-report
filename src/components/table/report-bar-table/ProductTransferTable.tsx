@@ -1,4 +1,4 @@
-import { ProductTransferSchemaType } from "@/features/report/bar/schema";
+import { ProductTransferSchemaType } from "@/features/bar/report/schema";
 import {
   Table,
   TableBody,

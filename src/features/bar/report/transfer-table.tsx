@@ -6,25 +6,25 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { ProductTransferSchemaType } from "./schema";
 import SelectFieldWithSearch from "@/components/inputs/SelectWithSearch";
-import { PRODUCTS, WAREHOUSES } from "./constants";
 import SelectField from "@/components/inputs/SelectField";
-import { useFormContext } from "react-hook-form";
+import { useFormContext, useWatch } from "react-hook-form";
 import NumericInput from "@/components/inputs/NumericInput";
 import { Trash2Icon } from "lucide-react";
 import { useEffect } from "react";
 import { formatNow } from "@/utils/formatNow";
+import { ProductTransferSchemaType } from "./schema";
+import { PRODUCTS, WAREHOUSES } from "./constants";
 
 export default function TableProductsTransfer({
   disabled = false,
 }: {
   disabled?: boolean;
 }) {
-  const form = useFormContext();
+  const { control, setValue } = useFormContext();
 
   const reset = (idx: number) => {
-    form.setValue(
+    setValue(
       `report.productTransfer.${idx}`,
       {
         name: "",
@@ -35,19 +35,20 @@ export default function TableProductsTransfer({
       { shouldDirty: true, shouldTouch: true },
     );
   };
-  const fieldsValues = form.watch(
-    "report.productTransfer",
-  ) as ProductTransferSchemaType[];
+  const fieldsValues = useWatch({
+    name: "report.productTransfer",
+    control,
+  }) as ProductTransferSchemaType[];
 
   useEffect(() => {
     fieldsValues?.forEach((item, idx) => {
       if (item?.quantity && item?.destination && item?.name && !item?.time) {
-        form.setValue(`report.productTransfer.${idx}.time`, formatNow(), {
+        setValue(`report.productTransfer.${idx}.time`, formatNow(), {
           shouldDirty: true,
         });
       }
     });
-  }, [fieldsValues, form]);
+  }, [fieldsValues]);
 
   return (
     <Table>

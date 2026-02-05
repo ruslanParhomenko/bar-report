@@ -1,15 +1,8 @@
 "use client";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import NumericInput from "@/components/inputs/NumericInput";
 import { CashVerifySchemaType } from "./schema";
-import { useFormContext } from "react-hook-form";
+import { useFormContext, useWatch } from "react-hook-form";
 import { useEffect } from "react";
 import { formatNow } from "@/utils/formatNow";
 
@@ -18,19 +11,20 @@ export default function TableCashVerify({
 }: {
   disabled?: boolean;
 }) {
-  const form = useFormContext();
-  const fieldsValues = form.watch(
-    "report.cashVerify",
-  ) as CashVerifySchemaType[];
+  const { control, setValue } = useFormContext();
+  const fieldsValues = useWatch({
+    name: "report.cashVerify",
+    control,
+  }) as CashVerifySchemaType[];
   useEffect(() => {
     fieldsValues?.forEach((item, idx) => {
       if (item?.value && !item?.hours) {
-        form.setValue(`report.cashVerify.${idx}.hours`, formatNow(), {
+        setValue(`report.cashVerify.${idx}.hours`, formatNow(), {
           shouldDirty: true,
         });
       }
     });
-  }, [fieldsValues, form]);
+  }, [fieldsValues]);
   return (
     <div className="w-full xl:overflow-x-auto">
       <Table className="w-full md:table-fixed">

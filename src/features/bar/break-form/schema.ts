@@ -13,12 +13,10 @@ export const rowsSchema = z.object({
 });
 
 export const breakSchema = z.object({
-  date: z.date(),
   rows: z.array(rowsSchema),
 });
 export type BreakFormData = z.input<typeof breakSchema>;
 
 export const defaultValuesBreak: BreakFormData = {
-  date: new Date(),
   rows: BREAK_LIST_DEFAULT as z.infer<typeof rowsSchema>[],
 };

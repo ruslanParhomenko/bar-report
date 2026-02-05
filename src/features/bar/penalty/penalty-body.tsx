@@ -1,28 +1,20 @@
 "use client";
 import { useEmployees } from "@/providers/EmployeesProvider";
 import { useFieldArray, useFormContext } from "react-hook-form";
-import { defaultRemarkValue, RemarksFormData } from "./schema";
+import { defaultRemarkValue } from "./schema";
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
 import SelectField from "@/components/inputs/SelectField";
 import { REASON } from "./constants";
 import NumericInput from "@/components/inputs/NumericInput";
 import SelectWithInput from "@/components/inputs/SelectWithInput";
 import { Plus, Trash2 } from "lucide-react";
-import { useParams } from "next/navigation";
-import TextInput from "@/components/inputs/TextInput";
 import { cn } from "@/lib/utils";
-import { useAbility } from "@/providers/AbilityProvider";
-import { RealtimeData } from "../report/bar/report-bar-form";
+import { BarFormValues } from "../schema";
 
-export function PenaltyTableBody() {
-  const { isAdmin, isBar, isManager } = useAbility();
-  const isDisabled = !isAdmin && !isBar && !isManager;
-  const { id } = useParams();
+export function PenaltyTableBody({ isDisabled }: { isDisabled: boolean }) {
+  const selectedEmployees = useEmployees().map((e) => e.name);
 
-  const employees = useEmployees();
-  const selectedEmployees = employees.map((e) => e.name);
-
-  const { control, reset } = useFormContext<RealtimeData>();
+  const { control, reset } = useFormContext<BarFormValues>();
 
   const {
     fields: dataRemarks,
@@ -32,7 +24,6 @@ export function PenaltyTableBody() {
     control: control,
     name: "penalty.remarks",
   });
-  console.log("dataRemarks", dataRemarks);
   return (
     <TableBody>
       {dataRemarks.map((item, idx) => (
@@ -74,21 +65,13 @@ export function PenaltyTableBody() {
             />
           </TableCell>
           <TableCell>
-            {id ? (
-              <TextInput
-                fieldName={`penalty.remarks.${idx}.reason`}
-                className="w-auto"
-                disabled={isDisabled}
-              />
-            ) : (
-              <SelectWithInput
-                fieldName={`penalty.remarks.${idx}.reason`}
-                data={REASON}
-                placeHolder="...reason"
-                className="border-0 shadow-none"
-                disabled={isDisabled}
-              />
-            )}
+            <SelectWithInput
+              fieldName={`penalty.remarks.${idx}.reason`}
+              data={REASON}
+              placeHolder="...reason"
+              className="border-0 shadow-none"
+              disabled={isDisabled}
+            />
           </TableCell>
           <TableCell
             className={cn("cursor-pointer text-center", isDisabled && "hidden")}

@@ -1,4 +1,4 @@
-import { TobaccoSchemaType } from "@/features/report/bar/schema";
+import { TobaccoSchemaType } from "@/features/bar/report/schema";
 import {
   Table,
   TableBody,

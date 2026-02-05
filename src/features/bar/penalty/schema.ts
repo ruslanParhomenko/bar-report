@@ -24,7 +24,6 @@ export const remarksSchema = z.object({
       bonus: "",
     },
   ]),
-  date: z.date().default(() => new Date()),
 });
 
 export type RemarksFormData = z.infer<typeof remarksSchema>;

@@ -8,18 +8,18 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { InventorySchemaType } from "./schema";
-import { useFormContext } from "react-hook-form";
+import { useFormContext, useWatch } from "react-hook-form";
 import { Trash2Icon } from "lucide-react";
 import { useEffect } from "react";
 import { formatNow } from "@/utils/formatNow";
 import { INVENTORY_DATA } from "./constants";
+import { InventorySchemaType } from "./schema";
 
 export function TableInventory({ disabled = false }: { disabled?: boolean }) {
-  const form = useFormContext();
+  const { control, setValue, register } = useFormContext();
 
   const reset = (idx: number) => {
-    form.setValue(
+    setValue(
       `report.inventory.${idx}`,
       {
         name: INVENTORY_DATA[idx],
@@ -29,17 +29,20 @@ export function TableInventory({ disabled = false }: { disabled?: boolean }) {
       { shouldDirty: true, shouldTouch: true },
     );
   };
-  const fieldsValues = form.watch("report.inventory") as InventorySchemaType[];
+  const fieldsValues = useWatch({
+    name: "report.inventory",
+    control,
+  }) as InventorySchemaType[];
 
   useEffect(() => {
     fieldsValues?.forEach((item, idx) => {
       if (item?.quantity && !item?.time) {
-        form.setValue(`report.inventory.${idx}.time`, formatNow(), {
+        setValue(`report.inventory.${idx}.time`, formatNow(), {
           shouldDirty: true,
         });
       }
     });
-  }, [fieldsValues, form]);
+  }, [fieldsValues]);
   return (
     <Table>
       <TableHeader>
@@ -62,7 +65,7 @@ export function TableInventory({ disabled = false }: { disabled?: boolean }) {
           <TableRow key={idx}>
             <TableCell>
               <input
-                {...form.register(`report.inventory.${idx}.name`)}
+                {...register(`report.inventory.${idx}.name`)}
                 disabled
                 className="h-8 w-full"
               />

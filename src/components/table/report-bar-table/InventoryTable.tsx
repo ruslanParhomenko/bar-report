@@ -7,7 +7,7 @@ import {
   TableHeader,
   TableRow,
 } from "../../ui/table";
-import { InventorySchemaType } from "@/features/report/bar/schema";
+import { InventorySchemaType } from "@/features/bar/report/schema";
 
 export default function InventoryTable({
   data,

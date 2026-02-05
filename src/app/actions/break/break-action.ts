@@ -2,7 +2,7 @@
 
 import { unstable_cache, updateTag } from "next/cache";
 import { BREAK_ACTION_TAG } from "@/constants/action-tag";
-import { BreakFormData } from "@/features/break/schema";
+import { BreakFormData } from "@/features/bar/break-form/schema";
 import { dbAdmin } from "@/lib/firebase-admin";
 
 const REALTIME_DOC = "break-realtime";

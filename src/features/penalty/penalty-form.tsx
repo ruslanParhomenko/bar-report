@@ -10,15 +10,19 @@ import {
   updateRemarks,
 } from "@/app/actions/remarks/remarks-action";
 import { FormWrapper } from "@/components/wrapper/form-wrapper";
-import { defaultRemarksValue, RemarksFormData, remarksSchema } from "./schema";
+import {
+  defaultRemarksValue,
+  RemarksFormData,
+  remarksSchema,
+} from "../bar/penalty/schema";
 import { useEffect } from "react";
 import { Table } from "@/components/ui/table";
-import { PenaltyTableHeader } from "./penalty-header";
-import { PenaltyTableBody } from "./penalty-body";
+import { PenaltyTableHeader } from "../bar/penalty/penalty-header";
+import { PenaltyTableBody } from "../bar/penalty/penalty-body";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { buildDate, MONTHS } from "@/utils/getMonthDays";
 import { useAbility } from "@/providers/AbilityProvider";
-import PenaltyTable from "./penalty-table";
+import PenaltyTable from "../bar/penalty/penalty-table";
 
 export default function PenaltyForm({
   dataRemark,

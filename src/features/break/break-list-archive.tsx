@@ -1,7 +1,7 @@
 import { Separator } from "@/components/ui/separator";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { BreakGetType } from "@/app/actions/break/break-action";
-import { TIME_LABELS } from "./constant";
+import { TIME_LABELS } from "../bar/break-form/constant";
 
 export function BreakListArchive({ data }: { data: BreakGetType }) {
   return (

@@ -3,7 +3,7 @@
 import { unstable_cache, updateTag } from "next/cache";
 import { REMARKS_ACTION_TAG } from "@/constants/action-tag";
 import { dbAdmin } from "@/lib/firebase-admin";
-import { RemarkFormData, RemarksFormData } from "@/features/penalty/schema";
+import { RemarkFormData, RemarksFormData } from "@/features/bar/penalty/schema";
 
 const REALTIME_DOC = "remarks-realtime";
 

@@ -8,7 +8,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { PRODUCTS, PRODUCTS_CUCINA } from "../report/bar/constants";
+import { PRODUCTS, PRODUCTS_CUCINA } from "../bar/report/constants";
 import { Resolver, useFieldArray, useForm, useWatch } from "react-hook-form";
 import {
   defaultStopList,

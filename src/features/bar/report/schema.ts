@@ -1,8 +1,7 @@
 import { z } from "zod";
 import { INVENTORY_DATA, LIST_TOBACCO } from "./constants";
-import { remarksSchema } from "@/features/penalty/schema";
-import { breakSchema } from "@/features/break/schema";
-import BreakForm from "@/features/break/break-form";
+import { remarksSchema } from "@/features/bar/penalty/schema";
+import { breakSchema } from "@/features/bar/break-form/schema";
 
 // products transfer
 export const productTransferSchema = z.object({
@@ -77,8 +76,6 @@ export const cashVerifyDefault = Array.from({ length: 24 }, () =>
 
 // report bar
 export const reportBarSchema = z.object({
-  date: z.coerce.date().default(new Date()),
-
   expenses: z.array(expenseSchema).default(expensesDefault),
   tobacco: z.array(tobaccoSchema).default(defaultTobaccoValue),
   cashVerify: z.array(cashVerifySchema).default(cashVerifyDefault),
@@ -92,7 +89,6 @@ export const reportBarSchema = z.object({
 export type ReportBarFormValues = z.infer<typeof reportBarSchema>;
 
 export const defaultValuesReportBar: ReportBarFormValues = {
-  date: new Date(),
   expenses: expensesDefault,
   tobacco: defaultTobaccoValue,
   cashVerify: cashVerifyDefault,
@@ -100,9 +96,3 @@ export const defaultValuesReportBar: ReportBarFormValues = {
   inventory: inventoryDefault,
   notes: "",
 };
-
-export const barSchema = z.object({
-  report: reportBarSchema,
-  penalty: remarksSchema,
-  breakForm: breakSchema,
-});

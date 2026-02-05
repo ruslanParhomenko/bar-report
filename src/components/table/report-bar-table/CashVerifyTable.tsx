@@ -1,4 +1,4 @@
-import { CashVerifySchemaType } from "@/features/report/bar/schema";
+import { CashVerifySchemaType } from "@/features/bar/report/schema";
 import {
   Table,
   TableBody,
