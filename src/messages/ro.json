@@ -77,7 +77,6 @@
     "report": "Raport",
     "reports": "Rapoarte",
     "reportCucina": "Raport Bucatarie",
-    "report-cucina": "Raport Bucatarie",
     "breakList": "Tabel pauze",
     "ordersList": "Comenzi TTN",
     "orderListBar": "Comenzi BAR",
@@ -170,7 +169,11 @@
     "details": "Detalii",
     "remainingVacationDays": "Zile de vacanta ramase",
     "hide": "Ascunde",
-    "dailyMenu": "Mesele zilei"
+    "dailyMenu": "Mesele zilei",
+
+    "report-bar": "BAR",
+    "report-cucina": "Bucatarie",
+    "penaltyResult": "rezultatul penalizarii"
   },
   "Menu": {
     "-": "-",
@@ -307,6 +310,7 @@
     "Cheesecake cu dovleac": "Cheesecake cu dovleac",
     "Ardei impluti": "Ardei umpluti",
     "Staff Menu": "Meniu staff",
-    "Supă cremă de ciuperci": "Supă cremă de ciuperci"
+    "Supă cremă de ciuperci": "Supă cremă de ciuperci",
+    "Picior de rata": "Picior de rață"
   }
 }

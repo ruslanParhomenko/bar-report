@@ -3,7 +3,9 @@ export const REPORT_CUCINA_ENDPOINT = "report-cucina";
 
 export const SCHEDULE_MAIN_ROUTE = "schedule";
 export const EMPLOYEES_MAIN_ROUTE = "employees";
-export const REPORTS_MAIN_ROUTE = "reports";
+export const REPORTS_BAR_ROUTE = "bar";
+export const REPORTS_CUCINA_ROUTE = "report-cucina";
+// export const REPORTS_MAIN_ROUTE = "reports";
 export const BREAK_MAIN_ROUTE = "break";
 export const ORDERS_TTN_MAIN_ROUTE = "orders-ttn";
 export const ORDERS_ZN_MAIN_ROUTE = "orders-zn";

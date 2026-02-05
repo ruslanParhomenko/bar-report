@@ -24,8 +24,12 @@ import {
   createReportBar,
   realtimeReportBar,
 } from "@/app/actions/report-bar/report-bar-action";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAbility } from "@/providers/AbilityProvider";
+import ReportBarTable from "./report-bar-table";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import BreakTable from "@/features/break/break-table";
+import PenaltyTable from "@/features/penalty/penalty-table";
 
 export default function ReportBarForm({
   realtimeData,
@@ -115,35 +119,59 @@ export default function ReportBarForm({
     toast.success("Бар отчет успешно сохранён !");
   };
 
+  type TabValue = "break" | "penalty" | "report";
+
+  const [tab, setTab] = useState<TabValue>("report");
+
+  const handleTabChange = (value: string) => {
+    if (value === "break" || value === "penalty" || value === "report") {
+      setTab(value);
+    }
+  };
+
+  const navItems = [
+    { label: "report", value: "report" },
+    { label: "break", value: "break" },
+    { label: "penalty", value: "penalty" },
+  ];
+
   return (
     <FormWrapper
       form={form}
       onSubmit={onSubmit}
-      className="gap-6"
+      className="p-2"
       disabled={isDisabled}
     >
-      <div className="flex w-full justify-end">
-        <DatePickerInput
-          fieldName="date"
-          className="md:w-30 h-8 text-sm w-full text-rd"
-          disabled={!isAdmin}
-        />
-      </div>
-
-      <div className="grid grid-cols-1 xl:grid-cols-[22%_20%_26%_20%] xl:justify-between">
-        <TableTobacco disabled={isDisabled} />
-        <TableExpenses disabled={isDisabled} />
-        <TableProductsTransfer disabled={isDisabled} />
-        <TableInventory disabled={isDisabled} />
-      </div>
-      <Textarea
-        placeholder="notes ..."
-        {...form.register("notes")}
-        className="resize-none"
-        disabled={isDisabled}
-      />
-
-      <TableCashVerify disabled={isDisabled} />
+      <Tabs value={tab} onValueChange={handleTabChange}>
+        <TabsList className="flex md:gap-2 h-8 w-80">
+          {navItems.map((item) => (
+            <TabsTrigger
+              key={item.value}
+              value={item.value}
+              className="hover:text-bl cursor-pointer w-1/3"
+            >
+              <span className="truncate block w-full text-xs md:text-md text-bl">
+                {item.label}
+              </span>
+            </TabsTrigger>
+          ))}
+        </TabsList>
+        <TabsContent value="break" forceMount>
+          <div className={tab !== "break" ? "hidden" : ""}>
+            <BreakTable />
+          </div>
+        </TabsContent>
+        <TabsContent value="penalty" forceMount>
+          <div className={tab !== "penalty" ? "hidden" : ""}>
+            <PenaltyTable />
+          </div>
+        </TabsContent>
+        <TabsContent value="report" forceMount>
+          <div className={tab !== "report" ? "hidden" : ""}>
+            <ReportBarTable />
+          </div>
+        </TabsContent>
+      </Tabs>
     </FormWrapper>
   );
 }

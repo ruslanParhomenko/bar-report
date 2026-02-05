@@ -26,7 +26,7 @@ export default function BreakTableBody({
 
   return (
     <TableBody>
-      {dataRows.map((row, rowIndex) => {
+      {dataRows?.map((row, rowIndex) => {
         const totalBreak = row.hours.reduce(
           (acc, value) => acc + (["00", "20", "40"].includes(value) ? 1 : 0),
           0,

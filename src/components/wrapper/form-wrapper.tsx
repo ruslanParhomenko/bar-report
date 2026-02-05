@@ -1,7 +1,12 @@
+"use client";
+
 import { SubmitHandler, UseFormReturn } from "react-hook-form";
 import { Form } from "../ui/form";
 import SubmitButton from "../buttons/submit-button";
 import { cn } from "@/lib/utils";
+import SelectTabsByPatch from "../nav/select-patch";
+import { useEffect, useState, useTransition } from "react";
+import { useRouter, usePathname } from "next/navigation";
 
 export function FormWrapper({
   form,
@@ -14,6 +19,7 @@ export function FormWrapper({
   resetForm,
   withButtons = true,
   disabled = false,
+  routerItems = [],
   ...props
 }: {
   form: UseFormReturn<any>;
@@ -26,8 +32,25 @@ export function FormWrapper({
   resetForm?: () => void;
   withButtons?: boolean;
   disabled?: boolean;
+  routerItems?: Array<{
+    title: string;
+    href: string;
+  }>;
   [key: string]: any;
 }) {
+  const router = useRouter();
+  const pathname = usePathname().split("/")[1];
+
+  const [isPending, startTransition] = useTransition();
+
+  const handlePatchChange = (patch: string) => {
+    if (!patch || patch === pathname) return;
+
+    startTransition(() => {
+      router.replace(`/${patch}`);
+    });
+  };
+
   return (
     <Form {...form}>
       <form
@@ -39,14 +62,26 @@ export function FormWrapper({
         {...props}
       >
         {children}
-        {withButtons && (
-          <SubmitButton
-            reset={resetButton}
-            resetForm={resetForm}
-            returnButton={returnButton}
-            isDisabled={disabled}
-          />
-        )}
+
+        <div className="flex justify-between mt-auto">
+          {routerItems.length > 0 && (
+            <SelectTabsByPatch
+              patch={pathname || null}
+              setPatch={handlePatchChange}
+              isPending={isPending}
+              navItems={routerItems}
+            />
+          )}
+
+          {withButtons && (
+            <SubmitButton
+              reset={resetButton}
+              resetForm={resetForm}
+              returnButton={returnButton}
+              isDisabled={disabled || isPending}
+            />
+          )}
+        </div>
       </form>
     </Form>
   );

@@ -4,15 +4,15 @@ import { MONTHS } from "@/utils/getMonthDays";
 import { useEffect, useState, useTransition } from "react";
 import { usePathname, useRouter } from "next/navigation";
 
-import SelectTabsByPatch from "./SelectTabsByPatch";
-import SelectByMonthYear from "./SelectByMonthYear";
-import SelectEmployeeBy from "@/components/nav-menu-header/SelectEmployeeBy";
+import SelectTabsByPatch from "./select-patch";
+import SelectByMonthYear from "./select-month-year";
+import SelectEmployeeBy from "@/components/nav/Select-employee";
 
 import { RefreshCcw, RotateCcw } from "lucide-react";
 import { NAV_BY_PATCH, REVALIDATE_TAGS_BY_PATCH } from "./constants";
 import { revalidateNav } from "@/app/actions/revalidate-tag/revalidate-teg";
 
-export default function NavMenuHeader() {
+export default function NavPatch() {
   const pathname = usePathname();
   const router = useRouter();
   const [isPending, startTransition] = useTransition();

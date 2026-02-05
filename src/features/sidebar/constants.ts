@@ -8,7 +8,8 @@ import {
   ORDERS_TTN_MAIN_ROUTE,
   ORDERS_ZN_MAIN_ROUTE,
   REMARKS_MAIN_ROUTE,
-  REPORTS_MAIN_ROUTE,
+  REPORTS_BAR_ROUTE,
+  REPORTS_CUCINA_ROUTE,
   RESULT_MAIN_ROUTE,
   SCHEDULE_MAIN_ROUTE,
   STOP_LIST_MAIN_ROUTE,
@@ -46,15 +47,16 @@ export const SIDEBAR_NAVIGATION = [
     icon: PersonStandingIcon,
   },
   {
-    title: "reports",
-    url: REPORTS_MAIN_ROUTE,
+    title: "report-bar",
+    url: REPORTS_BAR_ROUTE,
     icon: BarChart3,
   },
   {
-    title: "breakList",
-    url: BREAK_MAIN_ROUTE,
-    icon: Pause,
+    title: "report-cucina",
+    url: REPORTS_CUCINA_ROUTE,
+    icon: BarChart3,
   },
+
   {
     title: "ordersList",
     url: ORDERS_TTN_MAIN_ROUTE,
@@ -85,11 +87,7 @@ export const SIDEBAR_NAVIGATION = [
     url: USERS_MAIN_ROUTE,
     icon: Settings,
   },
-  {
-    title: "penalty",
-    url: REMARKS_MAIN_ROUTE,
-    icon: ShieldAlert,
-  },
+
   {
     title: "tips",
     url: TIPS_MAIN_ROUTE,

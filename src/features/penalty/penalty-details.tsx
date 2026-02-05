@@ -34,12 +34,16 @@ export default function PenaltyDetails({
   const t = useTranslations("Home");
 
   const { isAdmin, isManager } = useAbility();
-  const employeesList = [
-    "all",
-    ...new Set(
-      data?.data.map((item) => item.remarks.map((r: any) => r.name)).flat(),
-    ),
-  ];
+  const employeesList = useMemo(() => {
+    const names = data?.data
+      .flatMap((item) => item.remarks.map((r: any) => r.name))
+      .filter(
+        (name): name is string =>
+          typeof name === "string" && name.trim() !== "",
+      );
+
+    return ["all", ...Array.from(new Set(names))];
+  }, [data]);
 
   const [selectedEmployee, setSelectedEmployee] = useState("all");
 
@@ -65,7 +69,7 @@ export default function PenaltyDetails({
   const editRemarks = (day: string) => {
     if (!isAdmin && !isManager) return;
     router.push(
-      `/penalty/details/${day}?month=${data.month}&year=${data.year}`,
+      `/archive/penalty/${day}?month=${data.month}&year=${data.year}`,
     );
   };
   const deleteRemarks = async (uniqueKey: string, day: string) => {
@@ -85,7 +89,6 @@ export default function PenaltyDetails({
                   <Select
                     value={selectedEmployee}
                     onValueChange={(value) => setSelectedEmployee(value)}
-                    defaultValue="all"
                   >
                     <SelectTrigger className="w-30 shadow-none h-7! p-0 border-0 text-muted-foreground [&>svg]:hidden justify-start">
                       <SelectValue />

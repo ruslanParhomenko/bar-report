@@ -62,6 +62,9 @@ export const INFO_NAV_ITEMS = [
 export const ARCHIVE_NAV_ITEMS = [
   { title: "bar", href: "bar" },
   { title: "cucina", href: "cucina" },
+  { title: "breakList", href: "break" },
+  { title: "penalty", href: "penalty" },
+  { title: "penaltyResult", href: "penalty-result" },
 ];
 
 export const STOP_LIST_NAV_ITEMS = [
@@ -108,7 +111,7 @@ export const NAV_BY_PATCH = {
   "orders-zn": { navItems: ORDERS_NAV_ITEMS, filterType: "none" },
   info: { navItems: INFO_NAV_ITEMS, filterType: "none" },
   archive: { navItems: ARCHIVE_NAV_ITEMS, filterType: "month" },
-  "stop-list": { navItems: STOP_LIST_NAV_ITEMS, filterType: "none" },
+  // "stop-list": { navItems: STOP_LIST_NAV_ITEMS, filterType: "none" },
   users: { navItems: USERS_NAV_ITEMS, filterType: "none" },
   penalty: { navItems: PENALTY_NAV_ITEMS, filterType: "month" },
   tips: { navItems: [], filterType: "month" },
@@ -135,3 +138,16 @@ export const REVALIDATE_TAGS_BY_PATCH = {
   [TIPS_MAIN_ROUTE]: TIPS_ACTION_TAG,
   [TTN_MAIN_ROUTE]: TTN_ACTION_TAG,
 };
+
+// nav router
+
+export const REPORT_NAV_ROUTES = [
+  { title: "bar", href: "report-bar" },
+  { title: "breakList", href: "break" },
+  { title: "penalty", href: "penalty" },
+];
+
+export const NAV_BY_ROUTE = {
+  bar: REPORT_NAV_ROUTES,
+  "stop-list": STOP_LIST_NAV_ITEMS,
+} satisfies Record<string, PageNavType[]>;

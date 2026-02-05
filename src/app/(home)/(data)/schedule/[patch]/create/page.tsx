@@ -9,6 +9,7 @@ export default async function Page({
 }) {
   const { patch } = await params;
   const { month, year } = await searchParams;
+  if (!month || !year || !patch) return null;
   return (
     <ScheduleCreatePage
       patch={patch}

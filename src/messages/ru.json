@@ -77,7 +77,7 @@
     "report": "Отчет",
     "reports": "Отчеты",
     "reportCucina": "Отчет кухни",
-    "report-cucina": "Отчет кухни",
+
     "breakList": "Брэйк-лист",
     "ordersList": "Заказ TTN",
     "orderListBar": "Заказ БАР",
@@ -170,7 +170,11 @@
     "details": "Подробно",
     "remainingVacationDays": "Остаток дней отпуска",
     "hide": "Скрыть",
-    "dailyMenu": "Обеды дня"
+    "dailyMenu": "Обеды дня",
+
+    "report-bar": "БАР",
+    "report-cucina": "КУХНЯ",
+    "penaltyResult": "штрафы итог"
   },
   "Menu": {
     "-": "-",
@@ -308,6 +312,7 @@
     "Cheesecake cu dovleac": "Чизкейк Тыквенный",
     "Ardei impluti": "Перцы фаршированные",
     "Staff Menu": "Меню стафф",
-    "Supă cremă de ciuperci": "Грибной крем-суп"
+    "Supă cremă de ciuperci": "Грибной крем-суп",
+    "Picior de rata": "Утиная ножка"
   }
 }

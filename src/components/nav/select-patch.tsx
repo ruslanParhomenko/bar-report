@@ -9,7 +9,7 @@ export default function SelectTabsByPatch({
   isPending,
   navItems,
 }: {
-  patch: string;
+  patch: string | null;
   setPatch: (value: string) => void;
   isPending: boolean;
   navItems: PageNavType[];
@@ -18,7 +18,7 @@ export default function SelectTabsByPatch({
   const weighPath = navItems.length <= 2 ? "w-24" : "md:w-24 w-16";
   return (
     <Tabs
-      value={patch}
+      value={patch || ""}
       onValueChange={(value) => setPatch(value)}
       className="order-3 md:order-0"
     >

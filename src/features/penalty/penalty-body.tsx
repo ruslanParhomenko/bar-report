@@ -1,3 +1,4 @@
+"use client";
 import { useEmployees } from "@/providers/EmployeesProvider";
 import { useFieldArray, useFormContext } from "react-hook-form";
 import { defaultRemarkValue, RemarksFormData } from "./schema";
@@ -10,8 +11,11 @@ import { Plus, Trash2 } from "lucide-react";
 import { useParams } from "next/navigation";
 import TextInput from "@/components/inputs/TextInput";
 import { cn } from "@/lib/utils";
+import { useAbility } from "@/providers/AbilityProvider";
 
-export function PenaltyTableBody({ isDisabled }: { isDisabled?: boolean }) {
+export function PenaltyTableBody() {
+  const { isAdmin, isBar, isManager } = useAbility();
+  const isDisabled = !isAdmin && !isBar && !isManager;
   const { id } = useParams();
 
   const employees = useEmployees();

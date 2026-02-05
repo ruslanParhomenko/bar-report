@@ -1,11 +1,7 @@
 import DatePickerInput from "@/components/inputs/DatePickerInput";
 import { TableCell, TableHeader, TableRow } from "@/components/ui/table";
 
-export function PenaltyTableHeader({
-  isUpdate = false,
-}: {
-  isUpdate?: boolean;
-}) {
+export function PenaltyTableHeader() {
   return (
     <TableHeader>
       <TableRow>

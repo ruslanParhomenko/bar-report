@@ -18,6 +18,7 @@ import { PenaltyTableBody } from "./penalty-body";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { buildDate, MONTHS } from "@/utils/getMonthDays";
 import { useAbility } from "@/providers/AbilityProvider";
+import PenaltyTable from "./penalty-table";
 
 export default function PenaltyForm({
   dataRemark,
@@ -117,10 +118,7 @@ export default function PenaltyForm({
       returnButton={dayId ? true : false}
       withButtons={!isDisabled}
     >
-      <Table className="md:table-fixed mt-6">
-        <PenaltyTableHeader isUpdate={!!dayId} />
-        <PenaltyTableBody isDisabled={isDisabled} />
-      </Table>
+      <PenaltyTable />
     </FormWrapper>
   );
 }
