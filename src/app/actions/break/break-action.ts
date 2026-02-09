@@ -113,7 +113,6 @@ export async function realtimeBreakList(data: BreakFormData) {
   const docRef = dbAdmin.collection("break-realtime").doc(REALTIME_DOC);
 
   await docRef.set({
-    date: data.date,
     rows: data.rows,
   });
 

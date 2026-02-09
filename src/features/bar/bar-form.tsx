@@ -45,6 +45,7 @@ import { Button } from "@/components/ui/button";
 import DatePickerInput from "@/components/inputs/DatePickerInput";
 import { BarFormValues, barSchema } from "./schema";
 import { MONTHS } from "@/utils/getMonthDays";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export default function BarForm({
   realtimeData,
@@ -56,10 +57,13 @@ export default function BarForm({
   const { isBar, isAdmin } = useAbility();
   const isDisabled = !(isAdmin || isBar);
 
-  console.log("report", realtimeData);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const urlTab = searchParams.get("tab") as TabValue | null;
 
   const form = useForm<BarFormValues>({
-    defaultValues: {
+    defaultValues: realtimeData ?? {
       report: defaultValuesReportBar,
       penalty: defaultRemarksValue,
       breakForm: defaultValuesBreak,
@@ -172,11 +176,20 @@ export default function BarForm({
 
   type TabValue = "break" | "penalty" | "report";
 
-  const [tab, setTab] = useState<TabValue>("report");
+  const [tab, setTab] = useState<TabValue>(
+    urlTab === "break" || urlTab === "penalty" || urlTab === "report"
+      ? urlTab
+      : "report",
+  );
 
   const handleTabChange = (value: string) => {
     if (value === "break" || value === "penalty" || value === "report") {
       setTab(value);
+
+      const params = new URLSearchParams(searchParams.toString());
+      params.set("tab", value);
+
+      router.replace(`?${params.toString()}`, { scroll: false });
     }
   };
 

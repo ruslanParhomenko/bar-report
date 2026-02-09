@@ -2,7 +2,7 @@ import {
   getRemarksByDay,
   RemarksData,
 } from "@/app/actions/remarks/remarks-action";
-import RemarksForm from "@/features/penalty/penalty-form";
+import RemarksForm from "@/features/penalty/penalty-update";
 
 export default async function Page({
   params,
@@ -17,5 +17,12 @@ export default async function Page({
   const uniqueKey = `${year}-${month}`;
   const dataRemark = (await getRemarksByDay(uniqueKey, day)) as RemarksData;
 
-  return <RemarksForm dataRemark={dataRemark} month={month} year={year} />;
+  return (
+    <RemarksForm
+      data={dataRemark as RemarksData}
+      month={month}
+      year={year}
+      day={day}
+    />
+  );
 }

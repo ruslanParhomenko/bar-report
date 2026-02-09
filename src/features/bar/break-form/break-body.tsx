@@ -25,8 +25,6 @@ export default function BreakTableBody({
     name: "breakForm.rows",
   });
 
-  console.log("break rows", dataRows);
-
   return (
     <TableBody>
       {dataRows?.map((row, rowIndex) => {

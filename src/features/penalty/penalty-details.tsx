@@ -68,9 +68,7 @@ export default function PenaltyDetails({
 
   const editRemarks = (day: string) => {
     if (!isAdmin && !isManager) return;
-    router.push(
-      `/archive/penalty/${day}?month=${data.month}&year=${data.year}`,
-    );
+    router.push(`/penalty-update/${day}?month=${data.month}&year=${data.year}`);
   };
   const deleteRemarks = async (uniqueKey: string, day: string) => {
     if (!isAdmin) return;

@@ -150,7 +150,6 @@ export async function realtimeRemarksList(data: RemarksFormData) {
   const docRef = dbAdmin.collection(REALTIME_DOC).doc(REALTIME_DOC);
 
   await docRef.set({
-    date: data.date,
     remarks: data.remarks,
   });
 
