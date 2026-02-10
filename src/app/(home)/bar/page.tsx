@@ -4,6 +4,7 @@ import { getRealtimeRemarksList } from "@/app/actions/remarks/remarks-action";
 import { getRealtimeReportBar } from "@/app/actions/report-bar/report-bar-action";
 import { InsufficientRights } from "@/components/wrapper/InsufficientRights";
 import BarForm from "@/features/bar/bar-form";
+import { BarFormValues } from "@/features/bar/schema";
 import { checkAccess } from "@/lib/check-access";
 
 const SET_ACCESS = ["ADMIN", "BAR", "USER"];
@@ -13,12 +14,7 @@ export default async function Page() {
   const hasAccess = await checkAccess(SET_ACCESS);
   if (!hasAccess) return <InsufficientRights />;
 
-  const [realtimeDataReport, realtimeDataPenalty, realtimeDataBreak] =
-    await Promise.all([
-      getRealtimeReportBar(),
-      getRealtimeRemarksList(),
-      getRealtimeBreakList(),
-    ]);
+  const realtimeData = await getRealtimeReportBar();
   const employeesName = (await getEmployees())
     .filter((emp) => BAR_EMPLOYEES.includes(emp.role))
     .map((e) => e.name);
@@ -27,11 +23,7 @@ export default async function Page() {
 
   return (
     <BarForm
-      realtimeData={{
-        report: realtimeDataReport ?? undefined,
-        penalty: realtimeDataPenalty ?? undefined,
-        breakForm: realtimeDataBreak ?? undefined,
-      }}
+      realtimeData={realtimeData as BarFormValues}
       employeesName={employeesName}
     />
   );

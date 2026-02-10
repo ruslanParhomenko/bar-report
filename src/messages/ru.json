@@ -173,11 +173,12 @@
     "dailyMenu": "Обеды дня",
 
     "report-bar": "Бар",
-    "report-cucina": "КУХНЯ",
+    "report-cucina": "Кухня",
     "penaltyResult": "штрафы итог"
   },
   "Menu": {
     "-": "-",
+    "Hering cu ceapa": "Сельдь с луком",
     "Homemade Cake": "Торт Домашний",
     "Șold de pui în sos de frișcă": "Куриное бедро в сосе",
     "Salata din varza": "Салат из капусты",

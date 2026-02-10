@@ -42,7 +42,7 @@ export default function TableCashVerify({
           </TableRow>
 
           <TableRow>
-            {fieldsValues.map((hour, idx) => (
+            {fieldsValues?.map((hour, idx) => (
               <TableCell key={idx} className=" text-center text-xs">
                 {hour.hours}
               </TableCell>

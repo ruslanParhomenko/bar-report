@@ -1,10 +1,11 @@
 "use server";
 import { REPORT_BAR_ACTION_TAG } from "@/constants/action-tag";
 import { ReportBarFormValues } from "@/features/bar/report/schema";
+import { BarFormValues } from "@/features/bar/schema";
 import { dbAdmin } from "@/lib/firebase-admin";
 import { unstable_cache, updateTag } from "next/cache";
 
-const REALTIME_DOC = "report-bar-realtime";
+const REALTIME_DOC = "bar-realtime";
 
 type ReportCreateData = {
   day: string;
@@ -116,7 +117,7 @@ export const getReportByUniqueKey = unstable_cache(
 
 // realtime
 
-export async function realtimeReportBar(data: ReportBarFormValues) {
+export async function realtimeReportBar(data: BarFormValues) {
   const docRef = dbAdmin.collection(REALTIME_DOC).doc(REALTIME_DOC);
 
   await docRef.set(data);
@@ -135,7 +136,7 @@ export async function _getRealtimeReportBar() {
   return {
     ...data,
     date: data.date?.toDate?.() ? data.date.toDate() : new Date(),
-  } as ReportBarFormValues;
+  } as BarFormValues;
 }
 
 export const getRealtimeReportBar = unstable_cache(

@@ -29,18 +29,14 @@ export const authOptions: NextAuthOptions = {
         const users = await getUsers();
         const dbUser = users.find((u) => u.mail === profile.email);
 
-        if (dbUser) {
-          token.role = dbUser.role;
-        } else {
-          token.role = "OBSERVER";
-        }
+        token.role = dbUser?.role ?? "OBSERVER";
       }
       return token;
     },
 
     async session({ session, token }) {
       if (session.user) {
-        (session.user as any).role = token.role || "OBSERVER";
+        (session.user as any).role = token.role ?? "OBSERVER";
       }
       return session;
     },

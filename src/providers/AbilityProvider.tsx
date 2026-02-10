@@ -1,6 +1,4 @@
 "use client";
-
-import { UsersSchemaTypeData } from "@/features/users/schema";
 import { useSession } from "next-auth/react";
 import React, { createContext, useContext } from "react";
 
@@ -16,25 +14,23 @@ type Ability = {
 
 const AbilityContext = createContext<Ability | null>(null);
 
-export function AbilityProvider({
-  children,
-  users,
-}: {
-  children: React.ReactNode;
-  users: any[];
-}) {
-  const { data: session } = useSession();
-  const currentUserEmail = session?.user?.email ?? null;
-  const user = users.find((u) => u.mail === currentUserEmail);
+export function AbilityProvider({ children }: { children: React.ReactNode }) {
+  const { data: session, status } = useSession();
+
+  if (status === "loading") {
+    return null;
+  }
+
+  const role = (session?.user as any)?.role ?? "OBSERVER";
+
   const ability: Ability = {
-    isAdmin:
-      currentUserEmail === "parhomenkogm@gmail.com" || user?.role === "ADMIN",
-    isBar: user?.role === "BAR",
-    isCucina: user?.role === "CUCINA",
-    isUser: user?.role === "USER",
-    isManager: user?.role === "MNGR",
-    isCash: user?.role === "CASH",
-    isFin: user?.role === "FIN",
+    isAdmin: role === "ADMIN",
+    isBar: role === "BAR",
+    isCucina: role === "CUCINA",
+    isUser: role === "USER",
+    isManager: role === "MNGR",
+    isCash: role === "CASH",
+    isFin: role === "FIN",
   };
 
   return (

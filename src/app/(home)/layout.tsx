@@ -6,7 +6,6 @@ import {
   EmployeesProvider,
 } from "@/providers/EmployeesProvider";
 import { getEmployees } from "../actions/employees/employeeAction";
-import { getUsers } from "../actions/users/userAction";
 
 const NavPage = async ({
   children,
@@ -14,9 +13,8 @@ const NavPage = async ({
   children: React.ReactNode;
 }>) => {
   const employees = await getEmployees();
-  const users = await getUsers();
   return (
-    <AbilityProvider users={users}>
+    <AbilityProvider>
       <EmployeesProvider employees={employees as EmployeesContextValue[]}>
         <SidebarProvider>
           <SidebarNav />

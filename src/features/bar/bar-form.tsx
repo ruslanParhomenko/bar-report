@@ -9,7 +9,6 @@ import {
   productTransferDefault,
 } from "./report/schema";
 
-import { FormWrapper } from "@/components/wrapper/form-wrapper";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import {
@@ -33,7 +32,6 @@ import {
 import {
   createRemarks,
   realtimeRemarksList,
-  updateRemarks,
 } from "@/app/actions/remarks/remarks-action";
 import {
   createBreakList,
@@ -45,25 +43,22 @@ import { Button } from "@/components/ui/button";
 import DatePickerInput from "@/components/inputs/DatePickerInput";
 import { BarFormValues, barSchema } from "./schema";
 import { MONTHS } from "@/utils/getMonthDays";
-import { useRouter, useSearchParams } from "next/navigation";
 
 export default function BarForm({
   realtimeData,
   employeesName,
 }: {
-  realtimeData?: Partial<BarFormValues>;
+  realtimeData?: BarFormValues;
   employeesName: string[];
 }) {
   const { isBar, isAdmin } = useAbility();
   const isDisabled = !(isAdmin || isBar);
 
-  const router = useRouter();
-  const searchParams = useSearchParams();
-
-  const urlTab = searchParams.get("tab") as TabValue | null;
+  console.log("realtimeData", realtimeData);
 
   const form = useForm<BarFormValues>({
     defaultValues: realtimeData ?? {
+      date: new Date(),
       report: defaultValuesReportBar,
       penalty: defaultRemarksValue,
       breakForm: defaultValuesBreak,
@@ -72,30 +67,21 @@ export default function BarForm({
     mode: "onChange",
   });
 
-  const values = useWatch({ control: form.control });
+  const values = useWatch({ control: form.control }) as BarFormValues;
 
   const reportValues = values?.report;
   const penaltyValues = values?.penalty;
   const breakValues = values?.breakForm;
 
-  useRealtimeSave(reportValues, isBar, async (data) => {
-    if (!data) return;
-    await realtimeReportBar(data as BarFormValues["report"]);
-    toast.info("Автосохранение отчёта…", { duration: 2000 });
-  });
+  console.log("values:", values);
 
-  useRealtimeSave(penaltyValues, isBar, async (data) => {
-    await realtimeRemarksList(data as RemarksFormData);
-    toast.info("Автосохранение журнала…", { duration: 2000 });
-  });
-
-  useRealtimeSave(breakValues, isBar, async (data) => {
-    await realtimeBreakList(data as BreakFormData);
-    toast.info("Автосохранение брейк-листа…", { duration: 2000 });
+  useRealtimeSave(values, isAdmin, async (data) => {
+    if (!data || !form.formState.isDirty) return;
+    await realtimeReportBar(data);
+    toast.info("Автосохранение всех данных…", { duration: 2000 });
   });
   //submit
   const onSubmit = async (data: BarFormValues) => {
-    console.log("submitData", data);
     const { date, report, penalty, breakForm } = data;
     const dateValue = new Date(date);
     const month = MONTHS[dateValue.getMonth()];
@@ -133,12 +119,12 @@ export default function BarForm({
       day: day,
     };
 
-    await createReportBar(uniqueKey, year, month, {
-      day,
-      report: formateReportData,
-    });
-    await createBreakList(formattedBreakData);
-    await createRemarks(uniqueKey, formattedPenaltyData);
+    // await createReportBar(uniqueKey, year, month, {
+    //   day,
+    //   report: formateReportData,
+    // });
+    // await createBreakList(formattedBreakData);
+    // await createRemarks(uniqueKey, formattedPenaltyData);
 
     const updatedTobacco = report.tobacco?.map((item) => {
       const finalStock =
@@ -163,7 +149,7 @@ export default function BarForm({
       notes: "",
     };
 
-    await realtimeReportBar(updatedData).catch(console.error);
+    // await realtimeReportBar(updatedData).catch(console.error);
     form.reset({
       date: new Date(),
       report: updatedData,
@@ -176,20 +162,11 @@ export default function BarForm({
 
   type TabValue = "break" | "penalty" | "report";
 
-  const [tab, setTab] = useState<TabValue>(
-    urlTab === "break" || urlTab === "penalty" || urlTab === "report"
-      ? urlTab
-      : "report",
-  );
+  const [tab, setTab] = useState<TabValue>("report");
 
   const handleTabChange = (value: string) => {
     if (value === "break" || value === "penalty" || value === "report") {
       setTab(value);
-
-      const params = new URLSearchParams(searchParams.toString());
-      params.set("tab", value);
-
-      router.replace(`?${params.toString()}`, { scroll: false });
     }
   };
 
@@ -202,9 +179,8 @@ export default function BarForm({
   useEffect(() => {
     if (!realtimeData) return;
 
-    console.log("realtimeData", realtimeData.breakForm);
-
     form.reset({
+      date: realtimeData.date ? new Date(realtimeData.date) : new Date(),
       report: realtimeData.report ?? defaultValuesReportBar,
       penalty: realtimeData.penalty ?? defaultRemarksValue,
       breakForm: realtimeData.breakForm ?? defaultValuesBreak,
@@ -215,10 +191,10 @@ export default function BarForm({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-col h-[98vh]"
+        className="flex flex-col h-[98vh] p-1"
       >
         <Tabs value={tab} onValueChange={handleTabChange} className="flex-1">
-          <div className="flex items-center justify-between my-4 px-4">
+          <div className="flex items-center justify-between my-2 px-4">
             <TabsList className="flex md:gap-2 h-8 w-80">
               {navItems.map((item) => (
                 <TabsTrigger
@@ -232,7 +208,11 @@ export default function BarForm({
                 </TabsTrigger>
               ))}
             </TabsList>
-            <DatePickerInput fieldName="date" className="text-md text-rd" />
+            <DatePickerInput
+              fieldName="date"
+              className="text-md text-rd"
+              disabled
+            />
           </div>
           <TabsContent value="break" forceMount>
             <div className={tab !== "break" ? "hidden" : ""}>

@@ -31,10 +31,16 @@ export default function ResultTableBody({
             </TableCell>
             <TableCell className="text-center">{dayH}</TableCell>
             <TableCell className="text-center">{nightH}</TableCell>
-            <TableCell className="text-center text-gn border-r">
+            <TableCell
+              onClick={() => handleCopy(String(totalHours))}
+              className="text-center text-gn border-r cursor-copy"
+            >
               {totalHours}
             </TableCell>
-            <TableCell className="text-center border-r">
+            <TableCell
+              className="text-center border-r cursor-copy"
+              onClick={() => handleCopy(String(salary))}
+            >
               {isAdmin ? salary : "****"}
             </TableCell>
             <TableCell
