@@ -12,7 +12,7 @@ type ReportCreateData = {
   report: Omit<ReportCucinaType, "date">;
 };
 
-export type ReportDataByUniqueKey = {
+export type ReportCucinaDataByUniqueKey = {
   id: string;
   year: string;
   month: string;

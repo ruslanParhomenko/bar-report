@@ -17,8 +17,9 @@ import { RemarksDataByUniqueKey } from "@/app/actions/remarks/remarks-action";
 export default function PenaltyGeneral({
   data,
 }: {
-  data: RemarksDataByUniqueKey;
+  data: RemarksDataByUniqueKey | null;
 }) {
+  if (!data) return null;
   const t = useTranslations("Home");
 
   const componentRef = useRef<HTMLDivElement>(null);

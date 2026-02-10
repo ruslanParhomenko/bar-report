@@ -43,6 +43,7 @@ import { Button } from "@/components/ui/button";
 import DatePickerInput from "@/components/inputs/DatePickerInput";
 import { BarFormValues, barSchema } from "./schema";
 import { MONTHS } from "@/utils/getMonthDays";
+import ModalConfirm from "@/components/modal/ModalConfirm";
 
 export default function BarForm({
   realtimeData,
@@ -54,7 +55,9 @@ export default function BarForm({
   const { isBar, isAdmin } = useAbility();
   const isDisabled = !(isAdmin || isBar);
 
-  console.log("realtimeData", realtimeData);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [formDataToSubmit, setFormDataToSubmit] =
+    useState<BarFormValues | null>(null);
 
   const form = useForm<BarFormValues>({
     defaultValues: realtimeData ?? {
@@ -69,19 +72,16 @@ export default function BarForm({
 
   const values = useWatch({ control: form.control }) as BarFormValues;
 
-  const reportValues = values?.report;
-  const penaltyValues = values?.penalty;
-  const breakValues = values?.breakForm;
-
-  console.log("values:", values);
-
   useRealtimeSave(values, isAdmin, async (data) => {
     if (!data || !form.formState.isDirty) return;
     await realtimeReportBar(data);
     toast.info("Автосохранение всех данных…", { duration: 2000 });
   });
+
   //submit
   const onSubmit = async (data: BarFormValues) => {
+    console.log("Submitting data:", data);
+
     const { date, report, penalty, breakForm } = data;
     const dateValue = new Date(date);
     const month = MONTHS[dateValue.getMonth()];
@@ -119,12 +119,12 @@ export default function BarForm({
       day: day,
     };
 
-    // await createReportBar(uniqueKey, year, month, {
-    //   day,
-    //   report: formateReportData,
-    // });
-    // await createBreakList(formattedBreakData);
-    // await createRemarks(uniqueKey, formattedPenaltyData);
+    await createReportBar(uniqueKey, year, month, {
+      day,
+      report: formateReportData,
+    });
+    await createBreakList(formattedBreakData);
+    await createRemarks(uniqueKey, formattedPenaltyData);
 
     const updatedTobacco = report.tobacco?.map((item) => {
       const finalStock =
@@ -175,6 +175,11 @@ export default function BarForm({
     { label: "break", value: "break" },
     { label: "penalty", value: "penalty" },
   ];
+  const handleFormSubmit = (data: BarFormValues) => {
+    setFormDataToSubmit(data);
+
+    setIsModalOpen(true);
+  };
 
   useEffect(() => {
     if (!realtimeData) return;
@@ -190,7 +195,7 @@ export default function BarForm({
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit(onSubmit)}
+        onSubmit={form.handleSubmit(handleFormSubmit)}
         className="flex flex-col h-[98vh] p-1"
       >
         <Tabs value={tab} onValueChange={handleTabChange} className="flex-1">
@@ -237,6 +242,17 @@ export default function BarForm({
           <Button type="submit" className="bg-bl text-white mt-auto">
             Сохранить
           </Button>
+          <ModalConfirm
+            open={isModalOpen}
+            setOpen={setIsModalOpen}
+            message="save"
+            handleConfirm={async () => {
+              if (!formDataToSubmit) return;
+              await onSubmit(formDataToSubmit);
+              setIsModalOpen(false);
+              setFormDataToSubmit(null);
+            }}
+          />
         </div>
       </form>
     </Form>

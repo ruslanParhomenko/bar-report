@@ -110,7 +110,7 @@ export const NAV_BY_PATCH = {
   "orders-ttn": { navItems: ORDERS_NAV_ITEMS, filterType: "none" },
   "orders-zn": { navItems: ORDERS_NAV_ITEMS, filterType: "none" },
   info: { navItems: INFO_NAV_ITEMS, filterType: "none" },
-  archive: { navItems: ARCHIVE_NAV_ITEMS, filterType: "month" },
+  archive: { navItems: [], filterType: "month" },
   // "stop-list": { navItems: STOP_LIST_NAV_ITEMS, filterType: "none" },
   users: { navItems: USERS_NAV_ITEMS, filterType: "none" },
   penalty: { navItems: PENALTY_NAV_ITEMS, filterType: "month" },

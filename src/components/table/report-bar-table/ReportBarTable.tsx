@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
+import { Card, CardContent, CardTitle } from "../../ui/card";
 import TobaccoTable from "./TobaccoTable";
 import ExpensesTable from "./ExpensesTable";
 import ProductTransferTable from "./ProductTransferTable";
@@ -24,11 +24,8 @@ export default function ReportBarTable({
               key={index}
               className="shadow-none border rounded-2xl md:p-4 mb-4 bg-background! m-2"
             >
-              <CardHeader>
-                <CardTitle className="text-xs text-bl">
-                  day: {item.day}
-                </CardTitle>
-              </CardHeader>
+              <CardTitle className="text-xs text-bl">day: {item.day}</CardTitle>
+
               <CardContent className="flex flex-col gap-4">
                 <div className="grid grid-cols-1 xl:grid-cols-4 gap-4">
                   <TobaccoTable data={reportData?.tobacco} />

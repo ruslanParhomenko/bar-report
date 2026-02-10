@@ -5,7 +5,7 @@ import WriteOffTable from "./WriteOffTable";
 import PreparedTable from "./PreparedTable";
 import StaffTable from "./StaffTable";
 import { classNameHead } from "../report-bar-table/ReportBarTable";
-import { ReportDataByUniqueKey } from "@/app/actions/report-cucina/report-cucina-action";
+import { ReportCucinaDataByUniqueKey } from "@/app/actions/report-cucina/report-cucina-action";
 
 export const classNameHeadCucina = "text-shadow-muted-foreground font-bold";
 export const classNameRowBorderCucina = "border-b-bl";
@@ -13,7 +13,7 @@ export const classNameRowBorderCucina = "border-b-bl";
 export default function ReportCucinaTable({
   data,
 }: {
-  data: ReportDataByUniqueKey | null;
+  data: ReportCucinaDataByUniqueKey | null;
 }) {
   return (
     <>

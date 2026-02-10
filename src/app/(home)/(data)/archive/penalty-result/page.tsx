@@ -1,28 +1,21 @@
-import {
-  getRemarksByUniqueKey,
-  RemarksDataByUniqueKey,
-} from "@/app/actions/remarks/remarks-action";
-import { InsufficientRights } from "@/components/wrapper/InsufficientRights";
-import PenaltyGeneral from "@/features/penalty/penalty-general";
-import { checkAccess } from "@/lib/check-access";
+// import {
+//   getRemarksByUniqueKey,
+//   RemarksDataByUniqueKey,
+// } from "@/app/actions/remarks/remarks-action";
+// import PenaltyGeneral from "@/features/penalty/penalty-general";
 
-const SET_ACCESS = ["ADMIN", "BAR", "MNGR", "USER"];
+// export default async function Page({
+//   searchParams,
+// }: {
+//   searchParams: Promise<{ [key: string]: string | undefined }>;
+// }) {
+//   const { month, year } = await searchParams;
+//   if (!month || !year) return null;
+//   const uniqueKey = `${year}-${month}`;
 
-export default async function Page({
-  searchParams,
-}: {
-  searchParams: Promise<{ [key: string]: string | undefined }>;
-}) {
-  const hasAccess = await checkAccess(SET_ACCESS);
-  if (!hasAccess) return <InsufficientRights />;
+//   const remarks = (await getRemarksByUniqueKey(
+//     uniqueKey,
+//   )) as RemarksDataByUniqueKey;
 
-  const { month, year } = await searchParams;
-  if (!month || !year) return null;
-  const uniqueKey = `${year}-${month}`;
-
-  const remarks = (await getRemarksByUniqueKey(
-    uniqueKey,
-  )) as RemarksDataByUniqueKey;
-
-  return <PenaltyGeneral data={remarks} />;
-}
+//   return <PenaltyGeneral data={remarks} />;
+// }
