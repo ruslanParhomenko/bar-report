@@ -4,7 +4,7 @@ import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
 
-export default function NavTabs({ children }: { children: React.ReactNode }) {
+export default function NavTabs() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -62,12 +62,10 @@ export default function NavTabs({ children }: { children: React.ReactNode }) {
             >
               <span className="truncate block w-full text-xs md:text-md text-bl">
                 {item.label}
-              </span>{" "}
+              </span>
             </TabsTrigger>
           ))}
         </TabsList>
-
-        {children}
       </div>
     </Tabs>
   );

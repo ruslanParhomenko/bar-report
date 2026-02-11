@@ -18,7 +18,6 @@ import {
 import { Activity, useEffect, useState } from "react";
 import { useAbility } from "@/providers/AbilityProvider";
 import ReportBarTable from "./report/report-bar-table";
-import { TabsContent } from "@/components/ui/tabs";
 import BreakTable from "@/features/bar/break-form/break-table";
 import PenaltyTable from "@/features/bar/penalty/penalty-table";
 import { defaultRemarksValue } from "@/features/bar/penalty/schema";
@@ -180,23 +179,17 @@ export default function BarForm({
           disabled
         />
 
-        <TabsContent value="break">
-          <Activity mode={tab === "break" ? "visible" : "hidden"}>
-            <BreakTable isDisabled={isDisabled} employeesName={employeesName} />
-          </Activity>
-        </TabsContent>
+        <Activity mode={tab === "break" ? "visible" : "hidden"}>
+          <BreakTable isDisabled={isDisabled} employeesName={employeesName} />
+        </Activity>
 
-        <TabsContent value="penalty">
-          <Activity mode={tab === "penalty" ? "visible" : "hidden"}>
-            <PenaltyTable isDisabled={isDisabled} />
-          </Activity>
-        </TabsContent>
+        <Activity mode={tab === "penalty" ? "visible" : "hidden"}>
+          <PenaltyTable isDisabled={isDisabled} />
+        </Activity>
 
-        <TabsContent value="report">
-          <Activity mode={tab === "report" ? "visible" : "hidden"}>
-            <ReportBarTable isDisabled={isDisabled} />
-          </Activity>
-        </TabsContent>
+        <Activity mode={tab === "report" ? "visible" : "hidden"}>
+          <ReportBarTable isDisabled={isDisabled} />
+        </Activity>
 
         <div className="sticky bottom-2 w-full flex justify-start px-4 mt-auto">
           <Button type="submit" className="bg-bl text-white mt-auto">
