@@ -103,7 +103,7 @@ async function _getReportCucinaByUniqueKey(uniqueKey: string) {
   return {
     id: doc.id,
     ...doc.data(),
-  } as ReportDataByUniqueKey;
+  } as ReportCucinaDataByUniqueKey;
 }
 
 export const getReportCucinaByUniqueKey = unstable_cache(
