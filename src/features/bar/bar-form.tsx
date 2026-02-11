@@ -18,25 +18,13 @@ import {
 import { Activity, useEffect, useState } from "react";
 import { useAbility } from "@/providers/AbilityProvider";
 import ReportBarTable from "./report/report-bar-table";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { TabsContent } from "@/components/ui/tabs";
 import BreakTable from "@/features/bar/break-form/break-table";
 import PenaltyTable from "@/features/bar/penalty/penalty-table";
-import {
-  defaultRemarksValue,
-  RemarksFormData,
-} from "@/features/bar/penalty/schema";
-import {
-  BreakFormData,
-  defaultValuesBreak,
-} from "@/features/bar/break-form/schema";
-import {
-  createRemarks,
-  realtimeRemarksList,
-} from "@/app/actions/remarks/remarks-action";
-import {
-  createBreakList,
-  realtimeBreakList,
-} from "@/app/actions/break/break-action";
+import { defaultRemarksValue } from "@/features/bar/penalty/schema";
+import { defaultValuesBreak } from "@/features/bar/break-form/schema";
+import { createRemarks } from "@/app/actions/remarks/remarks-action";
+import { createBreakList } from "@/app/actions/break/break-action";
 import { useRealtimeSave } from "@/hooks/use-realtime-save";
 import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
@@ -44,6 +32,7 @@ import DatePickerInput from "@/components/inputs/DatePickerInput";
 import { BarFormValues, barSchema } from "./schema";
 import { MONTHS } from "@/utils/getMonthDays";
 import ModalConfirm from "@/components/modal/ModalConfirm";
+import { useSearchParams } from "next/navigation";
 
 export default function BarForm({
   realtimeData,
@@ -52,6 +41,8 @@ export default function BarForm({
   realtimeData?: BarFormValues;
   employeesName: string[];
 }) {
+  const searchParams = useSearchParams();
+  const tab = searchParams.get("tab");
   const { isBar, isAdmin } = useAbility();
   const isDisabled = !(isAdmin || isBar);
 
@@ -160,21 +151,6 @@ export default function BarForm({
     toast.success("Бар отчет успешно сохранён !");
   };
 
-  type TabValue = "break" | "penalty" | "report";
-
-  const [tab, setTab] = useState<TabValue>("report");
-
-  const handleTabChange = (value: string) => {
-    if (value === "break" || value === "penalty" || value === "report") {
-      setTab(value);
-    }
-  };
-
-  const navItems = [
-    { label: "report", value: "report" },
-    { label: "break", value: "break" },
-    { label: "penalty", value: "penalty" },
-  ];
   const handleFormSubmit = (data: BarFormValues) => {
     setFormDataToSubmit(data);
 
@@ -198,52 +174,31 @@ export default function BarForm({
         onSubmit={form.handleSubmit(handleFormSubmit)}
         className="flex flex-col h-[98vh] p-1"
       >
-        <Tabs value={tab} onValueChange={handleTabChange} className="flex-1">
-          <div className="flex items-center justify-between my-2 px-4">
-            <TabsList className="flex md:gap-2 h-8 w-80">
-              {navItems.map((item) => (
-                <TabsTrigger
-                  key={item.value}
-                  value={item.value}
-                  className="hover:text-bl cursor-pointer w-1/3"
-                >
-                  <span className="truncate block w-full text-xs md:text-md text-bl">
-                    {item.label}
-                  </span>
-                </TabsTrigger>
-              ))}
-            </TabsList>
+        <DatePickerInput
+          fieldName="date"
+          className="text-md text-rd"
+          disabled
+        />
 
-            <DatePickerInput
-              fieldName="date"
-              className="text-md text-rd"
-              disabled
-            />
-          </div>
+        <TabsContent value="break">
+          <Activity mode={tab === "break" ? "visible" : "hidden"}>
+            <BreakTable isDisabled={isDisabled} employeesName={employeesName} />
+          </Activity>
+        </TabsContent>
 
-          <TabsContent value="break">
-            <Activity mode={tab === "break" ? "visible" : "hidden"}>
-              <BreakTable
-                isDisabled={isDisabled}
-                employeesName={employeesName}
-              />
-            </Activity>
-          </TabsContent>
+        <TabsContent value="penalty">
+          <Activity mode={tab === "penalty" ? "visible" : "hidden"}>
+            <PenaltyTable isDisabled={isDisabled} />
+          </Activity>
+        </TabsContent>
 
-          <TabsContent value="penalty">
-            <Activity mode={tab === "penalty" ? "visible" : "hidden"}>
-              <PenaltyTable isDisabled={isDisabled} />
-            </Activity>
-          </TabsContent>
+        <TabsContent value="report">
+          <Activity mode={tab === "report" ? "visible" : "hidden"}>
+            <ReportBarTable isDisabled={isDisabled} />
+          </Activity>
+        </TabsContent>
 
-          <TabsContent value="report">
-            <Activity mode={tab === "report" ? "visible" : "hidden"}>
-              <ReportBarTable isDisabled={isDisabled} />
-            </Activity>
-          </TabsContent>
-        </Tabs>
-
-        <div className="sticky bottom-2 w-full flex justify-start px-4">
+        <div className="sticky bottom-2 w-full flex justify-start px-4 mt-auto">
           <Button type="submit" className="bg-bl text-white mt-auto">
             Сохранить
           </Button>
