@@ -15,7 +15,7 @@ import {
   createReportBar,
   realtimeReportBar,
 } from "@/app/actions/report-bar/report-bar-action";
-import { useEffect, useState } from "react";
+import { Activity, useEffect, useState } from "react";
 import { useAbility } from "@/providers/AbilityProvider";
 import ReportBarTable from "./report/report-bar-table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -213,31 +213,36 @@ export default function BarForm({
                 </TabsTrigger>
               ))}
             </TabsList>
+
             <DatePickerInput
               fieldName="date"
               className="text-md text-rd"
               disabled
             />
           </div>
-          <TabsContent value="break" forceMount>
-            <div className={tab !== "break" ? "hidden" : ""}>
+
+          <TabsContent value="break">
+            <Activity mode={tab === "break" ? "visible" : "hidden"}>
               <BreakTable
                 isDisabled={isDisabled}
                 employeesName={employeesName}
               />
-            </div>
+            </Activity>
           </TabsContent>
-          <TabsContent value="penalty" forceMount>
-            <div className={tab !== "penalty" ? "hidden" : ""}>
+
+          <TabsContent value="penalty">
+            <Activity mode={tab === "penalty" ? "visible" : "hidden"}>
               <PenaltyTable isDisabled={isDisabled} />
-            </div>
+            </Activity>
           </TabsContent>
-          <TabsContent value="report" forceMount>
-            <div className={tab !== "report" ? "hidden" : ""}>
+
+          <TabsContent value="report">
+            <Activity mode={tab === "report" ? "visible" : "hidden"}>
               <ReportBarTable isDisabled={isDisabled} />
-            </div>
+            </Activity>
           </TabsContent>
         </Tabs>
+
         <div className="sticky bottom-2 w-full flex justify-start px-4">
           <Button type="submit" className="bg-bl text-white mt-auto">
             Сохранить

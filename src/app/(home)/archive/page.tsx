@@ -3,6 +3,7 @@ import { getRemarksByUniqueKey } from "@/app/actions/remarks/remarks-action";
 import { getReportByUniqueKey } from "@/app/actions/report-bar/report-bar-action";
 import { getReportCucinaByUniqueKey } from "@/app/actions/report-cucina/report-cucina-action";
 import ArchivePage, { ArchiveData } from "@/features/archive/archive-page";
+import { MONTHS } from "@/utils/getMonthDays";
 
 export default async function Page({
   searchParams,
@@ -10,9 +11,11 @@ export default async function Page({
   searchParams: Promise<{ [key: string]: string | undefined }>;
 }) {
   const { month, year } = await searchParams;
-  if (!month || !year) return null;
+  const currentMonth = month ?? MONTHS[new Date().getMonth()];
 
-  const uniqueKey = `${year}-${month}`;
+  const currentYear = year ?? new Date().getFullYear().toString();
+
+  const uniqueKey = `${currentYear}-${currentMonth}`;
 
   const [
     dataReportBar,

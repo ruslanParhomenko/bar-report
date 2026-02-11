@@ -1,10 +1,8 @@
 "use client";
 
-import { useState } from "react";
-import { useAbility } from "@/providers/AbilityProvider";
+import { Activity, useEffect, useState, useTransition } from "react";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import DatePickerInput from "@/components/inputs/DatePickerInput";
 import { ReportDataByUniqueKey } from "@/app/actions/report-bar/report-bar-action";
 import ReportBarTable from "@/components/table/report-bar-table/ReportBarTable";
 import { ReportCucinaDataByUniqueKey } from "@/app/actions/report-cucina/report-cucina-action";
@@ -14,6 +12,9 @@ import { BreakListArchive } from "../break/break-list-archive";
 import { RemarksDataByUniqueKey } from "@/app/actions/remarks/remarks-action";
 import PenaltyDetails from "../penalty/penalty-details";
 import PenaltyGeneral from "../penalty/penalty-general";
+import SelectByMonthYear from "@/components/nav/select-month-year";
+import { MONTHS } from "@/utils/getMonthDays";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 type TabValue = "bar" | "cucina" | "breakList" | "penalty" | "penaltyResult";
 export type ArchiveData = {
@@ -28,10 +29,20 @@ export default function ArchivePage({
 }: {
   archiveData: ArchiveData;
 }) {
-  const { isBar, isAdmin, isManager, isUser, isCucina } = useAbility();
-  const isDisabled = !(isAdmin || isBar || isManager || isUser || isCucina);
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const [isPending, startTransition] = useTransition();
+
+  const currentMonth =
+    searchParams.get("month") ?? MONTHS[new Date().getMonth()];
+
+  const currentYear =
+    searchParams.get("year") ?? new Date().getFullYear().toString();
 
   const [tab, setTab] = useState<TabValue>("bar");
+  const [month, setMonth] = useState(currentMonth);
+  const [year, setYear] = useState(currentYear);
 
   const handleTabChange = (value: string) => {
     if (
@@ -53,6 +64,17 @@ export default function ArchivePage({
     { label: "penaltyResult", value: "penaltyResult" },
   ];
 
+  useEffect(() => {
+    const params = new URLSearchParams(searchParams.toString());
+
+    params.set("month", month);
+    params.set("year", year);
+
+    startTransition(() => {
+      router.replace(`${pathname}?${params.toString()}`);
+    });
+  }, [month, year, pathname]);
+
   return (
     <Tabs value={tab} onValueChange={handleTabChange} className="flex-1">
       <div className="flex items-center justify-between my-2 px-4">
@@ -69,31 +91,43 @@ export default function ArchivePage({
             </TabsTrigger>
           ))}
         </TabsList>
+        <SelectByMonthYear
+          month={month}
+          year={year}
+          setMonth={setMonth}
+          setYear={setYear}
+          isLoading={isPending}
+          classNameMonthYear={navItems.length > 0 ? "md:w-22 w-10" : "w-24"}
+        />
       </div>
-      <TabsContent value="bar" forceMount>
-        <div className={tab !== "bar" ? "hidden" : ""}>
+      <TabsContent value="bar">
+        <Activity mode={tab === "bar" ? "visible" : "hidden"}>
           <ReportBarTable data={archiveData.bar} />
-        </div>
+        </Activity>
       </TabsContent>
-      <TabsContent value="cucina" forceMount>
-        <div className={tab !== "cucina" ? "hidden" : ""}>
+
+      <TabsContent value="cucina">
+        <Activity mode={tab === "cucina" ? "visible" : "hidden"}>
           <ReportCucinaTable data={archiveData.cucina} />
-        </div>
+        </Activity>
       </TabsContent>
-      <TabsContent value="breakList" forceMount>
-        <div className={tab !== "breakList" ? "hidden" : ""}>
+
+      <TabsContent value="breakList">
+        <Activity mode={tab === "breakList" ? "visible" : "hidden"}>
           <BreakListArchive data={archiveData.breakList} />
-        </div>
+        </Activity>
       </TabsContent>
-      <TabsContent value="penalty" forceMount>
-        <div className={tab !== "penalty" ? "hidden" : ""}>
+
+      <TabsContent value="penalty">
+        <Activity mode={tab === "penalty" ? "visible" : "hidden"}>
           <PenaltyDetails data={archiveData.penalty} />
-        </div>
+        </Activity>
       </TabsContent>
-      <TabsContent value="penaltyResult" forceMount>
-        <div className={tab !== "penaltyResult" ? "hidden" : ""}>
+
+      <TabsContent value="penaltyResult">
+        <Activity mode={tab === "penaltyResult" ? "visible" : "hidden"}>
           <PenaltyGeneral data={archiveData.penaltyResult} />
-        </div>
+        </Activity>
       </TabsContent>
     </Tabs>
   );
