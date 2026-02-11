@@ -3,16 +3,16 @@ import { PenaltyTableHeader } from "./penalty-header";
 import { PenaltyTableBody } from "./penalty-body";
 
 export default function PenaltyTable({
-  data,
+  day,
   isDisabled,
 }: {
-  data?: any;
+  day?: any;
   isDisabled: boolean;
 }) {
   return (
     <Table className="md:table-fixed mt-6">
-      <PenaltyTableHeader day={data?.day} />
-      <PenaltyTableBody isDisabled={isDisabled} data={data} />
+      <PenaltyTableHeader day={day} />
+      <PenaltyTableBody isDisabled={isDisabled} />
     </Table>
   );
 }

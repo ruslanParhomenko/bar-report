@@ -6,10 +6,8 @@ import { Input } from "@/components/ui/input";
 import SelectField from "@/components/inputs/SelectField";
 import { cn } from "@/lib/utils";
 import { Trash2 } from "lucide-react";
-import { useEmployees } from "@/providers/EmployeesProvider";
 import { BarFormValues } from "../schema";
 import { isCurrentCell } from "./utils";
-import { useEffect } from "react";
 
 export default function BreakTableBody({
   employeesName,

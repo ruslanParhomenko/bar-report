@@ -11,13 +11,7 @@ import { Plus, Trash2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { BarFormValues } from "../schema";
 
-export function PenaltyTableBody({
-  data,
-  isDisabled,
-}: {
-  data?: any;
-  isDisabled: boolean;
-}) {
+export function PenaltyTableBody({ isDisabled }: { isDisabled: boolean }) {
   const selectedEmployees = useEmployees().map((e) => e.name);
 
   const { control, reset } = useFormContext<BarFormValues>();

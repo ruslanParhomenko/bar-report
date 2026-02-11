@@ -68,7 +68,7 @@ export default function PenaltyUpdate({
       returnButton={true}
       withButtons={!isDisabled}
     >
-      <PenaltyTable data={data} isDisabled={isDisabled} />
+      <PenaltyTable isDisabled={isDisabled} day={day} />
     </FormWrapper>
   );
 }
