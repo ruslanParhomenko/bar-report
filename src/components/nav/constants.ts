@@ -40,11 +40,6 @@ export const ORDERS_NAV_ITEMS = [
   { title: "cucina", href: "cucina" },
 ];
 
-export const STOP_LIST_NAV_ITEMS = [
-  { title: "bar", href: "bar" },
-  { title: "cucina", href: "cucina" },
-];
-
 export const USERS_NAV_ITEMS = [
   { title: "users", href: "" },
   { title: "add", href: "create" },
@@ -100,6 +95,10 @@ export const EMPLOYEES_NAV_ITEMS = [
   { label: "users", value: "users" },
   { label: "create-user", value: "create-user" },
 ];
+export const STOP_LIST_NAV_ITEMS = [
+  { label: "bar", value: "bar" },
+  { label: "cucina", value: "cucina" },
+];
 
 type NAV_BY_PATCH_TYPE = Record<
   string,
@@ -117,6 +116,7 @@ export const NAV_BY_PATCH = {
   tips: { navItems: [], filterMonth: true },
   cash: { navItems: [], filterMonth: true },
   "a-o": { navItems: [], filterMonth: true },
+  "stop-list": { navItems: STOP_LIST_NAV_ITEMS, filterMonth: false },
 
   // schedule: { navItems: SCHEDULE_NAV_ITEMS, filterType: "month" },
   // employees: { navItems: EMPLOYEES_NAV_ITEMS, filterType: "role" },

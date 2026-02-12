@@ -1,7 +1,6 @@
 "use client";
 import { Resolver, useForm, useWatch } from "react-hook-form";
 import { Textarea } from "@/components/ui/textarea";
-import DatePickerInput from "@/components/inputs/DatePickerInput";
 import {
   defaultReportCucina,
   defaultShift,
@@ -30,7 +29,6 @@ import { toast } from "sonner";
 import RenderTableCucina from "./fields-form";
 
 import { useEmployees } from "@/providers/EmployeesProvider";
-import { FormWrapper } from "@/components/wrapper/form-wrapper";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
 import { useAbility } from "@/providers/AbilityProvider";
@@ -39,6 +37,7 @@ import {
   realtimeReportCucina,
 } from "@/app/actions/report-cucina/report-cucina-action";
 import { MONTHS } from "@/utils/getMonthDays";
+import FormInput from "@/components/wrapper/form";
 
 export default function ReportCucinaForm({
   realtimeData,
@@ -99,20 +98,12 @@ export default function ReportCucinaForm({
   };
 
   return (
-    <FormWrapper
+    <FormInput
       form={form}
       onSubmit={onSubmit}
       className="w-full  md:mx-auto md:max-w-6xl"
       disabled={isDisabled}
     >
-      <div className="flex w-full justify-end">
-        <DatePickerInput
-          fieldName="date"
-          className="text-sm h-8 text-rd"
-          disabled={!isAdmin}
-        />
-      </div>
-
       <RenderTableCucina
         name="shifts"
         form={form}
@@ -235,6 +226,6 @@ export default function ReportCucinaForm({
         {...form.register("notes")}
         disabled={isDisabled}
       />
-    </FormWrapper>
+    </FormInput>
   );
 }

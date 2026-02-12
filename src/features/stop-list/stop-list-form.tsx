@@ -33,6 +33,10 @@ type StopLitTableProps = {
 export default function StopListForm({ data, nameTag }: StopLitTableProps) {
   const { isBar, isCucina, isAdmin } = useAbility();
 
+  console.log(nameTag);
+
+  console.log(data);
+
   const isAccount =
     (isBar && nameTag === "bar") ||
     (isCucina && nameTag === "cucina") ||
@@ -91,10 +95,12 @@ export default function StopListForm({ data, nameTag }: StopLitTableProps) {
   useEffect(() => {
     if (!data || isInitialized) return;
 
+    console.log("useEffect", data[0]);
+
     form.reset(data[0]);
     lastSavedDataRef.current = JSON.stringify(data[0]);
     setIsInitialized(true);
-  }, [data, form, isInitialized]);
+  }, [data, form, isInitialized, nameTag]);
 
   // clear timeout on unmount
   useEffect(() => {
