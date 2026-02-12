@@ -2,7 +2,7 @@ import { useTranslations } from "next-intl";
 import { Dot } from "lucide-react";
 import { Menu } from "@/app/actions/google/googleSheetAction";
 
-export function MenuDaily({ data }: { data: Menu }) {
+export function MenuDaily({ data }: { data: Menu | null }) {
   const dataDaily = data && data.daily;
   const t = useTranslations("Menu");
 

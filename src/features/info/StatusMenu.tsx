@@ -5,7 +5,7 @@ import { columns, LABELS } from "./constants";
 import { useRef } from "react";
 import { Menu } from "@/app/actions/google/googleSheetAction";
 
-export default function StatusMenu({ data }: { data: Menu }) {
+export default function StatusMenu({ data }: { data: Menu | null }) {
   const selectData = data && data.statusMenu;
   const componentRef = useRef<HTMLDivElement>(null);
 
@@ -33,7 +33,7 @@ export default function StatusMenu({ data }: { data: Menu }) {
             </CardHeader>
             <CardContent>
               <ul className="space-y-1 text-sm">
-                {selectData[col.key].map((item, idx) => (
+                {selectData?.[col.key].map((item, idx) => (
                   <li
                     key={idx}
                     className={

@@ -17,7 +17,7 @@ const SignInRedirect = ({ children }: { children: React.ReactNode }) => {
       return;
     }
 
-    if (status === "authenticated") router.replace("/schedule/bar");
+    if (status === "authenticated") router.replace("/schedule");
   }, [status, role, router]);
 
   if (status === "loading") {

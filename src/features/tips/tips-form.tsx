@@ -27,17 +27,17 @@ export default function TipsForm({
   month,
   year,
   employees,
+  monthDays,
 }: {
   dataTips: TipsData | null;
   dataCash: CashData | null;
   month: string;
   year: string;
   employees: EmployeeData[];
+  monthDays: ReturnType<typeof getMonthDays>;
 }) {
   const { isAdmin } = useAbility();
   const [showSendButton, setShowSendButton] = useState(false);
-
-  const monthDays = getMonthDays({ month, year });
 
   // form
   const form = useForm<TipsFormType>({

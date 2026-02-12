@@ -1,19 +1,18 @@
 import { TableCell, TableFooter, TableRow } from "@/components/ui/table";
-import { UseFormReturn, useWatch } from "react-hook-form";
-import { SuppliersFormTypeInput } from "./schema";
+import { useFormContext, useWatch } from "react-hook-form";
+import { SuppliersFormType } from "./schema";
 import { useMemo } from "react";
 
 export default function TTNFooterTable({
   arrayRows,
   monthDays,
-  form,
 }: {
   arrayRows: string[];
   monthDays: ReturnType<typeof import("@/utils/getMonthDays").getMonthDays>;
-  form: UseFormReturn<SuppliersFormTypeInput>;
 }) {
+  const { control } = useFormContext<SuppliersFormType>();
   const value = useWatch({
-    control: form.control,
+    control: control,
     name: "rowSuppliers",
   });
   const sum = (arr?: Array<string | undefined>) =>
@@ -43,7 +42,7 @@ export default function TTNFooterTable({
         totalCreditStartSum: 0,
         totalDebitStartSum: 0,
         totalFinalSum: 0,
-      }
+      },
     );
   }, [arrayRows, value]);
 

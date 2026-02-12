@@ -8,21 +8,13 @@ import { InsufficientRights } from "@/components/wrapper/InsufficientRights";
 import { remarksByUniqueEmployee } from "@/features/penalty/utils";
 import { PageResult } from "@/features/result/result-page";
 import { checkAccess } from "@/lib/check-access";
-
-const ROLE = {
-  barmen: "bar",
-  waiters: "bar",
-  dish: "dish",
-  cucina: "cucina",
-};
+import { MONTHS } from "@/utils/getMonthDays";
 
 const SET_ACCESS = ["ADMIN", "MNGR"];
 
 export default async function Page({
-  params,
   searchParams,
 }: {
-  params: Promise<{ role: string }>;
   searchParams: Promise<{ [key: string]: string | undefined }>;
 }) {
   // access control
@@ -30,19 +22,18 @@ export default async function Page({
   if (!hasAccess) return <InsufficientRights />;
 
   const { month, year } = await searchParams;
-  const { role } = await params;
-  if (!role || !month || !year) return null;
+
+  const setMonth = month ?? MONTHS[new Date().getMonth()];
+  const setYear = year ?? new Date().getFullYear().toString();
+
   // key
-  const uniqueKey = `${year}-${month}`;
+  const uniqueKey = `${setYear}-${setMonth}`;
 
   const [schedule, remarks, tips] = await Promise.all([
-    getScheduleByMonthYear(month, year),
+    getScheduleByMonthYear(setMonth, setYear),
     getRemarksByUniqueKey(uniqueKey),
     getTipsFormById(uniqueKey),
   ]);
-  const dataSchedule = schedule.filter(
-    (item: any) => item.role === ROLE[role as keyof typeof ROLE],
-  );
 
   const remarksByEmployee =
     remarks && remarksByUniqueEmployee(remarks.data).formattedData;
@@ -50,16 +41,15 @@ export default async function Page({
 
   return (
     <PageResult
-      dataSchedule={dataSchedule as SchedulesContextValue[]}
+      dataSchedule={schedule as SchedulesContextValue[]}
       dataRemarks={
         remarksByEmployee as ReturnType<
           typeof remarksByUniqueEmployee
         >["formattedData"]
       }
       dataTips={dataTips}
-      month={month as string}
-      year={year as string}
-      role={role as string}
+      month={setMonth}
+      year={setYear}
     />
   );
 }

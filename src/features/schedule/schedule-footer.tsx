@@ -14,7 +14,7 @@ export default function ScheduleTableFooter({
     <TableFooter data-html2canvas-ignore="true">
       {shiftCounts &&
         SHIFT_OPTIONS.filter((item) =>
-          SHIFTS[schedule?.role as keyof typeof SHIFTS].includes(item)
+          SHIFTS[schedule?.role as keyof typeof SHIFTS]?.includes(item),
         ).map((item, i) => (
           <TableRow key={i} className="border-0">
             <TableCell colSpan={4} />
@@ -27,7 +27,7 @@ export default function ScheduleTableFooter({
                 key={index}
                 className={cn(
                   "text-center py-0 text-xs text-muted-foreground",
-                  COLOR_SHIFT[day as keyof typeof COLOR_SHIFT]
+                  COLOR_SHIFT[day as keyof typeof COLOR_SHIFT],
                 )}
               >
                 {day === 0 ? "" : day}

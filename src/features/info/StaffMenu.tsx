@@ -13,7 +13,7 @@ const MENU_STAFF_BY_DAY = [
   "Sunday",
 ] as const;
 
-export default function StaffMenu({ data }: { data: Menu }) {
+export default function StaffMenu({ data }: { data: Menu | null }) {
   const menuStaffDaily = data && data.staff;
   const selectData = data && data.menuDepartament;
   return (
@@ -100,7 +100,7 @@ export default function StaffMenu({ data }: { data: Menu }) {
                       <div className="pl-2" key={idx}>
                         {menu}
                       </div>
-                    ) : null
+                    ) : null,
                   )}
                 </div>
               );

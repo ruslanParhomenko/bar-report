@@ -21,6 +21,5 @@ export const suppliersSchema = z.object({
 
 export type SupplierRowType = z.infer<typeof supplierRowSchema>;
 export type SuppliersFormType = z.infer<typeof suppliersSchema>;
-export type SuppliersFormTypeInput = z.input<typeof suppliersSchema>;
 
 export const defaultSuppliersForm = suppliersSchema.parse({});

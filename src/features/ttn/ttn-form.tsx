@@ -1,9 +1,8 @@
 "use client";
 import { DayByMonthTable } from "@/components/table/day-by-month-table";
 import { Table } from "@/components/ui/table";
-import { FormWrapper } from "@/components/wrapper/form-wrapper";
 import { getMonthDays } from "@/utils/getMonthDays";
-import { FieldErrors, SubmitHandler, useForm } from "react-hook-form";
+import { FieldErrors, Resolver, SubmitHandler, useForm } from "react-hook-form";
 import TTNBodyTable from "./ttn-body-table";
 import {
   defaultSuppliersForm,
@@ -22,6 +21,7 @@ import {
 import { toast } from "sonner";
 import { useEffect } from "react";
 import TTNFooterTable from "./ttn-footer-table";
+import FormInput from "@/components/wrapper/form";
 
 export default function TTNForm({
   dataTtn,
@@ -38,8 +38,8 @@ export default function TTNForm({
 
   const { isAdmin } = useAbility();
 
-  const form = useForm<SuppliersFormTypeInput>({
-    resolver: zodResolver(suppliersSchema),
+  const form = useForm<SuppliersFormType>({
+    resolver: zodResolver(suppliersSchema) as Resolver<SuppliersFormType>,
     defaultValues: dataTtn ? dataTtn : defaultSuppliersForm,
   });
 
@@ -80,14 +80,14 @@ export default function TTNForm({
     );
 
     form.setValue("rowSuppliers", newRowTtnData);
-  }, [dataTtn, month, year, form]);
+  }, [dataTtn, form]);
   useEffect(() => {
     if (!dataTtn) return;
 
     form.reset({
       ...dataTtn,
     });
-  }, [dataTtn, month, year, form]);
+  }, [dataTtn, form]);
 
   useEffect(() => {
     if (!dataTtnPrev) return;
@@ -99,25 +99,18 @@ export default function TTNForm({
     });
   }, [dataTtnPrev, month, year, form]);
   return (
-    <FormWrapper
+    <FormInput
       form={form}
       onSubmit={onSubmit}
       onError={onError}
       withButtons={isAdmin}
+      withDate={false}
     >
       <Table>
         <DayByMonthTable month={month} monthDays={monthDays} infoCell={true} />
-        <TTNBodyTable
-          arrayRows={[...suppliers]}
-          monthDays={monthDays}
-          form={form}
-        />
-        <TTNFooterTable
-          arrayRows={[...suppliers]}
-          monthDays={monthDays}
-          form={form}
-        />
+        <TTNBodyTable arrayRows={[...suppliers]} monthDays={monthDays} />
+        <TTNFooterTable arrayRows={[...suppliers]} monthDays={monthDays} />
       </Table>
-    </FormWrapper>
+    </FormInput>
   );
 }

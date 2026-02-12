@@ -1,3 +1,4 @@
+"use client";
 import { extractUniqueEmployees, useResultCalculations } from "./utils";
 import ResultTableHeader from "./result-header-table";
 import { Table } from "@/components/ui/table";
@@ -6,7 +7,14 @@ import ResultTableBody from "./result-body-table";
 import { TipsFormType } from "../tips/schema";
 import { remarksByUniqueEmployee } from "../penalty/utils";
 import { SchedulesContextValue } from "@/app/actions/schedule/scheduleAction";
-import { Card, CardContent } from "@/components/ui/card";
+import { useSearchParams } from "next/navigation";
+
+const ROLE = {
+  barmen: "bar",
+  waiters: "bar",
+  dish: "dish",
+  cucina: "cucina",
+};
 
 export function PageResult({
   dataSchedule,
@@ -14,17 +22,20 @@ export function PageResult({
   dataTips,
   month,
   year,
-  role,
 }: {
   dataSchedule: SchedulesContextValue[];
   dataRemarks: ReturnType<typeof remarksByUniqueEmployee>["formattedData"];
   dataTips: TipsFormType;
   month: string;
   year: string;
-  role: string;
 }) {
+  const searchParams = useSearchParams();
+  const role = searchParams.get("tab") as string;
+  const selectedSchedule = dataSchedule.filter(
+    (item: any) => item.role === ROLE[role as keyof typeof ROLE],
+  );
   const employees = extractUniqueEmployees(
-    dataSchedule,
+    selectedSchedule,
     dataRemarks,
     dataTips?.rowEmployeesTips,
   );

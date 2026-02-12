@@ -25,13 +25,10 @@ export default function TableTobacco({
   return (
     <Table className="w-full [&_th]:text-center [&_td]:text-center">
       <TableHeader>
-        <TableRow className="border-0! flex justify-start">
-          <TableHead colSpan={3} className="h-6 font-bold text-bl">
+        <TableRow>
+          <TableHead className="md:w-40 w-30 font-bold text-bl">
             Tobacco
           </TableHead>
-        </TableRow>
-        <TableRow>
-          <TableHead className="md:w-40 w-30" />
           <TableHead className="w-30" />
           <TableHead className="w-20">+</TableHead>
           <TableHead className="w-20">-</TableHead>

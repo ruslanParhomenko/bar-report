@@ -4,6 +4,8 @@ import { getTipsFormById } from "@/app/actions/tips/tipsAction";
 import { InsufficientRights } from "@/components/wrapper/InsufficientRights";
 import TipsForm from "@/features/tips/tips-form";
 import { checkAccess } from "@/lib/check-access";
+import { getMonthDays, MONTHS } from "@/utils/getMonthDays";
+import { set } from "zod";
 
 const SET_ACCESS = ["ADMIN", "MNGR"];
 const SELECTED_ROLE = ["waiters", "barmen"] as const;
@@ -16,8 +18,11 @@ export default async function Page({
   if (!hasAccess) return <InsufficientRights />;
 
   const { month, year } = await searchParams;
-  if (!month || !year) return null;
-  const uniqueKey = `${year}-${month}`;
+  const setMonth = month ?? MONTHS[new Date().getMonth()];
+  const setYear = year ?? new Date().getFullYear().toString();
+  const uniqueKey = `${setYear}-${setMonth}`;
+
+  const monthDays = getMonthDays({ month: setMonth, year: setYear });
 
   const [dataTips, dataCash, employees] = await Promise.all([
     getTipsFormById(uniqueKey),
@@ -30,9 +35,10 @@ export default async function Page({
     <TipsForm
       dataTips={dataTips}
       dataCash={dataCash}
-      month={month as string}
-      year={year as string}
+      month={setMonth}
+      year={setYear}
       employees={employees}
+      monthDays={monthDays}
     />
   );
 }

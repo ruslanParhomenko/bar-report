@@ -53,15 +53,10 @@ export default function TableProductsTransfer({
   return (
     <Table>
       <TableHeader>
-        <TableRow className="border-0! flex justify-start">
-          <TableHead colSpan={3} className="h-6 font-bold text-bl">
-            Transfer
-          </TableHead>
-        </TableRow>
         <TableRow>
-          <TableHead className="md:w-46" />
+          <TableHead className="md:w-46 font-bold text-bl"> Transfer</TableHead>
           <TableHead className="md:w-20" />
-          <TableHead className="md:w-10">кол-во</TableHead>
+          <TableHead className="md:w-10" />
           <TableHead className="md:w-14"></TableHead>
           <TableHead className="md:w-12"></TableHead>
         </TableRow>

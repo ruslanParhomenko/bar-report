@@ -9,10 +9,7 @@ export function BreakListArchive({ data }: { data: BreakGetType | null }) {
       {data &&
         data?.data.map((data, index) => {
           return (
-            <Card
-              key={index}
-              className="shadow-none border rounded-2xl md:p-4 mb-4 bg-background! m-2"
-            >
+            <Card key={index} className="bg-background! shadow-none m-2">
               <CardTitle className="text-xs text-bl">day: {data.day}</CardTitle>
               <CardContent className="flex flex-col gap-4">
                 <Table>

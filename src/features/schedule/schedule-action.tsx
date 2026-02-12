@@ -7,7 +7,6 @@ import EditButton from "@/components/buttons/EditButton";
 import MailButton from "@/components/buttons/MailButton";
 import ExitButton from "@/components/buttons/ExitButton";
 import { PlusCircleIcon, Save } from "lucide-react";
-import { usePathname } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 import { useContext } from "react";
 import { RefContext } from "@/providers/ClientRefProvider";
@@ -23,14 +22,14 @@ export default function ScheduleActionButton({
 }) {
   const router = useRouter();
   const params = useSearchParams();
-  const patch = usePathname();
 
   const month = params.get("month") as string;
   const year = params.get("year") as string;
+  const tab = params.get("tab") as string;
   const { isAdmin, isManager } = useAbility();
   const isDisabled = !isAdmin && !isManager;
-  const urlEdit = `${patch}/${scheduleId}?month=${month}&year=${year}`;
-  const urlCreate = `${patch}/create?month=${month}&year=${year}`;
+  const urlEdit = `schedule/${scheduleId}?month=${month}&year=${year}&tab=${tab}`;
+  const urlCreate = `schedule/create?month=${month}&year=${year}&tab=${tab}`;
   const canEdit = isCanEdit({ year, month }) || isAdmin;
 
   const ref = useContext(RefContext);
@@ -49,7 +48,7 @@ export default function ScheduleActionButton({
       <MailButton
         componentRef={ref}
         disabled={isDisabled || !ref}
-        patch={patch}
+        patch={tab}
         className="text-bl"
       />
       <button

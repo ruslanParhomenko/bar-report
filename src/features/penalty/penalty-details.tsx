@@ -42,10 +42,10 @@ export default function PenaltyDetails({
           typeof name === "string" && name.trim() !== "",
       );
 
-    return ["all", ...Array.from(new Set(names))];
+    return ["select", ...Array.from(new Set(names))];
   }, [data]);
 
-  const [selectedEmployee, setSelectedEmployee] = useState("all");
+  const [selectedEmployee, setSelectedEmployee] = useState("select");
 
   const totalPenalty = useMemo(() => {
     return data?.data.reduce((acc, r) => {
@@ -89,7 +89,7 @@ export default function PenaltyDetails({
                     value={selectedEmployee}
                     onValueChange={(value) => setSelectedEmployee(value)}
                   >
-                    <SelectTrigger className="w-30 shadow-none h-7! p-0 border-0 text-muted-foreground [&>svg]:hidden justify-start">
+                    <SelectTrigger className="w-30 shadow-none h-8! p-0 border-0 text-muted-foreground [&>svg]:hidden justify-start">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -115,7 +115,7 @@ export default function PenaltyDetails({
                   doc.remarks
                     .filter(
                       (r: any) =>
-                        selectedEmployee === "all" ||
+                        selectedEmployee === "select" ||
                         r.name === selectedEmployee,
                     )
                     .map((r: any) => ({
@@ -129,7 +129,7 @@ export default function PenaltyDetails({
                     key={index}
                     className="hover:text-rd hover:bg-accent"
                   >
-                    <TableCell className="p-1 text-xs">{row.day}</TableCell>
+                    <TableCell className="p-2 text-xs">{row.day}</TableCell>
                     <TableCell className="sticky left-0 bg-background/90 md:bg-inherit z-20 p-0 text-xs">
                       {row.name}
                     </TableCell>

@@ -20,10 +20,7 @@ export default function ReportBarTable({
         data?.data.map((item, index) => {
           const reportData = item.report;
           return (
-            <Card
-              key={index}
-              className="shadow-none border rounded-2xl md:p-4 mb-4 bg-background! m-2"
-            >
+            <Card key={index} className="bg-background! shadow-none m-2">
               <CardTitle className="text-xs text-bl">day: {item.day}</CardTitle>
 
               <CardContent className="flex flex-col gap-4">

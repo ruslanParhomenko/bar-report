@@ -27,12 +27,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 export function ScheduleCreatePage({
   schedule,
-  patch,
+  tab,
   month,
   year,
 }: {
   schedule?: SchedulesContextValue;
-  patch: string;
+  tab: string;
   month: string;
   year: string;
 }) {
@@ -40,7 +40,7 @@ export function ScheduleCreatePage({
     ? schedule
     : {
         ...defaultSchedule,
-        role: patch,
+        role: tab,
         month: month as string,
         year: year as string,
       };
@@ -57,7 +57,7 @@ export function ScheduleCreatePage({
 
   // set employees
   const selectedEmployees = getSelectedEmployeesByRole(
-    patch as keyof typeof EMPLOYEE_ROLES_BY_DEPARTMENT,
+    tab as keyof typeof EMPLOYEE_ROLES_BY_DEPARTMENT,
   );
 
   // set days
@@ -67,10 +67,10 @@ export function ScheduleCreatePage({
   const onSubmit: SubmitHandler<ScheduleType> = async (data) => {
     const formatData: ScheduleData = {
       ...data,
-      uniqueKey: `${year}-${month}-${patch}`,
+      uniqueKey: `${year}-${month}-${tab}`,
       month: month as string,
       year: year as string,
-      role: patch as string,
+      role: tab as string,
     };
     if (schedule?.id) {
       await updateSchedule(schedule.id as string, formatData);
@@ -120,7 +120,7 @@ export function ScheduleCreatePage({
     }));
 
     replace(newRows);
-  }, [month, patch, selectedEmployees, monthDays.length, fields.length]);
+  }, [month, tab, selectedEmployees, monthDays.length, fields.length]);
 
   return (
     <FormWrapper form={form} onSubmit={onSubmit} withButtons={false}>

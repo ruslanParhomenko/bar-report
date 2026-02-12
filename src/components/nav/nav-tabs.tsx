@@ -1,71 +1,121 @@
 "use client";
 
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
+import { NAV_BY_PATCH } from "./constants";
+import SelectByMonthYear from "./select-month-year";
+import { MONTHS } from "@/utils/getMonthDays";
+import { cn } from "@/lib/utils";
 
 export default function NavTabs() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const router = useRouter();
+  const [isPending, startTransition] = useTransition();
 
-  const NAV_ITEMS_BY_PATCH = {
-    bar: [
-      { label: "report", value: "report" },
-      { label: "break", value: "break" },
-      { label: "penalty", value: "penalty" },
-    ],
-  };
+  const [month, setMonth] = useState(() => MONTHS[new Date().getMonth()]);
+  const [year, setYear] = useState(() => new Date().getFullYear().toString());
 
-  const navItems =
-    NAV_ITEMS_BY_PATCH[
-      pathname.split("/")[1] as keyof typeof NAV_ITEMS_BY_PATCH
-    ];
+  const config =
+    NAV_BY_PATCH[pathname.split("/")[1] as keyof typeof NAV_BY_PATCH];
+
+  const filterType = config?.filterMonth;
+  const navItems = config?.navItems ?? [];
 
   const tabFromUrl = searchParams.get("tab");
-
   const isValidTab = navItems.some((item) => item.value === tabFromUrl);
-
-  const defaultTab = navItems[0].value;
+  const defaultTab = navItems[0]?.value;
   const currentTab = isValidTab ? tabFromUrl! : defaultTab;
 
-  // 🔥 если tab нет или он невалидный → ставим default в URL
   useEffect(() => {
+    if (!defaultTab) return;
+
     if (!tabFromUrl || !isValidTab) {
       const params = new URLSearchParams(searchParams.toString());
       params.set("tab", defaultTab);
 
-      router.replace(`${pathname}?${params.toString()}`, {
-        scroll: false,
+      startTransition(() => {
+        router.replace(`${pathname}?${params.toString()}`, {
+          scroll: false,
+        });
       });
     }
   }, [tabFromUrl, isValidTab, defaultTab, pathname, router, searchParams]);
+
+  useEffect(() => {
+    if (!filterType) return;
+
+    const monthFromUrl = searchParams.get("month");
+    const yearFromUrl = searchParams.get("year");
+
+    if (monthFromUrl) setMonth(monthFromUrl);
+    if (yearFromUrl) setYear(yearFromUrl);
+  }, [filterType, searchParams]);
+
+  useEffect(() => {
+    if (!filterType) return;
+
+    const params = new URLSearchParams(searchParams.toString());
+
+    const currentMonth = params.get("month");
+    const currentYear = params.get("year");
+
+    if (currentMonth === month && currentYear === year) return;
+
+    params.set("month", month);
+    params.set("year", year);
+
+    startTransition(() => {
+      router.replace(`${pathname}?${params.toString()}`, {
+        scroll: false,
+      });
+    });
+  }, [month, year, filterType, pathname, router, searchParams]);
 
   const handleTabChange = (value: string) => {
     const params = new URLSearchParams(searchParams.toString());
     params.set("tab", value);
 
-    router.replace(`${pathname}?${params.toString()}`, {
-      scroll: false,
+    startTransition(() => {
+      router.replace(`${pathname}?${params.toString()}`, {
+        scroll: false,
+      });
     });
   };
 
+  const tabsWidth = `w-1/${navItems.length}`;
+
   return (
     <Tabs value={currentTab} onValueChange={handleTabChange}>
-      <div className="flex flex-col   my-2 px-4">
-        <TabsList className="flex md:gap-2 h-8 w-80">
-          {navItems.map((item) => (
-            <TabsTrigger
-              key={item.value}
-              value={item.value}
-              className="hover:text-bl cursor-pointer w-1/3"
-            >
-              <span className="truncate block w-full text-xs md:text-md text-bl">
-                {item.label}
-              </span>
-            </TabsTrigger>
-          ))}
-        </TabsList>
+      <div className="flex justify-between my-2 px-4">
+        {navItems.length > 0 && (
+          <TabsList className="flex md:gap-4 h-8">
+            {navItems.map((item) => (
+              <TabsTrigger
+                key={item.value}
+                value={item.value}
+                className={cn("hover:text-bl cursor-pointer", tabsWidth)}
+                disabled={isPending}
+              >
+                <span className="truncate block min-w-20 text-xs md:text-md text-bl">
+                  {item.label}
+                </span>
+              </TabsTrigger>
+            ))}
+          </TabsList>
+        )}
+
+        {filterType && (
+          <SelectByMonthYear
+            month={month}
+            year={year}
+            setMonth={setMonth}
+            setYear={setYear}
+            isLoading={isPending}
+            classNameMonthYear={navItems.length > 0 ? "md:w-22 w-10" : "w-24"}
+          />
+        )}
       </div>
     </Tabs>
   );

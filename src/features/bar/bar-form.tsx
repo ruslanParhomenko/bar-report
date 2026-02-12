@@ -1,5 +1,5 @@
 "use client";
-import { Resolver, useForm, useWatch } from "react-hook-form";
+import { Resolver, SubmitHandler, useForm, useWatch } from "react-hook-form";
 import { toast } from "sonner";
 import {
   cashVerifyDefault,
@@ -15,7 +15,7 @@ import {
   createReportBar,
   realtimeReportBar,
 } from "@/app/actions/report-bar/report-bar-action";
-import { Activity, useEffect, useState } from "react";
+import { Activity, useEffect } from "react";
 import { useAbility } from "@/providers/AbilityProvider";
 import ReportBarTable from "./report/report-bar-table";
 import BreakTable from "@/features/bar/break-form/break-table";
@@ -25,13 +25,10 @@ import { defaultValuesBreak } from "@/features/bar/break-form/schema";
 import { createRemarks } from "@/app/actions/remarks/remarks-action";
 import { createBreakList } from "@/app/actions/break/break-action";
 import { useRealtimeSave } from "@/hooks/use-realtime-save";
-import { Form } from "@/components/ui/form";
-import { Button } from "@/components/ui/button";
-import DatePickerInput from "@/components/inputs/DatePickerInput";
 import { BarFormValues, barSchema } from "./schema";
 import { MONTHS } from "@/utils/getMonthDays";
-import ModalConfirm from "@/components/modal/ModalConfirm";
 import { useSearchParams } from "next/navigation";
+import FormInput from "@/components/wrapper/form";
 
 export default function BarForm({
   realtimeData,
@@ -44,10 +41,6 @@ export default function BarForm({
   const tab = searchParams.get("tab");
   const { isBar, isAdmin } = useAbility();
   const isDisabled = !(isAdmin || isBar);
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [formDataToSubmit, setFormDataToSubmit] =
-    useState<BarFormValues | null>(null);
 
   const form = useForm<BarFormValues>({
     defaultValues: realtimeData ?? {
@@ -65,13 +58,11 @@ export default function BarForm({
   useRealtimeSave(values, isAdmin, async (data) => {
     if (!data || !form.formState.isDirty) return;
     await realtimeReportBar(data);
-    toast.info("Автосохранение всех данных…", { duration: 2000 });
+    toast.info("сохранение данных…", { duration: 2000 });
   });
 
   //submit
-  const onSubmit = async (data: BarFormValues) => {
-    console.log("Submitting data:", data);
-
+  const onSubmit: SubmitHandler<BarFormValues> = async (data) => {
     const { date, report, penalty, breakForm } = data;
     const dateValue = new Date(date);
     const month = MONTHS[dateValue.getMonth()];
@@ -139,7 +130,6 @@ export default function BarForm({
       notes: "",
     };
 
-    // await realtimeReportBar(updatedData).catch(console.error);
     form.reset({
       date: new Date(),
       report: updatedData,
@@ -148,12 +138,6 @@ export default function BarForm({
     });
 
     toast.success("Бар отчет успешно сохранён !");
-  };
-
-  const handleFormSubmit = (data: BarFormValues) => {
-    setFormDataToSubmit(data);
-
-    setIsModalOpen(true);
   };
 
   useEffect(() => {
@@ -168,46 +152,18 @@ export default function BarForm({
   }, [realtimeData, form]);
 
   return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(handleFormSubmit)}
-        className="flex flex-col h-[98vh] p-1"
-      >
-        <DatePickerInput
-          fieldName="date"
-          className="text-md text-rd"
-          disabled
-        />
+    <FormInput form={form} onSubmit={onSubmit}>
+      <Activity mode={tab === "break" ? "visible" : "hidden"}>
+        <BreakTable isDisabled={isDisabled} employeesName={employeesName} />
+      </Activity>
 
-        <Activity mode={tab === "break" ? "visible" : "hidden"}>
-          <BreakTable isDisabled={isDisabled} employeesName={employeesName} />
-        </Activity>
+      <Activity mode={tab === "penalty" ? "visible" : "hidden"}>
+        <PenaltyTable isDisabled={isDisabled} />
+      </Activity>
 
-        <Activity mode={tab === "penalty" ? "visible" : "hidden"}>
-          <PenaltyTable isDisabled={isDisabled} />
-        </Activity>
-
-        <Activity mode={tab === "report" ? "visible" : "hidden"}>
-          <ReportBarTable isDisabled={isDisabled} />
-        </Activity>
-
-        <div className="sticky bottom-2 w-full flex justify-start px-4 mt-auto">
-          <Button type="submit" className="bg-bl text-white mt-auto">
-            Сохранить
-          </Button>
-          <ModalConfirm
-            open={isModalOpen}
-            setOpen={setIsModalOpen}
-            message="save"
-            handleConfirm={async () => {
-              if (!formDataToSubmit) return;
-              await onSubmit(formDataToSubmit);
-              setIsModalOpen(false);
-              setFormDataToSubmit(null);
-            }}
-          />
-        </div>
-      </form>
-    </Form>
+      <Activity mode={tab === "report" ? "visible" : "hidden"}>
+        <ReportBarTable isDisabled={isDisabled} />
+      </Activity>
+    </FormInput>
   );
 }

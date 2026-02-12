@@ -25,17 +25,6 @@ import {
   USERS_MAIN_ROUTE,
 } from "@/constants/endpoint-tag";
 
-export const SCHEDULE_NAV_ITEMS = [
-  { title: "bar", href: "bar" },
-  { title: "cucina", href: "cucina" },
-  { title: "dish", href: "dish" },
-];
-
-export const EMPLOYEES_NAV_ITEMS = [
-  { title: "employees", href: "data" },
-  { title: "add", href: "create" },
-];
-
 export const REPORTS_NAV_ITEMS = [
   { title: "bar", href: "bar" },
   { title: "cucina", href: "cucina" },
@@ -49,22 +38,6 @@ export const BREAK_REMARKS_NAV_ITEMS = [
 export const ORDERS_NAV_ITEMS = [
   { title: "bar", href: "bar" },
   { title: "cucina", href: "cucina" },
-];
-
-export const INFO_NAV_ITEMS = [
-  { title: "dailyMenu", href: "daily-menu" },
-  { title: "statusMenu", href: "statusMenu" },
-  { title: "staffMenu", href: "staffMenu" },
-  { title: "menuVip", href: "menuVip" },
-  { title: "standardKitchen", href: "standardKitchen" },
-];
-
-export const ARCHIVE_NAV_ITEMS = [
-  { title: "bar", href: "bar" },
-  { title: "cucina", href: "cucina" },
-  { title: "breakList", href: "break" },
-  { title: "penalty", href: "penalty" },
-  { title: "penaltyResult", href: "penalty-result" },
 ];
 
 export const STOP_LIST_NAV_ITEMS = [
@@ -83,47 +56,89 @@ export const PENALTY_NAV_ITEMS = [
   { title: "general", href: "general" },
 ];
 
-export const TTN_NAV_ITEMS = [
-  { title: "month", href: "month" },
-  { title: "day", href: "day" },
-  { title: "year", href: "year" },
-];
+// new
 
+export const BAR_NAV_ITEMS = [
+  { label: "report", value: "report" },
+  { label: "break", value: "break" },
+  { label: "penalty", value: "penalty" },
+];
+export const ARCHIVE_NAV_ITEMS = [
+  { label: "bar", value: "bar" },
+  { label: "cucina", value: "cucina" },
+  { label: "breakList", value: "breakList" },
+  { label: "penalty", value: "penalty" },
+  { label: "penaltyResult", value: "penaltyResult" },
+];
+export const SCHEDULE_NAV_ITEMS = [
+  { label: "bar", value: "bar" },
+  { label: "cucina", value: "cucina" },
+  { label: "dish", value: "dish" },
+];
+export const INFO_NAV_ITEMS = [
+  { label: "dailyMenu", value: "daily-menu" },
+  { label: "statusMenu", value: "statusMenu" },
+  { label: "staffMenu", value: "staffMenu" },
+  { label: "menuVip", value: "menuVip" },
+  { label: "standardKitchen", value: "standardKitchen" },
+];
 export const RESULT_NAV_ITEMS = [
-  { title: "barmen", href: "barmen" },
-  { title: "waiters", href: "waiters" },
-  { title: "cucina", href: "cucina" },
-  { title: "dish", href: "dish" },
+  { label: "barmen", value: "barmen" },
+  { label: "waiters", value: "waiters" },
+  { label: "cucina", value: "cucina" },
+  { label: "dish", value: "dish" },
+];
+export const TTN_NAV_ITEMS = [
+  { label: "month", value: "month" },
+  { label: "day", value: "day" },
+  { label: "year", value: "year" },
+];
+export const EMPLOYEES_NAV_ITEMS = [
+  { label: "employees", value: "employees" },
+  { label: "vacation", value: "vacation" },
+  { label: "create-employee", value: "create-employee" },
+  { label: "users", value: "users" },
+  { label: "create-user", value: "create-user" },
 ];
 
-//
 type NAV_BY_PATCH_TYPE = Record<
   string,
-  { navItems: PageNavType[]; filterType: "month" | "role" | "none" }
+  { navItems: PageNavType[]; filterMonth: boolean }
 >;
 
 export const NAV_BY_PATCH = {
-  schedule: { navItems: SCHEDULE_NAV_ITEMS, filterType: "month" },
-  employees: { navItems: EMPLOYEES_NAV_ITEMS, filterType: "role" },
-  reports: { navItems: REPORTS_NAV_ITEMS, filterType: "none" },
-  break: { navItems: BREAK_REMARKS_NAV_ITEMS, filterType: "month" },
-  "orders-ttn": { navItems: ORDERS_NAV_ITEMS, filterType: "none" },
-  "orders-zn": { navItems: ORDERS_NAV_ITEMS, filterType: "none" },
-  info: { navItems: INFO_NAV_ITEMS, filterType: "none" },
-  archive: { navItems: [], filterType: "month" },
+  bar: { navItems: BAR_NAV_ITEMS, filterMonth: false },
+  archive: { navItems: ARCHIVE_NAV_ITEMS, filterMonth: true },
+  schedule: { navItems: SCHEDULE_NAV_ITEMS, filterMonth: true },
+  info: { navItems: INFO_NAV_ITEMS, filterMonth: false },
+  result: { navItems: RESULT_NAV_ITEMS, filterMonth: true },
+  ttn: { navItems: TTN_NAV_ITEMS, filterMonth: true },
+  employees: { navItems: EMPLOYEES_NAV_ITEMS, filterMonth: false },
+  tips: { navItems: [], filterMonth: true },
+  cash: { navItems: [], filterMonth: true },
+  "a-o": { navItems: [], filterMonth: true },
+
+  // schedule: { navItems: SCHEDULE_NAV_ITEMS, filterType: "month" },
+  // employees: { navItems: EMPLOYEES_NAV_ITEMS, filterType: "role" },
+  // reports: { navItems: REPORTS_NAV_ITEMS, filterType: "none" },
+  // break: { navItems: BREAK_REMARKS_NAV_ITEMS, filterType: "month" },
+  // "orders-ttn": { navItems: ORDERS_NAV_ITEMS, filterType: "none" },
+  // "orders-zn": { navItems: ORDERS_NAV_ITEMS, filterType: "none" },
+  // info: { navItems: INFO_NAV_ITEMS, filterType: "none" },
+  // archive: { navItems: [], filterType: "month" },
   // "stop-list": { navItems: STOP_LIST_NAV_ITEMS, filterType: "none" },
-  users: { navItems: USERS_NAV_ITEMS, filterType: "none" },
-  penalty: { navItems: PENALTY_NAV_ITEMS, filterType: "month" },
-  tips: { navItems: [], filterType: "month" },
-  cash: { navItems: [], filterType: "month" },
-  "a-o": { navItems: [], filterType: "month" },
-  ttn: { navItems: TTN_NAV_ITEMS, filterType: "month" },
-  result: { navItems: RESULT_NAV_ITEMS, filterType: "month" },
+  // users: { navItems: USERS_NAV_ITEMS, filterType: "none" },
+  // penalty: { navItems: PENALTY_NAV_ITEMS, filterType: "month" },
+  // tips: { navItems: [], filterType: "month" },
+  // cash: { navItems: [], filterType: "month" },
+  // "a-o": { navItems: [], filterType: "month" },
+  // ttn: { navItems: TTN_NAV_ITEMS, filterType: "month" },
+  // result: { navItems: RESULT_NAV_ITEMS, filterType: "month" },
 } satisfies NAV_BY_PATCH_TYPE;
 
 export type PageNavType = {
-  title: string;
-  href: string;
+  label: string;
+  value: string;
 };
 
 export const REVALIDATE_TAGS_BY_PATCH = {
@@ -146,8 +161,3 @@ export const REPORT_NAV_ROUTES = [
   { title: "breakList", href: "break" },
   { title: "penalty", href: "penalty" },
 ];
-
-export const NAV_BY_ROUTE = {
-  bar: REPORT_NAV_ROUTES,
-  "stop-list": STOP_LIST_NAV_ITEMS,
-} satisfies Record<string, PageNavType[]>;

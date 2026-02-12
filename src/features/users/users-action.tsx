@@ -33,7 +33,8 @@ export default function UsersActions({ id }: { id: string }) {
         <button
           className="cursor-pointer"
           type="button"
-          onClick={() => router.push(`/users/${id}`)}
+          onClick={() => router.push(`/employees/${id}?tab=create-user`)}
+          disabled={!isAdmin}
         >
           <Pencil className="w-4 h-4 text-bl" />
         </button>

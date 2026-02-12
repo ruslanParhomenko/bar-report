@@ -46,16 +46,12 @@ export function TableInventory({ disabled = false }: { disabled?: boolean }) {
   return (
     <Table>
       <TableHeader>
-        <TableRow className="border-0! flex justify-start">
-          <TableHead colSpan={3} className="h-6 font-bold text-bl">
+        <TableRow className="h-10">
+          <TableHead className="md:w-25 font-bold text-bl">
             Inventory
             <span className="text-red-600 text-xs px-2">(к концу дня)</span>
           </TableHead>
-        </TableRow>
-
-        <TableRow className="h-10">
-          <TableHead className="md:w-25" />
-          <TableHead className="md:w-10">кол-во</TableHead>
+          <TableHead className="md:w-10" />
           <TableHead className="md:w-14" />
           <TableHead className="md:w-12" />
         </TableRow>

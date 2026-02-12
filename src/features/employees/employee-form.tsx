@@ -34,6 +34,8 @@ import { useRouter } from "@/i18n/navigation";
 import SelectField from "@/components/inputs/SelectField";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { EMPLOYEES_ROLE } from "./constants";
+import { useAbility } from "@/providers/AbilityProvider";
+import FormInput from "@/components/wrapper/form";
 
 type FormData = EmployeesSchemaTypeData & { id?: string };
 const STATUS_OPTIONS = ["active", "fired"];
@@ -43,6 +45,9 @@ export function EmployeeForm({
 }: {
   employee: EmployeesContextValue | null;
 }) {
+  const { isAdmin, isManager } = useAbility();
+  const isDisabled = !isAdmin && !isManager;
+
   const router = useRouter();
   const nameTag = "vacationPay";
   const t = useTranslations("Home");
@@ -88,13 +93,13 @@ export function EmployeeForm({
 
   const fieldClassName = "w-full h-12! border!";
   return (
-    <FormWrapper
+    <FormInput
       form={form}
       onSubmit={handleSubmit}
       className={cn("flex flex-col md:px-4 h-[90vh]")}
       resetButton={employee?.id ? false : true}
       returnButton={employee?.id ? true : false}
-      resetForm={form.reset}
+      disabled={isDisabled}
     >
       <div className="grid grid-cols-1 md:grid-cols-3 md:gap-8 mt-4">
         <div className="flex flex-col md:gap-6">
@@ -210,6 +215,6 @@ export function EmployeeForm({
           </div>
         </div>
       </div>
-    </FormWrapper>
+    </FormInput>
   );
 }

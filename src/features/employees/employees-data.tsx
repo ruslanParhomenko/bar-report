@@ -16,9 +16,13 @@ import { handleCopy } from "@/utils/handlerCopyText";
 import { formatShortDate } from "@/utils/formatDate";
 import { CheckCircle, UserX } from "lucide-react";
 import { useAbility } from "@/providers/AbilityProvider";
+import SelectEmployeeBy from "@/components/nav/Select-employee";
+import { useState } from "react";
 
 export function EmployeesData({ data }: { data: EmployeesContextValue[] }) {
   const t = useTranslations("Home");
+
+  const [role, setRole] = useState("waiters");
 
   const { isAdmin, isManager } = useAbility();
 
@@ -30,10 +34,12 @@ export function EmployeesData({ data }: { data: EmployeesContextValue[] }) {
         <TableRow className="text-gr h-12">
           <TableHead className="w-5" />
           <TableHead className="w-15">{t("date")}</TableHead>
-          <TableHead className="sticky left-0 md:w-30">{t("name")}</TableHead>
-          <TableHead className="w-15"></TableHead>
-          <TableHead className="w-40">{t("mail")}</TableHead>
-          <TableHead className="w-25 truncate">{t("tel")}</TableHead>
+          <TableHead className="sticky left-0 md:w-25">{t("name")}</TableHead>
+          <TableHead className="w-20">
+            <SelectEmployeeBy role={role} setRole={setRole} />
+          </TableHead>
+          <TableHead className="w-30">{t("mail")}</TableHead>
+          <TableHead className="w-20 truncate">{t("tel")}</TableHead>
           <TableHead className="w-12 truncate">{t("vacation")}</TableHead>
           <TableHead className="w-12 truncate">
             {t("usedVacationDays")}
@@ -47,7 +53,8 @@ export function EmployeesData({ data }: { data: EmployeesContextValue[] }) {
 
       <TableBody>
         {data
-          ?.sort((a, b) => a.name.localeCompare(b.name))
+          ?.filter((emp) => role === "all" || emp.role === role)
+          .sort((a, b) => a.name.localeCompare(b.name))
           .map((emp, idx) => {
             const monthsWorked = emp?.employmentDate
               ? differenceInMonths(new Date(), emp.employmentDate)

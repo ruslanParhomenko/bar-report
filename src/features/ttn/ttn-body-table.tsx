@@ -1,7 +1,7 @@
 "use client";
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
-import { FieldPath, UseFormReturn, useWatch } from "react-hook-form";
-import { SuppliersFormTypeInput } from "./schema";
+import { FieldPath, useFormContext, useWatch } from "react-hook-form";
+import { SuppliersFormType, SuppliersFormTypeInput } from "./schema";
 import { handleTableNavigation } from "@/utils/handleTableNavigation";
 import { cn } from "@/lib/utils";
 import { useEffect, useEffectEvent, useState } from "react";
@@ -9,17 +9,15 @@ import { useEffect, useEffectEvent, useState } from "react";
 export default function TTNBodyTable({
   arrayRows,
   monthDays,
-  form,
   isDisabled,
 }: {
   arrayRows: string[];
   monthDays: ReturnType<typeof import("@/utils/getMonthDays").getMonthDays>;
-  form: UseFormReturn<SuppliersFormTypeInput>;
   isDisabled?: boolean;
 }) {
-  const { register } = form;
+  const { register, control, setValue } = useFormContext<SuppliersFormType>();
   const value = useWatch({
-    control: form.control,
+    control: control,
     name: "rowSuppliers",
   });
 
@@ -42,7 +40,7 @@ export default function TTNBodyTable({
 
     const currentFinal = rowData.final ?? "0";
     if (currentFinal !== finalTotal) {
-      form.setValue(`rowSuppliers.${row}.final`, finalTotal);
+      setValue(`rowSuppliers.${row}.final`, finalTotal);
     }
   });
 

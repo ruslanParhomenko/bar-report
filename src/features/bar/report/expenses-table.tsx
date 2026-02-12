@@ -53,14 +53,9 @@ export default function TableExpenses({
   return (
     <Table>
       <TableHeader>
-        <TableRow className="border-0! flex justify-start">
-          <TableHead colSpan={3} className="h-6 font-bold text-bl">
-            Expenses
-          </TableHead>
-        </TableRow>
         <TableRow>
-          <TableHead className="md:w-38" />
-          <TableHead className="md:w-15 text-center">sum</TableHead>
+          <TableHead className="md:w-38 font-bold text-bl">Expenses</TableHead>
+          <TableHead className="md:w-15" />
           <TableHead className="md:w-15" />
           <TableHead className="md:w-10" />
         </TableRow>

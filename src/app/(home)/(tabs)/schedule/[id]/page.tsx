@@ -11,15 +11,16 @@ export default async function Page({
   params: Promise<{ id: string; patch: string }>;
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
-  const { id, patch } = await params;
-  const { month, year } = await searchParams;
+  const { id } = await params;
+  const { month, year, tab } = await searchParams;
+  if (!month || !year || !tab || !id) return null;
   const schedule = (await getScheduleById(id)) as SchedulesContextValue;
   return (
     <ScheduleCreatePage
       schedule={schedule as SchedulesContextValue}
       month={month as string}
       year={year as string}
-      patch={patch}
+      tab={tab as string}
     />
   );
 }

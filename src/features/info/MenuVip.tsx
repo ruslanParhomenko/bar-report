@@ -3,9 +3,9 @@ import { Dot } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Card, CardContent } from "@/components/ui/card";
 
-export function MenuVip({ data }: { data: Menu }) {
+export function MenuVip({ data }: { data: Menu | null }) {
   const t = useTranslations("Menu");
-  const menuData = data.vip;
+  const menuData = data?.vip;
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 md:gap-8 gap-2 px-1">

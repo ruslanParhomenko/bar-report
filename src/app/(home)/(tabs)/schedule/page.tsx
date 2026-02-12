@@ -5,14 +5,12 @@ import {
 import SchedulePage from "@/features/schedule/schedule-page";
 import { authOptions } from "@/lib/auth";
 import ClientRefProvider from "@/providers/ClientRefProvider";
-import { getMonthDays } from "@/utils/getMonthDays";
+import { getMonthDays, MONTHS } from "@/utils/getMonthDays";
 import { getServerSession } from "next-auth";
 
 export default async function Page({
-  params,
   searchParams,
 }: {
-  params: Promise<{ patch: string }>;
   searchParams: Promise<{ [key: string]: string }>;
 }) {
   const session = await getServerSession(authOptions);
@@ -20,20 +18,18 @@ export default async function Page({
   const isView =
     session?.user?.role === "ADMIN" || session?.user?.role === "MNGR";
 
-  const { patch } = await params;
   const { month, year } = await searchParams;
 
-  if (!month || !year) return null;
+  const setMonth = month ?? MONTHS[new Date().getMonth()];
+  const setYear = year ?? new Date().getFullYear().toString();
 
-  const schedule = (await getScheduleByMonthYear(month, year)).find(
-    (s: any) => s.role === patch,
-  );
-  const monthDays = getMonthDays({ month: month, year: year });
+  const schedule = await getScheduleByMonthYear(setMonth, setYear);
+  const monthDays = getMonthDays({ month: setMonth, year: setYear });
 
   return (
     <ClientRefProvider>
       <SchedulePage
-        schedule={schedule as SchedulesContextValue}
+        schedule={schedule as SchedulesContextValue[]}
         monthDays={monthDays}
         month={month}
         isView={isView}

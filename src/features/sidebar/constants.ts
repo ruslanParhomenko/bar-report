@@ -82,11 +82,6 @@ export const SIDEBAR_NAVIGATION = [
     url: STOP_LIST_MAIN_ROUTE,
     icon: Ban,
   },
-  {
-    title: "users",
-    url: USERS_MAIN_ROUTE,
-    icon: Settings,
-  },
 
   {
     title: "tips",
