@@ -1,6 +1,6 @@
 import { getRealtimeReportCucina } from "@/app/actions/report-cucina/report-cucina-action";
-import { InsufficientRights } from "@/components/wrapper/InsufficientRights";
-import ReportCucinaForm from "@/features/report/cucina/report-cucina-form";
+import { InsufficientRights } from "@/components/wrapper/insufficient-rights";
+import ReportCucinaForm from "@/features/cucina/report-cucina-form";
 import { checkAccess } from "@/lib/check-access";
 const SET_ACCESS = ["ADMIN", "CUCINA", "USER"];
 

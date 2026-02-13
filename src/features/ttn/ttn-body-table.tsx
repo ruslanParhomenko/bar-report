@@ -1,7 +1,7 @@
 "use client";
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { FieldPath, useFormContext, useWatch } from "react-hook-form";
-import { SuppliersFormType, SuppliersFormTypeInput } from "./schema";
+import { SuppliersFormType } from "./schema";
 import { handleTableNavigation } from "@/utils/handleTableNavigation";
 import { cn } from "@/lib/utils";
 import { useEffect, useEffectEvent, useState } from "react";
@@ -99,7 +99,7 @@ export default function TTNBodyTable({
                   <div className="flex items-center">
                     <input
                       {...register(
-                        `rowSuppliers.${row}.final` as FieldPath<SuppliersFormTypeInput>,
+                        `rowSuppliers.${row}.final` as FieldPath<SuppliersFormType>,
                       )}
                       className={cn(classNameInput, "text-gn hover-cell")}
                       disabled={isDisabled}
@@ -121,7 +121,7 @@ export default function TTNBodyTable({
               <TableCell className="p-0 pr-0.5 border-l text-xs">
                 <input
                   {...register(
-                    `rowSuppliers.${row}.start` as FieldPath<SuppliersFormTypeInput>,
+                    `rowSuppliers.${row}.start` as FieldPath<SuppliersFormType>,
                   )}
                   className={cn(classNameInput, "hover-cell")}
                   disabled={isDisabled}
@@ -132,7 +132,7 @@ export default function TTNBodyTable({
                   <div className="flex flex-col h-8">
                     <input
                       {...register(
-                        `rowSuppliers.${row}.minus.${dayIndex}` as FieldPath<SuppliersFormTypeInput>,
+                        `rowSuppliers.${row}.minus.${dayIndex}` as FieldPath<SuppliersFormType>,
                       )}
                       data-row={rowIndex * 2}
                       data-col={dayIndex}
@@ -144,7 +144,7 @@ export default function TTNBodyTable({
                     />
                     <input
                       {...register(
-                        `rowSuppliers.${row}.plus.${dayIndex}` as FieldPath<SuppliersFormTypeInput>,
+                        `rowSuppliers.${row}.plus.${dayIndex}` as FieldPath<SuppliersFormType>,
                       )}
                       data-row={rowIndex * 2 + 1}
                       data-col={dayIndex}

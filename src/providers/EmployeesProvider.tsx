@@ -1,6 +1,6 @@
 "use client";
 
-import { EmployeesSchemaTypeData } from "@/features/employees/schema";
+import { EmployeesSchemaTypeData } from "@/features/employees/employee/schema";
 import { createContext, useContext } from "react";
 
 export type EmployeesContextValue = EmployeesSchemaTypeData & {

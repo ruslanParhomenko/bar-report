@@ -4,7 +4,7 @@ import { SubmitHandler, UseFormReturn, FieldValues } from "react-hook-form";
 import { Form } from "../ui/form";
 import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
-import ModalConfirm from "../modal/ModalConfirm";
+import ModalConfirm from "../modal/modal-confirm";
 import DatePickerInput from "../inputs/DatePickerInput";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -31,7 +31,7 @@ export default function FormInput<T extends FieldValues>({
   withButtons = true,
   resetButton = false,
   returnButton = false,
-  withDate = true,
+  withDate = false,
   disabled = false,
 }: FormInputProps<T>) {
   const router = useRouter();
@@ -61,7 +61,7 @@ export default function FormInput<T extends FieldValues>({
         {children}
 
         {withButtons && (
-          <div className="sticky bottom-0 w-full flex justify-start gap-6 px-4 mt-auto">
+          <div className="sticky bottom-0 w-full flex justify-start gap-6 px-4 py-2 mt-auto bg-background z-30">
             <Button
               type="submit"
               className="bg-bl text-white mt-auto h-8 w-24"

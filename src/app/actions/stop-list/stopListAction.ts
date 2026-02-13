@@ -1,54 +1,38 @@
 "use server";
 import { unstable_cache, updateTag } from "next/cache";
-import { StopListSchemaType } from "@/features/stop-list/schema";
-import { supabaseServer } from "@/lib/supabase-server";
-import { STOP_LIST_ACTION_TAG } from "@/constants/action-tag";
+import { StopListSchemaType } from "@/features/info/stop-list/schema";
+import { dbAdmin } from "@/lib/firebase-admin";
+
+const REALTIME_DOC = "stop-list-bar-realtime";
 
 export type StopListType = {
   id: string;
   user_email: string;
   form_data: StopListSchemaType;
 };
+
+// create
+export async function saveStopList(data: StopListSchemaType) {
+  const docRef = dbAdmin.collection(REALTIME_DOC).doc(REALTIME_DOC);
+
+  await docRef.set(data);
+
+  updateTag(REALTIME_DOC);
+}
+
 // get
 export async function _getStopList() {
-  const supabase = supabaseServer();
-  const { data, error } = await supabase.from(STOP_LIST_ACTION_TAG).select("*");
-  if (error) {
-    console.error("Ошибка при получении данных формы:", error);
-    throw error;
-  }
+  const docRef = dbAdmin.collection(REALTIME_DOC).doc(REALTIME_DOC);
+  const snap = await docRef.get();
+
+  if (!snap.exists) return null;
+
+  const data = snap.data() as StopListSchemaType;
 
   return data;
 }
 
-export const getStopList = unstable_cache(
-  _getStopList,
-  [STOP_LIST_ACTION_TAG],
-  {
-    revalidate: false,
-    tags: [STOP_LIST_ACTION_TAG],
-  },
-);
-
-// create
-export async function saveStopList(data: any) {
-  const supabase = supabaseServer();
-  const { mail, dataStopList } = data;
-  const { data: savedData, error } = await supabase
-    .from(STOP_LIST_ACTION_TAG)
-    .upsert(
-      {
-        user_email: mail,
-        form_data: dataStopList,
-      },
-      { onConflict: "user_email" },
-    );
-
-  if (error) {
-    console.error("Ошибка при сохранении формы:", error);
-    throw error;
-  }
-
-  updateTag(STOP_LIST_ACTION_TAG);
-  return savedData;
-}
+export const getStopList = unstable_cache(_getStopList, [REALTIME_DOC], {
+  revalidate: false,
+  tags: [REALTIME_DOC],
+});

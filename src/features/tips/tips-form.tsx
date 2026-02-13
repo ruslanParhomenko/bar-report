@@ -1,7 +1,6 @@
 "use client";
 import { Table } from "@/components/ui/table";
 import { TipsTableBody } from "./tips-body-table";
-import { FormWrapper } from "@/components/wrapper/form-wrapper";
 import {
   Resolver,
   SubmitHandler,
@@ -20,6 +19,7 @@ import BidForm from "./bid-form";
 import { DayByMonthTable } from "@/components/table/day-by-month-table";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { EmployeeData } from "@/app/actions/employees/employeeAction";
+import FormInput from "@/components/wrapper/form";
 
 export default function TipsForm({
   dataTips,
@@ -94,7 +94,7 @@ export default function TipsForm({
   }, [month, year]);
 
   return (
-    <FormWrapper
+    <FormInput
       form={form}
       onSubmit={onSubmit}
       withButtons={showSendButton || isAdmin || fields.length > 0}
@@ -123,6 +123,6 @@ export default function TipsForm({
           />
         </Table>
       )}
-    </FormWrapper>
+    </FormInput>
   );
 }

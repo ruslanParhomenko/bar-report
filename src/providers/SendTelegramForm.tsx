@@ -8,8 +8,8 @@ import {
   OrderListFormType,
 } from "@/features/orders/schemas";
 import { useSendTelegram } from "@/hooks/use-send-telegram";
-import { useLocalStorageForm } from "@/hooks/useLocalStorageForm";
-import { FormWrapper } from "@/components/wrapper/form-wrapper";
+import { useLocalStorageForm } from "@/hooks/use-local-storage";
+import FormInput from "@/components/wrapper/form";
 
 export const OrderListTelegramForm = ({
   children,
@@ -52,29 +52,20 @@ export const OrderListTelegramForm = ({
   const form = useForm<OrderListFormType>({
     defaultValues: defaultValues,
   });
-  const resetFormValues = () => {
-    form.reset(defaultValues);
-  };
   const { isLoaded } = useLocalStorageForm(form, STORAGE_KEY);
 
   const onSubmit: SubmitHandler<OrderListFormType> = async (data) => {
     sendTelegramMessage(
       data,
       URL_TELEGRAM[url as keyof typeof URL_TELEGRAM],
-      user
+      user,
     );
   };
   if (!isLoaded) return null;
 
   return (
-    <FormWrapper
-      form={form}
-      onSubmit={onSubmit}
-      className="flex flex-col min-h-[90vh]"
-      resetForm={resetFormValues}
-      resetButton={true}
-    >
+    <FormInput form={form} onSubmit={onSubmit} resetButton={true}>
       {children}
-    </FormWrapper>
+    </FormInput>
   );
 };

@@ -1,7 +1,7 @@
 "use server";
 
 import { dbAdmin } from "@/lib/firebase-admin";
-import { EmployeesSchemaTypeData } from "@/features/employees/schema";
+import { EmployeesSchemaTypeData } from "@/features/employees/employee/schema";
 import { unstable_cache, updateTag } from "next/cache";
 import { redis } from "@/lib/redis";
 import { EMPLOYEES_ACTION_TAG } from "@/constants/action-tag";

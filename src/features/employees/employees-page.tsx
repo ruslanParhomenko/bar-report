@@ -1,13 +1,14 @@
 "use client";
-import { useSearchParams } from "next/navigation";
-import { EmployeeVacationData } from "./employee-vacation-data";
-import { EmployeesData } from "./employees-data";
-import { EmployeesContextValue } from "@/providers/EmployeesProvider";
-import { Activity } from "react";
-import { EmployeeForm } from "./employee-form";
-import UsersPage from "../users/users-page";
+
 import { UserData } from "@/app/actions/users/userAction";
-import UsersForm from "../users/users-form";
+import { EmployeesContextValue } from "@/providers/EmployeesProvider";
+import { useSearchParams } from "next/navigation";
+import { Activity } from "react";
+import { EmployeesTable } from "./employee/employees-table";
+import { VacationTable } from "./employee/vacation-table";
+import { EmployeeForm } from "./employee/employee-form";
+import UsersForm from "./users/users-form";
+import UsersTable from "./users/users-table";
 
 export function EmployeesPage({
   employees,
@@ -21,16 +22,16 @@ export function EmployeesPage({
   return (
     <>
       <Activity mode={tab === "employees" ? "visible" : "hidden"}>
-        <EmployeesData data={employees} />
+        <EmployeesTable data={employees} />
       </Activity>
       <Activity mode={tab === "vacation" ? "visible" : "hidden"}>
-        <EmployeeVacationData />
+        <VacationTable />
       </Activity>
       <Activity mode={tab === "create-employee" ? "visible" : "hidden"}>
         <EmployeeForm employee={null} />
       </Activity>
       <Activity mode={tab === "users" ? "visible" : "hidden"}>
-        <UsersPage users={users} />
+        <UsersTable users={users} />
       </Activity>
       <Activity mode={tab === "create-user" ? "visible" : "hidden"}>
         <UsersForm users={null} />

@@ -6,6 +6,7 @@ import {
   EmployeesProvider,
 } from "@/providers/EmployeesProvider";
 import { getEmployees } from "../actions/employees/employeeAction";
+import NavTabs from "@/components/nav/nav-tabs";
 
 const NavPage = async ({
   children,
@@ -18,7 +19,10 @@ const NavPage = async ({
       <EmployeesProvider employees={employees as EmployeesContextValue[]}>
         <SidebarProvider>
           <SidebarNav />
-          {children}
+          <div className="flex flex-col h-screen w-screen overflow-y-auto">
+            <NavTabs />
+            {children}
+          </div>
         </SidebarProvider>
       </EmployeesProvider>
     </AbilityProvider>

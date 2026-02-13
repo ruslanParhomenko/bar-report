@@ -1,5 +1,5 @@
 "use client";
-import { FormWrapper } from "@/components/wrapper/form-wrapper";
+
 import { getMonthDays } from "@/utils/getMonthDays";
 
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -20,6 +20,7 @@ import { AOFormTypeInput, aoSchema, defaultAOForm } from "./schema";
 import { RowRender } from "@/components/table/row-render";
 import { calculateRowAOTotals } from "./utils";
 import { cn } from "@/lib/utils";
+import FormInput from "@/components/wrapper/form";
 
 export default function AoForm({
   dataAo,
@@ -105,7 +106,7 @@ export default function AoForm({
   ).toFixed(2);
 
   return (
-    <FormWrapper form={form} onSubmit={onSubmit} withButtons={isAdmin}>
+    <FormInput form={form} onSubmit={onSubmit} withButtons={isAdmin}>
       <Table>
         <DayByMonthTable month={month} monthDays={monthDays} infoCell={true} />
         <RowRender<AOFormTypeInput, "rowAOData">
@@ -163,6 +164,6 @@ export default function AoForm({
           </TableRow>
         </TableBody>
       </Table>
-    </FormWrapper>
+    </FormInput>
   );
 }

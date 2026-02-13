@@ -55,7 +55,7 @@ export default function BarForm({
 
   const values = useWatch({ control: form.control }) as BarFormValues;
 
-  useRealtimeSave(values, isAdmin, async (data) => {
+  useRealtimeSave(values, isBar, async (data) => {
     if (!data || !form.formState.isDirty) return;
     await realtimeReportBar(data);
     toast.info("сохранение данных…", { duration: 2000 });
@@ -152,7 +152,7 @@ export default function BarForm({
   }, [realtimeData, form]);
 
   return (
-    <FormInput form={form} onSubmit={onSubmit}>
+    <FormInput form={form} onSubmit={onSubmit} withDate={true}>
       <Activity mode={tab === "break" ? "visible" : "hidden"}>
         <BreakTable isDisabled={isDisabled} employeesName={employeesName} />
       </Activity>

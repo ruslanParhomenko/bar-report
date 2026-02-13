@@ -1,5 +1,5 @@
 "use client";
-import { FormWrapper } from "@/components/wrapper/form-wrapper";
+
 import { SubmitHandler, useForm } from "react-hook-form";
 import { CashFormTypeInput, cashSchema, defaultCashForm } from "./schema";
 import { CashData, saveCashForm } from "@/app/actions/cash/cashAction";
@@ -18,6 +18,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import CashInfo from "./cash-info";
 import { RowRender } from "@/components/table/row-render";
 import { rowCashBar, rowsCashCasino } from "./constants";
+import FormInput from "@/components/wrapper/form";
 
 export default function CashForm({
   dataAo,
@@ -139,7 +140,7 @@ export default function CashForm({
   }, [dataAo]);
 
   return (
-    <FormWrapper
+    <FormInput
       form={form}
       onSubmit={onSubmit}
       withButtons={showSendButton || isAdmin || !isBar}
@@ -171,6 +172,6 @@ export default function CashForm({
         <CashFooterTable monthDays={monthDays} form={form} />
         <CashInfo monthDays={monthDays} form={form} isDisabled={isDisabled} />
       </Table>
-    </FormWrapper>
+    </FormInput>
   );
 }

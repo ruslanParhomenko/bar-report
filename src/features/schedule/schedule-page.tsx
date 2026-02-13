@@ -20,7 +20,7 @@ export default function SchedulePage({
 }) {
   const searchParams = useSearchParams();
   const tab = searchParams.get("tab") as string;
-  const scheduleByTab = schedule?.find((s: any) => s.role === tab);
+  const scheduleByTab = schedule?.find((s: any) => s.role === tab) || null;
   return (
     <Table className="table-fixed">
       <ScheduleTableHeader

@@ -1,7 +1,7 @@
 "use server";
 import { REPORT_CUCINA_ACTION_TAG } from "@/constants/action-tag";
 
-import { ReportCucinaType } from "@/features/report/cucina/schema";
+import { ReportCucinaType } from "@/features/cucina/schema";
 import { dbAdmin } from "@/lib/firebase-admin";
 import { unstable_cache, updateTag } from "next/cache";
 

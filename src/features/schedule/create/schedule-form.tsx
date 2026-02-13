@@ -18,12 +18,12 @@ import { getMonthDays } from "@/utils/getMonthDays";
 import { toast } from "sonner";
 import { defaultSchedule, scheduleSchema, ScheduleType } from "./schema";
 import { EMPLOYEE_ROLES_BY_DEPARTMENT } from "./constants";
-import { FormWrapper } from "@/components/wrapper/form-wrapper";
 import ScheduleTableHeader from "../schedule-header";
 import ScheduleCreateTableBody from "./schedule-form-body";
 import { getSelectedEmployeesByRole } from "../utils";
 import ScheduleTableFooter from "../schedule-footer";
 import { zodResolver } from "@hookform/resolvers/zod";
+import FormInput from "@/components/wrapper/form";
 
 export function ScheduleCreatePage({
   schedule,
@@ -123,7 +123,7 @@ export function ScheduleCreatePage({
   }, [month, tab, selectedEmployees, monthDays.length, fields.length]);
 
   return (
-    <FormWrapper form={form} onSubmit={onSubmit} withButtons={false}>
+    <FormInput form={form} onSubmit={onSubmit} withButtons={false}>
       <Table>
         <ScheduleTableHeader
           addNewRow={addRow}
@@ -142,6 +142,6 @@ export function ScheduleCreatePage({
 
         <ScheduleTableFooter schedule={form.watch() as any} />
       </Table>
-    </FormWrapper>
+    </FormInput>
   );
 }

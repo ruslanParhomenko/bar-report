@@ -1,4 +1,4 @@
-import { InsufficientRights } from "@/components/wrapper/InsufficientRights";
+import { InsufficientRights } from "@/components/wrapper/insufficient-rights";
 
 const Page = () => {
   return <InsufficientRights exitButton={true} />;

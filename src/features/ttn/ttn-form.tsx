@@ -7,7 +7,6 @@ import TTNBodyTable from "./ttn-body-table";
 import {
   defaultSuppliersForm,
   SuppliersFormType,
-  SuppliersFormTypeInput,
   suppliersSchema,
 } from "./schema";
 import { suppliers } from "./constants";
@@ -43,7 +42,7 @@ export default function TTNForm({
     defaultValues: dataTtn ? dataTtn : defaultSuppliersForm,
   });
 
-  const onError = (errors: FieldErrors<SuppliersFormTypeInput>) => {
+  const onError = (errors: FieldErrors<SuppliersFormType>) => {
     toast.error(
       "Ошибка: проверьте числовые поля (допустимы только цифры и точка)",
     );

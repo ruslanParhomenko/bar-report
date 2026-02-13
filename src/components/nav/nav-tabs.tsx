@@ -14,6 +14,8 @@ export default function NavTabs() {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
+  const STORAGE_KEY = `nav-tab-${pathname}`;
+
   const [month, setMonth] = useState(() => MONTHS[new Date().getMonth()]);
   const [year, setYear] = useState(() => new Date().getFullYear().toString());
 
@@ -24,24 +26,47 @@ export default function NavTabs() {
   const navItems = config?.navItems ?? [];
 
   const tabFromUrl = searchParams.get("tab");
+
   const isValidTab = navItems.some((item) => item.value === tabFromUrl);
+
   const defaultTab = navItems[0]?.value;
-  const currentTab = isValidTab ? tabFromUrl! : defaultTab;
+
+  const currentTab = tabFromUrl && isValidTab ? tabFromUrl : defaultTab;
 
   useEffect(() => {
     if (!defaultTab) return;
 
-    if (!tabFromUrl || !isValidTab) {
-      const params = new URLSearchParams(searchParams.toString());
-      params.set("tab", defaultTab);
-
-      startTransition(() => {
-        router.replace(`${pathname}?${params.toString()}`, {
-          scroll: false,
-        });
-      });
+    if (tabFromUrl && isValidTab) {
+      localStorage.setItem(STORAGE_KEY, tabFromUrl);
+      return;
     }
-  }, [tabFromUrl, isValidTab, defaultTab, pathname, router, searchParams]);
+
+    const storedTab = localStorage.getItem(STORAGE_KEY);
+
+    const validStored =
+      storedTab && navItems.some((i) => i.value === storedTab)
+        ? storedTab
+        : null;
+
+    const tabToUse = validStored ?? defaultTab;
+
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("tab", tabToUse);
+
+    startTransition(() => {
+      router.replace(`${pathname}?${params.toString()}`, {
+        scroll: false,
+      });
+    });
+  }, [
+    tabFromUrl,
+    isValidTab,
+    defaultTab,
+    pathname,
+    router,
+    searchParams,
+    navItems,
+  ]);
 
   useEffect(() => {
     if (!filterType) return;
@@ -74,6 +99,8 @@ export default function NavTabs() {
   }, [month, year, filterType, pathname, router, searchParams]);
 
   const handleTabChange = (value: string) => {
+    localStorage.setItem(STORAGE_KEY, value);
+
     const params = new URLSearchParams(searchParams.toString());
     params.set("tab", value);
 
@@ -87,10 +114,14 @@ export default function NavTabs() {
   const tabsWidth = `w-1/${navItems.length}`;
 
   return (
-    <Tabs value={currentTab} onValueChange={handleTabChange}>
+    <Tabs
+      value={currentTab}
+      onValueChange={handleTabChange}
+      className="sticky top-0 bg-background"
+    >
       <div className="flex justify-between my-2 px-4">
         {navItems.length > 0 && (
-          <TabsList className="flex md:gap-4 h-8">
+          <TabsList className="flex md:gap-4 h-8 ">
             {navItems.map((item) => (
               <TabsTrigger
                 key={item.value}

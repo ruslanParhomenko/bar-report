@@ -5,7 +5,7 @@ import { Table } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import ResultTableBody from "./result-body-table";
 import { TipsFormType } from "../tips/schema";
-import { remarksByUniqueEmployee } from "../penalty/utils";
+import { remarksByUniqueEmployee } from "../archive/penalty/utils";
 import { SchedulesContextValue } from "@/app/actions/schedule/scheduleAction";
 import { useSearchParams } from "next/navigation";
 

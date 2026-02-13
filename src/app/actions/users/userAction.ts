@@ -1,7 +1,7 @@
 "use server";
 
 import { dbAdmin } from "@/lib/firebase-admin";
-import { UsersSchemaTypeData } from "@/features/users/schema";
+import { UsersSchemaTypeData } from "@/features/employees/users/schema";
 import { unstable_cache, updateTag } from "next/cache";
 import { redis } from "@/lib/redis";
 import { USERS_ACTION_TAG } from "@/constants/action-tag";

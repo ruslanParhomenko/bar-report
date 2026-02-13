@@ -2,15 +2,15 @@
 
 import { Activity } from "react";
 import { ReportDataByUniqueKey } from "@/app/actions/report-bar/report-bar-action";
-import ReportBarTable from "@/components/table/report-bar-table/ReportBarTable";
+import ReportBarTable from "@/features/archive/bar/report-bar";
 import { ReportCucinaDataByUniqueKey } from "@/app/actions/report-cucina/report-cucina-action";
-import ReportCucinaTable from "@/components/table/report-cucina-table/ReportCucinaTable";
+import ReportCucinaTable from "@/features/archive/cucina/report-cucina";
 import { BreakGetType } from "@/app/actions/break/break-action";
-import { BreakListArchive } from "../break/break-list-archive";
+import { BreakListArchive } from "./break/break-list-archive";
 import { RemarksDataByUniqueKey } from "@/app/actions/remarks/remarks-action";
-import PenaltyDetails from "../penalty/penalty-details";
-import PenaltyGeneral from "../penalty/penalty-general";
+import PenaltyDetails from "./penalty/penalty-details";
 import { useSearchParams } from "next/navigation";
+import PenaltyGeneral from "./penalty/penalty-general";
 
 type TabValue = "bar" | "cucina" | "breakList" | "penalty" | "penaltyResult";
 export type ArchiveData = {

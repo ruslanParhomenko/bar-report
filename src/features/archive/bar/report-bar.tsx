@@ -1,0 +1,48 @@
+import { Card, CardContent, CardTitle } from "@/components/ui/card";
+import TobaccoTable from "./tobacco-table";
+
+import { ReportDataByUniqueKey } from "@/app/actions/report-bar/report-bar-action";
+import CashVerifyTable from "./cash-table";
+import ExpensesTable from "./expenses-table";
+import InventoryTable from "./inventory-table";
+import ProductTransferTable from "./transfer-table";
+
+export const classNameHead = "text-shadow-muted-foreground font-bold";
+export const classNameRowBorder = "border-b-bl";
+export default function ReportBarTable({
+  data,
+}: {
+  data: ReportDataByUniqueKey | null;
+}) {
+  return (
+    <>
+      {data &&
+        data?.data.map((item, index) => {
+          const reportData = item.report;
+          return (
+            <Card key={index} className="bg-background! shadow-none m-2">
+              <CardTitle className="text-xs text-bl">day: {item.day}</CardTitle>
+
+              <CardContent className="flex flex-col gap-4">
+                <div className="grid grid-cols-1 xl:grid-cols-4 gap-4">
+                  <TobaccoTable data={reportData?.tobacco} />
+                  <ExpensesTable data={reportData?.expenses} />
+                  <ProductTransferTable data={reportData?.productTransfer} />
+                  <InventoryTable data={reportData?.inventory} />
+                </div>
+                <div>
+                  <CashVerifyTable data={reportData?.cashVerify} />
+                  <div className={classNameHead}>
+                    notes:{" "}
+                    <span className="text-rd text-xs px-4">
+                      {reportData?.notes}
+                    </span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          );
+        })}
+    </>
+  );
+}

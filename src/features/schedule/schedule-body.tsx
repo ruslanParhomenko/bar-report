@@ -8,7 +8,7 @@ export default function ScheduleTableBody({
   schedule,
   isView,
 }: {
-  schedule: SchedulesContextValue;
+  schedule: SchedulesContextValue | null;
   isView: boolean;
 }) {
   const todayDay = new Date().getDate();
