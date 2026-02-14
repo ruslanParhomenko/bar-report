@@ -14,3 +14,6 @@ export const TIPS_ACTION_TAG = "tips";
 export const CASH_ACTION_TAG = "cash";
 export const AO_REPORT_ACTION_TAG = "ao-report";
 export const TTN_ACTION_TAG = "ttn-report";
+
+export const BAR_REALTIME_ACTION_TAG = "bar-realtime";
+export const CUCINA_REALTIME_ACTION_TAG = "report-cucina-realtime";

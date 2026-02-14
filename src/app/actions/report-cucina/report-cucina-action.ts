@@ -1,11 +1,12 @@
 "use server";
-import { REPORT_CUCINA_ACTION_TAG } from "@/constants/action-tag";
+import {
+  CUCINA_REALTIME_ACTION_TAG,
+  REPORT_CUCINA_ACTION_TAG,
+} from "@/constants/action-tag";
 
 import { ReportCucinaType } from "@/features/cucina/schema";
 import { dbAdmin } from "@/lib/firebase-admin";
 import { unstable_cache, updateTag } from "next/cache";
-
-const REALTIME_DOC = "report-cucina-realtime";
 
 type ReportCreateData = {
   day: string;
@@ -118,15 +119,19 @@ export const getReportCucinaByUniqueKey = unstable_cache(
 // realtime
 
 export async function realtimeReportCucina(data: ReportCucinaType) {
-  const docRef = dbAdmin.collection(REALTIME_DOC).doc(REALTIME_DOC);
+  const docRef = dbAdmin
+    .collection(CUCINA_REALTIME_ACTION_TAG)
+    .doc(CUCINA_REALTIME_ACTION_TAG);
 
   await docRef.set(data);
 
-  updateTag(REALTIME_DOC);
+  updateTag(CUCINA_REALTIME_ACTION_TAG);
 }
 
 export async function _getRealtimeReportCucina() {
-  const docRef = dbAdmin.collection(REALTIME_DOC).doc(REALTIME_DOC);
+  const docRef = dbAdmin
+    .collection(CUCINA_REALTIME_ACTION_TAG)
+    .doc(CUCINA_REALTIME_ACTION_TAG);
   const snap = await docRef.get();
 
   if (!snap.exists) return null;
@@ -141,9 +146,9 @@ export async function _getRealtimeReportCucina() {
 
 export const getRealtimeReportCucina = unstable_cache(
   _getRealtimeReportCucina,
-  [REALTIME_DOC],
+  [CUCINA_REALTIME_ACTION_TAG],
   {
     revalidate: false,
-    tags: [REALTIME_DOC],
+    tags: [CUCINA_REALTIME_ACTION_TAG],
   },
 );
