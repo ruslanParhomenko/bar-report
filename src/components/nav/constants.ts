@@ -1,5 +1,27 @@
 // new
 
+import {
+  SCHEDULE_ACTION_TAG,
+  EMPLOYEES_ACTION_TAG,
+  BREAK_REALTIME_ACTION_TAG,
+  USERS_ACTION_TAG,
+  STOP_LIST_ACTION_TAG,
+  AO_REPORT_ACTION_TAG,
+  CASH_ACTION_TAG,
+  REMARKS_REALTIME_ACTION_TAG,
+  TIPS_ACTION_TAG,
+  TTN_ACTION_TAG,
+} from "@/constants/action-tag";
+import {
+  AO_REPORT_MAIN_ROUTE,
+  ARCHIVE_MAIN_ROUTE,
+  CASH_MAIN_ROUTE,
+  EMPLOYEES_MAIN_ROUTE,
+  SCHEDULE_MAIN_ROUTE,
+  TIPS_MAIN_ROUTE,
+  TTN_MAIN_ROUTE,
+} from "@/constants/endpoint-tag";
+
 export const BAR_NAV_ITEMS = [
   { label: "report", value: "report" },
   { label: "break", value: "break" },
@@ -77,4 +99,13 @@ export const NAV_BY_PATCH = {
 export type PageNavType = {
   label: string;
   value: string;
+};
+
+//
+export const REVALIDATE_TAGS_BY_PATCH = {
+  [SCHEDULE_MAIN_ROUTE]: SCHEDULE_ACTION_TAG,
+  [AO_REPORT_MAIN_ROUTE]: AO_REPORT_ACTION_TAG,
+  [CASH_MAIN_ROUTE]: CASH_ACTION_TAG,
+  [TIPS_MAIN_ROUTE]: TIPS_ACTION_TAG,
+  [TTN_MAIN_ROUTE]: TTN_ACTION_TAG,
 };

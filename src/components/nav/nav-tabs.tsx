@@ -3,13 +3,16 @@
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import { useEffect, useState, useTransition } from "react";
 import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
-import { NAV_BY_PATCH } from "./constants";
+import { NAV_BY_PATCH, REVALIDATE_TAGS_BY_PATCH } from "./constants";
 import SelectByMonthYear from "./select-month-year";
 import { MONTHS } from "@/utils/getMonthDays";
 import { cn } from "@/lib/utils";
+import { revalidateNav } from "@/app/actions/revalidate-tag/revalidate-teg";
+import { RefreshCcw } from "lucide-react";
 
 export default function NavTabs() {
   const pathname = usePathname();
+  const mainRoute = pathname.split("/")[1];
   const searchParams = useSearchParams();
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
@@ -111,13 +114,25 @@ export default function NavTabs() {
     });
   };
 
+  // refresh data
+  const tag =
+    REVALIDATE_TAGS_BY_PATCH[
+      mainRoute as keyof typeof REVALIDATE_TAGS_BY_PATCH
+    ];
+
+  const resetData = () => {
+    if (!tag) return;
+    revalidateNav(tag);
+    router.refresh();
+  };
+
   const tabsWidth = `w-1/${navItems.length}`;
 
   return (
     <Tabs
       value={currentTab}
       onValueChange={handleTabChange}
-      className="sticky top-0 bg-background"
+      className="sticky top-0 bg-background z-30"
     >
       <div className="flex justify-between my-2 px-4">
         {navItems.length > 0 && (
@@ -136,17 +151,26 @@ export default function NavTabs() {
             ))}
           </TabsList>
         )}
-
-        {filterType && (
-          <SelectByMonthYear
-            month={month}
-            year={year}
-            setMonth={setMonth}
-            setYear={setYear}
-            isLoading={isPending}
-            classNameMonthYear={navItems.length > 0 ? "md:w-22 w-10" : "w-24"}
-          />
-        )}
+        <div className="flex justify-end gap-4">
+          {filterType && (
+            <SelectByMonthYear
+              month={month}
+              year={year}
+              setMonth={setMonth}
+              setYear={setYear}
+              isLoading={isPending}
+              classNameMonthYear={navItems.length > 0 ? "md:w-22 w-10" : "w-24"}
+            />
+          )}
+          {tag && (
+            <button
+              onClick={resetData}
+              className="hover:text-black hover:bg-transparent cursor-pointer flex items-center justify-center md:w-10 w-8 h-8 order-1 md:order-2"
+            >
+              <RefreshCcw className="w-4 h-4 text-muted-foreground" />
+            </button>
+          )}
+        </div>
       </div>
     </Tabs>
   );

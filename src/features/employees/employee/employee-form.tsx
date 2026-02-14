@@ -90,7 +90,7 @@ export function EmployeeForm({
     }
   }, [employee, form]);
 
-  const fieldClassName = "w-full h-12! border!";
+  const fieldClassName = "w-full h-10! border!";
   return (
     <FormInput
       form={form}
@@ -180,16 +180,16 @@ export function EmployeeForm({
                         }
                       }}
                       resetTrigger={false}
-                      className="flex-1 h-11"
+                      className="flex-1 h-10"
                     />
                     <TextInput
                       fieldName={`vacationPay.${index}.countDays`}
-                      className="flex-none w-11 p-0 h-11 text-center mx-4"
+                      className="flex-none w-11 p-0 h-10 text-center mx-4"
                     />
                     <Button
                       type="button"
                       variant="destructive"
-                      className="h-11 w-11 flex-none"
+                      className="h-10 w-10 flex-none"
                       onClick={() =>
                         fields.length === 1
                           ? replace(defaultVacationPay)
@@ -205,7 +205,7 @@ export function EmployeeForm({
             <div className="flex justify-end">
               <Button
                 type="button"
-                className="h-11 w-11 flex-none"
+                className="h-10 w-10 flex-none"
                 onClick={() => append(defaultVacationPay)}
               >
                 <Plus />

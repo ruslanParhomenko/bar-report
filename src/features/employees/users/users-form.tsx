@@ -63,7 +63,7 @@ export default function UsersForm({ users }: { users: FormData | null }) {
     <FormInput
       form={form}
       onSubmit={handleSubmit}
-      className="md:w-1/2"
+      className="md:w-1/2 px-1"
       resetButton={id ? false : true}
       returnButton={id ? true : false}
       disabled={!isAdmin}
@@ -73,13 +73,13 @@ export default function UsersForm({ users }: { users: FormData | null }) {
           fieldName="mail"
           fieldLabel={t("mail")}
           type="mail"
-          className="w-full h-12"
+          className="w-full h-10"
         />
         <SelectField
           fieldLabel={t("role")}
           data={ROLES}
           fieldName="role"
-          className="truncate w-full h-12!"
+          className="truncate w-full h-10"
         />
       </div>
     </FormInput>

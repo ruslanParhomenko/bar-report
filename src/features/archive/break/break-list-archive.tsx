@@ -1,3 +1,6 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { BreakGetType } from "@/app/actions/break/break-action";
 
@@ -5,21 +8,53 @@ import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { TIME_LABELS } from "@/features/bar/break-form/constant";
 
 export function BreakListArchive({ data }: { data: BreakGetType | null }) {
+  const [opened, setOpened] = useState<number[]>([]);
+
+  if (!data) return null;
+
+  const reversed = [...data.data].reverse();
+
+  // ✅ первый элемент сразу открыт
+  useEffect(() => {
+    if (reversed.length > 0) {
+      setOpened([0]);
+    }
+  }, [data]);
+
+  const toggle = (index: number) => {
+    setOpened(
+      (prev) =>
+        prev.includes(index)
+          ? prev.filter((i) => i !== index) // закрыть
+          : [...prev, index], // открыть
+    );
+  };
+
   return (
     <>
-      {data &&
-        data?.data.map((data, index) => {
-          return (
-            <Card key={index} className="bg-background! shadow-none m-2">
-              <CardTitle className="text-xs text-bl">day: {data.day}</CardTitle>
+      {reversed.map((item, index) => {
+        const isOpen = opened.includes(index);
+
+        return (
+          <Card
+            key={index}
+            className="bg-background! shadow-none m-2 cursor-pointer"
+            onClick={() => toggle(index)}
+          >
+            {/* card + day */}
+            <CardTitle className="text-xs text-bl p-4">
+              day: {item.day}
+            </CardTitle>
+
+            {isOpen && (
               <CardContent className="flex flex-col gap-4">
                 <Table>
                   <TableBody>
-                    {data.rows.map((row, rowIndex) => {
+                    {item.rows.map((row, rowIndex) => {
                       return (
                         <TableRow
                           key={row.id + rowIndex}
-                          className="hover:text-rd  cursor-pointer"
+                          className="hover:text-rd cursor-pointer"
                         >
                           <TableCell className="py-1 md:w-30 sticky left-0 bg-background">
                             {row.name ?? "-"}
@@ -46,9 +81,10 @@ export function BreakListArchive({ data }: { data: BreakGetType | null }) {
                   </TableBody>
                 </Table>
               </CardContent>
-            </Card>
-          );
-        })}
+            )}
+          </Card>
+        );
+      })}
     </>
   );
 }

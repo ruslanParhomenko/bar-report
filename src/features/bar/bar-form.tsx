@@ -152,7 +152,13 @@ export default function BarForm({
   }, [realtimeData, form]);
 
   return (
-    <FormInput form={form} onSubmit={onSubmit} withDate={true}>
+    <FormInput
+      form={form}
+      onSubmit={onSubmit}
+      withDate={true}
+      disabled={isDisabled}
+      className="px-1"
+    >
       <Activity mode={tab === "break" ? "visible" : "hidden"}>
         <BreakTable isDisabled={isDisabled} employeesName={employeesName} />
       </Activity>

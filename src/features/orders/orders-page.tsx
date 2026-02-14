@@ -7,6 +7,7 @@ import { OrderListBar } from "./order-bar-zn";
 import { OrderListTTNCucina } from "./order-cucina-ttn";
 import { OrderListCucina } from "./order-cucina-zn";
 import { OrderListTelegramForm } from "@/providers/SendTelegramForm";
+import { useAbility } from "@/providers/AbilityProvider";
 
 const FORM_PROPS = {
   "bar-ttn": {
@@ -28,12 +29,14 @@ const FORM_PROPS = {
 };
 
 export default function OrdersPage() {
+  const { isBar, isCucina } = useAbility();
+  const isDisabled = !isBar && !isCucina;
   const searchParams = useSearchParams();
   const tab = searchParams.get("tab") as string;
   const user = FORM_PROPS[tab as keyof typeof FORM_PROPS]?.user;
   const url = FORM_PROPS[tab as keyof typeof FORM_PROPS]?.url;
   return (
-    <OrderListTelegramForm user={user} url={url}>
+    <OrderListTelegramForm user={user} url={url} isDisabled={isDisabled}>
       <Activity mode={tab === "bar-ttn" ? "visible" : "hidden"}>
         <OrderListTTNBar />
       </Activity>

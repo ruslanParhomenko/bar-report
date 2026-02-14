@@ -39,7 +39,9 @@ function OrderCardField({ item, isLast }: { item: string; isLast: boolean }) {
   return (
     <div>
       <div className="grid-cols-[72%_10%_16%] grid">
-        <Label className={`pl-2 text-sm ${value ? "text-rd" : ""}`}>
+        <Label
+          className={`pl-2 text-sm text-muted-foreground ${value ? "text-rd" : ""}`}
+        >
           {item}
         </Label>
 

@@ -15,10 +15,12 @@ export const OrderListTelegramForm = ({
   children,
   user,
   url,
+  isDisabled,
 }: {
   children: React.ReactNode;
   user: string;
   url: string;
+  isDisabled: boolean;
 }) => {
   const DATA_USER = {
     barTTN: {
@@ -64,7 +66,13 @@ export const OrderListTelegramForm = ({
   if (!isLoaded) return null;
 
   return (
-    <FormInput form={form} onSubmit={onSubmit} resetButton={true}>
+    <FormInput
+      form={form}
+      onSubmit={onSubmit}
+      resetButton={true}
+      disabled={isDisabled}
+      className="px-1"
+    >
       {children}
     </FormInput>
   );

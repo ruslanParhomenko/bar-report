@@ -12,6 +12,7 @@ import {
   FORWARD_CUCINE,
   DELPHI,
   FRUITBOX,
+  BUCURIA_CUCINA,
 } from "./constants";
 import { InputWrapper } from "@/components/wrapper/input-wrapper";
 import { OrderCardWrapper } from "@/components/wrapper/order-card-wrapper";
@@ -31,6 +32,7 @@ export const OrderListTTNCucina = () => {
         <OrderCardWrapper data={ETALONUS} name="ETALONUS" />
         <OrderCardWrapper data={FORWARD_CUCINE} name="FORWARD_CUCINE" />
         <OrderCardWrapper data={DELPHI} name="DELPHI" />
+        <OrderCardWrapper data={BUCURIA_CUCINA} name="BUCURIA_CUCINA" />
       </InputWrapper>
       <InputWrapper>
         <OrderCardWrapper data={DINOVA} name="DINOVA" />
