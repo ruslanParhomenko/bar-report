@@ -20,27 +20,21 @@ export default function ReportCucinaTable({
 }) {
   const [opened, setOpened] = useState<number[]>([]);
 
-  if (!data) return null;
-
-  // 🔁 отображение с конца
-  const reversed = [...data.data].reverse();
-
-  // ✅ первый элемент сразу открыт
   useEffect(() => {
+    if (!data) return;
     if (reversed.length > 0) {
       setOpened([0]);
     }
   }, [data]);
 
   const toggle = (index: number) => {
-    setOpened(
-      (prev) =>
-        prev.includes(index)
-          ? prev.filter((i) => i !== index) // закрыть
-          : [...prev, index], // открыть
+    setOpened((prev) =>
+      prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index],
     );
   };
 
+  if (!data) return null;
+  const reversed = [...data.data].reverse();
   return (
     <>
       {reversed.map((item, index) => {
