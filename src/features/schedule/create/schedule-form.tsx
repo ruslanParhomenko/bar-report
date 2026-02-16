@@ -24,6 +24,7 @@ import { getSelectedEmployeesByRole } from "../utils";
 import ScheduleTableFooter from "../schedule-footer";
 import { zodResolver } from "@hookform/resolvers/zod";
 import FormInput from "@/components/wrapper/form";
+import { useRouter } from "next/navigation";
 
 export function ScheduleCreatePage({
   schedule,
@@ -36,6 +37,8 @@ export function ScheduleCreatePage({
   month: string;
   year: string;
 }) {
+  const router = useRouter();
+  console.log("tab", tab);
   const found = schedule
     ? schedule
     : {
@@ -65,6 +68,7 @@ export function ScheduleCreatePage({
 
   // submit
   const onSubmit: SubmitHandler<ScheduleType> = async (data) => {
+    console.log("data submit", data);
     const formatData: ScheduleData = {
       ...data,
       uniqueKey: `${year}-${month}-${tab}`,
@@ -76,12 +80,16 @@ export function ScheduleCreatePage({
       await updateSchedule(schedule.id as string, formatData);
       toast.success("График успешно обновлён!");
 
+      router.back();
+
       return;
     } else {
+      console.log("formatData", formatData);
       await createSchedule(formatData);
       toast.success("График успешно создан!");
 
       form.reset(defaultSchedule);
+      router.back();
       return;
     }
   };
@@ -123,7 +131,7 @@ export function ScheduleCreatePage({
   }, [month, tab, selectedEmployees, monthDays.length, fields.length]);
 
   return (
-    <FormInput form={form} onSubmit={onSubmit} withButtons={false}>
+    <FormInput form={form} onSubmit={onSubmit}>
       <Table>
         <ScheduleTableHeader
           addNewRow={addRow}

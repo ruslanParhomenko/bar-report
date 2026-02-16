@@ -1,33 +1,45 @@
 import { z } from "zod";
 
-const shiftsSchema = z.string().default("");
+const shiftsSchema = z.string();
 
 export const rowShiftSchema = z.object({
-  id: z.string().min(1, { message: "Id is required" }).default(""),
-  dayHours: z.string().default(""),
-  nightHours: z.string().default(""),
-  totalHours: z.string().default(""),
-  employee: z.string().min(1, { message: "Employee is required" }).default(""),
-  role: z.string().min(1, { message: "Role is required" }).default(""),
-  rate: z.string().min(1, { message: "Rate is required" }).default(""),
-  employeeId: z
-    .string()
-    .min(1, { message: "EmployeeId is required" })
-    .default(""),
-  shifts: z.array(shiftsSchema).default([]),
+  id: z.string().min(1),
+  dayHours: z.string(),
+  nightHours: z.string(),
+  totalHours: z.string(),
+  employee: z.string(),
+  role: z.string(),
+  rate: z.string(),
+  employeeId: z.string(),
+  shifts: z.array(shiftsSchema),
 });
 
 export type RowShiftType = z.infer<typeof rowShiftSchema>;
 
-export const defaultRowShift: RowShiftType = rowShiftSchema.parse({});
+export const defaultRowShift = {
+  id: "",
+  dayHours: "",
+  nightHours: "",
+  totalHours: "",
+  employee: "",
+  role: "",
+  rate: "",
+  employeeId: "",
+  shifts: [],
+};
 
 export const scheduleSchema = z.object({
-  year: z.string().default(""),
-  month: z.string().default(""),
-  role: z.string().default(""),
-  rowShifts: z.array(rowShiftSchema).default([]),
+  year: z.string(),
+  month: z.string(),
+  role: z.string(),
+  rowShifts: z.array(rowShiftSchema),
 });
 
 export type ScheduleType = z.infer<typeof scheduleSchema>;
 
-export const defaultSchedule: ScheduleType = scheduleSchema.parse({});
+export const defaultSchedule = {
+  year: "",
+  month: "",
+  role: "",
+  rowShifts: [],
+};
