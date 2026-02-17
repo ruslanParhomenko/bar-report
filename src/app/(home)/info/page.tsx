@@ -1,8 +1,8 @@
 import {
   getMenu,
   getStandardKitchen,
-} from "@/app/actions/google/googleSheetAction";
-import { getStopList } from "@/app/actions/stop-list/stopListAction";
+} from "@/app/actions/google/google-action";
+import { getStopList } from "@/app/actions/stop-list/stop-list-action";
 import InfoPage from "@/features/info/info-page";
 
 export default async function Page() {

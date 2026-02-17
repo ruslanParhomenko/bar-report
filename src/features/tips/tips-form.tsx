@@ -8,17 +8,17 @@ import {
   useForm,
 } from "react-hook-form";
 import { defaultTipsForm, TipsFormType, tipsSchema } from "./schema";
-import { saveTipsForm, TipsData } from "@/app/actions/tips/tipsAction";
+import { saveTipsForm, TipsData } from "@/app/actions/tips/tips-action";
 import { toast } from "sonner";
-import { getMonthDays, MONTHS } from "@/utils/getMonthDays";
+import { getMonthDays, MONTHS } from "@/utils/get-month-days";
 import { TipsTableFooter } from "./tips-footer-table";
 import { useEffect, useState } from "react";
-import { CashData } from "@/app/actions/cash/cashAction";
-import { useAbility } from "@/providers/AbilityProvider";
+import { CashData } from "@/app/actions/cash/cash-action";
+import { useAbility } from "@/providers/ability-provider";
 import BidForm from "./bid-form";
 import { DayByMonthTable } from "@/components/table/day-by-month-table";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { EmployeeData } from "@/app/actions/employees/employeeAction";
+import { EmployeeData } from "@/app/actions/employees/employee-action";
 import FormInput from "@/components/wrapper/form";
 
 export default function TipsForm({

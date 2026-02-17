@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import ResultTableBody from "./result-body-table";
 import { TipsFormType } from "../tips/schema";
 import { remarksByUniqueEmployee } from "../archive/penalty/utils";
-import { SchedulesContextValue } from "@/app/actions/schedule/scheduleAction";
+import { SchedulesContextValue } from "@/app/actions/schedule/schedule-action";
 import { useSearchParams } from "next/navigation";
 
 const ROLE = {

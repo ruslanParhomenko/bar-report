@@ -1,5 +1,5 @@
 "use client";
-import TextInput from "@/components/inputs/TextInput";
+import TextInput from "@/components/inputs/text-input";
 import { Label } from "@/components/ui/label";
 import { useTranslations } from "next-intl";
 import {
@@ -10,23 +10,23 @@ import {
   useForm,
   useWatch,
 } from "react-hook-form";
-import DatePickerInput from "@/components/inputs/DatePickerInput";
+import DatePickerInput from "@/components/inputs/date-input";
 import { Button } from "@/components/ui/button";
 import { Plus, Trash } from "lucide-react";
-import { DatePickerRange } from "@/components/inputs/DatePickerRange";
+import { DatePickerRange } from "@/components/inputs/date-range-input";
 import { cn } from "@/lib/utils";
-import { EmployeesContextValue } from "@/providers/EmployeesProvider";
+import { EmployeesContextValue } from "@/providers/employees-provider";
 import { toast } from "sonner";
 import {
   createEmployee,
   updateEmployee,
-} from "@/app/actions/employees/employeeAction";
-import { sendNotificationEmail } from "@/app/actions/mail/sendNotificationEmail";
+} from "@/app/actions/employees/employee-action";
+import { sendNotificationEmail } from "@/app/actions/mail/email-action";
 import { useEffect } from "react";
 import { useRouter } from "@/i18n/navigation";
-import SelectField from "@/components/inputs/SelectField";
+import SelectField from "@/components/inputs/select-input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useAbility } from "@/providers/AbilityProvider";
+import { useAbility } from "@/providers/ability-provider";
 import FormInput from "@/components/wrapper/form";
 import {
   defaultEmployeeSchemaValues,

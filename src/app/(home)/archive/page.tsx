@@ -3,7 +3,7 @@ import { getRemarksByUniqueKey } from "@/app/actions/remarks/remarks-action";
 import { getReportByUniqueKey } from "@/app/actions/report-bar/report-bar-action";
 import { getReportCucinaByUniqueKey } from "@/app/actions/report-cucina/report-cucina-action";
 import ArchivePage, { ArchiveData } from "@/features/archive/archive-page";
-import { MONTHS } from "@/utils/getMonthDays";
+import { MONTHS } from "@/utils/get-month-days";
 
 export default async function Page({
   searchParams,

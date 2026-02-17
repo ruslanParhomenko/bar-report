@@ -1,6 +1,6 @@
 import { TableCell, TableHeader, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
-import { getMonthDays } from "@/utils/getMonthDays";
+import { getMonthDays } from "@/utils/get-month-days";
 import { useTranslations } from "next-intl";
 
 export function DayByMonthTable({

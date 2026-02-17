@@ -2,7 +2,7 @@ import { TableCell, TableFooter, TableRow } from "@/components/ui/table";
 import { COLOR_SHIFT, SHIFT_OPTIONS, SHIFTS } from "./create/constants";
 import { cn } from "@/lib/utils";
 import { getShiftCounts } from "./utils";
-import { SchedulesContextValue } from "@/app/actions/schedule/scheduleAction";
+import { SchedulesContextValue } from "@/app/actions/schedule/schedule-action";
 
 export default function ScheduleTableFooter({
   schedule,

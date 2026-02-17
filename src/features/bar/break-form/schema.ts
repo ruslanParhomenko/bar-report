@@ -15,8 +15,8 @@ export const rowsSchema = z.object({
 export const breakSchema = z.object({
   rows: z.array(rowsSchema),
 });
-export type BreakFormData = z.input<typeof breakSchema>;
+export type BreakFormData = z.infer<typeof breakSchema>;
 
 export const defaultValuesBreak: BreakFormData = {
-  rows: BREAK_LIST_DEFAULT as z.infer<typeof rowsSchema>[],
+  rows: BREAK_LIST_DEFAULT as BreakFormData["rows"],
 };

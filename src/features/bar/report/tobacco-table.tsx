@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/table";
 import { defaultTobaccoValue, TobaccoSchemaType } from "./schema";
 import { useFormContext, useWatch } from "react-hook-form";
-import NumericInput from "@/components/inputs/NumericInput";
+import NumericInput from "@/components/inputs/numeric-input";
 
 export default function TableTobacco({
   disabled = false,

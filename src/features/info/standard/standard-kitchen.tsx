@@ -1,4 +1,4 @@
-import { StandardKitchen } from "@/app/actions/google/googleSheetAction";
+import { StandardKitchen } from "@/app/actions/google/google-action";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 
 export default function StandardKitchenTable({

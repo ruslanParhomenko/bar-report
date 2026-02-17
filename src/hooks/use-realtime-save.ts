@@ -4,19 +4,33 @@ export function useRealtimeSave<T>(
   value: T,
   enabled: boolean,
   callback: (data: T) => Promise<void>,
-  delay = 6000,
+  delay = 4000,
 ) {
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const prevValueRef = useRef<string | null>(null);
+  const callbackRef = useRef(callback);
+
+  // стабилизируем callback
+  useEffect(() => {
+    callbackRef.current = callback;
+  }, [callback]);
 
   useEffect(() => {
     if (!enabled || !value) return;
+
+    const serialized = JSON.stringify(value);
+
+    // если значение реально не изменилось — выходим
+    if (prevValueRef.current === serialized) return;
+
+    prevValueRef.current = serialized;
 
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
     }
 
     timeoutRef.current = setTimeout(() => {
-      callback(value).catch(console.error);
+      callbackRef.current(value).catch(console.error);
     }, delay);
 
     return () => {
@@ -24,5 +38,5 @@ export function useRealtimeSave<T>(
         clearTimeout(timeoutRef.current);
       }
     };
-  }, [value, enabled, callback, delay]);
+  }, [value, enabled, delay]);
 }

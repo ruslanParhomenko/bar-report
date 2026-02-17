@@ -1,31 +1,31 @@
 import { z } from "zod";
 
 export const remarkSchema = z.object({
-  name: z.string().default(""),
-  dayHours: z.string().default(""),
-  nightHours: z.string().default(""),
-  penalty: z.string().default(""),
-  reason: z.string().default(""),
-  bonus: z.string().default(""),
+  name: z.string(),
+  dayHours: z.string(),
+  nightHours: z.string(),
+  penalty: z.string(),
+  reason: z.string(),
+  bonus: z.string(),
 });
 
 export type RemarkFormData = z.infer<typeof remarkSchema>;
 
-export const defaultRemarkValue: RemarkFormData = remarkSchema.parse({});
+export const defaultRemarkValue = {
+  name: "",
+  dayHours: "",
+  nightHours: "",
+  penalty: "",
+  reason: "",
+  bonus: "",
+};
 
 export const remarksSchema = z.object({
-  remarks: z.array(remarkSchema).default([
-    {
-      name: "",
-      dayHours: "",
-      nightHours: "",
-      penalty: "",
-      reason: "",
-      bonus: "",
-    },
-  ]),
+  remarks: z.array(remarkSchema),
 });
 
 export type RemarksFormData = z.infer<typeof remarksSchema>;
 
-export const defaultRemarksValue: RemarksFormData = remarksSchema.parse({});
+export const defaultRemarksValue = {
+  remarks: [defaultRemarkValue],
+};

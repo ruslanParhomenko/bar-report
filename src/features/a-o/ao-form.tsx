@@ -1,12 +1,12 @@
 "use client";
 
-import { getMonthDays } from "@/utils/getMonthDays";
+import { getMonthDays } from "@/utils/get-month-days";
 
 import { SubmitHandler, useForm } from "react-hook-form";
 import { DayByMonthTable } from "@/components/table/day-by-month-table";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 
-import { useAbility } from "@/providers/AbilityProvider";
+import { useAbility } from "@/providers/ability-provider";
 import { useEffect } from "react";
 import {
   AOContextValue,

@@ -47,26 +47,6 @@ export const getMonthDays = ({
   });
 };
 
-// build date
-
-export function buildDate({
-  year,
-  month,
-  day,
-}: {
-  year: number;
-  month: string;
-  day: number | string;
-}) {
-  const monthIndex = MONTHS.indexOf(month.toLowerCase());
-
-  if (monthIndex === -1) {
-    throw new Error(`Invalid month: ${month}`);
-  }
-
-  return new Date(Number(year), monthIndex, Number(day));
-}
-
 // get prev month
 
 export type Month = (typeof MONTHS)[number];

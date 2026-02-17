@@ -1,7 +1,7 @@
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { menu } from "./constants";
-import { Menu } from "@/app/actions/google/googleSheetAction";
+import { Menu } from "@/app/actions/google/google-action";
 
 const MENU_STAFF_BY_DAY = [
   "Monday",

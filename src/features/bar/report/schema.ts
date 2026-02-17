@@ -1,56 +1,60 @@
 import { z } from "zod";
 import { INVENTORY_DATA, LIST_TOBACCO } from "./constants";
-import { remarksSchema } from "@/features/bar/penalty/schema";
-import { breakSchema } from "@/features/bar/break-form/schema";
 
 // products transfer
 export const productTransferSchema = z.object({
-  name: z.string().default(""),
-  quantity: z.string().default(""),
-  destination: z.string().default(""),
-  time: z.string().default(""),
+  name: z.string(),
+  quantity: z.string(),
+  destination: z.string(),
+  time: z.string(),
 });
 
 export type ProductTransferSchemaType = z.infer<typeof productTransferSchema>;
 
-export const productTransferDefault = Array.from({ length: 8 }, () =>
-  productTransferSchema.parse({}),
-);
+export const productTransferDefault = Array.from({ length: 8 }, () => ({
+  name: "",
+  quantity: "",
+  destination: "",
+  time: "",
+}));
 
 // inventory
 export const inventorySchema = z.object({
-  name: z.string().default(""),
-  quantity: z.string().default(""),
-  time: z.string().default(""),
+  name: z.string(),
+  quantity: z.string(),
+  time: z.string(),
 });
 
 export type InventorySchemaType = z.infer<typeof inventorySchema>;
 
 export const inventoryDefault = INVENTORY_DATA.map((item) => ({
-  ...inventorySchema.parse({}),
   name: item,
+  quantity: "",
+  time: "",
 }));
 
 // expenses
 export const expenseSchema = z.object({
-  name: z.string().default(""),
-  sum: z.string().default(""),
-  time: z.string().default(""),
+  name: z.string(),
+  sum: z.string(),
+  time: z.string(),
 });
 
 export type ExpensesSchemaType = z.infer<typeof expenseSchema>;
 
-export const expensesDefault = Array.from({ length: 8 }, () =>
-  expenseSchema.parse({}),
-);
+export const expensesDefault = Array.from({ length: 8 }, () => ({
+  name: "",
+  sum: "",
+  time: "",
+}));
 
 // tobacco
 export const tobaccoSchema = z.object({
   name: z.enum(LIST_TOBACCO),
-  stock: z.number().default(0),
-  incoming: z.string().default(""),
-  outgoing: z.string().default(""),
-  finalStock: z.number().default(0),
+  stock: z.number(),
+  incoming: z.string(),
+  outgoing: z.string(),
+  finalStock: z.number(),
 });
 
 export type TobaccoSchemaType = z.infer<typeof tobaccoSchema>;
@@ -64,31 +68,29 @@ export const defaultTobaccoValue = LIST_TOBACCO.map((name) => ({
 }));
 // cash verify
 export const cashVerifySchema = z.object({
-  hours: z.string().default(""),
-  value: z.string().default(""),
+  hours: z.string(),
+  value: z.string(),
 });
 
 export type CashVerifySchemaType = z.infer<typeof cashVerifySchema>;
-
-export const cashVerifyDefault = Array.from({ length: 24 }, () =>
-  cashVerifySchema.parse({}),
-);
+export const cashVerifyDefault = Array.from({ length: 24 }, () => ({
+  hours: "",
+  value: "",
+}));
 
 // report bar
 export const reportBarSchema = z.object({
-  expenses: z.array(expenseSchema).default(expensesDefault),
-  tobacco: z.array(tobaccoSchema).default(defaultTobaccoValue),
-  cashVerify: z.array(cashVerifySchema).default(cashVerifyDefault),
-  productTransfer: z
-    .array(productTransferSchema)
-    .default(productTransferDefault),
-  inventory: z.array(inventorySchema).default(inventoryDefault),
-  notes: z.string().nullable().default(""),
+  expenses: z.array(expenseSchema),
+  tobacco: z.array(tobaccoSchema),
+  cashVerify: z.array(cashVerifySchema),
+  productTransfer: z.array(productTransferSchema),
+  inventory: z.array(inventorySchema),
+  notes: z.string(),
 });
 
 export type ReportBarFormValues = z.infer<typeof reportBarSchema>;
 
-export const defaultValuesReportBar: ReportBarFormValues = {
+export const defaultValuesReportBar = {
   expenses: expensesDefault,
   tobacco: defaultTobaccoValue,
   cashVerify: cashVerifyDefault,

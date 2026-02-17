@@ -16,16 +16,16 @@ import {
   stopListSchema,
   StopListSchemaType,
 } from "./schema";
-import SelectFieldWithSearch from "@/components/inputs/SelectWithSearch";
+import SelectFieldWithSearch from "@/components/inputs/select-with-search";
 import { useEffect } from "react";
 import { toast } from "sonner";
-import { useAbility } from "@/providers/AbilityProvider";
-import { formatNowData } from "@/utils/formatNow";
-import { AddRemoveFieldsButton } from "@/components/buttons/AddRemoveFieldsButton";
+import { useAbility } from "@/providers/ability-provider";
+import { formatNowData } from "@/utils/format-date";
+import { AddRemoveFieldsButton } from "@/components/buttons/action-fields";
 import { zodResolver } from "@hookform/resolvers/zod";
 import FormInput from "@/components/wrapper/form";
 import { useRealtimeSave } from "@/hooks/use-realtime-save";
-import { saveStopList } from "@/app/actions/stop-list/stopListAction";
+import { saveStopList } from "@/app/actions/stop-list/stop-list-action";
 
 export default function StopListForm({
   data,
@@ -55,7 +55,7 @@ export default function StopListForm({
   });
 
   useRealtimeSave(watchStopList, isBar, async (stopList) => {
-    if (!stopList || !form.formState.isDirty) return;
+    if (!stopList) return;
     await saveStopList({ stopList });
     toast.info("сохранение данных…", { duration: 2000 });
   });

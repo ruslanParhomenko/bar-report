@@ -2,13 +2,13 @@ import { getRemarksByUniqueKey } from "@/app/actions/remarks/remarks-action";
 import {
   getScheduleByMonthYear,
   SchedulesContextValue,
-} from "@/app/actions/schedule/scheduleAction";
-import { getTipsFormById } from "@/app/actions/tips/tipsAction";
+} from "@/app/actions/schedule/schedule-action";
+import { getTipsFormById } from "@/app/actions/tips/tips-action";
 import { InsufficientRights } from "@/components/wrapper/insufficient-rights";
 import { remarksByUniqueEmployee } from "@/features/archive/penalty/utils";
 import { PageResult } from "@/features/result/result-page";
 import { checkAccess } from "@/lib/check-access";
-import { MONTHS } from "@/utils/getMonthDays";
+import { MONTHS } from "@/utils/get-month-days";
 
 const SET_ACCESS = ["ADMIN", "MNGR"];
 

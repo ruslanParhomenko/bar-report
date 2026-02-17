@@ -1,5 +1,3 @@
-import { format, isValid } from "date-fns";
-
 export const formatNow = (): string => {
   const now = new Date();
 
@@ -20,13 +18,12 @@ export const formatNowData = (): string => {
   return `${day}.${month} ${hours}:${minutes}`;
 };
 
-export const formatDataForInput = ({
-  date,
-}: {
-  date: Date | string;
-}): string => {
-  const formatDate =
-    date && isValid(new Date(date)) ? format(new Date(date), "dd.MM.yy") : "-";
+export function formatShortDate(date: string | Date) {
+  const d = new Date(date);
 
-  return formatDate;
-};
+  const day = String(d.getDate()).padStart(2, "0");
+  const month = String(d.getMonth() + 1).padStart(2, "0");
+  const year = String(d.getFullYear()).slice(-2);
+
+  return `${day}.${month}.${year}`;
+}

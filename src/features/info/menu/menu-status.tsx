@@ -1,9 +1,9 @@
 "use client";
-import PrintButton from "@/components/buttons/PrintButton";
+import PrintButton from "@/components/buttons/print-button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { columns, LABELS } from "./constants";
 import { useRef } from "react";
-import { Menu } from "@/app/actions/google/googleSheetAction";
+import { Menu } from "@/app/actions/google/google-action";
 
 export default function StatusMenu({ data }: { data: Menu | null }) {
   const selectData = data && data.statusMenu;

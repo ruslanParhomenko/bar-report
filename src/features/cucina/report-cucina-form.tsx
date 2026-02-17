@@ -28,15 +28,15 @@ import {
 import { toast } from "sonner";
 import RenderTableCucina from "./fields-form";
 
-import { useEmployees } from "@/providers/EmployeesProvider";
+import { useEmployees } from "@/providers/employees-provider";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
-import { useAbility } from "@/providers/AbilityProvider";
+import { useAbility } from "@/providers/ability-provider";
 import {
   createReportCucina,
   realtimeReportCucina,
 } from "@/app/actions/report-cucina/report-cucina-action";
-import { MONTHS } from "@/utils/getMonthDays";
+import { MONTHS } from "@/utils/get-month-days";
 import FormInput from "@/components/wrapper/form";
 import { useRealtimeSave } from "@/hooks/use-realtime-save";
 
@@ -55,7 +55,7 @@ export default function ReportCucinaForm({
 
   //form
   const form = useForm<ReportCucinaType>({
-    defaultValues: defaultReportCucina,
+    defaultValues: realtimeData ?? defaultReportCucina,
     resolver: zodResolver(schemaReportCucina),
   });
 
@@ -66,7 +66,7 @@ export default function ReportCucinaForm({
     reportValues as ReportCucinaType,
     isCucina,
     async (data) => {
-      if (!data || !form.formState.isDirty) return;
+      if (!data) return;
       await realtimeReportCucina(data).catch(console.error);
       toast.info("сохранение данных…", { duration: 2000 });
     },
@@ -79,6 +79,7 @@ export default function ReportCucinaForm({
     const year = dateValue.getFullYear().toString();
     const day = dateValue.getDate().toLocaleString();
     const uniqueKey = `${year}-${month}`;
+
     try {
       await createReportCucina(uniqueKey, year, month, { day, report: rest });
 

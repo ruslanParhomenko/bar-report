@@ -2,7 +2,7 @@
 
 import { dbAdmin } from "@/lib/firebase-admin";
 import { ScheduleType } from "@/features/schedule/create/schema";
-import { invalidateEverywhere } from "../invalidateEverywhere/invalidateEverywhere";
+import { invalidateEverywhere } from "../invalidateEverywhere/invalidate-everywhere";
 import { unstable_cache, updateTag } from "next/cache";
 import { SCHEDULE_ACTION_TAG } from "@/constants/action-tag";
 

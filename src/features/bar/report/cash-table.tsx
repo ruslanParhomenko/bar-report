@@ -1,10 +1,10 @@
 "use client";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
-import NumericInput from "@/components/inputs/NumericInput";
+import NumericInput from "@/components/inputs/numeric-input";
 import { CashVerifySchemaType } from "./schema";
 import { useFormContext, useWatch } from "react-hook-form";
 import { useEffect } from "react";
-import { formatNow } from "@/utils/formatNow";
+import { formatNow } from "@/utils/format-date";
 
 export default function TableCashVerify({
   disabled = false,

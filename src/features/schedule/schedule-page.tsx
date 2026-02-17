@@ -2,9 +2,9 @@
 import { Table } from "@/components/ui/table";
 import ScheduleTableFooter from "./schedule-footer";
 import ScheduleTableHeader from "./schedule-header";
-import { MonthDayType } from "@/utils/getMonthDays";
+import { MonthDayType } from "@/utils/get-month-days";
 import ScheduleTableBody from "./schedule-body";
-import { SchedulesContextValue } from "@/app/actions/schedule/scheduleAction";
+import { SchedulesContextValue } from "@/app/actions/schedule/schedule-action";
 import { useSearchParams } from "next/navigation";
 
 export default function SchedulePage({

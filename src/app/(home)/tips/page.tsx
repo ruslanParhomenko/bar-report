@@ -1,10 +1,10 @@
-import { getCashFormById } from "@/app/actions/cash/cashAction";
-import { getEmployees } from "@/app/actions/employees/employeeAction";
-import { getTipsFormById } from "@/app/actions/tips/tipsAction";
+import { getCashFormById } from "@/app/actions/cash/cash-action";
+import { getEmployees } from "@/app/actions/employees/employee-action";
+import { getTipsFormById } from "@/app/actions/tips/tips-action";
 import { InsufficientRights } from "@/components/wrapper/insufficient-rights";
 import TipsForm from "@/features/tips/tips-form";
 import { checkAccess } from "@/lib/check-access";
-import { getMonthDays, MONTHS } from "@/utils/getMonthDays";
+import { getMonthDays, MONTHS } from "@/utils/get-month-days";
 
 const SET_ACCESS = ["ADMIN", "MNGR"];
 const SELECTED_ROLE = ["waiters", "barmen"] as const;

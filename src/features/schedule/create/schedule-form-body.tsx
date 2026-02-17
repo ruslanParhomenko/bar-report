@@ -8,13 +8,13 @@ import {
   useFormContext,
 } from "react-hook-form";
 import { cn } from "@/lib/utils";
-import { handleTableNavigation } from "@/utils/handleTableNavigation";
-import { EmployeesContextValue } from "@/providers/EmployeesProvider";
-import { MonthDayType } from "@/utils/getMonthDays";
+import { EmployeesContextValue } from "@/providers/employees-provider";
+import { MonthDayType } from "@/utils/get-month-days";
 import { ScheduleType } from "./schema";
 import { color, SHIFT_HOURS_MAP_DAY, SHIFT_HOURS_MAP_NIGHT } from "./constants";
 import { calculateSalaryByHours } from "../utils";
-import SelectField from "@/components/inputs/SelectField";
+import SelectField from "@/components/inputs/select-input";
+import { handleMultiTableNavigation } from "@/utils/handle-table-navigation";
 
 export default function ScheduleCreateTableBody({
   fields,
@@ -42,25 +42,25 @@ export default function ScheduleCreateTableBody({
           const totalHoursDay = shifts.reduce(
             (sum: number, val: string) =>
               sum + (SHIFT_HOURS_MAP_DAY?.[val] ?? 0),
-            0
+            0,
           );
           const totalHoursNight = shifts.reduce(
             (sum: number, val: string) =>
               sum + (SHIFT_HOURS_MAP_NIGHT?.[val] ?? 0),
-            0
+            0,
           );
 
           form.setValue(
             `rowShifts.${rowIndex}.dayHours`,
-            totalHoursDay.toString()
+            totalHoursDay.toString(),
           );
           form.setValue(
             `rowShifts.${rowIndex}.nightHours`,
-            totalHoursNight.toString()
+            totalHoursNight.toString(),
           );
           form.setValue(
             `rowShifts.${rowIndex}.totalHours`,
-            (totalHoursDay + totalHoursNight).toString()
+            (totalHoursDay + totalHoursNight).toString(),
           );
         }
       }
@@ -142,13 +142,11 @@ export default function ScheduleCreateTableBody({
                     {...form.register(fieldName)}
                     data-row={rowIndex}
                     data-col={dayIndex}
-                    onKeyDown={(e) =>
-                      handleTableNavigation(e, rowIndex, dayIndex)
-                    }
+                    onKeyDown={handleMultiTableNavigation}
                     className={cn(
                       "w-10 h-9 text-center",
                       value === "" ? "bg-border/20" : "",
-                      color[value as keyof typeof color]
+                      color[value as keyof typeof color],
                     )}
                   />
                 </TableCell>

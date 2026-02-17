@@ -1,8 +1,8 @@
 "use client";
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { useResultCalculations } from "./utils";
-import { useAbility } from "@/providers/AbilityProvider";
-import { handleCopy } from "@/utils/handlerCopyText";
+import { useAbility } from "@/providers/ability-provider";
+import { handleCopy } from "@/utils/handler-copy-text";
 
 export default function ResultTableBody({
   rows,

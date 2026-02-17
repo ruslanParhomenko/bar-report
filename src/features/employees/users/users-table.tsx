@@ -1,6 +1,6 @@
 "use client";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
-import { UserData } from "@/app/actions/users/userAction";
+import { UserData } from "@/app/actions/users/user-action";
 import UsersActions from "./users-action";
 
 export default function UsersTable({ users }: { users: UserData[] }) {

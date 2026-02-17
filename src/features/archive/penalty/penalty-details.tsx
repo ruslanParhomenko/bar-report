@@ -20,7 +20,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useRouter } from "@/i18n/navigation";
-import { useAbility } from "@/providers/AbilityProvider";
+import { useAbility } from "@/providers/ability-provider";
 import { PenBox, Trash2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useMemo, useState } from "react";

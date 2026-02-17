@@ -1,7 +1,7 @@
 import {
   getScheduleById,
   SchedulesContextValue,
-} from "@/app/actions/schedule/scheduleAction";
+} from "@/app/actions/schedule/schedule-action";
 import { ScheduleCreatePage } from "@/features/schedule/create/schedule-form";
 
 export default async function Page({

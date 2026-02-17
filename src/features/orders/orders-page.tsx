@@ -6,8 +6,8 @@ import { OrderListTTNBar } from "./order-bar-ttn";
 import { OrderListBar } from "./order-bar-zn";
 import { OrderListTTNCucina } from "./order-cucina-ttn";
 import { OrderListCucina } from "./order-cucina-zn";
-import { OrderListTelegramForm } from "@/providers/SendTelegramForm";
-import { useAbility } from "@/providers/AbilityProvider";
+import { OrderListTelegramForm } from "@/providers/send-telegram";
+import { useAbility } from "@/providers/ability-provider";
 
 const FORM_PROPS = {
   "bar-ttn": {

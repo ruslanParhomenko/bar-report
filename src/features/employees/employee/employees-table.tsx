@@ -10,14 +10,14 @@ import {
 import { differenceInMonths } from "date-fns";
 import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
-import { EmployeesContextValue } from "@/providers/EmployeesProvider";
+import { EmployeesContextValue } from "@/providers/employees-provider";
 import ActionButtonEmployee from "./employee-actions";
-import { handleCopy } from "@/utils/handlerCopyText";
-import { formatShortDate } from "@/utils/formatDate";
+import { handleCopy } from "@/utils/handler-copy-text";
 import { CheckCircle, UserX } from "lucide-react";
-import { useAbility } from "@/providers/AbilityProvider";
+import { useAbility } from "@/providers/ability-provider";
 import SelectEmployeeBy from "@/components/nav/select-employee";
 import { useState } from "react";
+import { formatShortDate } from "@/utils/format-date";
 
 export function EmployeesTable({ data }: { data: EmployeesContextValue[] }) {
   const t = useTranslations("Home");

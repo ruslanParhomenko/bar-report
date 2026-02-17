@@ -1,17 +1,17 @@
 "use client";
-import TextInput from "@/components/inputs/TextInput";
+import TextInput from "@/components/inputs/text-input";
 import { useTranslations } from "next-intl";
 import { SubmitHandler, useForm } from "react-hook-form";
 
-import { createUser, updateUser } from "@/app/actions/users/userAction";
+import { createUser, updateUser } from "@/app/actions/users/user-action";
 import { toast } from "sonner";
 import { useEffect } from "react";
 
 import { useRouter } from "next/navigation";
-import SelectField from "@/components/inputs/SelectField";
+import SelectField from "@/components/inputs/select-input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import FormInput from "@/components/wrapper/form";
-import { useAbility } from "@/providers/AbilityProvider";
+import { useAbility } from "@/providers/ability-provider";
 import { defaultUser, usersSchema, UsersSchemaTypeData } from "./schema";
 
 const ROLES = ["ADMIN", "BAR", "CUCINA", "USER", "MNGR", "CASH", "FIN"];

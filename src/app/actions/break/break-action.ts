@@ -5,8 +5,6 @@ import { BREAK_ACTION_TAG } from "@/constants/action-tag";
 import { BreakFormData } from "@/features/bar/break-form/schema";
 import { dbAdmin } from "@/lib/firebase-admin";
 
-const REALTIME_DOC = "break-realtime";
-
 type BreakCreateType = {
   day: string;
   month: string;
@@ -104,40 +102,5 @@ export const getBreakListByDate = unstable_cache(
   {
     revalidate: false,
     tags: [BREAK_ACTION_TAG],
-  },
-);
-
-// realtime
-
-export async function realtimeBreakList(data: BreakFormData) {
-  const docRef = dbAdmin.collection("break-realtime").doc(REALTIME_DOC);
-
-  await docRef.set({
-    rows: data.rows,
-  });
-
-  updateTag("break-realtime");
-}
-
-export async function _getRealtimeBreakList() {
-  const docRef = dbAdmin.collection("break-realtime").doc("break-realtime");
-  const snap = await docRef.get();
-
-  if (!snap.exists) return null;
-
-  const data = snap.data() as any;
-
-  return {
-    ...data,
-    date: data.date?.toDate?.() ? data.date.toDate() : new Date(),
-  } as BreakFormData;
-}
-
-export const getRealtimeBreakList = unstable_cache(
-  _getRealtimeBreakList,
-  ["break-realtime"],
-  {
-    revalidate: false,
-    tags: ["break-realtime"],
   },
 );

@@ -2,11 +2,11 @@ import { TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { FieldArrayWithId, useWatch } from "react-hook-form";
 import { TipsFormType } from "./schema";
 import { Plus } from "lucide-react";
-import { handleTableNavigation } from "@/utils/handleTableNavigation";
-import { useAbility } from "@/providers/AbilityProvider";
-import SelectField from "@/components/inputs/SelectField";
+import { useAbility } from "@/providers/ability-provider";
+import SelectField from "@/components/inputs/select-input";
 import { cn } from "@/lib/utils";
 import { calculateTipsTotal } from "./utils";
+import { handleMultiTableNavigation } from "@/utils/handle-table-navigation";
 
 const ROLES: Array<"waiters" | "barmen"> = ["waiters", "barmen"];
 
@@ -78,9 +78,7 @@ export function TipsTableBody({
                     )}
                     data-row={roleIndex}
                     data-col={dayIndex}
-                    onKeyDown={(e) =>
-                      handleTableNavigation(e, roleIndex, dayIndex)
-                    }
+                    onKeyDown={handleMultiTableNavigation}
                     className="w-11 h-6 text-xs text-center p-0 border-0 shadow-none hover-cell"
                     disabled={isDisabled}
                   />

@@ -8,7 +8,7 @@ import { Lora } from "next/font/google";
 import "./globals.css";
 
 // providers
-import { SessionProviders } from "@/providers/SessionProviders";
+import { SessionProviders } from "@/providers/session-providers";
 import { ThemeProvider } from "next-themes";
 // ui
 import { Toaster } from "@/components/ui/sonner";

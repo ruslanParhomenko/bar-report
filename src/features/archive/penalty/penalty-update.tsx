@@ -9,7 +9,7 @@ import {
 } from "@/app/actions/remarks/remarks-action";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useAbility } from "@/providers/AbilityProvider";
+import { useAbility } from "@/providers/ability-provider";
 import z from "zod";
 import FormInput from "@/components/wrapper/form";
 import {

@@ -6,7 +6,7 @@ import { MenuDaily } from "./menu/menu-daily";
 import StatusMenu from "./menu/menu-status";
 import StaffMenu from "./menu/menu-staff";
 import { MenuVip } from "./menu/menu-vip";
-import { Menu, StandardKitchen } from "@/app/actions/google/googleSheetAction";
+import { Menu, StandardKitchen } from "@/app/actions/google/google-action";
 import { StopListSchemaType } from "./stop-list/schema";
 import StopListForm from "./stop-list/stop-list-form";
 

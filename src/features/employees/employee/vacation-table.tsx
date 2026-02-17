@@ -9,7 +9,7 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
-import { useEmployees } from "@/providers/EmployeesProvider";
+import { useEmployees } from "@/providers/employees-provider";
 import { useState, useEffect } from "react";
 import { RefreshCw } from "lucide-react";
 

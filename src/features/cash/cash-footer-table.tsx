@@ -2,7 +2,7 @@ import { TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import { UseFormReturn } from "react-hook-form";
 import { CashFormTypeInput } from "./schema";
-import { getMonthDays } from "@/utils/getMonthDays";
+import { getMonthDays } from "@/utils/get-month-days";
 
 export function CashFooterTable({
   monthDays,
@@ -45,7 +45,7 @@ export function CashFooterTable({
                   Number(totalCash) <
                   0
                   ? "text-rd"
-                  : "text-gn"
+                  : "text-gn",
               )}
             >
               {Number(totalCashBar) + Number(totalVisaBar) - Number(totalCash)}
@@ -88,7 +88,7 @@ export function CashFooterTable({
                 <div
                   className={cn(
                     "text-center text-xs text-muted-foreground",
-                    difference < 0 ? "text-rd" : "text-gn"
+                    difference < 0 ? "text-rd" : "text-gn",
                   )}
                 >
                   {difference === 0 ? "." : difference.toFixed(0)}

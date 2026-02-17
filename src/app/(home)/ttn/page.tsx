@@ -2,7 +2,7 @@ import { getTTNByUniqueKey } from "@/app/actions/ttn/ttn-actions";
 import { InsufficientRights } from "@/components/wrapper/insufficient-rights";
 import TTNPage from "@/features/ttn/ttn-page";
 import { checkAccess } from "@/lib/check-access";
-import { getPrevUniqueKey, MONTHS } from "@/utils/getMonthDays";
+import { getPrevUniqueKey, MONTHS } from "@/utils/get-month-days";
 
 const SET_ACCESS = ["ADMIN", "FIN"];
 

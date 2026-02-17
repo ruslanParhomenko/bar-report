@@ -1,5 +1,5 @@
 "use client";
-import NumericInput from "@/components/inputs/NumericInput";
+import NumericInput from "@/components/inputs/numeric-input";
 import {
   Table,
   TableBody,
@@ -11,7 +11,7 @@ import {
 import { useFormContext, useWatch } from "react-hook-form";
 import { Trash2Icon } from "lucide-react";
 import { useEffect } from "react";
-import { formatNow } from "@/utils/formatNow";
+import { formatNow } from "@/utils/format-date";
 import { INVENTORY_DATA } from "./constants";
 import { InventorySchemaType } from "./schema";
 

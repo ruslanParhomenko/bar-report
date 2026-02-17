@@ -5,7 +5,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { MONTHS, YEAR } from "@/utils/getMonthDays";
+import { MONTHS, YEAR } from "@/utils/get-month-days";
 import { useSidebar } from "../ui/sidebar";
 
 export default function SelectByMonthYear({

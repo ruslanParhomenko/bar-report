@@ -8,7 +8,7 @@ export default function TTNFooterTable({
   monthDays,
 }: {
   arrayRows: string[];
-  monthDays: ReturnType<typeof import("@/utils/getMonthDays").getMonthDays>;
+  monthDays: ReturnType<typeof import("@/utils/get-month-days").getMonthDays>;
 }) {
   const { control } = useFormContext<SuppliersFormType>();
   const value = useWatch({

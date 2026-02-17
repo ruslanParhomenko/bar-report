@@ -15,8 +15,8 @@ import {
 
 import { Select, SelectContent, SelectTrigger } from "@/components/ui/select";
 
-import { getMonthDays } from "@/utils/getMonthDays";
-import PrintButton from "@/components/buttons/PrintButton";
+import { getMonthDays } from "@/utils/get-month-days";
+import PrintButton from "@/components/buttons/print-button";
 
 type SupplierDayRow = {
   supplier: string;
@@ -57,7 +57,7 @@ export default function TTNDayPage({
         supplier,
         plus: values.plus?.[dayIndex] ?? "",
         minus: values.minus?.[dayIndex] ?? "",
-      })
+      }),
     );
 
     setSelectedDayData(rows);

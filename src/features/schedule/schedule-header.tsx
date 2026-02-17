@@ -1,6 +1,6 @@
 import { TableCell, TableHeader, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
-import { MonthDayType } from "@/utils/getMonthDays";
+import { MonthDayType } from "@/utils/get-month-days";
 import ScheduleActionButton from "./schedule-action";
 
 export default function ScheduleTableHeader({

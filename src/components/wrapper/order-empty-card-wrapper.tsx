@@ -4,7 +4,7 @@ import { Label } from "../ui/label";
 import { Separator } from "../ui/separator";
 import { useFormContext, useWatch } from "react-hook-form";
 import { useTheme } from "next-themes";
-import TextInput from "../inputs/TextInput";
+import TextInput from "../inputs/text-input";
 import { cn } from "@/lib/utils";
 import { Trash2Icon } from "lucide-react";
 
@@ -44,7 +44,7 @@ function EmptyField({ fieldName }: { fieldName: number }) {
           className={cn(
             "h-7! w-4/5 ",
             theme === "dark" ? "border-0" : "",
-            valueName ? "bg-background!" : ""
+            valueName ? "bg-background!" : "",
           )}
         />
         <button
@@ -66,7 +66,7 @@ function EmptyField({ fieldName }: { fieldName: number }) {
           className={cn(
             "w-12! text-center h-7!",
             theme === "dark" ? "border-0" : "",
-            valueQuantity ? "bg-background!" : ""
+            valueQuantity ? "bg-background!" : "",
           )}
         />
       </div>

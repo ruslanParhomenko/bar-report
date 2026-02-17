@@ -13,8 +13,8 @@ import {
   ScheduleData,
   SchedulesContextValue,
   updateSchedule,
-} from "@/app/actions/schedule/scheduleAction";
-import { getMonthDays } from "@/utils/getMonthDays";
+} from "@/app/actions/schedule/schedule-action";
+import { getMonthDays } from "@/utils/get-month-days";
 import { toast } from "sonner";
 import { defaultSchedule, scheduleSchema, ScheduleType } from "./schema";
 import { EMPLOYEE_ROLES_BY_DEPARTMENT } from "./constants";

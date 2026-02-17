@@ -1,5 +1,5 @@
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
-import { getMonthDays } from "@/utils/getMonthDays";
+import { getMonthDays } from "@/utils/get-month-days";
 import { UseFormReturn } from "react-hook-form";
 import { CashFormTypeInput } from "./schema";
 import { cn } from "@/lib/utils";
@@ -73,7 +73,7 @@ export default function CashInfo({
                 disabled={isDisabled}
                 {...register("start_241")}
                 className={cn(
-                  "border-0 bg-accent  p-0 ml-4 h-7 text-center  shadow-none text-xs w-24"
+                  "border-0 bg-accent  p-0 ml-4 h-7 text-center  shadow-none text-xs w-24",
                 )}
               />
             </div>
@@ -90,7 +90,7 @@ export default function CashInfo({
                 disabled={isDisabled}
                 {...register("z_531")}
                 className={cn(
-                  "border-0 bg-accent  p-0 ml-4 h-7 text-center  shadow-none text-xs w-24"
+                  "border-0 bg-accent  p-0 ml-4 h-7 text-center  shadow-none text-xs w-24",
                 )}
               />
             </div>
@@ -101,7 +101,7 @@ export default function CashInfo({
                 disabled={isDisabled}
                 {...register("ao_532")}
                 className={cn(
-                  "border-0 bg-accent  p-0 ml-4 h-7 text-center  shadow-none text-xs w-24"
+                  "border-0 bg-accent  p-0 ml-4 h-7 text-center  shadow-none text-xs w-24",
                 )}
               />
             </div>

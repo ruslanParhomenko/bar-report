@@ -1,7 +1,7 @@
 "use client";
 
-import { UserData } from "@/app/actions/users/userAction";
-import { EmployeesContextValue } from "@/providers/EmployeesProvider";
+import { UserData } from "@/app/actions/users/user-action";
+import { EmployeesContextValue } from "@/providers/employees-provider";
 import { useSearchParams } from "next/navigation";
 import { Activity } from "react";
 import { EmployeesTable } from "./employee/employees-table";

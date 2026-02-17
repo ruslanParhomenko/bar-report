@@ -3,7 +3,7 @@ import { Label } from "../ui/label";
 import { Separator } from "../ui/separator";
 import { useFormContext, useWatch } from "react-hook-form";
 
-import NumericInput from "../inputs/NumericInput";
+import NumericInput from "../inputs/numeric-input";
 import { useTheme } from "next-themes";
 import { Trash2Icon } from "lucide-react";
 

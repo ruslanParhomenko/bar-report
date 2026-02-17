@@ -7,16 +7,16 @@ import {
   useWatch,
 } from "react-hook-form";
 
-import SelectField from "@/components/inputs/SelectField";
+import SelectField from "@/components/inputs/select-input";
 import { Label } from "@/components/ui/label";
 import { useTranslations } from "next-intl";
 import { Separator } from "@radix-ui/react-separator";
 import { ProductPreparedType, ReportCucinaType } from "./schema";
-import SelectFieldWithSearch from "@/components/inputs/SelectWithSearch";
-import NumericInput from "@/components/inputs/NumericInput";
+import SelectFieldWithSearch from "@/components/inputs/select-with-search";
+import NumericInput from "@/components/inputs/numeric-input";
 import { useEffect } from "react";
-import { AddRemoveFieldsButton } from "@/components/buttons/AddRemoveFieldsButton";
-import { formatNow } from "@/utils/formatNow";
+import { AddRemoveFieldsButton } from "@/components/buttons/action-fields";
+import { formatNow } from "@/utils/format-date";
 
 type RenderEmployeesTableProps = {
   name: ArrayPath<ReportCucinaType>;

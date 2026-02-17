@@ -1,5 +1,5 @@
 "use client";
-import { sendToTelegram } from "@/app/actions/telegram/sendToTelegram";
+import { sendToTelegram } from "@/app/actions/telegram/telegram-action";
 import { cn } from "@/lib/utils";
 import html2canvas from "html2canvas-pro";
 import { MailIcon } from "lucide-react";
@@ -34,7 +34,7 @@ export default function MailButton({
         }));
 
       const blob = await new Promise<Blob | null>((resolve) =>
-        canvas?.toBlob((b) => resolve(b), "image/png")
+        canvas?.toBlob((b) => resolve(b), "image/png"),
       );
 
       if (!blob) throw new Error("Failed to create image blob");

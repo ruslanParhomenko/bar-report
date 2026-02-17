@@ -1,5 +1,5 @@
 "use client";
-import { Resolver, SubmitHandler, useForm, useWatch } from "react-hook-form";
+import { SubmitHandler, useForm, useWatch } from "react-hook-form";
 import { toast } from "sonner";
 import {
   cashVerifyDefault,
@@ -16,7 +16,7 @@ import {
   realtimeReportBar,
 } from "@/app/actions/report-bar/report-bar-action";
 import { Activity, useEffect } from "react";
-import { useAbility } from "@/providers/AbilityProvider";
+import { useAbility } from "@/providers/ability-provider";
 import ReportBarTable from "./report/report-bar-table";
 import BreakTable from "@/features/bar/break-form/break-table";
 import PenaltyTable from "@/features/bar/penalty/penalty-table";
@@ -25,42 +25,43 @@ import { defaultValuesBreak } from "@/features/bar/break-form/schema";
 import { createRemarks } from "@/app/actions/remarks/remarks-action";
 import { createBreakList } from "@/app/actions/break/break-action";
 import { useRealtimeSave } from "@/hooks/use-realtime-save";
-import { BarFormValues, barSchema } from "./schema";
-import { MONTHS } from "@/utils/getMonthDays";
+import { BarFormValues, barSchema, defaultValuesBarForm } from "./schema";
+import { MONTHS } from "@/utils/get-month-days";
 import { useSearchParams } from "next/navigation";
 import FormInput from "@/components/wrapper/form";
+import { useEmployees } from "@/providers/employees-provider";
+
+const BAR_EMPLOYEES = ["waiters", "barmen"];
 
 export default function BarForm({
   realtimeData,
-  employeesName,
 }: {
   realtimeData?: BarFormValues;
-  employeesName: string[];
 }) {
   const searchParams = useSearchParams();
   const tab = searchParams.get("tab");
   const { isBar, isAdmin } = useAbility();
   const isDisabled = !(isAdmin || isBar);
 
+  const employeesName = useEmployees()
+    .filter((emp) => BAR_EMPLOYEES.includes(emp.role))
+    .map((e) => e.name);
+
   const form = useForm<BarFormValues>({
-    defaultValues: realtimeData ?? {
-      date: new Date(),
-      report: defaultValuesReportBar,
-      penalty: defaultRemarksValue,
-      breakForm: defaultValuesBreak,
-    },
-    resolver: zodResolver(barSchema) as Resolver<BarFormValues>,
-    mode: "onChange",
+    defaultValues: realtimeData ?? defaultValuesBarForm,
+    resolver: zodResolver(barSchema),
   });
 
   const values = useWatch({ control: form.control }) as BarFormValues;
 
+  console.log("values", values);
+
   useRealtimeSave(values, isBar, async (data) => {
-    if (!data || !form.formState.isDirty) return;
+    if (!data) return;
+
     await realtimeReportBar(data);
     toast.info("сохранение данных…", { duration: 2000 });
   });
-
   //submit
   const onSubmit: SubmitHandler<BarFormValues> = async (data) => {
     const { date, report, penalty, breakForm } = data;
@@ -161,9 +162,6 @@ export default function BarForm({
     >
       <Activity mode={tab === "break" ? "visible" : "hidden"}>
         <BreakTable isDisabled={isDisabled} employeesName={employeesName} />
-      </Activity>
-
-      <Activity mode={tab === "penalty" ? "visible" : "hidden"}>
         <PenaltyTable isDisabled={isDisabled} />
       </Activity>
 

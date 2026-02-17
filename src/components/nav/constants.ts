@@ -29,7 +29,6 @@ import {
 export const BAR_NAV_ITEMS = [
   { label: "report", value: "report" },
   { label: "break", value: "break" },
-  { label: "penalty", value: "penalty" },
 ];
 export const ARCHIVE_NAV_ITEMS = [
   { label: "bar", value: "bar" },

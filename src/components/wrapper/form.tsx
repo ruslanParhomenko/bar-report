@@ -5,7 +5,7 @@ import { Form } from "../ui/form";
 import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
 import ModalConfirm from "../modal/modal-confirm";
-import DatePickerInput from "../inputs/DatePickerInput";
+import DatePickerInput from "../inputs/date-input";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
@@ -53,7 +53,7 @@ export default function FormInput<T extends FieldValues>({
         {withDate && (
           <DatePickerInput
             fieldName="date"
-            className="text-md text-rd"
+            className="text-md text-rd h-6"
             disabled
           />
         )}

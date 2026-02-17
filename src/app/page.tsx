@@ -1,5 +1,5 @@
-import GoogleButton from "@/components/buttons/GoogleButton";
-import AuthRedirect from "@/providers/AuthRedirect";
+import GoogleButton from "@/components/buttons/google-button";
+import AuthRedirect from "@/providers/auth-redirect";
 
 export default function Page() {
   return (

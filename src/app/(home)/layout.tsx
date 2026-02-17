@@ -1,11 +1,11 @@
-import SidebarNav from "@/features/sidebar/SidebarNav";
+import SidebarNav from "@/features/sidebar/sidebar-nav";
 import { SidebarProvider } from "@/components/ui/sidebar";
-import { AbilityProvider } from "@/providers/AbilityProvider";
+import { AbilityProvider } from "@/providers/ability-provider";
 import {
   EmployeesContextValue,
   EmployeesProvider,
-} from "@/providers/EmployeesProvider";
-import { getEmployees } from "../actions/employees/employeeAction";
+} from "@/providers/employees-provider";
+import { getEmployees } from "../actions/employees/employee-action";
 import NavTabs from "@/components/nav/nav-tabs";
 
 const NavPage = async ({

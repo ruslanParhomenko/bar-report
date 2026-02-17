@@ -5,7 +5,7 @@ import { useEffect, useState, useTransition } from "react";
 import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
 import { NAV_BY_PATCH, REVALIDATE_TAGS_BY_PATCH } from "./constants";
 import SelectByMonthYear from "./select-month-year";
-import { MONTHS } from "@/utils/getMonthDays";
+import { MONTHS } from "@/utils/get-month-days";
 import { cn } from "@/lib/utils";
 import { revalidateNav } from "@/app/actions/revalidate-tag/revalidate-teg";
 import { RefreshCcw } from "lucide-react";

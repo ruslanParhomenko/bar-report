@@ -2,9 +2,9 @@
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { FieldPath, useFormContext, useWatch } from "react-hook-form";
 import { SuppliersFormType } from "./schema";
-import { handleTableNavigation } from "@/utils/handleTableNavigation";
 import { cn } from "@/lib/utils";
 import { useEffect, useEffectEvent, useState } from "react";
+import { handleMultiTableNavigation } from "@/utils/handle-table-navigation";
 
 export default function TTNBodyTable({
   arrayRows,
@@ -12,7 +12,7 @@ export default function TTNBodyTable({
   isDisabled,
 }: {
   arrayRows: string[];
-  monthDays: ReturnType<typeof import("@/utils/getMonthDays").getMonthDays>;
+  monthDays: ReturnType<typeof import("@/utils/get-month-days").getMonthDays>;
   isDisabled?: boolean;
 }) {
   const { register, control, setValue } = useFormContext<SuppliersFormType>();
@@ -137,9 +137,7 @@ export default function TTNBodyTable({
                       data-row={rowIndex * 2}
                       data-col={dayIndex}
                       className={cn(classNameInput, "text-rd")}
-                      onKeyDown={(e) =>
-                        handleTableNavigation(e, rowIndex * 2, dayIndex)
-                      }
+                      onKeyDown={handleMultiTableNavigation}
                       disabled={isDisabled}
                     />
                     <input
@@ -149,9 +147,7 @@ export default function TTNBodyTable({
                       data-row={rowIndex * 2 + 1}
                       data-col={dayIndex}
                       className={cn(classNameInput, "text-bl")}
-                      onKeyDown={(e) =>
-                        handleTableNavigation(e, rowIndex * 2 + 1, dayIndex)
-                      }
+                      onKeyDown={handleMultiTableNavigation}
                       disabled={isDisabled}
                     />
                   </div>

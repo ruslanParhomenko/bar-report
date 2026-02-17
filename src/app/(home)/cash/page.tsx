@@ -1,5 +1,5 @@
 import { getAOByUniqueKey } from "@/app/actions/a-o/ao-action";
-import { getCashFormById } from "@/app/actions/cash/cashAction";
+import { getCashFormById } from "@/app/actions/cash/cash-action";
 import { InsufficientRights } from "@/components/wrapper/insufficient-rights";
 import CashForm from "@/features/cash/cash-form";
 import { checkAccess } from "@/lib/check-access";

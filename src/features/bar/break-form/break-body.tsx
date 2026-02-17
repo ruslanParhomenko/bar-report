@@ -3,7 +3,7 @@ import { BreakFormData } from "./schema";
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { MINUTES_SELECT, TIME_LABELS } from "./constant";
 import { Input } from "@/components/ui/input";
-import SelectField from "@/components/inputs/SelectField";
+import SelectField from "@/components/inputs/select-input";
 import { cn } from "@/lib/utils";
 import { Trash2 } from "lucide-react";
 import { BarFormValues } from "../schema";
@@ -72,7 +72,7 @@ export default function BreakTableBody({
               const isView = value !== "X";
 
               return (
-                <TableCell key={timeIndex}>
+                <TableCell key={timeIndex} className="p-1">
                   {isView ? (
                     <SelectField
                       fieldName={
@@ -80,13 +80,13 @@ export default function BreakTableBody({
                       }
                       data={MINUTES_SELECT}
                       className={cn(
-                        "justify-center",
+                        "justify-center border-0",
                         isTrue ? "text-rd! font-bold text-[18px]" : "",
                       )}
                       disabled={isDisabled}
                     />
                   ) : (
-                    <div className={cn("bg-gr p-1 h-8 rounded-md")}></div>
+                    <div className={cn("bg-gr w-11 h-8 rounded-md")}></div>
                   )}
                 </TableCell>
               );
@@ -99,7 +99,7 @@ export default function BreakTableBody({
                   !isDisabled && setValue(`breakForm.rows.${rowIndex}.name`, "")
                 }
               >
-                <Trash2 className="w-4 h-4 text-rd" />
+                <Trash2 className="w-3 h-3 text-rd" />
               </TableCell>
             )}
           </TableRow>

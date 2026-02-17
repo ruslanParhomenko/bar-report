@@ -1,8 +1,8 @@
-import { getEmployees } from "@/app/actions/employees/employeeAction";
-import { getUsers, UserData } from "@/app/actions/users/userAction";
+import { getEmployees } from "@/app/actions/employees/employee-action";
+import { getUsers, UserData } from "@/app/actions/users/user-action";
 import { EmployeeForm } from "@/features/employees/employee/employee-form";
 import UsersForm from "@/features/employees/users/users-form";
-import { EmployeesContextValue } from "@/providers/EmployeesProvider";
+import { EmployeesContextValue } from "@/providers/employees-provider";
 
 export default async function Page({
   params,

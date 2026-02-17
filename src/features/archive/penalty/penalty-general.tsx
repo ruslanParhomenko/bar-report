@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/table";
 
 import { useTranslations } from "next-intl";
-import PrintButton from "@/components/buttons/PrintButton";
+import PrintButton from "@/components/buttons/print-button";
 import { useRef } from "react";
 import { RemarksDataByUniqueKey } from "@/app/actions/remarks/remarks-action";
 import { remarksByUniqueEmployee } from "./utils";

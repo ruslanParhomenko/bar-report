@@ -8,12 +8,12 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import NumericInput from "@/components/inputs/NumericInput";
-import SelectField from "@/components/inputs/SelectField";
+import NumericInput from "@/components/inputs/numeric-input";
+import SelectField from "@/components/inputs/select-input";
 import { useFormContext, useWatch } from "react-hook-form";
 import { Trash2Icon } from "lucide-react";
 import { useEffect } from "react";
-import { formatNow } from "@/utils/formatNow";
+import { formatNow } from "@/utils/format-date";
 import { ExpensesSchemaType } from "./schema";
 import { RECIPIENTS } from "./constants";
 

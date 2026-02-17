@@ -6,13 +6,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import SelectFieldWithSearch from "@/components/inputs/SelectWithSearch";
-import SelectField from "@/components/inputs/SelectField";
+import SelectFieldWithSearch from "@/components/inputs/select-with-search";
+import SelectField from "@/components/inputs/select-input";
 import { useFormContext, useWatch } from "react-hook-form";
-import NumericInput from "@/components/inputs/NumericInput";
+import NumericInput from "@/components/inputs/numeric-input";
 import { Trash2Icon } from "lucide-react";
 import { useEffect } from "react";
-import { formatNow } from "@/utils/formatNow";
+import { formatNow } from "@/utils/format-date";
 import { ProductTransferSchemaType } from "./schema";
 import { PRODUCTS, WAREHOUSES } from "./constants";
 

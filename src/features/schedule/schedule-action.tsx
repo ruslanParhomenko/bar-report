@@ -1,15 +1,15 @@
 "use client";
 import { isCanEdit } from "./utils";
-import PrintButton from "@/components/buttons/PrintButton";
-import { useAbility } from "@/providers/AbilityProvider";
+import PrintButton from "@/components/buttons/print-button";
+import { useAbility } from "@/providers/ability-provider";
 import { useRouter, useSearchParams } from "next/navigation";
-import EditButton from "@/components/buttons/EditButton";
-import MailButton from "@/components/buttons/MailButton";
-import ExitButton from "@/components/buttons/ExitButton";
+import EditButton from "@/components/buttons/edit-button";
+import MailButton from "@/components/buttons/mail-button";
+import ExitButton from "@/components/buttons/exit-button";
 import { PlusCircleIcon, Save } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useContext } from "react";
-import { RefContext } from "@/providers/ClientRefProvider";
+import { RefContext } from "@/providers/client-ref-provider";
 
 export default function ScheduleActionButton({
   addNewRow,

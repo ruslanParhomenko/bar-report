@@ -27,22 +27,6 @@ export async function updateAO(id: string, data: AOFormTypeInput) {
   updateTag(AO_REPORT_ACTION_TAG);
 }
 
-// get by id
-export const _getAOById = async (id: string) => {
-  const doc = await dbAdmin.collection(AO_REPORT_ACTION_TAG).doc(id).get();
-  if (!doc.exists) return null;
-
-  return {
-    id: doc.id,
-    ...doc.data(),
-  } as AOContextValue;
-};
-
-export const getAOById = unstable_cache(_getAOById, [AO_REPORT_ACTION_TAG], {
-  revalidate: false,
-  tags: [AO_REPORT_ACTION_TAG],
-});
-
 // get by filters
 export const _getAOByUniqueKey = async (uniqueKey: string) => {
   const snapshot = await dbAdmin

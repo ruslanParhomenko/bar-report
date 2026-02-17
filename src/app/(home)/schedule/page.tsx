@@ -1,11 +1,11 @@
 import {
   getScheduleByMonthYear,
   SchedulesContextValue,
-} from "@/app/actions/schedule/scheduleAction";
+} from "@/app/actions/schedule/schedule-action";
 import SchedulePage from "@/features/schedule/schedule-page";
 import { authOptions } from "@/lib/auth";
-import ClientRefProvider from "@/providers/ClientRefProvider";
-import { getMonthDays, MONTHS } from "@/utils/getMonthDays";
+import ClientRefProvider from "@/providers/client-ref-provider";
+import { getMonthDays, MONTHS } from "@/utils/get-month-days";
 import { getServerSession } from "next-auth";
 
 export default async function Page({

@@ -1,12 +1,12 @@
 "use client";
-import { useEmployees } from "@/providers/EmployeesProvider";
+import { useEmployees } from "@/providers/employees-provider";
 import { useFieldArray, useFormContext } from "react-hook-form";
 import { defaultRemarkValue } from "./schema";
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
-import SelectField from "@/components/inputs/SelectField";
+import SelectField from "@/components/inputs/select-input";
 import { REASON } from "./constants";
-import NumericInput from "@/components/inputs/NumericInput";
-import SelectWithInput from "@/components/inputs/SelectWithInput";
+import NumericInput from "@/components/inputs/numeric-input";
+import SelectWithInput from "@/components/inputs/select-text-input";
 import { Plus, Trash2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { BarFormValues } from "../schema";

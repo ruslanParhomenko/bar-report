@@ -1,4 +1,4 @@
-import { Menu } from "@/app/actions/google/googleSheetAction";
+import { Menu } from "@/app/actions/google/google-action";
 import { Dot } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Card, CardContent } from "@/components/ui/card";

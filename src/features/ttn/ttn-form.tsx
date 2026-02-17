@@ -1,7 +1,7 @@
 "use client";
 import { DayByMonthTable } from "@/components/table/day-by-month-table";
 import { Table } from "@/components/ui/table";
-import { getMonthDays } from "@/utils/getMonthDays";
+import { getMonthDays } from "@/utils/get-month-days";
 import { FieldErrors, Resolver, SubmitHandler, useForm } from "react-hook-form";
 import TTNBodyTable from "./ttn-body-table";
 import {
@@ -10,7 +10,7 @@ import {
   suppliersSchema,
 } from "./schema";
 import { suppliers } from "./constants";
-import { useAbility } from "@/providers/AbilityProvider";
+import { useAbility } from "@/providers/ability-provider";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   createTTN,

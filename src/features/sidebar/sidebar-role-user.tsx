@@ -1,5 +1,5 @@
 "use client";
-import { useAbility } from "@/providers/AbilityProvider";
+import { useAbility } from "@/providers/ability-provider";
 
 export default function SidebarRoleUserButton() {
   const { isAdmin, isBar, isCucina, isUser, isManager, isCash, isFin } =

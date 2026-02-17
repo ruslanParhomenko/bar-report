@@ -1,8 +1,8 @@
 "use client";
-import { deleteEmployee } from "@/app/actions/employees/employeeAction";
+import { deleteEmployee } from "@/app/actions/employees/employee-action";
 import ModalConfirm from "@/components/modal/modal-confirm";
 import { useRouter } from "@/i18n/navigation";
-import { useAbility } from "@/providers/AbilityProvider";
+import { useAbility } from "@/providers/ability-provider";
 import { PenBox, Trash2Icon } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";

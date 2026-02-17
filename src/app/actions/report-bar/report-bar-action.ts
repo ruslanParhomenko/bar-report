@@ -67,31 +67,6 @@ export async function createReportBar(
   updateTag(REPORT_BAR_ACTION_TAG);
 }
 
-// update day
-export async function updateReportBar(
-  uniqueKey: string,
-  day: string,
-  report: Omit<ReportBarFormValues, "date">,
-) {
-  const docRef = dbAdmin.collection(REPORT_BAR_ACTION_TAG).doc(uniqueKey);
-  const snap = await docRef.get();
-
-  if (!snap.exists) return;
-
-  const raw = snap.data() as any;
-
-  const isDayExists = raw.data.some((d: any) => d.day === day);
-  if (!isDayExists) return;
-
-  const updatedData = raw.data.map((d: any) =>
-    d.day === day ? { ...d, report } : d,
-  );
-
-  await docRef.update({ data: updatedData });
-
-  updateTag(REPORT_BAR_ACTION_TAG);
-}
-
 // get by uniqueKey
 async function _getReportByUniqueKey(uniqueKey: string) {
   const doc = await dbAdmin

@@ -8,8 +8,8 @@ export default function BreakTableHeader() {
   return (
     <TableHeader>
       <TableRow>
-        <TableHead className="w-7"></TableHead>
-        <TableHead className="w-26" />
+        <TableHead className="w-10"></TableHead>
+        <TableHead className="w-40" />
         <TableHead className="w-6" />
 
         {TIME_LABELS.map((h, i) => {
@@ -18,7 +18,7 @@ export default function BreakTableHeader() {
             <TableHead
               key={i}
               className={cn(
-                "text-center text-md w-12",
+                "text-center text-md w-11",
                 isCurrentHour ? "text-rd font-bold text-lg" : "text-bl",
               )}
             >
@@ -26,7 +26,7 @@ export default function BreakTableHeader() {
             </TableHead>
           );
         })}
-        <TableHead className="w-6"></TableHead>
+        <TableHead className="w-6" />
       </TableRow>
     </TableHeader>
   );

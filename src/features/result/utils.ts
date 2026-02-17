@@ -1,4 +1,4 @@
-import { MONTHS } from "@/utils/getMonthDays";
+import { MONTHS } from "@/utils/get-month-days";
 import { TipsFormType } from "../tips/schema";
 
 export type ResultUniqueEmployeeType = {

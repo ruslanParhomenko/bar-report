@@ -2,9 +2,9 @@ import {
   EMPLOYEE_ROLES_BY_DEPARTMENT,
   SHIFT_OPTIONS,
 } from "./create/constants";
-import { MONTHS } from "@/utils/getMonthDays";
-import { useEmployees } from "@/providers/EmployeesProvider";
-import { SchedulesContextValue } from "@/app/actions/schedule/scheduleAction";
+import { MONTHS } from "@/utils/get-month-days";
+import { useEmployees } from "@/providers/employees-provider";
+import { SchedulesContextValue } from "@/app/actions/schedule/schedule-action";
 
 // getShiftCounts
 export function getShiftCounts(schedule: SchedulesContextValue) {
@@ -13,7 +13,7 @@ export function getShiftCounts(schedule: SchedulesContextValue) {
   const daysCount = schedule.rowShifts[0]?.shifts?.length || 0;
 
   const result = Object.fromEntries(
-    SHIFT_OPTIONS.map((s) => [s, Array(daysCount).fill(0)])
+    SHIFT_OPTIONS.map((s) => [s, Array(daysCount).fill(0)]),
   );
 
   schedule.rowShifts.forEach((row) => {
@@ -42,7 +42,7 @@ export function isCanEdit({ year, month }: { year: string; month: string }) {
 
 // calculateSalaryByHours
 export function calculateSalaryByHours(
-  row: SchedulesContextValue["rowShifts"][number]
+  row: SchedulesContextValue["rowShifts"][number],
 ) {
   const dayHourPay =
     row.role === "mngr"
@@ -59,7 +59,7 @@ export function calculateSalaryByHours(
 
 // selectedEmployeesByRole
 export function getSelectedEmployeesByRole(
-  patch: keyof typeof EMPLOYEE_ROLES_BY_DEPARTMENT
+  patch: keyof typeof EMPLOYEE_ROLES_BY_DEPARTMENT,
 ) {
   const employees = useEmployees();
   const allowedRoles: readonly string[] =
