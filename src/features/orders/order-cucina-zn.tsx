@@ -1,3 +1,4 @@
+import MailButton from "@/components/buttons/mail-button";
 import {
   BAKERY,
   EMPTY,
@@ -15,6 +16,7 @@ import { InputWrapper } from "@/components/wrapper/input-wrapper";
 import { OrderCardWrapper } from "@/components/wrapper/order-card-wrapper";
 import { OrderEmptyCardWrapper } from "@/components/wrapper/order-empty-card-wrapper";
 import OrderPageWrapper from "@/components/wrapper/order-page-wrapper";
+
 export const OrderListCucina = () => {
   return (
     <OrderPageWrapper>

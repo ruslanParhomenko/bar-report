@@ -1,13 +1,14 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { Activity } from "react";
+import { Activity, useContext } from "react";
 import { OrderListTTNBar } from "./order-bar-ttn";
 import { OrderListBar } from "./order-bar-zn";
 import { OrderListTTNCucina } from "./order-cucina-ttn";
 import { OrderListCucina } from "./order-cucina-zn";
 import { OrderListTelegramForm } from "@/providers/send-telegram";
 import { useAbility } from "@/providers/ability-provider";
+import ClientRefProvider, { RefContext } from "@/providers/client-ref-provider";
 
 const FORM_PROPS = {
   "bar-ttn": {
@@ -35,8 +36,16 @@ export default function OrdersPage() {
   const tab = searchParams.get("tab") as string;
   const user = FORM_PROPS[tab as keyof typeof FORM_PROPS]?.user;
   const url = FORM_PROPS[tab as keyof typeof FORM_PROPS]?.url;
+
+  const ref = useContext(RefContext);
   return (
-    <OrderListTelegramForm user={user} url={url} isDisabled={isDisabled}>
+    <OrderListTelegramForm
+      key={tab}
+      user={user}
+      url={url}
+      isDisabled={isDisabled}
+      ref={ref}
+    >
       <Activity mode={tab === "bar-ttn" ? "visible" : "hidden"}>
         <OrderListTTNBar />
       </Activity>

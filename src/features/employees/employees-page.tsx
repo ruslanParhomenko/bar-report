@@ -1,7 +1,7 @@
 "use client";
 
 import { UserData } from "@/app/actions/users/user-action";
-import { EmployeesContextValue } from "@/providers/employees-provider";
+import { useEmployees } from "@/providers/employees-provider";
 import { useSearchParams } from "next/navigation";
 import { Activity } from "react";
 import { EmployeesTable } from "./employee/employees-table";
@@ -10,15 +10,10 @@ import { EmployeeForm } from "./employee/employee-form";
 import UsersForm from "./users/users-form";
 import UsersTable from "./users/users-table";
 
-export function EmployeesPage({
-  employees,
-  users,
-}: {
-  employees: EmployeesContextValue[];
-  users: UserData[];
-}) {
+export function EmployeesPage({ users }: { users: UserData[] }) {
   const searchParams = useSearchParams();
   const tab = searchParams.get("tab") as string;
+  const employees = useEmployees();
   return (
     <>
       <Activity mode={tab === "employees" ? "visible" : "hidden"}>

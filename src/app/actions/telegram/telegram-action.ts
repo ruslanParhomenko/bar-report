@@ -1,6 +1,11 @@
 "use server";
 
 export async function sendToTelegram(formData: FormData, patch: string) {
+  const ID_BY_PATCH = {
+    cucina: process.env.TELEGRAM_CHAT_CUCINA,
+    bar: process.env.TELEGRAM_CHAT_BAR,
+    zn: process.env.TELEGRAM_CHAT_ID,
+  };
   try {
     const file = formData.get("file") as File | null;
     const caption = formData.get("caption")?.toString() || "";
@@ -10,11 +15,7 @@ export async function sendToTelegram(formData: FormData, patch: string) {
     }
 
     const token = process.env.TELEGRAM_BOT_TOKEN;
-    const chatId =
-      patch === "cucina"
-        ? process.env.TELEGRAM_CHAT_CUCINA
-        : process.env.TELEGRAM_CHAT_BAR;
-
+    const chatId = ID_BY_PATCH[patch as keyof typeof ID_BY_PATCH];
     if (!token || !chatId) {
       return {
         error: "Missing TELEGRAM_BOT_TOKEN or TELEGRAM_CHAT_CUCINA",
@@ -27,7 +28,7 @@ export async function sendToTelegram(formData: FormData, patch: string) {
     tgForm.append(
       "photo",
       new Blob([await file.arrayBuffer()], { type: file.type }),
-      "screenshot.png"
+      "screenshot.png",
     );
 
     const response = await fetch(
@@ -35,7 +36,7 @@ export async function sendToTelegram(formData: FormData, patch: string) {
       {
         method: "POST",
         body: tgForm,
-      }
+      },
     );
 
     const data = await response.json();

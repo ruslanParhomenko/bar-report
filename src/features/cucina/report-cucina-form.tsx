@@ -39,6 +39,7 @@ import {
 import { MONTHS } from "@/utils/get-month-days";
 import FormInput from "@/components/wrapper/form";
 import { useRealtimeSave } from "@/hooks/use-realtime-save";
+import DatePickerInput from "@/components/inputs/date-input";
 
 export default function ReportCucinaForm({
   realtimeData,
@@ -202,10 +203,14 @@ export default function ReportCucinaForm({
     <FormInput
       form={form}
       onSubmit={onSubmit}
-      withDate={true}
       disabled={isDisabled}
       className="md:px-6"
     >
+      <DatePickerInput
+        fieldName="date"
+        className="text-sm text-rd h-6"
+        disabled
+      />
       {tablesConfig.map(({ name, placeHolder, dataArrays, defaultValue }) => (
         <RenderTableCucina
           key={name}

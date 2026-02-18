@@ -8,6 +8,7 @@ import ModalConfirm from "../modal/modal-confirm";
 import DatePickerInput from "../inputs/date-input";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import MailButton from "../buttons/mail-button";
 
 type FormInputProps<T extends FieldValues> = {
   form: UseFormReturn<T>;
@@ -18,8 +19,10 @@ type FormInputProps<T extends FieldValues> = {
   withButtons?: boolean;
   resetButton?: boolean;
   returnButton?: boolean;
-  withDate?: boolean;
   disabled?: boolean;
+  sendTelegram?: boolean;
+  ref?: React.RefObject<HTMLDivElement | null> | null;
+  url?: string;
 };
 
 export default function FormInput<T extends FieldValues>({
@@ -31,8 +34,10 @@ export default function FormInput<T extends FieldValues>({
   withButtons = true,
   resetButton = false,
   returnButton = false,
-  withDate = false,
   disabled = false,
+  sendTelegram = false,
+  ref,
+  url,
 }: FormInputProps<T>) {
   const router = useRouter();
 
@@ -44,31 +49,27 @@ export default function FormInput<T extends FieldValues>({
     setIsModalOpen(true);
   };
 
+  console.log(url, ref);
+
   return (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(handleFormSubmit, onError || (() => {}))}
         className={cn("flex flex-col h-[93vh]", className)}
       >
-        {withDate && (
-          <DatePickerInput
-            fieldName="date"
-            className="text-md text-rd h-6"
-            disabled
-          />
-        )}
-
         {children}
 
         {withButtons && (
           <div className="sticky bottom-0 w-full flex justify-start gap-6 px-4 py-2 mt-auto bg-background z-30">
-            <Button
-              type="submit"
-              className="bg-bl text-white mt-auto h-8 w-24"
-              disabled={disabled}
-            >
-              save
-            </Button>
+            {!sendTelegram && (
+              <Button
+                type="submit"
+                className="bg-bl text-white mt-auto h-8 w-24"
+                disabled={disabled}
+              >
+                save
+              </Button>
+            )}
 
             <ModalConfirm
               open={isModalOpen}
@@ -104,6 +105,14 @@ export default function FormInput<T extends FieldValues>({
               >
                 return
               </Button>
+            )}
+            {sendTelegram && (
+              <MailButton
+                componentRef={ref}
+                disabled={!ref}
+                patch={url || ""}
+                className="text-bl"
+              />
             )}
           </div>
         )}

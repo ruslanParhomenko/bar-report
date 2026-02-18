@@ -14,7 +14,7 @@ import { BarFormValues } from "../schema";
 export function PenaltyTableBody({ isDisabled }: { isDisabled: boolean }) {
   const selectedEmployees = useEmployees().map((e) => e.name);
 
-  const { control, reset } = useFormContext<BarFormValues>();
+  const { control, setValue } = useFormContext<BarFormValues>();
 
   const {
     fields: dataRemarks,
@@ -85,11 +85,13 @@ export function PenaltyTableBody({ isDisabled }: { isDisabled: boolean }) {
               "cursor-pointer text-center text-rd",
               isDisabled && "hidden",
             )}
-            onClick={() =>
-              idx === 0
-                ? reset({ penalty: { remarks: [defaultRemarkValue] } })
-                : remove(idx)
-            }
+            onClick={() => {
+              if (idx === 0) {
+                setValue(`penalty.remarks.${idx}`, defaultRemarkValue);
+              } else {
+                remove(idx);
+              }
+            }}
           >
             <Trash2 className="w-4 h-4" />
           </TableCell>

@@ -3,7 +3,7 @@ import { FieldValues, UseFormReturn } from "react-hook-form";
 
 export function useLocalStorageForm<T extends FieldValues>(
   form: UseFormReturn<T>,
-  key: string
+  key: string,
 ) {
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -23,6 +23,8 @@ export function useLocalStorageForm<T extends FieldValues>(
 
   // save data to localStorage
   const watchAllFields = form.watch();
+
+  console.log(watchAllFields);
   useEffect(() => {
     if (isLoaded && watchAllFields) {
       localStorage.setItem(key, JSON.stringify(watchAllFields));

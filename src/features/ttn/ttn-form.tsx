@@ -103,7 +103,6 @@ export default function TTNForm({
       onSubmit={onSubmit}
       onError={onError}
       withButtons={isAdmin}
-      withDate={false}
     >
       <Table>
         <DayByMonthTable month={month} monthDays={monthDays} infoCell={true} />

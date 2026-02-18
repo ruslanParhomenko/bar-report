@@ -2,7 +2,7 @@
 import { isCanEdit } from "./utils";
 import PrintButton from "@/components/buttons/print-button";
 import { useAbility } from "@/providers/ability-provider";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import EditButton from "@/components/buttons/edit-button";
 import MailButton from "@/components/buttons/mail-button";
 import ExitButton from "@/components/buttons/exit-button";
@@ -20,7 +20,6 @@ export default function ScheduleActionButton({
   scheduleId: string;
   isSave?: boolean;
 }) {
-  const router = useRouter();
   const params = useSearchParams();
 
   const month = params.get("month") as string;

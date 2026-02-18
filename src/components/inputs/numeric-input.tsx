@@ -50,7 +50,8 @@ function NumericInput({
               <FormControl>
                 <Input
                   id={id}
-                  value={value ? value : placeholder ?? ""}
+                  value={value ?? ""}
+                  placeholder={placeholder}
                   disabled={disabled}
                   onClick={() => setOpen(true)}
                   className={cn(
@@ -58,7 +59,7 @@ function NumericInput({
                     theme === "dark" ? "border-0" : "",
                     value && "border-0 shadow-none text-black! font-bold",
                     Number(value) <= 0 ? "text-rd " : "",
-                    className
+                    className,
                   )}
                 />
               </FormControl>
@@ -66,7 +67,7 @@ function NumericInput({
             <PopoverContent
               className={cn(
                 "w-50 p-2 grid grid-cols-3 gap-2 border-none bg-bl",
-                theme === "dark" ? "bg-black" : ""
+                theme === "dark" ? "bg-black" : "",
               )}
             >
               {Array.from({ length: 9 }, (_, i) => i + 1).map((num) => (

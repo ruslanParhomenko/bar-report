@@ -14,7 +14,9 @@ export default function ClientRefProvider({
 
   return (
     <RefContext.Provider value={ref}>
-      <div ref={ref}>{children}</div>
+      <div ref={ref} data-screenshot-root="true">
+        {children}
+      </div>
     </RefContext.Provider>
   );
 }

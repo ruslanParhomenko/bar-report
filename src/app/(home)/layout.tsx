@@ -7,6 +7,7 @@ import {
 } from "@/providers/employees-provider";
 import { getEmployees } from "../actions/employees/employee-action";
 import NavTabs from "@/components/nav/nav-tabs";
+import ClientRefProvider from "@/providers/client-ref-provider";
 
 const NavPage = async ({
   children,
@@ -21,7 +22,7 @@ const NavPage = async ({
           <SidebarNav />
           <div className="flex flex-col h-screen w-screen overflow-y-auto">
             <NavTabs />
-            {children}
+            <ClientRefProvider>{children}</ClientRefProvider>
           </div>
         </SidebarProvider>
       </EmployeesProvider>

@@ -30,6 +30,7 @@ import { MONTHS } from "@/utils/get-month-days";
 import { useSearchParams } from "next/navigation";
 import FormInput from "@/components/wrapper/form";
 import { useEmployees } from "@/providers/employees-provider";
+import DatePickerInput from "@/components/inputs/date-input";
 
 const BAR_EMPLOYEES = ["waiters", "barmen"];
 
@@ -156,17 +157,20 @@ export default function BarForm({
     <FormInput
       form={form}
       onSubmit={onSubmit}
-      withDate={true}
       disabled={isDisabled}
       className="px-1"
     >
+      <DatePickerInput
+        fieldName="date"
+        className="text-sm text-rd h-6"
+        disabled
+      />
+      <Activity mode={tab === "report" ? "visible" : "hidden"}>
+        <ReportBarTable isDisabled={isDisabled} />
+      </Activity>
       <Activity mode={tab === "break" ? "visible" : "hidden"}>
         <BreakTable isDisabled={isDisabled} employeesName={employeesName} />
         <PenaltyTable isDisabled={isDisabled} />
-      </Activity>
-
-      <Activity mode={tab === "report" ? "visible" : "hidden"}>
-        <ReportBarTable isDisabled={isDisabled} />
       </Activity>
     </FormInput>
   );

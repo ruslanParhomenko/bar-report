@@ -38,7 +38,7 @@ export function ScheduleCreatePage({
   year: string;
 }) {
   const router = useRouter();
-  console.log("tab", tab);
+
   const found = schedule
     ? schedule
     : {
@@ -68,7 +68,6 @@ export function ScheduleCreatePage({
 
   // submit
   const onSubmit: SubmitHandler<ScheduleType> = async (data) => {
-    console.log("data submit", data);
     const formatData: ScheduleData = {
       ...data,
       uniqueKey: `${year}-${month}-${tab}`,
@@ -84,7 +83,6 @@ export function ScheduleCreatePage({
 
       return;
     } else {
-      console.log("formatData", formatData);
       await createSchedule(formatData);
       toast.success("График успешно создан!");
 
