@@ -10,8 +10,6 @@ import {
 import { useSendTelegram } from "@/hooks/use-send-telegram";
 import { useLocalStorageForm } from "@/hooks/use-local-storage";
 import FormInput from "@/components/wrapper/form";
-import { use, useEffect } from "react";
-
 export const OrderListTelegramForm = ({
   children,
   user,
@@ -51,10 +49,7 @@ export const OrderListTelegramForm = ({
 
   const STORAGE_KEY = DATA_USER[user as UserKey]?.key;
 
-  console.log("user", user);
   const defaultValues = DATA_USER[user as UserKey]?.default;
-
-  console.log("defaultValues", defaultValues);
 
   const { sendTelegramMessage } = useSendTelegram();
 
@@ -62,8 +57,6 @@ export const OrderListTelegramForm = ({
     defaultValues: defaultValues,
   });
 
-  const value = form.watch();
-  console.log("value", value);
   const { isLoaded } = useLocalStorageForm(form, STORAGE_KEY);
 
   const onSubmit: SubmitHandler<OrderListFormType> = async (data) => {
@@ -86,6 +79,7 @@ export const OrderListTelegramForm = ({
       ref={ref}
       sendTelegram={url === "zn" ? true : false}
       url={url}
+      defaultValues={defaultValues}
     >
       {children}
     </FormInput>

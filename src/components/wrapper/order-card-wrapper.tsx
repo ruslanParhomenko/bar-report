@@ -48,6 +48,7 @@ function OrderCardField({ item, isLast }: { item: string; isLast: boolean }) {
         <button
           type="button"
           className="text-rd font-bold cursor-pointer"
+          data-html2canvas-ignore="true"
           onClick={() => setValue(item, "")}
         >
           {value ? <Trash2Icon className="w-4 h-4" /> : null}

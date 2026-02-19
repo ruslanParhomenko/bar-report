@@ -77,13 +77,13 @@ const RenderTableCucina = ({
 
       {fieldsArray.fields.map((field, index) => {
         return (
-          <div key={field.id} className="grid  grid-cols-[88%_12%]">
+          <div key={field.id} className="grid  grid-cols-[88%_12%] mt-1">
             <div className="grid grid-cols-[40%_20%_20%_15%] gap-2 md:gap-6">
               <SelectFieldWithSearch
                 placeHolder=".........."
                 fieldName={`${name}.${index}.${field1}`}
                 data={dataArrayField1 || []}
-                className="cursor-pointer border-0 shadow-none text-sm"
+                className="cursor-pointer h-7 w-40 text-sm"
                 disabled={isDisabled}
               />
               {field2 && dataArrayField2 ? (
@@ -91,14 +91,14 @@ const RenderTableCucina = ({
                   fieldName={`${name}.${index}.${field2}`}
                   data={dataArrayField2}
                   placeHolder={"смена"}
-                  className="justify-center border-0 shadow-none text-sm"
+                  className="justify-center h-7  text-sm"
                   disabled={isDisabled}
                 />
               ) : (
                 <NumericInput
                   fieldName={`${name}.${index}.${field2}`}
                   placeholder="..."
-                  className="text-sm w-30 border-0 shadow-none"
+                  className="text-sm w-30 h-7"
                   disabled={isDisabled}
                 />
               )}
@@ -107,18 +107,18 @@ const RenderTableCucina = ({
                   fieldName={`${name}.${index}.${field3}`}
                   data={dataArrayField3}
                   placeHolder={field3 ? t(field3) : ""}
-                  className="justify-center text-muted-foreground border-0 shadow-none"
+                  className="justify-center text-muted-foreground w-30 h-7!"
                   disabled={isDisabled}
                 />
               ) : (
                 <NumericInput
                   fieldName={`${name}.${index}.${field3}`}
                   placeholder="...вес"
-                  className="text-muted-foreground w-30 border-0 shadow-none"
+                  className="text-muted-foreground w-30 "
                   disabled={isDisabled}
                 />
               )}
-              <div className="text-sm text-red-600 flex items-center justify-center md:w-10 w-8 h-8">
+              <div className="text-sm text-red-600 flex items-center justify-center md:w-10 w-7 h-7">
                 {field4 && fieldsValues?.[index]?.time}
               </div>
             </div>

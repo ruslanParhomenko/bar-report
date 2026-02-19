@@ -39,11 +39,10 @@ export default function MailButton({
 
       const isZN = patch === "zn";
 
-      // 🔥 --- QUALITY IMPROVEMENT ---
       const dpr = window.devicePixelRatio || 1;
       const BASE_SCALE = isZN ? 2 : 2.5;
 
-      const MAX_SIDE = 8000; // безопасный предел
+      const MAX_SIDE = 8000;
       const ratio = Math.min(MAX_SIDE / fullWidth, MAX_SIDE / fullHeight, 1);
 
       const finalScale = Math.min(dpr * BASE_SCALE * ratio, 4);
@@ -131,7 +130,7 @@ export default function MailButton({
       onClick={() => sendScreenshot()}
       disabled={disabled || isSending}
       className={cn(
-        "cursor-pointer h-8 w-20",
+        "cursor-pointer h-8 bg-bl text-white",
         disabled && "opacity-50",
         className,
       )}

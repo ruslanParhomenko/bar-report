@@ -5,7 +5,6 @@ import { Form } from "../ui/form";
 import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
 import ModalConfirm from "../modal/modal-confirm";
-import DatePickerInput from "../inputs/date-input";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import MailButton from "../buttons/mail-button";
@@ -23,6 +22,7 @@ type FormInputProps<T extends FieldValues> = {
   sendTelegram?: boolean;
   ref?: React.RefObject<HTMLDivElement | null> | null;
   url?: string;
+  defaultValues?: any;
 };
 
 export default function FormInput<T extends FieldValues>({
@@ -38,6 +38,7 @@ export default function FormInput<T extends FieldValues>({
   sendTelegram = false,
   ref,
   url,
+  defaultValues,
 }: FormInputProps<T>) {
   const router = useRouter();
 
@@ -48,8 +49,6 @@ export default function FormInput<T extends FieldValues>({
     setFormDataToSubmit(data);
     setIsModalOpen(true);
   };
-
-  console.log(url, ref);
 
   return (
     <Form {...form}>
@@ -70,6 +69,14 @@ export default function FormInput<T extends FieldValues>({
                 save
               </Button>
             )}
+            {sendTelegram && (
+              <MailButton
+                componentRef={ref}
+                disabled={!ref}
+                patch={url || ""}
+                className="w-24"
+              />
+            )}
 
             <ModalConfirm
               open={isModalOpen}
@@ -89,7 +96,7 @@ export default function FormInput<T extends FieldValues>({
                 type="button"
                 variant="secondary"
                 className="hover:bg-rd text-bl hover:text-black h-8 w-24"
-                onClick={() => form.reset()}
+                onClick={() => form.reset(defaultValues || {})}
                 disabled={disabled}
               >
                 reset
@@ -105,14 +112,6 @@ export default function FormInput<T extends FieldValues>({
               >
                 return
               </Button>
-            )}
-            {sendTelegram && (
-              <MailButton
-                componentRef={ref}
-                disabled={!ref}
-                patch={url || ""}
-                className="text-bl"
-              />
             )}
           </div>
         )}

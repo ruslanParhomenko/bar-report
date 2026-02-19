@@ -46,6 +46,7 @@ export default function ReportCucinaForm({
 }: {
   realtimeData?: ReportCucinaType;
 }) {
+  console.log({ realtimeData });
   const { isCucina, isAdmin } = useAbility();
   const isDisabled = !(isAdmin || isCucina);
 
@@ -69,7 +70,7 @@ export default function ReportCucinaForm({
     async (data) => {
       if (!data) return;
       await realtimeReportCucina(data).catch(console.error);
-      toast.info("сохранение данных…", { duration: 2000 });
+      toast.success("сохранение…", { duration: 2000 });
     },
   );
 
@@ -78,13 +79,11 @@ export default function ReportCucinaForm({
     const dateValue = new Date(date);
     const month = MONTHS[dateValue.getMonth()];
     const year = dateValue.getFullYear().toString();
-    const day = dateValue.getDate().toLocaleString();
+    const day = dateValue.getUTCDate().toString();
     const uniqueKey = `${year}-${month}`;
 
     try {
       await createReportCucina(uniqueKey, year, month, { day, report: rest });
-
-      await realtimeReportCucina(defaultReportCucina);
 
       form.reset(defaultReportCucina);
       toast.success("Форма успешно отправлена!");

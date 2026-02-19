@@ -55,13 +55,11 @@ export default function BarForm({
 
   const values = useWatch({ control: form.control }) as BarFormValues;
 
-  console.log("values", values);
-
   useRealtimeSave(values, isBar, async (data) => {
     if (!data) return;
 
     await realtimeReportBar(data);
-    toast.info("сохранение данных…", { duration: 2000 });
+    toast.success("сохранение…", { duration: 2000 });
   });
   //submit
   const onSubmit: SubmitHandler<BarFormValues> = async (data) => {
@@ -69,7 +67,7 @@ export default function BarForm({
     const dateValue = new Date(date);
     const month = MONTHS[dateValue.getMonth()];
     const year = dateValue.getFullYear().toString();
-    const day = dateValue.getDate().toLocaleString();
+    const day = dateValue.getUTCDate().toString();
     const uniqueKey = `${year}-${month}`;
     const formateReportData = {
       ...report,
@@ -123,7 +121,6 @@ export default function BarForm({
 
     const updatedData = {
       ...data,
-      date: new Date(),
       tobacco: updatedTobacco,
       cashVerify: cashVerifyDefault,
       expenses: expensesDefault,
@@ -133,7 +130,7 @@ export default function BarForm({
     };
 
     form.reset({
-      date: new Date(),
+      date: new Date().toISOString(),
       report: updatedData,
       penalty: defaultRemarksValue,
       breakForm: defaultValuesBreak,
@@ -146,7 +143,9 @@ export default function BarForm({
     if (!realtimeData) return;
 
     form.reset({
-      date: realtimeData.date ? new Date(realtimeData.date) : new Date(),
+      date: realtimeData.date
+        ? new Date(realtimeData.date).toISOString()
+        : new Date().toISOString(),
       report: realtimeData.report ?? defaultValuesReportBar,
       penalty: realtimeData.penalty ?? defaultRemarksValue,
       breakForm: realtimeData.breakForm ?? defaultValuesBreak,
