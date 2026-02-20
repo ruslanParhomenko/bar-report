@@ -31,7 +31,7 @@ export default function ScheduleTableHeader({
         <TableCell
           className="w-8 print:hidden"
           data-html2canvas-ignore="true"
-        ></TableCell>
+        />
         <TableCell className="text-base pl-3 w-36">
           {month?.toUpperCase() || ""}
         </TableCell>

@@ -95,13 +95,13 @@ export function EmployeesTable({ data }: { data: EmployeesContextValue[] }) {
                 <TableCell>{emp.role}</TableCell>
                 <TableCell
                   className="truncate"
-                  onClick={() => handleCopy(emp.mail)}
+                  onClick={() => emp.mail && handleCopy(emp.mail)}
                 >
                   {emp.mail}
                 </TableCell>
                 <TableCell
                   className="truncate"
-                  onClick={() => handleCopy(emp.tel)}
+                  onClick={() => emp?.tel && handleCopy(emp.tel)}
                 >
                   {emp?.tel || "-"}
                 </TableCell>

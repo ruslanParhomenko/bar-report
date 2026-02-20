@@ -3,8 +3,6 @@ import TextInput from "@/components/inputs/text-input";
 import { Label } from "@/components/ui/label";
 import { useTranslations } from "next-intl";
 import {
-  FieldArrayPath,
-  Resolver,
   SubmitHandler,
   useFieldArray,
   useForm,
@@ -15,7 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Plus, Trash } from "lucide-react";
 import { DatePickerRange } from "@/components/inputs/date-range-input";
 import { cn } from "@/lib/utils";
-import { EmployeesContextValue } from "@/providers/employees-provider";
+import { useEmployees } from "@/providers/employees-provider";
 import { toast } from "sonner";
 import {
   createEmployee,
@@ -39,11 +37,7 @@ import { EMPLOYEES_ROLE } from "./constants";
 type FormData = EmployeesSchemaTypeData & { id?: string };
 const STATUS_OPTIONS = ["active", "fired"];
 
-export function EmployeeForm({
-  employee,
-}: {
-  employee: EmployeesContextValue | null;
-}) {
+export function EmployeeForm({ id }: { id?: string }) {
   const { isAdmin, isManager } = useAbility();
   const isDisabled = !isAdmin && !isManager;
 
@@ -51,23 +45,27 @@ export function EmployeeForm({
   const nameTag = "vacationPay";
   const t = useTranslations("Home");
 
-  const form = useForm<FormData>({
-    resolver: zodResolver(employeesSchema) as Resolver<FormData>,
-    defaultValues: employee ?? defaultEmployeeSchemaValues,
+  const employee = id
+    ? useEmployees().find((e: any) => e.id === id)
+    : undefined;
+
+  const form = useForm<EmployeesSchemaTypeData>({
+    resolver: zodResolver(employeesSchema),
+    defaultValues: employee || defaultEmployeeSchemaValues,
   });
 
   const { fields, append, remove, replace } = useFieldArray({
     control: form.control,
-    name: nameTag as FieldArrayPath<FormData>,
+    name: nameTag,
   });
   const vacationPayValues = useWatch({
     control: form.control,
-    name: nameTag as FieldArrayPath<FormData>,
+    name: nameTag,
   });
 
   const handleSubmit: SubmitHandler<FormData> = async (data) => {
-    if (employee?.id) {
-      await updateEmployee(employee.id, data);
+    if (id) {
+      await updateEmployee(id, data);
       toast.success("Employee updated!");
 
       await sendNotificationEmail({
@@ -84,20 +82,14 @@ export function EmployeeForm({
     router.back();
   };
 
-  useEffect(() => {
-    if (employee) {
-      form.reset(employee);
-    }
-  }, [employee, form]);
-
   const fieldClassName = "w-full h-10! border!";
   return (
     <FormInput
       form={form}
       onSubmit={handleSubmit}
       className={cn("flex flex-col md:px-4 h-[90vh]")}
-      resetButton={employee?.id ? false : true}
-      returnButton={employee?.id ? true : false}
+      resetButton={id ? false : true}
+      returnButton={id ? true : false}
       disabled={isDisabled}
     >
       <div className="grid grid-cols-1 md:grid-cols-3 md:gap-8 mt-4">

@@ -44,7 +44,6 @@ export default function FormInput<T extends FieldValues>({
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formDataToSubmit, setFormDataToSubmit] = useState<T | null>(null);
-
   const handleFormSubmit: SubmitHandler<T> = (data) => {
     setFormDataToSubmit(data);
     setIsModalOpen(true);
@@ -59,7 +58,10 @@ export default function FormInput<T extends FieldValues>({
         {children}
 
         {withButtons && (
-          <div className="sticky bottom-0 w-full flex justify-start gap-6 px-4 py-2 mt-auto bg-background z-30">
+          <div
+            className="sticky bottom-0 w-full flex justify-start gap-6 px-4 py-2 mt-auto bg-background z-30"
+            data-html2canvas-ignore="true"
+          >
             {!sendTelegram && (
               <Button
                 type="submit"

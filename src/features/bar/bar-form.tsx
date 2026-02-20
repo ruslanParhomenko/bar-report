@@ -31,6 +31,7 @@ import { useSearchParams } from "next/navigation";
 import FormInput from "@/components/wrapper/form";
 import { useEmployees } from "@/providers/employees-provider";
 import DatePickerInput from "@/components/inputs/date-input";
+import { parseISO } from "date-fns";
 
 const BAR_EMPLOYEES = ["waiters", "barmen"];
 
@@ -64,10 +65,12 @@ export default function BarForm({
   //submit
   const onSubmit: SubmitHandler<BarFormValues> = async (data) => {
     const { date, report, penalty, breakForm } = data;
-    const dateValue = new Date(date);
+
+    const dateValue = typeof date === "string" ? parseISO(date) : date;
     const month = MONTHS[dateValue.getMonth()];
     const year = dateValue.getFullYear().toString();
-    const day = dateValue.getUTCDate().toString();
+    const day = String(dateValue.getDate());
+
     const uniqueKey = `${year}-${month}`;
     const formateReportData = {
       ...report,
@@ -130,7 +133,7 @@ export default function BarForm({
     };
 
     form.reset({
-      date: new Date().toISOString(),
+      date: new Date(),
       report: updatedData,
       penalty: defaultRemarksValue,
       breakForm: defaultValuesBreak,
@@ -143,9 +146,10 @@ export default function BarForm({
     if (!realtimeData) return;
 
     form.reset({
-      date: realtimeData.date
-        ? new Date(realtimeData.date).toISOString()
-        : new Date().toISOString(),
+      date:
+        realtimeData.date instanceof Date
+          ? realtimeData.date
+          : new Date(realtimeData.date),
       report: realtimeData.report ?? defaultValuesReportBar,
       penalty: realtimeData.penalty ?? defaultRemarksValue,
       breakForm: realtimeData.breakForm ?? defaultValuesBreak,
@@ -156,6 +160,9 @@ export default function BarForm({
     <FormInput
       form={form}
       onSubmit={onSubmit}
+      onError={(errors) => {
+        console.log("ZOD ERRORS:", errors);
+      }}
       disabled={isDisabled}
       className="px-1"
     >

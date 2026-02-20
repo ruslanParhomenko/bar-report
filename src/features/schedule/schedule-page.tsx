@@ -2,25 +2,27 @@
 import { Table } from "@/components/ui/table";
 import ScheduleTableFooter from "./schedule-footer";
 import ScheduleTableHeader from "./schedule-header";
-import { MonthDayType } from "@/utils/get-month-days";
+import { getMonthDays, MonthDayType } from "@/utils/get-month-days";
 import ScheduleTableBody from "./schedule-body";
 import { SchedulesContextValue } from "@/app/actions/schedule/schedule-action";
 import { useSearchParams } from "next/navigation";
 
 export default function SchedulePage({
   schedule,
-  monthDays,
   month,
+  year,
   isView,
 }: {
   schedule: SchedulesContextValue[] | null;
-  monthDays: MonthDayType[];
-  month?: string;
+  month: string;
+  year: string;
   isView: boolean;
 }) {
   const searchParams = useSearchParams();
   const tab = searchParams.get("tab") as string;
   const scheduleByTab = schedule?.find((s: any) => s.role === tab) || null;
+
+  const monthDays = getMonthDays({ month, year });
 
   return (
     <Table className="table-fixed">

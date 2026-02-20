@@ -54,6 +54,7 @@ function EmptyField({ fieldName }: { fieldName: number }) {
             setValue(`${fieldName}.name`, "");
             setValue(`${fieldName}.quantity`, "");
           }}
+          data-html2canvas-ignore="true"
         >
           {valueName || valueQuantity ? (
             <Trash2Icon className="w-4 h-4" />

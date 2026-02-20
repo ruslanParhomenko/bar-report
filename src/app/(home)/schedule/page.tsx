@@ -5,7 +5,7 @@ import {
 import SchedulePage from "@/features/schedule/schedule-page";
 import { authOptions } from "@/lib/auth";
 import ClientRefProvider from "@/providers/client-ref-provider";
-import { getMonthDays, MONTHS } from "@/utils/get-month-days";
+import { MONTHS } from "@/utils/get-month-days";
 import { getServerSession } from "next-auth";
 
 export default async function Page({
@@ -24,14 +24,13 @@ export default async function Page({
   const setYear = year ?? new Date().getFullYear().toString();
 
   const schedule = await getScheduleByMonthYear(setMonth, setYear);
-  const monthDays = getMonthDays({ month: setMonth, year: setYear });
 
   return (
     <ClientRefProvider>
       <SchedulePage
         schedule={schedule as SchedulesContextValue[]}
-        monthDays={monthDays}
-        month={month}
+        month={setMonth}
+        year={setYear}
         isView={isView}
       />
     </ClientRefProvider>

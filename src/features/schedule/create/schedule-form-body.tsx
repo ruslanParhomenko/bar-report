@@ -122,7 +122,7 @@ export default function ScheduleCreateTableBody({
               />
             </TableCell>
 
-            <TableCell className="text-xs">
+            <TableCell className="text-xs p-0">
               {rate / 1000}:{totalPay && ` ${totalPay.toFixed()}`}
             </TableCell>
             <TableCell className="py-0 w-44">
@@ -144,7 +144,7 @@ export default function ScheduleCreateTableBody({
                     data-col={dayIndex}
                     onKeyDown={handleMultiTableNavigation}
                     className={cn(
-                      "w-10 h-9 text-center",
+                      "w-12 h-9 text-center",
                       value === "" ? "bg-border/20" : "",
                       color[value as keyof typeof color],
                     )}

@@ -86,7 +86,7 @@ export function PenaltyTableBody({ isDisabled }: { isDisabled: boolean }) {
               isDisabled && "hidden",
             )}
             onClick={() => {
-              if (idx === 0) {
+              if (idx === 0 && dataRemarks.length === 1) {
                 setValue(`penalty.remarks.${idx}`, defaultRemarkValue);
               } else {
                 remove(idx);

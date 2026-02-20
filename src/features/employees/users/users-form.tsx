@@ -5,7 +5,6 @@ import { SubmitHandler, useForm } from "react-hook-form";
 
 import { createUser, updateUser } from "@/app/actions/users/user-action";
 import { toast } from "sonner";
-import { useEffect } from "react";
 
 import { useRouter } from "next/navigation";
 import SelectField from "@/components/inputs/select-input";
@@ -14,19 +13,22 @@ import FormInput from "@/components/wrapper/form";
 import { useAbility } from "@/providers/ability-provider";
 import { defaultUser, usersSchema, UsersSchemaTypeData } from "./schema";
 
-const ROLES = ["ADMIN", "BAR", "CUCINA", "USER", "MNGR", "CASH", "FIN"];
+const ROLES = ["ADMIN", "BAR", "CUCINA", "USER", "MNGR", "CASH", "FIN", "SCR"];
 
 type FormData = UsersSchemaTypeData;
 
-export default function UsersForm({ users }: { users: FormData | null }) {
+export default function UsersForm({ id }: { id?: string }) {
   const { isAdmin } = useAbility();
-  const id = users?.id;
+
   const router = useRouter();
   const t = useTranslations("Home");
 
+  const { users } = useAbility();
+  const user = id ? users?.find((u) => u.id === id) : undefined;
+
   const form = useForm<FormData>({
     resolver: zodResolver(usersSchema),
-    defaultValues: users ? usersSchema.parse(users) : defaultUser,
+    defaultValues: user || defaultUser,
   });
 
   const { reset: resetForm } = form;
@@ -54,11 +56,7 @@ export default function UsersForm({ users }: { users: FormData | null }) {
       toast.error("Error adding user");
     }
   };
-  useEffect(() => {
-    if (!users) return;
 
-    form.reset(users as FormData);
-  }, [users]);
   return (
     <FormInput
       form={form}

@@ -1,12 +1,12 @@
 import { z } from "zod";
 
 export const remarkSchema = z.object({
-  name: z.string(),
-  dayHours: z.string(),
-  nightHours: z.string(),
-  penalty: z.string(),
-  reason: z.string(),
-  bonus: z.string(),
+  name: z.string().optional(),
+  dayHours: z.string().optional(),
+  nightHours: z.string().optional(),
+  penalty: z.string().optional(),
+  reason: z.string().optional(),
+  bonus: z.string().optional(),
 });
 
 export type RemarkFormData = z.infer<typeof remarkSchema>;

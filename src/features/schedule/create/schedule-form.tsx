@@ -130,7 +130,7 @@ export function ScheduleCreatePage({
 
   return (
     <FormInput form={form} onSubmit={onSubmit}>
-      <Table>
+      <Table className="table-fixed">
         <ScheduleTableHeader
           addNewRow={addRow}
           isSave={true}

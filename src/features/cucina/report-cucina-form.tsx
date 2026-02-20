@@ -40,13 +40,13 @@ import { MONTHS } from "@/utils/get-month-days";
 import FormInput from "@/components/wrapper/form";
 import { useRealtimeSave } from "@/hooks/use-realtime-save";
 import DatePickerInput from "@/components/inputs/date-input";
+import { parseISO } from "date-fns";
 
 export default function ReportCucinaForm({
   realtimeData,
 }: {
   realtimeData?: ReportCucinaType;
 }) {
-  console.log({ realtimeData });
   const { isCucina, isAdmin } = useAbility();
   const isDisabled = !(isAdmin || isCucina);
 
@@ -76,10 +76,12 @@ export default function ReportCucinaForm({
 
   const onSubmit: SubmitHandler<ReportCucinaType> = async (data) => {
     const { date, ...rest } = data;
-    const dateValue = new Date(date);
+
+    const dateValue = typeof date === "string" ? parseISO(date) : date;
     const month = MONTHS[dateValue.getMonth()];
     const year = dateValue.getFullYear().toString();
-    const day = dateValue.getUTCDate().toString();
+    const day = String(dateValue.getDate());
+
     const uniqueKey = `${year}-${month}`;
 
     try {
@@ -98,7 +100,10 @@ export default function ReportCucinaForm({
     form.reset({
       ...defaultReportCucina,
       ...realtimeData,
-      date: realtimeData.date ?? defaultReportCucina.date,
+      date:
+        realtimeData.date instanceof Date
+          ? realtimeData.date
+          : new Date(realtimeData.date),
     });
   }, [realtimeData, form]);
 

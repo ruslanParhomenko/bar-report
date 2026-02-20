@@ -1,6 +1,5 @@
 "use client";
 
-import { UserData } from "@/app/actions/users/user-action";
 import { useEmployees } from "@/providers/employees-provider";
 import { useSearchParams } from "next/navigation";
 import { Activity } from "react";
@@ -9,11 +8,14 @@ import { VacationTable } from "./employee/vacation-table";
 import { EmployeeForm } from "./employee/employee-form";
 import UsersForm from "./users/users-form";
 import UsersTable from "./users/users-table";
+import { useAbility } from "@/providers/ability-provider";
 
-export function EmployeesPage({ users }: { users: UserData[] }) {
+export function EmployeesPage() {
   const searchParams = useSearchParams();
   const tab = searchParams.get("tab") as string;
   const employees = useEmployees();
+  const { users } = useAbility();
+
   return (
     <>
       <Activity mode={tab === "employees" ? "visible" : "hidden"}>
@@ -23,13 +25,13 @@ export function EmployeesPage({ users }: { users: UserData[] }) {
         <VacationTable />
       </Activity>
       <Activity mode={tab === "create-employee" ? "visible" : "hidden"}>
-        <EmployeeForm employee={null} />
+        <EmployeeForm />
       </Activity>
       <Activity mode={tab === "users" ? "visible" : "hidden"}>
         <UsersTable users={users} />
       </Activity>
       <Activity mode={tab === "create-user" ? "visible" : "hidden"}>
-        <UsersForm users={null} />
+        <UsersForm />
       </Activity>
     </>
   );

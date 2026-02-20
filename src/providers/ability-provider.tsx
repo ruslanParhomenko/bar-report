@@ -1,4 +1,5 @@
 "use client";
+import { UsersSchemaTypeData } from "@/features/employees/users/schema";
 import { useSession } from "next-auth/react";
 import React, { createContext, useContext } from "react";
 
@@ -10,11 +11,23 @@ type Ability = {
   isManager: boolean;
   isCash: boolean;
   isFin: boolean;
+  isSCR: boolean;
 };
 
-const AbilityContext = createContext<Ability | null>(null);
+type AbilityContextValue = {
+  ability: Ability;
+  users: UsersSchemaTypeData[];
+};
 
-export function AbilityProvider({ children }: { children: React.ReactNode }) {
+const AbilityContext = createContext<AbilityContextValue | null>(null);
+
+export function AbilityProvider({
+  children,
+  users,
+}: {
+  children: React.ReactNode;
+  users: UsersSchemaTypeData[];
+}) {
   const { data: session, status } = useSession();
 
   if (status === "loading") {
@@ -31,10 +44,11 @@ export function AbilityProvider({ children }: { children: React.ReactNode }) {
     isManager: role === "MNGR",
     isCash: role === "CASH",
     isFin: role === "FIN",
+    isSCR: role === "SCR",
   };
 
   return (
-    <AbilityContext.Provider value={{ ...ability }}>
+    <AbilityContext.Provider value={{ ability, users }}>
       {children}
     </AbilityContext.Provider>
   );
@@ -43,5 +57,5 @@ export function AbilityProvider({ children }: { children: React.ReactNode }) {
 export function useAbility() {
   const ctx = useContext(AbilityContext);
   if (!ctx) throw new Error("useAbility must be used inside AbilityProvider");
-  return ctx;
+  return { ...ctx.ability, users: ctx.users };
 }
