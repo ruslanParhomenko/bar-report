@@ -5,7 +5,6 @@ import {
 import SchedulePage from "@/features/schedule/schedule-page";
 import { authOptions } from "@/lib/auth";
 import ClientRefProvider from "@/providers/client-ref-provider";
-import { MONTHS } from "@/utils/get-month-days";
 import { getServerSession } from "next-auth";
 
 export default async function Page({
@@ -19,18 +18,16 @@ export default async function Page({
     session?.user?.role === "ADMIN" || session?.user?.role === "MNGR";
 
   const { month, year } = await searchParams;
+  if (!month || !year) return null;
 
-  const setMonth = month ?? MONTHS[new Date().getMonth()];
-  const setYear = year ?? new Date().getFullYear().toString();
-
-  const schedule = await getScheduleByMonthYear(setMonth, setYear);
+  const schedule = await getScheduleByMonthYear(month, year);
 
   return (
     <ClientRefProvider>
       <SchedulePage
         schedule={schedule as SchedulesContextValue[]}
-        month={setMonth}
-        year={setYear}
+        month={month}
+        year={year}
         isView={isView}
       />
     </ClientRefProvider>

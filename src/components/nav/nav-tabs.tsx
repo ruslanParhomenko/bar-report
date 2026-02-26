@@ -99,7 +99,7 @@ export default function NavTabs() {
         scroll: false,
       });
     });
-  }, [month, year, filterType, pathname, router, searchParams]);
+  }, [month, year, filterType, pathname, router]);
 
   const handleTabChange = (value: string) => {
     localStorage.setItem(STORAGE_KEY, value);
