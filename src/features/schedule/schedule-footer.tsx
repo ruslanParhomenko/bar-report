@@ -10,6 +10,8 @@ export default function ScheduleTableFooter({
   schedule: SchedulesContextValue | null;
 }) {
   const shiftCounts = schedule && getShiftCounts(schedule);
+
+  console.log("shiftCounts", shiftCounts);
   return (
     <TableFooter data-html2canvas-ignore="true">
       {shiftCounts &&
