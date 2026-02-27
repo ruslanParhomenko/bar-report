@@ -28,7 +28,6 @@ export default function RemainsTable({
           {data?.map((r, idx: number) => (
             <TableRow key={idx}>
               <TableCell>{r.product}</TableCell>
-              <TableCell>{r.portions}</TableCell>
               <TableCell>{r.weight}</TableCell>
               <TableCell>{r.time}</TableCell>
             </TableRow>

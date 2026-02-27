@@ -98,6 +98,7 @@ export default function TipsForm({
       form={form}
       onSubmit={onSubmit}
       withButtons={showSendButton || isAdmin || fields.length > 0}
+      disabled={!isAdmin}
     >
       <BidForm disabled={!isAdmin} />
       {fields.length > 0 && (

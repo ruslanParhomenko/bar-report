@@ -4,7 +4,7 @@ import { InsufficientRights } from "@/components/wrapper/insufficient-rights";
 import CashForm from "@/features/cash/cash-form";
 import { checkAccess } from "@/lib/check-access";
 
-const SET_ACCESS = ["ADMIN", "CASH", "BAR", "FIN"];
+const SET_ACCESS = ["ADMIN", "CASH", "BAR", "FIN", "USER"];
 
 export default async function Page({
   searchParams,

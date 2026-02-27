@@ -16,14 +16,12 @@ export const defaultShift = {
 // --- prepared products
 export const productPreparedSchema = z.object({
   product: z.string(),
-  portions: z.string(),
   weight: z.string(),
   time: z.string(),
 });
 export type ProductPreparedType = z.infer<typeof productPreparedSchema>;
 export const productPreparedDefault = {
   product: "",
-  portions: "",
   weight: "",
   time: "",
 };

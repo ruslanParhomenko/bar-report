@@ -144,6 +144,7 @@ export default function CashForm({
       form={form}
       onSubmit={onSubmit}
       withButtons={showSendButton || isAdmin || !isBar}
+      disabled={isDisabled}
     >
       <Table className="md:mt-4">
         <DayByMonthTable

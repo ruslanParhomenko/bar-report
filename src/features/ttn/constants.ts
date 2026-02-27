@@ -1,5 +1,6 @@
 export const suppliers = [
   "47-parallel",
+  "family meat",
   "acvamont",
   "acvilin",
   "apifera",

@@ -30,7 +30,6 @@ export default function PreparedTable({
           .map((item, index: number) => (
             <TableRow key={index}>
               <TableCell className="truncate">{item.product}</TableCell>
-              <TableCell>{item.portions || "-"}</TableCell>
               <TableCell>{item.weight || "-"}</TableCell>
               <TableCell>{item.time}</TableCell>
             </TableRow>

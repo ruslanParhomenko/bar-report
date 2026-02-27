@@ -6,7 +6,7 @@ import TipsForm from "@/features/tips/tips-form";
 import { checkAccess } from "@/lib/check-access";
 import { getMonthDays, MONTHS } from "@/utils/get-month-days";
 
-const SET_ACCESS = ["ADMIN", "MNGR"];
+const SET_ACCESS = ["ADMIN", "MNGR", "USER"];
 const SELECTED_ROLE = ["waiters", "barmen"] as const;
 export default async function Page({
   searchParams,

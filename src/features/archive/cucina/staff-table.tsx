@@ -25,7 +25,7 @@ export default function StaffTable({ data }: { data: ProductPreparedType[] }) {
           {data?.map((item, idx) => (
             <TableRow key={idx}>
               <TableCell className="truncate">{item.product}</TableCell>
-              <TableCell>{item.portions || "-"}</TableCell>
+
               <TableCell>{item.weight || "-"}</TableCell>
               <TableCell>{item?.time || "-"}</TableCell>
             </TableRow>

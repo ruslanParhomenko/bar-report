@@ -17,14 +17,12 @@ type NumericInputProps = {
   fieldName: string;
   id?: string;
   disabled?: boolean;
-  placeholder?: string;
   className?: string;
 };
 
 function NumericInput({
   fieldName,
   id,
-  placeholder,
   disabled,
   className,
 }: NumericInputProps) {
@@ -51,7 +49,6 @@ function NumericInput({
                 <Input
                   id={id}
                   value={value ?? ""}
-                  placeholder={placeholder}
                   disabled={disabled}
                   onClick={() => setOpen(true)}
                   className={cn(

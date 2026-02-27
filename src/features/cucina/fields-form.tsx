@@ -22,15 +22,18 @@ type RenderEmployeesTableProps = {
   name: ArrayPath<ReportCucinaType>;
   form: UseFormReturn<ReportCucinaType>;
   placeHolder: {
-    field1: string;
-    field2: string;
-    field3: string;
-    field4?: string;
+    fieldName: string;
+    weight?: string;
+    shift?: string;
+    over?: string;
+    time?: string;
+    reason?: string;
   };
+  dataShifts?: string[] | null;
+  dataReasons?: string[] | null;
 
-  dataArrayField1?: string[] | null;
-  dataArrayField2?: string[] | null;
-  dataArrayField3?: string[] | null;
+  dataFieldArray?: string[] | null;
+
   defaultValue: {};
   isDisabled?: boolean;
 };
@@ -39,16 +42,16 @@ const RenderTableCucina = ({
   name,
   form,
   placeHolder,
-  dataArrayField1,
-  dataArrayField2,
-  dataArrayField3,
+  dataShifts,
+  dataReasons,
+  dataFieldArray,
   defaultValue,
   isDisabled = false,
 }: RenderEmployeesTableProps) => {
   const t = useTranslations("Home");
-  const { field1, field2, field3, field4 } = placeHolder;
+  const { fieldName, weight, time, shift, over, reason } = placeHolder;
   const fieldsArray = useFieldArray({ control: form.control, name: name });
-  const fieldsValues = field4
+  const fieldsValues = time
     ? (useWatch({
         control: form.control,
         name: name,
@@ -72,63 +75,63 @@ const RenderTableCucina = ({
 
   return (
     <div className="pb-4">
-      <Label className="text-bl">{t(name as string)} :</Label>
-      <Separator className="p-[0.5px] bg-bl" />
+      <Label className="text-bl mb-1">{t(name as string)} :</Label>
+      <Separator className="p-[0.5px] bg-bl/40" />
 
       {fieldsArray.fields.map((field, index) => {
+        console.log(field);
         return (
-          <div key={field.id} className="grid  grid-cols-[88%_12%] mt-1">
-            <div className="grid grid-cols-[40%_20%_20%_15%] gap-2 md:gap-6">
-              <SelectFieldWithSearch
-                placeHolder=".........."
-                fieldName={`${name}.${index}.${field1}`}
-                data={dataArrayField1 || []}
-                className="cursor-pointer h-7 w-40 text-sm"
-                disabled={isDisabled}
-              />
-              {field2 && dataArrayField2 ? (
+          <div
+            key={field.id}
+            className="flex justify-between items-center pt-1"
+          >
+            <div className="flex justify-between w-full items-center">
+              <div className="flex justify-start md:gap-8 gap-2 md:px-6 w-full items-center">
                 <SelectFieldWithSearch
-                  fieldName={`${name}.${index}.${field2}`}
-                  data={dataArrayField2}
-                  placeHolder={"смена"}
-                  className="justify-center h-7  text-sm"
+                  fieldName={`${name}.${index}.${fieldName}`}
+                  data={dataFieldArray || []}
+                  className="cursor-pointer h-7 w-40  text-sm border-bl/40"
                   disabled={isDisabled}
                 />
-              ) : (
-                <NumericInput
-                  fieldName={`${name}.${index}.${field2}`}
-                  placeholder="..."
-                  className="text-sm w-30 h-7"
-                  disabled={isDisabled}
-                />
-              )}
-              {field3 && dataArrayField3 ? (
-                <SelectField
-                  fieldName={`${name}.${index}.${field3}`}
-                  data={dataArrayField3}
-                  placeHolder={field3 ? t(field3) : ""}
-                  className="justify-center text-muted-foreground w-30 h-7!"
-                  disabled={isDisabled}
-                />
-              ) : (
-                <NumericInput
-                  fieldName={`${name}.${index}.${field3}`}
-                  placeholder="...вес"
-                  className="text-muted-foreground w-30 "
-                  disabled={isDisabled}
-                />
-              )}
-              <div className="text-sm text-red-600 flex items-center justify-center md:w-10 w-7 h-7">
-                {field4 && fieldsValues?.[index]?.time}
+                {":"}
+                {shift && dataShifts && (
+                  <SelectField
+                    fieldName={`${name}.${index}.${shift}`}
+                    data={dataShifts}
+                    className="justify-center md:w-25 w-15 h-7! border-bl/40"
+                    disabled={isDisabled}
+                  />
+                )}
+
+                {(weight || over) && (
+                  <NumericInput
+                    fieldName={`${name}.${index}.${weight}`}
+                    className="md:w-25 w-15  h-7 border-bl/40"
+                    disabled={isDisabled}
+                  />
+                )}
+                {reason && dataReasons && (
+                  <SelectField
+                    fieldName={`${name}.${index}.${shift}`}
+                    placeHolder="причина"
+                    data={dataReasons}
+                    className="justify-center md:w-25 w-15 h-7! border-bl/40"
+                    disabled={isDisabled}
+                  />
+                )}
+              </div>
+              <div className="text-sm text-red-600 flex items-center justify-center px-4">
+                {time && fieldsValues?.[index]?.time}
               </div>
             </div>
-
-            <AddRemoveFieldsButton
-              formField={fieldsArray}
-              defaultValues={defaultValue}
-              index={index}
-              disabled={isDisabled}
-            />
+            <div className="md:px-4">
+              <AddRemoveFieldsButton
+                formField={fieldsArray}
+                defaultValues={defaultValue}
+                index={index}
+                disabled={isDisabled}
+              />
+            </div>
           </div>
         );
       })}

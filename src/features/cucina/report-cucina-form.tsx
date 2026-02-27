@@ -110,96 +110,100 @@ export default function ReportCucinaForm({
   const tablesConfig = [
     {
       name: "shifts",
-      placeHolder: { field1: "employees", field2: "time", field3: "over" },
-      dataArrays: [employees, SELECT_TIME, OVER_HOURS],
+      placeHolder: { fieldName: "employees", shift: "time", over: "over" },
+      dataShifts: SELECT_TIME,
+      dataFieldArray: employees,
       defaultValue: defaultShift,
     },
     {
       name: "remains",
       placeHolder: {
-        field1: "product",
-        field2: "portions",
-        field3: "weight",
-        field4: "time",
+        fieldName: "product",
+        weight: "weight",
+        time: "time",
       },
-      dataArrays: [REMAINS_PRODUCTS],
+      dataFieldArray: REMAINS_PRODUCTS,
       defaultValue: productPreparedDefault,
     },
     {
       name: "preparedSalads",
       placeHolder: {
-        field1: "product",
-        field2: "portions",
-        field3: "weight",
-        field4: "time",
+        fieldName: "product",
+        weight: "weight",
+        time: "time",
       },
-      dataArrays: [[...PRODUCTS_GARNISH, ...PRODUCTS_SALAD, ...PRODUCTS_SOUP]],
+      dataFieldArray: [
+        ...PRODUCTS_GARNISH,
+        ...PRODUCTS_SALAD,
+        ...PRODUCTS_SOUP,
+      ],
+
       defaultValue: productPreparedDefault,
     },
     {
       name: "preparedSeconds",
       placeHolder: {
-        field1: "product",
-        field2: "portions",
-        field3: "weight",
-        field4: "time",
+        fieldName: "product",
+        weight: "weight",
+        time: "time",
       },
-      dataArrays: [PRODUCTS_MEAT],
+      dataFieldArray: PRODUCTS_MEAT,
       defaultValue: productPreparedDefault,
     },
     {
       name: "preparedDesserts",
       placeHolder: {
-        field1: "product",
-        field2: "portions",
-        field3: "weight",
-        field4: "time",
+        fieldName: "product",
+        weight: "weight",
+        time: "time",
       },
-      dataArrays: [PRODUCTS_DESSERT],
+      dataFieldArray: PRODUCTS_DESSERT,
       defaultValue: productPreparedDefault,
     },
     {
       name: "cutting",
       placeHolder: {
-        field1: "product",
-        field2: "portions",
-        field3: "weight",
-        field4: "time",
+        fieldName: "product",
+        weight: "weight",
+        time: "time",
       },
-      dataArrays: [[...PRODUCTS_SEMIFINISHED, ...PRODUCTS_MEAT_FISH]],
+      dataFieldArray: [...PRODUCTS_SEMIFINISHED, ...PRODUCTS_MEAT_FISH],
       defaultValue: productPreparedDefault,
     },
     {
       name: "staff",
       placeHolder: {
-        field1: "product",
-        field2: "portions",
-        field3: "weight",
-        field4: "time",
+        fieldName: "product",
+        weight: "weight",
+        time: "time",
       },
-      dataArrays: [PRODUCTS_STAFF],
+      dataFieldArray: PRODUCTS_STAFF,
       defaultValue: productPreparedDefault,
     },
     {
       name: "writeOff",
       placeHolder: {
-        field1: "product",
-        field2: "weight",
-        field3: "reason",
-        field4: "time",
+        fieldName: "product",
+        weight: "weight",
+        reason: "reason",
       },
-      dataArrays: [PRODUCTS_INGREDIENTS, null, REASON],
+      dataReasons: REASON,
+      dataFieldArray: PRODUCTS_INGREDIENTS,
       defaultValue: defaultWriteOff,
     },
   ] satisfies Array<{
     name: ArrayPath<ReportCucinaType>;
     placeHolder: {
-      field1: string;
-      field2: string;
-      field3: string;
-      field4?: string;
+      fieldName: string;
+      weight?: string;
+      shift?: string;
+      over?: string;
+      time?: string;
+      reason?: string;
     };
-    dataArrays: Array<Array<string> | null>;
+    dataShifts?: string[];
+    dataReasons?: string[];
+    dataFieldArray: Array<string>;
     defaultValue: any;
   }>;
 
@@ -215,24 +219,34 @@ export default function ReportCucinaForm({
         className="text-sm text-rd h-6"
         disabled
       />
-      {tablesConfig.map(({ name, placeHolder, dataArrays, defaultValue }) => (
-        <RenderTableCucina
-          key={name}
-          name={name}
-          form={form}
-          placeHolder={placeHolder}
-          dataArrayField1={dataArrays[0]}
-          dataArrayField2={dataArrays[1]}
-          dataArrayField3={dataArrays[2]}
-          defaultValue={defaultValue}
-          isDisabled={isDisabled}
-        />
-      ))}
+      {tablesConfig.map(
+        ({
+          name,
+          placeHolder,
+          dataFieldArray,
+          defaultValue,
+          dataShifts,
+          dataReasons,
+        }) => (
+          <RenderTableCucina
+            key={name}
+            name={name}
+            form={form}
+            placeHolder={placeHolder}
+            dataShifts={dataShifts}
+            dataReasons={dataReasons}
+            dataFieldArray={dataFieldArray}
+            defaultValue={defaultValue}
+            isDisabled={isDisabled}
+          />
+        ),
+      )}
 
       <Textarea
         placeholder="notes ..."
         {...form.register("notes")}
         disabled={isDisabled}
+        className="border-bl/40 "
       />
     </FormInput>
   );
