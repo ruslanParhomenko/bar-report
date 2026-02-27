@@ -9,6 +9,7 @@ import {
   REPORTS_CUCINA_ROUTE,
   RESULT_MAIN_ROUTE,
   SCHEDULE_MAIN_ROUTE,
+  SETTING_MAIN_ROUTE,
   TIPS_MAIN_ROUTE,
   TTN_MAIN_ROUTE,
 } from "@/constants/endpoint-tag";
@@ -24,6 +25,7 @@ import {
   PersonStandingIcon,
   CalculatorIcon,
   FileTextIcon,
+  Settings,
 } from "lucide-react";
 
 export const SIDEBAR_NAVIGATION = [
@@ -88,5 +90,10 @@ export const SIDEBAR_NAVIGATION = [
     title: "result",
     url: RESULT_MAIN_ROUTE,
     icon: SigmaIcon,
+  },
+  {
+    title: "settings",
+    url: SETTING_MAIN_ROUTE,
+    icon: Settings,
   },
 ];

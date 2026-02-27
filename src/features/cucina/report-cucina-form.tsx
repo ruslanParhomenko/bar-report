@@ -9,22 +9,7 @@ import {
   ReportCucinaType,
   schemaReportCucina,
 } from "./schema";
-import {
-  CUCINA_EMPLOYEES,
-  OVER_HOURS,
-  PRODUCTS_DESSERT,
-  PRODUCTS_GARNISH,
-  PRODUCTS_INGREDIENTS,
-  PRODUCTS_MEAT,
-  PRODUCTS_MEAT_FISH,
-  PRODUCTS_SALAD,
-  PRODUCTS_SEMIFINISHED,
-  PRODUCTS_SOUP,
-  PRODUCTS_STAFF,
-  REASON,
-  REMAINS_PRODUCTS,
-  SELECT_TIME,
-} from "./constants";
+import { REASON, SELECT_TIME } from "./constants";
 import { toast } from "sonner";
 import RenderTableCucina from "./fields-form";
 
@@ -41,14 +26,26 @@ import FormInput from "@/components/wrapper/form";
 import { useRealtimeSave } from "@/hooks/use-realtime-save";
 import DatePickerInput from "@/components/inputs/date-input";
 import { parseISO } from "date-fns";
+import { createDataProducts } from "@/app/actions/data-products-prepare/data-products-action";
+
+const CUCINA_EMPLOYEES = ["cook"];
 
 export default function ReportCucinaForm({
   realtimeData,
+  dataProducts,
 }: {
   realtimeData?: ReportCucinaType;
+  dataProducts: createDataProducts;
 }) {
   const { isCucina, isAdmin } = useAbility();
   const isDisabled = !(isAdmin || isCucina);
+
+  const REMAINS_PRODUCTS = [
+    ...dataProducts.salad,
+    ...dataProducts.meat,
+    ...dataProducts.garnish,
+    ...dataProducts.dessert,
+  ];
 
   //employees
   const employees = useEmployees()
@@ -133,9 +130,9 @@ export default function ReportCucinaForm({
         time: "time",
       },
       dataFieldArray: [
-        ...PRODUCTS_GARNISH,
-        ...PRODUCTS_SALAD,
-        ...PRODUCTS_SOUP,
+        ...dataProducts.garnish,
+        ...dataProducts.salad,
+        ...dataProducts.soup,
       ],
 
       defaultValue: productPreparedDefault,
@@ -147,7 +144,7 @@ export default function ReportCucinaForm({
         weight: "weight",
         time: "time",
       },
-      dataFieldArray: PRODUCTS_MEAT,
+      dataFieldArray: dataProducts.meat,
       defaultValue: productPreparedDefault,
     },
     {
@@ -157,7 +154,7 @@ export default function ReportCucinaForm({
         weight: "weight",
         time: "time",
       },
-      dataFieldArray: PRODUCTS_DESSERT,
+      dataFieldArray: dataProducts.dessert,
       defaultValue: productPreparedDefault,
     },
     {
@@ -167,7 +164,7 @@ export default function ReportCucinaForm({
         weight: "weight",
         time: "time",
       },
-      dataFieldArray: [...PRODUCTS_SEMIFINISHED, ...PRODUCTS_MEAT_FISH],
+      dataFieldArray: [...dataProducts.semifinished, ...dataProducts.meat_fish],
       defaultValue: productPreparedDefault,
     },
     {
@@ -177,7 +174,7 @@ export default function ReportCucinaForm({
         weight: "weight",
         time: "time",
       },
-      dataFieldArray: PRODUCTS_STAFF,
+      dataFieldArray: dataProducts.staff,
       defaultValue: productPreparedDefault,
     },
     {
@@ -188,7 +185,7 @@ export default function ReportCucinaForm({
         reason: "reason",
       },
       dataReasons: REASON,
-      dataFieldArray: PRODUCTS_INGREDIENTS,
+      dataFieldArray: dataProducts.ingredients,
       defaultValue: defaultWriteOff,
     },
   ] satisfies Array<{
