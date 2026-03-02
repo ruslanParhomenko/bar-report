@@ -50,18 +50,21 @@ export default function BarForm({
     .map((e) => e.name);
 
   const form = useForm<BarFormValues>({
-    defaultValues: realtimeData ?? defaultValuesBarForm,
+    defaultValues: {
+      ...defaultValuesBarForm,
+      ...realtimeData,
+    },
     resolver: zodResolver(barSchema),
   });
 
   const values = useWatch({ control: form.control }) as BarFormValues;
 
-  useRealtimeSave(values, isBar, async (data) => {
-    if (!data) return;
+  // useRealtimeSave(values, isBar, async (data) => {
+  //   if (!data) return;
 
-    await realtimeReportBar(data);
-    toast.success("сохранение…", { duration: 2000 });
-  });
+  //   await realtimeReportBar(data);
+  //   toast.success("сохранение…", { duration: 2000 });
+  // });
   //submit
   const onSubmit: SubmitHandler<BarFormValues> = async (data) => {
     const { date, report, penalty, breakForm } = data;
@@ -103,12 +106,12 @@ export default function BarForm({
       day: day,
     };
 
-    await createReportBar(uniqueKey, year, month, {
-      day,
-      report: formateReportData,
-    });
-    await createBreakList(formattedBreakData);
-    await createRemarks(uniqueKey, formattedPenaltyData);
+    // await createReportBar(uniqueKey, year, month, {
+    //   day,
+    //   report: formateReportData,
+    // });
+    // await createBreakList(formattedBreakData);
+    // await createRemarks(uniqueKey, formattedPenaltyData);
 
     const updatedTobacco = report.tobacco?.map((item) => {
       const finalStock =
@@ -169,7 +172,7 @@ export default function BarForm({
       <DatePickerInput
         fieldName="date"
         className="text-sm text-rd h-6"
-        disabled
+        // disabled
       />
       <Activity mode={tab === "report" ? "visible" : "hidden"}>
         <ReportBarTable isDisabled={isDisabled} />

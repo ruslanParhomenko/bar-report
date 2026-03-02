@@ -4,12 +4,11 @@ import { useFieldArray, useFormContext } from "react-hook-form";
 import { defaultRemarkValue } from "./schema";
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
 import SelectField from "@/components/inputs/select-input";
-import { REASON } from "./constants";
 import NumericInput from "@/components/inputs/numeric-input";
-import SelectWithInput from "@/components/inputs/select-text-input";
 import { Plus, Trash2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { BarFormValues } from "../schema";
+import TextInput from "@/components/inputs/text-input";
 
 export function PenaltyTableBody({ isDisabled }: { isDisabled: boolean }) {
   const selectedEmployees = useEmployees().map((e) => e.name);
@@ -66,10 +65,9 @@ export function PenaltyTableBody({ isDisabled }: { isDisabled: boolean }) {
             />
           </TableCell>
           <TableCell>
-            <SelectWithInput
+            <TextInput
               fieldName={`penalty.remarks.${idx}.reason`}
-              data={REASON}
-              placeHolder="...reason"
+              placeholder="...reason"
               className="border-0 shadow-none"
               disabled={isDisabled}
             />

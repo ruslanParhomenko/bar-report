@@ -20,7 +20,7 @@ export default function RemainsTable({
         <TableHeader>
           <TableRow className={classNameRowBorderCucina}>
             <TableHead className={classNameHeadCucina}>Remains</TableHead>
-            <TableHead>p</TableHead>
+
             <TableHead>w</TableHead>
           </TableRow>
         </TableHeader>

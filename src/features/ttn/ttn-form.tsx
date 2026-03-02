@@ -93,7 +93,7 @@ export default function TTNForm({
     suppliers.map((s) => {
       form.setValue(
         `rowSuppliers.${s}.start`,
-        dataTtnPrev.rowSuppliers[s].final,
+        dataTtnPrev.rowSuppliers[s]?.final,
       );
     });
   }, [dataTtnPrev, month, year, form]);

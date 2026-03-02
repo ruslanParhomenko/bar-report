@@ -16,7 +16,6 @@ export default function StaffTable({ data }: { data: ProductPreparedType[] }) {
         <TableHeader>
           <TableRow className={classNameRowBorder}>
             <TableHead>Staff</TableHead>
-            <TableHead>p</TableHead>
             <TableHead>w</TableHead>
             <TableHead>time</TableHead>
           </TableRow>

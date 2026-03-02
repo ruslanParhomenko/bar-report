@@ -19,7 +19,6 @@ export default function PreparedTable({
       <TableHeader>
         <TableRow className={classNameRowBorder}>
           <TableHead>Prepared</TableHead>
-          <TableHead>p</TableHead>
           <TableHead>w</TableHead>
           <TableHead>time</TableHead>
         </TableRow>
