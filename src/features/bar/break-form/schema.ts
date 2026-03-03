@@ -7,7 +7,7 @@ const hourValueSchema = z.enum(["X", "", "00", "20", "40"]);
 const hoursSchema = z.array(hourValueSchema).length(TIME_LABELS.length);
 
 export const rowsSchema = z.object({
-  id: z.enum(["8-20", "9-21", "14-02", "18-06", "20-08"]),
+  id: z.enum(["8-20", "9-21", "12-00", "18-06", "20-08"]),
   name: z.string(),
   hours: hoursSchema,
 });
