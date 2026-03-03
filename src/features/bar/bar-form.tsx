@@ -123,7 +123,6 @@ export default function BarForm({
     });
 
     const updatedData = {
-      ...data,
       tobacco: updatedTobacco,
       cashVerify: cashVerifyDefault,
       expenses: expensesDefault,
@@ -138,6 +137,11 @@ export default function BarForm({
       penalty: defaultRemarksValue,
       breakForm: defaultValuesBreak,
     });
+    // await realtimeReportBar({
+    //   report: updatedData,
+    //   penalty: defaultRemarksValue,
+    //   breakForm: defaultValuesBreak,
+    // });
 
     toast.success("Бар отчет успешно сохранён !");
   };
@@ -166,7 +170,7 @@ export default function BarForm({
       <DatePickerInput
         fieldName="date"
         className="text-sm text-rd h-6"
-        disabled
+        // disabled
       />
       <Activity mode={tab === "report" ? "visible" : "hidden"}>
         <ReportBarTable isDisabled={isDisabled} />

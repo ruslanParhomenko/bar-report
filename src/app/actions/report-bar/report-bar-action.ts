@@ -98,7 +98,12 @@ export async function realtimeReportBar(data: BarFormValues) {
     .collection(BAR_REALTIME_ACTION_TAG)
     .doc(BAR_REALTIME_ACTION_TAG);
 
-  await docRef.set(data);
+  const dataToSave = {
+    ...data,
+    date: data.date instanceof Date ? data.date.toISOString() : data.date,
+  };
+
+  await docRef.set(dataToSave);
 
   updateTag(BAR_REALTIME_ACTION_TAG);
 }
@@ -115,8 +120,8 @@ export async function _getRealtimeReportBar() {
 
   return {
     ...data,
-    date: data.date?.toDate ? data.date.toDate().toISOString() : null,
-  };
+    date: data.date ? new Date(data.date) : new Date(),
+  } as BarFormValues;
 }
 
 export const getRealtimeReportBar = unstable_cache(
