@@ -59,13 +59,13 @@ export default function BarForm({
 
   const values = useWatch({ control: form.control }) as BarFormValues;
 
-  // useRealtimeSave(values, isBar, async (data) => {
-  //   if (!data) return;
+  useRealtimeSave(values, isBar, async (data) => {
+    if (!data) return;
 
-  //   await realtimeReportBar(data);
-  //   toast.success("сохранение…", { duration: 2000 });
-  // });
-  //submit
+    await realtimeReportBar(data);
+    toast.success("сохранение…", { duration: 2000 });
+  });
+
   const onSubmit: SubmitHandler<BarFormValues> = async (data) => {
     const { date, report, penalty, breakForm } = data;
 
@@ -106,12 +106,12 @@ export default function BarForm({
       day: day,
     };
 
-    // await createReportBar(uniqueKey, year, month, {
-    //   day,
-    //   report: formateReportData,
-    // });
-    // await createBreakList(formattedBreakData);
-    // await createRemarks(uniqueKey, formattedPenaltyData);
+    await createReportBar(uniqueKey, year, month, {
+      day,
+      report: formateReportData,
+    });
+    await createBreakList(formattedBreakData);
+    await createRemarks(uniqueKey, formattedPenaltyData);
 
     const updatedTobacco = report.tobacco?.map((item) => {
       const finalStock =
