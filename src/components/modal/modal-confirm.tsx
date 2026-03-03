@@ -13,11 +13,13 @@ export default function ModalConfirm({
   setOpen,
   handleConfirm,
   message,
+  confirmDisabled,
 }: {
   open: boolean;
   setOpen: (open: boolean) => void;
   handleConfirm: () => void;
   message: "save" | "reset" | "delete" | "send";
+  confirmDisabled?: boolean;
 }) {
   const t = useTranslations("Home");
   return (
@@ -33,7 +35,9 @@ export default function ModalConfirm({
           <Button variant="outline" onClick={() => setOpen(false)}>
             {t("cancel")}
           </Button>
-          <Button onClick={handleConfirm}>{t("confirm")}</Button>
+          <Button onClick={handleConfirm} disabled={confirmDisabled}>
+            {t("confirm")}
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

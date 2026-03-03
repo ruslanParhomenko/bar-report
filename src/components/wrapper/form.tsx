@@ -44,6 +44,8 @@ export default function FormInput<T extends FieldValues>({
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formDataToSubmit, setFormDataToSubmit] = useState<T | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const handleFormSubmit: SubmitHandler<T> = (data) => {
     setFormDataToSubmit(data);
     setIsModalOpen(true);
@@ -92,6 +94,7 @@ export default function FormInput<T extends FieldValues>({
                 setIsModalOpen(false);
                 setFormDataToSubmit(null);
               }}
+              confirmDisabled={isSubmitting}
             />
             {resetButton && (
               <Button

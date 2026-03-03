@@ -107,16 +107,16 @@ export async function _getRealtimeReportBar() {
   const docRef = dbAdmin
     .collection(BAR_REALTIME_ACTION_TAG)
     .doc(BAR_REALTIME_ACTION_TAG);
-  const snap = await docRef.get();
 
+  const snap = await docRef.get();
   if (!snap.exists) return null;
 
   const data = snap.data() as any;
 
   return {
     ...data,
-    date: data.date?.toDate?.() ? data.date.toDate() : new Date(),
-  } as BarFormValues;
+    date: data.date?.toDate ? data.date.toDate().toISOString() : null,
+  };
 }
 
 export const getRealtimeReportBar = unstable_cache(

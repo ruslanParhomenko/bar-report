@@ -50,10 +50,7 @@ export default function BarForm({
     .map((e) => e.name);
 
   const form = useForm<BarFormValues>({
-    defaultValues: {
-      ...defaultValuesBarForm,
-      ...realtimeData,
-    },
+    defaultValues: defaultValuesBarForm,
     resolver: zodResolver(barSchema),
   });
 
@@ -149,10 +146,7 @@ export default function BarForm({
     if (!realtimeData) return;
 
     form.reset({
-      date:
-        realtimeData.date instanceof Date
-          ? realtimeData.date
-          : new Date(realtimeData.date),
+      date: realtimeData.date ? new Date(realtimeData.date) : new Date(),
       report: realtimeData.report ?? defaultValuesReportBar,
       penalty: realtimeData.penalty ?? defaultRemarksValue,
       breakForm: realtimeData.breakForm ?? defaultValuesBreak,
@@ -172,7 +166,7 @@ export default function BarForm({
       <DatePickerInput
         fieldName="date"
         className="text-sm text-rd h-6"
-        // disabled
+        disabled
       />
       <Activity mode={tab === "report" ? "visible" : "hidden"}>
         <ReportBarTable isDisabled={isDisabled} />
