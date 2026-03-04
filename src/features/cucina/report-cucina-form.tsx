@@ -84,7 +84,7 @@ export default function ReportCucinaForm({
     try {
       await createReportCucina(uniqueKey, year, month, { day, report: rest });
 
-      form.reset(defaultReportCucina);
+      form.reset({ ...defaultReportCucina, date: new Date() });
       toast.success("Форма успешно отправлена!");
     } catch (error: any) {
       toast.error(error?.message || "Произошла ошибка");
@@ -211,11 +211,7 @@ export default function ReportCucinaForm({
       disabled={isDisabled}
       className="md:px-6"
     >
-      <DatePickerInput
-        fieldName="date"
-        className="text-sm text-rd h-6"
-        disabled
-      />
+      <DatePickerInput fieldName="date" className="text-sm text-rd h-6" />
       {tablesConfig.map(
         ({
           name,

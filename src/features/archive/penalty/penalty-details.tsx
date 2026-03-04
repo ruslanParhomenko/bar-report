@@ -91,7 +91,7 @@ export default function PenaltyDetails({
                     value={selectedEmployee}
                     onValueChange={(value) => setSelectedEmployee(value)}
                   >
-                    <SelectTrigger className="w-30 shadow-none h-8! p-0 border-0 text-muted-foreground [&>svg]:hidden justify-start">
+                    <SelectTrigger className="w-30 shadow-none h-8! p-0 border-0 text-muted-foreground [&>svg]:hidden justify-start bg-background!">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>

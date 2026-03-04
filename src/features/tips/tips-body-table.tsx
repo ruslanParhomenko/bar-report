@@ -57,7 +57,7 @@ export function TipsTableBody({
                   .map((emp) => emp.name)}
                 disabled={isDisabled}
                 className={cn(
-                  "justify-start  h-6! text-[13px] pl-1 w-34",
+                  "justify-start  h-6! text-[13px] pl-1 w-34 bg-background!",
                   value[roleIndex]?.role === "barmen" &&
                     "text-muted-foreground font-light!",
                 )}

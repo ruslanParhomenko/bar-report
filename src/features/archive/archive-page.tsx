@@ -18,7 +18,6 @@ export type ArchiveData = {
   cucina: ReportCucinaDataByUniqueKey | null;
   breakList: BreakGetType | null;
   penalty: RemarksDataByUniqueKey | null;
-  penaltyResult: RemarksDataByUniqueKey | null;
 };
 export default function ArchivePage({
   archiveData,
@@ -47,7 +46,7 @@ export default function ArchivePage({
       </Activity>
 
       <Activity mode={tab === "penaltyResult" ? "visible" : "hidden"}>
-        <PenaltyGeneral data={archiveData.penaltyResult} />
+        <PenaltyGeneral data={archiveData.penalty} />
       </Activity>
     </>
   );

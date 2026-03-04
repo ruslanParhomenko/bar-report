@@ -18,26 +18,29 @@ import { useAbility } from "@/providers/ability-provider";
 import BidForm from "./bid-form";
 import { DayByMonthTable } from "@/components/table/day-by-month-table";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { EmployeeData } from "@/app/actions/employees/employee-action";
 import FormInput from "@/components/wrapper/form";
+import { useEmployees } from "@/providers/employees-provider";
+
+const SELECTED_ROLE = ["waiters", "barmen"] as const;
 
 export default function TipsForm({
   dataTips,
   dataCash,
   month,
   year,
-  employees,
-  monthDays,
 }: {
   dataTips: TipsData | null;
   dataCash: CashData | null;
   month: string;
   year: string;
-  employees: EmployeeData[];
-  monthDays: ReturnType<typeof getMonthDays>;
 }) {
   const { isAdmin } = useAbility();
   const [showSendButton, setShowSendButton] = useState(false);
+
+  const monthDays = getMonthDays({ month, year });
+  const employees = useEmployees().filter((e) =>
+    SELECTED_ROLE.includes(e.role as (typeof SELECTED_ROLE)[number]),
+  );
 
   // form
   const form = useForm<TipsFormType>({

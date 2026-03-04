@@ -21,7 +21,7 @@ export default function ResultTableBody({
         ) => (
           <TableRow key={index}>
             <TableCell
-              className="sticky left-0 bg-card cursor-copy"
+              className="sticky left-0 bg-background cursor-copy"
               onClick={() => handleCopy(e.employee)}
             >
               {e.employee}

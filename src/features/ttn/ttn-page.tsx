@@ -8,13 +8,11 @@ import TTNDayPage from "./ttn-day-page";
 export default function TTNPage({
   dataTtn,
   dataTtnPrev,
-  dataTtnByDay,
   month,
   year,
 }: {
   dataTtn: TTNGetDataType | null;
   dataTtnPrev: TTNGetDataType | null;
-  dataTtnByDay: any;
   month: string;
   year: string;
 }) {
@@ -24,7 +22,7 @@ export default function TTNPage({
     <>
       <Activity mode={tab === "day" ? "visible" : "hidden"}>
         <TTNDayPage
-          dataTtn={dataTtnByDay}
+          dataTtn={dataTtn}
           month={month as string}
           year={year as string}
         />

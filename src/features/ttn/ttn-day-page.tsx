@@ -69,11 +69,7 @@ export default function TTNDayPage({
 
   return (
     <>
-      <PrintButton
-        componentRef={componentRef}
-        className=""
-        formatPage="A4 portrait"
-      />
+      <PrintButton componentRef={componentRef} formatPage="A4 portrait" />
       <div
         ref={componentRef}
         className="grid xl:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-10 w-full print:grid-cols-2"
@@ -83,7 +79,7 @@ export default function TTNDayPage({
             <TableRow>
               <TableHead>
                 <Select>
-                  <SelectTrigger className="w-24 h-8! border-0 shadow-none  rounded-md  md:text-md text-xs [&>svg]:hidden justify-between">
+                  <SelectTrigger className="w-32 h-8! border-0 shadow-none  rounded-md  md:text-md text-xs [&>svg]:hidden justify-between bg-background!">
                     <span className="text-sm text-bl">выбрать день:</span>
                     <span className="text-sm text-rd">{selectedDay}</span>
                   </SelectTrigger>

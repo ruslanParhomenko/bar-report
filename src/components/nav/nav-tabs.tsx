@@ -127,6 +127,7 @@ export default function NavTabs() {
   };
 
   const tabsWidth = `w-1/${navItems.length}`;
+  const itemsWidth = navItems.length < 5 ? "w-12" : "w-8";
 
   return (
     <Tabs
@@ -144,7 +145,12 @@ export default function NavTabs() {
                 className={cn("hover:text-bl cursor-pointer", tabsWidth)}
                 disabled={isPending}
               >
-                <span className="truncate block min-w-20 text-xs md:text-md text-bl">
+                <span
+                  className={cn(
+                    "truncate block md:min-w-20 text-xs md:text-md text-bl",
+                    itemsWidth,
+                  )}
+                >
                   {item.label}
                 </span>
               </TabsTrigger>
@@ -159,7 +165,7 @@ export default function NavTabs() {
               setMonth={setMonth}
               setYear={setYear}
               isLoading={isPending}
-              classNameMonthYear={navItems.length > 0 ? "md:w-22 w-10" : "w-24"}
+              classNameMonthYear={navItems.length > 0 ? "md:w-22 w-9" : "w-24"}
             />
           )}
           {tag && (
