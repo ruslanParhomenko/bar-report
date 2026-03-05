@@ -1,4 +1,4 @@
-import { getDataProducts } from "@/app/actions/data-products-prepare/data-products-action";
+import { getDataProducts } from "@/app/actions/data-constants/data-products-action";
 import { getRealtimeReportCucina } from "@/app/actions/report-cucina/report-cucina-action";
 import ReportCucinaForm from "@/features/cucina/report-cucina-form";
 

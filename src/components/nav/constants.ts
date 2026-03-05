@@ -2,13 +2,8 @@
 
 import {
   SCHEDULE_ACTION_TAG,
-  EMPLOYEES_ACTION_TAG,
-  BREAK_REALTIME_ACTION_TAG,
-  USERS_ACTION_TAG,
-  STOP_LIST_ACTION_TAG,
   AO_REPORT_ACTION_TAG,
   CASH_ACTION_TAG,
-  REMARKS_REALTIME_ACTION_TAG,
   TIPS_ACTION_TAG,
   TTN_ACTION_TAG,
   BAR_REALTIME_ACTION_TAG,
@@ -16,9 +11,7 @@ import {
 } from "@/constants/action-tag";
 import {
   AO_REPORT_MAIN_ROUTE,
-  ARCHIVE_MAIN_ROUTE,
   CASH_MAIN_ROUTE,
-  EMPLOYEES_MAIN_ROUTE,
   REPORTS_BAR_ROUTE,
   REPORTS_CUCINA_ROUTE,
   SCHEDULE_MAIN_ROUTE,
@@ -79,6 +72,11 @@ export const ORDERS_NAV_ITEMS = [
   { label: "cucina-zn", value: "cucina-zn" },
 ];
 
+export const SETTINGS_NAV_ITEMS = [
+  { label: "products", value: "products" },
+  { label: "breakList", value: "breakList" },
+];
+
 type NAV_BY_PATCH_TYPE = Record<
   string,
   { navItems: PageNavType[]; filterMonth: boolean }
@@ -97,6 +95,7 @@ export const NAV_BY_PATCH = {
   "a-o": { navItems: [], filterMonth: true },
   "stop-list": { navItems: STOP_LIST_NAV_ITEMS, filterMonth: false },
   orders: { navItems: ORDERS_NAV_ITEMS, filterMonth: false },
+  setting: { navItems: SETTINGS_NAV_ITEMS, filterMonth: false },
 } satisfies NAV_BY_PATCH_TYPE;
 
 export type PageNavType = {

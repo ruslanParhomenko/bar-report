@@ -26,7 +26,7 @@ import FormInput from "@/components/wrapper/form";
 import { useRealtimeSave } from "@/hooks/use-realtime-save";
 import DatePickerInput from "@/components/inputs/date-input";
 import { parseISO } from "date-fns";
-import { createDataProducts } from "@/app/actions/data-products-prepare/data-products-action";
+import { createDataProducts } from "@/app/actions/data-constants/data-products-action";
 
 const CUCINA_EMPLOYEES = ["cook"];
 

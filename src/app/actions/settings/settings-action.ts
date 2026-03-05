@@ -1,20 +1,27 @@
 "use server";
 
-import { createDataProducts } from "../data-products-prepare/data-products-action";
+import { createDataBreakList } from "../data-constants/data-break-action";
+import { createDataProducts } from "../data-constants/data-products-action";
 
 type State = {
   success?: boolean;
   error?: string;
 };
 
-export async function saveDataProducts(
+export async function saveSettingsData(
   _: State,
   formData: FormData,
 ): Promise<State> {
-  const raw = formData.get("json");
+  const raw = formData.get("json") ?? formData.get("1_json");
+
+  const type = (formData.get("type") ?? formData.get("1_type"))?.toString();
 
   if (!raw || typeof raw !== "string") {
     return { error: "JSON is required" };
+  }
+
+  if (!type) {
+    return { error: "Type is required" };
   }
 
   let parsed;
@@ -25,11 +32,28 @@ export async function saveDataProducts(
     return { error: "Invalid JSON format" };
   }
 
-  if (typeof parsed !== "object" || Array.isArray(parsed)) {
-    return { error: "JSON must be an object" };
+  try {
+    if (type === "products") {
+      if (typeof parsed !== "object" || Array.isArray(parsed)) {
+        return { error: "Products JSON must be an object" };
+      }
+
+      await createDataProducts(parsed);
+    }
+
+    if (type === "breakList") {
+      if (!Array.isArray(parsed)) {
+        return { error: "BreakList must be an array" };
+      }
+
+      await createDataBreakList({
+        rows: parsed,
+      });
+    }
+
+    return { success: true };
+  } catch (error) {
+    console.error(error);
+    return { error: "Save failed" };
   }
-
-  await createDataProducts(parsed);
-
-  return { success: true };
 }

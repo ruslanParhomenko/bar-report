@@ -2,6 +2,8 @@ import GoogleProvider from "next-auth/providers/google";
 import type { NextAuthOptions } from "next-auth";
 import { getUsers } from "@/app/actions/users/user-action";
 
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
+
 export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
 
@@ -29,7 +31,10 @@ export const authOptions: NextAuthOptions = {
         const users = await getUsers();
         const dbUser = users.find((u) => u.mail === profile.email);
 
-        token.role = dbUser?.role ?? "OBSERVER";
+        token.role =
+          profile.email === ADMIN_EMAIL
+            ? "ADMIN"
+            : (dbUser?.role ?? "OBSERVER");
       }
       return token;
     },
