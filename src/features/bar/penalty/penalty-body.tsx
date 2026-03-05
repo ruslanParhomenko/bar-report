@@ -11,8 +11,7 @@ import { BarFormValues } from "../schema";
 import TextInput from "@/components/inputs/text-input";
 
 export function PenaltyTableBody({ isDisabled }: { isDisabled: boolean }) {
-  const selectedEmployees = useEmployees().map((e) => e.name);
-
+  const selectedEmployees = [...new Set(useEmployees().map((e) => e.name))];
   const { control, setValue } = useFormContext<BarFormValues>();
 
   const {

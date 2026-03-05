@@ -21,7 +21,10 @@ import ReportBarTable from "./report/report-bar-table";
 import BreakTable from "@/features/bar/break-form/break-table";
 import PenaltyTable from "@/features/bar/penalty/penalty-table";
 import { defaultRemarksValue } from "@/features/bar/penalty/schema";
-import { defaultValuesBreak } from "@/features/bar/break-form/schema";
+import {
+  BreakFormData,
+  defaultValuesBreak,
+} from "@/features/bar/break-form/schema";
 import { createRemarks } from "@/app/actions/remarks/remarks-action";
 import { createBreakList } from "@/app/actions/break/break-action";
 import { useRealtimeSave } from "@/hooks/use-realtime-save";
@@ -37,8 +40,10 @@ const BAR_EMPLOYEES = ["waiters", "barmen"];
 
 export default function BarForm({
   realtimeData,
+  dataBreakList,
 }: {
-  realtimeData?: BarFormValues;
+  realtimeData: BarFormValues;
+  dataBreakList: BreakFormData;
 }) {
   const searchParams = useSearchParams();
   const tab = searchParams.get("tab");
@@ -135,13 +140,8 @@ export default function BarForm({
       date: new Date(),
       report: updatedData,
       penalty: defaultRemarksValue,
-      breakForm: defaultValuesBreak,
+      breakForm: defaultValuesBreak(dataBreakList.rows),
     });
-    // await realtimeReportBar({
-    //   report: updatedData,
-    //   penalty: defaultRemarksValue,
-    //   breakForm: defaultValuesBreak,
-    // });
 
     toast.success("Бар отчет успешно сохранён !");
   };
@@ -153,7 +153,8 @@ export default function BarForm({
       date: realtimeData.date ? new Date(realtimeData.date) : new Date(),
       report: realtimeData.report ?? defaultValuesReportBar,
       penalty: realtimeData.penalty ?? defaultRemarksValue,
-      breakForm: realtimeData.breakForm ?? defaultValuesBreak,
+      breakForm:
+        realtimeData.breakForm ?? defaultValuesBreak(dataBreakList.rows),
     });
   }, [realtimeData, form]);
 

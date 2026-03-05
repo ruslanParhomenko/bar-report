@@ -1,4 +1,4 @@
-import { BREAK_LIST_DEFAULT, TIME_LABELS } from "./constant";
+import { TIME_LABELS } from "./constant";
 
 import { z } from "zod";
 
@@ -12,11 +12,13 @@ export const rowsSchema = z.object({
   hours: hoursSchema,
 });
 
+export type Row = z.infer<typeof rowsSchema>;
+
 export const breakSchema = z.object({
   rows: z.array(rowsSchema),
 });
 export type BreakFormData = z.infer<typeof breakSchema>;
 
-export const defaultValuesBreak: BreakFormData = {
-  rows: BREAK_LIST_DEFAULT as BreakFormData["rows"],
-};
+export const defaultValuesBreak = (data: Row[]): BreakFormData => ({
+  rows: data as BreakFormData["rows"],
+});

@@ -16,5 +16,5 @@ export const defaultValuesBarForm = {
   date: new Date(),
   report: defaultValuesReportBar,
   penalty: defaultRemarksValue,
-  breakForm: defaultValuesBreak,
+  breakForm: defaultValuesBreak([]),
 };

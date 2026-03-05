@@ -46,6 +46,12 @@ export const rowsPurchaseModa = [
     type: "input",
   },
   {
+    key: "purchaseCookByDay",
+    label: "purchase-cook",
+    colorText: " text-black",
+    type: "input",
+  },
+  {
     key: "ttnBarByDay",
     label: "ttn-bar",
     colorText: " text-black",

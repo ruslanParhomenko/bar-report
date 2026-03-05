@@ -68,8 +68,8 @@ function SelectField({
             </FormControl>
 
             <SelectContent>
-              {data.map((item) => (
-                <SelectItem key={item} value={item}>
+              {data.map((item, index) => (
+                <SelectItem key={`${item}-${index}`} value={item}>
                   {item}
                 </SelectItem>
               ))}

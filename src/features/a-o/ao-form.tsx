@@ -2,7 +2,7 @@
 
 import { getMonthDays } from "@/utils/get-month-days";
 
-import { SubmitHandler, useForm } from "react-hook-form";
+import { SubmitHandler, useForm, useWatch } from "react-hook-form";
 import { DayByMonthTable } from "@/components/table/day-by-month-table";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 
@@ -85,7 +85,11 @@ export default function AoForm({
     });
   }, [dataAo, month, year, form]);
 
-  const rowAOData = dataAo && dataAo.rowAOData;
+  // const rowAOData = dataAo && dataAo.rowAOData;
+  const rowAOData = useWatch({
+    control: form.control,
+    name: "rowAOData",
+  });
   const totals = calculateRowAOTotals(rowAOData ?? {});
 
   const n = (v: unknown) => Number(v) || 0;
@@ -94,6 +98,7 @@ export default function AoForm({
     n(totals.advanceModaByDay) -
     n(totals.purchaseBarByDay) -
     n(totals.purchaseModaByDay) -
+    n(totals.purchaseCookByDay) -
     n(totals.ttnBarByDay) -
     n(totals.ttnModaByDay)
   ).toFixed(2);
@@ -137,7 +142,7 @@ export default function AoForm({
         />
         <TableBody>
           <TableRow className="h-12">
-            <TableCell>
+            <TableCell colSpan={4}>
               moda:
               <span
                 className={cn(
@@ -150,7 +155,7 @@ export default function AoForm({
                 {differenceModa}
               </span>
             </TableCell>
-            <TableCell>
+            <TableCell colSpan={4}>
               nbm:
               <span
                 className={cn(
