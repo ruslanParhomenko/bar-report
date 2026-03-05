@@ -2,7 +2,7 @@ import GoogleProvider from "next-auth/providers/google";
 import type { NextAuthOptions } from "next-auth";
 import { getUsers } from "@/app/actions/users/user-action";
 
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
+const ADMIN_EMAIL = process.env.ADMIN_GMAIL;
 
 export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
@@ -47,6 +47,10 @@ export const authOptions: NextAuthOptions = {
     },
 
     async signIn({ user, account, profile }) {
+      if (profile?.email === ADMIN_EMAIL) {
+        return true;
+      }
+
       const users = await getUsers();
       const dbUser = users.find((u) => u.mail === profile?.email);
 
