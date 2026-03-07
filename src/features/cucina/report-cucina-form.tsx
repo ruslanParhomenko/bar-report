@@ -15,26 +15,22 @@ import RenderTableCucina from "./fields-form";
 
 import { useEmployees } from "@/providers/employees-provider";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect } from "react";
 import { useAbility } from "@/providers/ability-provider";
-import {
-  createReportCucina,
-  realtimeReportCucina,
-} from "@/app/actions/report-cucina/report-cucina-action";
+import { createReportCucina } from "@/app/actions/report-cucina/report-cucina-action";
 import { MONTHS } from "@/utils/get-month-days";
 import FormInput from "@/components/wrapper/form";
-import { useRealtimeSave } from "@/hooks/use-realtime-save";
 import DatePickerInput from "@/components/inputs/date-input";
 import { parseISO } from "date-fns";
 import { createDataProducts } from "@/app/actions/data-constants/data-products-action";
+import { useLocalStorageForm } from "@/hooks/use-local-storage";
 
 const CUCINA_EMPLOYEES = ["cook"];
 
+const KEY_LOCALSTORAGE = "report-cucina";
+
 export default function ReportCucinaForm({
-  realtimeData,
   dataProducts,
 }: {
-  realtimeData?: ReportCucinaType;
   dataProducts: createDataProducts;
 }) {
   const { isCucina, isAdmin } = useAbility();
@@ -54,22 +50,11 @@ export default function ReportCucinaForm({
 
   //form
   const form = useForm<ReportCucinaType>({
-    defaultValues: realtimeData ?? defaultReportCucina,
+    defaultValues: defaultReportCucina,
     resolver: zodResolver(schemaReportCucina),
   });
 
-  const reportValues = useWatch({
-    control: form.control,
-  });
-  useRealtimeSave<ReportCucinaType>(
-    reportValues as ReportCucinaType,
-    isCucina,
-    async (data) => {
-      if (!data) return;
-      await realtimeReportCucina(data).catch(console.error);
-      toast.success("сохранение…", { duration: 2000 });
-    },
-  );
+  const { isLoaded } = useLocalStorageForm(form, KEY_LOCALSTORAGE);
 
   const onSubmit: SubmitHandler<ReportCucinaType> = async (data) => {
     const { date, ...rest } = data;
@@ -90,19 +75,6 @@ export default function ReportCucinaForm({
       toast.error(error?.message || "Произошла ошибка");
     }
   };
-
-  useEffect(() => {
-    if (!realtimeData) return;
-
-    form.reset({
-      ...defaultReportCucina,
-      ...realtimeData,
-      date:
-        realtimeData.date instanceof Date
-          ? realtimeData.date
-          : new Date(realtimeData.date),
-    });
-  }, [realtimeData, form]);
 
   const tablesConfig = [
     {
@@ -203,6 +175,8 @@ export default function ReportCucinaForm({
     dataFieldArray: Array<string>;
     defaultValue: any;
   }>;
+
+  if (!isLoaded) return null;
 
   return (
     <FormInput

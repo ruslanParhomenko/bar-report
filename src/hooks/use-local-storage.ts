@@ -1,3 +1,4 @@
+"use client";
 import { useEffect, useState } from "react";
 import { FieldValues, UseFormReturn } from "react-hook-form";
 
@@ -7,35 +8,35 @@ export function useLocalStorageForm<T extends FieldValues>(
 ) {
   const [isLoaded, setIsLoaded] = useState(false);
 
-  // set data from localStorage
   useEffect(() => {
     const savedData = localStorage.getItem(key);
+
     if (savedData) {
       try {
-        const parsedData = JSON.parse(savedData);
-        form.reset(parsedData);
+        form.reset(JSON.parse(savedData));
       } catch (error) {
         console.error("Error parsing saved data:", error);
       }
     }
+
     setIsLoaded(true);
   }, [form, key]);
 
-  // save data to localStorage
-  const watchAllFields = form.watch();
-
   useEffect(() => {
-    if (isLoaded && watchAllFields) {
-      localStorage.setItem(key, JSON.stringify(watchAllFields));
-    }
-  }, [watchAllFields, isLoaded, key]);
+    const subscription = form.watch((value) => {
+      if (isLoaded) {
+        localStorage.setItem(key, JSON.stringify(value));
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, [form, key, isLoaded]);
 
   const resetForm = (defaultValues: T) => {
     form.reset(defaultValues);
-    if (isLoaded) {
-      localStorage.removeItem(key);
-    }
+    localStorage.removeItem(key);
   };
+
   const removeLocalStorageKey = () => {
     localStorage.removeItem(key);
   };

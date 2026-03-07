@@ -1,8 +1,5 @@
 "use server";
-import {
-  CUCINA_REALTIME_ACTION_TAG,
-  REPORT_CUCINA_ACTION_TAG,
-} from "@/constants/action-tag";
+import { REPORT_CUCINA_ACTION_TAG } from "@/constants/action-tag";
 
 import { ReportCucinaType } from "@/features/cucina/schema";
 import { dbAdmin } from "@/lib/firebase-admin";
@@ -93,37 +90,37 @@ export const getReportCucinaByUniqueKey = unstable_cache(
 
 // realtime
 
-export async function realtimeReportCucina(data: ReportCucinaType) {
-  const docRef = dbAdmin
-    .collection(CUCINA_REALTIME_ACTION_TAG)
-    .doc(CUCINA_REALTIME_ACTION_TAG);
+// export async function realtimeReportCucina(data: ReportCucinaType) {
+//   const docRef = dbAdmin
+//     .collection(CUCINA_REALTIME_ACTION_TAG)
+//     .doc(CUCINA_REALTIME_ACTION_TAG);
 
-  await docRef.set(data);
+//   await docRef.set(data);
 
-  updateTag(CUCINA_REALTIME_ACTION_TAG);
-}
+//   updateTag(CUCINA_REALTIME_ACTION_TAG);
+// }
 
-export async function _getRealtimeReportCucina() {
-  const docRef = dbAdmin
-    .collection(CUCINA_REALTIME_ACTION_TAG)
-    .doc(CUCINA_REALTIME_ACTION_TAG);
-  const snap = await docRef.get();
+// export async function _getRealtimeReportCucina() {
+//   const docRef = dbAdmin
+//     .collection(CUCINA_REALTIME_ACTION_TAG)
+//     .doc(CUCINA_REALTIME_ACTION_TAG);
+//   const snap = await docRef.get();
 
-  if (!snap.exists) return null;
+//   if (!snap.exists) return null;
 
-  const data = snap.data() as any;
+//   const data = snap.data() as any;
 
-  return {
-    ...data,
-    date: data.date?.toDate?.() ? data.date.toDate() : new Date(),
-  } as ReportCucinaType;
-}
+//   return {
+//     ...data,
+//     date: data.date?.toDate?.() ? data.date.toDate() : new Date(),
+//   } as ReportCucinaType;
+// }
 
-export const getRealtimeReportCucina = unstable_cache(
-  _getRealtimeReportCucina,
-  [CUCINA_REALTIME_ACTION_TAG],
-  {
-    revalidate: false,
-    tags: [CUCINA_REALTIME_ACTION_TAG],
-  },
-);
+// export const getRealtimeReportCucina = unstable_cache(
+//   _getRealtimeReportCucina,
+//   [CUCINA_REALTIME_ACTION_TAG],
+//   {
+//     revalidate: false,
+//     tags: [CUCINA_REALTIME_ACTION_TAG],
+//   },
+// );

@@ -168,7 +168,7 @@ export default function NavTabs() {
               classNameMonthYear={navItems.length > 0 ? "md:w-22 w-9" : "w-24"}
             />
           )}
-          {tag && (
+          {tag && navItems.length > 0 && (
             <button
               onClick={resetData}
               className="hover:text-black hover:bg-transparent cursor-pointer flex items-center justify-center md:w-10 w-8 h-8 order-1 md:order-2"
