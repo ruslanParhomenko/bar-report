@@ -1,12 +1,12 @@
 "use client";
-import { ArrayPath, SubmitHandler, useForm, useWatch } from "react-hook-form";
+import { ArrayPath, SubmitHandler, useForm } from "react-hook-form";
 import { Textarea } from "@/components/ui/textarea";
 import {
   defaultReportCucina,
   defaultShift,
   defaultWriteOff,
   productPreparedDefault,
-  ReportCucinaType,
+  ReportCucinaInput,
   schemaReportCucina,
 } from "./schema";
 import { REASON, SELECT_TIME } from "./constants";
@@ -20,7 +20,6 @@ import { createReportCucina } from "@/app/actions/report-cucina/report-cucina-ac
 import { MONTHS } from "@/utils/get-month-days";
 import FormInput from "@/components/wrapper/form";
 import DatePickerInput from "@/components/inputs/date-input";
-import { parseISO } from "date-fns";
 import { createDataProducts } from "@/app/actions/data-constants/data-products-action";
 import { useLocalStorageForm } from "@/hooks/use-local-storage";
 
@@ -49,20 +48,20 @@ export default function ReportCucinaForm({
     .map((emp) => emp.name);
 
   //form
-  const form = useForm<ReportCucinaType>({
+  const form = useForm<ReportCucinaInput>({
     defaultValues: defaultReportCucina,
     resolver: zodResolver(schemaReportCucina),
   });
 
   const { isLoaded } = useLocalStorageForm(form, KEY_LOCALSTORAGE);
 
-  const onSubmit: SubmitHandler<ReportCucinaType> = async (data) => {
-    const { date, ...rest } = data;
+  const onSubmit: SubmitHandler<ReportCucinaInput> = async (data) => {
+    const parsed = schemaReportCucina.parse(data);
+    const { date, ...rest } = parsed;
 
-    const dateValue = typeof date === "string" ? parseISO(date) : date;
-    const month = MONTHS[dateValue.getMonth()];
-    const year = dateValue.getFullYear().toString();
-    const day = String(dateValue.getDate());
+    const month = MONTHS[date.getMonth()];
+    const year = date.getFullYear().toString();
+    const day = String(date.getDate());
 
     const uniqueKey = `${year}-${month}`;
 
@@ -161,7 +160,7 @@ export default function ReportCucinaForm({
       defaultValue: defaultWriteOff,
     },
   ] satisfies Array<{
-    name: ArrayPath<ReportCucinaType>;
+    name: ArrayPath<ReportCucinaInput>;
     placeHolder: {
       fieldName: string;
       weight?: string;
@@ -179,7 +178,7 @@ export default function ReportCucinaForm({
   if (!isLoaded) return null;
 
   return (
-    <FormInput
+    <FormInput<ReportCucinaInput>
       form={form}
       onSubmit={onSubmit}
       disabled={isDisabled}

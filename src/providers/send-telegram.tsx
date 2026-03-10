@@ -1,23 +1,20 @@
 "use client";
 import { SubmitHandler, useForm } from "react-hook-form";
-import {
-  defaultEmptyValuesBar,
-  defaultEmptyValuesCucina,
-  defaultValuesZNBar,
-  defaultValuesZNCucina,
-  OrderListFormType,
-} from "@/features/orders/schemas";
+
 import { useSendTelegram } from "@/hooks/use-send-telegram";
 import { useLocalStorageForm } from "@/hooks/use-local-storage";
 import FormInput from "@/components/wrapper/form";
+import { createDataOrderProducts } from "@/app/actions/data-constants/data-order-products";
 export const OrderListTelegramForm = ({
   children,
+  defaultValues,
   user,
   url,
   isDisabled,
   ref,
 }: {
   children: React.ReactNode;
+  defaultValues: createDataOrderProducts;
   user: string;
   url: string;
   isDisabled: boolean;
@@ -26,19 +23,19 @@ export const OrderListTelegramForm = ({
   const DATA_USER = {
     barTTN: {
       key: "order-ttn-bar",
-      default: defaultEmptyValuesBar,
+      default: defaultValues?.ttnBar,
     },
     cucinaTTN: {
       key: "order-ttn-cucina",
-      default: defaultEmptyValuesCucina,
+      default: defaultValues?.ttnCucina,
     },
     barZN: {
       key: "order-bar",
-      default: defaultValuesZNBar,
+      default: defaultValues?.bar,
     },
     cucinaZN: {
       key: "order-cucina",
-      default: defaultValuesZNCucina,
+      default: defaultValues?.cucina,
     },
   };
   const URL_TELEGRAM = {
@@ -49,17 +46,22 @@ export const OrderListTelegramForm = ({
 
   const STORAGE_KEY = DATA_USER[user as UserKey]?.key;
 
-  const defaultValues = DATA_USER[user as UserKey]?.default;
+  const defaultData = DATA_USER[user as UserKey]?.default ?? {};
+  const defaultValuesByKey = Object.fromEntries(
+    Object.values(defaultData)
+      .flat()
+      .map((field) => [field, ""]),
+  );
 
   const { sendTelegramMessage } = useSendTelegram();
 
-  const form = useForm<OrderListFormType>({
-    defaultValues: defaultValues,
+  const form = useForm<typeof defaultValuesByKey>({
+    defaultValues: defaultValuesByKey,
   });
 
   const { isLoaded } = useLocalStorageForm(form, STORAGE_KEY);
 
-  const onSubmit: SubmitHandler<OrderListFormType> = async (data) => {
+  const onSubmit: SubmitHandler<typeof defaultValuesByKey> = async (data) => {
     sendTelegramMessage(
       data,
       URL_TELEGRAM[url as keyof typeof URL_TELEGRAM],
@@ -79,7 +81,7 @@ export const OrderListTelegramForm = ({
       ref={ref}
       sendTelegram={url === "zn" ? true : false}
       url={url}
-      defaultValues={defaultValues}
+      defaultValues={defaultValuesByKey}
     >
       {children}
     </FormInput>

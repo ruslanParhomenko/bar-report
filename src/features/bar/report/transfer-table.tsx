@@ -14,7 +14,8 @@ import { Trash2Icon } from "lucide-react";
 import { useEffect } from "react";
 import { formatNow } from "@/utils/format-date";
 import { ProductTransferSchemaType } from "./schema";
-import { PRODUCTS, WAREHOUSES } from "./constants";
+import { WAREHOUSES } from "./constants";
+import { useOrderProducts } from "@/providers/order-products-provider";
 
 export default function TableProductsTransfer({
   disabled = false,
@@ -23,6 +24,17 @@ export default function TableProductsTransfer({
 }) {
   const { control, setValue } = useFormContext();
 
+  const orderProducts = useOrderProducts();
+
+  const PRODUCTS = orderProducts
+    ? Array.from(
+        new Set(
+          Object.values(orderProducts).flatMap((category) =>
+            Object.values(category).flat(),
+          ),
+        ),
+      )
+    : [];
   const reset = (idx: number) => {
     setValue(
       `report.productTransfer.${idx}`,

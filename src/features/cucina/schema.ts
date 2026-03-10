@@ -40,7 +40,7 @@ export const defaultWriteOff = {
 
 // --- main form schema
 export const schemaReportCucina = z.object({
-  date: z.date(),
+  date: z.coerce.date(),
 
   shifts: z.array(schemaShift),
   remains: z.array(productPreparedSchema),
@@ -53,7 +53,7 @@ export const schemaReportCucina = z.object({
   notes: z.string(),
 });
 
-export type ReportCucinaType = z.output<typeof schemaReportCucina>;
+export type ReportCucinaInput = z.input<typeof schemaReportCucina>;
 
 export const defaultReportCucina = {
   date: new Date(),

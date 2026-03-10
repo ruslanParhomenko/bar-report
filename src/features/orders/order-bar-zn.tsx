@@ -1,29 +1,26 @@
-import {
-  CHEMICALS,
-  FRUITS,
-  GROCERIES,
-  MISCELLANEOUS,
-  OFFICE,
-  PHARMACEUTICAL,
-} from "./constants";
-import { InputWrapper } from "@/components/wrapper/input-wrapper";
 import { OrderCardWrapper } from "@/components/wrapper/order-card-wrapper";
 import OrderPageWrapper from "@/components/wrapper/order-page-wrapper";
-export const OrderListBar = () => {
+export const OrderListBar = ({ data }: { data: Record<string, string[]> }) => {
+  const allKeys = Object.keys(data);
   return (
     <OrderPageWrapper>
-      <InputWrapper>
-        <OrderCardWrapper data={FRUITS} name="FRUITS" />
-        <OrderCardWrapper data={MISCELLANEOUS} name="MISCELLANEOUS" />
-      </InputWrapper>
-      <InputWrapper>
-        <OrderCardWrapper data={PHARMACEUTICAL} name="PHARMACEUTICAL" />
-        <OrderCardWrapper data={OFFICE} name="OFFICE" />
-        <OrderCardWrapper data={CHEMICALS} name="CHEMICALS" />
-      </InputWrapper>
-      <InputWrapper>
-        <OrderCardWrapper data={GROCERIES} name="GROCERIES" />
-      </InputWrapper>
+      <div
+        className="
+        h-[88vh]
+          columns-1
+          sm:columns-2
+          md:columns-3
+          lg:columns-7
+          gap-4
+          p-2
+        "
+      >
+        {allKeys.map((key) => (
+          <div key={key} className="break-inside-avoid mb-4">
+            <OrderCardWrapper data={data[key]} name={key} />
+          </div>
+        ))}
+      </div>
     </OrderPageWrapper>
   );
 };

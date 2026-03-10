@@ -11,7 +11,7 @@ import SelectField from "@/components/inputs/select-input";
 import { Label } from "@/components/ui/label";
 import { useTranslations } from "next-intl";
 import { Separator } from "@radix-ui/react-separator";
-import { ProductPreparedType, ReportCucinaType } from "./schema";
+import { ProductPreparedType, ReportCucinaInput } from "./schema";
 import SelectFieldWithSearch from "@/components/inputs/select-with-search";
 import NumericInput from "@/components/inputs/numeric-input";
 import { useEffect } from "react";
@@ -19,8 +19,8 @@ import { AddRemoveFieldsButton } from "@/components/buttons/action-fields";
 import { formatNow } from "@/utils/format-date";
 
 type RenderEmployeesTableProps = {
-  name: ArrayPath<ReportCucinaType>;
-  form: UseFormReturn<ReportCucinaType>;
+  name: ArrayPath<ReportCucinaInput>;
+  form: UseFormReturn<ReportCucinaInput>;
   placeHolder: {
     fieldName: string;
     weight?: string;
@@ -63,7 +63,7 @@ const RenderTableCucina = ({
     fieldsValues?.forEach((item, idx) => {
       if (item?.product && !item?.time) {
         form.setValue(
-          `${name}.${idx}.time` as FieldPath<ReportCucinaType>,
+          `${name}.${idx}.time` as FieldPath<ReportCucinaInput>,
           formatNow(),
           {
             shouldDirty: true,
@@ -79,7 +79,6 @@ const RenderTableCucina = ({
       <Separator className="p-[0.5px] bg-bl/40" />
 
       {fieldsArray.fields.map((field, index) => {
-        console.log(field);
         return (
           <div
             key={field.id}

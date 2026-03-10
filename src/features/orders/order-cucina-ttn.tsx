@@ -1,45 +1,33 @@
-import {
-  ROGOB,
-  BLUESHARK,
-  FRUITBOX_C,
-  DINOVA,
-  IUG,
-  PRESTAPAC,
-  IMCOMVIL,
-  ARTACULINAR,
-  ETALONUS,
-  VITAFOR,
-  FORWARD_CUCINE,
-  DELPHI,
-  FRUITBOX,
-  BUCURIA_CUCINA,
-} from "./constants";
-import { InputWrapper } from "@/components/wrapper/input-wrapper";
 import { OrderCardWrapper } from "@/components/wrapper/order-card-wrapper";
 import OrderPageWrapper from "@/components/wrapper/order-page-wrapper";
-export const OrderListTTNCucina = () => {
+
+export const OrderListTTNCucina = ({
+  data,
+}: {
+  data: Record<string, string[]>;
+}) => {
+  const allKeys = Object.keys(data);
+
   return (
     <OrderPageWrapper>
-      <InputWrapper>
-        <OrderCardWrapper data={ROGOB} name="ROGOB" />
-        <OrderCardWrapper data={BLUESHARK} name="BLUESHARK" />
-        <OrderCardWrapper data={VITAFOR} name="VITAFOR" />
-      </InputWrapper>
-      <InputWrapper>
-        <OrderCardWrapper data={ARTACULINAR} name="ARTACULINAR" />
-        <OrderCardWrapper data={PRESTAPAC} name="PRESTAPAC" />
-        <OrderCardWrapper data={IMCOMVIL} name="IMCOMVIL" />
-        <OrderCardWrapper data={ETALONUS} name="ETALONUS" />
-        <OrderCardWrapper data={FORWARD_CUCINE} name="FORWARD_CUCINE" />
-        <OrderCardWrapper data={DELPHI} name="DELPHI" />
-        <OrderCardWrapper data={BUCURIA_CUCINA} name="BUCURIA_CUCINA" />
-      </InputWrapper>
-      <InputWrapper>
-        <OrderCardWrapper data={DINOVA} name="DINOVA" />
-        <OrderCardWrapper data={IUG} name="IUG" />
-        <OrderCardWrapper data={FRUITBOX} name="FRUITBOX" />
-        <OrderCardWrapper data={FRUITBOX_C} name="FRUITBOX_C" />
-      </InputWrapper>
+      <div
+        className="
+       
+          overflow-auto
+          columns-1
+          sm:columns-2
+          md:columns-3
+          lg:columns-6
+          gap-4
+          p-2
+        "
+      >
+        {allKeys.map((key) => (
+          <div key={key} className="break-inside-avoid mb-4">
+            <OrderCardWrapper data={data[key]} name={key} />
+          </div>
+        ))}
+      </div>
     </OrderPageWrapper>
   );
 };

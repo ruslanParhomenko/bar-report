@@ -1,13 +1,13 @@
 "use server";
 import { REPORT_CUCINA_ACTION_TAG } from "@/constants/action-tag";
 
-import { ReportCucinaType } from "@/features/cucina/schema";
+import { ReportCucinaInput } from "@/features/cucina/schema";
 import { dbAdmin } from "@/lib/firebase-admin";
 import { unstable_cache, updateTag } from "next/cache";
 
 type ReportCreateData = {
   day: string;
-  report: Omit<ReportCucinaType, "date">;
+  report: Omit<ReportCucinaInput, "date">;
 };
 
 export type ReportCucinaDataByUniqueKey = {

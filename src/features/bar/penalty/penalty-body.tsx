@@ -1,6 +1,6 @@
 "use client";
 import { useEmployees } from "@/providers/employees-provider";
-import { useFieldArray, useFormContext } from "react-hook-form";
+import { useFieldArray, useFormContext, useWatch } from "react-hook-form";
 import { defaultRemarkValue } from "./schema";
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
 import SelectField from "@/components/inputs/select-input";
@@ -9,10 +9,24 @@ import { Plus, Trash2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { BarFormValues } from "../schema";
 import TextInput from "@/components/inputs/text-input";
+import { useRealtimeSave } from "@/hooks/use-realtime-save";
+import { realtimeReportBar } from "@/app/actions/report-bar/report-bar-action";
+import { toast } from "sonner";
 
 export function PenaltyTableBody({ isDisabled }: { isDisabled: boolean }) {
   const selectedEmployees = [...new Set(useEmployees().map((e) => e.name))];
-  const { control, setValue } = useFormContext<BarFormValues>();
+  const { control, setValue, getValues } = useFormContext<BarFormValues>();
+
+  const values = useWatch({
+    control,
+    name: "penalty.remarks",
+  });
+  useRealtimeSave(values, !isDisabled, async (data) => {
+    if (!data) return;
+
+    await realtimeReportBar({ ...getValues(), ...data });
+    toast.success("сохранение…", { duration: 2000 });
+  });
 
   const {
     fields: dataRemarks,

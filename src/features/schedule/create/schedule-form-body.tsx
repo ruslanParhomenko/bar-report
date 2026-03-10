@@ -125,7 +125,7 @@ export default function ScheduleCreateTableBody({
             <TableCell className="text-xs p-0">
               {rate / 1000}:{totalPay && ` ${totalPay.toFixed()}`}
             </TableCell>
-            <TableCell className="py-0 w-44">
+            <TableCell className="py-0 w-44 sticky left-0">
               <SelectField
                 fieldName={`rowShifts.${rowIndex}.employee`}
                 data={selectedEmployees.map((e) => e.name)}

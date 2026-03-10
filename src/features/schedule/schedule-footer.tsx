@@ -11,7 +11,6 @@ export default function ScheduleTableFooter({
 }) {
   const shiftCounts = schedule && getShiftCounts(schedule);
 
-  console.log("shiftCounts", shiftCounts);
   return (
     <TableFooter data-html2canvas-ignore="true">
       {shiftCounts &&

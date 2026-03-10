@@ -19,7 +19,7 @@ export function OrderCardWrapper({
       <div className="flex flex-col w-full justify-center items-center">
         <Label className="py-2 font-bold text-bl">{name}</Label>
       </div>
-      {data.map((item, index) => (
+      {data?.map((item, index) => (
         <OrderCardField
           key={item}
           item={item}

@@ -1,5 +1,5 @@
 "use client";
-import { SubmitHandler, useForm, useWatch } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import {
   cashVerifyDefault,
@@ -11,15 +11,9 @@ import {
 
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import {
-  createReportBar,
-  realtimeReportBar,
-} from "@/app/actions/report-bar/report-bar-action";
+import { createReportBar } from "@/app/actions/report-bar/report-bar-action";
 import { Activity, useEffect } from "react";
 import { useAbility } from "@/providers/ability-provider";
-import ReportBarTable from "./report/report-bar-table";
-import BreakTable from "@/features/bar/break-form/break-table";
-import PenaltyTable from "@/features/bar/penalty/penalty-table";
 import { defaultRemarksValue } from "@/features/bar/penalty/schema";
 import {
   BreakFormData,
@@ -27,7 +21,6 @@ import {
 } from "@/features/bar/break-form/schema";
 import { createRemarks } from "@/app/actions/remarks/remarks-action";
 import { createBreakList } from "@/app/actions/break/break-action";
-import { useRealtimeSave } from "@/hooks/use-realtime-save";
 import { BarFormValues, barSchema, defaultValuesBarForm } from "./schema";
 import { MONTHS } from "@/utils/get-month-days";
 import { useSearchParams } from "next/navigation";
@@ -35,6 +28,18 @@ import FormInput from "@/components/wrapper/form";
 import { useEmployees } from "@/providers/employees-provider";
 import DatePickerInput from "@/components/inputs/date-input";
 import { parseISO } from "date-fns";
+
+import dynamic from "next/dynamic";
+
+const ReportBarTable = dynamic(() => import("./report/report-bar-table"), {
+  ssr: false,
+});
+const BreakTable = dynamic(
+  () => import("@/features/bar/break-form/break-table"),
+);
+const PenaltyTable = dynamic(
+  () => import("@/features/bar/penalty/penalty-table"),
+);
 
 const BAR_EMPLOYEES = ["waiters", "barmen"];
 
@@ -57,15 +62,6 @@ export default function BarForm({
   const form = useForm<BarFormValues>({
     defaultValues: defaultValuesBarForm,
     resolver: zodResolver(barSchema),
-  });
-
-  const values = useWatch({ control: form.control }) as BarFormValues;
-
-  useRealtimeSave(values, isBar, async (data) => {
-    if (!data) return;
-
-    await realtimeReportBar(data);
-    toast.success("сохранение…", { duration: 2000 });
   });
 
   const onSubmit: SubmitHandler<BarFormValues> = async (data) => {
@@ -162,8 +158,8 @@ export default function BarForm({
     <FormInput
       form={form}
       onSubmit={onSubmit}
-      onError={(errors) => {
-        console.log("ZOD ERRORS:", errors);
+      onError={() => {
+        toast.error("Заполните обязательные красные поля");
       }}
       disabled={isDisabled}
       className="px-1"

@@ -7,10 +7,13 @@ import { AO_REPORT_ACTION_TAG } from "@/constants/action-tag";
 
 export type AOContextValue = AOFormTypeInput & {
   id: string;
+  uniqueKey: string;
+  month: string;
+  year: string;
 };
 
 // create
-export async function createAO(data: AOFormTypeInput) {
+export async function createAO(data: Omit<AOContextValue, "id">) {
   const docRef = await dbAdmin.collection(AO_REPORT_ACTION_TAG).add({
     uniqueKey: data.uniqueKey,
     year: data.year,
@@ -22,7 +25,7 @@ export async function createAO(data: AOFormTypeInput) {
 }
 
 // update
-export async function updateAO(id: string, data: AOFormTypeInput) {
+export async function updateAO(id: string, data: Omit<AOContextValue, "id">) {
   await dbAdmin.collection(AO_REPORT_ACTION_TAG).doc(id).update(data);
   updateTag(AO_REPORT_ACTION_TAG);
 }

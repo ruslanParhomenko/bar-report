@@ -1,6 +1,7 @@
 "use server";
 
 import { createDataBreakList } from "../data-constants/data-break-action";
+import { createDataOrderProducts } from "../data-constants/data-order-products";
 import { createDataProducts } from "../data-constants/data-products-action";
 
 type State = {
@@ -49,6 +50,9 @@ export async function saveSettingsData(
       await createDataBreakList({
         rows: parsed,
       });
+    }
+    if (type === "orderProducts") {
+      await createDataOrderProducts(parsed);
     }
 
     return { success: true };

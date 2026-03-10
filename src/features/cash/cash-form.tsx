@@ -1,7 +1,7 @@
 "use client";
 
 import { SubmitHandler, useForm } from "react-hook-form";
-import { CashFormTypeInput, cashSchema, defaultCashForm } from "./schema";
+import { CashFormType, cashSchema } from "./schema";
 import { CashData, saveCashForm } from "@/app/actions/cash/cash-action";
 import { toast } from "sonner";
 import { sendNotificationEmail } from "@/app/actions/mail/email-action";
@@ -40,12 +40,12 @@ export default function CashForm({
 
   const [showSendButton, setShowSendButton] = useState(false);
 
-  const form = useForm<CashFormTypeInput>({
+  const form = useForm<CashFormType>({
     resolver: zodResolver(cashSchema),
-    defaultValues: cashSchema.parse(dataCash ?? defaultCashForm),
+    defaultValues: dataCash ? dataCash.form_data : {},
   });
 
-  const onSubmit: SubmitHandler<CashFormTypeInput> = async (data) => {
+  const onSubmit: SubmitHandler<CashFormType> = async (data) => {
     try {
       await saveCashForm(data, year, month);
       toast.success("Форма сохранена успешно!");
@@ -66,29 +66,34 @@ export default function CashForm({
     }
   };
 
+  const initialRowData = {
+    ...Object.fromEntries(
+      rowsCashCasino.map((row) => [row.key, Array(monthDays.length).fill("")]),
+    ),
+    ...Object.fromEntries(
+      rowCashBar.map((row) => [row.key, Array(monthDays.length).fill("")]),
+    ),
+  };
+
   useEffect(() => {
-    const makeArray = () => Array(monthDays.length).fill("");
-
-    if (!dataCash) {
-      const newRowCashData = {
-        ...Object.fromEntries(
-          rowsCashCasino.map((row) => [row.key, makeArray()]),
-        ),
-        ...Object.fromEntries(rowCashBar.map((row) => [row.key, makeArray()])),
-      };
-
+    if (dataCash) {
+      form.reset(dataCash.form_data as CashFormType);
+    } else {
       form.reset({
-        ...defaultCashForm,
-        rowCashData: newRowCashData,
+        rowCashData: initialRowData,
         start_241: "",
         ao_532: "",
         z_531: "",
       });
-      return;
     }
-
-    form.reset(dataCash.form_data as CashFormTypeInput);
-  }, [dataCash, month, year]);
+    if (dataAo) {
+      const sumArray = (arr: string[] = []) =>
+        arr.reduce((acc, num) => acc + Number(num || 0), 0);
+      const totalTTNModa = sumArray(dataAo.rowAOData.ttnModaByDay as string[]);
+      const totalTTNBar = sumArray(dataAo.rowAOData.ttnBarByDay as string[]);
+      form.setValue("ao_532", (totalTTNModa + totalTTNBar).toString());
+    }
+  }, [dataCash, dataAo, month, year]);
 
   useEffect(() => {
     const currentDate = new Date();
@@ -124,27 +129,13 @@ export default function CashForm({
     };
   }, [dataCash, form]);
 
-  useEffect(() => {
-    if (!dataAo) return;
-
-    const totalTTNModa = (dataAo?.rowAOData?.ttnModaByDay as string[])
-      ?.reduce((acc: number, num: string) => acc + Number(num || 0), 0)
-      .toFixed(2);
-    const totalTTNBar = (dataAo?.rowAOData?.ttnBarByDay as string[])
-      ?.reduce((acc: number, num: string) => acc + Number(num || 0), 0)
-      .toFixed(2);
-    form.setValue(
-      "ao_532",
-      (Number(totalTTNModa) + Number(totalTTNBar)).toString(),
-    );
-  }, [dataAo]);
-
   return (
     <FormInput
       form={form}
       onSubmit={onSubmit}
-      withButtons={showSendButton || isAdmin || !isBar}
+      withButtons={(showSendButton && !isBar) || isAdmin}
       disabled={isDisabled}
+      onError={(error) => console.log(error)}
     >
       <Table className="md:mt-4">
         <DayByMonthTable
@@ -153,7 +144,7 @@ export default function CashForm({
           infoCell={true}
           navCell={true}
         />
-        <RowRender<CashFormTypeInput, "rowCashData">
+        <RowRender<CashFormType, "rowCashData">
           nameField="rowCashData"
           nameLabel="CASH"
           arrayRows={rowsCashCasino}
@@ -162,7 +153,7 @@ export default function CashForm({
           withTotalFooter={false}
         />
 
-        <RowRender<CashFormTypeInput, "rowCashData">
+        <RowRender<CashFormType, "rowCashData">
           nameField="rowCashData"
           nameLabel="BAR"
           arrayRows={rowCashBar}

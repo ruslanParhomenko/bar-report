@@ -1,42 +1,32 @@
-import MailButton from "@/components/buttons/mail-button";
-import {
-  BAKERY,
-  EMPTY,
-  FRUITS_CUISINE,
-  GREEN,
-  MEAT,
-  MILK,
-  NUTS,
-  OTHER,
-  SPICES,
-  SPICES_2,
-  VEGETABLES,
-} from "./constants";
-import { InputWrapper } from "@/components/wrapper/input-wrapper";
 import { OrderCardWrapper } from "@/components/wrapper/order-card-wrapper";
-import { OrderEmptyCardWrapper } from "@/components/wrapper/order-empty-card-wrapper";
+
 import OrderPageWrapper from "@/components/wrapper/order-page-wrapper";
 
-export const OrderListCucina = () => {
+export const OrderListCucina = ({
+  data,
+}: {
+  data: Record<string, string[]>;
+}) => {
+  const allKeys = Object.keys(data);
   return (
     <OrderPageWrapper>
-      <InputWrapper>
-        <OrderCardWrapper data={VEGETABLES} name="VEGETABLES" />
-        <OrderCardWrapper data={GREEN} name="GREEN" />
-        <OrderCardWrapper data={MILK} name="MILK" />
-        <OrderCardWrapper data={NUTS} name="NUTS" />
-      </InputWrapper>
-      <InputWrapper>
-        <OrderCardWrapper data={FRUITS_CUISINE} name="FRUITS_CUISINE" />
-        <OrderCardWrapper data={SPICES} name="SPICES" />
-        <OrderCardWrapper data={BAKERY} name="BAKERY" />
-        <OrderCardWrapper data={OTHER} name="OTHER" />
-      </InputWrapper>
-      <InputWrapper>
-        <OrderCardWrapper data={MEAT} name="MEAT" />
-        <OrderCardWrapper data={SPICES_2} name="SPICES_2" />
-        <OrderEmptyCardWrapper data={EMPTY} name="EMPTY" />
-      </InputWrapper>
+      <div
+        className="
+        overflow-auto
+          columns-1
+          sm:columns-2
+          md:columns-3
+          lg:columns-6
+          gap-4
+          p-2
+        "
+      >
+        {allKeys.map((key) => (
+          <div key={key} className="break-inside-avoid mb-4">
+            <OrderCardWrapper data={data[key]} name={key} />
+          </div>
+        ))}
+      </div>
     </OrderPageWrapper>
   );
 };

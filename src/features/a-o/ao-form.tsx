@@ -7,7 +7,7 @@ import { DayByMonthTable } from "@/components/table/day-by-month-table";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 
 import { useAbility } from "@/providers/ability-provider";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import {
   AOContextValue,
   createAO,
@@ -16,7 +16,7 @@ import {
 import { toast } from "sonner";
 import { rowsAdvance, rowsPurchaseModa, rowsPurchaseNMB } from "./constants";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { AOFormTypeInput, aoSchema, defaultAOForm } from "./schema";
+import { AOFormTypeInput, aoSchema } from "./schema";
 import { RowRender } from "@/components/table/row-render";
 import { calculateRowAOTotals } from "./utils";
 import { cn } from "@/lib/utils";
@@ -38,7 +38,7 @@ export default function AoForm({
 
   const form = useForm<AOFormTypeInput>({
     resolver: zodResolver(aoSchema),
-    defaultValues: aoSchema.parse(dataAo ?? {}),
+    defaultValues: dataAo ? dataAo : {},
   });
 
   const onSubmit: SubmitHandler<AOFormTypeInput> = async (data) => {
@@ -51,21 +51,14 @@ export default function AoForm({
     if (dataAo?.id) {
       await updateAO(dataAo.id as string, formatData);
       toast.success("AO успешно обновлён!");
-
-      return;
     } else {
       await createAO(formatData);
       toast.success("AO успешно создан!");
-
-      form.reset(defaultAOForm);
-      return;
     }
   };
-  useEffect(() => {
-    if (dataAo) return;
-
+  const initialRowData = useMemo(() => {
     const makeArray = () => Array(monthDays.length).fill("");
-    const newRowCashData = {
+    return {
       ...Object.fromEntries(rowsAdvance.map((row) => [row.key, makeArray()])),
       ...Object.fromEntries(
         rowsPurchaseModa.map((row) => [row.key, makeArray()]),
@@ -74,18 +67,16 @@ export default function AoForm({
         rowsPurchaseNMB.map((row) => [row.key, makeArray()]),
       ),
     };
+  }, [monthDays.length, rowsAdvance, rowsPurchaseModa, rowsPurchaseNMB]);
 
-    form.setValue("rowAOData", newRowCashData);
-  }, [dataAo, month, year, form]);
   useEffect(() => {
-    if (!dataAo) return;
+    if (dataAo) {
+      form.reset({ ...dataAo });
+    } else {
+      form.setValue("rowAOData", initialRowData);
+    }
+  }, [dataAo, form, initialRowData]);
 
-    form.reset({
-      ...dataAo,
-    });
-  }, [dataAo, month, year, form]);
-
-  // const rowAOData = dataAo && dataAo.rowAOData;
   const rowAOData = useWatch({
     control: form.control,
     name: "rowAOData",

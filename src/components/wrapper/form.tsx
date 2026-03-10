@@ -12,6 +12,7 @@ import MailButton from "../buttons/mail-button";
 type FormInputProps<T extends FieldValues> = {
   form: UseFormReturn<T>;
   onSubmit: SubmitHandler<T>;
+  resetForm?: () => void;
   onError?: (errors: any) => void;
   children: React.ReactNode;
   className?: string;
@@ -28,6 +29,7 @@ type FormInputProps<T extends FieldValues> = {
 export default function FormInput<T extends FieldValues>({
   form,
   onSubmit,
+  resetForm,
   onError,
   children,
   className,
@@ -44,7 +46,6 @@ export default function FormInput<T extends FieldValues>({
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formDataToSubmit, setFormDataToSubmit] = useState<T | null>(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleFormSubmit: SubmitHandler<T> = (data) => {
     setFormDataToSubmit(data);
@@ -61,13 +62,13 @@ export default function FormInput<T extends FieldValues>({
 
         {withButtons && (
           <div
-            className="sticky bottom-0 w-full flex justify-start gap-6 px-4 py-2 mt-auto bg-background z-30"
+            className="sticky bottom-0 w-full flex justify-start gap-6 px-4 py-1 mt-auto bg-background z-30"
             data-html2canvas-ignore="true"
           >
             {!sendTelegram && (
               <Button
                 type="submit"
-                className="bg-bl text-white mt-auto h-8 w-24"
+                className="bg-bl text-white mt-auto h-7 w-24"
                 disabled={disabled}
               >
                 save
@@ -94,14 +95,15 @@ export default function FormInput<T extends FieldValues>({
                 setIsModalOpen(false);
                 setFormDataToSubmit(null);
               }}
-              confirmDisabled={isSubmitting}
             />
             {resetButton && (
               <Button
                 type="button"
                 variant="secondary"
-                className="hover:bg-rd text-bl hover:text-black h-8 w-24"
-                onClick={() => form.reset(defaultValues || {})}
+                className="hover:bg-rd text-bl hover:text-black h-7 w-24"
+                onClick={() =>
+                  resetForm ? resetForm() : form.reset(defaultValues || {})
+                }
                 disabled={disabled}
               >
                 reset
@@ -111,7 +113,7 @@ export default function FormInput<T extends FieldValues>({
               <Button
                 type="button"
                 variant={"destructive"}
-                className="h-8 w-24"
+                className="h-7 w-24"
                 onClick={() => router.back()}
                 disabled={disabled}
               >

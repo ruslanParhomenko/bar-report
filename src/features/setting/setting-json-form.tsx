@@ -7,11 +7,10 @@ import { saveSettingsData } from "@/app/actions/settings/settings-action";
 
 type Props = {
   defaultValue: string;
-  type: "products" | "breakList";
+  type: "products" | "breakList" | "orderProducts";
 };
 
 export default function SettingsJsonForm({ defaultValue, type }: Props) {
-  console.log(defaultValue);
   const [state, formAction, isPending] = useActionState(saveSettingsData, {});
 
   return (

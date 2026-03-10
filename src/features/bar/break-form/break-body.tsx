@@ -8,6 +8,9 @@ import { cn } from "@/lib/utils";
 import { Trash2 } from "lucide-react";
 import { BarFormValues } from "../schema";
 import { isCurrentCell } from "./utils";
+import { useRealtimeSave } from "@/hooks/use-realtime-save";
+import { realtimeReportBar } from "@/app/actions/report-bar/report-bar-action";
+import { toast } from "sonner";
 
 export default function BreakTableBody({
   employeesName,
@@ -16,16 +19,22 @@ export default function BreakTableBody({
   employeesName: string[];
   isDisabled: boolean;
 }) {
-  const { control, setValue } = useFormContext<BarFormValues>();
+  const { control, setValue, getValues } = useFormContext<BarFormValues>();
 
-  const dataRows = useWatch({
+  const values = useWatch({
     control,
     name: "breakForm.rows",
+  });
+  useRealtimeSave(values, !isDisabled, async (data) => {
+    if (!data) return;
+
+    await realtimeReportBar({ ...getValues(), ...data });
+    toast.success("сохранение…", { duration: 2000 });
   });
 
   return (
     <TableBody>
-      {dataRows?.map((row, rowIndex) => {
+      {values?.map((row, rowIndex) => {
         const totalBreak = row.hours.reduce(
           (acc, value) => acc + (["00", "20", "40"].includes(value) ? 1 : 0),
           0,

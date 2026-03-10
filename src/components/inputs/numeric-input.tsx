@@ -124,7 +124,6 @@ function NumericInput({
               </Button>
             </PopoverContent>
           </Popover>
-          <FormMessage />
         </FormItem>
       )}
     />

@@ -9,6 +9,7 @@ import { OrderListCucina } from "./order-cucina-zn";
 import { OrderListTelegramForm } from "@/providers/send-telegram";
 import { useAbility } from "@/providers/ability-provider";
 import { RefContext } from "@/providers/client-ref-provider";
+import { useOrderProducts } from "@/providers/order-products-provider";
 
 const FORM_PROPS = {
   "bar-ttn": {
@@ -37,6 +38,12 @@ export default function OrdersPage() {
   const user = FORM_PROPS[tab as keyof typeof FORM_PROPS]?.user;
   const url = FORM_PROPS[tab as keyof typeof FORM_PROPS]?.url;
 
+  const orderProducts = useOrderProducts();
+
+  if (!orderProducts) {
+    return null;
+  }
+
   const ref = useContext(RefContext);
   return (
     <OrderListTelegramForm
@@ -45,18 +52,19 @@ export default function OrdersPage() {
       url={url}
       isDisabled={isDisabled}
       ref={ref}
+      defaultValues={orderProducts}
     >
       <Activity mode={tab === "bar-ttn" ? "visible" : "hidden"}>
-        <OrderListTTNBar />
+        <OrderListTTNBar data={orderProducts.ttnBar} />
       </Activity>
       <Activity mode={tab === "bar-zn" ? "visible" : "hidden"}>
-        <OrderListBar />
+        <OrderListBar data={orderProducts.bar} />
       </Activity>
       <Activity mode={tab === "cucina-ttn" ? "visible" : "hidden"}>
-        <OrderListTTNCucina />
+        <OrderListTTNCucina data={orderProducts.ttnCucina} />
       </Activity>
       <Activity mode={tab === "cucina-zn" ? "visible" : "hidden"}>
-        <OrderListCucina />
+        <OrderListCucina data={orderProducts.cucina} />
       </Activity>
     </OrderListTelegramForm>
   );

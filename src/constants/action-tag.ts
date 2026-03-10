@@ -19,5 +19,5 @@ export const BAR_REALTIME_ACTION_TAG = "bar-realtime";
 export const CUCINA_REALTIME_ACTION_TAG = "report-cucina-realtime";
 
 export const DATA_PRODUCTS_ACTION_TAG = "data-products";
-
+export const DATA_ORDER_PRODUCTS_ACTION_TAG = "data-order-products";
 export const DATA_BREAK_ACTION_TAG = "data-break";

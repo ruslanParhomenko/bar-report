@@ -7,11 +7,15 @@ import SettingsJsonForm from "./setting-json-form";
 export default function SettingPage({
   defaultValue,
 }: {
-  defaultValue: { productsData: string; breakListData: string };
+  defaultValue: {
+    productsData: string;
+    breakListData: string;
+    orderProductsData: string;
+  };
 }) {
-  console.log(defaultValue.breakListData);
   const searchParams = useSearchParams();
   const tab = searchParams.get("tab");
+
   return (
     <>
       <Activity mode={tab === "products" ? "visible" : "hidden"}>
@@ -24,6 +28,12 @@ export default function SettingPage({
         <SettingsJsonForm
           defaultValue={defaultValue.breakListData}
           type="breakList"
+        />
+      </Activity>
+      <Activity mode={tab === "order-products" ? "visible" : "hidden"}>
+        <SettingsJsonForm
+          defaultValue={defaultValue.orderProductsData}
+          type="orderProducts"
         />
       </Activity>
     </>

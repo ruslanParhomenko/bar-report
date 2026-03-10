@@ -6,8 +6,9 @@ export type StandardKitchen = {
 
 export type DailyMeniu = {
   titleDesserts: string[];
-  titleMain: string[];
+  titleSoup: string[];
   titleSalad: string[];
+  titleGarner: string[];
   titleSecond: string[];
 };
 
@@ -49,7 +50,7 @@ export type Menu = {
 const GOOGLE_SHEET_URL_SK =
   "https://script.google.com/macros/s/AKfycbx9e6tBAsTpDg2augJ7CBaYIocKoSD5n1kWUhpLv1Ntkwd5GGnjpEXIP_Nw_KLYPMDWtw/exec";
 const GOOGLE_SHEET_URL_MENIU =
-  "https://script.google.com/macros/s/AKfycbwWC1DjZz2VL3qFScaVfMoSRWMqQCP9rUjogZveFW6mL2z-Ss7mPZUwMqGvKx-A1Kb86A/exec";
+  "https://script.google.com/macros/s/AKfycbw1kJsdfkD3yGnoH30R8Pv3vp_-e6E6vhtTnq4Vx7sXP7WoROEK7BXXgKVyZK4Nq1C_Qg/exec";
 
 export async function getStandardKitchen(): Promise<StandardKitchen[]> {
   const res = await fetch(GOOGLE_SHEET_URL_SK, {

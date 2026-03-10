@@ -10,7 +10,6 @@ import { PlusCircleIcon, Save } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useContext } from "react";
 import { RefContext } from "@/providers/client-ref-provider";
-import { is } from "date-fns/locale";
 
 export default function ScheduleActionButton({
   addNewRow,
@@ -21,8 +20,6 @@ export default function ScheduleActionButton({
   scheduleId: string;
   isSave?: boolean;
 }) {
-  console.log("scheduleId", scheduleId);
-  console.log("isSave", isSave);
   const params = useSearchParams();
 
   const month = params.get("month") as string;
@@ -36,7 +33,6 @@ export default function ScheduleActionButton({
 
   const ref = useContext(RefContext);
 
-  console.log("ref", ref);
   return (
     <div className="flex justify-center items-start  p-0 gap-3">
       <EditButton

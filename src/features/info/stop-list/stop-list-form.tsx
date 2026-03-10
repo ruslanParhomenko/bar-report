@@ -8,7 +8,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { PRODUCTS } from "../../bar/report/constants";
 import { useFieldArray, useForm, useWatch } from "react-hook-form";
 import {
   defaultStopList,
@@ -26,6 +25,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import FormInput from "@/components/wrapper/form";
 import { useRealtimeSave } from "@/hooks/use-realtime-save";
 import { saveStopList } from "@/app/actions/stop-list/stop-list-action";
+import { useOrderProducts } from "@/providers/order-products-provider";
 
 export default function StopListForm({
   data,
@@ -34,10 +34,22 @@ export default function StopListForm({
 }) {
   const { isBar } = useAbility();
 
-  // const DATA_PRODUCTS = {
-  //   bar: PRODUCTS,
-  //   cucina: [...new Set([...PRODUCTS_CUCINA])],
-  // };
+  const orderProducts = useOrderProducts();
+
+  const PRODUCTS =
+    orderProducts && orderProducts
+      ? Array.from(
+          new Set(
+            ["bar", "ttnBar"].flatMap((key) =>
+              orderProducts?.[key as keyof typeof orderProducts]
+                ? Object.values(
+                    orderProducts[key as keyof typeof orderProducts],
+                  ).flat()
+                : [],
+            ),
+          ),
+        )
+      : [];
 
   // set form
   const form = useForm<StopListSchemaType>({
@@ -99,7 +111,7 @@ export default function StopListForm({
             <TableRow key={item.id}>
               <TableCell>
                 <SelectFieldWithSearch
-                  data={PRODUCTS}
+                  data={PRODUCTS ?? []}
                   fieldName={`stopList.${idx}.product`}
                   disabled={!isBar}
                   className="h-9"

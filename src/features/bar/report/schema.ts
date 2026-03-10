@@ -21,7 +21,7 @@ export const productTransferDefault = Array.from({ length: 8 }, () => ({
 // inventory
 export const inventorySchema = z.object({
   name: z.string(),
-  quantity: z.string(),
+  quantity: z.string().regex(/^\d+(\.\d+)?$/),
   time: z.string(),
 });
 

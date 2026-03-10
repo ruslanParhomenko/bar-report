@@ -1,7 +1,7 @@
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { getMonthDays } from "@/utils/get-month-days";
 import { UseFormReturn } from "react-hook-form";
-import { CashFormTypeInput } from "./schema";
+import { CashFormType } from "./schema";
 import { cn } from "@/lib/utils";
 
 export default function CashInfo({
@@ -10,7 +10,7 @@ export default function CashInfo({
   isDisabled,
 }: {
   monthDays: ReturnType<typeof getMonthDays>;
-  form: UseFormReturn<CashFormTypeInput>;
+  form: UseFormReturn<CashFormType>;
   isDisabled?: boolean;
 }) {
   const { register } = form;
