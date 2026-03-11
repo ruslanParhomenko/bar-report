@@ -84,7 +84,7 @@ type NAV_BY_PATCH_TYPE = Record<
 >;
 
 export const NAV_BY_PATCH = {
-  bar: { navItems: BAR_NAV_ITEMS, filterMonth: false },
+  // bar: { navItems: BAR_NAV_ITEMS, filterMonth: false },
   archive: { navItems: ARCHIVE_NAV_ITEMS, filterMonth: true },
   schedule: { navItems: SCHEDULE_NAV_ITEMS, filterMonth: true },
   info: { navItems: INFO_NAV_ITEMS, filterMonth: false },

@@ -1,5 +1,12 @@
 "use client";
-import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import NumericInput from "@/components/inputs/numeric-input";
 import { CashVerifySchemaType } from "./schema";
 import { useFormContext, useWatch } from "react-hook-form";
@@ -12,10 +19,12 @@ export default function TableCashVerify({
   disabled?: boolean;
 }) {
   const { control, setValue } = useFormContext();
+
   const fieldsValues = useWatch({
     name: "report.cashVerify",
     control,
   }) as CashVerifySchemaType[];
+
   useEffect(() => {
     fieldsValues?.forEach((item, idx) => {
       if (item?.value && !item?.hours) {
@@ -24,32 +33,54 @@ export default function TableCashVerify({
         });
       }
     });
-  }, [fieldsValues]);
+  }, [fieldsValues, setValue]);
+
+  const rows = 6;
+
   return (
-    <div className="w-full xl:overflow-x-auto">
-      <Table className="w-full md:table-fixed">
-        <TableBody>
-          <TableRow>
-            {fieldsValues?.map((_hour, idx) => (
-              <TableCell key={idx} className=" text-center">
+    <Table className="md:table-fixed">
+      <TableHeader>
+        <TableRow>
+          <TableHead className="w-12 font-bold text-bl">CashVerify</TableHead>
+          <TableHead className="w-12" />
+          <TableHead className="w-12" />
+          <TableHead className="w-12" />
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {Array.from({ length: rows }).map((_, i) => {
+          const left = fieldsValues?.[i];
+          const right = fieldsValues?.[i + rows];
+
+          return (
+            <TableRow key={i}>
+              <TableCell className="py-1.5">
                 <NumericInput
-                  fieldName={`report.cashVerify.${idx}.value`}
-                  className="w-full text-center"
+                  fieldName={`report.cashVerify.${i}.value`}
+                  className="w-full text-center h-6"
                   disabled={disabled}
                 />
               </TableCell>
-            ))}
-          </TableRow>
 
-          <TableRow>
-            {fieldsValues?.map((hour, idx) => (
-              <TableCell key={idx} className=" text-center text-xs">
-                {hour.hours}
+              <TableCell className="text-xs text-center py-0 text-rd">
+                {left?.hours}
               </TableCell>
-            ))}
-          </TableRow>
-        </TableBody>
-      </Table>
-    </div>
+
+              <TableCell className="py-1">
+                <NumericInput
+                  fieldName={`report.cashVerify.${i + rows}.value`}
+                  className="w-full text-center h-6"
+                  disabled={disabled}
+                />
+              </TableCell>
+
+              <TableCell className="text-xs text-center py-0 text-rd">
+                {right?.hours}
+              </TableCell>
+            </TableRow>
+          );
+        })}
+      </TableBody>
+    </Table>
   );
 }

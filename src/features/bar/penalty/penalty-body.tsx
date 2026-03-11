@@ -1,6 +1,6 @@
 "use client";
 import { useEmployees } from "@/providers/employees-provider";
-import { useFieldArray, useFormContext, useWatch } from "react-hook-form";
+import { useFieldArray, useFormContext } from "react-hook-form";
 import { defaultRemarkValue } from "./schema";
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
 import SelectField from "@/components/inputs/select-input";
@@ -9,24 +9,10 @@ import { Plus, Trash2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { BarFormValues } from "../schema";
 import TextInput from "@/components/inputs/text-input";
-import { useRealtimeSave } from "@/hooks/use-realtime-save";
-import { realtimeReportBar } from "@/app/actions/report-bar/report-bar-action";
-import { toast } from "sonner";
 
 export function PenaltyTableBody({ isDisabled }: { isDisabled: boolean }) {
   const selectedEmployees = [...new Set(useEmployees().map((e) => e.name))];
-  const { control, setValue, getValues } = useFormContext<BarFormValues>();
-
-  const values = useWatch({
-    control,
-    name: "penalty.remarks",
-  });
-  useRealtimeSave(values, !isDisabled, async (data) => {
-    if (!data) return;
-
-    await realtimeReportBar({ ...getValues(), ...data });
-    toast.success("сохранение…", { duration: 2000 });
-  });
+  const { control, setValue } = useFormContext<BarFormValues>();
 
   const {
     fields: dataRemarks,
@@ -41,59 +27,64 @@ export function PenaltyTableBody({ isDisabled }: { isDisabled: boolean }) {
     <TableBody>
       {dataRemarks.map((item, idx) => (
         <TableRow key={item.id}>
-          <TableCell>{idx + 1}</TableCell>
-          <TableCell>
+          <TableCell className="py-0">{idx + 1}</TableCell>
+          <TableCell className="py-0">
             <SelectField
               fieldName={`penalty.remarks.${idx}.name`}
               placeHolder="..."
               data={selectedEmployees}
-              className="border-0 shadow-none"
+              className="border-0 shadow-none h-6"
               disabled={isDisabled}
             />
           </TableCell>
-          <TableCell>
+          <TableCell className="py-0">
             <NumericInput
               fieldName={`penalty.remarks.${idx}.dayHours`}
-              className="justify-center"
+              className="justify-center h-6"
               disabled={isDisabled}
             />
           </TableCell>
-          <TableCell>
+          <TableCell className="py-0">
             <NumericInput
               fieldName={`penalty.remarks.${idx}.nightHours`}
-              className="justify-center"
+              className="justify-center h-6"
               disabled={isDisabled}
             />
           </TableCell>
-          <TableCell>
+          <TableCell className="py-0">
             <NumericInput
               fieldName={`penalty.remarks.${idx}.penalty`}
+              className="justify-center h-6"
               disabled={isDisabled}
             />
           </TableCell>
-          <TableCell>
+          <TableCell className="py-0">
             <NumericInput
               fieldName={`penalty.remarks.${idx}.bonus`}
+              className="justify-center h-6"
               disabled={isDisabled}
             />
           </TableCell>
-          <TableCell>
+          <TableCell className="py-0">
             <TextInput
               fieldName={`penalty.remarks.${idx}.reason`}
               placeholder="...reason"
-              className="border-0 shadow-none"
+              className="border-0 shadow-none h-6"
               disabled={isDisabled}
             />
           </TableCell>
           <TableCell
-            className={cn("cursor-pointer text-center", isDisabled && "hidden")}
+            className={cn(
+              "cursor-pointer text-center py-0",
+              isDisabled && "hidden",
+            )}
             onClick={() => append(defaultRemarkValue)}
           >
             <Plus className="text-bl w-4 h-4" />
           </TableCell>
           <TableCell
             className={cn(
-              "cursor-pointer text-center text-rd",
+              "cursor-pointer text-center text-rd py-0",
               isDisabled && "hidden",
             )}
             onClick={() => {

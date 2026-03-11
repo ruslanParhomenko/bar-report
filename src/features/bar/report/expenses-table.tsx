@@ -51,42 +51,43 @@ export default function TableExpenses({
   }, [fieldsValues]);
 
   return (
-    <Table>
+    <Table className="md:table-fixed">
       <TableHeader>
         <TableRow>
-          <TableHead className="md:w-38 font-bold text-bl">Expenses</TableHead>
-          <TableHead className="md:w-15" />
-          <TableHead className="md:w-15" />
-          <TableHead className="md:w-10" />
+          <TableHead className="w-18 font-bold text-bl">Expenses</TableHead>
+          <TableHead className="w-11" />
+          <TableHead className="w-11" />
+          <TableHead className="w-8" />
         </TableRow>
       </TableHeader>
       <TableBody>
         {fieldsValues?.map((_, idx: number) => (
           <TableRow key={idx}>
-            <TableCell>
+            <TableCell className="py-1.5">
               <SelectField
                 data={RECIPIENTS}
                 fieldName={`report.expenses.${idx}.name`}
-                className="w-full h-8!"
+                className="w-full h-6! border-0! shadow-none p-0 text-sm!"
+                placeHolder="..."
                 disabled={disabled}
               />
             </TableCell>
-            <TableCell>
+            <TableCell className="py-0">
               <NumericInput
                 fieldName={`report.expenses.${idx}.sum`}
-                className="w-20! h-8! text-center"
+                className="w-14! h-7! text-center"
                 disabled={disabled}
               />
             </TableCell>
-            <TableCell className="text-xs text-rd">
+            <TableCell className="text-xs text-rd py-0">
               {fieldsValues?.[idx]?.time}
             </TableCell>
             <TableCell
               onClick={() => !disabled && reset(idx)}
-              className="cursor-pointer"
+              className="cursor-pointer py-0"
             >
               {fieldsValues?.[idx]?.name && (
-                <Trash2Icon className="w-4 h-4 mx-2 text-rd" />
+                <Trash2Icon className="w-4 h-4 text-rd" />
               )}
             </TableCell>
           </TableRow>

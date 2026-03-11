@@ -16,12 +16,13 @@ export function OrderCardWrapper({
 }) {
   return (
     <div>
-      <div className="flex flex-col w-full justify-center items-center">
+      <div className="flex flex-col w-60 justify-center items-center">
         <Label className="py-2 font-bold text-bl">{name}</Label>
       </div>
       {data?.map((item, index) => (
         <OrderCardField
-          key={item}
+          key={`${item}-${index}`}
+          index={index}
           item={item}
           isLast={index === data.length - 1}
         />
@@ -30,20 +31,38 @@ export function OrderCardWrapper({
   );
 }
 
-function OrderCardField({ item, isLast }: { item: string; isLast: boolean }) {
+function OrderCardField({
+  item,
+  index,
+  isLast,
+}: {
+  item: string;
+  index: number;
+  isLast: boolean;
+}) {
   const { theme } = useTheme();
-  const { setValue, control } = useFormContext();
+  const { setValue, control, register } = useFormContext();
 
   const value = useWatch({ control, name: item });
 
   return (
     <div>
       <div className="grid-cols-[72%_10%_16%] grid">
-        <Label
-          className={`pl-2 text-sm text-muted-foreground ${value ? "text-rd" : ""}`}
-        >
-          {item}
-        </Label>
+        {item && (
+          <Label
+            className={`pl-2 text-sm text-muted-foreground ${value ? "text-rd" : ""}`}
+          >
+            {item}
+          </Label>
+        )}
+        {!item && (
+          <input
+            type="text"
+            data-slot="input"
+            className={`pl-2 text-sm text-muted-foreground ${value ? "text-rd" : ""}`}
+            {...register(`${item} + ${String(index)}`)}
+          />
+        )}
 
         <button
           type="button"
@@ -54,7 +73,10 @@ function OrderCardField({ item, isLast }: { item: string; isLast: boolean }) {
           {value ? <Trash2Icon className="w-4 h-4" /> : null}
         </button>
 
-        <NumericInput fieldName={item} className="w-10! text-center h-6.5!" />
+        <NumericInput
+          fieldName={item || String(index)}
+          className="w-10! text-center h-6.5!"
+        />
       </div>
       {!isLast && (
         <Separator

@@ -2,15 +2,22 @@
 import { TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import { TIME_LABELS } from "./constant";
+import DatePickerInput from "@/components/inputs/date-input";
 
 const currentHour = new Date().getHours();
 export default function BreakTableHeader() {
   return (
     <TableHeader>
       <TableRow>
-        <TableHead className="w-10"></TableHead>
-        <TableHead className="w-40" />
-        <TableHead className="w-6" />
+        <TableHead className="w-10 "></TableHead>
+        <TableHead className="w-30">
+          <DatePickerInput
+            fieldName="date"
+            className="text-sm text-rd h-5!"
+            // disabled
+          />
+        </TableHead>
+        <TableHead className="w-6 " />
 
         {TIME_LABELS.map((h, i) => {
           const isCurrentHour = Number(h === "24" ? "0" : h) === currentHour;
@@ -26,7 +33,7 @@ export default function BreakTableHeader() {
             </TableHead>
           );
         })}
-        <TableHead className="w-6" />
+        <TableHead className="w-8" />
       </TableRow>
     </TableHeader>
   );

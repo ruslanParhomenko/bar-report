@@ -4,7 +4,7 @@ export function useRealtimeSave<T>(
   value: T,
   enabled: boolean,
   callback: (data: T) => Promise<void>,
-  delay = 6000,
+  delay = 4000,
 ) {
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const prevValueRef = useRef<string | null>(null);

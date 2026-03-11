@@ -30,11 +30,10 @@ export const INVENTORY_DATA = [
   "Виски Macallan, л",
   "Foss Marai",
   "Moet and Shandon",
-  "Ruinart Blanc",
-  "Скатерть чистые",
   "Прачка - скатерть",
   "молоко",
   "Пепельница",
+  "Гильотина",
 ];
 
 // tobacco data
@@ -45,6 +44,5 @@ export const LIST_TOBACCO = [
   "Guantonomera",
   "Monte Cristo",
   "R&J N3",
-  "Гильотина (2)",
   "Зажигалка",
 ];

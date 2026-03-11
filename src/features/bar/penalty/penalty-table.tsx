@@ -10,7 +10,7 @@ export default function PenaltyTable({
   isDisabled: boolean;
 }) {
   return (
-    <Table className="md:table-fixed mt-6">
+    <Table className="table-fixed">
       <PenaltyTableHeader day={day} />
       <PenaltyTableBody isDisabled={isDisabled} />
     </Table>

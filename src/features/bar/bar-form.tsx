@@ -1,5 +1,5 @@
 "use client";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { SubmitHandler, useForm, useWatch } from "react-hook-form";
 import { toast } from "sonner";
 import {
   cashVerifyDefault,
@@ -11,8 +11,11 @@ import {
 
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { createReportBar } from "@/app/actions/report-bar/report-bar-action";
-import { Activity, useEffect } from "react";
+import {
+  createReportBar,
+  realtimeReportBar,
+} from "@/app/actions/report-bar/report-bar-action";
+import { use, useEffect } from "react";
 import { useAbility } from "@/providers/ability-provider";
 import { defaultRemarksValue } from "@/features/bar/penalty/schema";
 import {
@@ -23,13 +26,12 @@ import { createRemarks } from "@/app/actions/remarks/remarks-action";
 import { createBreakList } from "@/app/actions/break/break-action";
 import { BarFormValues, barSchema, defaultValuesBarForm } from "./schema";
 import { MONTHS } from "@/utils/get-month-days";
-import { useSearchParams } from "next/navigation";
 import FormInput from "@/components/wrapper/form";
 import { useEmployees } from "@/providers/employees-provider";
-import DatePickerInput from "@/components/inputs/date-input";
 import { parseISO } from "date-fns";
 
 import dynamic from "next/dynamic";
+import { useRealtimeSave } from "@/hooks/use-realtime-save";
 
 const ReportBarTable = dynamic(() => import("./report/report-bar-table"), {
   ssr: false,
@@ -50,8 +52,6 @@ export default function BarForm({
   realtimeData: BarFormValues;
   dataBreakList: BreakFormData;
 }) {
-  const searchParams = useSearchParams();
-  const tab = searchParams.get("tab");
   const { isBar, isAdmin } = useAbility();
   const isDisabled = !(isAdmin || isBar);
 
@@ -63,6 +63,18 @@ export default function BarForm({
     defaultValues: defaultValuesBarForm,
     resolver: zodResolver(barSchema),
   });
+
+  const values = useWatch({
+    control: form.control,
+  });
+
+  useRealtimeSave(values, !isDisabled, async (data) => {
+    if (!data) return;
+
+    await realtimeReportBar(data as BarFormValues);
+  });
+
+  console.log(values);
 
   const onSubmit: SubmitHandler<BarFormValues> = async (data) => {
     const { date, report, penalty, breakForm } = data;
@@ -162,20 +174,12 @@ export default function BarForm({
         toast.error("Заполните обязательные красные поля");
       }}
       disabled={isDisabled}
-      className="px-1"
     >
-      <DatePickerInput
-        fieldName="date"
-        className="text-sm text-rd h-6"
-        // disabled
-      />
-      <Activity mode={tab === "report" ? "visible" : "hidden"}>
-        <ReportBarTable isDisabled={isDisabled} />
-      </Activity>
-      <Activity mode={tab === "break" ? "visible" : "hidden"}>
+      <div className="flex flex-col justify-between h-full">
         <BreakTable isDisabled={isDisabled} employeesName={employeesName} />
+        <ReportBarTable isDisabled={isDisabled} />
         <PenaltyTable isDisabled={isDisabled} />
-      </Activity>
+      </div>
     </FormInput>
   );
 }

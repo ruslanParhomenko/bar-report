@@ -63,51 +63,53 @@ export default function TableProductsTransfer({
   }, [fieldsValues]);
 
   return (
-    <Table>
+    <Table className="md:table-fixed">
       <TableHeader>
         <TableRow>
-          <TableHead className="md:w-46 font-bold text-bl"> Transfer</TableHead>
-          <TableHead className="md:w-20" />
-          <TableHead className="md:w-10" />
-          <TableHead className="md:w-14"></TableHead>
-          <TableHead className="md:w-12"></TableHead>
+          <TableHead className="w-30 font-bold text-bl"> Transfer</TableHead>
+          <TableHead className="w-18" />
+          <TableHead className="w-8" />
+          <TableHead className="w-10"></TableHead>
+          <TableHead className="w-8"></TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
         {fieldsValues?.map((_, idx) => (
           <TableRow key={idx}>
-            <TableCell>
+            <TableCell className="py-1.5">
               <SelectFieldWithSearch
                 data={PRODUCTS}
                 fieldName={`report.productTransfer.${idx}.name`}
-                className="h-8 w-full text-center"
+                className="h-6 w-full text-center text-sm! border-0 shadow-none"
                 disabled={disabled}
+                placeHolder="...."
               />
             </TableCell>
-            <TableCell>
+            <TableCell className="py-0">
               <SelectField
                 fieldName={`report.productTransfer.${idx}.destination`}
                 data={WAREHOUSES}
-                className="w-full text-center h-8! p-2"
+                className="w-full text-center h-7! text-xs border-0 shadow-none"
                 disabled={disabled}
+                placeHolder="...."
               />
             </TableCell>
-            <TableCell className="flex items-center justify-center">
+            <TableCell className="py-0">
               <NumericInput
                 fieldName={`report.productTransfer.${idx}.quantity`}
-                className="w-10 text-center h-8!"
+                className="w-8 text-center h-7! text-sm!"
                 disabled={disabled}
               />
             </TableCell>
-            <TableCell className="text-xs text-rd">
+            <TableCell className="text-xs text-rd py-0">
               {fieldsValues?.[idx]?.time}
             </TableCell>
             <TableCell
               onClick={() => !disabled && reset(idx)}
-              className="cursor-pointer"
+              className="cursor-pointer py-0"
             >
               {fieldsValues?.[idx]?.name && (
-                <Trash2Icon className="w-4 h-4 mx-2 text-rd" />
+                <Trash2Icon className="w-4 h-4  text-rd" />
               )}
             </TableCell>
           </TableRow>

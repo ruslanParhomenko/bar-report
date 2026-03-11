@@ -44,45 +44,45 @@ export function TableInventory({ disabled = false }: { disabled?: boolean }) {
     });
   }, [fieldsValues]);
   return (
-    <Table>
+    <Table className="md:table-fixed">
       <TableHeader>
         <TableRow className="h-10">
-          <TableHead className="md:w-25 font-bold text-bl">
+          <TableHead className="md:w-30 font-bold text-bl">
             Inventory
             <span className="text-red-600 text-xs px-2">(к концу дня)</span>
           </TableHead>
-          <TableHead className="md:w-10" />
-          <TableHead className="md:w-14" />
-          <TableHead className="md:w-12" />
+          <TableHead className="w-10" />
+          <TableHead className="w-11" />
+          <TableHead className="w-8" />
         </TableRow>
       </TableHeader>
       <TableBody>
         {fieldsValues?.map((_, idx) => (
           <TableRow key={idx}>
-            <TableCell>
+            <TableCell className="py-1.5 font-bold">
               <input
                 {...register(`report.inventory.${idx}.name`)}
                 disabled
-                className="h-8 w-full"
+                className="h-6 w-full"
               />
             </TableCell>
-            <TableCell className="flex items-center justify-center">
+            <TableCell className="py-0">
               <NumericInput
                 fieldName={`report.inventory.${idx}.quantity`}
-                className="w-10! text-center h-8!"
+                className="w-8! text-center h-7!"
                 disabled={disabled}
               />
             </TableCell>
-            <TableCell className="text-xs text-rd">
+            <TableCell className="text-xs text-rd py-0">
               {fieldsValues?.[idx]?.time}
             </TableCell>
 
             <TableCell
               onClick={() => !disabled && reset(idx)}
-              className="cursor-pointer"
+              className="cursor-pointer py-0"
             >
               {fieldsValues?.[idx]?.quantity && (
-                <Trash2Icon className="w-4 h-4 mx-2 text-rd" />
+                <Trash2Icon className="w-4 h-4 text-rd" />
               )}
             </TableCell>
           </TableRow>

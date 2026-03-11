@@ -8,9 +8,6 @@ import { cn } from "@/lib/utils";
 import { Trash2 } from "lucide-react";
 import { BarFormValues } from "../schema";
 import { isCurrentCell } from "./utils";
-import { useRealtimeSave } from "@/hooks/use-realtime-save";
-import { realtimeReportBar } from "@/app/actions/report-bar/report-bar-action";
-import { toast } from "sonner";
 
 export default function BreakTableBody({
   employeesName,
@@ -19,17 +16,11 @@ export default function BreakTableBody({
   employeesName: string[];
   isDisabled: boolean;
 }) {
-  const { control, setValue, getValues } = useFormContext<BarFormValues>();
+  const { control, setValue } = useFormContext<BarFormValues>();
 
   const values = useWatch({
     control,
     name: "breakForm.rows",
-  });
-  useRealtimeSave(values, !isDisabled, async (data) => {
-    if (!data) return;
-
-    await realtimeReportBar({ ...getValues(), ...data });
-    toast.success("сохранение…", { duration: 2000 });
   });
 
   return (
@@ -51,13 +42,13 @@ export default function BreakTableBody({
                 value={row.id}
                 disabled
                 className={cn(
-                  "px-0.5 border-0 shadow-none text-bl text-xs bg-transparent!",
+                  "px-0.5  border-0 shadow-none text-bl text-xs bg-transparent!",
                 )}
                 readOnly
               />
             </TableCell>
 
-            <TableCell className="sticky left-0 z-10 text-left p-0">
+            <TableCell className="sticky left-0 z-10 text-left py-0 bg-background">
               <SelectField
                 fieldName={
                   `breakForm.rows.${rowIndex}.name` as Path<BreakFormData>
@@ -81,7 +72,7 @@ export default function BreakTableBody({
               const isView = value !== "X";
 
               return (
-                <TableCell key={timeIndex} className="p-1">
+                <TableCell key={timeIndex} className="p-0">
                   {isView ? (
                     <SelectField
                       fieldName={
@@ -89,13 +80,13 @@ export default function BreakTableBody({
                       }
                       data={MINUTES_SELECT}
                       className={cn(
-                        "justify-center border-0",
+                        "justify-center border-0 h-6!",
                         isTrue ? "text-rd! font-bold text-[18px]" : "",
                       )}
                       disabled={isDisabled}
                     />
                   ) : (
-                    <div className={cn("bg-gr w-11 h-8 rounded-md")}></div>
+                    <div className={cn("bg-gr w-9 h-6 rounded-md")}></div>
                   )}
                 </TableCell>
               );

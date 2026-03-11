@@ -11,7 +11,7 @@ export const productTransferSchema = z.object({
 
 export type ProductTransferSchemaType = z.infer<typeof productTransferSchema>;
 
-export const productTransferDefault = Array.from({ length: 8 }, () => ({
+export const productTransferDefault = Array.from({ length: 6 }, () => ({
   name: "",
   quantity: "",
   destination: "",
@@ -42,7 +42,7 @@ export const expenseSchema = z.object({
 
 export type ExpensesSchemaType = z.infer<typeof expenseSchema>;
 
-export const expensesDefault = Array.from({ length: 8 }, () => ({
+export const expensesDefault = Array.from({ length: 6 }, () => ({
   name: "",
   sum: "",
   time: "",
@@ -73,7 +73,7 @@ export const cashVerifySchema = z.object({
 });
 
 export type CashVerifySchemaType = z.infer<typeof cashVerifySchema>;
-export const cashVerifyDefault = Array.from({ length: 24 }, () => ({
+export const cashVerifyDefault = Array.from({ length: 12 }, () => ({
   hours: "",
   value: "",
 }));
