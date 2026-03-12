@@ -59,7 +59,7 @@ export function TableInventory({ disabled = false }: { disabled?: boolean }) {
       <TableBody>
         {fieldsValues?.map((_, idx) => (
           <TableRow key={idx}>
-            <TableCell className="py-1.5 font-bold">
+            <TableCell className="py-1.5 font-medium">
               <input
                 {...register(`report.inventory.${idx}.name`)}
                 disabled

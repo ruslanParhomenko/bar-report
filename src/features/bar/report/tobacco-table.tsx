@@ -7,8 +7,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { defaultTobaccoValue, TobaccoSchemaType } from "./schema";
-import { useFormContext, useWatch } from "react-hook-form";
+import { TobaccoSchemaType } from "./schema";
+import { useFieldArray, useFormContext, useWatch } from "react-hook-form";
 import NumericInput from "@/components/inputs/numeric-input";
 
 export default function TableTobacco({
@@ -17,10 +17,15 @@ export default function TableTobacco({
   disabled?: boolean;
 }) {
   const { control } = useFormContext();
-  const tobacco = (useWatch({
-    name: "report.tobacco",
+
+  const { fields } = useFieldArray({
     control,
-  }) as TobaccoSchemaType[]) || [defaultTobaccoValue];
+    name: "report.tobacco",
+  });
+  const values = useWatch({
+    control,
+    name: "report.tobacco",
+  }) as TobaccoSchemaType[];
 
   return (
     <Table className="md:table-fixed">
@@ -34,9 +39,11 @@ export default function TableTobacco({
         </TableRow>
       </TableHeader>
       <TableBody>
-        {tobacco?.map((item, idx) => (
-          <TableRow key={idx}>
-            <TableCell className="px-2 py-2 font-bold">{item.name}</TableCell>
+        {fields?.map((item, idx) => (
+          <TableRow key={item.id}>
+            <TableCell className="px-2 py-2 font-medium">
+              {values[idx].name}
+            </TableCell>
             <TableCell className="py-0">
               <NumericInput
                 fieldName={`report.tobacco.${idx}.stock`}
@@ -60,9 +67,9 @@ export default function TableTobacco({
             </TableCell>
             <TableCell className="py-0 text-center">
               {(
-                Number(item.stock ?? 0) +
-                Number(item.incoming ?? 0) -
-                Number(item.outgoing ?? 0)
+                Number(values[idx].stock ?? 0) +
+                Number(values[idx].incoming ?? 0) -
+                Number(values[idx].outgoing ?? 0)
               ).toString()}
             </TableCell>
           </TableRow>

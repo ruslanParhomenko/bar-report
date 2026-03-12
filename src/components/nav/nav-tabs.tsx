@@ -25,6 +25,8 @@ export default function NavTabs() {
   const config =
     NAV_BY_PATCH[pathname.split("/")[1] as keyof typeof NAV_BY_PATCH];
 
+  console.log(config);
+
   const filterType = config?.filterMonth;
   const navItems = config?.navItems ?? [];
 
@@ -133,7 +135,7 @@ export default function NavTabs() {
     <Tabs
       value={currentTab}
       onValueChange={handleTabChange}
-      className="sticky top-0 bg-background z-30"
+      className={cn("sticky top-0 bg-background z-30", !config && "hidden")}
     >
       <div className="flex justify-between my-2 px-4">
         {navItems.length > 0 && (

@@ -17,7 +17,7 @@ export default function ReportBarTable({
   const { register } = useFormContext<BarFormValues>();
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-[16%_16%_16%_18%_14%_10%] justify-between">
+    <div className="grid grid-cols-1 md:grid-cols-[16%_16%_14%_18%_14%_10%] justify-between">
       <TableTobacco disabled={isDisabled} />
       <TableInventory disabled={isDisabled} />
       <TableExpenses disabled={isDisabled} />
@@ -26,7 +26,7 @@ export default function ReportBarTable({
       <Textarea
         placeholder="notes ..."
         {...register("report.notes")}
-        className="resize-none pt-4 mt-10 w-40"
+        className="resize-none pt-4 mt-10 md:w-40"
         disabled={isDisabled}
       />
     </div>

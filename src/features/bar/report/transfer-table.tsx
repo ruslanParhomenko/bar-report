@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/table";
 import SelectFieldWithSearch from "@/components/inputs/select-with-search";
 import SelectField from "@/components/inputs/select-input";
-import { useFormContext, useWatch } from "react-hook-form";
+import { useFieldArray, useFormContext, useWatch } from "react-hook-form";
 import NumericInput from "@/components/inputs/numeric-input";
 import { Trash2Icon } from "lucide-react";
 import { useEffect } from "react";
@@ -62,20 +62,22 @@ export default function TableProductsTransfer({
     });
   }, [fieldsValues]);
 
+  const { fields } = useFieldArray({ control, name: "report.productTransfer" });
+
   return (
     <Table className="md:table-fixed">
       <TableHeader>
         <TableRow>
-          <TableHead className="w-30 font-bold text-bl"> Transfer</TableHead>
-          <TableHead className="w-18" />
+          <TableHead className="w-24 font-bold text-bl"> Transfer</TableHead>
+          <TableHead className="w-22" />
           <TableHead className="w-8" />
           <TableHead className="w-10"></TableHead>
           <TableHead className="w-8"></TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
-        {fieldsValues?.map((_, idx) => (
-          <TableRow key={idx}>
+        {fields?.map((item, idx) => (
+          <TableRow key={item.id}>
             <TableCell className="py-1.5">
               <SelectFieldWithSearch
                 data={PRODUCTS}
@@ -89,7 +91,7 @@ export default function TableProductsTransfer({
               <SelectField
                 fieldName={`report.productTransfer.${idx}.destination`}
                 data={WAREHOUSES}
-                className="w-full text-center h-7! text-xs border-0 shadow-none"
+                className="w-full text-center h-7! text-xs border-0 shadow-none font-medium!"
                 disabled={disabled}
                 placeHolder="...."
               />

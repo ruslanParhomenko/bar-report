@@ -74,8 +74,6 @@ export default function BarForm({
     await realtimeReportBar(data as BarFormValues);
   });
 
-  console.log(values);
-
   const onSubmit: SubmitHandler<BarFormValues> = async (data) => {
     const { date, report, penalty, breakForm } = data;
 
@@ -175,7 +173,7 @@ export default function BarForm({
       }}
       disabled={isDisabled}
     >
-      <div className="flex flex-col justify-between h-full">
+      <div className="flex flex-col gap-6 md:justify-between md:h-full">
         <BreakTable isDisabled={isDisabled} employeesName={employeesName} />
         <ReportBarTable isDisabled={isDisabled} />
         <PenaltyTable isDisabled={isDisabled} />

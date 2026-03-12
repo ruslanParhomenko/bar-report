@@ -10,7 +10,7 @@ import {
 
 import NumericInput from "@/components/inputs/numeric-input";
 import SelectField from "@/components/inputs/select-input";
-import { useFormContext, useWatch } from "react-hook-form";
+import { useFieldArray, useFormContext, useWatch } from "react-hook-form";
 import { Trash2Icon } from "lucide-react";
 import { useEffect } from "react";
 import { formatNow } from "@/utils/format-date";
@@ -40,6 +40,13 @@ export default function TableExpenses({
     control,
   }) as ExpensesSchemaType[];
 
+  const { fields } = useFieldArray({
+    control,
+    name: "report.expenses",
+  });
+
+  console.log(fields);
+
   useEffect(() => {
     fieldsValues?.forEach((item, idx) => {
       if (item?.sum && item?.name && !item?.time) {
@@ -54,20 +61,20 @@ export default function TableExpenses({
     <Table className="md:table-fixed">
       <TableHeader>
         <TableRow>
-          <TableHead className="w-18 font-bold text-bl">Expenses</TableHead>
+          <TableHead className="w-16 font-bold text-bl">Expenses</TableHead>
           <TableHead className="w-11" />
           <TableHead className="w-11" />
           <TableHead className="w-8" />
         </TableRow>
       </TableHeader>
       <TableBody>
-        {fieldsValues?.map((_, idx: number) => (
-          <TableRow key={idx}>
+        {fields?.map((item, idx: number) => (
+          <TableRow key={item.id}>
             <TableCell className="py-1.5">
               <SelectField
                 data={RECIPIENTS}
                 fieldName={`report.expenses.${idx}.name`}
-                className="w-full h-6! border-0! shadow-none p-0 text-sm!"
+                className="w-full h-6! border-0! shadow-none p-0 text-sm! font-medium!"
                 placeHolder="..."
                 disabled={disabled}
               />

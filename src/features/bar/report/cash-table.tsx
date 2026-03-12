@@ -41,10 +41,10 @@ export default function TableCashVerify({
     <Table className="md:table-fixed">
       <TableHeader>
         <TableRow>
-          <TableHead className="w-12 font-bold text-bl">CashVerify</TableHead>
-          <TableHead className="w-12" />
-          <TableHead className="w-12" />
-          <TableHead className="w-12" />
+          <TableHead className="w-14 font-bold text-bl">CashVerify</TableHead>
+          <TableHead className="w-14" />
+          <TableHead className="w-14" />
+          <TableHead className="w-14" />
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -57,7 +57,7 @@ export default function TableCashVerify({
               <TableCell className="py-1.5">
                 <NumericInput
                   fieldName={`report.cashVerify.${i}.value`}
-                  className="w-full text-center h-6"
+                  className="text-center h-6"
                   disabled={disabled}
                 />
               </TableCell>
@@ -69,7 +69,7 @@ export default function TableCashVerify({
               <TableCell className="py-1">
                 <NumericInput
                   fieldName={`report.cashVerify.${i + rows}.value`}
-                  className="w-full text-center h-6"
+                  className=" text-center h-6"
                   disabled={disabled}
                 />
               </TableCell>

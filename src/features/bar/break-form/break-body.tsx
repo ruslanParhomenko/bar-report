@@ -80,7 +80,7 @@ export default function BreakTableBody({
                       }
                       data={MINUTES_SELECT}
                       className={cn(
-                        "justify-center border-0 h-6!",
+                        "justify-center border-0 h-6! w-8!",
                         isTrue ? "text-rd! font-bold text-[18px]" : "",
                       )}
                       disabled={isDisabled}
