@@ -129,7 +129,7 @@ export default function NavTabs() {
   };
 
   const tabsWidth = `w-1/${navItems.length}`;
-  const itemsWidth = navItems.length < 5 ? "w-12" : "w-8";
+  const itemsWidth = navItems.length < 5 ? "w-12" : "w-9";
 
   return (
     <Tabs
@@ -137,7 +137,7 @@ export default function NavTabs() {
       onValueChange={handleTabChange}
       className={cn("sticky top-0 bg-background z-30", !config && "hidden")}
     >
-      <div className="flex justify-between my-2 px-4">
+      <div className="flex md:justify-between justify-center my-2 px-4">
         {navItems.length > 0 && (
           <TabsList className="flex md:gap-4 h-8 ">
             {navItems.map((item) => (

@@ -6,3 +6,5 @@ export const EMPLOYEES_ROLE = [
   "dish",
   "buyer",
 ];
+
+export const STATUS_OPTIONS = ["active", "fired"];

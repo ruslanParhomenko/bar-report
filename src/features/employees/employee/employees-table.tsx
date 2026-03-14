@@ -13,7 +13,7 @@ import { cn } from "@/lib/utils";
 import { EmployeesContextValue } from "@/providers/employees-provider";
 import ActionButtonEmployee from "./employee-actions";
 import { handleCopy } from "@/utils/handler-copy-text";
-import { CheckCircle, UserX } from "lucide-react";
+import { CheckCircle, UserX, XCircle } from "lucide-react";
 import { useAbility } from "@/providers/ability-provider";
 import SelectEmployeeBy from "@/components/nav/select-employee";
 import { useRef, useState } from "react";
@@ -36,21 +36,23 @@ export function EmployeesTable({ data }: { data: EmployeesContextValue[] }) {
         <TableHeader className="sticky top-0 bg-background z-20">
           <TableRow className="text-gr h-12">
             <TableHead className="w-5" />
-            <TableHead className="w-15">{t("date")}</TableHead>
-            <TableHead className="sticky left-0 md:w-25">{t("name")}</TableHead>
-            <TableHead className="w-15">{t("rate")}</TableHead>
+            <TableHead className="w-15" />
+            <TableHead className="sticky left-0 md:w-25" />
+            <TableHead className="w-15">rate</TableHead>
             <TableHead className="w-20">
               <SelectEmployeeBy role={role} setRole={setRole} />
             </TableHead>
-            <TableHead className="w-30">{t("mail")}</TableHead>
-            <TableHead className="w-20 truncate">{t("tel")}</TableHead>
-            <TableHead className="w-12 truncate">{t("vacation")}</TableHead>
-            <TableHead className="w-12 truncate">
-              {t("usedVacationDays")}
-            </TableHead>
-            <TableHead className="w-12 truncate">{t("remaining")}</TableHead>
+            <TableHead className="w-30">mail</TableHead>
+            <TableHead className="w-20 truncate">tel</TableHead>
+            <TableHead className="w-12 truncate">vacation</TableHead>
+            <TableHead className="w-12 truncate">used</TableHead>
+            <TableHead className="w-12 truncate">remaining</TableHead>
 
-            <TableHead className="w-15">{t("status")}</TableHead>
+            <TableHead className="w-15">status</TableHead>
+            <TableHead className="w-15 truncate print:w-5">
+              {t("employeesWorkForm")}
+            </TableHead>
+            <TableHead className="w-15 truncate">{t("employeesKey")}</TableHead>
             <TableHead className="text-center w-25">
               <PrintButton componentRef={componentRef} className="" />
             </TableHead>
@@ -89,7 +91,7 @@ export function EmployeesTable({ data }: { data: EmployeesContextValue[] }) {
 
                   <TableCell
                     className={cn(
-                      "sticky left-0 bg-background/70 z-10",
+                      "sticky left-0 bg-background z-10 print:w-30 print:bg-transparent",
                       emp.status && emp.status === "fired"
                         ? "text-muted-foreground!"
                         : "",
@@ -121,6 +123,20 @@ export function EmployeesTable({ data }: { data: EmployeesContextValue[] }) {
                       <UserX className="w-4 h-4 text-rd" />
                     ) : (
                       <CheckCircle className="w-4 h-4 text-bl" />
+                    )}
+                  </TableCell>
+                  <TableCell className="print:w-10">
+                    {emp.employeesWorkForm ? (
+                      <CheckCircle className="w-4 h-4 text-bl" />
+                    ) : (
+                      <XCircle className="w-4 h-4 text-rd" />
+                    )}
+                  </TableCell>
+                  <TableCell className="print:w-10">
+                    {emp.employeesKey ? (
+                      <CheckCircle className="w-4 h-4 text-bl" />
+                    ) : (
+                      <XCircle className="w-4 h-4 text-rd" />
                     )}
                   </TableCell>
                   <TableCell className="print:hidden">

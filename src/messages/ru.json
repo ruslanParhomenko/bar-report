@@ -1,5 +1,7 @@
 {
   "Home": {
+    "employeesKey": "ключ",
+    "employeesWorkForm": "форма",
     "tabs": "таблицы",
     "day": "день",
     "ttn": "ттн",
