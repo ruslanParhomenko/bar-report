@@ -1,7 +1,10 @@
 "use server";
 
 import { dbAdmin } from "@/lib/firebase-admin";
-import { EmployeesSchemaTypeData } from "@/features/employees/employee/schema";
+import {
+  EmployeesSchemaType,
+  EmployeesSchemaTypeData,
+} from "@/features/employees/employee/schema";
 import { unstable_cache, updateTag } from "next/cache";
 import { redis } from "@/lib/redis";
 import { EMPLOYEES_ACTION_TAG } from "@/constants/action-tag";
@@ -17,7 +20,7 @@ export async function createEmployee(data: Omit<EmployeeData, "id">) {
     mail: data.mail,
     tel: data.tel,
     status: data.status,
-    employmentDate: data.employmentDate,
+    employmentDate: data.employmentDate ? new Date(data.employmentDate) : null,
     vacationPay: (data.vacationPay || []).map((pay) => ({
       startDate: pay.startDate,
       endDate: pay.endDate,
@@ -34,7 +37,15 @@ export async function updateEmployee(
   id: string,
   data: Omit<EmployeeData, "id">,
 ) {
-  await dbAdmin.collection(EMPLOYEES_ACTION_TAG).doc(id).update(data);
+  await dbAdmin
+    .collection(EMPLOYEES_ACTION_TAG)
+    .doc(id)
+    .update({
+      ...data,
+      employmentDate: data.employmentDate
+        ? new Date(data.employmentDate)
+        : null,
+    });
   updateTag(EMPLOYEES_ACTION_TAG);
   await redis.del(EMPLOYEES_ACTION_TAG);
 }
@@ -50,12 +61,27 @@ export async function deleteEmployee(id: string) {
 
 const _getEmployees = async (): Promise<EmployeeData[]> => {
   const snapshot = await dbAdmin.collection(EMPLOYEES_ACTION_TAG).get();
+
   return snapshot.docs.map((doc) => {
-    const data = doc.data() as Omit<EmployeeData, "id">;
+    const data = doc.data();
+
+    let employmentDate: string | null = null;
+
+    if (data.employmentDate) {
+      if (typeof data.employmentDate === "string") {
+        employmentDate = data.employmentDate;
+      } else if (data.employmentDate instanceof Date) {
+        employmentDate = data.employmentDate.toISOString();
+      } else if ("toDate" in data.employmentDate) {
+        employmentDate = data.employmentDate.toDate().toISOString();
+      }
+    }
+
     return {
       id: doc.id,
       ...data,
-    };
+      employmentDate,
+    } as EmployeeData;
   });
 };
 
@@ -67,15 +93,3 @@ export const getEmployees = unstable_cache(
     tags: [EMPLOYEES_ACTION_TAG],
   },
 );
-
-// export const getEmployees = async () => {
-//   "use cache";
-
-//   cacheTag("employees");
-
-//   const snapshot = await dbAdmin.collection("employees").get();
-//   return snapshot.docs.map((doc) => ({
-//     id: doc.id,
-//     ...doc.data(),
-//   }));
-// };

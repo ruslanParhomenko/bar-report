@@ -19,7 +19,13 @@ export const employeesSchema = z.object({
   tel: z.string().optional(),
   role: z.string().min(1, { message: "Role is required" }),
   rate: z.string().min(1, { message: "Rate is required" }),
-  employmentDate: z.coerce.date().optional(),
+  employmentDate: z
+    .union([z.date(), z.string()])
+    .nullable()
+    .transform((val) => {
+      if (!val) return null;
+      return val instanceof Date ? val : new Date(val);
+    }),
   status: z.enum(["active", "fired"]),
   employeesWorkForm: z.boolean().optional(),
   employeesKey: z.boolean().optional(),
@@ -35,7 +41,7 @@ export const defaultEmployeeSchemaValues: Partial<EmployeesSchemaTypeData> = {
   tel: "",
   role: "",
   rate: "",
-  employmentDate: undefined,
+  employmentDate: null,
   status: "active",
   vacationPay: [defaultVacationPay],
 };

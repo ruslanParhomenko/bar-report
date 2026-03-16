@@ -41,6 +41,7 @@ export function EmployeeForm({ id }: { id?: string }) {
   });
 
   const handleSubmit: SubmitHandler<FormData> = async (data) => {
+    console.log("data submit", data);
     if (id) {
       await updateEmployee(id, data);
       toast.success("Employee updated!");

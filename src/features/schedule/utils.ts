@@ -61,7 +61,7 @@ export function calculateSalaryByHours(
 export function getSelectedEmployeesByRole(
   patch: keyof typeof EMPLOYEE_ROLES_BY_DEPARTMENT,
 ) {
-  const employees = useEmployees();
+  const employees = useEmployees().filter((e) => e.status === "active");
   const allowedRoles: readonly string[] =
     EMPLOYEE_ROLES_BY_DEPARTMENT[patch] ?? [];
 

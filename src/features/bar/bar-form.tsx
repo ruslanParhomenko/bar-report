@@ -57,6 +57,7 @@ export default function BarForm({
 
   const employeesName = useEmployees()
     .filter((emp) => BAR_EMPLOYEES.includes(emp.role))
+    .filter((emp) => emp.status === "active")
     .map((e) => e.name);
 
   const form = useForm<BarFormValues>({

@@ -38,9 +38,11 @@ export default function TipsForm({
   const [showSendButton, setShowSendButton] = useState(false);
 
   const monthDays = getMonthDays({ month, year });
-  const employees = useEmployees().filter((e) =>
-    SELECTED_ROLE.includes(e.role as (typeof SELECTED_ROLE)[number]),
-  );
+  const employees = useEmployees()
+    .filter((e) => e.status === "active")
+    .filter((e) =>
+      SELECTED_ROLE.includes(e.role as (typeof SELECTED_ROLE)[number]),
+    );
 
   // form
   const form = useForm<TipsFormType>({

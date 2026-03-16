@@ -30,6 +30,8 @@ export function EmployeesTable({ data }: { data: EmployeesContextValue[] }) {
 
   const isViewer = isAdmin || isManager;
 
+  console.log("data", data);
+
   return (
     <div ref={componentRef}>
       <Table className="md:table-fixed">
