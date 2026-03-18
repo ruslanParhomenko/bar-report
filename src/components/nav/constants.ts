@@ -76,6 +76,7 @@ export const SETTINGS_NAV_ITEMS = [
   { label: "products", value: "products" },
   { label: "breakList", value: "breakList" },
   { label: "order-products", value: "order-products" },
+  { label: "ttn", value: "ttn" },
 ];
 
 type NAV_BY_PATCH_TYPE = Record<

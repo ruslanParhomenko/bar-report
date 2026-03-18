@@ -45,8 +45,6 @@ export default function TableExpenses({
     name: "report.expenses",
   });
 
-  console.log(fields);
-
   useEffect(() => {
     fieldsValues?.forEach((item, idx) => {
       if (item?.sum && item?.name && !item?.time) {
@@ -82,7 +80,7 @@ export default function TableExpenses({
             <TableCell className="py-0">
               <NumericInput
                 fieldName={`report.expenses.${idx}.sum`}
-                className="w-14! h-7! text-center"
+                className="w-14! h-7! text-center text-xs!"
                 disabled={disabled}
               />
             </TableCell>

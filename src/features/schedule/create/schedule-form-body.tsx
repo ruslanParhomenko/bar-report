@@ -9,7 +9,6 @@ import {
 } from "react-hook-form";
 import { cn } from "@/lib/utils";
 import { EmployeesContextValue } from "@/providers/employees-provider";
-import { MonthDayType } from "@/utils/get-month-days";
 import { ScheduleType } from "./schema";
 import { color, SHIFT_HOURS_MAP_DAY, SHIFT_HOURS_MAP_NIGHT } from "./constants";
 import { calculateSalaryByHours } from "../utils";
@@ -18,13 +17,11 @@ import { handleMultiTableNavigation } from "@/utils/handle-table-navigation";
 
 export default function ScheduleCreateTableBody({
   fields,
-  monthDays,
   selectedEmployees,
   remove,
   move,
 }: {
   fields: FieldArrayWithId<ScheduleType, "rowShifts", "id">[];
-  monthDays: MonthDayType[];
   selectedEmployees: EmployeesContextValue[];
   remove: UseFieldArrayReturn<ScheduleType, "rowShifts", "id">["remove"];
   move: UseFieldArrayReturn<ScheduleType, "rowShifts", "id">["move"];
@@ -133,7 +130,7 @@ export default function ScheduleCreateTableBody({
               />
             </TableCell>
 
-            {monthDays.map((_day, dayIndex) => {
+            {row.shifts.map((_day, dayIndex) => {
               const fieldName = `rowShifts.${rowIndex}.shifts.${dayIndex}`;
               const value = form.getValues(fieldName);
               return (
@@ -144,7 +141,7 @@ export default function ScheduleCreateTableBody({
                     data-col={dayIndex}
                     onKeyDown={handleMultiTableNavigation}
                     className={cn(
-                      "w-12 h-9 text-center",
+                      "w-full h-9 text-center",
                       value === "" ? "bg-border/20" : "",
                       color[value as keyof typeof color],
                     )}

@@ -1,12 +1,7 @@
 "use client";
 import { useEffect } from "react";
 import { Table } from "@/components/ui/table";
-import {
-  Resolver,
-  SubmitHandler,
-  useFieldArray,
-  useForm,
-} from "react-hook-form";
+import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
 
 import {
   createSchedule,
@@ -50,7 +45,7 @@ export function ScheduleCreatePage({
 
   // set form
   const form = useForm<ScheduleType>({
-    resolver: zodResolver(scheduleSchema) as Resolver<ScheduleType>,
+    resolver: zodResolver(scheduleSchema),
     defaultValues: found,
   });
   const { fields, remove, replace, move } = useFieldArray({
@@ -129,18 +124,17 @@ export function ScheduleCreatePage({
   }, [month, tab, selectedEmployees, monthDays.length, fields.length]);
 
   return (
-    <FormInput form={form} onSubmit={onSubmit}>
+    <FormInput form={form} onSubmit={onSubmit} withButtons={false}>
       <Table className="table-fixed">
         <ScheduleTableHeader
           addNewRow={addRow}
           isSave={true}
-          monthDays={monthDays}
           month={month}
+          year={year}
         />
 
         <ScheduleCreateTableBody
           fields={fields}
-          monthDays={monthDays}
           selectedEmployees={selectedEmployees}
           remove={remove}
           move={move}

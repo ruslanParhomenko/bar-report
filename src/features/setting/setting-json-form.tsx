@@ -7,7 +7,7 @@ import { saveSettingsData } from "@/app/actions/settings/settings-action";
 
 type Props = {
   defaultValue: string;
-  type: "products" | "breakList" | "orderProducts";
+  type: "products" | "breakList" | "orderProducts" | "ttn";
 };
 
 export default function SettingsJsonForm({ defaultValue, type }: Props) {

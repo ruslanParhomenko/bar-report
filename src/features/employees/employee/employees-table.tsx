@@ -8,7 +8,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { differenceInMonths } from "date-fns";
-import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
 import { EmployeesContextValue } from "@/providers/employees-provider";
 import ActionButtonEmployee from "./employee-actions";
@@ -21,16 +20,12 @@ import { formatShortDate } from "@/utils/format-date";
 import PrintButton from "@/components/buttons/print-button";
 
 export function EmployeesTable({ data }: { data: EmployeesContextValue[] }) {
-  const t = useTranslations("Home");
-
   const [role, setRole] = useState("waiters");
 
   const { isAdmin, isManager } = useAbility();
   const componentRef = useRef<HTMLDivElement>(null);
 
   const isViewer = isAdmin || isManager;
-
-  console.log("data", data);
 
   return (
     <div ref={componentRef}>
@@ -51,10 +46,8 @@ export function EmployeesTable({ data }: { data: EmployeesContextValue[] }) {
             <TableHead className="w-12 truncate">remaining</TableHead>
 
             <TableHead className="w-15">status</TableHead>
-            <TableHead className="w-15 truncate print:w-5">
-              {t("employeesWorkForm")}
-            </TableHead>
-            <TableHead className="w-15 truncate">{t("employeesKey")}</TableHead>
+            <TableHead className="w-15 truncate print:w-5">form</TableHead>
+            <TableHead className="w-15 truncate">key</TableHead>
             <TableHead className="text-center w-25">
               <PrintButton componentRef={componentRef} className="" />
             </TableHead>

@@ -1,24 +1,26 @@
+"use client";
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import { color, SHIFT_COLOR_MAP } from "./create/constants";
 import { calculateSalaryByHours } from "./utils";
 import { SchedulesContextValue } from "@/app/actions/schedule/schedule-action";
+import { useAbility } from "@/providers/ability-provider";
 
 export default function ScheduleTableBody({
   schedule,
-  isView,
 }: {
   schedule: SchedulesContextValue | null;
-  isView: boolean;
 }) {
   const todayDay = new Date().getDate();
+
+  const { isAdmin } = useAbility();
   return (
     <TableBody>
       {schedule?.rowShifts?.map((row, rowIndex) => {
         const isSelected = !SHIFT_COLOR_MAP.includes(
           row.shifts?.[todayDay - 1],
         );
-        const totalPay = isView
+        const totalPay = isAdmin
           ? calculateSalaryByHours(row).toFixed(0).toString()
           : "0";
         return (

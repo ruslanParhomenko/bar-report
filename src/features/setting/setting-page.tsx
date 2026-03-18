@@ -11,10 +11,13 @@ export default function SettingPage({
     productsData: string;
     breakListData: string;
     orderProductsData: string;
+    ttnData: string;
   };
 }) {
   const searchParams = useSearchParams();
   const tab = searchParams.get("tab");
+
+  console.log(defaultValue);
 
   return (
     <>
@@ -35,6 +38,9 @@ export default function SettingPage({
           defaultValue={defaultValue.orderProductsData}
           type="orderProducts"
         />
+      </Activity>
+      <Activity mode={tab === "ttn" ? "visible" : "hidden"}>
+        <SettingsJsonForm defaultValue={defaultValue.ttnData} type="ttn" />
       </Activity>
     </>
   );

@@ -68,11 +68,11 @@ export default function TableProductsTransfer({
     <Table className="md:table-fixed">
       <TableHeader>
         <TableRow>
-          <TableHead className="w-24 font-bold text-bl"> Transfer</TableHead>
-          <TableHead className="w-22" />
-          <TableHead className="w-8" />
+          <TableHead className="w-28 font-bold text-bl"> Transfer</TableHead>
+          <TableHead className="w-18" />
+          <TableHead className="w-10" />
           <TableHead className="w-10"></TableHead>
-          <TableHead className="w-8"></TableHead>
+          <TableHead className="w-6"></TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -99,7 +99,7 @@ export default function TableProductsTransfer({
             <TableCell className="py-0">
               <NumericInput
                 fieldName={`report.productTransfer.${idx}.quantity`}
-                className="w-8 text-center h-7! text-sm!"
+                className="w-8 text-center h-7! text-xs!"
                 disabled={disabled}
               />
             </TableCell>
@@ -108,7 +108,7 @@ export default function TableProductsTransfer({
             </TableCell>
             <TableCell
               onClick={() => !disabled && reset(idx)}
-              className="cursor-pointer py-0"
+              className="cursor-pointer p-0"
             >
               {fieldsValues?.[idx]?.name && (
                 <Trash2Icon className="w-4 h-4  text-rd" />

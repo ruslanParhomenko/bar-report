@@ -1,11 +1,11 @@
-//create shedule
+//create schedule
 export const ROLE_URL = {
   bar: "restaurant",
   cucina: "cucina",
   dish: "dish",
 };
 export const SHIFTS = {
-  bar: ["8", "9", "10", "12", "13", "14", "18", "20"],
+  bar: ["8", "12", "18", "20"],
   cucina: ["7", "19"],
   dish: ["7", "19"],
 };
@@ -401,7 +401,6 @@ export const SHIFT_HOURS_MAP_NIGHT: Record<string, number> = {
   "6.13": 3,
   "7.13": 3,
   "8.13": 3,
-
   "14": 4,
   "-1.14": 4,
   "-2.14": 4,

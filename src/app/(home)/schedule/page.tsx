@@ -1,35 +1,23 @@
-import {
-  getScheduleByMonthYear,
-  SchedulesContextValue,
-} from "@/app/actions/schedule/schedule-action";
+import { getScheduleByMonthYear } from "@/app/actions/schedule/schedule-action";
 import SchedulePage from "@/features/schedule/schedule-page";
-import { authOptions } from "@/lib/auth";
 import ClientRefProvider from "@/providers/client-ref-provider";
-import { getServerSession } from "next-auth";
 
 export default async function Page({
   searchParams,
 }: {
   searchParams: Promise<{ [key: string]: string }>;
 }) {
-  const session = await getServerSession(authOptions);
+  const { month, year, tab } = await searchParams;
+  if (!month || !year || !tab) return null;
 
-  const isView =
-    session?.user?.role === "ADMIN" || session?.user?.role === "MNGR";
-
-  const { month, year } = await searchParams;
-  if (!month || !year) return null;
-
-  const schedule = await getScheduleByMonthYear(month, year);
+  const schedule =
+    (await getScheduleByMonthYear(month, year)).find(
+      (s: any) => s.role === tab,
+    ) || null;
 
   return (
     <ClientRefProvider>
-      <SchedulePage
-        schedule={schedule as SchedulesContextValue[]}
-        month={month}
-        year={year}
-        isView={isView}
-      />
+      <SchedulePage schedule={schedule} month={month} year={year} />
     </ClientRefProvider>
   );
 }

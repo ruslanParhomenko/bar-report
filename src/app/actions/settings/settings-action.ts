@@ -3,6 +3,7 @@
 import { createDataBreakList } from "../data-constants/data-break-action";
 import { createDataOrderProducts } from "../data-constants/data-order-products";
 import { createDataProducts } from "../data-constants/data-products-action";
+import { createDataTTN } from "../data-constants/data-ttn-action";
 
 type State = {
   success?: boolean;
@@ -53,6 +54,10 @@ export async function saveSettingsData(
     }
     if (type === "orderProducts") {
       await createDataOrderProducts(parsed);
+    }
+
+    if (type === "ttn") {
+      await createDataTTN(parsed);
     }
 
     return { success: true };

@@ -1,27 +1,28 @@
 import { TableCell, TableHeader, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
-import { MonthDayType } from "@/utils/get-month-days";
+import { getMonthDays } from "@/utils/get-month-days";
 import ScheduleActionButton from "./schedule-action";
 
 export default function ScheduleTableHeader({
   scheduleId,
   addNewRow,
   isSave = false,
-  monthDays,
   month,
+  year,
 }: {
   scheduleId?: string;
   addNewRow?: () => void;
   isSave?: boolean;
-  monthDays: MonthDayType[];
-  month?: string;
+  month: string;
+  year: string;
 }) {
   const todayDay = new Date().getDate();
+  const monthDays = getMonthDays({ month, year });
 
   return (
     <TableHeader>
       <TableRow className="h-14!">
-        <TableCell colSpan={4} className="w-44">
+        <TableCell colSpan={4} className="w-40">
           <ScheduleActionButton
             scheduleId={scheduleId as string}
             isSave={isSave}
@@ -53,7 +54,7 @@ export default function ScheduleTableHeader({
           );
         })}
 
-        <TableCell className="w-6 p-0" />
+        {isSave && <TableCell className="w-6 p-0" />}
       </TableRow>
     </TableHeader>
   );

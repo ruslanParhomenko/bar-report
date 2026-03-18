@@ -25,8 +25,6 @@ export default function NavTabs() {
   const config =
     NAV_BY_PATCH[pathname.split("/")[1] as keyof typeof NAV_BY_PATCH];
 
-  console.log(config);
-
   const filterType = config?.filterMonth;
   const navItems = config?.navItems ?? [];
 

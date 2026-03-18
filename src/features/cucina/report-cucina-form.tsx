@@ -145,7 +145,12 @@ export default function ReportCucinaForm({
         weight: "weight",
         time: "time",
       },
-      dataFieldArray: dataProducts.staff,
+      dataFieldArray: [
+        ...dataProducts.staff,
+        ...dataProducts.garnish,
+        ...dataProducts.soup,
+        ...dataProducts.meat,
+      ],
       defaultValue: productPreparedDefault,
     },
     {
