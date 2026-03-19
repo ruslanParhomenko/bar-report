@@ -91,18 +91,25 @@ export default function ScheduleCreateTableBody({
   return (
     <TableBody>
       {fields.map((row, rowIndex) => {
-        console.log("row", shifts[rowIndex].shifts);
-        const dayHours = (shifts[rowIndex].shifts || []).reduce(
+        const rowShifts = shifts[rowIndex] || [];
+
+        const dayHours = (rowShifts.shifts || []).reduce(
           (sum: number, val: string) => sum + (SHIFT_HOURS_MAP_DAY?.[val] ?? 0),
           0,
         );
-        const nightHours = (shifts[rowIndex].shifts || []).reduce(
+        const nightHours = (rowShifts.shifts || []).reduce(
           (sum: number, val: string) =>
             sum + (SHIFT_HOURS_MAP_NIGHT?.[val] ?? 0),
           0,
         );
         const rate = form.getValues(`rowShifts.${rowIndex}.rate`);
-        const totalPay = calculateSalaryByHours(shifts[rowIndex] || []);
+        const totalPay = calculateSalaryByHours({
+          ...rowShifts,
+          dayHours,
+          nightHours,
+        });
+
+        console.log(totalPay);
         return (
           <TableRow key={row.id} className="hover:text-rd">
             <TableCell
@@ -117,14 +124,14 @@ export default function ScheduleCreateTableBody({
                 {...form.register(`rowShifts.${rowIndex}.dayHours`)}
                 readOnly
               /> */}
-              {dayHours}
+              {dayHours || 0}
             </TableCell>
             <TableCell className="text-bl text-xs">
               {/* <input
                 {...form.register(`rowShifts.${rowIndex}.nightHours`)}
                 readOnly
               /> */}
-              {nightHours}
+              {nightHours || 0}
             </TableCell>
 
             <TableCell className="text-center text-xs font-bold">
