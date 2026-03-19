@@ -1,23 +1,23 @@
 import { getScheduleByMonthYear } from "@/app/actions/schedule/schedule-action";
 import SchedulePage from "@/features/schedule/schedule-page";
 import ClientRefProvider from "@/providers/client-ref-provider";
+import { PageParams } from "@/types/params";
 
 export default async function Page({
   searchParams,
 }: {
   searchParams: Promise<{ [key: string]: string }>;
 }) {
-  const { month, year, tab } = await searchParams;
+  const params = (await searchParams) as PageParams;
+  const { month, year, tab } = params;
   if (!month || !year || !tab) return null;
 
-  const schedule =
-    (await getScheduleByMonthYear(month, year)).find(
-      (s: any) => s.role === tab,
-    ) || null;
+  const schedules = await getScheduleByMonthYear(month, year);
 
+  const schedule = schedules?.find((s: any) => s.role === tab) ?? null;
   return (
     <ClientRefProvider>
-      <SchedulePage schedule={schedule} month={month} year={year} />
+      <SchedulePage schedule={schedule} params={params} />
     </ClientRefProvider>
   );
 }

@@ -6,6 +6,7 @@ import {
   FieldArrayWithId,
   UseFieldArrayReturn,
   useFormContext,
+  useWatch,
 } from "react-hook-form";
 import { cn } from "@/lib/utils";
 import { EmployeesContextValue } from "@/providers/employees-provider";
@@ -28,43 +29,48 @@ export default function ScheduleCreateTableBody({
 }) {
   const form = useFormContext();
 
-  useEffect(() => {
-    const subscription = form.watch((_, { name }) => {
-      if (name?.includes("shifts")) {
-        const match = name.match(/rowShifts\.(\d+)\.shifts/);
-        if (match) {
-          const rowIndex = parseInt(match[1]);
-          const shifts = form.getValues(`rowShifts.${rowIndex}.shifts`) || [];
+  const shifts = useWatch({
+    control: form.control,
+    name: "rowShifts",
+  });
 
-          const totalHoursDay = shifts.reduce(
-            (sum: number, val: string) =>
-              sum + (SHIFT_HOURS_MAP_DAY?.[val] ?? 0),
-            0,
-          );
-          const totalHoursNight = shifts.reduce(
-            (sum: number, val: string) =>
-              sum + (SHIFT_HOURS_MAP_NIGHT?.[val] ?? 0),
-            0,
-          );
+  // useEffect(() => {
+  //   const subscription = form.watch((_, { name }) => {
+  //     if (name?.includes("shifts")) {
+  //       const match = name.match(/rowShifts\.(\d+)\.shifts/);
+  //       if (match) {
+  //         const rowIndex = parseInt(match[1]);
+  //         const shifts = form.getValues(`rowShifts.${rowIndex}.shifts`) || [];
 
-          form.setValue(
-            `rowShifts.${rowIndex}.dayHours`,
-            totalHoursDay.toString(),
-          );
-          form.setValue(
-            `rowShifts.${rowIndex}.nightHours`,
-            totalHoursNight.toString(),
-          );
-          form.setValue(
-            `rowShifts.${rowIndex}.totalHours`,
-            (totalHoursDay + totalHoursNight).toString(),
-          );
-        }
-      }
-    });
+  //         const totalHoursDay = shifts.reduce(
+  //           (sum: number, val: string) =>
+  //             sum + (SHIFT_HOURS_MAP_DAY?.[val] ?? 0),
+  //           0,
+  //         );
+  //         const totalHoursNight = shifts.reduce(
+  //           (sum: number, val: string) =>
+  //             sum + (SHIFT_HOURS_MAP_NIGHT?.[val] ?? 0),
+  //           0,
+  //         );
 
-    return () => subscription.unsubscribe();
-  }, [form]);
+  //         form.setValue(
+  //           `rowShifts.${rowIndex}.dayHours`,
+  //           totalHoursDay.toString(),
+  //         );
+  //         form.setValue(
+  //           `rowShifts.${rowIndex}.nightHours`,
+  //           totalHoursNight.toString(),
+  //         );
+  //         form.setValue(
+  //           `rowShifts.${rowIndex}.totalHours`,
+  //           (totalHoursDay + totalHoursNight).toString(),
+  //         );
+  //       }
+  //     }
+  //   });
+
+  //   return () => subscription.unsubscribe();
+  // }, [form]);
   useEffect(() => {
     const subscription = form.watch((value, { name }) => {
       if (name?.startsWith("rowShifts.") && name.endsWith(".employee")) {
@@ -85,49 +91,63 @@ export default function ScheduleCreateTableBody({
   return (
     <TableBody>
       {fields.map((row, rowIndex) => {
+        console.log("row", shifts[rowIndex].shifts);
+        const dayHours = (shifts[rowIndex].shifts || []).reduce(
+          (sum: number, val: string) => sum + (SHIFT_HOURS_MAP_DAY?.[val] ?? 0),
+          0,
+        );
+        const nightHours = (shifts[rowIndex].shifts || []).reduce(
+          (sum: number, val: string) =>
+            sum + (SHIFT_HOURS_MAP_NIGHT?.[val] ?? 0),
+          0,
+        );
         const rate = form.getValues(`rowShifts.${rowIndex}.rate`);
-        const totalPay = calculateSalaryByHours(row);
+        const totalPay = calculateSalaryByHours(shifts[rowIndex] || []);
         return (
           <TableRow key={row.id} className="hover:text-rd">
             <TableCell
-              className="text-rd cursor-pointer text-xs w-8"
+              className="text-rd cursor-pointer text-xs"
               onClick={() => remove(rowIndex)}
             >
               {rowIndex + 1}
             </TableCell>
 
-            <TableCell className="text-bl text-xs w-8">
-              <input
+            <TableCell className="text-bl text-xs">
+              {/* <input
                 {...form.register(`rowShifts.${rowIndex}.dayHours`)}
-                className="w-6"
                 readOnly
-              />
+              /> */}
+              {dayHours}
             </TableCell>
             <TableCell className="text-bl text-xs">
-              <input
+              {/* <input
                 {...form.register(`rowShifts.${rowIndex}.nightHours`)}
-                className="w-6"
                 readOnly
-              />
+              /> */}
+              {nightHours}
             </TableCell>
 
-            <TableCell className="text-center w-10">
-              <input
+            <TableCell className="text-center text-xs font-bold">
+              {/* <input
                 {...form.register(`rowShifts.${rowIndex}.totalHours`)}
-                className="font-bold w-10"
+                className="font-bold text-xs"
                 readOnly
-              />
+              /> */}
+              {dayHours + nightHours}
             </TableCell>
 
-            <TableCell className="text-xs p-0">
-              {rate / 1000}:{totalPay && ` ${totalPay.toFixed()}`}
+            <TableCell className="text-xs text-center">
+              {totalPay && ` ${totalPay.toFixed()}`}
             </TableCell>
-            <TableCell className="py-0 w-44 sticky left-0">
+            <TableCell className="py-0 sticky left-0">
               <SelectField
                 fieldName={`rowShifts.${rowIndex}.employee`}
                 data={selectedEmployees.map((e) => e.name)}
-                className="hover:text-rd justify-start"
+                className="hover:text-rd justify-start p-0"
               />
+            </TableCell>
+            <TableCell className="p-0 text-xs">
+              {row.role.charAt(0)}-{rate / 1000}
             </TableCell>
 
             {row.shifts.map((_day, dayIndex) => {

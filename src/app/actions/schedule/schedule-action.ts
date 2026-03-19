@@ -8,10 +8,12 @@ import { SCHEDULE_ACTION_TAG } from "@/constants/action-tag";
 
 export type ScheduleData = ScheduleType & {
   uniqueKey: string;
+  year: string;
+  month: string;
+  role: string;
 };
-export type SchedulesContextValue = ScheduleType & {
+export type SchedulesContextValue = ScheduleData & {
   id: string;
-  uniqueKey: string;
 };
 
 // create

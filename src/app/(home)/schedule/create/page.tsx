@@ -1,17 +1,13 @@
 import { ScheduleCreatePage } from "@/features/schedule/create/schedule-form";
+import { PageParams } from "@/types/params";
 
 export default async function Page({
   searchParams,
 }: {
   searchParams: Promise<{ [key: string]: string | undefined }>;
 }) {
-  const { month, year, tab } = await searchParams;
+  const params = (await searchParams) as PageParams;
+  const { month, year, tab } = params;
   if (!month || !year || !tab) return null;
-  return (
-    <ScheduleCreatePage
-      tab={tab}
-      month={month as string}
-      year={year as string}
-    />
-  );
+  return <ScheduleCreatePage params={params} />;
 }

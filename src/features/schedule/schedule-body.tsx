@@ -25,23 +25,28 @@ export default function ScheduleTableBody({
           : "0";
         return (
           <TableRow key={row.id} className="hover:text-rd">
-            <TableCell>{rowIndex + 1}</TableCell>
+            <TableCell className="text-xs font-bold">{rowIndex + 1}</TableCell>
             <TableCell className="text-bl text-xs">{row.dayHours}</TableCell>
             <TableCell className="text-bl text-xs">{row.nightHours}</TableCell>
-            <TableCell className="font-bold">{row.totalHours}</TableCell>
+            <TableCell className="font-bold text-xs">
+              {row.totalHours}
+            </TableCell>
             <TableCell
-              className="text-xs text-gn p-0  print:hidden"
+              className="text-xs text-gn print:hidden"
               data-html2canvas-ignore="true"
             >
               {totalPay}
             </TableCell>
             <TableCell
               className={cn(
-                "sticky left-0 bg-background pl-2 truncate text-muted-foreground",
+                "sticky left-0 bg-background pl-1 truncate text-muted-foreground",
                 isSelected && "text-rd font-bold",
               )}
             >
               {row.employee}
+            </TableCell>
+            <TableCell className="text-xs text-muted-foreground text-right">
+              {row.role.charAt(0)}
             </TableCell>
 
             {row.shifts?.map((day, dayIndex) => {

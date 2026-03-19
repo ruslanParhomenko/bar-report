@@ -29,17 +29,11 @@ export const defaultRowShift = {
 };
 
 export const scheduleSchema = z.object({
-  year: z.string(),
-  month: z.string(),
-  role: z.string(),
   rowShifts: z.array(rowShiftSchema),
 });
 
 export type ScheduleType = z.infer<typeof scheduleSchema>;
 
 export const defaultSchedule = {
-  year: "",
-  month: "",
-  role: "",
   rowShifts: [],
 };
