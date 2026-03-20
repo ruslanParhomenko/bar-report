@@ -42,9 +42,9 @@ export default function TableCashVerify({
       <TableHeader>
         <TableRow>
           <TableHead className="w-14 font-bold text-bl">CashVerify</TableHead>
+          <TableHead className="w-12" />
           <TableHead className="w-14" />
-          <TableHead className="w-14" />
-          <TableHead className="w-14" />
+          <TableHead className="w-12" />
         </TableRow>
       </TableHeader>
       <TableBody>

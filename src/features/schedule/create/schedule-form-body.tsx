@@ -65,41 +65,42 @@ export default function ScheduleCreateTableBody({
           nightHours: totalNight,
         });
         return (
-          <TableRow key={row.id} className="hover:text-rd group">
+          <TableRow
+            key={row.id}
+            className="hover:text-rd group [&>td]:p-0 [&>td]:text-xs"
+          >
             <TableCell
-              className="text-rd cursor-pointer text-xs"
+              className="text-rd cursor-pointer"
               onClick={() => remove(rowIndex)}
             >
               {rowIndex + 1}
             </TableCell>
 
-            <TableCell className="text-bl text-xs hover-cell">
+            <TableCell className="text-bl hover-cell">
               {totalDay || 0}
             </TableCell>
-            <TableCell className="text-bl text-xs hover-cell">
+            <TableCell className="text-bl hover-cell">
               {totalNight || 0}
             </TableCell>
 
-            <TableCell className="text-xs font-bold">{total || 0}</TableCell>
+            <TableCell className="font-bold">{total || 0}</TableCell>
 
-            <TableCell className="text-xs">
-              {totalPay && ` ${totalPay.toFixed()}`}
-            </TableCell>
-            <TableCell className="py-0 sticky left-0">
+            <TableCell>{totalPay && ` ${totalPay.toFixed()}`}</TableCell>
+            <TableCell className="sticky left-0 pl-2!">
               <SelectField
                 fieldName={`rowShifts.${rowIndex}.employee`}
                 data={selectedEmployees.map((e) => e.name)}
-                className="justify-start p-0 hover-cell"
+                className="hover-cell p-0 text-xs "
                 onChange={(name) => handleEmployeeChange(name, rowIndex)}
               />
             </TableCell>
-            <TableCell className="p-0 text-xs hover-cell">
+            <TableCell>
               {row.role.charAt(0)}-{rate / 1000}
             </TableCell>
 
             {row.shifts.map((shiftValue, dayIndex) => {
               return (
-                <TableCell key={dayIndex} className="border-x p-0">
+                <TableCell key={dayIndex} className="border-x">
                   <input
                     {...form.register(
                       `rowShifts.${rowIndex}.shifts.${dayIndex}`,
@@ -108,7 +109,7 @@ export default function ScheduleCreateTableBody({
                     data-col={dayIndex}
                     onKeyDown={handleMultiTableNavigation}
                     className={cn(
-                      "w-full h-9 text-center hover-cell",
+                      "w-full h-9 text-center text-sm hover-cell",
                       shiftValue === "" ? "bg-border/20" : "",
                       color[shiftValue as keyof typeof color],
                     )}
@@ -117,7 +118,7 @@ export default function ScheduleCreateTableBody({
               );
             })}
 
-            <TableCell className="py-0">
+            <TableCell>
               <MoveButton rowIndex={rowIndex} fields={fields} move={move} />
             </TableCell>
           </TableRow>

@@ -23,7 +23,7 @@ import { useRouter } from "@/i18n/navigation";
 import { useAbility } from "@/providers/ability-provider";
 import { PenBox, Trash2 } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 
 export default function PenaltyDetails({
   data,
@@ -34,37 +34,29 @@ export default function PenaltyDetails({
   const t = useTranslations("Home");
 
   const { isAdmin, isManager } = useAbility();
-  const employeesList = useMemo(() => {
-    const names = data?.data
-      .flatMap((item) => item.remarks.map((r: any) => r.name))
-      .filter(
-        (name): name is string =>
-          typeof name === "string" && name.trim() !== "",
-      );
-
-    return ["select", ...Array.from(new Set(names))];
-  }, [data]);
+  const names = data?.data
+    .flatMap((item) => item.remarks.map((r: any) => r.name))
+    .filter(
+      (name): name is string => typeof name === "string" && name.trim() !== "",
+    );
+  const employeesList = ["select", ...Array.from(new Set(names))];
 
   const [selectedEmployee, setSelectedEmployee] = useState("select");
 
-  const totalPenalty = useMemo(() => {
-    return data?.data.reduce((acc, r) => {
-      const val = r.remarks.reduce(
-        (acc: number, r: any) => acc + Number(r.penalty),
-        0,
-      );
-      return acc + (isNaN(val) ? 0 : val);
-    }, 0);
-  }, [data]);
-  const totalBonus = useMemo(() => {
-    return data?.data.reduce((acc, r) => {
-      const val = r.remarks.reduce(
-        (acc: number, r: any) => acc + Number(r.bonus),
-        0,
-      );
-      return acc + (isNaN(val) ? 0 : val);
-    }, 0);
-  }, [data]);
+  const totalPenalty = data?.data.reduce((acc, r) => {
+    const val = r.remarks.reduce(
+      (acc: number, r: any) => acc + Number(r.penalty),
+      0,
+    );
+    return acc + (isNaN(val) ? 0 : val);
+  }, 0);
+  const totalBonus = data?.data.reduce((acc, r) => {
+    const val = r.remarks.reduce(
+      (acc: number, r: any) => acc + Number(r.bonus),
+      0,
+    );
+    return acc + (isNaN(val) ? 0 : val);
+  }, 0);
 
   const editRemarks = (day: string) => {
     if (!isAdmin && !isManager) return;
@@ -79,98 +71,88 @@ export default function PenaltyDetails({
   };
 
   return (
-    <div className="overflow-hidden max-h-[92vh] flex flex-col">
-      <div className="overflow-y-auto">
-        {data && (
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead className="w-36"></TableHead>
-                <TableHead className="p-0">
-                  <Select
-                    value={selectedEmployee}
-                    onValueChange={(value) => setSelectedEmployee(value)}
-                  >
-                    <SelectTrigger className="w-30 shadow-none h-8! p-0 border-0 text-muted-foreground [&>svg]:hidden justify-start bg-background!">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {employeesList.map((name, idx) => (
-                        <SelectItem key={`${name}-${idx}`} value={name}>
-                          {name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </TableHead>
-                <TableHead className="text-center">{t("dayHours")}</TableHead>
-                <TableHead className="text-center">{t("nightHours")}</TableHead>
-                <TableHead className="w-60"></TableHead>
-                <TableHead className="text-center">{t("bonus")}</TableHead>
-                <TableHead className="text-center">{t("penalty")}</TableHead>
-                <TableHead className="text-center w-10">action</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {data.data
-                .flatMap((doc) =>
-                  doc.remarks
-                    .filter(
-                      (r: any) =>
-                        selectedEmployee === "select" ||
-                        r.name === selectedEmployee,
-                    )
-                    .map((r: any) => ({
-                      ...r,
-                      day: doc.day,
-                      uniqueKey: data.id,
-                    })),
-                )
-                .map((row, index) => (
-                  <TableRow
-                    key={index}
-                    className="hover:text-rd hover:bg-accent"
-                  >
-                    <TableCell className="p-2 text-xs">{row.day}</TableCell>
-                    <TableCell className="sticky left-0 bg-background/90 md:bg-inherit z-20 p-0 text-xs">
-                      {row.name}
-                    </TableCell>
-                    <TableCell className="text-center p-0 text-xs">
-                      {row.dayHours}
-                    </TableCell>
-                    <TableCell className="text-center p-0 text-xs">
-                      {row.nightHours}
-                    </TableCell>
-                    <TableCell className="p-0 text-xs">{row.reason}</TableCell>
-                    <TableCell className="text-center p-0 text-xs">
-                      {row.bonus}
-                    </TableCell>
-                    <TableCell className="text-center p-0 text-xs">
-                      {row.penalty}
-                    </TableCell>
-                    <TableCell className="flex justify-between items-center h-6 cursor-pointer p-0">
-                      <PenBox
-                        className="w-4 h-3.5 text-bl"
-                        onClick={() => editRemarks(row.day)}
-                      />
-                      <Trash2
-                        className="w-4 h-3.5 text-rd mr-2"
-                        onClick={() => deleteRemarks(row.uniqueKey, row.day)}
-                      />
-                    </TableCell>
-                  </TableRow>
+    <Table>
+      <TableHeader>
+        <TableRow>
+          <TableHead className="w-36"></TableHead>
+          <TableHead className="p-0">
+            <Select
+              value={selectedEmployee}
+              onValueChange={(value) => setSelectedEmployee(value)}
+            >
+              <SelectTrigger className="w-30 shadow-none h-8! p-0 border-0 text-muted-foreground [&>svg]:hidden justify-start bg-background!">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {employeesList.map((name, idx) => (
+                  <SelectItem key={`${name}-${idx}`} value={name}>
+                    {name}
+                  </SelectItem>
                 ))}
-              <TableRow className="font-semibold ">
-                <TableCell className="text-right" colSpan={5}>
-                  {t("total")}
-                </TableCell>
-                <TableCell className="text-center">{totalBonus}</TableCell>
-                <TableCell className="text-center">{totalPenalty}</TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
-        )}
-      </div>
-    </div>
+              </SelectContent>
+            </Select>
+          </TableHead>
+          <TableHead className="text-center">{t("dayHours")}</TableHead>
+          <TableHead className="text-center">{t("nightHours")}</TableHead>
+          <TableHead className="w-60"></TableHead>
+          <TableHead className="text-center">{t("bonus")}</TableHead>
+          <TableHead className="text-center">{t("penalty")}</TableHead>
+          <TableHead className="text-center w-10">action</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {data?.data
+          .flatMap((doc) =>
+            doc.remarks
+              .filter(
+                (r: any) =>
+                  selectedEmployee === "select" || r.name === selectedEmployee,
+              )
+              .map((r: any) => ({
+                ...r,
+                day: doc.day,
+                uniqueKey: data.id,
+              })),
+          )
+          .map((row, index) => (
+            <TableRow key={index} className="hover:text-rd hover:bg-accent">
+              <TableCell className="p-2 text-xs">{row.day}</TableCell>
+              <TableCell className="sticky left-0 bg-background/90 md:bg-inherit z-20 p-0 text-xs">
+                {row.name}
+              </TableCell>
+              <TableCell className="text-center p-0 text-xs">
+                {row.dayHours}
+              </TableCell>
+              <TableCell className="text-center p-0 text-xs">
+                {row.nightHours}
+              </TableCell>
+              <TableCell className="p-0 text-xs">{row.reason}</TableCell>
+              <TableCell className="text-center p-0 text-xs">
+                {row.bonus}
+              </TableCell>
+              <TableCell className="text-center p-0 text-xs">
+                {row.penalty}
+              </TableCell>
+              <TableCell className="flex justify-between items-center h-6 cursor-pointer p-0">
+                <PenBox
+                  className="w-4 h-3.5 text-bl"
+                  onClick={() => editRemarks(row.day)}
+                />
+                <Trash2
+                  className="w-4 h-3.5 text-rd mr-2"
+                  onClick={() => deleteRemarks(row.uniqueKey, row.day)}
+                />
+              </TableCell>
+            </TableRow>
+          ))}
+        <TableRow className="font-semibold sticky bottom-0">
+          <TableCell className="text-right" colSpan={5}>
+            {t("total")}
+          </TableCell>
+          <TableCell className="text-center">{totalBonus}</TableCell>
+          <TableCell className="text-center">{totalPenalty}</TableCell>
+        </TableRow>
+      </TableBody>
+    </Table>
   );
 }

@@ -24,7 +24,6 @@ type Props = {
   data: string[];
   disabled?: boolean;
   className?: string;
-  style?: React.CSSProperties;
   onChange?: (value: string) => void;
 };
 
@@ -35,7 +34,6 @@ function SelectField({
   data,
   disabled,
   className,
-  style,
   onChange,
 }: Props) {
   const { control } = useFormContext();
@@ -62,11 +60,10 @@ function SelectField({
             <FormControl>
               <SelectTrigger
                 className={cn(
-                  "flex justify-start min-w-12 [&>svg]:hidden",
+                  "flex justify-start min-w-12 [&>svg]:hidden bg-transparent!",
                   className,
                   field.value && "border-0 shadow-none font-bold",
                 )}
-                style={style}
               >
                 <SelectValue placeholder={placeHolder} />
               </SelectTrigger>

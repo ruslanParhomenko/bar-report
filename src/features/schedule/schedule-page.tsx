@@ -16,7 +16,10 @@ export default function SchedulePage({
     <Table className="table-fixed">
       <ScheduleTableHeader scheduleId={schedule?.id} params={params} />
       <ScheduleTableBody schedule={schedule} />
-      <ScheduleTableFooter schedule={schedule} />
+      <ScheduleTableFooter
+        schedule={schedule?.rowShifts ?? []}
+        role={params.tab as string}
+      />
     </Table>
   );
 }

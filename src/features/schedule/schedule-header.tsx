@@ -24,7 +24,7 @@ export default function ScheduleTableHeader({
   return (
     <TableHeader>
       <TableRow className="h-14!">
-        <TableCell colSpan={4} className="w-30">
+        <TableCell colSpan={5} className="w-40">
           <ScheduleActionButton
             scheduleId={scheduleId}
             isSave={isSave}
@@ -32,12 +32,7 @@ export default function ScheduleTableHeader({
             params={params}
           />
         </TableCell>
-
-        <TableCell
-          className="w-10 print:hidden"
-          data-html2canvas-ignore="true"
-        />
-        <TableCell className="text-base pl-3 w-34">
+        <TableCell className="text-base pl-3 w-32">
           {month?.toUpperCase() || ""}
         </TableCell>
         <TableCell className="w-8" />
@@ -46,7 +41,7 @@ export default function ScheduleTableHeader({
           <TableCell
             key={day.day}
             className={cn(
-              "w-10 cursor-pointer p-0",
+              "w-10.5 cursor-pointer p-0",
               day.day === todayDay && "text-rd font-bold",
             )}
           >

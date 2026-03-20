@@ -54,14 +54,14 @@ export default function TableTobacco({
             <TableCell className="py-0">
               <NumericInput
                 fieldName={`report.tobacco.${idx}.incoming`}
-                className="h-7"
+                className="h-7 p-0"
                 disabled={disabled}
               />
             </TableCell>
             <TableCell className="py-0">
               <NumericInput
                 fieldName={`report.tobacco.${idx}.outgoing`}
-                className="h-7"
+                className="h-7 p-0"
                 disabled={disabled}
               />
             </TableCell>

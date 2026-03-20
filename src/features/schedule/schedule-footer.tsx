@@ -6,8 +6,10 @@ import { SchedulesContextValue } from "@/app/actions/schedule/schedule-action";
 
 export default function ScheduleTableFooter({
   schedule,
+  role,
 }: {
-  schedule: SchedulesContextValue | null;
+  schedule: SchedulesContextValue["rowShifts"] | null;
+  role: string;
 }) {
   const shiftCounts = schedule && getShiftCounts(schedule);
 
@@ -15,7 +17,7 @@ export default function ScheduleTableFooter({
     <TableFooter data-html2canvas-ignore="true">
       {shiftCounts &&
         SHIFT_OPTIONS.filter((item) =>
-          SHIFTS[schedule?.role as keyof typeof SHIFTS]?.includes(item),
+          SHIFTS[role as keyof typeof SHIFTS]?.includes(item),
         ).map((item, i) => (
           <TableRow key={i} className="border-0">
             <TableCell colSpan={5} />

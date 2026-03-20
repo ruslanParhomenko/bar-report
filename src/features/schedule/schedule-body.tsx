@@ -24,28 +24,25 @@ export default function ScheduleTableBody({
           ? calculateSalaryByHours(row).toFixed(0).toString()
           : "0";
         return (
-          <TableRow key={row.id} className="hover:text-rd">
-            <TableCell className="text-xs font-bold">{rowIndex + 1}</TableCell>
-            <TableCell className="text-bl text-xs">{row.dayHours}</TableCell>
-            <TableCell className="text-bl text-xs">{row.nightHours}</TableCell>
-            <TableCell className="font-bold text-xs">
-              {row.totalHours}
-            </TableCell>
-            <TableCell
-              className="text-xs text-gn print:hidden"
-              data-html2canvas-ignore="true"
-            >
-              {totalPay}
+          <TableRow key={row.id} className="[&>td]:text-xs">
+            <TableCell className="pr-0">{rowIndex + 1}</TableCell>
+            <TableCell className="text-bl px-0">{row.dayHours}</TableCell>
+            <TableCell className="text-bl px-0">{row.nightHours}</TableCell>
+            <TableCell className="font-bold px-0">{row.totalHours}</TableCell>
+            <TableCell className="text-gn px-0">
+              <span className="print:hidden p-0" data-html2canvas-ignore="true">
+                {totalPay}
+              </span>
             </TableCell>
             <TableCell
               className={cn(
-                "sticky left-0 bg-background pl-1 truncate text-muted-foreground",
+                "sticky left-0 bg-background pl-2 truncate text-muted-foreground",
                 isSelected && "text-rd font-bold",
               )}
             >
               {row.employee}
             </TableCell>
-            <TableCell className="text-xs text-muted-foreground text-right">
+            <TableCell className="text-muted-foreground">
               {row.role.charAt(0)}
             </TableCell>
 
@@ -56,7 +53,7 @@ export default function ScheduleTableBody({
                 <TableCell
                   key={dayIndex}
                   className={cn(
-                    "text-center border-x",
+                    "text-center border-x text-sm!",
                     color[day as keyof typeof color],
                     isSelected && "text-rd font-bold",
                   )}

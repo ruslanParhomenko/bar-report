@@ -12,11 +12,7 @@ import {
 import { getMonthDays } from "@/utils/get-month-days";
 import { toast } from "sonner";
 import { defaultSchedule, scheduleSchema, ScheduleType } from "./schema";
-import {
-  EMPLOYEE_ROLES_BY_DEPARTMENT,
-  SHIFT_HOURS_MAP_DAY,
-  SHIFT_HOURS_MAP_NIGHT,
-} from "./constants";
+import { EMPLOYEE_ROLES_BY_DEPARTMENT } from "./constants";
 import ScheduleTableHeader from "../schedule-header";
 import ScheduleCreateTableBody from "./schedule-form-body";
 import { getSelectedEmployeesByRole } from "../utils";
@@ -25,6 +21,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import FormInput from "@/components/wrapper/form";
 import { useRouter } from "next/navigation";
 import { PageParams } from "@/types/params";
+import { calculateShiftTotals } from "./utils";
 
 export function ScheduleCreatePage({
   schedule,
@@ -56,23 +53,15 @@ export function ScheduleCreatePage({
 
   // submit
   const onSubmit: SubmitHandler<ScheduleType> = async (data) => {
-    // считаем часы для каждой строки
     const rowShiftsWithHours = data.rowShifts.map((row) => {
-      const dayHours = (row.shifts || []).reduce(
-        (sum, val) => sum + (SHIFT_HOURS_MAP_DAY[val] ?? 0),
-        0,
-      );
-      const nightHours = (row.shifts || []).reduce(
-        (sum, val) => sum + (SHIFT_HOURS_MAP_NIGHT[val] ?? 0),
-        0,
-      );
-      const totalHours = dayHours + nightHours;
+      if (!row.shifts) return row;
+      const { totalDay, totalNight, total } = calculateShiftTotals(row.shifts);
 
       return {
         ...row,
-        dayHours: dayHours.toString(),
-        nightHours: nightHours.toString(),
-        totalHours: totalHours.toString(),
+        dayHours: totalDay.toString(),
+        nightHours: totalNight.toString(),
+        totalHours: total.toString(),
       };
     });
 
@@ -132,7 +121,9 @@ export function ScheduleCreatePage({
 
     replace(newRows);
   }, [month, tab, selectedEmployees, monthDays.length, fields.length]);
-
+  const value = form.watch();
+  console.log("formWatch", value);
+  console.log("fields", fields);
   return (
     <FormInput form={form} onSubmit={onSubmit} returnButton>
       <Table className="table-fixed">
@@ -146,7 +137,7 @@ export function ScheduleCreatePage({
           update={update}
         />
 
-        <ScheduleTableFooter schedule={form.watch() as any} />
+        <ScheduleTableFooter schedule={fields} role={tab} />
       </Table>
     </FormInput>
   );
