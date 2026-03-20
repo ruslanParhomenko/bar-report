@@ -41,7 +41,7 @@ export function ScheduleCreatePage({
     resolver: zodResolver(scheduleSchema),
     defaultValues: schedule ?? defaultSchedule,
   });
-  const { fields, remove, replace, move } = useFieldArray({
+  const { fields, remove, replace, move, update } = useFieldArray({
     control: form.control,
     name: "rowShifts",
   });
@@ -143,6 +143,7 @@ export function ScheduleCreatePage({
           selectedEmployees={selectedEmployees}
           remove={remove}
           move={move}
+          update={update}
         />
 
         <ScheduleTableFooter schedule={form.watch() as any} />

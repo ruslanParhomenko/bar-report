@@ -25,6 +25,7 @@ type Props = {
   disabled?: boolean;
   className?: string;
   style?: React.CSSProperties;
+  onChange?: (value: string) => void;
 };
 
 function SelectField({
@@ -35,6 +36,7 @@ function SelectField({
   disabled,
   className,
   style,
+  onChange,
 }: Props) {
   const { control } = useFormContext();
 
@@ -51,7 +53,10 @@ function SelectField({
           {fieldLabel && <Label>{fieldLabel}</Label>}
           <Select
             value={field.value ?? ""}
-            onValueChange={field.onChange}
+            onValueChange={(value) => {
+              field.onChange(value);
+              onChange?.(value);
+            }}
             disabled={disabled}
           >
             <FormControl>

@@ -189,5 +189,6 @@ body::-webkit-scrollbar {
 }
 
 .group:focus-within .hover-cell {
-  @apply text-red-600 font-bold;
+  @apply text-red-700 font-bold;
+  transition: all 0.2s ease-in-out;
 }
