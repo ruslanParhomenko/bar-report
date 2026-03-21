@@ -1,3 +1,4 @@
+import { getDataTTN } from "@/app/actions/data-constants/data-ttn-action";
 import { getTTNByUniqueKey } from "@/app/actions/ttn/ttn-actions";
 import { InsufficientRights } from "@/components/wrapper/insufficient-rights";
 import TTNPage from "@/features/ttn/ttn-page";
@@ -18,14 +19,16 @@ export default async function Page({
   if (!month || !year) return null;
   const unique_key = `${year}-${month}`;
   const unique_key_prev = getPrevUniqueKey(year, month);
-  const [dataTtn, dataTtnPrev] = await Promise.all([
+  const [dataTtn, dataTtnPrev, agentTTN] = await Promise.all([
     await getTTNByUniqueKey(unique_key),
     await getTTNByUniqueKey(unique_key_prev),
+    await getDataTTN(),
   ]);
   return (
     <TTNPage
       dataTtn={dataTtn}
       dataTtnPrev={dataTtnPrev}
+      agentTTN={agentTTN}
       month={month}
       year={year}
     />

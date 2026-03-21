@@ -4,20 +4,24 @@ import { useSearchParams } from "next/navigation";
 import { Activity } from "react";
 import TTNForm from "./ttn-form";
 import TTNDayPage from "./ttn-day-page";
+import { CreateDataTTN } from "@/app/actions/data-constants/data-ttn-action";
 
 export default function TTNPage({
   dataTtn,
   dataTtnPrev,
+  agentTTN,
   month,
   year,
 }: {
   dataTtn: TTNGetDataType | null;
   dataTtnPrev: TTNGetDataType | null;
+  agentTTN: CreateDataTTN;
   month: string;
   year: string;
 }) {
   const searchParams = useSearchParams();
   const tab = searchParams.get("tab") as string;
+
   return (
     <>
       <Activity mode={tab === "day" ? "visible" : "hidden"}>
@@ -32,6 +36,7 @@ export default function TTNPage({
         <TTNForm
           dataTtn={dataTtn}
           dataTtnPrev={dataTtnPrev}
+          agentTTN={agentTTN.agent}
           month={month as string}
           year={year as string}
         />

@@ -3,12 +3,12 @@ import { useEmployees } from "@/providers/employees-provider";
 import { useFieldArray, useFormContext } from "react-hook-form";
 import { defaultRemarkValue } from "./schema";
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
-import SelectField from "@/components/inputs/select-input";
-import NumericInput from "@/components/inputs/numeric-input";
+import SelectField from "@/components/inputs-form/select-input";
+import NumericInput from "@/components/inputs-form/numeric-input";
 import { Plus, Trash2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { BarFormValues } from "../schema";
-import TextInput from "@/components/inputs/text-input";
+import TextInput from "@/components/inputs-form/text-input";
 
 export function PenaltyTableBody({ isDisabled }: { isDisabled: boolean }) {
   const selectedEmployees = [...new Set(useEmployees().map((e) => e.name))];

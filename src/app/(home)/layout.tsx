@@ -34,7 +34,7 @@ const NavPage = async ({
         >
           <SidebarProvider>
             <SidebarNav />
-            <div className="flex flex-col h-screen w-screen overflow-y-auto p-1">
+            <div className="flex flex-col h-screen w-screen overflow-y-auto px-1">
               <NavTabs />
               <ClientRefProvider>{children}</ClientRefProvider>
             </div>

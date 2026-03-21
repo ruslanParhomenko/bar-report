@@ -12,7 +12,7 @@ import { useTranslations } from "next-intl";
 import PrintButton from "@/components/buttons/print-button";
 import { useRef } from "react";
 import { RemarksDataByUniqueKey } from "@/app/actions/remarks/remarks-action";
-import { remarksByUniqueEmployee } from "./utils";
+import { remarksByUniqueEmployee } from "../penalty-details/utils";
 
 export default function PenaltyGeneral({
   data,

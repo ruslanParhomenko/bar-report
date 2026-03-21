@@ -23,11 +23,8 @@ export function DayByMonthTable({
   return (
     <TableHeader className="sticky top-0 bg-background z-20">
       <TableRow className="h-10">
-        <TableCell
-          colSpan={2}
-          className="p-0 px-1 front-bold text-center text-xs"
-        >
-          {t(month?.toLocaleLowerCase())}
+        <TableCell colSpan={2} className="p-0 px-1 front-bold text-center">
+          {month?.toLocaleUpperCase()}
         </TableCell>
         {infoCell && <TableCell className="w-7 text-center p-0" />}
 

@@ -7,10 +7,13 @@ import { TTN_ACTION_TAG } from "@/constants/action-tag";
 
 export type TTNGetDataType = SuppliersFormType & {
   id: string;
+  unique_key: string;
+  year: string;
+  month: string;
 };
 
 // create
-export async function createTTN(data: SuppliersFormType) {
+export async function createTTN(data: Omit<TTNGetDataType, "id">) {
   const docRef = await dbAdmin.collection(TTN_ACTION_TAG).add({
     unique_key: data.unique_key,
     year: data.year,

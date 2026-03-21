@@ -5,7 +5,7 @@ import {
 } from "@/app/actions/schedule/schedule-action";
 import { getTipsFormById } from "@/app/actions/tips/tips-action";
 import { InsufficientRights } from "@/components/wrapper/insufficient-rights";
-import { remarksByUniqueEmployee } from "@/features/archive/penalty/utils";
+import { remarksByUniqueEmployee } from "@/features/archive/penalty-details/utils";
 import { PageResult } from "@/features/result/result-page";
 import { checkAccess } from "@/lib/check-access";
 import { MONTHS } from "@/utils/get-month-days";

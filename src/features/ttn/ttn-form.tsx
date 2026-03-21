@@ -2,14 +2,9 @@
 import { DayByMonthTable } from "@/components/table/day-by-month-table";
 import { Table } from "@/components/ui/table";
 import { getMonthDays } from "@/utils/get-month-days";
-import { FieldErrors, Resolver, SubmitHandler, useForm } from "react-hook-form";
+import { FieldErrors, SubmitHandler, useForm } from "react-hook-form";
 import TTNBodyTable from "./ttn-body-table";
-import {
-  defaultSuppliersForm,
-  SuppliersFormType,
-  suppliersSchema,
-} from "./schema";
-import { suppliers } from "./constants";
+import { SuppliersFormType, suppliersSchema } from "./schema";
 import { useAbility } from "@/providers/ability-provider";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -21,15 +16,18 @@ import { toast } from "sonner";
 import { useEffect } from "react";
 import TTNFooterTable from "./ttn-footer-table";
 import FormInput from "@/components/wrapper/form";
+import { CreateDataTTN } from "@/app/actions/data-constants/data-ttn-action";
 
 export default function TTNForm({
   dataTtn,
   dataTtnPrev,
+  agentTTN,
   month,
   year,
 }: {
   dataTtn: TTNGetDataType | null;
   dataTtnPrev: TTNGetDataType | null;
+  agentTTN: CreateDataTTN["agent"];
   month: string;
   year: string;
 }) {
@@ -38,11 +36,13 @@ export default function TTNForm({
   const { isAdmin } = useAbility();
 
   const form = useForm<SuppliersFormType>({
-    resolver: zodResolver(suppliersSchema) as Resolver<SuppliersFormType>,
-    defaultValues: dataTtn ? dataTtn : defaultSuppliersForm,
+    resolver: zodResolver(suppliersSchema),
+    defaultValues: {
+      rowSuppliers: {},
+    },
   });
 
-  const onError = (errors: FieldErrors<SuppliersFormType>) => {
+  const onError = (_: FieldErrors<SuppliersFormType>) => {
     toast.error(
       "Ошибка: проверьте числовые поля (допустимы только цифры и точка)",
     );
@@ -51,23 +51,23 @@ export default function TTNForm({
   const onSubmit: SubmitHandler<SuppliersFormType> = async (data) => {
     const formatData = { ...data, month, year, unique_key: `${year}-${month}` };
     if (dataTtn?.id) {
-      await updateTTN(dataTtn.id as string, formatData);
+      await updateTTN(dataTtn.id, formatData);
       toast.success("TTN успешно обновлён!");
 
       return;
     } else {
       await createTTN(formatData);
-      toast.success("AO успешно создан!");
+      toast.success("TTN успешно создан!");
 
       return;
     }
   };
 
   useEffect(() => {
-    if (dataTtn) return;
+    if (dataTtn || !agentTTN?.length) return;
 
-    const newRowTtnData = Object.fromEntries(
-      suppliers.map((s) => [
+    const rows = Object.fromEntries(
+      agentTTN.map((s) => [
         s,
         {
           start: "",
@@ -78,25 +78,22 @@ export default function TTNForm({
       ]),
     );
 
-    form.setValue("rowSuppliers", newRowTtnData);
-  }, [dataTtn, form]);
+    form.setValue("rowSuppliers", rows);
+  }, [dataTtn, form, agentTTN, monthDays]);
   useEffect(() => {
     if (!dataTtn) return;
 
-    form.reset({
-      ...dataTtn,
-    });
+    form.reset(dataTtn);
   }, [dataTtn, form]);
 
   useEffect(() => {
-    if (!dataTtnPrev) return;
-    suppliers.map((s) => {
-      form.setValue(
-        `rowSuppliers.${s}.start`,
-        dataTtnPrev.rowSuppliers[s]?.final,
-      );
+    if (!dataTtnPrev || !agentTTN?.length) return;
+    agentTTN.forEach((agent) => {
+      const value = dataTtnPrev.rowSuppliers?.[agent]?.final ?? "";
+
+      form.setValue(`rowSuppliers.${agent}.start`, value);
     });
-  }, [dataTtnPrev, month, year, form]);
+  }, [dataTtnPrev, month, year, form, agentTTN]);
   return (
     <FormInput
       form={form}
@@ -105,9 +102,9 @@ export default function TTNForm({
       withButtons={isAdmin}
     >
       <Table>
-        <DayByMonthTable month={month} monthDays={monthDays} infoCell={true} />
-        <TTNBodyTable arrayRows={[...suppliers]} monthDays={monthDays} />
-        <TTNFooterTable arrayRows={[...suppliers]} monthDays={monthDays} />
+        <DayByMonthTable month={month} monthDays={monthDays} infoCell />
+        <TTNBodyTable arrayRows={[...agentTTN]} monthDays={monthDays} />
+        <TTNFooterTable arrayRows={[...agentTTN]} monthDays={monthDays} />
       </Table>
     </FormInput>
   );

@@ -11,7 +11,7 @@ import { EmployeesContextValue } from "@/providers/employees-provider";
 import { ScheduleType } from "./schema";
 import { color } from "./constants";
 import { calculateSalaryByHours } from "../utils";
-import SelectField from "@/components/inputs/select-input";
+import SelectField from "@/components/inputs-form/select-input";
 import { handleMultiTableNavigation } from "@/utils/handle-table-navigation";
 import MoveButton from "@/components/buttons/move-button";
 import { calculateShiftTotals } from "./utils";

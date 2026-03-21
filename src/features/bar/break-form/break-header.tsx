@@ -2,7 +2,7 @@
 import { TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import { TIME_LABELS } from "./constant";
-import DatePickerInput from "@/components/inputs/date-input";
+import DatePickerInput from "@/components/inputs-form/date-input";
 import { RefreshCcw } from "lucide-react";
 import { revalidateNav } from "@/app/actions/revalidate-tag/revalidate-teg";
 import { BAR_REALTIME_ACTION_TAG } from "@/constants/action-tag";

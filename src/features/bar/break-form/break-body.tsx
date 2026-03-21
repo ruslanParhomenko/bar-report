@@ -3,7 +3,7 @@ import { BreakFormData } from "./schema";
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { MINUTES_SELECT, TIME_LABELS } from "./constant";
 import { Input } from "@/components/ui/input";
-import SelectField from "@/components/inputs/select-input";
+import SelectField from "@/components/inputs-form/select-input";
 import { cn } from "@/lib/utils";
 import { Trash2 } from "lucide-react";
 import { BarFormValues } from "../schema";

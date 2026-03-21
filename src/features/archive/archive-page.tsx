@@ -8,9 +8,9 @@ import ReportCucinaTable from "@/features/archive/cucina/report-cucina";
 import { BreakGetType } from "@/app/actions/break/break-action";
 import { BreakListArchive } from "./break/break-list-archive";
 import { RemarksDataByUniqueKey } from "@/app/actions/remarks/remarks-action";
-import PenaltyDetails from "./penalty/penalty-details";
+import PenaltyDetails from "./penalty-details/penalty-details";
 import { useSearchParams } from "next/navigation";
-import PenaltyGeneral from "./penalty/penalty-general";
+import PenaltyGeneral from "./penalty-general/penalty-general";
 
 type TabValue = "bar" | "cucina" | "breakList" | "penalty" | "penaltyResult";
 export type ArchiveData = {

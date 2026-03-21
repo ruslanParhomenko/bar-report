@@ -3,7 +3,7 @@ import { FieldArrayWithId, useWatch } from "react-hook-form";
 import { TipsFormType } from "./schema";
 import { Plus } from "lucide-react";
 import { useAbility } from "@/providers/ability-provider";
-import SelectField from "@/components/inputs/select-input";
+import SelectField from "@/components/inputs-form/select-input";
 import { cn } from "@/lib/utils";
 import { calculateTipsTotal } from "./utils";
 import { handleMultiTableNavigation } from "@/utils/handle-table-navigation";

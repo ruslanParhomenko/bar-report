@@ -4,11 +4,11 @@ import { unstable_cache, updateTag } from "next/cache";
 
 //create
 
-export type createDataTTN = {
+export type CreateDataTTN = {
   agent: string[];
 };
 
-export async function createDataTTN(data: createDataTTN) {
+export async function createDataTTN(data: CreateDataTTN) {
   const docRef = dbAdmin
     .collection(DATA_TTN_ACTION_TAG)
     .doc(DATA_TTN_ACTION_TAG);
@@ -23,11 +23,11 @@ export async function _getDataTTN() {
     .doc(DATA_TTN_ACTION_TAG);
   const snap = await docRef.get();
 
-  if (!snap.exists) return [];
+  if (!snap.exists) return { agent: [] };
 
   const data = snap.data() as any;
 
-  return data as createDataTTN;
+  return data as CreateDataTTN;
 }
 
 export const getDataTTN = unstable_cache(_getDataTTN, [DATA_TTN_ACTION_TAG], {

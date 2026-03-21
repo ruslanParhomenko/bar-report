@@ -1,5 +1,5 @@
 "use client";
-import TextInput from "@/components/inputs/text-input";
+import TextInput from "@/components/inputs-form/text-input";
 import { useTranslations } from "next-intl";
 import { SubmitHandler, useForm } from "react-hook-form";
 
@@ -7,7 +7,7 @@ import { createUser, updateUser } from "@/app/actions/users/user-action";
 import { toast } from "sonner";
 
 import { useRouter } from "next/navigation";
-import SelectField from "@/components/inputs/select-input";
+import SelectField from "@/components/inputs-form/select-input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import FormInput from "@/components/wrapper/form";
 import { useAbility } from "@/providers/ability-provider";

@@ -1,5 +1,5 @@
 import { getRemarksByDay } from "@/app/actions/remarks/remarks-action";
-import PenaltyUpdate from "@/features/archive/penalty/penalty-update";
+import PenaltyUpdate from "@/features/archive/penalty-details/penalty-update";
 
 export default async function Page({
   params,
