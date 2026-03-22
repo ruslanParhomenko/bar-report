@@ -1,7 +1,7 @@
 "use client";
 
 import { SubmitHandler, useForm } from "react-hook-form";
-import { CashFormType, cashSchema } from "./schema";
+import { CashFormType, cashSchema, defaultCashForm } from "./schema";
 import { CashData, saveCashForm } from "@/app/actions/cash/cash-action";
 import { toast } from "sonner";
 import { sendNotificationEmail } from "@/app/actions/mail/email-action";
@@ -42,7 +42,7 @@ export default function CashForm({
 
   const form = useForm<CashFormType>({
     resolver: zodResolver(cashSchema),
-    defaultValues: dataCash ? dataCash.form_data : {},
+    defaultValues: defaultCashForm,
   });
 
   const onSubmit: SubmitHandler<CashFormType> = async (data) => {

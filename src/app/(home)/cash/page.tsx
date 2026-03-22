@@ -4,7 +4,7 @@ import { InsufficientRights } from "@/components/wrapper/insufficient-rights";
 import CashForm from "@/features/cash/cash-form";
 import { checkAccess } from "@/lib/check-access";
 
-const SET_ACCESS = ["ADMIN", "CASH", "BAR", "FIN", "USER"];
+const SET_ACCESS = ["ADMIN", "CASH", "FIN", "USER"];
 
 export default async function Page({
   searchParams,
@@ -18,8 +18,10 @@ export default async function Page({
   if (!month || !year) return null;
   const uniqueKey = `${year}-${month}`;
 
-  const dataCash = await getCashFormById(uniqueKey);
-  const dataAo = await getAOByUniqueKey(uniqueKey);
+  const [dataCash, dataAo] = await Promise.all([
+    getCashFormById(uniqueKey),
+    getAOByUniqueKey(uniqueKey),
+  ]);
 
   return (
     <CashForm

@@ -18,7 +18,7 @@ export default function StaffMenu({ data }: { data: Menu | null }) {
   const selectData = data && data.menuDepartament;
   return (
     <div className="grid grid-cols-1 md:grid-cols-4 gap-4 h-[90vh] px-1">
-      <Card>
+      <Card className="bg-transparent">
         <CardHeader>
           <CardTitle className="text-xl font-semibold">
             Reception \ FM
@@ -43,7 +43,7 @@ export default function StaffMenu({ data }: { data: Menu | null }) {
           </div>
         </CardContent>
       </Card>
-      <Card className="shadow-md border border-gray-200">
+      <Card className="bg-transparent">
         <CardHeader>
           <CardTitle className="text-xl font-semibold">Security</CardTitle>
         </CardHeader>
@@ -61,7 +61,7 @@ export default function StaffMenu({ data }: { data: Menu | null }) {
           </div>
         </CardContent>
       </Card>
-      <Card className="shadow-md border border-gray-200">
+      <Card className="bg-transparent">
         <CardHeader>
           <CardTitle className="text-xl font-semibold">Personal</CardTitle>
         </CardHeader>
@@ -79,7 +79,7 @@ export default function StaffMenu({ data }: { data: Menu | null }) {
           </div>
         </CardContent>
       </Card>
-      <Card className="shadow-md border border-gray-200">
+      <Card className="bg-transparent">
         <CardHeader>
           <CardTitle className="text-xl font-semibold">Daily</CardTitle>
         </CardHeader>

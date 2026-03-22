@@ -12,3 +12,9 @@ export const cashSchema = z.object({
 });
 
 export type CashFormType = z.infer<typeof cashSchema>;
+export const defaultCashForm: CashFormType = {
+  rowCashData: {},
+  start_241: "",
+  ao_532: "",
+  z_531: "",
+};
