@@ -11,6 +11,7 @@ import { useState } from "react";
 import PenaltyDetailsHeader from "./penalty-details-header";
 import PenaltyDetailsFooter from "./penalty-details-footer";
 import PenaltyDetailsBody from "./penalty-details-body";
+import { getMonthDays } from "@/utils/get-month-days";
 
 export default function PenaltyDetails({
   data,
@@ -28,18 +29,24 @@ export default function PenaltyDetails({
   const employeesList = ["select", ...Array.from(new Set(names))];
 
   const [selectedEmployee, setSelectedEmployee] = useState("select");
+  const [selectedDay, setSelectedDay] = useState<number>(0);
+
+  console.log("selectedDay  ", selectedDay);
+
+  const reversed = data?.data && [...data?.data].reverse();
 
   const filteredRows =
-    data?.data.flatMap((doc) =>
+    reversed?.flatMap((doc) =>
       doc.remarks
         .filter(
           (r: any) =>
             selectedEmployee === "select" || r.name === selectedEmployee,
         )
+        .filter(() => selectedDay === 0 || doc.day === selectedDay.toString())
         .map((r: any) => ({
           ...r,
           day: doc.day,
-          uniqueKey: data.id,
+          uniqueKey: data?.id,
         })),
     ) ?? [];
 
@@ -54,6 +61,8 @@ export default function PenaltyDetails({
     if (!isAdmin) return;
     await deleteRemarksDay(uniqueKey, day);
   };
+  if (!data) return null;
+  const monthDays = getMonthDays({ month: data.month, year: data.year });
 
   return (
     <div className="flex flex-col h-[94vh]">
@@ -62,6 +71,9 @@ export default function PenaltyDetails({
           options={employeesList}
           value={selectedEmployee}
           setValue={setSelectedEmployee}
+          monthDays={monthDays}
+          selectedDay={selectedDay}
+          setSelectedDay={setSelectedDay}
         />
         <PenaltyDetailsBody
           rows={filteredRows}

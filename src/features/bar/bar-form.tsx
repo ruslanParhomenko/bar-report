@@ -15,7 +15,7 @@ import {
   createReportBar,
   realtimeReportBar,
 } from "@/app/actions/report-bar/report-bar-action";
-import { use, useEffect } from "react";
+import { useEffect } from "react";
 import { useAbility } from "@/providers/ability-provider";
 import { defaultRemarksValue } from "@/features/bar/penalty/schema";
 import {
@@ -144,6 +144,12 @@ export default function BarForm({
     };
 
     form.reset({
+      date: new Date(),
+      report: updatedData,
+      penalty: defaultRemarksValue,
+      breakForm: defaultValuesBreak(dataBreakList.rows),
+    });
+    await realtimeReportBar({
       date: new Date(),
       report: updatedData,
       penalty: defaultRemarksValue,
