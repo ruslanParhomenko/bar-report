@@ -21,7 +21,7 @@ export async function createDataProducts(data: createDataProducts) {
     .collection(DATA_PRODUCTS_ACTION_TAG)
     .doc(DATA_PRODUCTS_ACTION_TAG);
 
-  await docRef.set(data, { merge: true });
+  await docRef.set(data);
 
   updateTag(DATA_PRODUCTS_ACTION_TAG);
 }

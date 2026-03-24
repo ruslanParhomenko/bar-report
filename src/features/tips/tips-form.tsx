@@ -46,7 +46,7 @@ export default function TipsForm({
 
   // form
   const form = useForm<TipsFormType>({
-    resolver: zodResolver(tipsSchema) as Resolver<TipsFormType>,
+    resolver: zodResolver(tipsSchema),
     defaultValues: defaultTipsForm,
     mode: "onChange",
     reValidateMode: "onChange",

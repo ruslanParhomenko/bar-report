@@ -5,7 +5,6 @@ import TipsForm from "@/features/tips/tips-form";
 import { checkAccess } from "@/lib/check-access";
 
 const SET_ACCESS = ["ADMIN", "MNGR", "USER"];
-const SELECTED_ROLE = ["waiters", "barmen"] as const;
 export default async function Page({
   searchParams,
 }: {

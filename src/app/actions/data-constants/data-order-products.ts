@@ -16,7 +16,7 @@ export async function createDataOrderProducts(data: createDataOrderProducts) {
     .collection(DATA_ORDER_PRODUCTS_ACTION_TAG)
     .doc(DATA_ORDER_PRODUCTS_ACTION_TAG);
 
-  await docRef.set(data, { merge: true });
+  await docRef.set(data);
 
   updateTag(DATA_ORDER_PRODUCTS_ACTION_TAG);
 }

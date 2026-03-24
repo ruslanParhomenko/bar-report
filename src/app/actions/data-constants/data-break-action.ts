@@ -10,7 +10,7 @@ export async function createDataBreakList(data: BreakFormData) {
     .collection(DATA_BREAK_ACTION_TAG)
     .doc(DATA_BREAK_ACTION_TAG);
 
-  await docRef.set(data, { merge: true });
+  await docRef.set(data);
 
   updateTag(DATA_BREAK_ACTION_TAG);
 }

@@ -61,6 +61,20 @@ export function TipsTableBody({
                   value[roleIndex]?.role === "barmen" &&
                     "text-muted-foreground font-light!",
                 )}
+                onChange={(field) => {
+                  const role = selectedEmployees.find(
+                    (emp) => emp.name === field,
+                  );
+                  form.setValue(
+                    `rowEmployeesTips.${roleIndex}.role`,
+                    role?.role,
+                    {
+                      shouldValidate: true,
+                      shouldDirty: true,
+                      shouldTouch: true,
+                    },
+                  );
+                }}
               />
             </TableCell>
             <TableCell className="p-0 border-r">
