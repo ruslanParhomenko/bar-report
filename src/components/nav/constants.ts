@@ -79,25 +79,90 @@ export const SETTINGS_NAV_ITEMS = [
   { label: "ttn", value: "ttn" },
 ];
 
+export const CASH_NAV_ITEMS = [
+  { label: "cash-month", value: "cash-month" },
+  { label: "cash-year", value: "cash-year" },
+];
+
 type NAV_BY_PATCH_TYPE = Record<
   string,
-  { navItems: PageNavType[]; filterMonth: boolean }
+  {
+    navItems: PageNavType[];
+    filterMonth: boolean;
+    filterYear: boolean;
+    refresh: boolean;
+  }
 >;
 
 export const NAV_BY_PATCH = {
-  // bar: { navItems: BAR_NAV_ITEMS, filterMonth: false },
-  archive: { navItems: ARCHIVE_NAV_ITEMS, filterMonth: true },
-  schedule: { navItems: SCHEDULE_NAV_ITEMS, filterMonth: true },
-  info: { navItems: INFO_NAV_ITEMS, filterMonth: false },
-  result: { navItems: RESULT_NAV_ITEMS, filterMonth: true },
-  ttn: { navItems: TTN_NAV_ITEMS, filterMonth: true },
-  employees: { navItems: EMPLOYEES_NAV_ITEMS, filterMonth: false },
-  tips: { navItems: [], filterMonth: true },
-  cash: { navItems: [], filterMonth: true },
-  "a-o": { navItems: [], filterMonth: true },
-  "stop-list": { navItems: STOP_LIST_NAV_ITEMS, filterMonth: false },
-  orders: { navItems: ORDERS_NAV_ITEMS, filterMonth: false },
-  setting: { navItems: SETTINGS_NAV_ITEMS, filterMonth: false },
+  archive: {
+    navItems: ARCHIVE_NAV_ITEMS,
+    filterMonth: true,
+    filterYear: true,
+    refresh: true,
+  },
+  schedule: {
+    navItems: SCHEDULE_NAV_ITEMS,
+    filterMonth: true,
+    filterYear: true,
+    refresh: false,
+  },
+  info: {
+    navItems: INFO_NAV_ITEMS,
+    filterMonth: false,
+    filterYear: false,
+    refresh: false,
+  },
+  result: {
+    navItems: RESULT_NAV_ITEMS,
+    filterMonth: true,
+    filterYear: true,
+    refresh: false,
+  },
+  ttn: {
+    navItems: TTN_NAV_ITEMS,
+    filterMonth: true,
+    filterYear: true,
+    refresh: true,
+  },
+  employees: {
+    navItems: EMPLOYEES_NAV_ITEMS,
+    filterMonth: false,
+    filterYear: false,
+    refresh: false,
+  },
+  tips: { navItems: [], filterMonth: true, filterYear: true, refresh: true },
+  cash: {
+    navItems: CASH_NAV_ITEMS,
+    filterMonth: true,
+    filterYear: true,
+    refresh: true,
+  },
+  "a-o": { navItems: [], filterMonth: true, filterYear: true, refresh: true },
+  "stop-list": {
+    navItems: STOP_LIST_NAV_ITEMS,
+    filterMonth: false,
+    filterYear: false,
+    refresh: true,
+  },
+  orders: {
+    navItems: ORDERS_NAV_ITEMS,
+    filterMonth: false,
+    filterYear: false,
+    refresh: false,
+  },
+  setting: {
+    navItems: SETTINGS_NAV_ITEMS,
+    filterMonth: false,
+    filterYear: false,
+    refresh: false,
+  },
+  "fin-cash": {
+    navItems: [],
+    filterMonth: false,
+    filterYear: true,
+    refresh: true,
+  },
 } satisfies NAV_BY_PATCH_TYPE;
 
 export type PageNavType = {

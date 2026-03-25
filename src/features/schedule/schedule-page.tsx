@@ -3,14 +3,14 @@ import ScheduleTableFooter from "./schedule-footer";
 import ScheduleTableHeader from "./schedule-header";
 import ScheduleTableBody from "./schedule-body";
 import { SchedulesContextValue } from "@/app/actions/schedule/schedule-action";
-import { PageParams } from "@/types/params";
+import { ValueParams } from "@/types/params";
 
 export default function SchedulePage({
   schedule,
   params,
 }: {
   schedule: SchedulesContextValue | null;
-  params: PageParams;
+  params: ValueParams;
 }) {
   return (
     <Table className="table-fixed">

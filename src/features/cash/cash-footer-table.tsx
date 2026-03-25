@@ -1,7 +1,7 @@
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import { UseFormReturn } from "react-hook-form";
-import { CashFormType } from "./schema";
+import { CashForm } from "./schema";
 import { getMonthDays } from "@/utils/get-month-days";
 
 export function CashFooterTable({
@@ -9,7 +9,7 @@ export function CashFooterTable({
   form,
 }: {
   monthDays: ReturnType<typeof getMonthDays>;
-  form: UseFormReturn<CashFormType>;
+  form: UseFormReturn<CashForm>;
 }) {
   const value = form.watch("rowCashData");
 

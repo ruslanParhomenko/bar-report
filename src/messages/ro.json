@@ -1,4 +1,20 @@
 {
+  "Sidebar": {
+    "schedule": "program",
+    "employees": "angajați",
+    "report-bar": "bar",
+    "report-cucina": "bucătărie",
+    "orders": "comenzi",
+    "info": "informații",
+    "archive": "arhivă",
+    "tips": "bacșiș",
+    "cash": "casă-bar",
+    "a-o": "avansuri",
+    "ttn": "TTN",
+    "fin-cash": "casă-contabilă",
+    "result": "rezultat",
+    "settings": "setări"
+  },
   "Home": {
     "employeesKey": "cheie",
     "employeesWorkForm": "forma",

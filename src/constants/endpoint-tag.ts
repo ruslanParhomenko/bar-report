@@ -11,3 +11,4 @@ export const AO_REPORT_MAIN_ROUTE = "a-o";
 export const TTN_MAIN_ROUTE = "ttn";
 export const RESULT_MAIN_ROUTE = "result";
 export const SETTING_MAIN_ROUTE = "setting";
+export const FIN_CASH_MAIN_ROUTE = "fin-cash";

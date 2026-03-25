@@ -1,4 +1,4 @@
-export type PageParams = {
+export type ValueParams = {
   month: string;
   year: string;
   tab: string;

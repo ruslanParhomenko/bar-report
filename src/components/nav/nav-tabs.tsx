@@ -4,11 +4,11 @@ import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import { useEffect, useState, useTransition } from "react";
 import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
 import { NAV_BY_PATCH, REVALIDATE_TAGS_BY_PATCH } from "./constants";
-import SelectByMonthYear from "./select-month-year";
-import { MONTHS } from "@/utils/get-month-days";
+import { MONTHS, YEAR } from "@/utils/get-month-days";
 import { cn } from "@/lib/utils";
 import { revalidateNav } from "@/app/actions/revalidate-tag/revalidate-teg";
 import { RefreshCcw } from "lucide-react";
+import SelectOptions from "../select/select-options";
 
 export default function NavTabs() {
   const pathname = usePathname();
@@ -25,7 +25,9 @@ export default function NavTabs() {
   const config =
     NAV_BY_PATCH[pathname.split("/")[1] as keyof typeof NAV_BY_PATCH];
 
-  const filterType = config?.filterMonth;
+  const filterMonth = config?.filterMonth;
+  const filterYear = config?.filterYear;
+  const refresh = config?.refresh;
   const navItems = config?.navItems ?? [];
 
   const tabFromUrl = searchParams.get("tab");
@@ -72,17 +74,17 @@ export default function NavTabs() {
   ]);
 
   useEffect(() => {
-    if (!filterType) return;
+    if (!filterMonth && !filterYear) return;
 
     const monthFromUrl = searchParams.get("month");
     const yearFromUrl = searchParams.get("year");
 
     if (monthFromUrl) setMonth(monthFromUrl);
     if (yearFromUrl) setYear(yearFromUrl);
-  }, [filterType, searchParams]);
+  }, [filterMonth, searchParams]);
 
   useEffect(() => {
-    if (!filterType) return;
+    if (!filterMonth && !filterYear) return;
 
     const params = new URLSearchParams(searchParams.toString());
 
@@ -99,7 +101,7 @@ export default function NavTabs() {
         scroll: false,
       });
     });
-  }, [month, year, filterType, pathname, router]);
+  }, [month, year, filterMonth, pathname, router]);
 
   const handleTabChange = (value: string) => {
     localStorage.setItem(STORAGE_KEY, value);
@@ -127,7 +129,10 @@ export default function NavTabs() {
   };
 
   const tabsWidth = `w-1/${navItems.length}`;
-  const itemsWidth = navItems.length < 5 ? "w-12" : "w-9";
+  const itemsWidth = navItems.length < 6 ? "w-12" : "w-10";
+
+  const selectClassName =
+    "md:w-24 w-16 h-7! md:border p-1 rounded-full text-bl md:text-md text-xs";
 
   return (
     <Tabs
@@ -135,9 +140,9 @@ export default function NavTabs() {
       onValueChange={handleTabChange}
       className={cn("sticky top-0 bg-background z-30", !config && "hidden")}
     >
-      <div className="flex md:justify-between justify-center my-2 px-4">
+      <div className="flex flex-col md:flex-row md:justify-between justify-center my-2 md:px-4">
         {navItems.length > 0 && (
-          <TabsList className="flex md:gap-4 h-8 ">
+          <TabsList className="flex md:gap-4 h-8 order-1 md:order-0">
             {navItems.map((item) => (
               <TabsTrigger
                 key={item.value}
@@ -157,23 +162,29 @@ export default function NavTabs() {
             ))}
           </TabsList>
         )}
-        <div className="flex justify-end gap-4">
-          {filterType && (
-            <SelectByMonthYear
-              month={month}
-              year={year}
-              setMonth={setMonth}
-              setYear={setYear}
-              isLoading={isPending}
-              classNameMonthYear={navItems.length > 0 ? "md:w-22 w-9" : "w-24"}
+        <div className="flex md:justify-end justify-center gap-2">
+          {filterMonth && (
+            <SelectOptions
+              options={MONTHS}
+              value={month}
+              setValue={setMonth}
+              className={selectClassName}
             />
           )}
-          {tag && navItems.length > 0 && (
+          {filterYear && (
+            <SelectOptions
+              options={YEAR}
+              value={year}
+              setValue={setYear}
+              className={selectClassName}
+            />
+          )}
+          {refresh && (
             <button
               onClick={resetData}
-              className="hover:text-black hover:bg-transparent cursor-pointer flex items-center justify-center md:w-10 w-8 h-8 order-1 md:order-2"
+              className="cursor-pointer flex items-center justify-center md:w-10 w-8 h-7!"
             >
-              <RefreshCcw className="w-4 h-4 text-muted-foreground" />
+              <RefreshCcw className="w-4 h-3 text-bl" />
             </button>
           )}
         </div>

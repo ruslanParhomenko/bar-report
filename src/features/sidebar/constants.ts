@@ -3,6 +3,7 @@ import {
   ARCHIVE_MAIN_ROUTE,
   CASH_MAIN_ROUTE,
   EMPLOYEES_MAIN_ROUTE,
+  FIN_CASH_MAIN_ROUTE,
   INFO_MAIN_ROUTE,
   ORDERS_MAIN_ROUTE,
   REPORTS_BAR_ROUTE,
@@ -26,6 +27,7 @@ import {
   CalculatorIcon,
   FileTextIcon,
   Settings,
+  ClipboardIcon,
 } from "lucide-react";
 
 export const SIDEBAR_NAVIGATION = [
@@ -85,6 +87,11 @@ export const SIDEBAR_NAVIGATION = [
     title: "ttn",
     url: TTN_MAIN_ROUTE,
     icon: FileTextIcon,
+  },
+  {
+    title: "fin-cash",
+    url: FIN_CASH_MAIN_ROUTE,
+    icon: ClipboardIcon,
   },
   {
     title: "result",

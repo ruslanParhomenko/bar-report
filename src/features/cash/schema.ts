@@ -3,7 +3,7 @@ import { z } from "zod";
 const dayValueSchema = z.string();
 
 export const rowCashSchema = z.array(dayValueSchema);
-export const cashSchema = z.object({
+export const cashFormSchema = z.object({
   rowCashData: z.record(z.string(), rowCashSchema),
   start_241: z.string(),
   ao_532: z.string(),
@@ -11,8 +11,8 @@ export const cashSchema = z.object({
   final_241: z.string().optional(),
 });
 
-export type CashFormType = z.infer<typeof cashSchema>;
-export const defaultCashForm: CashFormType = {
+export type CashForm = z.infer<typeof cashFormSchema>;
+export const defaultCashForm: CashForm = {
   rowCashData: {},
   start_241: "",
   ao_532: "",

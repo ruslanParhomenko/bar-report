@@ -20,7 +20,7 @@ import ScheduleTableFooter from "../schedule-footer";
 import { zodResolver } from "@hookform/resolvers/zod";
 import FormInput from "@/components/wrapper/form";
 import { useRouter } from "next/navigation";
-import { PageParams } from "@/types/params";
+import { ValueParams } from "@/types/params";
 import { calculateShiftTotals } from "./utils";
 
 export function ScheduleCreatePage({
@@ -28,7 +28,7 @@ export function ScheduleCreatePage({
   params,
 }: {
   schedule?: SchedulesContextValue;
-  params: PageParams;
+  params: ValueParams;
 }) {
   const { month, year, tab } = params;
   const router = useRouter();

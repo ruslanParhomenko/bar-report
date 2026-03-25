@@ -1,7 +1,8 @@
 "use client";
 
 import { SubmitHandler, useForm } from "react-hook-form";
-import { CashFormType, cashSchema, defaultCashForm } from "./schema";
+import { cashFormSchema, defaultCashForm } from "./schema";
+import type { CashForm } from "./schema";
 import { CashData, saveCashForm } from "@/app/actions/cash/cash-action";
 import { toast } from "sonner";
 import { sendNotificationEmail } from "@/app/actions/mail/email-action";
@@ -19,19 +20,20 @@ import CashInfo from "./cash-info";
 import { RowRender } from "@/components/table/row-render";
 import { rowCashBar, rowsCashCasino } from "./constants";
 import FormInput from "@/components/wrapper/form";
+import { ValueParams } from "@/types/params";
 
-export default function CashForm({
+export default function CashPage({
   dataAo,
   dataCash,
-  month,
-  year,
+  valueParams,
 }: {
   dataAo: AOContextValue | null;
   dataCash: CashData | null;
-  month: string;
-  year: string;
+  valueParams: ValueParams;
 }) {
   const router = useRouter();
+
+  const { month, year, tab } = valueParams;
 
   const monthDays = getMonthDays({ month, year });
 
@@ -40,12 +42,12 @@ export default function CashForm({
 
   const [showSendButton, setShowSendButton] = useState(false);
 
-  const form = useForm<CashFormType>({
-    resolver: zodResolver(cashSchema),
+  const form = useForm<CashForm>({
+    resolver: zodResolver(cashFormSchema),
     defaultValues: defaultCashForm,
   });
 
-  const onSubmit: SubmitHandler<CashFormType> = async (data) => {
+  const onSubmit: SubmitHandler<CashForm> = async (data) => {
     try {
       await saveCashForm(data, year, month);
       toast.success("Форма сохранена успешно!");
@@ -77,7 +79,7 @@ export default function CashForm({
 
   useEffect(() => {
     if (dataCash) {
-      form.reset(dataCash.form_data as CashFormType);
+      form.reset(dataCash.form_data as CashForm);
     } else {
       form.reset({
         rowCashData: initialRowData,
@@ -144,7 +146,7 @@ export default function CashForm({
           infoCell={true}
           navCell={true}
         />
-        <RowRender<CashFormType, "rowCashData">
+        <RowRender<CashForm, "rowCashData">
           nameField="rowCashData"
           nameLabel="CASH"
           arrayRows={rowsCashCasino}
@@ -153,7 +155,7 @@ export default function CashForm({
           withTotalFooter={false}
         />
 
-        <RowRender<CashFormType, "rowCashData">
+        <RowRender<CashForm, "rowCashData">
           nameField="rowCashData"
           nameLabel="BAR"
           arrayRows={rowCashBar}

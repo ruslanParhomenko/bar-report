@@ -1,14 +1,14 @@
 import { getScheduleByMonthYear } from "@/app/actions/schedule/schedule-action";
 import SchedulePage from "@/features/schedule/schedule-page";
 import ClientRefProvider from "@/providers/client-ref-provider";
-import { PageParams } from "@/types/params";
+import { ValueParams } from "@/types/params";
 
 export default async function Page({
   searchParams,
 }: {
   searchParams: Promise<{ [key: string]: string }>;
 }) {
-  const params = (await searchParams) as PageParams;
+  const params = (await searchParams) as ValueParams;
   const { month, year, tab } = params;
   if (!month || !year || !tab) return null;
 

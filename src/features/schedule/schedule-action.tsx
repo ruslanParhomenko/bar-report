@@ -7,7 +7,7 @@ import { PlusCircleIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useContext } from "react";
 import { RefContext } from "@/providers/client-ref-provider";
-import { PageParams } from "@/types/params";
+import { ValueParams } from "@/types/params";
 
 export default function ScheduleActionButton({
   addNewRow,
@@ -18,7 +18,7 @@ export default function ScheduleActionButton({
   addNewRow?: () => void;
   scheduleId: string | undefined;
   isSave?: boolean;
-  params: PageParams;
+  params: ValueParams;
 }) {
   const { month, year, tab } = params;
 

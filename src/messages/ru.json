@@ -1,4 +1,20 @@
 {
+  "Sidebar": {
+    "schedule": "график",
+    "employees": "сотрудники",
+    "report-bar": "бар",
+    "report-cucina": "кухня",
+    "orders": "заказы",
+    "info": "инфо",
+    "archive": "архив",
+    "tips": "чай",
+    "cash": "бар-касса",
+    "a-o": "авансовый",
+    "ttn": "ттн",
+    "fin-cash": "бух-касса",
+    "result": "итог",
+    "settings": "настройки"
+  },
   "Home": {
     "employeesKey": "ключ",
     "employeesWorkForm": "форма",

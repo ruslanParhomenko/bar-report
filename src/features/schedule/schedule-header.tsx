@@ -2,13 +2,13 @@ import { TableCell, TableHeader, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import { getMonthDays } from "@/utils/get-month-days";
 import ScheduleActionButton from "./schedule-action";
-import { PageParams } from "@/types/params";
+import { ValueParams } from "@/types/params";
 
 type ScheduleTableHeaderProps = {
   scheduleId?: string;
   addNewRow?: () => void;
   isSave?: boolean;
-  params: PageParams;
+  params: ValueParams;
 };
 
 export default function ScheduleTableHeader({

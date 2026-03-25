@@ -3,7 +3,7 @@ import {
   SchedulesContextValue,
 } from "@/app/actions/schedule/schedule-action";
 import { ScheduleCreatePage } from "@/features/schedule/create/schedule-form";
-import { PageParams } from "@/types/params";
+import { ValueParams } from "@/types/params";
 
 export default async function Page({
   params,
@@ -14,7 +14,7 @@ export default async function Page({
 }) {
   const { id } = await params;
 
-  const query = (await searchParams) as PageParams;
+  const query = (await searchParams) as ValueParams;
   const { month, year, tab } = query;
 
   if (!month || !year || !tab || !id) return null;

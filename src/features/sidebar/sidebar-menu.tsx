@@ -11,7 +11,7 @@ import { useTranslations } from "next-intl";
 
 export default function SidebarMenuButtons() {
   const pathname = usePathname();
-  const t = useTranslations("Home");
+  const t = useTranslations("Sidebar");
   const { toggleSidebar, isMobile } = useSidebar();
 
   const handleMenuClick = () => {
