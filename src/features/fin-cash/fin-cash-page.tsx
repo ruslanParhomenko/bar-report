@@ -24,6 +24,7 @@ import {
   saveFinCashForm,
 } from "@/app/actions/fin-cash/fin-cash-action";
 import { toast } from "sonner";
+import { handleMultiTableNavigation } from "@/utils/handle-table-navigation";
 
 export default function FinCashPage({
   finCashData,
@@ -161,7 +162,7 @@ export default function FinCashPage({
         </TableHeader>
 
         <TableBody>
-          {MONTHS.map((month) => {
+          {MONTHS.map((month, rowIndex) => {
             const { nds, tax } = getRowCalculations(month);
 
             return (
@@ -177,19 +178,28 @@ export default function FinCashPage({
                   {tax.toFixed(2)}
                 </TableCell>
 
-                {FIN_CASH_ITEMS_LIST.map((itemName, index) => (
-                  <TableCell
-                    key={itemName}
-                    className="border border-muted-foreground/20"
-                  >
-                    <input
-                      {...form.register(
-                        `rowFinCashMonth.${month}[${index}].value`,
-                      )}
-                      className="h-8 p-0 m-0 text-center w-full cursor-pointer text-xs font-bold"
-                    />
-                  </TableCell>
-                ))}
+                {FIN_CASH_ITEMS_LIST.map((itemName, colIndex) => {
+                  const indexByData = values[month]?.findIndex(
+                    (item: any) => item.name === itemName,
+                  );
+
+                  return (
+                    <TableCell
+                      key={itemName}
+                      className="border border-muted-foreground/20"
+                    >
+                      <input
+                        {...form.register(
+                          `rowFinCashMonth.${month}[${indexByData}].value`,
+                        )}
+                        className="h-8 p-0 m-0 text-center w-full cursor-pointer text-xs font-bold"
+                        data-row={rowIndex}
+                        data-col={colIndex}
+                        onKeyDown={handleMultiTableNavigation}
+                      />
+                    </TableCell>
+                  );
+                })}
               </TableRow>
             );
           })}

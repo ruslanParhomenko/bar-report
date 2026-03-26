@@ -8,6 +8,7 @@ export const FIN_CASH_ITEMS_LIST = [
   "salary-531",
   "ttn-bay",
   "bank-tax",
+  "vat-bay",
   "534.6",
   "225",
   "534.2-12%",
