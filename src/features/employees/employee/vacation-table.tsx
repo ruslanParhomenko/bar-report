@@ -1,17 +1,10 @@
 "use client";
-
-import SelectEmployeeBy from "@/components/nav/select-employee";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
-import {
-  Select,
-  SelectTrigger,
-  SelectValue,
-  SelectContent,
-  SelectItem,
-} from "@/components/ui/select";
 import { useEmployees } from "@/providers/employees-provider";
 import { useState, useEffect } from "react";
 import { RefreshCw } from "lucide-react";
+import SelectOptions from "@/components/select/select-options";
+import { EMPLOYEES_ROLE } from "./constants";
 
 export function VacationTable() {
   const employees = useEmployees();
@@ -34,28 +27,33 @@ export function VacationTable() {
 
   return (
     <>
-      <div className="flex gap-8 my-2 mx-4">
-        <SelectEmployeeBy role={role} setRole={setRole} className="h-9!" />
+      <div className="flex gap-8 my-6 mx-4">
+        <SelectOptions
+          options={EMPLOYEES_ROLE}
+          value={role}
+          onChange={setRole}
+          className="w-42 border h-6! text-bl! border-bl"
+          placeHolder="role"
+        />
         {role && (
-          <Select value={employeeId} onValueChange={setEmployeeId}>
-            <SelectTrigger className="cursor-pointer  h-9! px-2  text-bl md:text-md text-xs [&>svg]:hidden justify-start border-0 shadow-none">
-              <SelectValue placeholder="employee" />
-            </SelectTrigger>
-
-            <SelectContent>
-              {employees
-                .filter((e) => e.role === role)
-                .map((emp) => (
-                  <SelectItem key={emp.id} value={emp.id}>
-                    {emp.name}
-                  </SelectItem>
-                ))}
-            </SelectContent>
-          </Select>
+          <SelectOptions
+            options={employees
+              .filter((e) => e.role === role)
+              .map((emp) => {
+                return {
+                  value: emp.id,
+                  label: emp.name,
+                };
+              })}
+            value={employeeId}
+            onChange={setEmployeeId}
+            className="w-42 border h-6! text-bl! border-bl"
+            placeHolder="employee"
+          />
         )}
         <button
           onClick={handleReset}
-          className="p-2  cursor-pointer rounded-full"
+          className="cursor-pointer rounded-full"
           title="Reset"
         >
           <RefreshCw className="w-4 h-4 text-bl font-bold" />

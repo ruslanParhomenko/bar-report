@@ -165,17 +165,17 @@ export default function NavTabs() {
         <div className="flex md:justify-end justify-center gap-2">
           {filterMonth && (
             <SelectOptions
-              options={MONTHS}
+              options={MONTHS.map((month) => ({ value: month, label: month }))}
               value={month}
-              setValue={setMonth}
+              onChange={setMonth}
               className={selectClassName}
             />
           )}
           {filterYear && (
             <SelectOptions
-              options={YEAR}
+              options={YEAR.map((year) => ({ value: year, label: year }))}
               value={year}
-              setValue={setYear}
+              onChange={setYear}
               className={selectClassName}
             />
           )}

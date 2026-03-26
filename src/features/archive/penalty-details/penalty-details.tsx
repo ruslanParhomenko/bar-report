@@ -26,12 +26,15 @@ export default function PenaltyDetails({
     .filter(
       (name): name is string => typeof name === "string" && name.trim() !== "",
     );
-  const employeesList = ["select", ...Array.from(new Set(names))];
+  const employeesList = ["select", ...Array.from(new Set(names))].map(
+    (name) => ({
+      label: name,
+      value: name,
+    }),
+  );
 
   const [selectedEmployee, setSelectedEmployee] = useState("select");
-  const [selectedDay, setSelectedDay] = useState<number>(0);
-
-  console.log("selectedDay  ", selectedDay);
+  const [selectedDay, setSelectedDay] = useState<string>("0");
 
   const reversed = data?.data && [...data?.data].reverse();
 
@@ -42,7 +45,7 @@ export default function PenaltyDetails({
           (r: any) =>
             selectedEmployee === "select" || r.name === selectedEmployee,
         )
-        .filter(() => selectedDay === 0 || doc.day === selectedDay.toString())
+        .filter(() => selectedDay === "0" || doc.day === selectedDay)
         .map((r: any) => ({
           ...r,
           day: doc.day,
@@ -66,7 +69,7 @@ export default function PenaltyDetails({
 
   return (
     <div className="flex flex-col h-[94vh]">
-      <Table className="table-fixed">
+      <Table className="md:table-fixed">
         <PenaltyDetailsHeader
           options={employeesList}
           value={selectedEmployee}

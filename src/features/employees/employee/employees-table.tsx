@@ -14,10 +14,11 @@ import ActionButtonEmployee from "./employee-actions";
 import { handleCopy } from "@/utils/handler-copy-text";
 import { CheckCircle, UserX, XCircle } from "lucide-react";
 import { useAbility } from "@/providers/ability-provider";
-import SelectEmployeeBy from "@/components/nav/select-employee";
 import { useRef, useState } from "react";
 import { formatShortDate } from "@/utils/format-date";
 import PrintButton from "@/components/buttons/print-button";
+import SelectOptions from "@/components/select/select-options";
+import { EMPLOYEES_ROLE } from "./constants";
 
 export function EmployeesTable({ data }: { data: EmployeesContextValue[] }) {
   const [role, setRole] = useState("waiters");
@@ -31,13 +32,19 @@ export function EmployeesTable({ data }: { data: EmployeesContextValue[] }) {
     <div ref={componentRef}>
       <Table className="md:table-fixed">
         <TableHeader className="sticky top-0 bg-background z-20">
-          <TableRow className="text-gr h-12">
+          <TableRow className="text-gr h-10">
             <TableHead className="w-5" />
             <TableHead className="w-15" />
             <TableHead className="sticky left-0 md:w-25" />
             <TableHead className="w-15">rate</TableHead>
             <TableHead className="w-20">
-              <SelectEmployeeBy role={role} setRole={setRole} />
+              <SelectOptions
+                options={EMPLOYEES_ROLE}
+                value={role}
+                onChange={setRole}
+                placeHolder="role"
+                className="bg-transparent! text-bl"
+              />
             </TableHead>
             <TableHead className="w-30">mail</TableHead>
             <TableHead className="w-20 truncate">tel</TableHead>

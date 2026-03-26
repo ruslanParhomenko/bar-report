@@ -19,7 +19,7 @@ export default function EmployeeDataForm() {
         className={fieldClassName}
       />
       <SelectField
-        data={EMPLOYEES_ROLE}
+        data={EMPLOYEES_ROLE.map((r) => r.value)}
         fieldName="role"
         fieldLabel={t("role")}
         className={fieldClassName}

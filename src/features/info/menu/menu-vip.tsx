@@ -14,7 +14,7 @@ export function MenuVip({ data }: { data: Menu | null }) {
           <CardContent className="md:px-10">
             {column.map((section: any, secIndex: number) => (
               <div key={secIndex}>
-                <h1 className="flex justify-center items-center font-bold  py-2">
+                <h1 className="flex justify-center items-center font-bold py-2 text-bl">
                   <Dot />
                   {t(section.title)}
                   <Dot />

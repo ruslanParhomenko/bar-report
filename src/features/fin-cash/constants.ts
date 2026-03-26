@@ -6,13 +6,11 @@ export const FIN_CASH_ITEMS_LIST = [
   "ttn-purchases",
   "ttn-vat",
   "salary-531",
-  "tax-result",
   "ttn-bay",
   "bank-tax",
   "534.6",
   "225",
   "534.2-12%",
-  "534.4-vat",
   "533.2-9%",
   "533.1-24%",
 ];

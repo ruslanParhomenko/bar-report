@@ -10,20 +10,22 @@ import {
 export default function SelectOptions({
   options,
   value,
-  setValue,
+  onChange,
   isLoading = false,
   className,
+  placeHolder,
 }: {
-  options: string[];
+  options: { value: string; label: string }[];
   value: string;
-  setValue: (value: string) => void;
+  onChange: (value: string) => void;
   isLoading?: boolean;
   className?: string;
+  placeHolder?: string;
 }) {
   return (
     <Select
       value={value}
-      onValueChange={(value) => setValue(value)}
+      onValueChange={(value) => onChange(value)}
       disabled={isLoading}
     >
       <SelectTrigger
@@ -32,12 +34,12 @@ export default function SelectOptions({
           className,
         )}
       >
-        <SelectValue />
+        <SelectValue placeholder={placeHolder ?? ""} />
       </SelectTrigger>
       <SelectContent>
-        {options.map((name, idx) => (
-          <SelectItem key={`${name}-${idx}`} value={name}>
-            {name}
+        {options.map((item, idx) => (
+          <SelectItem key={`${item.value}-${idx}`} value={item.value}>
+            {item.label}
           </SelectItem>
         ))}
       </SelectContent>

@@ -13,10 +13,9 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import { Select, SelectContent, SelectTrigger } from "@/components/ui/select";
-
 import { getMonthDays } from "@/utils/get-month-days";
 import PrintButton from "@/components/buttons/print-button";
+import SelectDay from "@/components/select/select-day";
 
 type SupplierDayRow = {
   supplier: string;
@@ -37,7 +36,9 @@ export default function TTNDayPage({
 
   const monthDays = getMonthDays({ month, year });
 
-  const [selectedDay, setSelectedDay] = useState<number>(new Date().getDate());
+  const [selectedDay, setSelectedDay] = useState<string>(
+    new Date().getDate().toString(),
+  );
   const [selectedDayData, setSelectedDayData] = useState<SupplierDayRow[]>([]);
 
   const totalPlus = selectedDayData
@@ -50,7 +51,7 @@ export default function TTNDayPage({
   useEffect(() => {
     if (!dataTtn?.rowSuppliers) return;
 
-    const dayIndex = selectedDay - 1;
+    const dayIndex = Number(selectedDay) - 1;
 
     const rows: SupplierDayRow[] = Object.entries(dataTtn.rowSuppliers).map(
       ([supplier, values]: any) => ({
@@ -77,39 +78,13 @@ export default function TTNDayPage({
         <Table className="w-full">
           <TableHeader>
             <TableRow>
+              <TableHead>day:</TableHead>
               <TableHead>
-                <Select>
-                  <SelectTrigger className="w-32 h-8! border-0 shadow-none  rounded-md  md:text-md text-xs [&>svg]:hidden justify-between bg-background!">
-                    <span className="text-sm text-bl">выбрать день:</span>
-                    <span className="text-sm text-rd">{selectedDay}</span>
-                  </SelectTrigger>
-
-                  <SelectContent position="popper" className="p-2">
-                    <div className="grid grid-cols-7 gap-1">
-                      {Array.from({ length: monthDays.length }, (_, i) => {
-                        const day = i + 1;
-                        const isSelected = day === selectedDay;
-
-                        return (
-                          <button
-                            key={day}
-                            type="button"
-                            onClick={() => setSelectedDay(day)}
-                            className={[
-                              "h-9 w-9 rounded-md text-sm transition",
-                              "hover:bg-accent hover:text-accent-foreground",
-                              isSelected
-                                ? "bg-primary text-primary-foreground"
-                                : "bg-muted",
-                            ].join(" ")}
-                          >
-                            {day}
-                          </button>
-                        );
-                      })}
-                    </div>
-                  </SelectContent>
-                </Select>
+                <SelectDay
+                  value={selectedDay}
+                  onChange={setSelectedDay}
+                  monthDays={monthDays}
+                />
               </TableHead>
               <TableHead>+</TableHead>
               <TableHead>-</TableHead>
@@ -117,8 +92,9 @@ export default function TTNDayPage({
           </TableHeader>
 
           <TableBody>
-            {firstTableData.map((row) => (
+            {firstTableData.map((row, index) => (
               <TableRow key={row.supplier}>
+                <TableCell>{index + 1}</TableCell>
                 <TableCell>{row.supplier}</TableCell>
                 <TableCell>{row.plus || "-"}</TableCell>
                 <TableCell>{row.minus || "-"}</TableCell>
