@@ -1,8 +1,8 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
 import { Activity } from "react";
 import SettingsJsonForm from "./setting-json-form";
+import { useHashParam } from "@/hooks/use-hash";
 
 export default function SettingPage({
   defaultValue,
@@ -14,8 +14,7 @@ export default function SettingPage({
     ttnData: string;
   };
 }) {
-  const searchParams = useSearchParams();
-  const tab = searchParams.get("tab");
+  const [tab] = useHashParam("tab");
 
   return (
     <>

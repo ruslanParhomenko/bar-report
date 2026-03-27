@@ -7,7 +7,7 @@ import ResultTableBody from "./result-body-table";
 import { TipsFormType } from "../tips/schema";
 import { remarksByUniqueEmployee } from "../archive/penalty-details/utils";
 import { SchedulesContextValue } from "@/app/actions/schedule/schedule-action";
-import { useSearchParams } from "next/navigation";
+import { useHashParam } from "@/hooks/use-hash";
 
 const ROLE = {
   barmen: "bar",
@@ -29,8 +29,9 @@ export function PageResult({
   month: string;
   year: string;
 }) {
-  const searchParams = useSearchParams();
-  const role = searchParams.get("tab") as string;
+  const [tab] = useHashParam("tab");
+  const role = tab ?? "barmen";
+
   const selectedSchedule = dataSchedule.filter(
     (item: any) => item.role === ROLE[role as keyof typeof ROLE],
   );

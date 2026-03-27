@@ -9,8 +9,11 @@ import { cn } from "@/lib/utils";
 import { revalidateNav } from "@/app/actions/revalidate-tag/revalidate-teg";
 import { RefreshCcw } from "lucide-react";
 import SelectOptions from "../select/select-options";
+import { useHashParam } from "@/hooks/use-hash";
 
 export default function NavTabs() {
+  const [_, setHash] = useHashParam("tab");
+
   const pathname = usePathname();
   const mainRoute = pathname.split("/")[1];
   const searchParams = useSearchParams();
@@ -30,48 +33,50 @@ export default function NavTabs() {
   const refresh = config?.refresh;
   const navItems = config?.navItems ?? [];
 
-  const tabFromUrl = searchParams.get("tab");
-
-  const isValidTab = navItems.some((item) => item.value === tabFromUrl);
+  // const tabFromUrl = searchParams.get("tab");
 
   const defaultTab = navItems[0]?.value;
 
-  const currentTab = tabFromUrl && isValidTab ? tabFromUrl : defaultTab;
+  // const currentTab = tabFromUrl && isValidTab ? tabFromUrl : defaultTab;
 
-  useEffect(() => {
-    if (!defaultTab) return;
+  const currentTab = localStorage.getItem(STORAGE_KEY) ?? defaultTab;
+  const isValidTab = navItems.some((item) => item.value === currentTab);
+  isValidTab && setHash(currentTab);
 
-    if (tabFromUrl && isValidTab) {
-      localStorage.setItem(STORAGE_KEY, tabFromUrl);
-      return;
-    }
+  // useEffect(() => {
+  //   if (!defaultTab) return;
 
-    const storedTab = localStorage.getItem(STORAGE_KEY);
+  //   if (tabFromUrl && isValidTab) {
+  //     localStorage.setItem(STORAGE_KEY, tabFromUrl);
+  //     return;
+  //   }
 
-    const validStored =
-      storedTab && navItems.some((i) => i.value === storedTab)
-        ? storedTab
-        : null;
+  //   const storedTab = localStorage.getItem(STORAGE_KEY);
 
-    const tabToUse = validStored ?? defaultTab;
+  //   const validStored =
+  //     storedTab && navItems.some((i) => i.value === storedTab)
+  //       ? storedTab
+  //       : null;
 
-    const params = new URLSearchParams(searchParams.toString());
-    params.set("tab", tabToUse);
+  //   // const tabToUse = validStored ?? defaultTab ?? hash;
 
-    startTransition(() => {
-      router.replace(`${pathname}?${params.toString()}`, {
-        scroll: false,
-      });
-    });
-  }, [
-    tabFromUrl,
-    isValidTab,
-    defaultTab,
-    pathname,
-    router,
-    searchParams,
-    navItems,
-  ]);
+  //   const params = new URLSearchParams(searchParams.toString());
+  //   // params.set("tab", tabToUse);
+
+  //   startTransition(() => {
+  //     router.replace(`${pathname}?${params.toString()}`, {
+  //       scroll: false,
+  //     });
+  //   });
+  // }, [
+  //   tabFromUrl,
+  //   isValidTab,
+  //   defaultTab,
+  //   pathname,
+  //   router,
+  //   searchParams,
+  //   navItems,
+  // ]);
 
   useEffect(() => {
     if (!filterMonth && !filterYear) return;
@@ -106,14 +111,16 @@ export default function NavTabs() {
   const handleTabChange = (value: string) => {
     localStorage.setItem(STORAGE_KEY, value);
 
-    const params = new URLSearchParams(searchParams.toString());
-    params.set("tab", value);
+    // const params = new URLSearchParams(searchParams.toString());
+    // params.set("tab", value);
 
-    startTransition(() => {
-      router.replace(`${pathname}?${params.toString()}`, {
-        scroll: false,
-      });
-    });
+    setHash(value);
+
+    // startTransition(() => {
+    //   router.replace(`${pathname}?${params.toString()}`, {
+    //     scroll: false,
+    //   });
+    // });
   };
 
   // refresh data

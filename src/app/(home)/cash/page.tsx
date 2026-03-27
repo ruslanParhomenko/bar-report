@@ -2,6 +2,7 @@ import { getAOByUniqueKey } from "@/app/actions/a-o/ao-action";
 import { getCashFormById } from "@/app/actions/cash/cash-action";
 import { InsufficientRights } from "@/components/wrapper/insufficient-rights";
 import CashPage from "@/features/cash/cash-page";
+import { useHashParam } from "@/hooks/use-hash";
 
 import { checkAccess } from "@/lib/check-access";
 import { ValueParams } from "@/types/params";
@@ -18,8 +19,9 @@ export default async function Page({
 
   const valueParams = (await searchParams) as ValueParams;
 
-  const { month, year, tab } = valueParams;
-  if (!month || !year || !tab) return null;
+  const { month, year } = valueParams;
+
+  if (!month || !year) return null;
   const uniqueKey = `${year}-${month}`;
 
   const [dataCash, dataAo] = await Promise.all([

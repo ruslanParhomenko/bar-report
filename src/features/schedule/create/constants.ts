@@ -7,7 +7,7 @@ export const ROLE_URL = {
 export const SHIFTS = {
   bar: ["8", "12", "18", "20"],
   cucina: ["7", "19"],
-  dish: ["7", "19"],
+  dish: ["7", "18", "19"],
 };
 
 export const COLOR_SHIFT = {

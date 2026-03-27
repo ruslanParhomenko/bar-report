@@ -12,6 +12,7 @@ type ScheduleTableHeaderProps = {
   params: ValueParams;
   selectedDay?: string;
   setSelectedDay?: (day: string) => void;
+  tab: string;
 };
 
 export default function ScheduleTableHeader({
@@ -21,6 +22,7 @@ export default function ScheduleTableHeader({
   params,
   selectedDay,
   setSelectedDay,
+  tab,
 }: ScheduleTableHeaderProps) {
   const { month, year } = params;
   const todayDay = new Date().getDate();
@@ -35,6 +37,7 @@ export default function ScheduleTableHeader({
             isSave={isSave}
             addNewRow={addNewRow}
             params={params}
+            tab={tab}
           />
         </TableCell>
         <TableCell className="text-base pl-3 w-32">

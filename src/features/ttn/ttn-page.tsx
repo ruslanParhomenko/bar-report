@@ -1,10 +1,10 @@
 "use client";
 import { TTNGetDataType } from "@/app/actions/ttn/ttn-actions";
-import { useSearchParams } from "next/navigation";
 import { Activity } from "react";
 import TTNForm from "./ttn-form";
 import TTNDayPage from "./ttn-day-page";
 import { CreateDataTTN } from "@/app/actions/data-constants/data-ttn-action";
+import { useHashParam } from "@/hooks/use-hash";
 
 export default function TTNPage({
   dataTtn,
@@ -19,8 +19,7 @@ export default function TTNPage({
   month: string;
   year: string;
 }) {
-  const searchParams = useSearchParams();
-  const tab = searchParams.get("tab") as string;
+  const [tab] = useHashParam("tab");
 
   return (
     <>

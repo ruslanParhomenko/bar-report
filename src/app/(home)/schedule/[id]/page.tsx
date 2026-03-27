@@ -15,9 +15,9 @@ export default async function Page({
   const { id } = await params;
 
   const query = (await searchParams) as ValueParams;
-  const { month, year, tab } = query;
+  const { month, year } = query;
 
-  if (!month || !year || !tab || !id) return null;
+  if (!month || !year || !id) return null;
 
   const schedule = (await getScheduleById(id)) as SchedulesContextValue;
 

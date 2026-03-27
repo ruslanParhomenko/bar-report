@@ -9,8 +9,8 @@ export default async function Page({
   searchParams: Promise<{ [key: string]: string }>;
 }) {
   const params = (await searchParams) as ValueParams;
-  const { month, year, tab } = params;
-  if (!month || !year || !tab) return null;
+  const { month, year } = params;
+  if (!month || !year) return null;
 
   const schedules = (await getScheduleByMonthYear(month, year)) ?? null;
   return (

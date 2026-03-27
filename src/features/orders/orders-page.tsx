@@ -1,6 +1,5 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
 import { Activity, useContext } from "react";
 import { OrderListTTNBar } from "./order-bar-ttn";
 import { OrderListBar } from "./order-bar-zn";
@@ -10,6 +9,7 @@ import { OrderListTelegramForm } from "@/providers/send-telegram";
 import { useAbility } from "@/providers/ability-provider";
 import { RefContext } from "@/providers/client-ref-provider";
 import { useOrderProducts } from "@/providers/order-products-provider";
+import { useHashParam } from "@/hooks/use-hash";
 
 const FORM_PROPS = {
   "bar-ttn": {
@@ -33,8 +33,9 @@ const FORM_PROPS = {
 export default function OrdersPage() {
   const { isBar, isCucina } = useAbility();
   const isDisabled = !isBar && !isCucina;
-  const searchParams = useSearchParams();
-  const tab = searchParams.get("tab") as string;
+
+  const [tab] = useHashParam("tab");
+
   const user = FORM_PROPS[tab as keyof typeof FORM_PROPS]?.user;
   const url = FORM_PROPS[tab as keyof typeof FORM_PROPS]?.url;
 

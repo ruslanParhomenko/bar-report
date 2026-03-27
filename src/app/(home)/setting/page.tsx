@@ -5,7 +5,6 @@ import { getDataTTN } from "@/app/actions/data-constants/data-ttn-action";
 import { InsufficientRights } from "@/components/wrapper/insufficient-rights";
 import SettingPage from "@/features/setting/setting-page";
 import { checkAccess } from "@/lib/check-access";
-import { da } from "zod/v4/locales";
 const SET_ACCESS = ["ADMIN"];
 
 export default async function SettingsPage() {

@@ -7,7 +7,7 @@ export default async function Page({
   searchParams: Promise<{ [key: string]: string | undefined }>;
 }) {
   const params = (await searchParams) as ValueParams;
-  const { month, year, tab } = params;
-  if (!month || !year || !tab) return null;
+  const { month, year } = params;
+  if (!month || !year) return null;
   return <ScheduleCreatePage params={params} />;
 }

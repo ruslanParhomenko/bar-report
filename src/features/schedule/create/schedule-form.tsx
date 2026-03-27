@@ -22,6 +22,7 @@ import FormInput from "@/components/wrapper/form";
 import { useRouter } from "next/navigation";
 import { ValueParams } from "@/types/params";
 import { calculateShiftTotals } from "./utils";
+import { useHashParam } from "@/hooks/use-hash";
 
 export function ScheduleCreatePage({
   schedule,
@@ -30,7 +31,9 @@ export function ScheduleCreatePage({
   schedule?: SchedulesContextValue;
   params: ValueParams;
 }) {
-  const { month, year, tab } = params;
+  const [tab] = useHashParam("tab");
+
+  const { month, year } = params;
   const router = useRouter();
 
   // set form
@@ -122,10 +125,17 @@ export function ScheduleCreatePage({
     replace(newRows);
   }, [month, tab, selectedEmployees, monthDays.length, fields.length]);
 
+  if (!tab) return null;
+
   return (
     <FormInput form={form} onSubmit={onSubmit} returnButton>
       <Table className="table-fixed">
-        <ScheduleTableHeader addNewRow={addRow} isSave={true} params={params} />
+        <ScheduleTableHeader
+          addNewRow={addRow}
+          isSave={true}
+          params={params}
+          tab={tab}
+        />
 
         <ScheduleCreateTableBody
           fields={fields}
@@ -135,7 +145,7 @@ export function ScheduleCreatePage({
           update={update}
         />
 
-        <ScheduleTableFooter schedule={fields} role={tab} />
+        <ScheduleTableFooter schedule={form.watch("rowShifts")} role={tab} />
       </Table>
     </FormInput>
   );

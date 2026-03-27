@@ -21,6 +21,7 @@ import { RowRender } from "@/components/table/row-render";
 import { rowCashBar, rowsCashCasino } from "./constants";
 import FormInput from "@/components/wrapper/form";
 import { ValueParams } from "@/types/params";
+import { useHashParam } from "@/hooks/use-hash";
 
 export default function CashPage({
   dataAo,
@@ -33,7 +34,8 @@ export default function CashPage({
 }) {
   const router = useRouter();
 
-  const { month, year, tab } = valueParams;
+  const { month, year } = valueParams;
+  const [tab] = useHashParam("tab");
 
   const monthDays = getMonthDays({ month, year });
 

@@ -9,8 +9,8 @@ import { BreakGetType } from "@/app/actions/break/break-action";
 import { BreakListArchive } from "./break/break-list-archive";
 import { RemarksDataByUniqueKey } from "@/app/actions/remarks/remarks-action";
 import PenaltyDetails from "./penalty-details/penalty-details";
-import { useSearchParams } from "next/navigation";
 import PenaltyGeneral from "./penalty-general/penalty-general";
+import { useHashParam } from "@/hooks/use-hash";
 
 type TabValue = "bar" | "cucina" | "breakList" | "penalty" | "penaltyResult";
 export type ArchiveData = {
@@ -24,8 +24,7 @@ export default function ArchivePage({
 }: {
   archiveData: ArchiveData;
 }) {
-  const searchParams = useSearchParams();
-  const tab = searchParams.get("tab") as TabValue;
+  const [tab] = useHashParam("tab");
 
   return (
     <>

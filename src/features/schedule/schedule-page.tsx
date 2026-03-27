@@ -6,6 +6,7 @@ import ScheduleTableBody from "./schedule-body";
 import { SchedulesContextValue } from "@/app/actions/schedule/schedule-action";
 import { ValueParams } from "@/types/params";
 import { useState } from "react";
+import { useHashParam } from "@/hooks/use-hash";
 
 export default function SchedulePage({
   schedules,
@@ -14,8 +15,10 @@ export default function SchedulePage({
   schedules: SchedulesContextValue[] | null;
   params: ValueParams;
 }) {
-  const { tab } = params;
+  const [tab] = useHashParam("tab");
+
   const schedule = schedules?.find((s: any) => s.role === tab) ?? null;
+
   const [selectedDay, setSelectedDay] = useState<string>("0");
   return (
     <Table className="table-fixed">
@@ -24,11 +27,12 @@ export default function SchedulePage({
         params={params}
         selectedDay={selectedDay}
         setSelectedDay={setSelectedDay}
+        tab={tab as string}
       />
       <ScheduleTableBody schedule={schedule} selectedDay={selectedDay} />
       <ScheduleTableFooter
         schedule={schedule?.rowShifts ?? []}
-        role={params.tab as string}
+        role={tab as string}
       />
     </Table>
   );

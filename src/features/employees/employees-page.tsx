@@ -9,10 +9,14 @@ import { EmployeeForm } from "./employee/employee-form";
 import UsersForm from "./users/users-form";
 import UsersTable from "./users/users-table";
 import { useAbility } from "@/providers/ability-provider";
+import { useHashParam } from "@/hooks/use-hash";
 
 export function EmployeesPage() {
   const searchParams = useSearchParams();
-  const tab = searchParams.get("tab") as string;
+  // const tab = searchParams.get("tab") as string;
+  const [value] = useHashParam("tab");
+
+  const tab = value || "employees";
   const employees = useEmployees();
   const { users } = useAbility();
 

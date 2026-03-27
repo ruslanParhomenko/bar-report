@@ -8,22 +8,26 @@ import { cn } from "@/lib/utils";
 import { useContext } from "react";
 import { RefContext } from "@/providers/client-ref-provider";
 import { ValueParams } from "@/types/params";
+import ExitButton from "@/components/buttons/exit-button";
 
 export default function ScheduleActionButton({
   addNewRow,
   scheduleId,
   isSave,
   params,
+  tab,
 }: {
   addNewRow?: () => void;
   scheduleId: string | undefined;
   isSave?: boolean;
   params: ValueParams;
+  tab: string;
 }) {
-  const { month, year, tab } = params;
+  const { month, year } = params;
 
-  const urlEdit = `schedule/${scheduleId}?month=${month}&year=${year}&tab=${tab}`;
-  const urlCreate = `schedule/create?month=${month}&year=${year}&tab=${tab}`;
+  const urlEdit = `schedule/${scheduleId}?month=${month}&year=${year}#tab=${tab}`;
+  const urlCreate = `schedule/create?month=${month}&year=${year}#tab=${tab}`;
+  const returnUrl = `schedule?month=${month}&year=${year}#tab=${tab}`;
   const canEdit = isCanEdit({ year, month });
 
   const ref = useContext(RefContext);
@@ -54,6 +58,7 @@ export default function ScheduleActionButton({
           strokeWidth={ref ? 1.5 : 2}
         />
       </button>
+      <ExitButton className="text-bl" />
     </div>
   );
 }

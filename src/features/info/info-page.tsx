@@ -1,5 +1,4 @@
 "use client";
-import { useSearchParams } from "next/navigation";
 import { Activity } from "react";
 import StandardKitchenTable from "./standard/standard-kitchen";
 import { MenuDaily } from "./menu/menu-daily";
@@ -9,6 +8,7 @@ import { MenuVip } from "./menu/menu-vip";
 import { Menu, StandardKitchen } from "@/app/actions/google/google-action";
 import { StopListSchemaType } from "./stop-list/schema";
 import StopListForm from "./stop-list/stop-list-form";
+import { useHashParam } from "@/hooks/use-hash";
 
 type TabValue =
   | "stopList"
@@ -27,8 +27,8 @@ type InfoPageProps = {
 };
 
 export default function InfoPage({ data }: InfoPageProps) {
-  const searchParams = useSearchParams();
-  const tab = searchParams.get("tab") as TabValue;
+  const [tab] = useHashParam("tab");
+
   return (
     <>
       <Activity mode={tab === "stopList" ? "visible" : "hidden"}>
