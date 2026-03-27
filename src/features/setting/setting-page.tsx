@@ -17,8 +17,6 @@ export default function SettingPage({
   const searchParams = useSearchParams();
   const tab = searchParams.get("tab");
 
-  console.log(defaultValue);
-
   return (
     <>
       <Activity mode={tab === "products" ? "visible" : "hidden"}>

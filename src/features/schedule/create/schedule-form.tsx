@@ -121,9 +121,7 @@ export function ScheduleCreatePage({
 
     replace(newRows);
   }, [month, tab, selectedEmployees, monthDays.length, fields.length]);
-  const value = form.watch();
-  console.log("formWatch", value);
-  console.log("fields", fields);
+
   return (
     <FormInput form={form} onSubmit={onSubmit} returnButton>
       <Table className="table-fixed">

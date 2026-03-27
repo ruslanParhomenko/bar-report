@@ -36,8 +36,13 @@ export async function saveFinCashForm(data: SaveFinCashForm) {
   );
 
   if (error) {
-    console.error("Ошибка при сохранении формы:", error);
-    throw error;
+    console.error("SUPABASE ERROR:", error);
+
+    throw new Error(
+      `[${error.code}] ${error.message}${
+        error.details ? ` | ${error.details}` : ""
+      }${error.hint ? ` | ${error.hint}` : ""}`,
+    );
   }
   updateTag(TAG);
 

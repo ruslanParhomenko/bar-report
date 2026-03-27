@@ -8,8 +8,10 @@ import { useAbility } from "@/providers/ability-provider";
 
 export default function ScheduleTableBody({
   schedule,
+  selectedDay,
 }: {
   schedule: SchedulesContextValue | null;
+  selectedDay: string;
 }) {
   const todayDay = new Date().getDate();
 
@@ -17,9 +19,10 @@ export default function ScheduleTableBody({
   return (
     <TableBody>
       {schedule?.rowShifts?.map((row, rowIndex) => {
-        const isSelected = !SHIFT_COLOR_MAP.includes(
-          row.shifts?.[todayDay - 1],
-        );
+        const isSelected =
+          selectedDay === "0"
+            ? !SHIFT_COLOR_MAP.includes(row.shifts?.[todayDay - 1])
+            : !SHIFT_COLOR_MAP.includes(row.shifts?.[Number(selectedDay) - 1]);
         const totalPay = isAdmin
           ? calculateSalaryByHours(row).toFixed(0).toString()
           : "0";
@@ -46,22 +49,26 @@ export default function ScheduleTableBody({
               {row.role.charAt(0)}
             </TableCell>
 
-            {row.shifts?.map((day, dayIndex) => {
-              const isSelected = dayIndex === todayDay - 1;
+            {row.shifts
+              ?.filter((_, index) =>
+                selectedDay === "0" ? true : Number(selectedDay) === index + 1,
+              )
+              .map((day, dayIndex) => {
+                const isSelected = dayIndex === todayDay - 1;
 
-              return (
-                <TableCell
-                  key={dayIndex}
-                  className={cn(
-                    "text-center border-x text-sm!",
-                    color[day as keyof typeof color],
-                    isSelected && "text-rd font-bold",
-                  )}
-                >
-                  {SHIFT_COLOR_MAP.includes(day) ? null : day}
-                </TableCell>
-              );
-            })}
+                return (
+                  <TableCell
+                    key={dayIndex}
+                    className={cn(
+                      "text-center border-x text-sm!",
+                      color[day as keyof typeof color],
+                      isSelected && "text-rd font-bold",
+                    )}
+                  >
+                    {SHIFT_COLOR_MAP.includes(day) ? null : day}
+                  </TableCell>
+                );
+              })}
           </TableRow>
         );
       })}

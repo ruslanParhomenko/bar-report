@@ -18,13 +18,17 @@ import { MONTHS } from "@/utils/get-month-days";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { FIN_CASH_ITEMS_LIST } from "./constants";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import {
   GetFinCashRowByYear,
   saveFinCashForm,
 } from "@/app/actions/fin-cash/fin-cash-action";
 import { toast } from "sonner";
 import { handleMultiTableNavigation } from "@/utils/handle-table-navigation";
+
+const VAT_PLUS_KEYS = ["nbm-vat", "bar-vat"];
+const VAT_MINUS_KEYS = ["ttn-vat"];
+const TAX_KEYS = ["225", "vat-bay", "534.2-12%", "533.2-9%", "533.1-24%"];
 
 export default function FinCashPage({
   finCashData,
@@ -38,11 +42,11 @@ export default function FinCashPage({
     defaultValues: defaultFinCashForm,
   });
 
+  const FIXED_COLUMNS = ["НДС", "НАЛОГ"];
+  const ALL_COLUMNS = [...FIXED_COLUMNS, ...FIN_CASH_ITEMS_LIST];
+
   const submit: SubmitHandler<FinCashForm> = async (data) => {
-    await saveFinCashForm({
-      form_data: data,
-      year: year,
-    });
+    await saveFinCashForm({ form_data: data, year });
     toast.success("Форма сохранена успешно!");
   };
 
@@ -51,8 +55,8 @@ export default function FinCashPage({
       form.reset(finCashData.form_data);
     } else {
       const newRowFinCash = Object.fromEntries(
-        MONTHS.map((item) => [
-          item,
+        MONTHS.map((month) => [
+          month,
           FIN_CASH_ITEMS_LIST.map((item) => ({ name: item, value: "" })),
         ]),
       );
@@ -72,69 +76,67 @@ export default function FinCashPage({
   };
 
   const getRowCalculations = (month: string) => {
-    const row = values?.[month] || [];
-    const map = Object.fromEntries(row.map((i: any) => [i.name, i.value]));
+    const row = values?.[month] ?? [];
+    const map: Record<string, string> = Object.fromEntries(
+      row.map((i) => [i.name, i.value]),
+    );
 
     const nds =
-      getNumber(map["nbm-vat"]) +
-      getNumber(map["bar-vat"]) -
-      getNumber(map["ttn-vat"]);
-
-    const tax =
-      getNumber(map["225"]) +
-      getNumber(map["534.2-12%"]) +
-      getNumber(map["533.2-9%"]) +
-      getNumber(map["533.1-24%"]);
+      VAT_PLUS_KEYS.reduce((sum, key) => sum + getNumber(map[key]), 0) -
+      VAT_MINUS_KEYS.reduce((sum, key) => sum + getNumber(map[key]), 0);
+    const tax = TAX_KEYS.reduce((sum, key) => sum + getNumber(map[key]), 0);
 
     return { nds, tax };
   };
 
-  const columnTotals = FIN_CASH_ITEMS_LIST.map((_, colIndex) => {
-    return MONTHS.reduce((sum, month) => {
-      const value = values?.[month]?.[colIndex]?.value;
-      const num = parseFloat(value);
-      return sum + (isNaN(num) ? 0 : num);
-    }, 0);
-  });
+  const columnTotals = useMemo(() => {
+    return FIN_CASH_ITEMS_LIST.map((_, colIndex) =>
+      MONTHS.reduce((sum, month) => {
+        const value = values?.[month]?.[colIndex]?.value;
+        return sum + getNumber(value);
+      }, 0),
+    );
+  }, [values]);
 
-  const ndsTotal = MONTHS.reduce(
-    (sum, month) => sum + getRowCalculations(month).nds,
-    0,
+  const ndsTotal = useMemo(
+    () => MONTHS.reduce((sum, month) => sum + getRowCalculations(month).nds, 0),
+    [values],
   );
-  const taxTotal = MONTHS.reduce(
-    (sum, month) => sum + getRowCalculations(month).tax,
-    0,
+  const taxTotal = useMemo(
+    () => MONTHS.reduce((sum, month) => sum + getRowCalculations(month).tax, 0),
+    [values],
   );
 
-  const columnAverages = FIN_CASH_ITEMS_LIST.map((_, colIndex) => {
-    let sum = 0;
-    let count = 0;
-
-    MONTHS.forEach((month) => {
-      const value = values?.[month]?.[colIndex]?.value;
-      if (value !== "" && value !== null && value !== undefined) {
-        const num = parseFloat(value);
-        if (!isNaN(num)) {
-          sum += num;
-          count++;
+  const columnAverages = useMemo(() => {
+    return FIN_CASH_ITEMS_LIST.map((_, colIndex) => {
+      let sum = 0;
+      let count = 0;
+      MONTHS.forEach((month) => {
+        const value = values?.[month]?.[colIndex]?.value;
+        if (value !== "" && value !== null && value !== undefined) {
+          const num = parseFloat(value);
+          if (!isNaN(num)) {
+            sum += num;
+            count++;
+          }
         }
-      }
+      });
+      return count > 0 ? sum / count : 0;
     });
+  }, [values]);
 
-    return count > 0 ? sum / count : 0;
-  });
-
-  const ndsAverage =
-    MONTHS.reduce((sum, month) => {
-      const val = getRowCalculations(month).nds;
-      return val !== 0 ? sum + val : sum;
-    }, 0) / MONTHS.length;
-
-  const taxAverage =
-    MONTHS.reduce((sum, month) => {
-      const val = getRowCalculations(month).tax;
-      return val !== 0 ? sum + val : sum;
-    }, 0) / MONTHS.length;
+  const ndsAverage = useMemo(
+    () =>
+      MONTHS.reduce((sum, month) => sum + getRowCalculations(month).nds, 0) /
+      MONTHS.length,
+    [values],
+  );
+  const taxAverage = useMemo(
+    () =>
+      MONTHS.reduce((sum, month) => sum + getRowCalculations(month).tax, 0) /
+      MONTHS.length,
+    [values],
+  );
 
   return (
     <FormInput form={form} onSubmit={submit}>
@@ -142,20 +144,12 @@ export default function FinCashPage({
         <TableHeader>
           <TableRow className="border-0!">
             <TableHead className="sticky left-0 bg-background" />
-
-            <TableHead className="text-bl text-xs font-bold text-center">
-              НДС
-            </TableHead>
-            <TableHead className="text-bl text-xs font-bold text-center">
-              НАЛОГ
-            </TableHead>
-
-            {FIN_CASH_ITEMS_LIST.map((item) => (
+            {ALL_COLUMNS.map((col) => (
               <TableHead
-                key={item}
+                key={col}
                 className="text-bl text-xs font-bold text-center"
               >
-                {item}
+                {col}
               </TableHead>
             ))}
           </TableRow>
@@ -164,6 +158,7 @@ export default function FinCashPage({
         <TableBody>
           {MONTHS.map((month, rowIndex) => {
             const { nds, tax } = getRowCalculations(month);
+            const row = values?.[month] ?? [];
 
             return (
               <TableRow key={month} className="[&>td]:p-0 border-0">
@@ -178,28 +173,22 @@ export default function FinCashPage({
                   {tax.toFixed(2)}
                 </TableCell>
 
-                {FIN_CASH_ITEMS_LIST.map((itemName, colIndex) => {
-                  const indexByData = values[month]?.findIndex(
-                    (item: any) => item.name === itemName,
-                  );
-
-                  return (
-                    <TableCell
-                      key={itemName}
-                      className="border border-muted-foreground/20"
-                    >
-                      <input
-                        {...form.register(
-                          `rowFinCashMonth.${month}[${indexByData}].value`,
-                        )}
-                        className="h-8 p-0 m-0 text-center w-full cursor-pointer text-xs font-bold"
-                        data-row={rowIndex}
-                        data-col={colIndex}
-                        onKeyDown={handleMultiTableNavigation}
-                      />
-                    </TableCell>
-                  );
-                })}
+                {FIN_CASH_ITEMS_LIST.map((itemName, colIndex) => (
+                  <TableCell
+                    key={itemName}
+                    className="border border-muted-foreground/20"
+                  >
+                    <input
+                      {...form.register(
+                        `rowFinCashMonth.${month}[${colIndex}].value`,
+                      )}
+                      className="h-8 p-0 m-0 text-center w-full cursor-pointer text-xs font-bold"
+                      data-row={rowIndex}
+                      data-col={colIndex}
+                      onKeyDown={handleMultiTableNavigation}
+                    />
+                  </TableCell>
+                ))}
               </TableRow>
             );
           })}
@@ -210,14 +199,12 @@ export default function FinCashPage({
             <TableCell className="sticky left-0 bg-background font-bold text-xs pl-4!">
               Итого
             </TableCell>
-
             <TableCell className="border border-muted-foreground/20 text-center text-xs font-bold">
               {ndsTotal.toFixed(2)}
             </TableCell>
             <TableCell className="border border-muted-foreground/20 text-center text-xs font-bold">
               {taxTotal.toFixed(2)}
             </TableCell>
-
             {columnTotals.map((total, index) => (
               <TableCell
                 key={index}
@@ -232,14 +219,12 @@ export default function FinCashPage({
             <TableCell className="sticky left-0 bg-background font-bold text-xs pl-4!">
               Среднее
             </TableCell>
-
             <TableCell className="border border-muted-foreground/20 text-center text-xs font-bold">
               {ndsAverage.toFixed(2)}
             </TableCell>
             <TableCell className="border border-muted-foreground/20 text-center text-xs font-bold">
               {taxAverage.toFixed(2)}
             </TableCell>
-
             {columnAverages.map((avg, index) => (
               <TableCell
                 key={index}

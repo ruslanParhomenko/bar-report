@@ -18,7 +18,6 @@ export default function ExitButton({
     <button
       type="button"
       onClick={() => {
-        console.log(url);
         url ? router.replace(url) : router.back();
       }}
       disabled={disabled}
