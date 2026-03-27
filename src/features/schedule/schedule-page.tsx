@@ -8,12 +8,14 @@ import { ValueParams } from "@/types/params";
 import { useState } from "react";
 
 export default function SchedulePage({
-  schedule,
+  schedules,
   params,
 }: {
-  schedule: SchedulesContextValue | null;
+  schedules: SchedulesContextValue[] | null;
   params: ValueParams;
 }) {
+  const { tab } = params;
+  const schedule = schedules?.find((s: any) => s.role === tab) ?? null;
   const [selectedDay, setSelectedDay] = useState<string>("0");
   return (
     <Table className="table-fixed">

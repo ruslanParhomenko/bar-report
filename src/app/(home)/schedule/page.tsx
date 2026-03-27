@@ -12,12 +12,10 @@ export default async function Page({
   const { month, year, tab } = params;
   if (!month || !year || !tab) return null;
 
-  const schedules = await getScheduleByMonthYear(month, year);
-
-  const schedule = schedules?.find((s: any) => s.role === tab) ?? null;
+  const schedules = (await getScheduleByMonthYear(month, year)) ?? null;
   return (
     <ClientRefProvider>
-      <SchedulePage schedule={schedule} params={params} />
+      <SchedulePage schedules={schedules} params={params} />
     </ClientRefProvider>
   );
 }
