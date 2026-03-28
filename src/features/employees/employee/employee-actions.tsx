@@ -35,7 +35,7 @@ export default function ActionButtonEmployee({ id }: { id: string }) {
           className="cursor-pointer"
           type="button"
           onClick={() => {
-            router.push(`/employees/${id}?tab=create-employee`);
+            router.push(`/create-employees/${id}`);
           }}
           disabled={isDisabled}
         >

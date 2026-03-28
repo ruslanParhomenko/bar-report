@@ -27,7 +27,7 @@ export default function ScheduleActionButton({
 
   const urlEdit = `schedule/${scheduleId}?month=${month}&year=${year}#tab=${tab}`;
   const urlCreate = `schedule/create?month=${month}&year=${year}#tab=${tab}`;
-  const returnUrl = `schedule?month=${month}&year=${year}#tab=${tab}`;
+  const returnUrl = `/schedule?month=${month}&year=${year}#tab=${tab}`;
   const canEdit = isCanEdit({ year, month });
 
   const ref = useContext(RefContext);
@@ -58,7 +58,7 @@ export default function ScheduleActionButton({
           strokeWidth={ref ? 1.5 : 2}
         />
       </button>
-      <ExitButton className="text-bl" />
+      <ExitButton className="text-bl" url={returnUrl} />
     </div>
   );
 }

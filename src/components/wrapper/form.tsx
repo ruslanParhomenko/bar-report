@@ -114,7 +114,7 @@ export default function FormInput<T extends FieldValues>({
                 type="button"
                 variant={"destructive"}
                 className="h-7 w-24"
-                onClick={() => router.back()}
+                onClick={() => (url ? router.replace(url) : router.back())}
                 disabled={disabled}
               >
                 return

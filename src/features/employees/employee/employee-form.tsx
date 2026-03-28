@@ -59,6 +59,8 @@ export function EmployeeForm({ id }: { id?: string }) {
     router.back();
   };
 
+  const returUrl = "/employees";
+
   return (
     <FormInput
       form={form}
@@ -66,6 +68,7 @@ export function EmployeeForm({ id }: { id?: string }) {
       className={cn("flex flex-col md:px-4 h-[90vh]")}
       resetButton={id ? false : true}
       returnButton={id ? true : false}
+      url={returUrl}
       disabled={isDisabled}
     >
       <div className="grid grid-cols-1 md:grid-cols-3 md:gap-8 mt-4">

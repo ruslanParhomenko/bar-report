@@ -57,6 +57,8 @@ export default function UsersForm({ id }: { id?: string }) {
     }
   };
 
+  const returnUrl = `/employees`;
+
   return (
     <FormInput
       form={form}
