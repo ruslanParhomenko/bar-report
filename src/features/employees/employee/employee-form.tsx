@@ -59,7 +59,7 @@ export function EmployeeForm({ id }: { id?: string }) {
     router.back();
   };
 
-  const returUrl = "/employees";
+  const returUrl = "/employees#tab=employees";
 
   return (
     <FormInput

@@ -57,7 +57,7 @@ export default function UsersForm({ id }: { id?: string }) {
     }
   };
 
-  const returnUrl = `/employees`;
+  const returnUrl = "/employees#tab=users";
 
   return (
     <FormInput
@@ -66,6 +66,7 @@ export default function UsersForm({ id }: { id?: string }) {
       className="md:w-1/2 px-1"
       resetButton={id ? false : true}
       returnButton={id ? true : false}
+      url={returnUrl}
       disabled={!isAdmin}
     >
       <div className="mt-6 flex flex-col gap-4">
