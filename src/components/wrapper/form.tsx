@@ -86,7 +86,6 @@ export default function FormInput<T extends FieldValues>({
             <ModalConfirm
               open={isModalOpen}
               setOpen={setIsModalOpen}
-              message="save"
               handleConfirm={async () => {
                 if (!formDataToSubmit) return;
 

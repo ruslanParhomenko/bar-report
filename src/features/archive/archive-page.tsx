@@ -44,7 +44,7 @@ export default function ArchivePage({
         <PenaltyDetails data={archiveData.penalty} />
       </Activity>
 
-      <Activity mode={tab === "penaltyResult" ? "visible" : "hidden"}>
+      <Activity mode={tab === "penalty-result" ? "visible" : "hidden"}>
         <PenaltyGeneral data={archiveData.penalty} />
       </Activity>
     </>

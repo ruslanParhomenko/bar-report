@@ -180,7 +180,7 @@ export default function BarForm({
       }}
       disabled={isDisabled}
     >
-      <div className="flex flex-col gap-6 md:justify-around md:h-full">
+      <div className="flex flex-col gap-6 md:justify-between md:h-full">
         <BreakTable isDisabled={isDisabled} employeesName={employeesName} />
         <ReportBarTable isDisabled={isDisabled} />
         <PenaltyTable isDisabled={isDisabled} />

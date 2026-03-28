@@ -6,7 +6,8 @@
     "papaparse",
     "supabase",
     "swipeable",
-    "turbopack"
+    "turbopack",
+    "отсутствуют"
   ],
   "cSpell.language": "en,ru,ro",
   "cSpell.checkStrings": true,

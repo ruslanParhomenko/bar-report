@@ -62,11 +62,14 @@ export default function PenaltyUpdate({
     router.back();
   };
 
+  const returnUrl = `/archive?month=${month}&year=${year}#tab=penalty`;
+
   return (
     <FormInput
       form={form}
       onSubmit={onSubmit}
       returnButton={true}
+      url={returnUrl}
       withButtons={!isDisabled}
     >
       <PenaltyTable isDisabled={isDisabled} day={day} />

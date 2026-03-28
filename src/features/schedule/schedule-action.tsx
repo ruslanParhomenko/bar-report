@@ -25,8 +25,8 @@ export default function ScheduleActionButton({
 }) {
   const { month, year } = params;
 
-  const urlEdit = `schedule/${scheduleId}?month=${month}&year=${year}#tab=${tab}`;
-  const urlCreate = `schedule/create?month=${month}&year=${year}#tab=${tab}`;
+  const urlEdit = `schedule-create/${scheduleId}?month=${month}&year=${year}#tab=${tab}`;
+  const urlCreate = `/schedule-create?month=${month}&year=${year}#tab=${tab}`;
   const returnUrl = `/schedule?month=${month}&year=${year}#tab=${tab}`;
   const canEdit = isCanEdit({ year, month });
 

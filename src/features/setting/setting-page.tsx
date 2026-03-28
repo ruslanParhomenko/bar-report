@@ -24,7 +24,7 @@ export default function SettingPage({
           type="products"
         />
       </Activity>
-      <Activity mode={tab === "breakList" ? "visible" : "hidden"}>
+      <Activity mode={tab === "break-list" ? "visible" : "hidden"}>
         <SettingsJsonForm
           defaultValue={defaultValue.breakListData}
           type="breakList"

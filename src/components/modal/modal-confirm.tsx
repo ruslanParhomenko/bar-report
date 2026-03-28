@@ -12,33 +12,24 @@ export default function ModalConfirm({
   open,
   setOpen,
   handleConfirm,
-  message,
   confirmDisabled,
 }: {
   open: boolean;
   setOpen: (open: boolean) => void;
   handleConfirm: () => void;
-  message: "save" | "reset" | "delete" | "send";
   confirmDisabled?: boolean;
 }) {
   const t = useTranslations("Home");
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle></DialogTitle>
-        </DialogHeader>
-        <p>
-          {t("do you want to")} {t(message)} {t("data")}?
-        </p>
-        <DialogFooter>
-          <Button variant="outline" onClick={() => setOpen(false)}>
-            {t("cancel")}
-          </Button>
-          <Button onClick={handleConfirm} disabled={confirmDisabled}>
-            {t("confirm")}
-          </Button>
-        </DialogFooter>
+      <DialogContent showCloseButton={false}>
+        <DialogTitle />
+        <Button variant="outline" onClick={() => setOpen(false)}>
+          {t("cancel")}
+        </Button>
+        <Button onClick={handleConfirm} disabled={confirmDisabled}>
+          {t("confirm")}
+        </Button>
       </DialogContent>
     </Dialog>
   );

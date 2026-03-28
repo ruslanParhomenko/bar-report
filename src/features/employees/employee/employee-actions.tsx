@@ -28,7 +28,6 @@ export default function ActionButtonEmployee({ id }: { id: string }) {
         open={open}
         setOpen={setOpen}
         handleConfirm={handleConfirm}
-        message="delete"
       />
       <div className="flex gap-8 justify-center">
         <button

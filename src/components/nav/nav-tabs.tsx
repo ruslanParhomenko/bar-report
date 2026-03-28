@@ -3,93 +3,56 @@
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import { useEffect, useState, useTransition } from "react";
 import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
-import { NAV_BY_PATCH, REVALIDATE_TAGS_BY_PATCH } from "./constants";
+import { NAV_BY_PATCH } from "./constants";
 import { MONTHS, YEAR } from "@/utils/get-month-days";
 import { cn } from "@/lib/utils";
-import { revalidateNav } from "@/app/actions/revalidate-tag/revalidate-teg";
-import { RefreshCcw } from "lucide-react";
 import SelectOptions from "../select/select-options";
 import { useHashParam } from "@/hooks/use-hash";
 
 export default function NavTabs() {
-  const [_, setHash] = useHashParam("tab");
+  const [value, setHash] = useHashParam("tab");
 
   const pathname = usePathname();
-  const mainRoute = pathname.split("/")[1];
   const searchParams = useSearchParams();
+
+  const defaultMonth =
+    searchParams.get("month") || MONTHS[new Date().getMonth()];
+  const defaultYear =
+    searchParams.get("year") || new Date().getFullYear().toString();
+
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
   const STORAGE_KEY = `nav-tab-${pathname}`;
 
-  const [month, setMonth] = useState(() => MONTHS[new Date().getMonth()]);
-  const [year, setYear] = useState(() => new Date().getFullYear().toString());
+  const [month, setMonth] = useState(defaultMonth);
+  const [year, setYear] = useState(defaultYear);
 
   const config =
     NAV_BY_PATCH[pathname.split("/")[1] as keyof typeof NAV_BY_PATCH];
 
-  const filterMonth = config?.filterMonth;
-  const filterYear = config?.filterYear;
-  const refresh = config?.refresh;
-  const navItems = config?.navItems ?? [];
+  const selectDate = config?.selectDate;
+  const navItems = (config?.tabs ?? []) as string[];
 
-  // const tabFromUrl = searchParams.get("tab");
-
-  const defaultTab = navItems[0]?.value;
-
-  // const currentTab = tabFromUrl && isValidTab ? tabFromUrl : defaultTab;
-
-  const currentTab = localStorage.getItem(STORAGE_KEY) ?? defaultTab;
-  const isValidTab = navItems.some((item) => item.value === currentTab);
-  isValidTab && setHash(currentTab);
-
-  // useEffect(() => {
-  //   if (!defaultTab) return;
-
-  //   if (tabFromUrl && isValidTab) {
-  //     localStorage.setItem(STORAGE_KEY, tabFromUrl);
-  //     return;
-  //   }
-
-  //   const storedTab = localStorage.getItem(STORAGE_KEY);
-
-  //   const validStored =
-  //     storedTab && navItems.some((i) => i.value === storedTab)
-  //       ? storedTab
-  //       : null;
-
-  //   // const tabToUse = validStored ?? defaultTab ?? hash;
-
-  //   const params = new URLSearchParams(searchParams.toString());
-  //   // params.set("tab", tabToUse);
-
-  //   startTransition(() => {
-  //     router.replace(`${pathname}?${params.toString()}`, {
-  //       scroll: false,
-  //     });
-  //   });
-  // }, [
-  //   tabFromUrl,
-  //   isValidTab,
-  //   defaultTab,
-  //   pathname,
-  //   router,
-  //   searchParams,
-  //   navItems,
-  // ]);
+  const defaultTab = localStorage.getItem(STORAGE_KEY) || navItems[0];
 
   useEffect(() => {
-    if (!filterMonth && !filterYear) return;
+    if (!navItems.includes(defaultTab)) return;
+    setHash(defaultTab);
+  }, [defaultTab, navItems, setHash]);
+
+  useEffect(() => {
+    if (!selectDate) return;
 
     const monthFromUrl = searchParams.get("month");
     const yearFromUrl = searchParams.get("year");
 
     if (monthFromUrl) setMonth(monthFromUrl);
     if (yearFromUrl) setYear(yearFromUrl);
-  }, [filterMonth, searchParams]);
+  }, [selectDate, searchParams]);
 
   useEffect(() => {
-    if (!filterMonth && !filterYear) return;
+    if (!selectDate) return;
 
     const params = new URLSearchParams(searchParams.toString());
 
@@ -102,37 +65,13 @@ export default function NavTabs() {
     params.set("year", year);
 
     startTransition(() => {
-      router.replace(`${pathname}?${params.toString()}`, {
-        scroll: false,
-      });
+      router.replace(`${pathname}?${params.toString()}`, { scroll: false });
     });
-  }, [month, year, filterMonth, pathname, router]);
+  }, [month, year, selectDate, pathname, router, searchParams]);
 
   const handleTabChange = (value: string) => {
     localStorage.setItem(STORAGE_KEY, value);
-
-    // const params = new URLSearchParams(searchParams.toString());
-    // params.set("tab", value);
-
     setHash(value);
-
-    // startTransition(() => {
-    //   router.replace(`${pathname}?${params.toString()}`, {
-    //     scroll: false,
-    //   });
-    // });
-  };
-
-  // refresh data
-  const tag =
-    REVALIDATE_TAGS_BY_PATCH[
-      mainRoute as keyof typeof REVALIDATE_TAGS_BY_PATCH
-    ];
-
-  const resetData = () => {
-    if (!tag) return;
-    revalidateNav(tag);
-    router.refresh();
   };
 
   const tabsWidth = `w-1/${navItems.length}`;
@@ -142,18 +81,18 @@ export default function NavTabs() {
     "md:w-24 w-16 h-7! md:border p-1 rounded-full text-bl md:text-md text-xs";
 
   return (
-    <Tabs
-      value={currentTab}
-      onValueChange={handleTabChange}
-      className={cn("sticky top-0 bg-background z-30", !config && "hidden")}
-    >
-      <div className="flex flex-col md:flex-row md:justify-between justify-center my-2 md:px-4">
-        {navItems.length > 0 && (
+    <div className="flex flex-col md:flex-row md:justify-between justify-center my-2 md:px-4">
+      {navItems.length > 0 && (
+        <Tabs
+          value={defaultTab}
+          onValueChange={handleTabChange}
+          className={cn("sticky top-0 bg-background z-30", !config && "hidden")}
+        >
           <TabsList className="flex md:gap-4 h-8 order-1 md:order-0">
-            {navItems.map((item) => (
+            {navItems.map((item, index) => (
               <TabsTrigger
-                key={item.value}
-                value={item.value}
+                key={`${item}-${index}`}
+                value={item}
                 className={cn("hover:text-bl cursor-pointer", tabsWidth)}
                 disabled={isPending}
               >
@@ -163,39 +102,29 @@ export default function NavTabs() {
                     itemsWidth,
                   )}
                 >
-                  {item.label}
+                  {item}
                 </span>
               </TabsTrigger>
             ))}
           </TabsList>
-        )}
+        </Tabs>
+      )}
+      {selectDate && (
         <div className="flex md:justify-end justify-center gap-2">
-          {filterMonth && (
-            <SelectOptions
-              options={MONTHS.map((month) => ({ value: month, label: month }))}
-              value={month}
-              onChange={setMonth}
-              className={selectClassName}
-            />
-          )}
-          {filterYear && (
-            <SelectOptions
-              options={YEAR.map((year) => ({ value: year, label: year }))}
-              value={year}
-              onChange={setYear}
-              className={selectClassName}
-            />
-          )}
-          {refresh && (
-            <button
-              onClick={resetData}
-              className="cursor-pointer flex items-center justify-center md:w-10 w-8 h-7!"
-            >
-              <RefreshCcw className="w-4 h-3 text-bl" />
-            </button>
-          )}
+          <SelectOptions
+            options={MONTHS.map((month) => ({ value: month, label: month }))}
+            value={month}
+            onChange={setMonth}
+            className={selectClassName}
+          />
+          <SelectOptions
+            options={YEAR.map((year) => ({ value: year, label: year }))}
+            value={year}
+            onChange={setYear}
+            className={selectClassName}
+          />
         </div>
-      </div>
-    </Tabs>
+      )}
+    </div>
   );
 }

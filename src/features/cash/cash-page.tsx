@@ -11,8 +11,6 @@ import { CashFooterTable } from "./cash-footer-table";
 import { useEffect, useState } from "react";
 import { getMonthDays, MONTHS } from "@/utils/get-month-days";
 import { Table } from "@/components/ui/table";
-import { supabase } from "@/lib/supabase-client";
-import { useRouter } from "next/navigation";
 import { DayByMonthTable } from "@/components/table/day-by-month-table";
 import { AOContextValue } from "@/app/actions/a-o/ao-action";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -21,7 +19,6 @@ import { RowRender } from "@/components/table/row-render";
 import { rowCashBar, rowsCashCasino } from "./constants";
 import FormInput from "@/components/wrapper/form";
 import { ValueParams } from "@/types/params";
-import { useHashParam } from "@/hooks/use-hash";
 
 export default function CashPage({
   dataAo,
@@ -32,10 +29,8 @@ export default function CashPage({
   dataCash: CashData | null;
   valueParams: ValueParams;
 }) {
-  const router = useRouter();
-
   const { month, year } = valueParams;
-  const [tab] = useHashParam("tab");
+  // const [tab] = useHashParam("tab");
 
   const monthDays = getMonthDays({ month, year });
 
@@ -51,7 +46,7 @@ export default function CashPage({
 
   const onSubmit: SubmitHandler<CashForm> = async (data) => {
     try {
-      await saveCashForm(data, year, month);
+      await saveCashForm(data, year, month, isAdmin, isCash);
       toast.success("Форма сохранена успешно!");
       if (isCash) {
         await sendNotificationEmail({
@@ -111,27 +106,6 @@ export default function CashPage({
 
     setShowSendButton(show);
   }, [month, year]);
-
-  useEffect(() => {
-    const uniqueId = dataCash?.unique_id;
-    const channel = supabase
-      .channel("public:cash")
-      .on(
-        "postgres_changes",
-        { event: "*", schema: "public", table: "cash" },
-        (payload: any) => {
-          if (payload.new?.unique_id === uniqueId) {
-            router.refresh();
-            toast.info("Данные обновились в реальном времени!");
-          }
-        },
-      )
-      .subscribe();
-
-    return () => {
-      supabase.removeChannel(channel);
-    };
-  }, [dataCash, form]);
 
   return (
     <FormInput

@@ -27,7 +27,6 @@ export default function UsersActions({ id }: { id: string }) {
         open={open}
         setOpen={setOpen}
         handleConfirm={handleConfirm}
-        message="delete"
       />
       <div className="flex justify-between gap-4">
         <button

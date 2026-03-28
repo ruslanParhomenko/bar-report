@@ -23,7 +23,7 @@ export const authOptions: NextAuthOptions = {
     error: "/403",
   },
 
-  debug: true,
+  debug: false,
 
   callbacks: {
     async jwt({ token, account, profile }) {
