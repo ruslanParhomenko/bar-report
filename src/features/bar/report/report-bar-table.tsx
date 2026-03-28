@@ -17,18 +17,20 @@ export default function ReportBarTable({
   const { register } = useFormContext<BarFormValues>();
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-[18%_16%_14%_18%_14%_10%] justify-between">
-      <TableTobacco disabled={isDisabled} />
-      <TableInventory disabled={isDisabled} />
-      <TableExpenses disabled={isDisabled} />
-      <TableProductsTransfer disabled={isDisabled} />
-      <TableCashVerify disabled={isDisabled} />
+    <>
+      <div className="grid grid-cols-1 md:grid-cols-[22%_18%_16%_22%_16%] justify-between">
+        <TableTobacco disabled={isDisabled} />
+        <TableInventory disabled={isDisabled} />
+        <TableExpenses disabled={isDisabled} />
+        <TableProductsTransfer disabled={isDisabled} />
+        <TableCashVerify disabled={isDisabled} />
+      </div>
       <Textarea
         placeholder="notes ..."
         {...register("report.notes")}
-        className="resize-none pt-4 mt-10 md:w-40"
+        className="resize-none h-8 min-h-0 py-0"
         disabled={isDisabled}
       />
-    </div>
+    </>
   );
 }

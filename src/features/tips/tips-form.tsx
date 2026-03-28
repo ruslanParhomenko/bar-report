@@ -1,12 +1,7 @@
 "use client";
 import { Table } from "@/components/ui/table";
 import { TipsTableBody } from "./tips-body-table";
-import {
-  Resolver,
-  SubmitHandler,
-  useFieldArray,
-  useForm,
-} from "react-hook-form";
+import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
 import { defaultTipsForm, TipsFormType, tipsSchema } from "./schema";
 import { saveTipsForm, TipsData } from "@/app/actions/tips/tips-action";
 import { toast } from "sonner";

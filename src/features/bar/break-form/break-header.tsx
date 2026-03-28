@@ -1,4 +1,3 @@
-"use client";
 import { TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import { TIME_LABELS } from "./constant";
@@ -11,12 +10,11 @@ const currentHour = new Date().getHours();
 export default function BreakTableHeader() {
   const resetData = () => {
     revalidateNav(BAR_REALTIME_ACTION_TAG);
-    // router.refresh();
   };
   return (
     <TableHeader>
       <TableRow>
-        <TableHead className="w-10 ">
+        <TableHead className="w-9">
           <button
             type="button"
             onClick={resetData}

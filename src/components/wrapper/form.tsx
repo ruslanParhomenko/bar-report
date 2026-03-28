@@ -56,7 +56,7 @@ export default function FormInput<T extends FieldValues>({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(handleFormSubmit, onError || (() => {}))}
-        className={cn("flex flex-col h-[93vh]", className)}
+        className={cn("flex flex-col h-[95vh]", className)}
       >
         {children}
 

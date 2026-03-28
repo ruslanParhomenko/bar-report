@@ -81,7 +81,7 @@ export default function NavTabs() {
     "md:w-24 w-16 h-7! md:border p-1 rounded-full text-bl md:text-md text-xs";
 
   return (
-    <div className="flex flex-col md:flex-row md:justify-between justify-center my-2 md:px-4">
+    <div className="flex flex-col md:flex-row md:justify-between justify-center mt-2 mb-1 md:px-4 sticky top-2">
       {navItems.length > 0 && (
         <Tabs
           value={defaultTab}

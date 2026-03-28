@@ -77,7 +77,6 @@ export const OrderListTelegramForm = ({
       onSubmit={onSubmit}
       resetButton={true}
       disabled={isDisabled}
-      className="px-1"
       ref={ref}
       sendTelegram={url === "zn" ? true : false}
       url={url}

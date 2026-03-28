@@ -16,7 +16,7 @@ export function OrderCardWrapper({
 }) {
   return (
     <div>
-      <div className="flex flex-col w-60 justify-center items-center">
+      <div className="flex flex-col  justify-center items-center">
         <Label className="py-2 font-bold text-bl">{name}</Label>
       </div>
       {data?.map((item, index) => (
@@ -47,10 +47,11 @@ function OrderCardField({
 
   return (
     <div>
-      <div className="grid-cols-[72%_10%_16%] grid">
+      <div className="grid-cols-[82%_8%] grid">
         {item && (
           <Label
-            className={`pl-2 text-sm text-muted-foreground ${value ? "text-rd" : ""}`}
+            className={`pl-1 text-sm text-muted-foreground cursor-pointer ${value ? "text-rd" : ""}`}
+            onClick={() => setValue(item, "")}
           >
             {item}
           </Label>
@@ -59,23 +60,14 @@ function OrderCardField({
           <input
             type="text"
             data-slot="input"
-            className={`pl-2 text-sm text-muted-foreground ${value ? "text-rd" : ""}`}
+            className={`pl-1 text-sm text-muted-foreground ${value ? "text-rd" : ""}`}
             {...register(`${item} + ${String(index)}`)}
           />
         )}
 
-        <button
-          type="button"
-          className="text-rd font-bold cursor-pointer"
-          data-html2canvas-ignore="true"
-          onClick={() => setValue(item, "")}
-        >
-          {value ? <Trash2Icon className="w-4 h-4" /> : null}
-        </button>
-
         <NumericInput
           fieldName={item || String(index)}
-          className="w-10! text-center h-6.5!"
+          className="w-9! text-center h-6.5!"
         />
       </div>
       {!isLast && (

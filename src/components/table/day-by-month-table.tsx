@@ -22,7 +22,7 @@ export function DayByMonthTable({
   const todayDay = new Date().getDate();
   return (
     <TableHeader className="sticky top-0 bg-background z-20">
-      <TableRow className="h-10">
+      <TableRow>
         <TableCell colSpan={2} className="p-0 px-1 front-bold text-center">
           {month?.toLocaleUpperCase()}
         </TableCell>
