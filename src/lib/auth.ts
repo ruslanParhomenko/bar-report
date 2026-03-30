@@ -28,17 +28,23 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async jwt({ token, account, profile }) {
       if (account && profile) {
-        const users = await getUsers();
-        const dbUser = users.find((u) => u.mail === profile.email);
+        try {
+          const users = await getUsers();
 
-        token.role =
-          profile.email === ADMIN_EMAIL
-            ? "ADMIN"
-            : (dbUser?.role ?? "OBSERVER");
+          const dbUser = users.find((u) => u.mail === profile.email);
+
+          token.role =
+            profile.email === ADMIN_EMAIL
+              ? "ADMIN"
+              : (dbUser?.role ?? "OBSERVER");
+        } catch (e) {
+          console.error("JWT ERROR:", e);
+          token.role = "OBSERVER";
+        }
       }
+
       return token;
     },
-
     async session({ session, token }) {
       if (session.user) {
         (session.user as any).role = token.role ?? "OBSERVER";
@@ -46,19 +52,20 @@ export const authOptions: NextAuthOptions = {
       return session;
     },
 
-    async signIn({ user, account, profile }) {
-      if (profile?.email === ADMIN_EMAIL) {
+    async signIn({ profile }) {
+      try {
+        if (profile?.email === ADMIN_EMAIL) return true;
+
+        const users = await getUsers();
+        const dbUser = users.find((u) => u.mail === profile?.email);
+
+        if (!dbUser) return "/403";
+
         return true;
+      } catch (e) {
+        console.error("SIGNIN ERROR:", e);
+        return "/403"; // не 500!
       }
-
-      const users = await getUsers();
-      const dbUser = users.find((u) => u.mail === profile?.email);
-
-      if (!dbUser) {
-        return "/403";
-      }
-
-      return true;
     },
   },
 };
