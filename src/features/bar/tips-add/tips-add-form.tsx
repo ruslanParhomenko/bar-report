@@ -9,7 +9,7 @@ export default function TipsAddForm({
 }) {
   return (
     <div className="flex  gap-6 h-1/3 w-full justify-center items-center">
-      <SelectField
+      {/* <SelectField
         fieldName="employee"
         className="w-80 h-12!"
         placeHolder="...name"
@@ -24,7 +24,7 @@ export default function TipsAddForm({
       />
       <Button type="button" className="h-12!">
         Добавить
-      </Button>
+      </Button> */}
     </div>
   );
 }
