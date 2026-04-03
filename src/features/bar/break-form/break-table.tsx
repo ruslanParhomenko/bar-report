@@ -5,7 +5,7 @@ export default function BreakTable({
   employeesName,
   isDisabled,
 }: {
-  employeesName: string[];
+  employeesName: { name: string; id: string }[];
   isDisabled: boolean;
 }) {
   return (

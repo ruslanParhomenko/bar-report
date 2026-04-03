@@ -15,7 +15,7 @@ import {
   createReportBar,
   realtimeReportBar,
 } from "@/app/actions/report-bar/report-bar-action";
-import { useEffect } from "react";
+import { Activity, useEffect } from "react";
 import { useAbility } from "@/providers/ability-provider";
 import { defaultRemarksValue } from "@/features/bar/penalty/schema";
 import {
@@ -30,18 +30,12 @@ import FormInput from "@/components/wrapper/form";
 import { useEmployees } from "@/providers/employees-provider";
 import { parseISO } from "date-fns";
 
-import dynamic from "next/dynamic";
 import { useRealtimeSave } from "@/hooks/use-realtime-save";
-
-const ReportBarTable = dynamic(() => import("./report/report-bar-table"), {
-  ssr: false,
-});
-const BreakTable = dynamic(
-  () => import("@/features/bar/break-form/break-table"),
-);
-const PenaltyTable = dynamic(
-  () => import("@/features/bar/penalty/penalty-table"),
-);
+import { useHashParam } from "@/hooks/use-hash";
+import BreakTable from "@/features/bar/break-form/break-table";
+import ReportBarTable from "./report/report-bar-table";
+import PenaltyTable from "@/features/bar/penalty/penalty-table";
+import TipsAddForm from "./tips-add/tips-add-form";
 
 const BAR_EMPLOYEES = ["waiters", "barmen"];
 
@@ -52,13 +46,17 @@ export default function BarForm({
   realtimeData: BarFormValues;
   dataBreakList: BreakFormData;
 }) {
+  const [tab] = useHashParam("tab");
+
   const { isBar, isAdmin } = useAbility();
   const isDisabled = !(isAdmin || isBar);
 
   const employeesName = useEmployees()
     .filter((emp) => BAR_EMPLOYEES.includes(emp.role))
     .filter((emp) => emp.status === "active")
-    .map((e) => e.name);
+    .map((e) => {
+      return { name: e.name, id: e.id };
+    });
 
   const form = useForm<BarFormValues>({
     defaultValues: defaultValuesBarForm,
@@ -171,6 +169,24 @@ export default function BarForm({
     });
   }, [realtimeData, form]);
 
+  const selectedMap = new Map(
+    realtimeData.breakForm.rows
+      .flatMap((item) =>
+        item.name ? [{ name: item.name.trim(), idShift: item.id }] : [],
+      )
+      .filter((item) => item.name !== "")
+      .map((item) => [item.name, item.idShift]),
+  );
+
+  const filteredEmployees = employeesName
+    .filter((emp) => selectedMap.has(emp.name.trim()))
+    .map((emp) => ({
+      ...emp,
+      idShift: selectedMap.get(emp.name.trim()),
+    }));
+
+  console.log(filteredEmployees, "filteredEmployees");
+
   return (
     <FormInput
       form={form}
@@ -180,11 +196,16 @@ export default function BarForm({
       }}
       disabled={isDisabled}
     >
-      <div className="flex flex-col gap-6 md:justify-between md:h-full">
-        <BreakTable isDisabled={isDisabled} employeesName={employeesName} />
-        <ReportBarTable isDisabled={isDisabled} />
-        <PenaltyTable isDisabled={isDisabled} />
-      </div>
+      <Activity mode={tab === "report" ? "visible" : "hidden"}>
+        <div className="flex flex-col gap-6 md:justify-between md:h-full">
+          <BreakTable isDisabled={isDisabled} employeesName={employeesName} />
+          <ReportBarTable isDisabled={isDisabled} />
+          <PenaltyTable isDisabled={isDisabled} />
+        </div>
+      </Activity>
+      <Activity mode={tab === "tips" ? "visible" : "hidden"}>
+        <TipsAddForm dataEmployees={filteredEmployees} />
+      </Activity>
     </FormInput>
   );
 }

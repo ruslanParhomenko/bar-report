@@ -13,7 +13,7 @@ export default function BreakTableBody({
   employeesName,
   isDisabled,
 }: {
-  employeesName: string[];
+  employeesName: { name: string; id: string }[];
   isDisabled: boolean;
 }) {
   const { control, setValue } = useFormContext<BarFormValues>();
@@ -53,7 +53,7 @@ export default function BreakTableBody({
                 fieldName={
                   `breakForm.rows.${rowIndex}.name` as Path<BreakFormData>
                 }
-                data={employeesName}
+                data={employeesName.map((e) => e.name)}
                 placeHolder="..."
                 className={cn(
                   "border-0 shadow-none w-full bg-transparent!",

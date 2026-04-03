@@ -10,14 +10,6 @@ import { StopListSchemaType } from "./stop-list/schema";
 import StopListForm from "./stop-list/stop-list-form";
 import { useHashParam } from "@/hooks/use-hash";
 
-type TabValue =
-  | "stopList"
-  | "daily-menu"
-  | "statusMenu"
-  | "staffMenu"
-  | "menuVip"
-  | "standardKitchen";
-
 type InfoPageProps = {
   data: {
     standardKitchen: StandardKitchen[];
