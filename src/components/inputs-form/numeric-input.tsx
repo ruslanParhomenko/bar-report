@@ -18,6 +18,8 @@ type NumericInputProps = {
   id?: string;
   disabled?: boolean;
   className?: string;
+  onFocus?: () => void;
+  onBlur?: () => void;
 };
 
 function NumericInput({
@@ -25,6 +27,8 @@ function NumericInput({
   id,
   disabled,
   className,
+  onFocus,
+  onBlur,
 }: NumericInputProps) {
   const { theme } = useTheme();
   const { control } = useFormContext();
@@ -58,6 +62,8 @@ function NumericInput({
                     Number(value) <= 0 ? "text-rd " : "",
                     className,
                   )}
+                  onFocus={() => onFocus?.()}
+                  onBlur={() => onBlur?.()}
                 />
               </FormControl>
             </PopoverTrigger>

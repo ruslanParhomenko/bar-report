@@ -11,6 +11,7 @@ export const REMARKS_ACTION_TAG = "remarks";
 export const REMARKS_REALTIME_ACTION_TAG = "remarks-realtime";
 
 export const TIPS_ACTION_TAG = "tips";
+export const TIPS_ADD_ACTION_TAG = "tips-add";
 export const CASH_ACTION_TAG = "cash";
 export const FIN_CASH_ACTION_TAG = "fin_cash";
 export const AO_REPORT_ACTION_TAG = "ao-report";

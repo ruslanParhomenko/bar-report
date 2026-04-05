@@ -1,5 +1,10 @@
 "use client";
-import { SubmitHandler, useForm, useWatch } from "react-hook-form";
+import {
+  SubmitHandler,
+  useFieldArray,
+  useForm,
+  useWatch,
+} from "react-hook-form";
 import { toast } from "sonner";
 import {
   cashVerifyDefault,
@@ -15,7 +20,7 @@ import {
   createReportBar,
   realtimeReportBar,
 } from "@/app/actions/report-bar/report-bar-action";
-import { Activity, useEffect } from "react";
+import { Activity, use, useEffect } from "react";
 import { useAbility } from "@/providers/ability-provider";
 import { defaultRemarksValue } from "@/features/bar/penalty/schema";
 import {
@@ -36,15 +41,23 @@ import BreakTable from "@/features/bar/break-form/break-table";
 import ReportBarTable from "./report/report-bar-table";
 import PenaltyTable from "@/features/bar/penalty/penalty-table";
 import TipsAddForm from "./tips-add/tips-add-form";
+import {
+  createDefaultAmount,
+  createDefaultTipsAdd,
+  TipsAddFormValues,
+} from "./tips-add/schema";
+import { createTipsAdd } from "@/app/actions/tips-add/tips-add-actions";
 
 const BAR_EMPLOYEES = ["waiters", "barmen"];
 
 export default function BarForm({
   realtimeData,
   dataBreakList,
+  currencyUSD,
 }: {
   realtimeData: BarFormValues;
   dataBreakList: BreakFormData;
+  currencyUSD: number | null;
 }) {
   const [tab] = useHashParam("tab");
 
@@ -67,6 +80,12 @@ export default function BarForm({
     control: form.control,
   });
 
+  const tipsArrayByEmployee = useFieldArray({
+    control: form.control,
+    name: "tipsAdd",
+    keyName: "fieldId",
+  });
+
   useRealtimeSave(values, !isDisabled, async (data) => {
     if (!data) return;
 
@@ -74,7 +93,7 @@ export default function BarForm({
   });
 
   const onSubmit: SubmitHandler<BarFormValues> = async (data) => {
-    const { date, report, penalty, breakForm } = data;
+    const { date, report, penalty, breakForm, tipsAdd } = data;
 
     const dateValue = typeof date === "string" ? parseISO(date) : date;
     const month = MONTHS[dateValue.getMonth()];
@@ -113,6 +132,15 @@ export default function BarForm({
       day: day,
     };
 
+    const formattedTipsAddData = {
+      day,
+      uniqueKey,
+      tipsAdd: tipsAdd,
+      currency: currencyUSD?.toString() ?? "18",
+    };
+
+    await createTipsAdd(formattedTipsAddData);
+
     await createReportBar(uniqueKey, year, month, {
       day,
       report: formateReportData,
@@ -146,12 +174,14 @@ export default function BarForm({
       report: updatedData,
       penalty: defaultRemarksValue,
       breakForm: defaultValuesBreak(dataBreakList.rows),
+      tipsAdd: [],
     });
     await realtimeReportBar({
       date: new Date(),
       report: updatedData,
       penalty: defaultRemarksValue,
       breakForm: defaultValuesBreak(dataBreakList.rows),
+      tipsAdd: [],
     });
 
     toast.success("Бар отчет успешно сохранён !");
@@ -166,6 +196,7 @@ export default function BarForm({
       penalty: realtimeData.penalty ?? defaultRemarksValue,
       breakForm:
         realtimeData.breakForm ?? defaultValuesBreak(dataBreakList.rows),
+      tipsAdd: realtimeData.tipsAdd ? normalizeTips(realtimeData.tipsAdd) : [],
     });
   }, [realtimeData, form]);
 
@@ -185,8 +216,49 @@ export default function BarForm({
       idShift: selectedMap.get(emp.name.trim()),
     }));
 
-  console.log(filteredEmployees, "filteredEmployees");
+  const normalizeTips = (data: TipsAddFormValues[]) => {
+    const map = new Map<string, TipsAddFormValues>();
 
+    for (const item of data) {
+      if (!item.idEmployee) continue;
+
+      map.set(item.idEmployee, item);
+    }
+
+    return Array.from(map.values());
+  };
+
+  useEffect(() => {
+    const current = tipsArrayByEmployee.fields;
+
+    const existingIds = new Set(current.map((item) => item.idEmployee));
+
+    const newEmployees = filteredEmployees.filter(
+      (emp) => !existingIds.has(emp.id),
+    );
+
+    if (newEmployees.length === 0) return;
+
+    const newTips = newEmployees.map((emp) => ({
+      ...createDefaultTipsAdd(),
+      idEmployee: emp.id,
+      employeeName: emp.name,
+      shift: emp.idShift ?? "8-20",
+      amount: [],
+    }));
+
+    const updated = normalizeTips([...current, ...newTips]);
+
+    tipsArrayByEmployee.replace(updated);
+  }, [filteredEmployees]);
+
+  useEffect(() => {
+    const cleaned = normalizeTips(tipsArrayByEmployee.fields);
+
+    if (cleaned.length !== tipsArrayByEmployee.fields.length) {
+      tipsArrayByEmployee.replace(cleaned);
+    }
+  }, []);
   return (
     <FormInput
       form={form}
@@ -204,7 +276,7 @@ export default function BarForm({
         </div>
       </Activity>
       <Activity mode={tab === "tips" ? "visible" : "hidden"}>
-        <TipsAddForm dataEmployees={filteredEmployees} />
+        <TipsAddForm tipsArrayByEmployee={tipsArrayByEmployee} />
       </Activity>
     </FormInput>
   );
