@@ -5,18 +5,79 @@ import NumericInput from "@/components/inputs-form/numeric-input";
 import SelectField from "@/components/inputs-form/select-input";
 import TextInput from "@/components/inputs-form/text-input";
 import { Button } from "@/components/ui/button";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { PlusIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { createDefaultTipsAdd } from "./schema";
 
-export default function TipsAddForm({ tipsArrayByEmployee }: any) {
+export default function TipsAddForm({
+  tipsArrayByEmployee,
+  options,
+  isDisabled,
+}: any) {
   const { getValues, setValue } = useFormContext();
-
   const [focusedIndex, setFocusedIndex] = useState<number | null>(null);
 
-  const tipsValues = useWatch({
-    name: "tipsAdd",
-  });
+  const tipsValues =
+    useWatch({
+      name: "tipsAdd",
+    }) ?? [];
+
+  useEffect(() => {
+    if (!options?.length) return;
+
+    const existingIds = new Set(tipsValues.map((t: any) => t.idEmployee));
+
+    const newEmployees = options.filter((opt: any) => !existingIds.has(opt.id));
+
+    if (newEmployees.length > 0) {
+      tipsArrayByEmployee.append(
+        newEmployees.map((emp: any) => ({
+          ...createDefaultTipsAdd(),
+          idEmployee: emp.id,
+          employeeName: emp.name,
+          shift: emp.idShift ?? "8-20",
+          amount: [],
+        })),
+      );
+    }
+  }, [options]);
+
+  const tipsMap = useMemo(() => {
+    const map = new Map();
+    tipsValues.forEach((t: any, index: number) => {
+      map.set(t.idEmployee, { ...t, index });
+    });
+    return map;
+  }, [tipsValues]);
+
+  const handleAddAmount = (index: number) => {
+    const value = getValues(`tipsAdd.${index}.tempValue`);
+    const typeAmount = getValues(`tipsAdd.${index}.typeAmount`);
+    if (!value) return;
+
+    const currentAmount = getValues(`tipsAdd.${index}.amount`) || [];
+
+    const now = new Date();
+    const time = now.toLocaleTimeString("ru-RU", {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+
+    const newItem = { value, time, typeAmount };
+
+    setValue(`tipsAdd.${index}.amount`, [...currentAmount, newItem]);
+    setValue(`tipsAdd.${index}.tempValue`, "");
+  };
+
+  useEffect(() => {
+    tipsValues.forEach((_: any, index: number) => {
+      const current = getValues(`tipsAdd.${index}.typeAmount`);
+      if (!current) {
+        setValue(`tipsAdd.${index}.typeAmount`, "mdl");
+      }
+    });
+  }, [tipsValues]);
 
   const allAmounts =
     tipsValues?.flatMap((emp: any) =>
@@ -29,51 +90,22 @@ export default function TipsAddForm({ tipsArrayByEmployee }: any) {
       })),
     ) ?? [];
 
-  const handleAddAmount = (index: number) => {
-    const value = getValues(`tipsAdd.${index}.tempValue`);
-
-    const typeAmount = getValues(`tipsAdd.${index}.typeAmount`);
-
-    if (!value) return;
-
-    const currentAmount = getValues(`tipsAdd.${index}.amount`) || [];
-
-    const now = new Date();
-    const time = now.toLocaleTimeString("ru-RU", {
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-
-    const newItem = {
-      value,
-      time,
-      typeAmount,
-    };
-
-    setValue(`tipsAdd.${index}.amount`, [...currentAmount, newItem]);
-
-    setValue(`tipsAdd.${index}.tempValue`, "");
-  };
-
-  useEffect(() => {
-    tipsArrayByEmployee.fields.forEach((_: any, index: number) => {
-      const current = getValues(`tipsAdd.${index}.typeAmount`);
-
-      if (!current) {
-        setValue(`tipsAdd.${index}.typeAmount`, "mdl");
-      }
-    });
-  }, [tipsArrayByEmployee.fields]);
-
   return (
-    <div className="flex grid-cols-3 gap-8 w-full h-full  pt-8">
+    <div className="flex grid-cols-3 gap-8 w-full h-full md:p-8">
       <div className="flex flex-col gap-8 w-full">
-        {tipsArrayByEmployee.fields.map((item: any, index: number) => {
+        {options.map((opt: any, _visualIndex: number) => {
+          const tip = tipsMap.get(opt.id);
+
+          if (!tip) return null;
+
+          const index = tip.index;
+
           const numericValue = getValues(`tipsAdd.${index}.tempValue`);
           const typeAmount = getValues(`tipsAdd.${index}.typeAmount`);
+
           return (
             <div
-              key={item.fieldId}
+              key={opt.id}
               className={cn(
                 "flex gap-12 items-center w-full justify-center",
                 focusedIndex === index && "text-green-600",
@@ -85,7 +117,7 @@ export default function TipsAddForm({ tipsArrayByEmployee }: any) {
                 variant="ghost"
                 onClick={() => handleAddAmount(index)}
                 className={cn(
-                  "h-8 w-8",
+                  "h-8 w-8 cursor-pointer",
                   numericValue && "bg-blue-600 text-white",
                 )}
                 disabled={!numericValue || !typeAmount}
@@ -94,11 +126,13 @@ export default function TipsAddForm({ tipsArrayByEmployee }: any) {
                   <PlusIcon className="font-bold" />
                 )}
               </Button>
+
               <NumericInput
                 fieldName={`tipsAdd.${index}.tempValue`}
                 className={cn("w-22", !numericValue && "bg-border")}
                 onFocus={() => setFocusedIndex(index)}
               />
+
               <SelectField
                 fieldName={`tipsAdd.${index}.typeAmount`}
                 className="w-22"
@@ -120,7 +154,9 @@ export default function TipsAddForm({ tipsArrayByEmployee }: any) {
           );
         })}
       </div>
+
       <div className="w-full" />
+
       <div className="flex flex-col gap-2 w-full">
         {allAmounts.length === 0 && (
           <div className="text-sm text-muted-foreground">Нет данных</div>
@@ -130,8 +166,8 @@ export default function TipsAddForm({ tipsArrayByEmployee }: any) {
           <div key={i} className="grid grid-cols-5 text-xs">
             <span className="font-medium">{item.employeeName}</span>
             <span>{item.shift}</span>
-            <span>{item.value}</span>
-            <span>{item.typeAmount}</span>
+            <span>{isDisabled ? item.value : "***"}</span>
+            <span>{isDisabled ? item.typeAmount : "***"}</span>
             <span>{item.time}</span>
           </div>
         ))}

@@ -4,7 +4,7 @@ export function useRealtimeSave<T>(
   value: T,
   enabled: boolean,
   callback: (data: T) => Promise<void>,
-  delay = 4000,
+  delay = 800,
 ) {
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const prevValueRef = useRef<string | null>(null);
@@ -15,7 +15,7 @@ export function useRealtimeSave<T>(
   }, [callback]);
 
   useEffect(() => {
-    if (!enabled || !value) return;
+    if (!enabled) return;
 
     const serialized = JSON.stringify(value);
 

@@ -42,7 +42,6 @@ import ReportBarTable from "./report/report-bar-table";
 import PenaltyTable from "@/features/bar/penalty/penalty-table";
 import TipsAddForm from "./tips-add/tips-add-form";
 import { createTipsAdd } from "@/app/actions/tips-add/tips-add-actions";
-import { useSyncTipsWithBreak } from "@/hooks/use-sync-tips-with-break";
 
 const BAR_EMPLOYEES = ["waiters", "barmen"];
 
@@ -87,12 +86,6 @@ export default function BarForm({
     control: control,
     name: "breakForm.rows",
   });
-
-  const tipsValues =
-    useWatch({
-      control: control,
-      name: "tipsAdd",
-    }) ?? [];
 
   useRealtimeSave(values, isBar && formState.isDirty, async (data) => {
     if (!data) return;
@@ -222,13 +215,6 @@ export default function BarForm({
       idShift: selectedMap.get(emp.name.trim()),
     }));
 
-  useSyncTipsWithBreak({
-    form,
-    tipsArray: tipsArrayByEmployee,
-    tipsValues,
-    employees: filteredEmployees,
-  });
-
   return (
     <FormInput
       form={form}
@@ -246,7 +232,11 @@ export default function BarForm({
         </div>
       </Activity>
       <Activity mode={tab === "tips" ? "visible" : "hidden"}>
-        <TipsAddForm tipsArrayByEmployee={tipsArrayByEmployee} />
+        <TipsAddForm
+          tipsArrayByEmployee={tipsArrayByEmployee}
+          options={filteredEmployees}
+          disabled={!isAdmin}
+        />
       </Activity>
     </FormInput>
   );
