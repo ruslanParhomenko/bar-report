@@ -93,7 +93,7 @@ export default function BarForm({
       name: "tipsAdd",
     }) ?? [];
 
-  useRealtimeSave(values, !isBar, async (data) => {
+  useRealtimeSave(values, isBar, async (data) => {
     if (!data) return;
 
     await realtimeReportBar(data as BarFormValues);
