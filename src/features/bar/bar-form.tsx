@@ -41,7 +41,6 @@ import BreakTable from "@/features/bar/break-form/break-table";
 import ReportBarTable from "./report/report-bar-table";
 import PenaltyTable from "@/features/bar/penalty/penalty-table";
 import TipsAddForm from "./tips-add/tips-add-form";
-import { createDefaultTipsAdd, TipsAddFormValues } from "./tips-add/schema";
 import { createTipsAdd } from "@/app/actions/tips-add/tips-add-actions";
 import { useSyncTipsWithBreak } from "@/hooks/use-sync-tips-with-break";
 
@@ -56,7 +55,6 @@ export default function BarForm({
   dataBreakList: BreakFormData;
   currencyUSD: number | null;
 }) {
-  console.log("realtimeData in BarForm:", realtimeData);
   const [tab] = useHashParam("tab");
 
   const { isBar, isAdmin } = useAbility();
@@ -95,7 +93,7 @@ export default function BarForm({
       name: "tipsAdd",
     }) ?? [];
 
-  useRealtimeSave(values, !isDisabled, async (data) => {
+  useRealtimeSave(values, !isBar, async (data) => {
     if (!data) return;
 
     await realtimeReportBar(data as BarFormValues);
