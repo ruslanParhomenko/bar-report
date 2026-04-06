@@ -20,7 +20,7 @@ import {
   createReportBar,
   realtimeReportBar,
 } from "@/app/actions/report-bar/report-bar-action";
-import { Activity, use, useEffect } from "react";
+import { Activity, useEffect } from "react";
 import { useAbility } from "@/providers/ability-provider";
 import { defaultRemarksValue } from "@/features/bar/penalty/schema";
 import {
@@ -41,12 +41,9 @@ import BreakTable from "@/features/bar/break-form/break-table";
 import ReportBarTable from "./report/report-bar-table";
 import PenaltyTable from "@/features/bar/penalty/penalty-table";
 import TipsAddForm from "./tips-add/tips-add-form";
-import {
-  createDefaultAmount,
-  createDefaultTipsAdd,
-  TipsAddFormValues,
-} from "./tips-add/schema";
+import { createDefaultTipsAdd, TipsAddFormValues } from "./tips-add/schema";
 import { createTipsAdd } from "@/app/actions/tips-add/tips-add-actions";
+import { useSyncTipsWithBreak } from "@/hooks/use-sync-tips-with-break";
 
 const BAR_EMPLOYEES = ["waiters", "barmen"];
 
@@ -59,6 +56,7 @@ export default function BarForm({
   dataBreakList: BreakFormData;
   currencyUSD: number | null;
 }) {
+  console.log("realtimeData in BarForm:", realtimeData);
   const [tab] = useHashParam("tab");
 
   const { isBar, isAdmin } = useAbility();
@@ -85,6 +83,17 @@ export default function BarForm({
     name: "tipsAdd",
     keyName: "fieldId",
   });
+
+  const employeeNamesInBreak = useWatch({
+    control: form.control,
+    name: "breakForm.rows",
+  });
+
+  const tipsValues =
+    useWatch({
+      control: form.control,
+      name: "tipsAdd",
+    }) ?? [];
 
   useRealtimeSave(values, !isDisabled, async (data) => {
     if (!data) return;
@@ -189,6 +198,7 @@ export default function BarForm({
 
   useEffect(() => {
     if (!realtimeData) return;
+    const currentTips = form.getValues("tipsAdd");
 
     form.reset({
       date: realtimeData.date ? new Date(realtimeData.date) : new Date(),
@@ -196,12 +206,12 @@ export default function BarForm({
       penalty: realtimeData.penalty ?? defaultRemarksValue,
       breakForm:
         realtimeData.breakForm ?? defaultValuesBreak(dataBreakList.rows),
-      tipsAdd: realtimeData.tipsAdd ? normalizeTips(realtimeData.tipsAdd) : [],
+      tipsAdd: currentTips?.length ? currentTips : (realtimeData.tipsAdd ?? []),
     });
   }, [realtimeData, form]);
 
   const selectedMap = new Map(
-    realtimeData.breakForm.rows
+    employeeNamesInBreak
       .flatMap((item) =>
         item.name ? [{ name: item.name.trim(), idShift: item.id }] : [],
       )
@@ -216,49 +226,62 @@ export default function BarForm({
       idShift: selectedMap.get(emp.name.trim()),
     }));
 
-  const normalizeTips = (data: TipsAddFormValues[]) => {
-    const map = new Map<string, TipsAddFormValues>();
+  const currentMap = new Map(
+    tipsValues.map((item, index) => [item.idEmployee, { item, index }]),
+  );
 
-    for (const item of data) {
-      if (!item.idEmployee) continue;
+  const nextIds = new Set(filteredEmployees.map((e) => e.id));
 
-      map.set(item.idEmployee, item);
-    }
+  // const normalizeTips = (data: TipsAddFormValues[]) => {
+  //   const map = new Map<string, TipsAddFormValues>();
 
-    return Array.from(map.values());
-  };
+  //   for (const item of data) {
+  //     if (!item.idEmployee) continue;
 
-  useEffect(() => {
-    const current = tipsArrayByEmployee.fields;
+  //     map.set(item.idEmployee, item);
+  //   }
 
-    const existingIds = new Set(current.map((item) => item.idEmployee));
+  //   return Array.from(map.values());
+  // };
+  useSyncTipsWithBreak({
+    form, // 🔥 обязательно
+    tipsArray: tipsArrayByEmployee,
+    tipsValues,
+    employees: filteredEmployees,
+  });
+  // useEffect(() => {
+  //   if (!filteredEmployees.length) return;
 
-    const newEmployees = filteredEmployees.filter(
-      (emp) => !existingIds.has(emp.id),
-    );
+  //   const current = tipsValues ?? [];
 
-    if (newEmployees.length === 0) return;
+  //   const existingIds = new Set(current.map((item) => item.idEmployee));
 
-    const newTips = newEmployees.map((emp) => ({
-      ...createDefaultTipsAdd(),
-      idEmployee: emp.id,
-      employeeName: emp.name,
-      shift: emp.idShift ?? "8-20",
-      amount: [],
-    }));
+  //   const newEmployees = filteredEmployees.filter(
+  //     (emp) => !existingIds.has(emp.id),
+  //   );
 
-    const updated = normalizeTips([...current, ...newTips]);
+  //   if (newEmployees.length === 0) return;
 
-    tipsArrayByEmployee.replace(updated);
-  }, [filteredEmployees]);
+  //   const newTips = newEmployees.map((emp) => ({
+  //     ...createDefaultTipsAdd(),
+  //     idEmployee: emp.id,
+  //     employeeName: emp.name,
+  //     shift: emp.idShift ?? "8-20",
+  //     amount: [],
+  //   }));
 
-  useEffect(() => {
-    const cleaned = normalizeTips(tipsArrayByEmployee.fields);
+  //   const updated = normalizeTips([...current, ...newTips]);
 
-    if (cleaned.length !== tipsArrayByEmployee.fields.length) {
-      tipsArrayByEmployee.replace(cleaned);
-    }
-  }, []);
+  //   tipsArrayByEmployee.replace(updated);
+  // }, [filteredEmployees, tipsValues]);
+
+  // useEffect(() => {
+  //   const cleaned = normalizeTips(tipsArrayByEmployee.fields);
+
+  //   if (cleaned.length !== tipsArrayByEmployee.fields.length) {
+  //     tipsArrayByEmployee.replace(cleaned);
+  //   }
+  // }, []);
   return (
     <FormInput
       form={form}
