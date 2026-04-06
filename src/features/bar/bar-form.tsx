@@ -71,31 +71,31 @@ export default function BarForm({
     defaultValues: defaultValuesBarForm,
     resolver: zodResolver(barSchema),
   });
+  const { control, formState } = form;
 
   const values = useWatch({
-    control: form.control,
+    control: control,
   });
 
   const tipsArrayByEmployee = useFieldArray({
-    control: form.control,
+    control: control,
     name: "tipsAdd",
     keyName: "fieldId",
   });
 
   const employeeNamesInBreak = useWatch({
-    control: form.control,
+    control: control,
     name: "breakForm.rows",
   });
 
   const tipsValues =
     useWatch({
-      control: form.control,
+      control: control,
       name: "tipsAdd",
     }) ?? [];
 
-  useRealtimeSave(values, isBar, async (data) => {
+  useRealtimeSave(values, isBar && formState.isDirty, async (data) => {
     if (!data) return;
-
     await realtimeReportBar(data as BarFormValues);
   });
 
@@ -196,15 +196,13 @@ export default function BarForm({
 
   useEffect(() => {
     if (!realtimeData) return;
-    const currentTips = form.getValues("tipsAdd");
-
     form.reset({
       date: realtimeData.date ? new Date(realtimeData.date) : new Date(),
       report: realtimeData.report ?? defaultValuesReportBar,
       penalty: realtimeData.penalty ?? defaultRemarksValue,
       breakForm:
         realtimeData.breakForm ?? defaultValuesBreak(dataBreakList.rows),
-      tipsAdd: currentTips?.length ? currentTips : (realtimeData.tipsAdd ?? []),
+      tipsAdd: realtimeData.tipsAdd ?? [],
     });
   }, [realtimeData, form]);
 
@@ -224,62 +222,13 @@ export default function BarForm({
       idShift: selectedMap.get(emp.name.trim()),
     }));
 
-  const currentMap = new Map(
-    tipsValues.map((item, index) => [item.idEmployee, { item, index }]),
-  );
-
-  const nextIds = new Set(filteredEmployees.map((e) => e.id));
-
-  // const normalizeTips = (data: TipsAddFormValues[]) => {
-  //   const map = new Map<string, TipsAddFormValues>();
-
-  //   for (const item of data) {
-  //     if (!item.idEmployee) continue;
-
-  //     map.set(item.idEmployee, item);
-  //   }
-
-  //   return Array.from(map.values());
-  // };
   useSyncTipsWithBreak({
-    form, // 🔥 обязательно
+    form,
     tipsArray: tipsArrayByEmployee,
     tipsValues,
     employees: filteredEmployees,
   });
-  // useEffect(() => {
-  //   if (!filteredEmployees.length) return;
 
-  //   const current = tipsValues ?? [];
-
-  //   const existingIds = new Set(current.map((item) => item.idEmployee));
-
-  //   const newEmployees = filteredEmployees.filter(
-  //     (emp) => !existingIds.has(emp.id),
-  //   );
-
-  //   if (newEmployees.length === 0) return;
-
-  //   const newTips = newEmployees.map((emp) => ({
-  //     ...createDefaultTipsAdd(),
-  //     idEmployee: emp.id,
-  //     employeeName: emp.name,
-  //     shift: emp.idShift ?? "8-20",
-  //     amount: [],
-  //   }));
-
-  //   const updated = normalizeTips([...current, ...newTips]);
-
-  //   tipsArrayByEmployee.replace(updated);
-  // }, [filteredEmployees, tipsValues]);
-
-  // useEffect(() => {
-  //   const cleaned = normalizeTips(tipsArrayByEmployee.fields);
-
-  //   if (cleaned.length !== tipsArrayByEmployee.fields.length) {
-  //     tipsArrayByEmployee.replace(cleaned);
-  //   }
-  // }, []);
   return (
     <FormInput
       form={form}

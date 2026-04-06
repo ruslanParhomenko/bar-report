@@ -31,6 +31,7 @@ export default function TipsAddForm({ tipsArrayByEmployee }: any) {
 
   const handleAddAmount = (index: number) => {
     const value = getValues(`tipsAdd.${index}.tempValue`);
+
     const typeAmount = getValues(`tipsAdd.${index}.typeAmount`);
 
     if (!value) return;
@@ -69,6 +70,7 @@ export default function TipsAddForm({ tipsArrayByEmployee }: any) {
       <div className="flex flex-col gap-8 w-full">
         {tipsArrayByEmployee.fields.map((item: any, index: number) => {
           const numericValue = getValues(`tipsAdd.${index}.tempValue`);
+          const typeAmount = getValues(`tipsAdd.${index}.typeAmount`);
           return (
             <div
               key={item.fieldId}
@@ -86,9 +88,11 @@ export default function TipsAddForm({ tipsArrayByEmployee }: any) {
                   "h-8 w-8",
                   numericValue && "bg-blue-600 text-white",
                 )}
-                disabled={!numericValue}
+                disabled={!numericValue || !typeAmount}
               >
-                {numericValue && <PlusIcon className="font-bold" />}
+                {numericValue && typeAmount && (
+                  <PlusIcon className="font-bold" />
+                )}
               </Button>
               <NumericInput
                 fieldName={`tipsAdd.${index}.tempValue`}
