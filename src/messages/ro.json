@@ -2,7 +2,7 @@
   "Sidebar": {
     "schedule": "program",
     "employees": "angajați",
-    "report-bar": "bar",
+    "bar": "bar",
     "report-cucina": "bucătărie",
     "orders": "comenzi",
     "info": "informații",
@@ -13,7 +13,7 @@
     "ttn": "TTN",
     "fin-cash": "casă-contabilă",
     "result": "rezultat",
-    "settings": "setări"
+    "setting": "setări"
   },
   "Home": {
     "employeesKey": "cheie",

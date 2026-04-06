@@ -13,8 +13,12 @@ import { createDefaultTipsAdd } from "./schema";
 export default function TipsAddForm({
   tipsArrayByEmployee,
   options,
-  isDisabled,
-}: any) {
+  disabled,
+}: {
+  tipsArrayByEmployee: any;
+  options: any[];
+  disabled: boolean;
+}) {
   const { getValues, setValue } = useFormContext();
   const [focusedIndex, setFocusedIndex] = useState<number | null>(null);
 
@@ -166,8 +170,8 @@ export default function TipsAddForm({
           <div key={i} className="grid grid-cols-5 text-xs">
             <span className="font-medium">{item.employeeName}</span>
             <span>{item.shift}</span>
-            <span>{isDisabled ? item.value : "***"}</span>
-            <span>{isDisabled ? item.typeAmount : "***"}</span>
+            <span>{!disabled ? item.value : "***"}</span>
+            <span>{!disabled ? item.typeAmount : "***"}</span>
             <span>{item.time}</span>
           </div>
         ))}

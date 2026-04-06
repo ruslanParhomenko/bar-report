@@ -2,7 +2,7 @@
   "Sidebar": {
     "schedule": "график",
     "employees": "сотрудники",
-    "report-bar": "бар",
+    "bar": "бар",
     "report-cucina": "кухня",
     "orders": "заказы",
     "info": "инфо",
@@ -13,7 +13,7 @@
     "ttn": "ттн",
     "fin-cash": "бух-касса",
     "result": "итог",
-    "settings": "настройки"
+    "setting": "настройки"
   },
   "Home": {
     "employeesKey": "ключ",

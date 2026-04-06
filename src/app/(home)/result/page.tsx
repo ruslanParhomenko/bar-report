@@ -5,12 +5,16 @@ import {
 } from "@/app/actions/schedule/schedule-action";
 import { getTipsFormById } from "@/app/actions/tips/tips-action";
 import { InsufficientRights } from "@/components/wrapper/insufficient-rights";
+import { RESULT_MAIN_ROUTE } from "@/constants/endpoint-tag";
+import { SIDEBAR_NAVIGATION } from "@/constants/sidebar-nav";
 import { remarksByUniqueEmployee } from "@/features/archive/penalty-details/utils";
 import { PageResult } from "@/features/result/result-page";
 import { checkAccess } from "@/lib/check-access";
 import { MONTHS } from "@/utils/get-month-days";
 
-const SET_ACCESS = ["ADMIN", "MNGR"];
+const SET_ACCESS =
+  SIDEBAR_NAVIGATION.find((item) => item.title === RESULT_MAIN_ROUTE)
+    ?.setAcces || [];
 
 export default async function Page({
   searchParams,

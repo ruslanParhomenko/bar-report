@@ -1,10 +1,14 @@
 import { getCashFormById } from "@/app/actions/cash/cash-action";
 import { getTipsFormById } from "@/app/actions/tips/tips-action";
 import { InsufficientRights } from "@/components/wrapper/insufficient-rights";
+import { TIPS_MAIN_ROUTE } from "@/constants/endpoint-tag";
+import { SIDEBAR_NAVIGATION } from "@/constants/sidebar-nav";
 import TipsForm from "@/features/tips/tips-form";
 import { checkAccess } from "@/lib/check-access";
 
-const SET_ACCESS = ["ADMIN", "MNGR", "USER"];
+const SET_ACCESS =
+  SIDEBAR_NAVIGATION.find((item) => item.title === TIPS_MAIN_ROUTE)?.setAcces ||
+  [];
 export default async function Page({
   searchParams,
 }: {

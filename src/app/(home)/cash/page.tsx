@@ -1,13 +1,16 @@
 import { getAOByUniqueKey } from "@/app/actions/a-o/ao-action";
 import { getCashFormById } from "@/app/actions/cash/cash-action";
 import { InsufficientRights } from "@/components/wrapper/insufficient-rights";
+import { CASH_MAIN_ROUTE } from "@/constants/endpoint-tag";
+import { SIDEBAR_NAVIGATION } from "@/constants/sidebar-nav";
 import CashPage from "@/features/cash/cash-page";
-import { useHashParam } from "@/hooks/use-hash";
 
 import { checkAccess } from "@/lib/check-access";
 import { ValueParams } from "@/types/params";
 
-const SET_ACCESS = ["ADMIN", "CASH", "FIN", "USER"];
+const SET_ACCESS =
+  SIDEBAR_NAVIGATION.find((item) => item.title === CASH_MAIN_ROUTE)?.setAcces ||
+  [];
 
 export default async function Page({
   searchParams,

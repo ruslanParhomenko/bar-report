@@ -1,12 +1,6 @@
 import { useTranslations } from "next-intl";
 import { Button } from "../ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "../ui/dialog";
+import { Dialog, DialogContent, DialogTitle } from "../ui/dialog";
 
 export default function ModalConfirm({
   open,
@@ -23,13 +17,23 @@ export default function ModalConfirm({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent showCloseButton={false}>
-        <DialogTitle />
-        <Button variant="outline" onClick={() => setOpen(false)}>
-          {t("cancel")}
-        </Button>
-        <Button onClick={handleConfirm} disabled={confirmDisabled}>
-          {t("confirm")}
-        </Button>
+        <DialogTitle className="hidden" />
+        <div className="flex w-full justify-around items-center">
+          <Button
+            onClick={handleConfirm}
+            className="w-30"
+            disabled={confirmDisabled}
+          >
+            {t("confirm")}
+          </Button>
+          <Button
+            variant="destructive"
+            className="w-30"
+            onClick={() => setOpen(false)}
+          >
+            {t("cancel")}
+          </Button>
+        </div>
       </DialogContent>
     </Dialog>
   );

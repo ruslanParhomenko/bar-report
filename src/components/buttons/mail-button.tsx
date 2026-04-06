@@ -130,12 +130,12 @@ export default function MailButton({
       onClick={() => sendScreenshot()}
       disabled={disabled || isSending}
       className={cn(
-        "cursor-pointer h-8 bg-bl text-white",
+        "cursor-pointer h-7 bg-bl text-white",
         disabled && "opacity-50",
         className,
       )}
     >
-      send
+      save
     </Button>
   ) : (
     <button

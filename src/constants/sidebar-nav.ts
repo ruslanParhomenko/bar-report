@@ -32,75 +32,89 @@ import {
 
 export const SIDEBAR_NAVIGATION = [
   {
-    title: "schedule",
+    title: SCHEDULE_MAIN_ROUTE,
     url: SCHEDULE_MAIN_ROUTE,
     icon: Calendar,
+    setAcces: ["ADMIN", "BAR", "CUCINA", "USER"],
   },
   {
-    title: "employees",
+    title: EMPLOYEES_MAIN_ROUTE,
     url: EMPLOYEES_MAIN_ROUTE,
     icon: PersonStandingIcon,
+    setAcces: ["ADMIN", "USER"],
   },
   {
-    title: "report-bar",
+    title: REPORTS_BAR_ROUTE,
     url: REPORTS_BAR_ROUTE,
     icon: BarChart3,
+    setAcces: ["ADMIN", "BAR", "USER"],
   },
   {
-    title: "report-cucina",
+    title: REPORTS_CUCINA_ROUTE,
     url: REPORTS_CUCINA_ROUTE,
     icon: BarChart3,
+    setAcces: ["ADMIN", "CUCINA"],
   },
 
   {
-    title: "orders",
+    title: ORDERS_MAIN_ROUTE,
     url: ORDERS_MAIN_ROUTE,
     icon: List,
+    setAcces: ["ADMIN", "BAR", "CUCINA"],
   },
   {
-    title: "info",
+    title: INFO_MAIN_ROUTE,
     url: INFO_MAIN_ROUTE,
     icon: Info,
+    setAcces: ["ADMIN", "BAR", "CUCINA", "USER"],
   },
   {
-    title: "archive",
+    title: ARCHIVE_MAIN_ROUTE,
     url: ARCHIVE_MAIN_ROUTE,
     icon: Archive,
+    setAcces: ["ADMIN", "USER"],
   },
 
   {
-    title: "tips",
+    title: TIPS_MAIN_ROUTE,
     url: TIPS_MAIN_ROUTE,
     icon: DollarSign,
+    setAcces: ["ADMIN", "USER"],
   },
   {
-    title: "cash",
+    title: CASH_MAIN_ROUTE,
     url: CASH_MAIN_ROUTE,
     icon: CreditCard,
+    setAcces: ["ADMIN", "CASH"],
   },
   {
-    title: "a-o",
+    title: AO_REPORT_MAIN_ROUTE,
     url: AO_REPORT_MAIN_ROUTE,
     icon: CalculatorIcon,
+    setAcces: ["ADMIN"],
   },
   {
-    title: "ttn",
+    title: TTN_MAIN_ROUTE,
     url: TTN_MAIN_ROUTE,
     icon: FileTextIcon,
+    setAcces: ["ADMIN", "FIN"],
   },
   {
-    title: "fin-cash",
+    title: FIN_CASH_MAIN_ROUTE,
     url: FIN_CASH_MAIN_ROUTE,
     icon: ClipboardIcon,
+    setAcces: ["ADMIN"],
   },
   {
-    title: "result",
+    title: RESULT_MAIN_ROUTE,
     url: RESULT_MAIN_ROUTE,
     icon: SigmaIcon,
+    setAcces: ["ADMIN", "MNGR"],
   },
   {
-    title: "settings",
+    title: SETTING_MAIN_ROUTE,
     url: SETTING_MAIN_ROUTE,
     icon: Settings,
+    setAcces: ["ADMIN"],
   },
 ];

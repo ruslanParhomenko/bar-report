@@ -3,9 +3,13 @@ import { getDataOrderProducts } from "@/app/actions/data-constants/data-order-pr
 import { getDataProducts } from "@/app/actions/data-constants/data-products-action";
 import { getDataTTN } from "@/app/actions/data-constants/data-ttn-action";
 import { InsufficientRights } from "@/components/wrapper/insufficient-rights";
+import { SETTING_MAIN_ROUTE } from "@/constants/endpoint-tag";
+import { SIDEBAR_NAVIGATION } from "@/constants/sidebar-nav";
 import SettingPage from "@/features/setting/setting-page";
 import { checkAccess } from "@/lib/check-access";
-const SET_ACCESS = ["ADMIN"];
+const SET_ACCESS =
+  SIDEBAR_NAVIGATION.find((item) => item.title === SETTING_MAIN_ROUTE)
+    ?.setAcces || [];
 
 export default async function SettingsPage() {
   const hasAccess = await checkAccess(SET_ACCESS);
