@@ -46,13 +46,11 @@ export default function CashPage({
 
   const onSubmit: SubmitHandler<CashForm> = async (data) => {
     try {
-      await saveCashForm(data, year, month, isAdmin, isCash);
+      await saveCashForm(data, year, month);
       toast.success("Форма сохранена успешно!");
-      if (isCash) {
+      if (isAdmin) {
         await sendNotificationEmail({
           text: `${(data?.rowCashData?.tipsByDay as string[])?.join(",")}
-            ${(data?.rowCashData?.chipsByDay as string[])?.join(",")}
-            ${(data?.rowCashData?.visaCasinoByDay as string[])?.join(",")}
             ${(data?.rowCashData?.cashBarByDay as string[])?.join(",")}
             ${(data?.rowCashData?.visaBarByDay as string[])?.join(",")}
             ${(data?.rowCashData?.banquetBarByDay as string[])?.join(",")}

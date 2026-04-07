@@ -82,20 +82,21 @@ export default function TipsAddForm({
       }
     });
   }, [tipsValues]);
-
   const allAmounts =
-    tipsValues?.flatMap((emp: any) =>
-      (emp.amount || []).map((a: any) => ({
-        employeeName: emp.employeeName,
-        shift: emp.shift,
-        value: a.value,
-        typeAmount: a.typeAmount,
-        time: a.time,
-      })),
-    ) ?? [];
+    tipsValues
+      ?.flatMap((emp: any) =>
+        (emp.amount || []).map((a: any) => ({
+          employeeName: emp.employeeName,
+          shift: emp.shift,
+          value: a.value,
+          typeAmount: a.typeAmount,
+          time: a.time,
+        })),
+      )
+      .reverse() ?? [];
 
   return (
-    <div className="flex grid-cols-3 gap-8 w-full h-full md:p-8">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full h-full md:p-8">
       <div className="flex flex-col gap-8 w-full">
         {options.map((opt: any, _visualIndex: number) => {
           const tip = tipsMap.get(opt.id);
@@ -111,7 +112,7 @@ export default function TipsAddForm({
             <div
               key={opt.id}
               className={cn(
-                "flex gap-12 items-center w-full justify-center",
+                "flex md:gap-12 items-center w-full justify-center",
                 focusedIndex === index && "text-green-600",
                 numericValue && "text-red-600!",
               )}
@@ -133,7 +134,7 @@ export default function TipsAddForm({
 
               <NumericInput
                 fieldName={`tipsAdd.${index}.tempValue`}
-                className={cn("w-22", !numericValue && "bg-border")}
+                className={cn("md:w-22 w-12", !numericValue && "bg-border")}
                 onFocus={() => setFocusedIndex(index)}
               />
 
@@ -145,7 +146,7 @@ export default function TipsAddForm({
 
               <TextInput
                 fieldName={`tipsAdd.${index}.employeeName`}
-                className="w-32 border-0 shadow-none font-bold"
+                className="w-34 border-0 shadow-none font-bold"
                 disabled
               />
 
@@ -159,16 +160,21 @@ export default function TipsAddForm({
         })}
       </div>
 
-      <div className="w-full" />
+      <div className="w-full hidden md:block" />
 
-      <div className="flex flex-col gap-2 w-full">
+      <div className="flex flex-col gap-2 w-full overflow-auto max-h-[80vh]">
         {allAmounts.length === 0 && (
           <div className="text-sm text-muted-foreground">Нет данных</div>
         )}
 
         {allAmounts.map((item: any, i: number) => (
-          <div key={i} className="grid grid-cols-5 text-xs">
-            <span className="font-medium">{item.employeeName}</span>
+          <div
+            key={i}
+            className="grid grid-cols-5 text-xs justify-around w-full"
+          >
+            <span className="font-medium w-32">
+              {item.employeeName.split(" ")[1]}
+            </span>
             <span>{item.shift}</span>
             <span>{!disabled ? item.value : "***"}</span>
             <span>{!disabled ? item.typeAmount : "***"}</span>

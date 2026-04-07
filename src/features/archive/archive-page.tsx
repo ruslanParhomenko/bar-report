@@ -11,6 +11,8 @@ import { RemarksDataByUniqueKey } from "@/app/actions/remarks/remarks-action";
 import PenaltyDetails from "./penalty-details/penalty-details";
 import PenaltyGeneral from "./penalty-general/penalty-general";
 import { useHashParam } from "@/hooks/use-hash";
+import { TipsAddData } from "@/app/actions/tips-add/tips-add-actions";
+import TipsData from "./tips/tips-data";
 
 type TabValue = "bar" | "cucina" | "breakList" | "penalty" | "penaltyResult";
 export type ArchiveData = {
@@ -18,6 +20,7 @@ export type ArchiveData = {
   cucina: ReportCucinaDataByUniqueKey | null;
   breakList: BreakGetType | null;
   penalty: RemarksDataByUniqueKey | null;
+  tips: TipsAddData[] | null;
 };
 export default function ArchivePage({
   archiveData,
@@ -46,6 +49,9 @@ export default function ArchivePage({
 
       <Activity mode={tab === "penalty-result" ? "visible" : "hidden"}>
         <PenaltyGeneral data={archiveData.penalty} />
+      </Activity>
+      <Activity mode={tab === "tips-add" ? "visible" : "hidden"}>
+        <TipsData data={archiveData.tips} />
       </Activity>
     </>
   );

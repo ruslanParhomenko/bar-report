@@ -101,36 +101,36 @@ export default function BarForm({
     const day = String(dateValue.getDate());
 
     const uniqueKey = `${year}-${month}`;
-    const formateReportData = {
-      ...report,
-      tobacco: report.tobacco?.map((item) => ({
-        ...item,
-        stock: item.stock,
-        incoming: item.incoming ?? "0",
-        outgoing: item.outgoing ?? "0",
-        finalStock: item.stock + +item.incoming - +item.outgoing,
-      })),
-      cashVerify: report.cashVerify?.filter((item) => item.value),
-      expenses: report.expenses?.filter((item) => item.name),
-      productTransfer: report.productTransfer?.filter((item) => item.name),
-      inventory: report.inventory?.filter((item) => item.quantity),
-      notes: report.notes,
-    };
+    // const formateReportData = {
+    //   ...report,
+    //   tobacco: report.tobacco?.map((item) => ({
+    //     ...item,
+    //     stock: item.stock,
+    //     incoming: item.incoming ?? "0",
+    //     outgoing: item.outgoing ?? "0",
+    //     finalStock: item.stock + +item.incoming - +item.outgoing,
+    //   })),
+    //   cashVerify: report.cashVerify?.filter((item) => item.value),
+    //   expenses: report.expenses?.filter((item) => item.name),
+    //   productTransfer: report.productTransfer?.filter((item) => item.name),
+    //   inventory: report.inventory?.filter((item) => item.quantity),
+    //   notes: report.notes,
+    // };
 
-    const formattedBreakData = {
-      day,
-      month,
-      year,
-      uniqueKey,
-      rows: breakForm.rows,
-    };
-    const formattedPenaltyData = {
-      remarks: penalty.remarks,
-      uniqueKey: uniqueKey,
-      month: month,
-      year: year,
-      day: day,
-    };
+    // const formattedBreakData = {
+    //   day,
+    //   month,
+    //   year,
+    //   uniqueKey,
+    //   rows: breakForm.rows,
+    // };
+    // const formattedPenaltyData = {
+    //   remarks: penalty.remarks,
+    //   uniqueKey: uniqueKey,
+    //   month: month,
+    //   year: year,
+    //   day: day,
+    // };
 
     const formattedTipsAddData = {
       day,
@@ -141,48 +141,48 @@ export default function BarForm({
 
     await createTipsAdd(formattedTipsAddData);
 
-    await createReportBar(uniqueKey, year, month, {
-      day,
-      report: formateReportData,
-    });
-    await createBreakList(formattedBreakData);
-    await createRemarks(uniqueKey, formattedPenaltyData);
+    // await createReportBar(uniqueKey, year, month, {
+    //   day,
+    //   report: formateReportData,
+    // });
+    // await createBreakList(formattedBreakData);
+    // await createRemarks(uniqueKey, formattedPenaltyData);
 
-    const updatedTobacco = report.tobacco?.map((item) => {
-      const finalStock =
-        item.stock + Number(item.incoming || 0) - Number(item.outgoing || 0);
+    // const updatedTobacco = report.tobacco?.map((item) => {
+    //   const finalStock =
+    //     item.stock + Number(item.incoming || 0) - Number(item.outgoing || 0);
 
-      return {
-        ...item,
-        stock: finalStock,
-        incoming: "",
-        outgoing: "",
-      };
-    });
+    //   return {
+    //     ...item,
+    //     stock: finalStock,
+    //     incoming: "",
+    //     outgoing: "",
+    //   };
+    // });
 
-    const updatedData = {
-      tobacco: updatedTobacco,
-      cashVerify: cashVerifyDefault,
-      expenses: expensesDefault,
-      productTransfer: productTransferDefault,
-      inventory: inventoryDefault,
-      notes: "",
-    };
+    // const updatedData = {
+    //   tobacco: updatedTobacco,
+    //   cashVerify: cashVerifyDefault,
+    //   expenses: expensesDefault,
+    //   productTransfer: productTransferDefault,
+    //   inventory: inventoryDefault,
+    //   notes: "",
+    // };
 
-    form.reset({
-      date: new Date(),
-      report: updatedData,
-      penalty: defaultRemarksValue,
-      breakForm: defaultValuesBreak(dataBreakList.rows),
-      tipsAdd: [],
-    });
-    await realtimeReportBar({
-      date: new Date(),
-      report: updatedData,
-      penalty: defaultRemarksValue,
-      breakForm: defaultValuesBreak(dataBreakList.rows),
-      tipsAdd: [],
-    });
+    // form.reset({
+    //   date: new Date(),
+    //   report: updatedData,
+    //   penalty: defaultRemarksValue,
+    //   breakForm: defaultValuesBreak(dataBreakList.rows),
+    //   tipsAdd: [],
+    // });
+    // await realtimeReportBar({
+    //   date: new Date(),
+    //   report: updatedData,
+    //   penalty: defaultRemarksValue,
+    //   breakForm: defaultValuesBreak(dataBreakList.rows),
+    //   tipsAdd: [],
+    // });
 
     toast.success("Бар отчет успешно сохранён !");
   };

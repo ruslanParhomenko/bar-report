@@ -6,6 +6,7 @@ export const ARCHIVE_NAV_ITEMS = [
   "breakList",
   "penalty",
   "penalty-result",
+  "tips-add",
 ];
 
 export const SCHEDULE_NAV_ITEMS = ["bar", "cucina", "dish"];

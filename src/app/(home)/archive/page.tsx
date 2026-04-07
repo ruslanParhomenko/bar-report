@@ -2,6 +2,7 @@ import { getBreakListByDate } from "@/app/actions/break/break-action";
 import { getRemarksByUniqueKey } from "@/app/actions/remarks/remarks-action";
 import { getReportByUniqueKey } from "@/app/actions/report-bar/report-bar-action";
 import { getReportCucinaByUniqueKey } from "@/app/actions/report-cucina/report-cucina-action";
+import { getTipsAddByUniqueKey } from "@/app/actions/tips-add/tips-add-actions";
 import { InsufficientRights } from "@/components/wrapper/insufficient-rights";
 import { ARCHIVE_MAIN_ROUTE } from "@/constants/endpoint-tag";
 import { SIDEBAR_NAVIGATION } from "@/constants/sidebar-nav";
@@ -25,12 +26,13 @@ export default async function Page({
 
   const uniqueKey = `${year}-${month}`;
 
-  const [dataReportBar, dataBreak, dataReportCucina, dataRemarks] =
+  const [dataReportBar, dataBreak, dataReportCucina, dataRemarks, tipsAdd] =
     await Promise.all([
       await getReportByUniqueKey(uniqueKey),
       await getBreakListByDate(uniqueKey),
       await getReportCucinaByUniqueKey(uniqueKey),
       await getRemarksByUniqueKey(uniqueKey),
+      await getTipsAddByUniqueKey(uniqueKey),
     ]);
   return (
     <ArchivePage
@@ -40,6 +42,7 @@ export default async function Page({
           breakList: dataBreak,
           cucina: dataReportCucina,
           penalty: dataRemarks,
+          tips: tipsAdd,
         } as ArchiveData
       }
     />
