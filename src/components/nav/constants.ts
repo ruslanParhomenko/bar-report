@@ -1,3 +1,5 @@
+import { BAR_REALTIME_ACTION_TAG } from "@/constants/action-tag";
+
 export const BAR_NAV_ITEMS = ["break", "report", "tips"];
 
 export const ARCHIVE_NAV_ITEMS = [
@@ -50,16 +52,17 @@ export const SETTINGS_NAV_ITEMS = [
 
 export const CASH_NAV_ITEMS = ["cash-month", "cash-year"];
 
-type NAV_BY_PATCH_TYPE = Record<
+export type NAV_BY_PATCH_TYPE = Record<
   string,
   {
     tabs: string[];
     selectDate: boolean;
+    refresh?: boolean;
   }
 >;
 
 export const NAV_BY_PATCH = {
-  bar: { tabs: BAR_NAV_ITEMS, selectDate: false },
+  bar: { tabs: BAR_NAV_ITEMS, selectDate: false, refresh: true },
   archive: { tabs: ARCHIVE_NAV_ITEMS, selectDate: true },
   schedule: { tabs: SCHEDULE_NAV_ITEMS, selectDate: true },
   info: { tabs: INFO_NAV_ITEMS, selectDate: false },
@@ -74,3 +77,7 @@ export const NAV_BY_PATCH = {
   setting: { tabs: SETTINGS_NAV_ITEMS, selectDate: false },
   "fin-cash": { tabs: [], selectDate: true },
 } satisfies NAV_BY_PATCH_TYPE;
+
+export const REFRESH_NAV_ITEMS = {
+  bar: BAR_REALTIME_ACTION_TAG,
+};

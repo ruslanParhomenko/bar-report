@@ -1,24 +1,21 @@
 "use client";
 
-import { useEffect, useState, useMemo, Fragment } from "react";
+import { useEffect, useState } from "react";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { TipsAddData } from "@/app/actions/tips-add/tips-add-actions";
 import { cn } from "@/lib/utils";
+import { TipsAddFormValues } from "@/features/bar/tips-add/schema";
 
 export default function TipsData({ data }: { data: TipsAddData[] | null }) {
   const [opened, setOpened] = useState<number[]>([]);
 
-  const reversed = useMemo(() => {
-    if (!data) return [];
-    return [...data].reverse();
-  }, [data]);
-
   useEffect(() => {
+    if (!data) return;
     if (reversed.length > 0) {
       setOpened([0]);
     }
-  }, [reversed]);
+  }, [data]);
 
   const toggle = (index: number) => {
     setOpened((prev) =>
@@ -26,8 +23,9 @@ export default function TipsData({ data }: { data: TipsAddData[] | null }) {
     );
   };
 
-  // 🔥 merge employees
-  const mergeEmployees = (tipsAdd: any[]) => {
+  const mergeEmployees = (
+    tipsAdd: TipsAddFormValues[],
+  ): TipsAddFormValues[] => {
     const map = new Map();
 
     tipsAdd.forEach((emp) => {
@@ -46,15 +44,49 @@ export default function TipsData({ data }: { data: TipsAddData[] | null }) {
   };
 
   if (!data) return null;
+  const reversed = data && [...data].reverse();
 
   return (
     <>
       {reversed.map((dayItem, index) => {
         const isOpen = opened.includes(index);
 
-        const employees = useMemo(
-          () => mergeEmployees(dayItem.tipsAdd),
-          [dayItem.tipsAdd],
+        const currencyDay = Number(dayItem.currency);
+
+        const employees = mergeEmployees(dayItem.tipsAdd);
+
+        const numWaiters = employees.filter(
+          (emp) => emp.role === "waiters",
+        ).length;
+
+        const totalAmountWaiters = employees
+          .filter((emp) => emp.role === "waiters")
+          .reduce((acc: number, emp) => {
+            const empTotal = (emp.amount || []).reduce(
+              (
+                sum: number,
+                amount: {
+                  time: string;
+                  typeAmount: string;
+                  value: string;
+                },
+              ) => {
+                if (amount.typeAmount === "mdl") {
+                  return sum + Number(amount.value);
+                }
+                if (amount.typeAmount === "chips") {
+                  return sum + Number(amount.value) * currencyDay;
+                }
+                return sum;
+              },
+              0,
+            );
+
+            return acc + empTotal;
+          }, 0);
+
+        const portionTips = Number(
+          (totalAmountWaiters / numWaiters).toFixed(0),
         );
 
         return (
@@ -67,49 +99,73 @@ export default function TipsData({ data }: { data: TipsAddData[] | null }) {
 
             {isOpen && (
               <CardContent>
-                <Table>
+                <Table className="table-fixed">
                   <TableBody>
-                    {employees.map((emp: any) => (
-                      <Fragment key={emp.idEmployee}>
-                        {/* row 1: TIME */}
-                        <TableRow key={emp.idEmployee + "-time"}>
-                          <TableCell
-                            rowSpan={2}
-                            className="align-top font-medium w-40"
-                          >
-                            <div>{emp.employeeName}</div>
-                            <div className="text-xs text-muted-foreground">
-                              {emp.shift}
-                            </div>
+                    {employees.map((emp: TipsAddFormValues, i: number) => {
+                      const personalTotal = emp.amount.reduce(
+                        (
+                          acc: number,
+                          amount: {
+                            time: string;
+                            typeAmount: string;
+                            value: string;
+                          },
+                        ) => {
+                          if (amount.typeAmount === "mdl") {
+                            acc += Number(amount.value);
+                          } else if (amount.typeAmount === "chips") {
+                            acc += Number(amount.value) * currencyDay;
+                          }
+                          return acc;
+                        },
+                        0,
+                      );
+                      return (
+                        <TableRow
+                          key={emp.idEmployee + "-time"}
+                          className="hover:bg-gray-100!"
+                        >
+                          <TableCell className="w-5">{i + 1}</TableCell>
+                          <TableCell className="text-green-600 font-bold w-12">
+                            {emp.role === "waiters"
+                              ? (personalTotal / 2 + portionTips).toFixed(0)
+                              : personalTotal.toFixed(0)}
                           </TableCell>
-
-                          {emp.amount.map((a: any, i: number) => (
-                            <TableCell
-                              key={i}
-                              className="text-xs text-center text-muted-foreground"
-                            >
-                              {a.time}
+                          <TableCell
+                            className={cn(
+                              "align-center w-30 sticky left-0 z-10",
+                              emp.role === "barmen" && "text-bl",
+                            )}
+                          >
+                            {emp.employeeName}
+                          </TableCell>
+                          <TableCell
+                            className={cn(
+                              emp.role === "barmen" && "text-bl",
+                              "text-xs",
+                            )}
+                          >
+                            {emp.shift} : ({personalTotal.toFixed(0)})
+                          </TableCell>
+                          {emp.amount.map((a, i) => (
+                            <TableCell key={i}>
+                              <div className="text-xs text-center text-muted-foreground">
+                                {a.time}
+                              </div>
+                              <div
+                                className={cn(
+                                  "text-xs text-center font-medium",
+                                  a.typeAmount === "mdl" && "text-green-600",
+                                  a.typeAmount === "chips" && "text-blue-600",
+                                )}
+                              >
+                                {a.value} {a.typeAmount === "mdl" ? "" : "$"}
+                              </div>
                             </TableCell>
                           ))}
                         </TableRow>
-
-                        {/* row 2: VALUE */}
-                        <TableRow key={emp.idEmployee + "-value"}>
-                          {emp.amount.map((a: any, i: number) => (
-                            <TableCell
-                              key={i}
-                              className={cn(
-                                "text-xs text-center font-medium",
-                                a.typeAmount === "mdl" && "text-green-600",
-                                a.typeAmount === "chips" && "text-blue-600",
-                              )}
-                            >
-                              {a.value} {a.typeAmount}
-                            </TableCell>
-                          ))}
-                        </TableRow>
-                      </Fragment>
-                    ))}
+                      );
+                    })}
                   </TableBody>
                 </Table>
               </CardContent>

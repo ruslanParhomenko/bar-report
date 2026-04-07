@@ -2,27 +2,14 @@ import { TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import { TIME_LABELS } from "./constant";
 import DatePickerInput from "@/components/inputs-form/date-input";
-import { RefreshCcw } from "lucide-react";
-import { revalidateNav } from "@/app/actions/revalidate-tag/revalidate-teg";
-import { BAR_REALTIME_ACTION_TAG } from "@/constants/action-tag";
 
 const currentHour = new Date().getHours();
 export default function BreakTableHeader() {
-  const resetData = () => {
-    revalidateNav(BAR_REALTIME_ACTION_TAG);
-  };
   return (
     <TableHeader>
       <TableRow>
-        <TableHead className="w-9">
-          <button
-            type="button"
-            onClick={resetData}
-            className="hover:text-black hover:bg-transparent cursor-pointer flex items-center justify-center md:w-10 w-8 h-8 order-1 md:order-2"
-          >
-            <RefreshCcw className="w-3.5 h-3.5 text-muted-foreground" />
-          </button>
-        </TableHead>
+        <TableHead className="w-9" />
+
         <TableHead className="w-30">
           <DatePickerInput
             fieldName="date"

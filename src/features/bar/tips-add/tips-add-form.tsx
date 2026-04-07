@@ -2,7 +2,7 @@
 
 import { useFormContext, useWatch } from "react-hook-form";
 import NumericInput from "@/components/inputs-form/numeric-input";
-import SelectField from "@/components/inputs-form/select-input";
+
 import TextInput from "@/components/inputs-form/text-input";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState, useMemo } from "react";
@@ -165,7 +165,7 @@ export default function TipsAddForm({
         })}
       </div>
 
-      <div className="flex flex-col justify-center gap-2 w-full overflow-auto max-h-[80vh]">
+      <div className="flex flex-col  gap-2 w-full overflow-auto max-h-[80vh]">
         {allAmounts.map((item: any, i: number) => (
           <div
             key={i}

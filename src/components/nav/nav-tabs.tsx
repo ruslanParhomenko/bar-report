@@ -3,11 +3,17 @@
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import { useEffect, useState, useTransition } from "react";
 import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
-import { NAV_BY_PATCH } from "./constants";
+import {
+  NAV_BY_PATCH,
+  NAV_BY_PATCH_TYPE,
+  REFRESH_NAV_ITEMS,
+} from "./constants";
 import { MONTHS, YEAR } from "@/utils/get-month-days";
 import { cn } from "@/lib/utils";
 import SelectOptions from "../select/select-options";
 import { useHashParam } from "@/hooks/use-hash";
+import { revalidateNav } from "@/app/actions/revalidate-tag/revalidate-teg";
+import { RefreshCcw } from "lucide-react";
 
 export default function NavTabs() {
   const [_value, setHash] = useHashParam("tab");
@@ -28,11 +34,18 @@ export default function NavTabs() {
   const [month, setMonth] = useState(defaultMonth);
   const [year, setYear] = useState(defaultYear);
 
-  const config =
-    NAV_BY_PATCH[pathname.split("/")[1] as keyof typeof NAV_BY_PATCH];
+  const config = NAV_BY_PATCH[
+    pathname.split("/")[1] as keyof typeof NAV_BY_PATCH
+  ] as NAV_BY_PATCH_TYPE[string];
+
+  const refreshTeg =
+    REFRESH_NAV_ITEMS[
+      pathname.split("/")[1] as keyof typeof REFRESH_NAV_ITEMS
+    ] ?? "";
 
   const selectDate = config?.selectDate;
   const navItems = (config?.tabs ?? []) as string[];
+  const refresh = config?.refresh ?? false;
 
   const defaultTab = localStorage.getItem(STORAGE_KEY) || navItems[0];
 
@@ -73,6 +86,10 @@ export default function NavTabs() {
     localStorage.setItem(STORAGE_KEY, value);
     setHash(value);
   };
+  const resetData = () => {
+    if (!refresh) return;
+    revalidateNav(refreshTeg);
+  };
 
   const tabsWidth = `w-1/${navItems.length}`;
   const itemsWidth = navItems.length < 6 ? "w-12" : "w-10";
@@ -111,6 +128,11 @@ export default function NavTabs() {
             ))}
           </TabsList>
         </Tabs>
+      )}
+      {refresh && (
+        <button type="button" onClick={resetData} className="cursor-pointer">
+          <RefreshCcw className="w-4 h-4 text-bl" />
+        </button>
       )}
       {selectDate && (
         <div className="flex md:justify-end justify-center gap-2">

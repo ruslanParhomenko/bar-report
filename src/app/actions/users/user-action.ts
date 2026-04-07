@@ -36,11 +36,13 @@ export async function deleteUser(id: string) {
 export const _getUsers = async () => {
   const cached = await redis.get(USERS_ACTION_TAG);
   if (cached) return cached as UsersSchemaTypeData[];
+
   const snapshot = await dbAdmin.collection(USERS_ACTION_TAG).get();
   const users = snapshot.docs.map((doc) => ({
     id: doc.id,
     ...doc.data(),
-  }));
+  })) as UserData[];
+
   await redis.set(USERS_ACTION_TAG, users);
   return users as UsersSchemaTypeData[];
 };
@@ -65,15 +67,3 @@ export const getUsersById = unstable_cache(_getUsersById, [USERS_ACTION_TAG], {
   revalidate: false,
   tags: [USERS_ACTION_TAG],
 });
-
-// export const getUsers = async () => {
-//   "use cache";
-
-//   cacheTag("users");
-
-//   const snapshot = await dbAdmin.collection("users").get();
-//   return snapshot.docs.map((doc) => ({
-//     id: doc.id,
-//     ...doc.data(),
-//   })) as UsersSchemaTypeData[];
-// };

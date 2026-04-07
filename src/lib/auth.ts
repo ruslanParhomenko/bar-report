@@ -29,7 +29,7 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, account, profile }) {
       if (account && profile) {
         try {
-          const users = await getUsers();
+          const users = (await getUsers()).filter((u) => u.status);
 
           const dbUser = users.find((u) => u.mail === profile.email);
 
@@ -56,7 +56,7 @@ export const authOptions: NextAuthOptions = {
       try {
         if (profile?.email === ADMIN_EMAIL) return true;
 
-        const users = await getUsers();
+        const users = (await getUsers()).filter((u) => u.status);
         const dbUser = users.find((u) => u.mail === profile?.email);
 
         if (!dbUser) return "/403";

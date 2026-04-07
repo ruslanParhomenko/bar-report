@@ -3,6 +3,8 @@ import { z } from "zod";
 export const usersSchema = z.object({
   mail: z.string().min(1, { message: "required" }),
   role: z.string().min(1, { message: "required" }),
+  name: z.string(),
+  status: z.boolean(),
 });
 
 export type UsersSchemaTypeData = z.infer<typeof usersSchema> & {
@@ -12,4 +14,6 @@ export type UsersSchemaTypeData = z.infer<typeof usersSchema> & {
 export const defaultUser: UsersSchemaTypeData = {
   mail: "",
   role: "",
+  name: "",
+  status: false,
 };

@@ -12,6 +12,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import FormInput from "@/components/wrapper/form";
 import { useAbility } from "@/providers/ability-provider";
 import { defaultUser, usersSchema, UsersSchemaTypeData } from "./schema";
+import SwitchForm from "../employee/switch-form";
+import SwitchInput from "@/components/inputs-form/switch-input";
 
 const ROLES = ["ADMIN", "BAR", "CUCINA", "USER", "MNGR", "CASH", "FIN", "SCR"];
 
@@ -39,6 +41,8 @@ export default function UsersForm({ id }: { id?: string }) {
         await updateUser(id, {
           mail: data.mail,
           role: data.role,
+          name: data.name,
+          status: data.status,
         });
 
         toast.success("User is updated !");
@@ -46,6 +50,8 @@ export default function UsersForm({ id }: { id?: string }) {
         await createUser({
           mail: data.mail,
           role: data.role,
+          name: data.name,
+          status: data.status,
         });
 
         toast.success("User is added !");
@@ -68,6 +74,7 @@ export default function UsersForm({ id }: { id?: string }) {
       returnButton={id ? true : false}
       url={returnUrl}
       disabled={!isAdmin}
+      onError={(e) => console.log(e)}
     >
       <div className="mt-6 flex flex-col gap-4">
         <TextInput
@@ -82,6 +89,13 @@ export default function UsersForm({ id }: { id?: string }) {
           fieldName="role"
           className="truncate w-full h-10"
         />
+        <TextInput
+          fieldName="name"
+          fieldLabel={t("name")}
+          type="text"
+          className="w-full h-10"
+        />
+        <SwitchInput fieldName="status" fieldLabel={t("status")} />
       </div>
     </FormInput>
   );
