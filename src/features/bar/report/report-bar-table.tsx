@@ -18,17 +18,17 @@ export default function ReportBarTable({
 
   return (
     <>
-      <div className="grid grid-cols-1 md:grid-cols-[22%_18%_16%_22%_16%] justify-between">
+      <div className="grid grid-cols-1 md:grid-cols-[25%_20%_20%_22%] justify-between my-4">
         <TableTobacco disabled={isDisabled} />
         <TableInventory disabled={isDisabled} />
         <TableExpenses disabled={isDisabled} />
         <TableProductsTransfer disabled={isDisabled} />
-        <TableCashVerify disabled={isDisabled} />
       </div>
+      <TableCashVerify disabled={isDisabled} />
       <Textarea
         placeholder="notes ..."
         {...register("report.notes")}
-        className="resize-none h-8 min-h-0 py-0"
+        className="resize-none my-4"
         disabled={isDisabled}
       />
     </>

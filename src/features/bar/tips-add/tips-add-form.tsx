@@ -9,6 +9,8 @@ import { useEffect, useState, useMemo } from "react";
 import { PlusIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { createDefaultTipsAdd } from "./schema";
+import SelectInput from "@/components/select/select-input";
+import { TYPE_AMOUNT } from "./constants";
 
 export default function TipsAddForm({
   tipsArrayByEmployee,
@@ -41,6 +43,7 @@ export default function TipsAddForm({
           idEmployee: emp.id,
           employeeName: emp.name,
           shift: emp.idShift ?? "8-20",
+          role: emp.role,
           amount: [],
         })),
       );
@@ -91,12 +94,14 @@ export default function TipsAddForm({
           value: a.value,
           typeAmount: a.typeAmount,
           time: a.time,
+          role: emp.role,
+          idEmployee: emp.idEmployee,
         })),
       )
       .reverse() ?? [];
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full h-full md:p-8">
+    <div className="grid grid-cols-1 md:grid-cols-2 md:gap-8 w-full h-full md:p-8">
       <div className="flex flex-col gap-8 w-full">
         {options.map((opt: any, _visualIndex: number) => {
           const tip = tipsMap.get(opt.id);
@@ -112,7 +117,7 @@ export default function TipsAddForm({
             <div
               key={opt.id}
               className={cn(
-                "flex md:gap-12 items-center w-full justify-center",
+                "flex md:gap-6 items-center w-full justify-around",
                 focusedIndex === index && "text-green-600",
                 numericValue && "text-red-600!",
               )}
@@ -122,7 +127,7 @@ export default function TipsAddForm({
                 variant="ghost"
                 onClick={() => handleAddAmount(index)}
                 className={cn(
-                  "h-8 w-8 cursor-pointer",
+                  "h-8 w-10 cursor-pointer",
                   numericValue && "bg-blue-600 text-white",
                 )}
                 disabled={!numericValue || !typeAmount}
@@ -134,25 +139,25 @@ export default function TipsAddForm({
 
               <NumericInput
                 fieldName={`tipsAdd.${index}.tempValue`}
-                className={cn("md:w-22 w-12", !numericValue && "bg-border")}
+                className={cn("w-12", !numericValue && "bg-border")}
                 onFocus={() => setFocusedIndex(index)}
               />
 
-              <SelectField
+              <SelectInput
                 fieldName={`tipsAdd.${index}.typeAmount`}
-                className="w-22"
-                data={["mdl", "chips"]}
+                className="w-14"
+                options={TYPE_AMOUNT}
               />
 
               <TextInput
                 fieldName={`tipsAdd.${index}.employeeName`}
-                className="w-34 border-0 shadow-none font-bold"
+                className="md:w-30 border-0 shadow-none font-bold"
                 disabled
               />
 
               <TextInput
                 fieldName={`tipsAdd.${index}.shift`}
-                className="w-16 border-0 shadow-none font-bold"
+                className="w-22 border-0 shadow-none font-bold"
                 disabled
               />
             </div>
@@ -160,13 +165,7 @@ export default function TipsAddForm({
         })}
       </div>
 
-      <div className="w-full hidden md:block" />
-
-      <div className="flex flex-col gap-2 w-full overflow-auto max-h-[80vh]">
-        {allAmounts.length === 0 && (
-          <div className="text-sm text-muted-foreground">Нет данных</div>
-        )}
-
+      <div className="flex flex-col justify-center gap-2 w-full overflow-auto max-h-[80vh]">
         {allAmounts.map((item: any, i: number) => (
           <div
             key={i}

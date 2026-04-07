@@ -10,7 +10,7 @@ import SelectOptions from "../select/select-options";
 import { useHashParam } from "@/hooks/use-hash";
 
 export default function NavTabs() {
-  const [value, setHash] = useHashParam("tab");
+  const [_value, setHash] = useHashParam("tab");
 
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -86,7 +86,10 @@ export default function NavTabs() {
         <Tabs
           value={defaultTab}
           onValueChange={handleTabChange}
-          className={cn("sticky top-0 bg-background z-30", !config && "hidden")}
+          className={cn(
+            "sticky top-0 bg-background z-100",
+            !config && "hidden",
+          )}
         >
           <TabsList className="flex md:gap-4 h-8 order-1 md:order-0">
             {navItems.map((item, index) => (

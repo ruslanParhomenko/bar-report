@@ -68,28 +68,28 @@ export default function TableExpenses({
       <TableBody>
         {fields?.map((item, idx: number) => (
           <TableRow key={item.id}>
-            <TableCell className="py-1.5">
+            <TableCell>
               <SelectField
                 data={RECIPIENTS}
                 fieldName={`report.expenses.${idx}.name`}
-                className="w-full h-6! border-0! shadow-none p-0 text-sm! font-medium!"
+                className="w-full h-8!  border-0! shadow-none text-sm! font-medium!"
                 placeHolder="..."
                 disabled={disabled}
               />
             </TableCell>
-            <TableCell className="py-0">
+            <TableCell>
               <NumericInput
                 fieldName={`report.expenses.${idx}.sum`}
-                className="w-14! h-7! text-center text-xs!"
+                className="w-14! text-center"
                 disabled={disabled}
               />
             </TableCell>
-            <TableCell className="text-xs text-rd py-0">
+            <TableCell className="text-xs text-rd">
               {fieldsValues?.[idx]?.time}
             </TableCell>
             <TableCell
               onClick={() => !disabled && reset(idx)}
-              className="cursor-pointer py-0"
+              className="cursor-pointer"
             >
               {fieldsValues?.[idx]?.name && (
                 <Trash2Icon className="w-4 h-4 text-rd" />

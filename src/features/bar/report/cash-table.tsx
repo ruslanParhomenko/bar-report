@@ -35,51 +35,30 @@ export default function TableCashVerify({
     });
   }, [fieldsValues, setValue]);
 
-  const rows = 6;
-
   return (
-    <Table className="md:table-fixed">
+    <Table className="md:table-fixed my-4">
       <TableHeader>
         <TableRow>
-          <TableHead className="w-14 font-bold text-bl">CashVerify</TableHead>
-          <TableHead className="w-12" />
-          <TableHead className="w-14" />
-          <TableHead className="w-12" />
+          <TableHead className="font-bold text-bl">CashVerify</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
-        {Array.from({ length: rows }).map((_, i) => {
-          const left = fieldsValues?.[i];
-          const right = fieldsValues?.[i + rows];
-
-          return (
-            <TableRow key={i}>
-              <TableCell className="py-1.5">
+        <TableRow>
+          {fieldsValues.map((item, i) => {
+            return (
+              <TableCell key={i}>
+                <span className="text-xs flex justify-center items-center h-6 text-rd min-w-full">
+                  {item?.hours}
+                </span>
                 <NumericInput
                   fieldName={`report.cashVerify.${i}.value`}
-                  className="text-center h-6"
+                  className="text-center h-8"
                   disabled={disabled}
                 />
               </TableCell>
-
-              <TableCell className="text-xs text-center py-0 text-rd">
-                {left?.hours}
-              </TableCell>
-
-              <TableCell className="py-1">
-                <NumericInput
-                  fieldName={`report.cashVerify.${i + rows}.value`}
-                  className=" text-center h-6"
-                  disabled={disabled}
-                />
-              </TableCell>
-
-              <TableCell className="text-xs text-center py-0 text-rd">
-                {right?.hours}
-              </TableCell>
-            </TableRow>
-          );
-        })}
+            );
+          })}
+        </TableRow>
       </TableBody>
     </Table>
   );

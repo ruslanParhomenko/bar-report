@@ -9,7 +9,7 @@ export default function BreakTable({
   isDisabled: boolean;
 }) {
   return (
-    <Table className="md:table-fixed">
+    <Table className="md:table-fixed my-4">
       <BreakTableHeader />
       <BreakTableBody employeesName={employeesName} isDisabled={isDisabled} />
     </Table>

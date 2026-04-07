@@ -1,4 +1,4 @@
-export const BAR_NAV_ITEMS = ["report", "tips"];
+export const BAR_NAV_ITEMS = ["break", "report", "tips"];
 
 export const ARCHIVE_NAV_ITEMS = [
   "bar",

@@ -48,16 +48,16 @@ export default function CashPage({
     try {
       await saveCashForm(data, year, month);
       toast.success("Форма сохранена успешно!");
-      if (isAdmin) {
-        await sendNotificationEmail({
-          text: `${(data?.rowCashData?.tipsByDay as string[])?.join(",")}
-            ${(data?.rowCashData?.cashBarByDay as string[])?.join(",")}
-            ${(data?.rowCashData?.visaBarByDay as string[])?.join(",")}
-            ${(data?.rowCashData?.banquetBarByDay as string[])?.join(",")}
-           }
-         `,
-        });
-      }
+      // if (isAdmin) {
+      //   await sendNotificationEmail({
+      //     text: `${(data?.rowCashData?.tipsByDay as string[])?.join(",")}
+      //       ${(data?.rowCashData?.cashBarByDay as string[])?.join(",")}
+      //       ${(data?.rowCashData?.visaBarByDay as string[])?.join(",")}
+      //       ${(data?.rowCashData?.banquetBarByDay as string[])?.join(",")}
+      //      }
+      //    `,
+      //   });
+      // }
     } catch (error) {
       toast.error("Ошибка при сохранении формы!");
     }

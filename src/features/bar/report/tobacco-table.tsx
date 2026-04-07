@@ -41,31 +41,27 @@ export default function TableTobacco({
       <TableBody>
         {fields?.map((item, idx) => (
           <TableRow key={item.id}>
-            <TableCell className="px-2 py-2 font-medium">
-              {values[idx].name}
-            </TableCell>
-            <TableCell className="py-0">
+            <TableCell className="font-medium">{values[idx].name}</TableCell>
+            <TableCell>
               <NumericInput
                 fieldName={`report.tobacco.${idx}.stock`}
-                className="h-6 border-0! shadow-none p-0"
+                className="border-0! shadow-none"
                 disabled
               />
             </TableCell>
-            <TableCell className="py-0">
+            <TableCell>
               <NumericInput
                 fieldName={`report.tobacco.${idx}.incoming`}
-                className="h-7 p-0"
                 disabled={disabled}
               />
             </TableCell>
-            <TableCell className="py-0">
+            <TableCell>
               <NumericInput
                 fieldName={`report.tobacco.${idx}.outgoing`}
-                className="h-7 p-0"
                 disabled={disabled}
               />
             </TableCell>
-            <TableCell className="py-0 text-center">
+            <TableCell className="text-center">
               {(
                 Number(values[idx].stock ?? 0) +
                 Number(values[idx].incoming ?? 0) -

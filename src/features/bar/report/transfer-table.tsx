@@ -1,3 +1,4 @@
+"use client";
 import {
   Table,
   TableBody,
@@ -78,16 +79,16 @@ export default function TableProductsTransfer({
       <TableBody>
         {fields?.map((item, idx) => (
           <TableRow key={item.id}>
-            <TableCell className="py-1.5">
+            <TableCell>
               <SelectFieldWithSearch
                 data={PRODUCTS}
                 fieldName={`report.productTransfer.${idx}.name`}
-                className="h-6 w-full text-center text-sm! border-0 shadow-none"
+                className="h-8 w-full text-center text-sm! border-0 shadow-none"
                 disabled={disabled}
                 placeHolder="...."
               />
             </TableCell>
-            <TableCell className="py-0">
+            <TableCell>
               <SelectField
                 fieldName={`report.productTransfer.${idx}.destination`}
                 data={WAREHOUSES}
@@ -96,22 +97,22 @@ export default function TableProductsTransfer({
                 placeHolder="...."
               />
             </TableCell>
-            <TableCell className="py-0">
+            <TableCell>
               <NumericInput
                 fieldName={`report.productTransfer.${idx}.quantity`}
-                className="w-8 text-center h-7! text-xs!"
+                className="w-8 text-center"
                 disabled={disabled}
               />
             </TableCell>
-            <TableCell className="text-xs text-rd py-0">
+            <TableCell className="text-xs text-rd">
               {fieldsValues?.[idx]?.time}
             </TableCell>
             <TableCell
               onClick={() => !disabled && reset(idx)}
-              className="cursor-pointer p-0"
+              className="cursor-pointer"
             >
               {fieldsValues?.[idx]?.name && (
-                <Trash2Icon className="w-4 h-4  text-rd" />
+                <Trash2Icon className="w-4 h-4 text-rd" />
               )}
             </TableCell>
           </TableRow>

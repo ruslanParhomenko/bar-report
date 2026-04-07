@@ -11,7 +11,7 @@ export const productTransferSchema = z.object({
 
 export type ProductTransferSchemaType = z.infer<typeof productTransferSchema>;
 
-export const productTransferDefault = Array.from({ length: 6 }, () => ({
+export const productTransferDefault = Array.from({ length: 7 }, () => ({
   name: "",
   quantity: "",
   destination: "",
@@ -42,7 +42,7 @@ export const expenseSchema = z.object({
 
 export type ExpensesSchemaType = z.infer<typeof expenseSchema>;
 
-export const expensesDefault = Array.from({ length: 6 }, () => ({
+export const expensesDefault = Array.from({ length: 7 }, () => ({
   name: "",
   sum: "",
   time: "",

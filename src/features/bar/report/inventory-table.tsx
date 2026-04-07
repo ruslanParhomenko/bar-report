@@ -46,10 +46,10 @@ export function TableInventory({ disabled = false }: { disabled?: boolean }) {
   return (
     <Table className="md:table-fixed">
       <TableHeader>
-        <TableRow className="h-10">
+        <TableRow>
           <TableHead className="md:w-30 font-bold text-bl">
             Inventory
-            <span className="text-red-600 text-xs px-2">(к концу дня)</span>
+            <span className="text-red-600 text-xs">(к концу дня)</span>
           </TableHead>
           <TableHead className="w-10" />
           <TableHead className="w-11" />
@@ -59,27 +59,26 @@ export function TableInventory({ disabled = false }: { disabled?: boolean }) {
       <TableBody>
         {fieldsValues?.map((_, idx) => (
           <TableRow key={idx}>
-            <TableCell className="py-1.5 font-medium">
+            <TableCell className="font-medium">
               <input
                 {...register(`report.inventory.${idx}.name`)}
                 disabled
-                className="h-6 w-full"
+                className="w-full"
               />
             </TableCell>
-            <TableCell className="py-0">
+            <TableCell>
               <NumericInput
                 fieldName={`report.inventory.${idx}.quantity`}
-                className="w-8! text-center h-7!"
                 disabled={disabled}
               />
             </TableCell>
-            <TableCell className="text-xs text-rd py-0">
+            <TableCell className="text-xs text-rd">
               {fieldsValues?.[idx]?.time}
             </TableCell>
 
             <TableCell
               onClick={() => !disabled && reset(idx)}
-              className="cursor-pointer py-0"
+              className="cursor-pointer"
             >
               {fieldsValues?.[idx]?.quantity && (
                 <Trash2Icon className="w-4 h-4 text-rd" />
