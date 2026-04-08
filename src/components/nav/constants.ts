@@ -26,13 +26,7 @@ export const RESULT_NAV_ITEMS = ["barmen", "waiters", "cucina", "dish"];
 
 export const TTN_NAV_ITEMS = ["month", "day", "year"];
 
-export const EMPLOYEES_NAV_ITEMS = [
-  "employees",
-  "vacation",
-  "create-employee",
-  "users",
-  "create-user",
-];
+export const EMPLOYEES_NAV_ITEMS = ["employees", "vacation", "users"];
 
 export const STOP_LIST_NAV_ITEMS = ["bar", "cucina"];
 

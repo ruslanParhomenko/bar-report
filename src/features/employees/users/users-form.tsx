@@ -71,7 +71,7 @@ export default function UsersForm({ id }: { id?: string }) {
       onSubmit={handleSubmit}
       className="md:w-1/2 px-1"
       resetButton={id ? false : true}
-      returnButton={id ? true : false}
+      returnButton={true}
       url={returnUrl}
       disabled={!isAdmin}
       onError={(e) => console.log(e)}

@@ -122,7 +122,7 @@ export default function TipsAddForm({
             <div
               key={opt.id}
               className={cn(
-                "flex md:gap-6 items-center w-full justify-around",
+                "flex md:gap-6  items-center w-full justify-center",
                 focusedIndex === index && "text-green-600",
                 numericValue && "text-red-600!",
               )}
@@ -150,25 +150,25 @@ export default function TipsAddForm({
                     [index]: val,
                   }))
                 }
-                className={cn("w-12", !numericValue && "bg-border")}
+                className={cn("w-12 h-7", !numericValue && "bg-border")}
                 onFocus={() => setFocusedIndex(index)}
               />
 
               <SelectInput
                 fieldName={`tipsAdd.${index}.typeAmount`}
-                className="w-14"
+                className="w-14 justify-center"
                 options={TYPE_AMOUNT}
               />
 
               <TextInput
                 fieldName={`tipsAdd.${index}.employeeName`}
-                className="md:w-30 border-0 shadow-none font-bold"
+                className="w-38 border-0 shadow-none font-bold pb-0 text-black"
                 disabled
               />
 
               <TextInput
                 fieldName={`tipsAdd.${index}.shift`}
-                className="w-22 border-0 shadow-none font-bold"
+                className="w-20 border-0 shadow-none font-bold pb-0!"
                 disabled
               />
             </div>
@@ -180,11 +180,9 @@ export default function TipsAddForm({
         {allAmounts.map((item: any, i: number) => (
           <div
             key={i}
-            className="grid grid-cols-5 text-xs justify-around w-full"
+            className="grid grid-cols-5 text-xs justify-between w-full [&>span]:text-center"
           >
-            <span className="font-medium w-32">
-              {item.employeeName.split(" ")[1]}
-            </span>
+            <span>{item.employeeName.split(" ")[1]}</span>
             <span>{item.shift}</span>
             <span>{!disabled ? item.value : "***"}</span>
             <span>{!disabled ? item.typeAmount : "***"}</span>

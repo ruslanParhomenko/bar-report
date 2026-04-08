@@ -67,7 +67,7 @@ export function EmployeeForm({ id }: { id?: string }) {
       onSubmit={handleSubmit}
       className={cn("flex flex-col md:px-4 h-[90vh]")}
       resetButton={id ? false : true}
-      returnButton={id ? true : false}
+      returnButton={true}
       url={returUrl}
       disabled={isDisabled}
     >

@@ -76,8 +76,6 @@ export default function BarForm({
     control: control,
   });
 
-  console.log("values", values);
-
   const tipsArrayByEmployee = useFieldArray({
     control: control,
     name: "tipsAdd",

@@ -72,7 +72,7 @@ export const SIDEBAR_NAVIGATION = [
     title: ARCHIVE_MAIN_ROUTE,
     url: ARCHIVE_MAIN_ROUTE,
     icon: Archive,
-    setAcces: ["ADMIN", "USER"],
+    setAcces: ["ADMIN", "USER", "BAR", "CUCINA"],
   },
 
   {

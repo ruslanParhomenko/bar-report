@@ -12,15 +12,29 @@ import { cn } from "@/lib/utils";
 import { EmployeesContextValue } from "@/providers/employees-provider";
 import ActionButtonEmployee from "./employee-actions";
 import { handleCopy } from "@/utils/handler-copy-text";
-import { CheckCircle, UserX, XCircle } from "lucide-react";
+import {
+  CheckCircle,
+  Folder,
+  FolderPenIcon,
+  FolderPlus,
+  PlusCircle,
+  PlusCircleIcon,
+  PlusSquareIcon,
+  UserX,
+  XCircle,
+} from "lucide-react";
 import { useAbility } from "@/providers/ability-provider";
 import { useRef, useState } from "react";
 import { formatShortDate } from "@/utils/format-date";
 import PrintButton from "@/components/buttons/print-button";
 import SelectOptions from "@/components/select/select-options";
 import { EMPLOYEES_ROLE } from "./constants";
+import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 export function EmployeesTable({ data }: { data: EmployeesContextValue[] }) {
+  const router = useRouter();
+
   const [role, setRole] = useState("waiters");
 
   const { isAdmin, isManager } = useAbility();
@@ -56,7 +70,16 @@ export function EmployeesTable({ data }: { data: EmployeesContextValue[] }) {
             <TableHead className="w-15 truncate print:w-5">form</TableHead>
             <TableHead className="w-15 truncate">key</TableHead>
             <TableHead className="text-center w-25">
-              <PrintButton componentRef={componentRef} className="" />
+              <div className="flex justify-center gap-6">
+                <PrintButton componentRef={componentRef} className="" />
+                <button
+                  type={"button"}
+                  onClick={() => router.push("/create-employees")}
+                  className="cursor-pointer"
+                >
+                  <FolderPlus className="w-5 h-5 text-bl" />
+                </button>
+              </div>
             </TableHead>
           </TableRow>
         </TableHeader>

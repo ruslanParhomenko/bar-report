@@ -2,13 +2,19 @@
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { UserData } from "@/app/actions/users/user-action";
 import UsersActions from "./users-action";
-import { CheckCircle, UserX } from "lucide-react";
+import { CheckCircle, Folder, FolderPlus, UserX } from "lucide-react";
 import { updateUser } from "@/app/actions/users/user-action";
 import { useState } from "react";
 import { Switch } from "@/components/ui/switch";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { useRouter } from "next/navigation";
 
 export default function UsersTable({ users }: { users: UserData[] }) {
+  const router = useRouter();
+
   const [localUsers, setLocalUsers] = useState(users);
+
+  const isMobile = useIsMobile();
 
   const handleStatusChange = async (id: string, newStatus: boolean) => {
     setLocalUsers((prev) =>
@@ -29,29 +35,40 @@ export default function UsersTable({ users }: { users: UserData[] }) {
   };
 
   return (
-    <Table className="table-fixed">
+    <Table>
       <TableBody>
+        <TableRow>
+          <TableCell colSpan={6}>
+            <button onClick={() => router.push("/create-users")}>
+              <FolderPlus className="w-5 h-5 text-bl" />
+            </button>
+          </TableCell>
+        </TableRow>
         {localUsers?.map((user, idx) => (
           <TableRow key={user.id}>
-            <TableCell className="w-8">{idx + 1}</TableCell>
-            <TableCell className="truncate w-50 md:w-80">{user.mail}</TableCell>
-            <TableCell>{user.role}</TableCell>
-            <TableCell className="font-medium">{user.name}</TableCell>
-            <TableCell className="flex items-center gap-2">
-              {user.status ? (
-                <CheckCircle className="w-4 h-4 text-bl" />
-              ) : (
-                <UserX className="w-4 h-4 text-rd" />
-              )}
-
-              <Switch
-                checked={user.status}
-                onCheckedChange={(checked) =>
-                  user.id && handleStatusChange(user.id, checked)
-                }
-              />
+            <TableCell className="w-4">{idx + 1}</TableCell>
+            <TableCell className="truncate w-10 md:w-80">{user.mail}</TableCell>
+            <TableCell className="md:w-20 w-6">
+              {isMobile ? user.role[0] : user.role}
             </TableCell>
-            <TableCell className="w-20 px-2">
+            <TableCell className="font-medium w-20">{user.name}</TableCell>
+            <TableCell className="w-20">
+              <div className="flex items-center gap-12">
+                {user.status ? (
+                  <CheckCircle className="w-4 h-4 text-bl" />
+                ) : (
+                  <UserX className="w-4 h-4 text-rd" />
+                )}
+
+                <Switch
+                  checked={user.status}
+                  onCheckedChange={(checked) =>
+                    user.id && handleStatusChange(user.id, checked)
+                  }
+                />
+              </div>
+            </TableCell>
+            <TableCell className="w-8 px-4">
               <UsersActions id={user.id as string} />
             </TableCell>
           </TableRow>
