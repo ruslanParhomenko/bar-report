@@ -8,11 +8,14 @@ export const rowEmployeesTipsSchema = z.object({
   tipsByDay: z.array(tipsByDaySchema),
 });
 
+export const tipsCashByDaySchema = z.string().regex(/^\d*$/, "только цифры");
+
 export type RowEmployeesTipsType = z.infer<typeof rowEmployeesTipsSchema>;
 
 export const tipsSchema = z.object({
   id: z.string().optional(),
   rowEmployeesTips: z.array(rowEmployeesTipsSchema),
+  rowCashTips: z.array(tipsCashByDaySchema),
   waitersDishBid: z.string(),
   barmenDishBid: z.string(),
   dishDishBid: z.string(),
@@ -25,6 +28,7 @@ export type TipsFormType = z.infer<typeof tipsSchema>;
 
 export const defaultTipsForm: TipsFormType = {
   rowEmployeesTips: [],
+  rowCashTips: [],
   waitersDishBid: "0.03",
   barmenDishBid: "0.07",
   dishDishBid: "0.07",

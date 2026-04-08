@@ -1,4 +1,3 @@
-import { getCashFormById } from "@/app/actions/cash/cash-action";
 import { getTipsFormById } from "@/app/actions/tips/tips-action";
 import { InsufficientRights } from "@/components/wrapper/insufficient-rights";
 import { TIPS_MAIN_ROUTE } from "@/constants/endpoint-tag";
@@ -21,14 +20,11 @@ export default async function Page({
   if (!month || !year) return null;
   const uniqueKey = `${year}-${month}`;
 
-  const [dataTips, dataCash] = await Promise.all([
-    getTipsFormById(uniqueKey),
-    getCashFormById(uniqueKey),
-  ]);
+  const dataTips = await getTipsFormById(uniqueKey);
+
   return (
     <TipsForm
       dataTips={dataTips}
-      dataCash={dataCash}
       month={month as string}
       year={year as string}
     />

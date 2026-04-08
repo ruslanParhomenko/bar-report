@@ -8,24 +8,22 @@ import { toast } from "sonner";
 import { getMonthDays, MONTHS } from "@/utils/get-month-days";
 import { TipsTableFooter } from "./tips-footer-table";
 import { useEffect, useState } from "react";
-import { CashData } from "@/app/actions/cash/cash-action";
 import { useAbility } from "@/providers/ability-provider";
 import BidForm from "./bid-form";
 import { DayByMonthTable } from "@/components/table/day-by-month-table";
 import { zodResolver } from "@hookform/resolvers/zod";
 import FormInput from "@/components/wrapper/form";
 import { useEmployees } from "@/providers/employees-provider";
+import TipsCashBody from "./tips-cash-body";
 
 const SELECTED_ROLE = ["waiters", "barmen"] as const;
 
 export default function TipsForm({
   dataTips,
-  dataCash,
   month,
   year,
 }: {
   dataTips: TipsData | null;
-  dataCash: CashData | null;
   month: string;
   year: string;
 }) {
@@ -117,11 +115,9 @@ export default function TipsForm({
             append={append}
             selectedEmployees={employees}
           />
-          <TipsTableFooter
-            monthDays={monthDays}
-            form={form}
-            cashTips={dataCash?.form_data?.rowCashData?.tipsByDay as string[]}
-          />
+          <TipsCashBody monthDays={monthDays} />
+
+          <TipsTableFooter monthDays={monthDays} form={form} />
         </Table>
       )}
     </FormInput>

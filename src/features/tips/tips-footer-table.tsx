@@ -7,11 +7,9 @@ import { calculateTipsTotal } from "./utils";
 export function TipsTableFooter({
   monthDays,
   form,
-  cashTips,
 }: {
   monthDays: { day: number; weekday: string }[];
   form: UseFormReturn<any>;
-  cashTips: string[];
 }) {
   if (!monthDays) return null;
 
@@ -19,10 +17,18 @@ export function TipsTableFooter({
     control: form.control,
     name: "rowEmployeesTips",
   });
+  const cashValue = useWatch({
+    control: form.control,
+    name: "rowCashTips",
+  });
+
+  console.log("value", cashValue);
 
   const { totalAll: totalTips } = calculateTipsTotal(value);
-  const totalCash =
-    cashTips?.reduce((acc, val) => acc + Number(val || 0), 0) || 0;
+  const totalCash = cashValue?.reduce(
+    (acc: number, val: string) => acc + Number(val || 0),
+    0,
+  );
 
   return (
     <TableFooter>
@@ -45,7 +51,7 @@ export function TipsTableFooter({
             return acc + Number(tip || 0);
           }, 0);
 
-          const cashForDay = Number(cashTips?.[dayIndex]) || 0;
+          const cashForDay = Number(cashValue?.[dayIndex]) || 0;
           const differenceNum = cashForDay - sumTipsForDay;
 
           return (
@@ -54,7 +60,7 @@ export function TipsTableFooter({
                 <Label className="text-center text-xs text-bl">
                   {sumTipsForDay}
                 </Label>
-                <Label className="text-xs">{cashTips?.[dayIndex]}</Label>
+                <Label className="text-xs">{cashValue?.[dayIndex]}</Label>
                 <Label
                   className={cn(
                     "text-center text-xs text-muted-foreground",

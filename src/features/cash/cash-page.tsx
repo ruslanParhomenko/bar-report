@@ -5,7 +5,7 @@ import { cashFormSchema, defaultCashForm } from "./schema";
 import type { CashForm } from "./schema";
 import { CashData, saveCashForm } from "@/app/actions/cash/cash-action";
 import { toast } from "sonner";
-import { sendNotificationEmail } from "@/app/actions/mail/email-action";
+
 import { useAbility } from "@/providers/ability-provider";
 import { CashFooterTable } from "./cash-footer-table";
 import { useEffect, useState } from "react";
@@ -16,7 +16,7 @@ import { AOContextValue } from "@/app/actions/a-o/ao-action";
 import { zodResolver } from "@hookform/resolvers/zod";
 import CashInfo from "./cash-info";
 import { RowRender } from "@/components/table/row-render";
-import { rowCashBar, rowsCashCasino } from "./constants";
+import { rowCashBar } from "./constants";
 import FormInput from "@/components/wrapper/form";
 import { ValueParams } from "@/types/params";
 
@@ -64,9 +64,6 @@ export default function CashPage({
   };
 
   const initialRowData = {
-    ...Object.fromEntries(
-      rowsCashCasino.map((row) => [row.key, Array(monthDays.length).fill("")]),
-    ),
     ...Object.fromEntries(
       rowCashBar.map((row) => [row.key, Array(monthDays.length).fill("")]),
     ),
@@ -119,14 +116,6 @@ export default function CashPage({
           monthDays={monthDays}
           infoCell={true}
           navCell={true}
-        />
-        <RowRender<CashForm, "rowCashData">
-          nameField="rowCashData"
-          nameLabel="CASH"
-          arrayRows={rowsCashCasino}
-          form={form}
-          monthDays={monthDays}
-          withTotalFooter={false}
         />
 
         <RowRender<CashForm, "rowCashData">

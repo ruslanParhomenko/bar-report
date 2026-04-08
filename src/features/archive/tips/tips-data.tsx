@@ -84,6 +84,31 @@ export default function TipsData({ data }: { data: TipsAddData[] | null }) {
 
             return acc + empTotal;
           }, 0);
+        const totalAmountBarmen = employees
+          .filter((emp) => emp.role === "barmen")
+          .reduce((acc: number, emp) => {
+            const empTotal = (emp.amount || []).reduce(
+              (
+                sum: number,
+                amount: {
+                  time: string;
+                  typeAmount: string;
+                  value: string;
+                },
+              ) => {
+                if (amount.typeAmount === "mdl") {
+                  return sum + Number(amount.value);
+                }
+                if (amount.typeAmount === "chips") {
+                  return sum + Number(amount.value) * currencyDay;
+                }
+                return sum;
+              },
+              0,
+            );
+
+            return acc + empTotal;
+          }, 0);
 
         const portionTips = Number(
           (totalAmountWaiters / numWaiters).toFixed(0),
@@ -95,11 +120,16 @@ export default function TipsData({ data }: { data: TipsAddData[] | null }) {
             className="bg-background! shadow-none m-2 cursor-pointer"
             onClick={() => toggle(index)}
           >
-            <CardTitle className="text-xs p-4">day: {dayItem.day}</CardTitle>
+            <CardTitle className="text-xs p-4">
+              day: {dayItem.day} :
+              <span className="text-bl px-2">
+                {(totalAmountWaiters + totalAmountBarmen).toFixed(0)}
+              </span>
+            </CardTitle>
 
             {isOpen && (
               <CardContent>
-                <Table className="table-fixed">
+                <Table className="md:table-fixed">
                   <TableBody>
                     {employees.map((emp: TipsAddFormValues, i: number) => {
                       const personalTotal = emp.amount.reduce(
@@ -133,7 +163,7 @@ export default function TipsData({ data }: { data: TipsAddData[] | null }) {
                           </TableCell>
                           <TableCell
                             className={cn(
-                              "align-center w-30 sticky left-0 z-10",
+                              "w-36 sticky left-0 z-10 bg-background md:bg-transparent",
                               emp.role === "barmen" && "text-bl",
                             )}
                           >
@@ -142,10 +172,18 @@ export default function TipsData({ data }: { data: TipsAddData[] | null }) {
                           <TableCell
                             className={cn(
                               emp.role === "barmen" && "text-bl",
-                              "text-xs",
+                              "text-xs w-12",
                             )}
                           >
-                            {emp.shift} : ({personalTotal.toFixed(0)})
+                            {emp.shift}
+                          </TableCell>
+                          <TableCell
+                            className={cn(
+                              emp.role === "barmen" && "text-bl",
+                              "text-xs w-12 text-muted-foreground",
+                            )}
+                          >
+                            {personalTotal.toFixed(0)}
                           </TableCell>
                           {emp.amount.map((a, i) => (
                             <TableCell key={i}>

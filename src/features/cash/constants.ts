@@ -1,26 +1,5 @@
 import { ArrayRow } from "@/components/table/row-render";
 
-export const rowsCashCasino = [
-  {
-    key: "tipsByDay",
-    label: "tips",
-    colorText: " text-bl",
-    type: "input",
-  },
-  {
-    key: "chipsByDay",
-    label: "f 1:18",
-    colorText: " text-black",
-    type: "input",
-  },
-  {
-    key: "visaCasinoByDay",
-    label: "visa-c",
-    colorText: " text-black",
-    type: "input",
-  },
-] satisfies ArrayRow[];
-
 export const rowCashBar = [
   {
     key: "cashBarByDay",

@@ -79,7 +79,7 @@ export const SIDEBAR_NAVIGATION = [
     title: TIPS_MAIN_ROUTE,
     url: TIPS_MAIN_ROUTE,
     icon: DollarSign,
-    setAcces: ["ADMIN", "USER"],
+    setAcces: ["ADMIN"],
   },
   {
     title: CASH_MAIN_ROUTE,
