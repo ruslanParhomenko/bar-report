@@ -2,7 +2,6 @@
 
 import { useFormContext, useWatch } from "react-hook-form";
 import NumericInput from "@/components/inputs-form/numeric-input";
-
 import TextInput from "@/components/inputs-form/text-input";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState, useMemo } from "react";
@@ -22,6 +21,8 @@ export default function TipsAddForm({
   disabled: boolean;
 }) {
   const { getValues, setValue } = useFormContext();
+
+  const [tempValues, setTempValues] = useState<Record<number, string>>({});
   const [focusedIndex, setFocusedIndex] = useState<number | null>(null);
 
   const tipsValues =
@@ -48,7 +49,7 @@ export default function TipsAddForm({
         })),
       );
     }
-  }, [options]);
+  }, [options, tipsArrayByEmployee, tipsValues]);
 
   const tipsMap = useMemo(() => {
     const map = new Map();
@@ -59,8 +60,9 @@ export default function TipsAddForm({
   }, [tipsValues]);
 
   const handleAddAmount = (index: number) => {
-    const value = getValues(`tipsAdd.${index}.tempValue`);
+    const value = tempValues[index];
     const typeAmount = getValues(`tipsAdd.${index}.typeAmount`);
+
     if (!value) return;
 
     const currentAmount = getValues(`tipsAdd.${index}.amount`) || [];
@@ -73,8 +75,11 @@ export default function TipsAddForm({
 
     const newItem = { value, time, typeAmount };
 
-    setValue(`tipsAdd.${index}.amount`, [...currentAmount, newItem]);
-    setValue(`tipsAdd.${index}.tempValue`, "");
+    setValue(`tipsAdd.${index}.amount`, [...currentAmount, newItem], {
+      shouldDirty: true,
+    });
+
+    setTempValues((prev) => ({ ...prev, [index]: "" }));
   };
 
   useEffect(() => {
@@ -85,6 +90,7 @@ export default function TipsAddForm({
       }
     });
   }, [tipsValues]);
+
   const allAmounts =
     tipsValues
       ?.flatMap((emp: any) =>
@@ -103,14 +109,13 @@ export default function TipsAddForm({
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 md:gap-8 w-full h-full md:p-8">
       <div className="flex flex-col gap-8 w-full">
-        {options.map((opt: any, _visualIndex: number) => {
+        {options.map((opt: any) => {
           const tip = tipsMap.get(opt.id);
-
           if (!tip) return null;
 
           const index = tip.index;
 
-          const numericValue = getValues(`tipsAdd.${index}.tempValue`);
+          const numericValue = tempValues[index] || "";
           const typeAmount = getValues(`tipsAdd.${index}.typeAmount`);
 
           return (
@@ -138,7 +143,13 @@ export default function TipsAddForm({
               </Button>
 
               <NumericInput
-                fieldName={`tipsAdd.${index}.tempValue`}
+                value={numericValue}
+                onChange={(val: string) =>
+                  setTempValues((prev) => ({
+                    ...prev,
+                    [index]: val,
+                  }))
+                }
                 className={cn("w-12", !numericValue && "bg-border")}
                 onFocus={() => setFocusedIndex(index)}
               />
@@ -165,7 +176,7 @@ export default function TipsAddForm({
         })}
       </div>
 
-      <div className="flex flex-col  gap-2 w-full overflow-auto max-h-[80vh]">
+      <div className="flex flex-col gap-2 w-full overflow-auto max-h-[80vh]">
         {allAmounts.map((item: any, i: number) => (
           <div
             key={i}

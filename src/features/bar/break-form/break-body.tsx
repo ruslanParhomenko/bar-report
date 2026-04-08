@@ -96,7 +96,10 @@ export default function BreakTableBody({
               <TableCell
                 className="p-0 cursor-pointer"
                 onClick={() =>
-                  !isDisabled && setValue(`breakForm.rows.${rowIndex}.name`, "")
+                  !isDisabled &&
+                  setValue(`breakForm.rows.${rowIndex}.name`, "", {
+                    shouldDirty: true,
+                  })
                 }
               >
                 <Trash2 className="w-3 h-3 text-rd" />
