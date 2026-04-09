@@ -46,6 +46,15 @@ export const SETTINGS_NAV_ITEMS = [
 
 export const CASH_NAV_ITEMS = ["cash-month", "cash-year"];
 
+export const ALGORITHM_NAV_ITEMS = [
+  "tips",
+  "cash",
+  "shifts",
+  "vip",
+  "algorithm",
+  "workflow",
+];
+
 export type NAV_BY_PATCH_TYPE = Record<
   string,
   {
@@ -70,6 +79,7 @@ export const NAV_BY_PATCH = {
   orders: { tabs: ORDERS_NAV_ITEMS, selectDate: false },
   setting: { tabs: SETTINGS_NAV_ITEMS, selectDate: false },
   "fin-cash": { tabs: [], selectDate: true },
+  algorithm: { tabs: ALGORITHM_NAV_ITEMS, selectDate: false },
 } satisfies NAV_BY_PATCH_TYPE;
 
 export const REFRESH_NAV_ITEMS = {

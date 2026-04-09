@@ -108,7 +108,7 @@ export async function realtimeReportBar(data: BarFormValues) {
   updateTag(BAR_REALTIME_ACTION_TAG);
 }
 
-export async function _getRealtimeReportBar() {
+export async function _getRealtimeReportBar(): Promise<BarFormValues | null> {
   const docRef = dbAdmin
     .collection(BAR_REALTIME_ACTION_TAG)
     .doc(BAR_REALTIME_ACTION_TAG);

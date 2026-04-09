@@ -14,6 +14,7 @@ import {
   OrderProductsContextValue,
   OrderProductsProvider,
 } from "@/providers/order-products-provider";
+import { SidebarToggleButton } from "@/components/sidebar/sidebar-toggle";
 
 const NavPage = async ({
   children,
@@ -33,6 +34,7 @@ const NavPage = async ({
           orderProducts={ordersProducts as OrderProductsContextValue}
         >
           <SidebarProvider>
+            <SidebarToggleButton />
             <SidebarNav />
             <div className="flex flex-col h-screen w-screen overflow-y-auto px-1">
               <NavTabs />

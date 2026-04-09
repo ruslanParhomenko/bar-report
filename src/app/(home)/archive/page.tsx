@@ -5,20 +5,16 @@ import { getReportCucinaByUniqueKey } from "@/app/actions/report-cucina/report-c
 import { getTipsAddByUniqueKey } from "@/app/actions/tips-add/tips-add-actions";
 import { InsufficientRights } from "@/components/wrapper/insufficient-rights";
 import { ARCHIVE_MAIN_ROUTE } from "@/constants/endpoint-tag";
-import { SIDEBAR_NAVIGATION } from "@/constants/sidebar-nav";
+
 import ArchivePage, { ArchiveData } from "@/features/archive/archive-page";
 import { checkAccess } from "@/lib/check-access";
-
-const SET_ACCESS =
-  SIDEBAR_NAVIGATION.find((item) => item.title === ARCHIVE_MAIN_ROUTE)
-    ?.setAcces || [];
 
 export default async function Page({
   searchParams,
 }: {
   searchParams: Promise<{ [key: string]: string | undefined }>;
 }) {
-  const hasAccess = await checkAccess(SET_ACCESS);
+  const hasAccess = await checkAccess(ARCHIVE_MAIN_ROUTE);
   if (!hasAccess) return <InsufficientRights />;
 
   const { month, year } = await searchParams;
@@ -28,11 +24,11 @@ export default async function Page({
 
   const [dataReportBar, dataBreak, dataReportCucina, dataRemarks, tipsAdd] =
     await Promise.all([
-      await getReportByUniqueKey(uniqueKey),
-      await getBreakListByDate(uniqueKey),
-      await getReportCucinaByUniqueKey(uniqueKey),
-      await getRemarksByUniqueKey(uniqueKey),
-      await getTipsAddByUniqueKey(uniqueKey),
+      getReportByUniqueKey(uniqueKey),
+      getBreakListByDate(uniqueKey),
+      getReportCucinaByUniqueKey(uniqueKey),
+      getRemarksByUniqueKey(uniqueKey),
+      getTipsAddByUniqueKey(uniqueKey),
     ]);
   return (
     <ArchivePage

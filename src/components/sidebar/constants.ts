@@ -1,4 +1,5 @@
 import {
+  ALGORITHM_MAIN_ROUTE,
   AO_REPORT_MAIN_ROUTE,
   ARCHIVE_MAIN_ROUTE,
   CASH_MAIN_ROUTE,
@@ -28,6 +29,7 @@ import {
   FileTextIcon,
   Settings,
   ClipboardIcon,
+  CodeIcon,
 } from "lucide-react";
 
 export const SIDEBAR_NAVIGATION = [
@@ -42,6 +44,12 @@ export const SIDEBAR_NAVIGATION = [
     url: EMPLOYEES_MAIN_ROUTE,
     icon: PersonStandingIcon,
     setAcces: ["ADMIN", "USER"],
+  },
+  {
+    title: ALGORITHM_MAIN_ROUTE,
+    url: ALGORITHM_MAIN_ROUTE,
+    icon: CodeIcon,
+    setAcces: ["ADMIN", "BAR", "CUCINA", "USER"],
   },
   {
     title: REPORTS_BAR_ROUTE,

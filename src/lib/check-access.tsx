@@ -1,12 +1,19 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "./auth";
 import { redirect } from "next/navigation";
+import { SIDEBAR_NAVIGATION } from "@/components/sidebar/constants";
 
-export async function checkAccess(setAccess: string[]): Promise<boolean> {
+export async function checkAccess(mainRoute: string): Promise<boolean> {
   const session = await getServerSession(authOptions);
   if (!session) {
     redirect("/");
   }
 
-  return setAccess.includes(session.user.role as string);
+  const SET_ACCESS =
+    SIDEBAR_NAVIGATION.find((item) => item.title === mainRoute)?.setAcces || [];
+  const accessGranted =
+    session.user.role === "ADMIN" ||
+    SET_ACCESS.includes(session.user.role as string);
+
+  return accessGranted;
 }

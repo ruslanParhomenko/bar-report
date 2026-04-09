@@ -14,7 +14,7 @@ export async function createDataBreakList(data: BreakFormData) {
 
   updateTag(DATA_BREAK_ACTION_TAG);
 }
-export async function _getDataBreakList() {
+export async function _getDataBreakList(): Promise<BreakFormData | null> {
   const docRef = dbAdmin
     .collection(DATA_BREAK_ACTION_TAG)
     .doc(DATA_BREAK_ACTION_TAG);

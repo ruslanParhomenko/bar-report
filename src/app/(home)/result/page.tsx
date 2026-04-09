@@ -1,28 +1,19 @@
 import { getRemarksByUniqueKey } from "@/app/actions/remarks/remarks-action";
-import {
-  getScheduleByMonthYear,
-  SchedulesContextValue,
-} from "@/app/actions/schedule/schedule-action";
+import { getScheduleByMonthYear } from "@/app/actions/schedule/schedule-action";
 import { getTipsFormById } from "@/app/actions/tips/tips-action";
 import { InsufficientRights } from "@/components/wrapper/insufficient-rights";
 import { RESULT_MAIN_ROUTE } from "@/constants/endpoint-tag";
-import { SIDEBAR_NAVIGATION } from "@/constants/sidebar-nav";
 import { remarksByUniqueEmployee } from "@/features/archive/penalty-details/utils";
 import { PageResult } from "@/features/result/result-page";
 import { checkAccess } from "@/lib/check-access";
 import { MONTHS } from "@/utils/get-month-days";
-
-const SET_ACCESS =
-  SIDEBAR_NAVIGATION.find((item) => item.title === RESULT_MAIN_ROUTE)
-    ?.setAcces || [];
-
 export default async function Page({
   searchParams,
 }: {
   searchParams: Promise<{ [key: string]: string | undefined }>;
 }) {
   // access control
-  const hasAccess = await checkAccess(SET_ACCESS);
+  const hasAccess = await checkAccess(RESULT_MAIN_ROUTE);
   if (!hasAccess) return <InsufficientRights />;
 
   const { month, year } = await searchParams;
@@ -45,7 +36,7 @@ export default async function Page({
 
   return (
     <PageResult
-      dataSchedule={schedule as SchedulesContextValue[]}
+      dataSchedule={schedule}
       dataRemarks={
         remarksByEmployee as ReturnType<
           typeof remarksByUniqueEmployee

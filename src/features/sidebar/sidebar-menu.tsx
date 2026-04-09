@@ -1,15 +1,14 @@
 "use client";
+import { SIDEBAR_NAVIGATION } from "@/components/sidebar/constants";
 import {
   SidebarMenu,
   SidebarMenuButton,
   useSidebar,
 } from "@/components/ui/sidebar";
-
 import { Link, usePathname } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
-import { useTranslations } from "next-intl";
 import { useSession } from "next-auth/react";
-import { SIDEBAR_NAVIGATION } from "@/constants/sidebar-nav";
+import { useTranslations } from "next-intl";
 
 export default function SidebarMenuButtons() {
   const pathname = usePathname();

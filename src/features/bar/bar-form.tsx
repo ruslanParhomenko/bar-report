@@ -50,8 +50,8 @@ export default function BarForm({
   dataBreakList,
   currencyUSD,
 }: {
-  realtimeData: BarFormValues;
-  dataBreakList: BreakFormData;
+  realtimeData: BarFormValues | null;
+  dataBreakList: BreakFormData | null;
   currencyUSD: number | null;
 }) {
   const [tab] = useHashParam("tab");
@@ -173,14 +173,14 @@ export default function BarForm({
       date: new Date(),
       report: updatedData,
       penalty: defaultRemarksValue,
-      breakForm: defaultValuesBreak(dataBreakList.rows),
+      breakForm: defaultValuesBreak(dataBreakList?.rows ?? []),
       tipsAdd: [],
     });
     await realtimeReportBar({
       date: new Date(),
       report: updatedData,
       penalty: defaultRemarksValue,
-      breakForm: defaultValuesBreak(dataBreakList.rows),
+      breakForm: defaultValuesBreak(dataBreakList?.rows ?? []),
       tipsAdd: [],
     });
 
@@ -194,7 +194,7 @@ export default function BarForm({
       report: realtimeData.report ?? defaultValuesReportBar,
       penalty: realtimeData.penalty ?? defaultRemarksValue,
       breakForm:
-        realtimeData.breakForm ?? defaultValuesBreak(dataBreakList.rows),
+        realtimeData.breakForm ?? defaultValuesBreak(dataBreakList?.rows ?? []),
       tipsAdd: realtimeData.tipsAdd ?? [],
     });
   }, [realtimeData, form]);

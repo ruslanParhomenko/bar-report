@@ -143,91 +143,96 @@ export default function TipsAddForm({
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 md:gap-8 w-full h-full md:p-8">
-      <div className="flex flex-col gap-8 w-full">
-        {options.map((opt: any) => {
-          const tip = tipsMap.get(opt.id);
-          if (!tip) return null;
+    <>
+      <div className="w-full text-center text-xs text-muted-foreground">
+        {currency}
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 md:gap-8 w-full h-full md:p-8">
+        <div className="flex flex-col gap-8 w-full">
+          {options.map((opt: any) => {
+            const tip = tipsMap.get(opt.id);
+            if (!tip) return null;
 
-          const index = tip.index;
+            const index = tip.index;
 
-          const numericValue = tempValues[index] || "";
-          const typeAmount = getValues(`tipsAdd.${index}.typeAmount`);
+            const numericValue = tempValues[index] || "";
+            const typeAmount = getValues(`tipsAdd.${index}.typeAmount`);
 
-          const employeeTotal = getEmployeeTotal(tip);
+            const employeeTotal = getEmployeeTotal(tip);
 
-          return (
-            <div
-              key={opt.id}
-              className={cn(
-                "flex md:gap-6  items-center w-full justify-center",
-                focusedIndex === index && "text-green-600",
-                numericValue && "text-red-600!",
-              )}
-            >
-              <div className="text-xs text-muted-foreground w-12">
-                {maskValue(employeeTotal, !disabled)}
-              </div>
-              <TextInput
-                fieldName={`tipsAdd.${index}.employeeName`}
-                className="w-38 border-0 shadow-none font-bold pb-0 text-bl"
-                readonly
-              />
-
-              <TextInput
-                fieldName={`tipsAdd.${index}.shift`}
-                className="w-20 border-0 shadow-none font-bold pb-0!"
-                disabled
-              />
-              <SelectInput
-                fieldName={`tipsAdd.${index}.typeAmount`}
-                className="w-14 justify-center"
-                options={TYPE_AMOUNT}
-              />
-              <NumericInput
-                value={numericValue}
-                onChange={(val: string) =>
-                  setTempValues((prev) => ({
-                    ...prev,
-                    [index]: val,
-                  }))
-                }
-                className={cn("w-12 h-7", !numericValue && "bg-bl border-0")}
-                onFocus={() => setFocusedIndex(index)}
-              />
-              <Button
-                type="button"
-                variant="ghost"
-                onClick={() => handleAddAmount(index)}
+            return (
+              <div
+                key={opt.id}
                 className={cn(
-                  "h-8 w-10 cursor-pointer",
-                  numericValue && "bg-red-600 text-white",
+                  "flex md:gap-6  items-center w-full justify-center",
+                  focusedIndex === index && "text-green-600",
+                  numericValue && "text-red-600!",
                 )}
-                disabled={!numericValue || !typeAmount}
               >
-                {numericValue && typeAmount && (
-                  <PlusIcon className="font-bold" />
-                )}
-              </Button>
-            </div>
-          );
-        })}
-      </div>
+                <div className="text-xs text-muted-foreground w-12">
+                  {maskValue(employeeTotal, !disabled)}
+                </div>
+                <TextInput
+                  fieldName={`tipsAdd.${index}.employeeName`}
+                  className="w-38 border-0 shadow-none font-bold pb-0 text-bl"
+                  readonly
+                />
 
-      <div className="flex flex-col gap-2 w-full overflow-auto max-h-[80vh]">
-        {allAmounts.map((item: any, i: number) => (
-          <div
-            key={i}
-            className="grid grid-cols-5 text-xs justify-between w-full [&>span]:text-center"
-          >
-            <span>{item.employeeName.split(" ")[1]}</span>
-            <span>{item.shift}</span>
-            <span>{!disabled ? item.value : "***"}</span>
-            <span>{!disabled ? item.typeAmount : "***"}</span>
-            <span>{item.time}</span>
-          </div>
-        ))}
+                <TextInput
+                  fieldName={`tipsAdd.${index}.shift`}
+                  className="w-20 border-0 shadow-none font-bold pb-0!"
+                  disabled
+                />
+                <SelectInput
+                  fieldName={`tipsAdd.${index}.typeAmount`}
+                  className="w-14 justify-center"
+                  options={TYPE_AMOUNT}
+                />
+                <NumericInput
+                  value={numericValue}
+                  onChange={(val: string) =>
+                    setTempValues((prev) => ({
+                      ...prev,
+                      [index]: val,
+                    }))
+                  }
+                  className={cn("w-12 h-7", !numericValue && "bg-bl border-0")}
+                  onFocus={() => setFocusedIndex(index)}
+                />
+                <Button
+                  type="button"
+                  variant="ghost"
+                  onClick={() => handleAddAmount(index)}
+                  className={cn(
+                    "h-8 w-10 cursor-pointer",
+                    numericValue && "bg-red-600 text-white",
+                  )}
+                  disabled={!numericValue || !typeAmount}
+                >
+                  {numericValue && typeAmount && (
+                    <PlusIcon className="font-bold" />
+                  )}
+                </Button>
+              </div>
+            );
+          })}
+        </div>
+
+        <div className="flex flex-col gap-2 w-full overflow-auto max-h-[80vh]">
+          {allAmounts.map((item: any, i: number) => (
+            <div
+              key={i}
+              className="grid grid-cols-5 text-xs justify-between w-full [&>span]:text-center"
+            >
+              <span>{item.employeeName.split(" ")[1]}</span>
+              <span>{item.shift}</span>
+              <span>{!disabled ? item.value : "***"}</span>
+              <span>{!disabled ? item.typeAmount : "***"}</span>
+              <span>{item.time}</span>
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
+    </>
   );
 }
