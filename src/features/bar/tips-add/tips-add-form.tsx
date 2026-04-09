@@ -7,20 +7,45 @@ import { Button } from "@/components/ui/button";
 import { useEffect, useState, useMemo } from "react";
 import { PlusIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { createDefaultTipsAdd } from "./schema";
+import { createDefaultTipsAdd, TipsAddFormValues } from "./schema";
 import SelectInput from "@/components/select/select-input";
 import { TYPE_AMOUNT } from "./constants";
+import { useTipsCalculation } from "@/hooks/use-tips-calculation";
 
 export default function TipsAddForm({
   tipsArrayByEmployee,
   options,
   disabled,
+  currency,
 }: {
   tipsArrayByEmployee: any;
   options: any[];
   disabled: boolean;
+  currency: string;
 }) {
   const { getValues, setValue } = useFormContext();
+
+  const mergeEmployees = (
+    tipsAdd: TipsAddFormValues[],
+  ): TipsAddFormValues[] => {
+    const map = new Map();
+
+    tipsAdd.forEach((emp) => {
+      if (!map.has(emp.idEmployee)) {
+        map.set(emp.idEmployee, {
+          ...emp,
+          amount: [...(emp.amount || [])],
+        });
+      } else {
+        const existing = map.get(emp.idEmployee);
+        existing.amount.push(...(emp.amount || []));
+      }
+    });
+
+    return Array.from(map.values());
+  };
+
+  const employees = mergeEmployees(tipsArrayByEmployee.fields);
 
   const [tempValues, setTempValues] = useState<Record<number, string>>({});
   const [focusedIndex, setFocusedIndex] = useState<number | null>(null);
@@ -106,6 +131,17 @@ export default function TipsAddForm({
       )
       .reverse() ?? [];
 
+  const { getEmployeeTotal } = useTipsCalculation(employees, Number(currency));
+
+  const maskValue = (value: string | number, isAdmin: boolean) => {
+    const str = String(value);
+
+    if (isAdmin) return str;
+    if (str.length === 0) return "";
+
+    return str[0] + "*".repeat(str.length - 1);
+  };
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 md:gap-8 w-full h-full md:p-8">
       <div className="flex flex-col gap-8 w-full">
@@ -118,6 +154,8 @@ export default function TipsAddForm({
           const numericValue = tempValues[index] || "";
           const typeAmount = getValues(`tipsAdd.${index}.typeAmount`);
 
+          const employeeTotal = getEmployeeTotal(tip);
+
           return (
             <div
               key={opt.id}
@@ -127,21 +165,25 @@ export default function TipsAddForm({
                 numericValue && "text-red-600!",
               )}
             >
-              <Button
-                type="button"
-                variant="ghost"
-                onClick={() => handleAddAmount(index)}
-                className={cn(
-                  "h-8 w-10 cursor-pointer",
-                  numericValue && "bg-blue-600 text-white",
-                )}
-                disabled={!numericValue || !typeAmount}
-              >
-                {numericValue && typeAmount && (
-                  <PlusIcon className="font-bold" />
-                )}
-              </Button>
+              <div className="text-xs text-muted-foreground w-12">
+                {maskValue(employeeTotal, !disabled)}
+              </div>
+              <TextInput
+                fieldName={`tipsAdd.${index}.employeeName`}
+                className="w-38 border-0 shadow-none font-bold pb-0 text-bl"
+                readonly
+              />
 
+              <TextInput
+                fieldName={`tipsAdd.${index}.shift`}
+                className="w-20 border-0 shadow-none font-bold pb-0!"
+                disabled
+              />
+              <SelectInput
+                fieldName={`tipsAdd.${index}.typeAmount`}
+                className="w-14 justify-center"
+                options={TYPE_AMOUNT}
+              />
               <NumericInput
                 value={numericValue}
                 onChange={(val: string) =>
@@ -150,27 +192,23 @@ export default function TipsAddForm({
                     [index]: val,
                   }))
                 }
-                className={cn("w-12 h-7", !numericValue && "bg-border")}
+                className={cn("w-12 h-7", !numericValue && "bg-bl border-0")}
                 onFocus={() => setFocusedIndex(index)}
               />
-
-              <SelectInput
-                fieldName={`tipsAdd.${index}.typeAmount`}
-                className="w-14 justify-center"
-                options={TYPE_AMOUNT}
-              />
-
-              <TextInput
-                fieldName={`tipsAdd.${index}.employeeName`}
-                className="w-38 border-0 shadow-none font-bold pb-0 text-black"
-                disabled
-              />
-
-              <TextInput
-                fieldName={`tipsAdd.${index}.shift`}
-                className="w-20 border-0 shadow-none font-bold pb-0!"
-                disabled
-              />
+              <Button
+                type="button"
+                variant="ghost"
+                onClick={() => handleAddAmount(index)}
+                className={cn(
+                  "h-8 w-10 cursor-pointer",
+                  numericValue && "bg-red-600 text-white",
+                )}
+                disabled={!numericValue || !typeAmount}
+              >
+                {numericValue && typeAmount && (
+                  <PlusIcon className="font-bold" />
+                )}
+              </Button>
             </div>
           );
         })}

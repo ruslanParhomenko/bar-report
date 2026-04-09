@@ -1,3 +1,5 @@
+import { unstable_cache } from "next/cache";
+
 export type StandardKitchen = {
   name: string;
   timePlus: string;
@@ -52,19 +54,35 @@ const GOOGLE_SHEET_URL_SK =
 const GOOGLE_SHEET_URL_MENIU =
   "https://script.google.com/macros/s/AKfycbw1kJsdfkD3yGnoH30R8Pv3vp_-e6E6vhtTnq4Vx7sXP7WoROEK7BXXgKVyZK4Nq1C_Qg/exec";
 
-export async function getStandardKitchen(): Promise<StandardKitchen[]> {
-  const res = await fetch(GOOGLE_SHEET_URL_SK, {
-    next: { revalidate: 60 * 60 * 24 },
-    headers: { Accept: "application/json" },
-  });
-  if (!res.ok) throw new Error("Failed to fetch StandardKitchen");
-  return res.json();
-}
-export async function getMenu(): Promise<Menu> {
-  const res = await fetch(GOOGLE_SHEET_URL_MENIU, {
-    next: { revalidate: 60 * 60 * 24 }, // 1 раз в 24 часа
-    headers: { Accept: "application/json" },
-  });
-  if (!res.ok) throw new Error("Failed to fetch Menu");
-  return res.json();
-}
+export const getStandardKitchenCached = unstable_cache(
+  async (): Promise<StandardKitchen[]> => {
+    const res = await fetch(GOOGLE_SHEET_URL_SK, {
+      headers: { Accept: "application/json" },
+    });
+
+    if (!res.ok) throw new Error("Failed to fetch StandardKitchen");
+
+    return res.json();
+  },
+  ["standard-kitchen"],
+  {
+    revalidate: 60 * 60 * 24,
+    tags: ["standard-kitchen"],
+  },
+);
+export const getMenuCached = unstable_cache(
+  async (): Promise<Menu> => {
+    const res = await fetch(GOOGLE_SHEET_URL_MENIU, {
+      headers: { Accept: "application/json" },
+    });
+
+    if (!res.ok) throw new Error("Failed to fetch Menu");
+
+    return res.json();
+  },
+  ["menu"],
+  {
+    revalidate: 60 * 60 * 24,
+    tags: ["menu"],
+  },
+);

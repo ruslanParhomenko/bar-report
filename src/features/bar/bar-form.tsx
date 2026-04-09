@@ -236,6 +236,7 @@ export default function BarForm({
           tipsArrayByEmployee={tipsArrayByEmployee}
           options={filteredEmployees}
           disabled={!isAdmin}
+          currency={currencyUSD?.toString() ?? "0"}
         />
       </Activity>
     </FormInput>

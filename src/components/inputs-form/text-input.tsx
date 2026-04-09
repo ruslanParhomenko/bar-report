@@ -14,6 +14,7 @@ type TextInputProps = {
   className?: string;
   orientation?: "horizontal" | "vertical";
   disabled?: boolean;
+  readonly?: boolean;
 };
 
 function TextInput({
@@ -24,6 +25,7 @@ function TextInput({
   className,
   orientation = "vertical",
   disabled = false,
+  readonly = false,
 }: TextInputProps) {
   const { control } = useFormContext();
 
@@ -50,6 +52,7 @@ function TextInput({
                 type={type}
                 {...field}
                 disabled={disabled}
+                readOnly={readonly}
               />
             </FormControl>
 

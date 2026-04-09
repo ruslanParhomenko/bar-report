@@ -12,8 +12,8 @@ import { useHashParam } from "@/hooks/use-hash";
 
 type InfoPageProps = {
   data: {
-    standardKitchen: StandardKitchen[];
-    menu: Menu;
+    standardKitchen: StandardKitchen[] | null;
+    menu: Menu | null;
     stopList: StopListSchemaType | null;
   };
 };

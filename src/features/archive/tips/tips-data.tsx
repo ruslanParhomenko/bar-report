@@ -6,7 +6,7 @@ import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { TipsAddData } from "@/app/actions/tips-add/tips-add-actions";
 import { cn } from "@/lib/utils";
 import { TipsAddFormValues } from "@/features/bar/tips-add/schema";
-
+import { useTipsCalculation } from "@/hooks/use-tips-calculation";
 export default function TipsData({ data }: { data: TipsAddData[] | null }) {
   const [opened, setOpened] = useState<number[]>([]);
 
@@ -55,64 +55,8 @@ export default function TipsData({ data }: { data: TipsAddData[] | null }) {
 
         const employees = mergeEmployees(dayItem.tipsAdd);
 
-        const numWaiters = employees.filter(
-          (emp) => emp.role === "waiters",
-        ).length;
-
-        const totalAmountWaiters = employees
-          .filter((emp) => emp.role === "waiters")
-          .reduce((acc: number, emp) => {
-            const empTotal = (emp.amount || []).reduce(
-              (
-                sum: number,
-                amount: {
-                  time: string;
-                  typeAmount: string;
-                  value: string;
-                },
-              ) => {
-                if (amount.typeAmount === "mdl") {
-                  return sum + Number(amount.value);
-                }
-                if (amount.typeAmount === "chips") {
-                  return sum + Number(amount.value) * currencyDay;
-                }
-                return sum;
-              },
-              0,
-            );
-
-            return acc + empTotal;
-          }, 0);
-        const totalAmountBarmen = employees
-          .filter((emp) => emp.role === "barmen")
-          .reduce((acc: number, emp) => {
-            const empTotal = (emp.amount || []).reduce(
-              (
-                sum: number,
-                amount: {
-                  time: string;
-                  typeAmount: string;
-                  value: string;
-                },
-              ) => {
-                if (amount.typeAmount === "mdl") {
-                  return sum + Number(amount.value);
-                }
-                if (amount.typeAmount === "chips") {
-                  return sum + Number(amount.value) * currencyDay;
-                }
-                return sum;
-              },
-              0,
-            );
-
-            return acc + empTotal;
-          }, 0);
-
-        const portionTips = Number(
-          (totalAmountWaiters / numWaiters).toFixed(0),
-        );
+        const { totalTips, getEmployeeTotal, calcEmployeeTotal } =
+          useTipsCalculation(employees, currencyDay);
 
         return (
           <Card
@@ -122,9 +66,7 @@ export default function TipsData({ data }: { data: TipsAddData[] | null }) {
           >
             <CardTitle className="text-xs p-4">
               day: {dayItem.day} :
-              <span className="text-bl px-2">
-                {(totalAmountWaiters + totalAmountBarmen).toFixed(0)}
-              </span>
+              <span className="text-bl px-2">{totalTips.toFixed(0)}</span>
             </CardTitle>
 
             {isOpen && (
@@ -132,24 +74,7 @@ export default function TipsData({ data }: { data: TipsAddData[] | null }) {
                 <Table className="md:table-fixed">
                   <TableBody>
                     {employees.map((emp: TipsAddFormValues, i: number) => {
-                      const personalTotal = emp.amount.reduce(
-                        (
-                          acc: number,
-                          amount: {
-                            time: string;
-                            typeAmount: string;
-                            value: string;
-                          },
-                        ) => {
-                          if (amount.typeAmount === "mdl") {
-                            acc += Number(amount.value);
-                          } else if (amount.typeAmount === "chips") {
-                            acc += Number(amount.value) * currencyDay;
-                          }
-                          return acc;
-                        },
-                        0,
-                      );
+                      const personalTotal = calcEmployeeTotal(emp.amount);
                       return (
                         <TableRow
                           key={emp.idEmployee + "-time"}
@@ -157,9 +82,7 @@ export default function TipsData({ data }: { data: TipsAddData[] | null }) {
                         >
                           <TableCell className="w-5">{i + 1}</TableCell>
                           <TableCell className="text-green-600 font-bold w-12">
-                            {emp.role === "waiters"
-                              ? (personalTotal / 2 + portionTips).toFixed(0)
-                              : personalTotal.toFixed(0)}
+                            {getEmployeeTotal(emp).toFixed(0)}
                           </TableCell>
                           <TableCell
                             className={cn(

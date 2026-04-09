@@ -22,8 +22,6 @@ export function TipsTableFooter({
     name: "rowCashTips",
   });
 
-  console.log("value", cashValue);
-
   const { totalAll: totalTips } = calculateTipsTotal(value);
   const totalCash = cashValue?.reduce(
     (acc: number, val: string) => acc + Number(val || 0),
