@@ -4,7 +4,7 @@ import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 export default function StandardKitchenTable({
   data,
 }: {
-  data: StandardKitchen[];
+  data: StandardKitchen[] | null;
 }) {
   if (!data || data.length <= 1) return null;
 
