@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
-import { useEffect, useState, useTransition } from "react";
+import { use, useEffect, useState, useTransition } from "react";
 import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
 import {
   NAV_BY_PATCH,
@@ -14,12 +14,15 @@ import SelectOptions from "../select/select-options";
 import { useHashParam } from "@/hooks/use-hash";
 import { revalidateNav } from "@/app/actions/revalidate-tag/revalidate-teg";
 import { RefreshCcw } from "lucide-react";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 export default function NavTabs() {
   const [_value, setHash] = useHashParam("tab");
 
   const pathname = usePathname();
   const searchParams = useSearchParams();
+
+  const isMobile = useIsMobile();
 
   const defaultMonth =
     searchParams.get("month") || MONTHS[new Date().getMonth()];
@@ -92,13 +95,20 @@ export default function NavTabs() {
   };
 
   const tabsWidth = `w-1/${navItems.length}`;
-  const itemsWidth = navItems.length < 6 ? "w-22" : "w-10";
+  const itemsWidth = navItems.length < 6 ? "w-16" : "w-8";
+
+  const flexType = navItems.length < 4 ? "flex-row" : "flex-col";
 
   const selectClassName =
-    "md:w-24 w-16 h-7! md:border p-1 rounded-full text-bl md:text-md text-xs";
+    "md:w-24 w-10 h-8! md:border px-1 rounded-full text-bl md:text-md text-xs";
 
   return (
-    <div className="flex flex-col md:flex-row md:justify-between justify-center mt-2 mb-1 md:px-4 sticky top-2 gap-2">
+    <div
+      className={cn(
+        "flex md:flex-row md:justify-between justify-center my-1 md:px-4 sticky top-0 md:gap-2 gap-1",
+        flexType,
+      )}
+    >
       {navItems.length > 0 && (
         <Tabs
           value={defaultTab}
@@ -133,7 +143,7 @@ export default function NavTabs() {
         <button
           type="button"
           onClick={resetData}
-          className="cursor-pointer md:min-w-10"
+          className="cursor-pointer md:min-w-10 px-4"
         >
           <RefreshCcw className="w-4 h-4 text-bl" />
         </button>
@@ -141,7 +151,10 @@ export default function NavTabs() {
       {selectDate && (
         <div className="flex md:justify-end justify-center gap-2">
           <SelectOptions
-            options={MONTHS.map((month) => ({ value: month, label: month }))}
+            options={MONTHS.map((month, index) => ({
+              value: month,
+              label: isMobile ? String(index + 1) : month,
+            }))}
             value={month}
             onChange={setMonth}
             className={selectClassName}

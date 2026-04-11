@@ -28,7 +28,7 @@ export default function UsersActions({ id }: { id: string }) {
         setOpen={setOpen}
         handleConfirm={handleConfirm}
       />
-      <div className="flex justify-center gap-6">
+      <div className="flex justify-center gap-4">
         <button
           className="cursor-pointer"
           type="button"

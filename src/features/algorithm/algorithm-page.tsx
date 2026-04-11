@@ -39,7 +39,7 @@ export default function AlgorithmPage() {
     await createAlgorithmData(data);
   };
 
-  const [isPending, startTransition] = useTransition();
+  const [_isPending, startTransition] = useTransition();
 
   useEffect(() => {
     startTransition(async () => {

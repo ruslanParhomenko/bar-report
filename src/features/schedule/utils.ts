@@ -44,17 +44,21 @@ export function isCanEdit({ year, month }: { year: string; month: string }) {
 export function calculateSalaryByHours(
   row: SchedulesContextValue["rowShifts"][number],
 ) {
-  const dayHourPay =
-    row.role === "mngr"
-      ? Number(row.rate) / 186
-      : (Number(row.rate) / 186) * 0.9;
-  const nightHourPay =
-    row.role === "mngr"
-      ? Number(row.rate) / 186
-      : (Number(row.rate) / 186) * 1.15;
-  const salaryByHours =
-    dayHourPay * Number(row.dayHours) + nightHourPay * Number(row.nightHours);
-  return salaryByHours;
+  const rate = Number(row.rate);
+  const dayHours = Number(row.dayHours);
+  const nightHours = Number(row.nightHours);
+
+  const safeRate = Number.isFinite(rate) ? rate : 0;
+  const safeDay = Number.isFinite(dayHours) ? dayHours : 0;
+  const safeNight = Number.isFinite(nightHours) ? nightHours : 0;
+
+  const base = safeRate / 186;
+
+  const dayHourPay = row.role === "mngr" ? base : base * 0.9;
+
+  const nightHourPay = row.role === "mngr" ? base : base * 1.15;
+
+  return dayHourPay * safeDay + nightHourPay * safeNight;
 }
 
 // selectedEmployeesByRole

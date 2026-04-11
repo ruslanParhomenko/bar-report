@@ -41,16 +41,16 @@ export default function AlgorithmForm({
                 <button
                   type="button"
                   onClick={() => setIsEdit((prev) => !prev)}
-                  className="flex items-center gap-2"
+                  className="flex items-center gap-2 cursor-pointer"
                 >
                   {isEdit ? (
-                    <>
+                    <div className="text-rd flex gap-2 justify-center items-center">
                       <CheckIcon className="h-4 w-4" />
                       Save mode
-                    </>
+                    </div>
                   ) : (
                     <>
-                      <FolderEdit className="h-4 w-4 text-bl" />
+                      <FolderEdit className="h-5 w-5 text-bl" />
                     </>
                   )}
                 </button>
@@ -62,37 +62,39 @@ export default function AlgorithmForm({
 
             return (
               <TableRow key={item.id}>
-                <TableCell className="w-6 p-0">{idx + 1}</TableCell>
+                <TableCell className="w-6 py-0">{idx + 1}</TableCell>
 
                 <TableCell className="p-0">
                   <Textarea
                     {...register(`${fieldName}.${idx}.value`)}
-                    className="border-0 shadow-none text-bl! min-h-1"
+                    className="border-0 shadow-none  min-h-1 text-xs!"
                     readOnly={!isEdit}
                   />
                 </TableCell>
 
-                <TableCell className="w-16 p-0">
-                  <div className="flex gap-3">
-                    {isLast && (
+                {isEdit && (
+                  <TableCell className="w-16 p-0">
+                    <div className="flex gap-3">
+                      {isLast && (
+                        <button
+                          type="button"
+                          disabled={!isEdit}
+                          onClick={() => append({ ...defaultValues })}
+                        >
+                          <PlusIcon className="h-4 w-4 text-bl" />
+                        </button>
+                      )}
+
                       <button
                         type="button"
                         disabled={!isEdit}
-                        onClick={() => append({ ...defaultValues })}
+                        onClick={() => handleRemove(idx)}
                       >
-                        <PlusIcon className="h-4 w-4" />
+                        <Trash2Icon className="h-4 w-4 text-rd" />
                       </button>
-                    )}
-
-                    <button
-                      type="button"
-                      disabled={!isEdit}
-                      onClick={() => handleRemove(idx)}
-                    >
-                      <Trash2Icon className="h-4 w-4" />
-                    </button>
-                  </div>
-                </TableCell>
+                    </div>
+                  </TableCell>
+                )}
               </TableRow>
             );
           })}

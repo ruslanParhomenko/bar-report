@@ -35,7 +35,7 @@ export default function UsersTable({ users }: { users: UserData[] }) {
   };
 
   return (
-    <Table>
+    <Table className="md:table-fixed">
       <TableBody>
         <TableRow>
           <TableCell colSpan={6}>
@@ -46,14 +46,18 @@ export default function UsersTable({ users }: { users: UserData[] }) {
         </TableRow>
         {localUsers?.map((user, idx) => (
           <TableRow key={user.id}>
-            <TableCell className="w-4">{idx + 1}</TableCell>
-            <TableCell className="truncate w-10 md:w-80">{user.mail}</TableCell>
-            <TableCell className="md:w-20 w-6">
+            <TableCell className="max-w-4">{idx + 1}</TableCell>
+            <TableCell className="truncate max-w-8 md:w-80">
+              {user.mail}
+            </TableCell>
+            <TableCell className="max-w-4">
               {isMobile ? user.role[0] : user.role}
             </TableCell>
-            <TableCell className="font-medium w-20">{user.name}</TableCell>
-            <TableCell className="w-20">
-              <div className="flex items-center gap-12">
+            <TableCell className="font-medium md:w-20 max-w-14">
+              {user.name}
+            </TableCell>
+            <TableCell className="max-w-16">
+              <div className="flex items-center gap-6">
                 {user.status ? (
                   <CheckCircle className="w-4 h-4 text-bl" />
                 ) : (
@@ -68,7 +72,7 @@ export default function UsersTable({ users }: { users: UserData[] }) {
                 />
               </div>
             </TableCell>
-            <TableCell className="w-8 px-4">
+            <TableCell className="max-w-8 md:px-4">
               <UsersActions id={user.id as string} />
             </TableCell>
           </TableRow>

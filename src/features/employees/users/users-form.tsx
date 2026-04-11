@@ -2,17 +2,14 @@
 import TextInput from "@/components/inputs-form/text-input";
 import { useTranslations } from "next-intl";
 import { SubmitHandler, useForm } from "react-hook-form";
-
 import { createUser, updateUser } from "@/app/actions/users/user-action";
 import { toast } from "sonner";
-
 import { useRouter } from "next/navigation";
 import SelectField from "@/components/inputs-form/select-input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import FormInput from "@/components/wrapper/form";
 import { useAbility } from "@/providers/ability-provider";
 import { defaultUser, usersSchema, UsersSchemaTypeData } from "./schema";
-import SwitchForm from "../employee/switch-form";
 import SwitchInput from "@/components/inputs-form/switch-input";
 
 const ROLES = ["ADMIN", "BAR", "CUCINA", "USER", "MNGR", "CASH", "FIN", "SCR"];
@@ -57,10 +54,10 @@ export default function UsersForm({ id }: { id?: string }) {
         toast.success("User is added !");
       }
       resetForm();
-      router.back();
     } catch (e) {
       toast.error("Error adding user");
     }
+    router.back();
   };
 
   const returnUrl = "/employees#tab=users";

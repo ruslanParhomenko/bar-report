@@ -34,6 +34,9 @@ export function ScheduleCreatePage({
   const [tab] = useHashParam("tab");
 
   const { month, year } = params;
+
+  const returnUrl = `/schedule?month=${month}&year=${year}#tab=${tab}`;
+
   const router = useRouter();
 
   // set form
@@ -80,13 +83,13 @@ export function ScheduleCreatePage({
     if (schedule?.id) {
       await updateSchedule(schedule.id as string, formatData);
       toast.success("График успешно обновлён!");
-      router.back();
     } else {
       await createSchedule(formatData);
       toast.success("График успешно создан!");
       form.reset(defaultSchedule);
-      router.back();
     }
+
+    router.replace(returnUrl);
   };
   // add new row
   const addRow = () => {

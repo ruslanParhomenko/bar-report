@@ -148,7 +148,7 @@ export default function TipsAddForm({
         {currency}
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 md:gap-8 w-full h-full md:p-8">
-        <div className="flex flex-col gap-8 w-full">
+        <div className="flex flex-col md:gap-8 gap-4 w-full">
           {options.map((opt: any) => {
             const tip = tipsMap.get(opt.id);
             if (!tip) return null;
@@ -164,12 +164,12 @@ export default function TipsAddForm({
               <div
                 key={opt.id}
                 className={cn(
-                  "flex md:gap-6  items-center w-full justify-center",
+                  "flex md:gap-6 items-center w-full justify-center",
                   focusedIndex === index && "text-green-600",
                   numericValue && "text-red-600!",
                 )}
               >
-                <div className="text-xs text-muted-foreground w-12">
+                <div className="text-xs text-muted-foreground md:w-12">
                   {maskValue(employeeTotal, !disabled)}
                 </div>
                 <TextInput
