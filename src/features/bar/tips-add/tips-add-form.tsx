@@ -164,23 +164,23 @@ export default function TipsAddForm({
               <div
                 key={opt.id}
                 className={cn(
-                  "flex md:gap-6 items-center w-full justify-center",
+                  "flex md:gap-6 items-center w-full md:justify-center justify-between",
                   focusedIndex === index && "text-green-600",
                   numericValue && "text-red-600!",
                 )}
               >
                 <div className="text-xs text-muted-foreground md:w-12">
-                  {maskValue(employeeTotal, !disabled)}
+                  {employeeTotal.toFixed(0)}
                 </div>
                 <TextInput
                   fieldName={`tipsAdd.${index}.employeeName`}
-                  className="w-38 border-0 shadow-none font-bold pb-0 text-bl"
+                  className="w-38 bg-transparent! border-0 shadow-none font-bold p-1 pb-0 text-bl"
                   readonly
                 />
 
                 <TextInput
                   fieldName={`tipsAdd.${index}.shift`}
-                  className="w-20 border-0 shadow-none font-bold pb-0!"
+                  className="w-12 bg-transparent! border-0 shadow-none font-bold p-1 pb-0 text-xs justify-center items-center"
                   disabled
                 />
                 <SelectInput
@@ -196,7 +196,7 @@ export default function TipsAddForm({
                       [index]: val,
                     }))
                   }
-                  className={cn("w-12 h-7", !numericValue && "bg-bl border-0")}
+                  className={cn("w-12 h-7", !numericValue && "bg-bl ")}
                   onFocus={() => setFocusedIndex(index)}
                 />
                 <Button
