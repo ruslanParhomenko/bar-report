@@ -1,5 +1,5 @@
 import { getAOByUniqueKey } from "@/app/actions/a-o/ao-action";
-import { getCashFormById } from "@/app/actions/cash/cash-action";
+import { getCashByYearAndMonth } from "@/app/actions/cash/cash-action";
 import { InsufficientRights } from "@/components/wrapper/insufficient-rights";
 import { CASH_MAIN_ROUTE } from "@/constants/endpoint-tag";
 import CashPage from "@/features/cash/cash-page";
@@ -22,7 +22,7 @@ export default async function Page({
   const uniqueKey = `${year}-${month}`;
 
   const [dataCash, dataAo] = await Promise.all([
-    getCashFormById(uniqueKey),
+    getCashByYearAndMonth(year, month),
     getAOByUniqueKey(uniqueKey),
   ]);
 

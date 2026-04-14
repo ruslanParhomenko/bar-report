@@ -3,7 +3,7 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { cashFormSchema, defaultCashForm } from "./schema";
 import type { CashForm } from "./schema";
-import { CashData, saveCashForm } from "@/app/actions/cash/cash-action";
+import { createCash, GetCashData } from "@/app/actions/cash/cash-action";
 import { toast } from "sonner";
 
 import { useAbility } from "@/providers/ability-provider";
@@ -26,11 +26,10 @@ export default function CashPage({
   valueParams,
 }: {
   dataAo: AOContextValue | null;
-  dataCash: CashData | null;
+  dataCash: GetCashData | null;
   valueParams: ValueParams;
 }) {
   const { month, year } = valueParams;
-  // const [tab] = useHashParam("tab");
 
   const monthDays = getMonthDays({ month, year });
 
@@ -45,19 +44,14 @@ export default function CashPage({
   });
 
   const onSubmit: SubmitHandler<CashForm> = async (data) => {
+    const formattedData = {
+      cashData: data,
+      month,
+      year,
+    };
     try {
-      await saveCashForm(data, year, month);
+      await createCash(formattedData);
       toast.success("Форма сохранена успешно!");
-      // if (isAdmin) {
-      //   await sendNotificationEmail({
-      //     text: `${(data?.rowCashData?.tipsByDay as string[])?.join(",")}
-      //       ${(data?.rowCashData?.cashBarByDay as string[])?.join(",")}
-      //       ${(data?.rowCashData?.visaBarByDay as string[])?.join(",")}
-      //       ${(data?.rowCashData?.banquetBarByDay as string[])?.join(",")}
-      //      }
-      //    `,
-      //   });
-      // }
     } catch (error) {
       toast.error("Ошибка при сохранении формы!");
     }
@@ -71,7 +65,7 @@ export default function CashPage({
 
   useEffect(() => {
     if (dataCash) {
-      form.reset(dataCash.form_data as CashForm);
+      form.reset(dataCash.cashData as CashForm);
     } else {
       form.reset({
         rowCashData: initialRowData,

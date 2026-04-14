@@ -4,132 +4,74 @@ import { CashForm } from "@/features/cash/schema";
 import { unstable_cache } from "next/cache";
 import { updateTag } from "next/cache";
 import { CASH_ACTION_TAG } from "@/constants/action-tag";
-import { supabaseServer } from "@/lib/supabase-server";
+import { dbAdmin } from "@/lib/firebase-admin";
 
 // type
-export type CashData = {
+export type CashDataForm = {
   id: string;
-  unique_id: string;
-  form_data: CashForm;
+  year: string;
+  month: string;
+  cashData: CashForm;
 };
 
-const supabase = supabaseServer();
-// save
-export async function saveCashForm(
-  data: CashForm,
-  year?: string,
-  month?: string,
-) {
-  if (!year || !month) {
-    throw new Error("Year или month отсутствуют в данных формы");
-  }
+export type GetCashData = {
+  id: string;
+  cashData: CashForm;
+};
 
-  const unique_id = `${year}-${month}`;
+// create
+export async function createCash(data: Omit<CashDataForm, "id">) {
+  const { year, month, cashData } = data;
 
-  const { data: savedData, error } = await supabase
-    .from(CASH_ACTION_TAG)
-    .upsert(
-      {
-        unique_id: unique_id,
-        form_data: {
-          year: year,
-          month: month,
-          rowCashData: data.rowCashData,
-          start_241: data.start_241,
-          ao_532: data.ao_532,
-          z_531: data.z_531,
-        },
-      },
-      { onConflict: "unique_id" },
-    );
+  const docRef = dbAdmin
+    .collection(CASH_ACTION_TAG)
+    .doc(year)
+    .collection("months")
+    .doc(month);
 
-  if (error) {
-    console.error("Ошибка при сохранении формы:", error);
-    throw error;
-  }
+  await docRef.set({ cashData });
+
   updateTag(CASH_ACTION_TAG);
 
-  return savedData;
+  return docRef.id;
 }
 
-// export async function saveCashForm(
-//   data: CashForm,
-//   year?: string,
-//   month?: string,
-// ) {
-//   if (!year || !month) {
-//     throw new Error("Year and month are missing in the form data");
-//   }
+// get by month year
+export async function _getCashByYearAndMonth(
+  year: string,
+  month: string,
+): Promise<GetCashData | null> {
+  const docRef = dbAdmin
+    .collection(CASH_ACTION_TAG)
+    .doc(year)
+    .collection("months")
+    .doc(month);
 
-//   const unique_id = `${year}-${month}`;
+  const snap = await docRef.get();
 
-//   // const { data: existingData } = await supabase
-//   //   .from(CASH_ACTION_TAG)
-//   //   .select("form_data")
-//   //   .eq("unique_id", unique_id)
-//   //   .single();
+  if (!snap.exists) return null;
 
-//   // const oldFormData = existingData?.form_data || {};
-
-//   // const form_data = {
-//   //   year,
-//   //   month,
-//   //   rowCashData: {
-//   //     ...oldFormData.rowCashData,
-//   //     ...data.rowCashData,
-//   //     tipsByDay: isCash
-//   //       ? data.rowCashData.tipsByDay
-//   //       : oldFormData.rowCashData?.tipsByDay,
-//   //     chipsByDay: isCash
-//   //       ? data.rowCashData.chipsByDay
-//   //       : oldFormData.rowCashData?.chipsByDay,
-//   //     visaCasinoByDay: isCash
-//   //       ? data.rowCashData.visaCasinoByDay
-//   //       : oldFormData.rowCashData?.visaCasinoByDay,
-//   //   },
-//   //   start_241: isAdmin ? data.start_241 : oldFormData.start_241,
-//   //   ao_532: isAdmin ? data.ao_532 : oldFormData.ao_532,
-//   //   z_531: isAdmin ? data.z_531 : oldFormData.z_531,
-//   // };
-
-//   const { data: savedData, error } = await supabase
-//     .from(CASH_ACTION_TAG)
-//     .upsert(
-//       {
-//         unique_id,
-//         data,
-//       },
-//       { onConflict: "unique_id" },
-//     );
-
-//   if (error) {
-//     console.error("Ошибка при сохранении формы:", error);
-//     throw error;
-//   }
-
-//   updateTag(CASH_ACTION_TAG);
-
-//   return savedData;
-// }
-
-// get by unique_id
-export async function _getCashFormById(unique_id: string) {
-  const { data, error } = await supabase
-    .from(CASH_ACTION_TAG)
-    .select("*")
-    .eq("unique_id", unique_id)
-    .maybeSingle();
-
-  if (error) {
-    console.error("Ошибка при получении данных формы:", error);
-    throw error;
-  }
-
-  return data ?? null;
+  return { id: snap.id, ...snap.data() } as GetCashData;
 }
 
-export const getCashFormById = unstable_cache(
-  _getCashFormById,
+// get by year
+
+export async function getCashByYear(year: string) {
+  const colRef = dbAdmin
+    .collection(CASH_ACTION_TAG)
+    .doc(year)
+    .collection("months");
+
+  const snap = await colRef.get();
+
+  return snap.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  }));
+}
+
+export const getCashByYearAndMonth = unstable_cache(
+  _getCashByYearAndMonth,
   [CASH_ACTION_TAG],
   {
     revalidate: false,
