@@ -64,6 +64,8 @@ export default function TipsAddForm({
 
   const employees = mergeEmployees(tipsArrayByEmployee.fields);
 
+  console.log(employees);
+
   useEffect(() => {
     if (!options?.length) return;
 
@@ -72,15 +74,11 @@ export default function TipsAddForm({
     const newEmployees = options.filter((opt: any) => !existingIds.has(opt.id));
 
     if (newEmployees.length > 0) {
+      const now = Math.floor(Date.now() / 1000); // Unix seconds
+      const shiftDuration = 12 * 60 * 60; // 12 hours in seconds
+
       tipsArrayByEmployee.append(
         newEmployees.map((emp: any) => {
-          const now = new Date();
-
-          const createdAt = now.toLocaleTimeString("ru-RU", {
-            hour: "2-digit",
-            minute: "2-digit",
-          });
-
           return {
             ...createDefaultTipsAdd(),
             idEmployee: emp.id,
@@ -88,9 +86,14 @@ export default function TipsAddForm({
             shift: emp.idShift ?? "8-20",
             role: emp.role,
             amount: [],
-            createdAt,
+
+            // ✅ unix timestamp
+            createdAt: now,
+
+            // ❗ endDate теперь тоже timestamp
+            endDate: now + shiftDuration,
+
             isWaiters: emp.role === "waiters",
-            endDate: emp.idShift?.split("-")[1] ?? null,
             resultAmount: [],
             isClosed: false,
           };
@@ -107,6 +110,8 @@ export default function TipsAddForm({
     return map;
   }, [tipsValues]);
 
+  const data = new Date().toISOString();
+  console.log(data);
   const handleAddAmount = (index: number) => {
     const value = tempValues[index];
     const typeAmount =
@@ -136,15 +141,9 @@ export default function TipsAddForm({
 
     const allEmployees = getValues("tipsAdd") || [];
 
-    const toMinutes = (t: string) => {
-      const [h, m] = t.split(":").map(Number);
-      return h * 60 + m;
-    };
-
-    const currentTime = toMinutes(time);
+    const currentTime = Math.floor(Date.now() / 1000);
 
     const isWaiters = getValues(`tipsAdd.${index}.isWaiters`);
-
     const numericValue = Number(value);
 
     const tipsMdl =
@@ -169,8 +168,8 @@ export default function TipsAddForm({
       if (!emp.isWaiters) return false;
       if (emp.isClosed) return false;
 
-      const start = toMinutes(emp.createdAt);
-      const end = emp.endDate ? Number(emp.endDate) * 60 : 24 * 60;
+      const start = emp.createdAt;
+      const end = emp.endDate;
 
       return currentTime >= start && currentTime <= end;
     });
@@ -269,6 +268,8 @@ export default function TipsAddForm({
           {options.map((opt: any) => {
             const tip = tipsMap.get(opt.id);
             if (!tip) return null;
+
+            console.log("tip", tip);
 
             const index = tip.index;
 

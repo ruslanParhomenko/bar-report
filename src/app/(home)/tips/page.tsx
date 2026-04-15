@@ -1,7 +1,7 @@
-import { getTipsFormById } from "@/app/actions/tips/tips-action";
+import { getTipsByYearAndMonth } from "@/app/actions/tips/tips-action";
 import { InsufficientRights } from "@/components/wrapper/insufficient-rights";
 import { TIPS_MAIN_ROUTE } from "@/constants/endpoint-tag";
-import TipsForm from "@/features/tips/tips-form";
+import TipsPage from "@/features/tips/tips-page";
 import { checkAccess } from "@/lib/check-access";
 
 export default async function Page({
@@ -14,12 +14,11 @@ export default async function Page({
 
   const { month, year } = await searchParams;
   if (!month || !year) return null;
-  const uniqueKey = `${year}-${month}`;
 
-  const dataTips = await getTipsFormById(uniqueKey);
+  const dataTips = await getTipsByYearAndMonth(year, month);
 
   return (
-    <TipsForm
+    <TipsPage
       dataTips={dataTips}
       month={month as string}
       year={year as string}

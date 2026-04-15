@@ -1,8 +1,8 @@
-import { TipsFormType } from "./schema";
+import { TipsForm } from "./schema";
 import { useFormContext } from "react-hook-form";
 
 export default function BidForm({ disabled = true }: { disabled: boolean }) {
-  const form = useFormContext<TipsFormType>();
+  const form = useFormContext<TipsForm>();
   return (
     <div className="md:flex justify-end mb-2 hidden ">
       <span className="text-xs">

@@ -4,10 +4,11 @@ import ResultTableHeader from "./result-header-table";
 import { Table } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import ResultTableBody from "./result-body-table";
-import { TipsFormType } from "../tips/schema";
+
 import { remarksByUniqueEmployee } from "../archive/penalty-details/utils";
 import { SchedulesContextValue } from "@/app/actions/schedule/schedule-action";
 import { useHashParam } from "@/hooks/use-hash";
+import { GetTipsData } from "@/app/actions/tips/tips-action";
 
 const ROLE = {
   barmen: "bar",
@@ -19,13 +20,13 @@ const ROLE = {
 export function PageResult({
   dataSchedule,
   dataRemarks,
-  dataTips,
+  tipsData,
   month,
   year,
 }: {
   dataSchedule: SchedulesContextValue[];
   dataRemarks: ReturnType<typeof remarksByUniqueEmployee>["formattedData"];
-  dataTips: TipsFormType;
+  tipsData: GetTipsData | null;
   month: string;
   year: string;
 }) {
@@ -35,15 +36,17 @@ export function PageResult({
   const selectedSchedule = dataSchedule.filter(
     (item: any) => item.role === ROLE[role as keyof typeof ROLE],
   );
+
+  const rowEmployees = tipsData?.tipsData?.rowEmployeesTips || [];
   const employees = extractUniqueEmployees(
     selectedSchedule,
     dataRemarks,
-    dataTips?.rowEmployeesTips,
+    rowEmployees,
   );
 
   const { rows, totals } = useResultCalculations({
     data: employees,
-    dataTipsBid: dataTips,
+    dataTipsBid: tipsData?.tipsData!,
     month,
     year,
     role,

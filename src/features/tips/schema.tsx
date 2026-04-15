@@ -13,7 +13,6 @@ export const tipsCashByDaySchema = z.string().regex(/^\d*$/, "только ци�
 export type RowEmployeesTipsType = z.infer<typeof rowEmployeesTipsSchema>;
 
 export const tipsSchema = z.object({
-  id: z.string().optional(),
   rowEmployeesTips: z.array(rowEmployeesTipsSchema),
   rowCashTips: z.array(tipsCashByDaySchema),
   waitersDishBid: z.string(),
@@ -24,9 +23,9 @@ export const tipsSchema = z.object({
   percentDish: z.string(),
 });
 
-export type TipsFormType = z.infer<typeof tipsSchema>;
+export type TipsForm = z.infer<typeof tipsSchema>;
 
-export const defaultTipsForm: TipsFormType = {
+export const defaultTipsForm: TipsForm = {
   rowEmployeesTips: [],
   rowCashTips: [],
   waitersDishBid: "0.03",

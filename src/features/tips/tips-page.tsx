@@ -2,8 +2,8 @@
 import { Table } from "@/components/ui/table";
 import { TipsTableBody } from "./tips-body-table";
 import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
-import { defaultTipsForm, TipsFormType, tipsSchema } from "./schema";
-import { saveTipsForm, TipsData } from "@/app/actions/tips/tips-action";
+import { defaultTipsForm, TipsForm, tipsSchema } from "./schema";
+import { createTips, GetTipsData } from "@/app/actions/tips/tips-action";
 import { toast } from "sonner";
 import { getMonthDays, MONTHS } from "@/utils/get-month-days";
 import { TipsTableFooter } from "./tips-footer-table";
@@ -18,12 +18,12 @@ import TipsCashBody from "./tips-cash-body";
 
 const SELECTED_ROLE = ["waiters", "barmen"] as const;
 
-export default function TipsForm({
+export default function TipsPage({
   dataTips,
   month,
   year,
 }: {
-  dataTips: TipsData | null;
+  dataTips: GetTipsData | null;
   month: string;
   year: string;
 }) {
@@ -38,20 +38,25 @@ export default function TipsForm({
     );
 
   // form
-  const form = useForm<TipsFormType>({
+  const form = useForm<TipsForm>({
     resolver: zodResolver(tipsSchema),
     defaultValues: defaultTipsForm,
     mode: "onChange",
     reValidateMode: "onChange",
   });
-  const { fields, remove, append } = useFieldArray<TipsFormType>({
+  const { fields, remove, append } = useFieldArray<TipsForm>({
     control: form.control,
     name: "rowEmployeesTips",
   });
 
-  const onSubmit: SubmitHandler<TipsFormType> = (data) => {
+  const onSubmit: SubmitHandler<TipsForm> = async (data) => {
+    const formattedData = {
+      tipsData: data,
+      year,
+      month,
+    };
     try {
-      saveTipsForm(data, year, month);
+      await createTips(formattedData);
 
       toast.success("Форма сохранена успешно!");
     } catch (error) {
@@ -61,9 +66,7 @@ export default function TipsForm({
 
   useEffect(() => {
     if (dataTips) {
-      form.reset({
-        ...dataTips.form_data,
-      } as TipsFormType);
+      form.reset(dataTips.tipsData);
 
       return;
     }

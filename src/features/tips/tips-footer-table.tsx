@@ -13,14 +13,16 @@ export function TipsTableFooter({
 }) {
   if (!monthDays) return null;
 
-  const value = useWatch({
-    control: form.control,
-    name: "rowEmployeesTips",
-  });
-  const cashValue = useWatch({
-    control: form.control,
-    name: "rowCashTips",
-  });
+  const value =
+    useWatch({
+      control: form.control,
+      name: "rowEmployeesTips",
+    }) || [];
+  const cashValue =
+    useWatch({
+      control: form.control,
+      name: "rowCashTips",
+    }) || [];
 
   const { totalAll: totalTips } = calculateTipsTotal(value);
   const totalCash = cashValue?.reduce(

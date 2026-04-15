@@ -1,8 +1,7 @@
-import { getFinCashRowByYear } from "@/app/actions/fin-cash/fin-cash-action";
+import { getFinByYear } from "@/app/actions/fin-cash/fin-action";
 import { InsufficientRights } from "@/components/wrapper/insufficient-rights";
 import { FIN_CASH_MAIN_ROUTE } from "@/constants/endpoint-tag";
-
-import FinCashPage from "@/features/fin-cash/fin-cash-page";
+import FinPage from "@/features/fin-cash/fin-page";
 import { checkAccess } from "@/lib/check-access";
 
 export default async function Page({
@@ -15,6 +14,6 @@ export default async function Page({
 
   const { year } = await searchParams;
   if (!year) return null;
-  const finCashData = await getFinCashRowByYear(year);
-  return <FinCashPage finCashData={finCashData} year={year} />;
+  const finCashData = await getFinByYear(year);
+  return <FinPage finCashData={finCashData} year={year} />;
 }

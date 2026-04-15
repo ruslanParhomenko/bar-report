@@ -1,5 +1,5 @@
 import { MONTHS } from "@/utils/get-month-days";
-import { TipsFormType } from "../tips/schema";
+import { TipsForm } from "../tips/schema";
 
 export type ResultUniqueEmployeeType = {
   employee: string;
@@ -86,7 +86,7 @@ export function useResultCalculations({
   role,
 }: {
   data: ResultUniqueEmployeeType[];
-  dataTipsBid: TipsFormType;
+  dataTipsBid: TipsForm;
   month: string;
   year: string;
   role: string;

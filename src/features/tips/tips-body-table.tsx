@@ -1,6 +1,6 @@
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { FieldArrayWithId, useWatch } from "react-hook-form";
-import { TipsFormType } from "./schema";
+import { TipsForm } from "./schema";
 import { Plus } from "lucide-react";
 import { useAbility } from "@/providers/ability-provider";
 import SelectField from "@/components/inputs-form/select-input";
@@ -18,7 +18,7 @@ export function TipsTableBody({
   form,
   selectedEmployees,
 }: {
-  data: FieldArrayWithId<TipsFormType, "rowEmployeesTips", "id">[];
+  data: FieldArrayWithId<TipsForm, "rowEmployeesTips", "id">[];
   monthDays: { day: number; weekday: string }[];
   append: any;
   remove: (index: number) => void;

@@ -9,7 +9,7 @@ export const finCashSchema = z.object({
   rowFinCashMonth: z.record(z.string(), z.array(itemFinCashSchema)),
 });
 
-export type FinCashForm = z.infer<typeof finCashSchema>;
-export const defaultFinCashForm: FinCashForm = {
+export type FinForm = z.infer<typeof finCashSchema>;
+export const defaultFinCashForm: FinForm = {
   rowFinCashMonth: {},
 };

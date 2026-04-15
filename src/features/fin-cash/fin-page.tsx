@@ -1,8 +1,8 @@
 "use client";
 import {
   defaultFinCashForm,
-  FinCashForm,
   finCashSchema,
+  FinForm,
 } from "@/features/fin-cash/schema";
 import {
   Table,
@@ -19,25 +19,23 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { FIN_CASH_ITEMS_LIST } from "./constants";
 import { useEffect, useMemo } from "react";
-import {
-  GetFinCashRowByYear,
-  saveFinCashForm,
-} from "@/app/actions/fin-cash/fin-cash-action";
+
 import { toast } from "sonner";
 import { handleMultiTableNavigation } from "@/utils/handle-table-navigation";
+import { createFin, GetFinData } from "@/app/actions/fin-cash/fin-action";
 
 const VAT_PLUS_KEYS = ["nbm-vat", "bar-vat"];
 const VAT_MINUS_KEYS = ["ttn-vat"];
 const TAX_KEYS = ["225", "vat-bay", "534.2-12%", "533.2-9%", "533.1-24%"];
 
-export default function FinCashPage({
+export default function FinPage({
   finCashData,
   year,
 }: {
-  finCashData: GetFinCashRowByYear | null;
+  finCashData: GetFinData | null;
   year: string;
 }) {
-  const form = useForm<FinCashForm>({
+  const form = useForm<FinForm>({
     resolver: zodResolver(finCashSchema),
     defaultValues: defaultFinCashForm,
   });
@@ -45,14 +43,18 @@ export default function FinCashPage({
   const FIXED_COLUMNS = ["НДС", "НАЛОГ"];
   const ALL_COLUMNS = [...FIXED_COLUMNS, ...FIN_CASH_ITEMS_LIST];
 
-  const submit: SubmitHandler<FinCashForm> = async (data) => {
-    await saveFinCashForm({ form_data: data, year });
+  const submit: SubmitHandler<FinForm> = async (data) => {
+    const formattedData = {
+      finData: data,
+      year,
+    };
+    await createFin(formattedData);
     toast.success("Форма сохранена успешно!");
   };
 
   useEffect(() => {
     if (finCashData) {
-      form.reset(finCashData.form_data);
+      form.reset(finCashData.finData);
     } else {
       const newRowFinCash = Object.fromEntries(
         MONTHS.map((month) => [

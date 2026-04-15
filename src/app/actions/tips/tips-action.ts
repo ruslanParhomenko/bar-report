@@ -1,70 +1,74 @@
 "use server";
 
-import { TipsFormType } from "@/features/tips/schema";
+import { TipsForm } from "@/features/tips/schema";
 
 import { unstable_cache, updateTag } from "next/cache";
 import { TIPS_ACTION_TAG } from "@/constants/action-tag";
-import { supabaseServer } from "@/lib/supabase-server";
-
-const supabase = supabaseServer();
+import { dbAdmin } from "@/lib/firebase-admin";
 
 // type
-export type TipsData = {
-  id: number;
-  unique_id: string;
-  form_data: TipsFormType;
-  created_at: string;
+export type TipsDataForm = {
+  id: string;
+  year: string;
+  month: string;
+  tipsData: TipsForm;
 };
 
+export type GetTipsData = Omit<TipsDataForm, "year" | "month">;
+
 // create
-export async function saveTipsForm(
-  data: Omit<TipsFormType, "cashTips">,
-  year: string,
-  month: string,
-) {
-  if (!year || !month) {
-    throw new Error("Year или month отсутствуют в данных формы");
-  }
+export async function createTips(data: Omit<TipsDataForm, "id">) {
+  const { year, month, tipsData } = data;
 
-  const unique_id = `${year}-${month}`;
+  const docRef = dbAdmin
+    .collection(TIPS_ACTION_TAG)
+    .doc(year)
+    .collection("months")
+    .doc(month);
 
-  const { data: savedData, error } = await supabase
-    .from(TIPS_ACTION_TAG)
-    .upsert(
-      {
-        unique_id: unique_id,
-        form_data: { year, month, ...data },
-      },
-      { onConflict: "unique_id" },
-    );
+  await docRef.set({ tipsData });
 
-  if (error) {
-    console.error("Ошибка при сохранении формы:", error);
-    throw error;
-  }
   updateTag(TIPS_ACTION_TAG);
 
-  return savedData;
+  return docRef.id;
 }
 
-// get by unique_id
-export async function _getTipsFormById(unique_id: string) {
-  const { data, error } = await supabase
-    .from(TIPS_ACTION_TAG)
-    .select("*")
-    .eq("unique_id", unique_id)
-    .maybeSingle();
+// get by month year
+export async function _getTipsByYearAndMonth(
+  year: string,
+  month: string,
+): Promise<GetTipsData | null> {
+  const docRef = dbAdmin
+    .collection(TIPS_ACTION_TAG)
+    .doc(year)
+    .collection("months")
+    .doc(month);
 
-  if (error) {
-    console.error("Ошибка при получении данных формы:", error);
-    throw error;
-  }
+  const snap = await docRef.get();
 
-  return data ?? null;
+  if (!snap.exists) return null;
+
+  return { id: snap.id, ...snap.data() } as GetTipsData;
 }
 
-export const getTipsFormById = unstable_cache(
-  _getTipsFormById,
+// get by year
+
+export async function getTipsByYear(year: string) {
+  const colRef = dbAdmin
+    .collection(TIPS_ACTION_TAG)
+    .doc(year)
+    .collection("months");
+
+  const snap = await colRef.get();
+
+  return snap.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  }));
+}
+
+export const getTipsByYearAndMonth = unstable_cache(
+  _getTipsByYearAndMonth,
   [TIPS_ACTION_TAG],
   {
     revalidate: false,
