@@ -4,13 +4,23 @@ import { useFormContext, useWatch } from "react-hook-form";
 import NumericInput from "@/components/inputs-form/numeric-input";
 import TextInput from "@/components/inputs-form/text-input";
 import { Button } from "@/components/ui/button";
-import { useEffect, useState, useMemo } from "react";
-import { PlusIcon } from "lucide-react";
+import { useEffect, useState, useMemo, useTransition } from "react";
+import { PlusIcon, UserX } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { createDefaultTipsAdd, TipsAddFormValues } from "./schema";
 import SelectInput from "@/components/select/select-input";
 import { TYPE_AMOUNT } from "./constants";
-import { useTipsCalculation } from "@/hooks/use-tips-calculation";
+
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from "@/components/ui/dialog";
+
+import { Switch } from "@/components/ui/switch";
 
 export default function TipsAddForm({
   tipsArrayByEmployee,
@@ -25,9 +35,16 @@ export default function TipsAddForm({
 }) {
   const { getValues, setValue } = useFormContext();
 
-  const mergeEmployees = (
-    tipsAdd: TipsAddFormValues[],
-  ): TipsAddFormValues[] => {
+  const [tempValues, setTempValues] = useState<Record<number, string>>({});
+  const [tempTypes, setTempTypes] = useState<Record<number, string>>({});
+  const [focusedIndex, setFocusedIndex] = useState<number | null>(null);
+
+  const [confirmIndex, setConfirmIndex] = useState<number | null>(null);
+  const [isPending, startTransition] = useTransition();
+
+  const tipsValues = useWatch({ name: "tipsAdd" }) ?? [];
+
+  const mergeEmployees = (tipsAdd: TipsAddFormValues[]) => {
     const map = new Map();
 
     tipsAdd.forEach((emp) => {
@@ -47,14 +64,6 @@ export default function TipsAddForm({
 
   const employees = mergeEmployees(tipsArrayByEmployee.fields);
 
-  const [tempValues, setTempValues] = useState<Record<number, string>>({});
-  const [focusedIndex, setFocusedIndex] = useState<number | null>(null);
-
-  const tipsValues =
-    useWatch({
-      name: "tipsAdd",
-    }) ?? [];
-
   useEffect(() => {
     if (!options?.length) return;
 
@@ -64,14 +73,28 @@ export default function TipsAddForm({
 
     if (newEmployees.length > 0) {
       tipsArrayByEmployee.append(
-        newEmployees.map((emp: any) => ({
-          ...createDefaultTipsAdd(),
-          idEmployee: emp.id,
-          employeeName: emp.name,
-          shift: emp.idShift ?? "8-20",
-          role: emp.role,
-          amount: [],
-        })),
+        newEmployees.map((emp: any) => {
+          const now = new Date();
+
+          const createdAt = now.toLocaleTimeString("ru-RU", {
+            hour: "2-digit",
+            minute: "2-digit",
+          });
+
+          return {
+            ...createDefaultTipsAdd(),
+            idEmployee: emp.id,
+            employeeName: emp.name,
+            shift: emp.idShift ?? "8-20",
+            role: emp.role,
+            amount: [],
+            createdAt,
+            isWaiters: emp.role === "waiters",
+            endDate: emp.idShift?.split("-")[1] ?? null,
+            resultAmount: [],
+            isClosed: false,
+          };
+        }),
       );
     }
   }, [options, tipsArrayByEmployee, tipsValues]);
@@ -86,7 +109,8 @@ export default function TipsAddForm({
 
   const handleAddAmount = (index: number) => {
     const value = tempValues[index];
-    const typeAmount = getValues(`tipsAdd.${index}.typeAmount`);
+    const typeAmount =
+      tempTypes[index] ?? getValues(`tipsAdd.${index}.typeAmount`);
 
     if (!value) return;
 
@@ -104,17 +128,80 @@ export default function TipsAddForm({
       shouldDirty: true,
     });
 
-    setTempValues((prev) => ({ ...prev, [index]: "" }));
-  };
+    if (tempTypes[index] !== undefined) {
+      setValue(`tipsAdd.${index}.typeAmount`, tempTypes[index], {
+        shouldDirty: true,
+      });
+    }
 
-  useEffect(() => {
-    tipsValues.forEach((_: any, index: number) => {
-      const current = getValues(`tipsAdd.${index}.typeAmount`);
-      if (!current) {
-        setValue(`tipsAdd.${index}.typeAmount`, "mdl");
-      }
+    const allEmployees = getValues("tipsAdd") || [];
+
+    const toMinutes = (t: string) => {
+      const [h, m] = t.split(":").map(Number);
+      return h * 60 + m;
+    };
+
+    const currentTime = toMinutes(time);
+
+    const isWaiters = getValues(`tipsAdd.${index}.isWaiters`);
+
+    const numericValue = Number(value);
+
+    const tipsMdl =
+      typeAmount === "mdl" ? numericValue : numericValue * Number(currency);
+
+    // ===== BARMEN (без распределения) =====
+    if (!isWaiters) {
+      const currentResult = getValues(`tipsAdd.${index}.resultAmount`) || [];
+
+      setValue(
+        `tipsAdd.${index}.resultAmount`,
+        [...currentResult, Number(tipsMdl.toFixed(2))],
+        { shouldDirty: true },
+      );
+
+      setTempValues((p) => ({ ...p, [index]: "" }));
+      return;
+    }
+
+    // ===== WAITERS =====
+    const filtered = allEmployees.filter((emp: any) => {
+      if (!emp.isWaiters) return false;
+      if (emp.isClosed) return false;
+
+      const start = toMinutes(emp.createdAt);
+      const end = emp.endDate ? Number(emp.endDate) * 60 : 24 * 60;
+
+      return currentTime >= start && currentTime <= end;
     });
-  }, [tipsValues]);
+
+    if (!filtered.length) return;
+
+    const partTips = tipsMdl / 2;
+    const partTipsToEmployee = partTips / filtered.length;
+
+    filtered.forEach((emp: any) => {
+      const empIndex = allEmployees.findIndex(
+        (e: any) => e.idEmployee === emp.idEmployee,
+      );
+
+      const currentResult = getValues(`tipsAdd.${empIndex}.resultAmount`) || [];
+
+      const isCurrent = empIndex === index;
+
+      const valueToPush = isCurrent
+        ? partTips + partTipsToEmployee
+        : partTipsToEmployee;
+
+      setValue(
+        `tipsAdd.${empIndex}.resultAmount`,
+        [...currentResult, Number(valueToPush.toFixed(2))],
+        { shouldDirty: true },
+      );
+    });
+
+    setTempValues((p) => ({ ...p, [index]: "" }));
+  };
 
   const allAmounts =
     tipsValues
@@ -125,30 +212,60 @@ export default function TipsAddForm({
           value: a.value,
           typeAmount: a.typeAmount,
           time: a.time,
-          role: emp.role,
-          idEmployee: emp.idEmployee,
         })),
       )
       .reverse() ?? [];
 
-  const { getEmployeeTotal } = useTipsCalculation(employees, Number(currency));
-
-  const maskValue = (value: string | number, isAdmin: boolean) => {
-    const str = String(value);
-
-    if (isAdmin) return str;
-    if (str.length === 0) return "";
-
-    return str[0] + "*".repeat(str.length - 1);
-  };
-
   return (
     <>
+      {/* MODAL */}
+      <Dialog
+        open={confirmIndex !== null}
+        onOpenChange={(open) => !open && setConfirmIndex(null)}
+      >
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Закрыть сотрудника?</DialogTitle>
+            <DialogDescription>
+              Он будет исключён из распределения чаевых.
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="text-sm font-medium">
+            {confirmIndex !== null &&
+              getValues(`tipsAdd.${confirmIndex}.employeeName`)}
+          </div>
+
+          <DialogFooter>
+            <Button variant="ghost" onClick={() => setConfirmIndex(null)}>
+              Отмена
+            </Button>
+
+            <Button
+              variant="destructive"
+              disabled={isPending}
+              onClick={() => {
+                if (confirmIndex === null) return;
+
+                setValue(`tipsAdd.${confirmIndex}.isClosed`, true, {
+                  shouldDirty: true,
+                });
+
+                setConfirmIndex(null);
+              }}
+            >
+              Закрыть
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
       <div className="w-full text-center text-xs text-muted-foreground">
         {currency}
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 md:gap-8 w-full h-full md:p-8">
-        <div className="flex flex-col md:gap-8 gap-4 w-full">
+
+      <div className="grid grid-cols-1 md:grid-cols-2 md:gap-12 w-full md:p-4">
+        <div className="flex flex-col gap-4 md:mx-12">
           {options.map((opt: any) => {
             const tip = tipsMap.get(opt.id);
             if (!tip) return null;
@@ -156,79 +273,120 @@ export default function TipsAddForm({
             const index = tip.index;
 
             const numericValue = tempValues[index] || "";
-            const typeAmount = getValues(`tipsAdd.${index}.typeAmount`);
+            const typeAmount =
+              tempTypes[index] ?? getValues(`tipsAdd.${index}.typeAmount`);
 
-            const employeeTotal = getEmployeeTotal(tip);
+            const employeeTotal = (tip.resultAmount || []).reduce(
+              (s: number, v: any) => s + Number(v),
+              0,
+            );
 
             return (
               <div
                 key={opt.id}
                 className={cn(
-                  "flex md:gap-6 items-center w-full md:justify-center justify-between",
-                  focusedIndex === index && "text-green-600",
-                  numericValue && "text-red-600!",
+                  "flex items-center justify-between gap-1",
+                  tip.isClosed && "opacity-40 line-through",
                 )}
               >
-                <div className="text-xs text-muted-foreground md:w-12">
-                  {employeeTotal.toFixed(0)}
-                </div>
-                <TextInput
-                  fieldName={`tipsAdd.${index}.employeeName`}
-                  className="w-38 bg-transparent! border-0 shadow-none font-bold p-1 pb-0 text-bl"
-                  readonly
-                />
+                <div className="flex items-center gap-4">
+                  <div className="text-xs text-muted-foreground md:w-12">
+                    {" "}
+                    {tip.isWaiters ? "waiters" : "barmen"}{" "}
+                  </div>
+                  <Switch
+                    checked={tip.isWaiters}
+                    onCheckedChange={(val) =>
+                      setValue(`tipsAdd.${index}.isWaiters`, val, {
+                        shouldDirty: true,
+                      })
+                    }
+                    disabled={
+                      isPending || tip.isClosed || tip.role === "waiters"
+                    }
+                  />
 
-                <TextInput
-                  fieldName={`tipsAdd.${index}.shift`}
-                  className="w-12 bg-transparent! border-0 shadow-none font-bold p-1 pb-0 text-xs justify-center items-center"
-                  disabled
-                />
-                <SelectInput
-                  fieldName={`tipsAdd.${index}.typeAmount`}
-                  className="w-14 justify-center"
-                  options={TYPE_AMOUNT}
-                />
-                <NumericInput
-                  value={numericValue}
-                  onChange={(val: string) =>
-                    setTempValues((prev) => ({
-                      ...prev,
-                      [index]: val,
-                    }))
-                  }
-                  className={cn("w-12 h-7", !numericValue && "bg-bl ")}
-                  onFocus={() => setFocusedIndex(index)}
-                />
-                <Button
-                  type="button"
-                  variant="ghost"
-                  onClick={() => handleAddAmount(index)}
-                  className={cn(
-                    "h-8 w-10 cursor-pointer",
-                    numericValue && "bg-red-600 text-white",
-                  )}
-                  disabled={!numericValue || !typeAmount}
-                >
-                  {numericValue && typeAmount && (
-                    <PlusIcon className="font-bold" />
-                  )}
-                </Button>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      startTransition(() => setConfirmIndex(index))
+                    }
+                    className="cursor-pointer mx-2"
+                  >
+                    <UserX className="w-4 h-4 text-rd" />
+                  </button>
+                  <div className="w-6 px-2 text-xs">
+                    {employeeTotal.toFixed(0)}
+                  </div>
+                </div>
+                <div className="flex">
+                  <TextInput
+                    fieldName={`tipsAdd.${index}.employeeName`}
+                    className="w-32 bg-transparent! border-0 shadow-none font-bold p-1 pb-0 text-bl"
+                    readonly
+                  />
+
+                  <TextInput
+                    fieldName={`tipsAdd.${index}.shift`}
+                    className="w-12 bg-transparent! border-0 shadow-none font-bold p-1 pb-0 text-xs justify-center items-center"
+                    disabled
+                  />
+                </div>
+                <div className="flex gap-8">
+                  <SelectInput
+                    value={typeAmount}
+                    onChange={(val: string) =>
+                      setTempTypes((p) => ({ ...p, [index]: val }))
+                    }
+                    options={TYPE_AMOUNT}
+                    className="w-14 h-7!"
+                    placeHolder="..."
+                  />
+
+                  <NumericInput
+                    value={numericValue}
+                    onChange={(val: string) =>
+                      setTempValues((prev) => ({ ...prev, [index]: val }))
+                    }
+                    className={cn("w-12 h-7", !numericValue && "bg-bl")}
+                    onFocus={() => setFocusedIndex(index)}
+                  />
+
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    onClick={() => handleAddAmount(index)}
+                    className={cn(
+                      "h-8 w-10 cursor-pointer",
+                      numericValue && "bg-red-600 text-white",
+                    )}
+                    disabled={
+                      !numericValue || !typeAmount || isPending || tip.isClosed
+                    }
+                  >
+                    {" "}
+                    <PlusIcon className="font-bold" />{" "}
+                  </Button>
+                </div>
               </div>
             );
           })}
         </div>
 
-        <div className="flex flex-col gap-2 w-full overflow-auto max-h-[80vh]">
+        <div className="flex flex-col gap-2 md:mx-4">
           {allAmounts.map((item: any, i: number) => (
             <div
               key={i}
-              className="grid grid-cols-5 text-xs justify-between w-full [&>span]:text-center"
+              className="grid grid-cols-5 text-xs w-full [&>span]:text-center md:px-4"
             >
-              <span>{item.employeeName.split(" ")[1]}</span>
-              <span>{item.shift}</span>
-              <span>{!disabled ? item.value : "***"}</span>
-              <span>{!disabled ? item.typeAmount : "***"}</span>
-              <span>{item.time}</span>
+              {" "}
+              <span className="text-start! px-4">
+                {" "}
+                {item.employeeName.split(" ")[1]}{" "}
+                {item.employeeName.split(" ")[0].slice(0, 1)}{" "}
+              </span>{" "}
+              <span>{item.shift}</span> <span>{item.value}</span>{" "}
+              <span>{item.typeAmount}</span> <span>{item.time}</span>{" "}
             </div>
           ))}
         </div>
