@@ -74,8 +74,8 @@ export default function TipsAddForm({
     const newEmployees = options.filter((opt: any) => !existingIds.has(opt.id));
 
     if (newEmployees.length > 0) {
-      const now = Math.floor(Date.now() / 1000); // Unix seconds
-      const shiftDuration = 12 * 60 * 60; // 12 hours in seconds
+      const now = Math.floor(Date.now() / 1000);
+      const shiftDuration = 12 * 60 * 60;
 
       tipsArrayByEmployee.append(
         newEmployees.map((emp: any) => {
@@ -87,10 +87,8 @@ export default function TipsAddForm({
             role: emp.role,
             amount: [],
 
-            // ✅ unix timestamp
             createdAt: now,
 
-            // ❗ endDate теперь тоже timestamp
             endDate: now + shiftDuration,
 
             isWaiters: emp.role === "waiters",
@@ -149,7 +147,6 @@ export default function TipsAddForm({
     const tipsMdl =
       typeAmount === "mdl" ? numericValue : numericValue * Number(currency);
 
-    // ===== BARMEN (без распределения) =====
     if (!isWaiters) {
       const currentResult = getValues(`tipsAdd.${index}.resultAmount`) || [];
 
@@ -163,7 +160,6 @@ export default function TipsAddForm({
       return;
     }
 
-    // ===== WAITERS =====
     const filtered = allEmployees.filter((emp: any) => {
       if (!emp.isWaiters) return false;
       if (emp.isClosed) return false;
@@ -217,7 +213,6 @@ export default function TipsAddForm({
 
   return (
     <>
-      {/* MODAL */}
       <Dialog
         open={confirmIndex !== null}
         onOpenChange={(open) => !open && setConfirmIndex(null)}
@@ -263,8 +258,8 @@ export default function TipsAddForm({
         {currency}
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 md:gap-12 w-full md:p-4">
-        <div className="flex flex-col gap-4 md:mx-12">
+      <div className="grid grid-cols-1 xl:grid-cols-[48%_5%_32%]  justify-between w-full md:gap-4 md:p-4">
+        <div className="flex flex-col  justify-between gap-4">
           {options.map((opt: any) => {
             const tip = tipsMap.get(opt.id);
             if (!tip) return null;
@@ -286,12 +281,12 @@ export default function TipsAddForm({
               <div
                 key={opt.id}
                 className={cn(
-                  "flex items-center justify-between gap-1",
+                  "flex items-center justify-between",
                   tip.isClosed && "opacity-40 line-through",
                 )}
               >
                 <div className="flex items-center gap-4">
-                  <div className="text-xs text-muted-foreground md:w-12">
+                  <div className="text-xs text-muted-foreground">
                     {" "}
                     {tip.isWaiters ? "waiters" : "barmen"}{" "}
                   </div>
@@ -320,7 +315,7 @@ export default function TipsAddForm({
                     {employeeTotal.toFixed(0)}
                   </div>
                 </div>
-                <div className="flex">
+                <div className="flex gap-2">
                   <TextInput
                     fieldName={`tipsAdd.${index}.employeeName`}
                     className="w-32 bg-transparent! border-0 shadow-none font-bold p-1 pb-0 text-bl"
@@ -349,7 +344,7 @@ export default function TipsAddForm({
                     onChange={(val: string) =>
                       setTempValues((prev) => ({ ...prev, [index]: val }))
                     }
-                    className={cn("w-12 h-7", !numericValue && "bg-bl")}
+                    className={cn("w-14 h-7", !numericValue && "bg-bl")}
                     onFocus={() => setFocusedIndex(index)}
                   />
 
@@ -373,21 +368,24 @@ export default function TipsAddForm({
             );
           })}
         </div>
+        <div className="hidden xl:block"></div>
 
         <div className="flex flex-col gap-2 md:mx-4">
           {allAmounts.map((item: any, i: number) => (
             <div
               key={i}
-              className="grid grid-cols-5 text-xs w-full [&>span]:text-center md:px-4"
+              className="grid grid-cols-5 text-xs w-full [&>span]:text-center"
             >
               {" "}
-              <span className="text-start! px-4">
+              <span className="text-start!">
                 {" "}
                 {item.employeeName.split(" ")[1]}{" "}
                 {item.employeeName.split(" ")[0].slice(0, 1)}{" "}
               </span>{" "}
-              <span>{item.shift}</span> <span>{item.value}</span>{" "}
-              <span>{item.typeAmount}</span> <span>{item.time}</span>{" "}
+              <span>{item.shift}</span>{" "}
+              <span>{disabled ? "***" : item.value}</span>{" "}
+              <span>{disabled ? "***" : item.typeAmount}</span>{" "}
+              <span>{item.time}</span>{" "}
             </div>
           ))}
         </div>
