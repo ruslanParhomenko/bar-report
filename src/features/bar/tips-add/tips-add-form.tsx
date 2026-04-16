@@ -1,15 +1,14 @@
 "use client";
 
-import { useFormContext, useWatch } from "react-hook-form";
+import { UseFieldArrayReturn, useFormContext, useWatch } from "react-hook-form";
 import NumericInput from "@/components/inputs-form/numeric-input";
-import TextInput from "@/components/inputs-form/text-input";
 import { Button } from "@/components/ui/button";
-import { useEffect, useState, useMemo, useTransition } from "react";
-import { PlusIcon, UserX } from "lucide-react";
+import { useEffect, useState, useTransition } from "react";
+import { Home, PlusIcon, UserX } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { createDefaultTipsAdd, TipsAddFormValues } from "./schema";
+import { createDefaultTipsAdd } from "./schema";
 import SelectInput from "@/components/select/select-input";
-import { TYPE_AMOUNT } from "./constants";
+import { SHIFTS, TYPE_AMOUNT } from "./constants";
 
 import {
   Dialog,
@@ -21,6 +20,7 @@ import {
 } from "@/components/ui/dialog";
 
 import { Switch } from "@/components/ui/switch";
+import { BarFormValues } from "../schema";
 
 export default function TipsAddForm({
   tipsArrayByEmployee,
@@ -28,69 +28,67 @@ export default function TipsAddForm({
   disabled,
   currency,
 }: {
-  tipsArrayByEmployee: any;
-  options: any[];
+  tipsArrayByEmployee: UseFieldArrayReturn<BarFormValues, "tipsAdd", "fieldId">;
+  options: {
+    id: string;
+    name: string;
+    role: string;
+    idShift: string | undefined;
+  }[];
   disabled: boolean;
   currency: string;
 }) {
   const { getValues, setValue } = useFormContext();
 
+  const currentTime = new Date().getTime();
+
   const [tempValues, setTempValues] = useState<Record<number, string>>({});
   const [tempTypes, setTempTypes] = useState<Record<number, string>>({});
-  const [focusedIndex, setFocusedIndex] = useState<number | null>(null);
-
   const [confirmIndex, setConfirmIndex] = useState<number | null>(null);
   const [isPending, startTransition] = useTransition();
 
-  const tipsValues = useWatch({ name: "tipsAdd" }) ?? [];
+  const [focusedIndex, setFocusedIndex] = useState<number | null>(null);
 
-  const mergeEmployees = (tipsAdd: TipsAddFormValues[]) => {
-    const map = new Map();
-
-    tipsAdd.forEach((emp) => {
-      if (!map.has(emp.idEmployee)) {
-        map.set(emp.idEmployee, {
-          ...emp,
-          amount: [...(emp.amount || [])],
-        });
-      } else {
-        const existing = map.get(emp.idEmployee);
-        existing.amount.push(...(emp.amount || []));
-      }
-    });
-
-    return Array.from(map.values());
-  };
-
-  const employees = mergeEmployees(tipsArrayByEmployee.fields);
-
-  console.log(employees);
+  const tipsValues =
+    useWatch<BarFormValues, "tipsAdd">({
+      name: "tipsAdd",
+    }) ?? [];
 
   useEffect(() => {
     if (!options?.length) return;
 
-    const existingIds = new Set(tipsValues.map((t: any) => t.idEmployee));
+    const current = getValues("tipsAdd") || [];
+    const date = getValues("date");
 
-    const newEmployees = options.filter((opt: any) => !existingIds.has(opt.id));
+    if (!date) return;
+
+    const existingIds = new Set(current.map((e: any) => e.idEmployee));
+
+    const SHIFT_DURATION_MS = 12 * 60 * 60 * 1000;
+
+    const newEmployees = options.filter((emp: any) => !existingIds.has(emp.id));
 
     if (newEmployees.length > 0) {
-      const now = Math.floor(Date.now() / 1000);
-      const shiftDuration = 12 * 60 * 60;
-
       tipsArrayByEmployee.append(
         newEmployees.map((emp: any) => {
+          const shift = emp.idShift ?? "8-20";
+
+          const base = new Date(date);
+          base.setHours(0, 0, 0, 0);
+
+          const { hours, minutes } = SHIFTS[shift as keyof typeof SHIFTS];
+
+          base.setHours(hours, minutes, 0, 0);
+
           return {
             ...createDefaultTipsAdd(),
             idEmployee: emp.id,
             employeeName: emp.name,
-            shift: emp.idShift ?? "8-20",
+            shift,
             role: emp.role,
             amount: [],
-
-            createdAt: now,
-
-            endDate: now + shiftDuration,
-
+            createdAt: Date.now(),
+            endDate: base.getTime() + SHIFT_DURATION_MS,
             isWaiters: emp.role === "waiters",
             resultAmount: [],
             isClosed: false,
@@ -98,18 +96,8 @@ export default function TipsAddForm({
         }),
       );
     }
-  }, [options, tipsArrayByEmployee, tipsValues]);
+  }, [options]);
 
-  const tipsMap = useMemo(() => {
-    const map = new Map();
-    tipsValues.forEach((t: any, index: number) => {
-      map.set(t.idEmployee, { ...t, index });
-    });
-    return map;
-  }, [tipsValues]);
-
-  const data = new Date().toISOString();
-  console.log(data);
   const handleAddAmount = (index: number) => {
     const value = tempValues[index];
     const typeAmount =
@@ -119,8 +107,7 @@ export default function TipsAddForm({
 
     const currentAmount = getValues(`tipsAdd.${index}.amount`) || [];
 
-    const now = new Date();
-    const time = now.toLocaleTimeString("ru-RU", {
+    const time = new Date().toLocaleTimeString("ru-RU", {
       hour: "2-digit",
       minute: "2-digit",
     });
@@ -131,21 +118,11 @@ export default function TipsAddForm({
       shouldDirty: true,
     });
 
-    if (tempTypes[index] !== undefined) {
-      setValue(`tipsAdd.${index}.typeAmount`, tempTypes[index], {
-        shouldDirty: true,
-      });
-    }
-
-    const allEmployees = getValues("tipsAdd") || [];
-
-    const currentTime = Math.floor(Date.now() / 1000);
-
-    const isWaiters = getValues(`tipsAdd.${index}.isWaiters`);
     const numericValue = Number(value);
-
     const tipsMdl =
       typeAmount === "mdl" ? numericValue : numericValue * Number(currency);
+
+    const isWaiters = getValues(`tipsAdd.${index}.isWaiters`);
 
     if (!isWaiters) {
       const currentResult = getValues(`tipsAdd.${index}.resultAmount`) || [];
@@ -160,20 +137,18 @@ export default function TipsAddForm({
       return;
     }
 
+    const allEmployees = getValues("tipsAdd") || [];
+    const now = Date.now();
+
     const filtered = allEmployees.filter((emp: any) => {
-      if (!emp.isWaiters) return false;
-      if (emp.isClosed) return false;
-
-      const start = emp.createdAt;
-      const end = emp.endDate;
-
-      return currentTime >= start && currentTime <= end;
+      if (!emp.isWaiters || emp.isClosed) return false;
+      return now >= emp.createdAt && now <= emp.endDate;
     });
 
     if (!filtered.length) return;
 
-    const partTips = tipsMdl / 2;
-    const partTipsToEmployee = partTips / filtered.length;
+    const part = tipsMdl / 2;
+    const perEmployee = part / filtered.length;
 
     filtered.forEach((emp: any) => {
       const empIndex = allEmployees.findIndex(
@@ -184,9 +159,7 @@ export default function TipsAddForm({
 
       const isCurrent = empIndex === index;
 
-      const valueToPush = isCurrent
-        ? partTips + partTipsToEmployee
-        : partTipsToEmployee;
+      const valueToPush = isCurrent ? part + perEmployee : perEmployee;
 
       setValue(
         `tipsAdd.${empIndex}.resultAmount`,
@@ -196,6 +169,12 @@ export default function TipsAddForm({
     });
 
     setTempValues((p) => ({ ...p, [index]: "" }));
+  };
+
+  const openConfirmModal = (index: number) => {
+    startTransition(() => {
+      setConfirmIndex(index);
+    });
   };
 
   const allAmounts =
@@ -258,76 +237,77 @@ export default function TipsAddForm({
         {currency}
       </div>
 
-      <div className="grid grid-cols-1 xl:grid-cols-[48%_5%_32%]  justify-between w-full md:gap-4 md:p-4">
-        <div className="flex flex-col  justify-between gap-4">
-          {options.map((opt: any) => {
-            const tip = tipsMap.get(opt.id);
-            if (!tip) return null;
+      <div className="grid grid-cols-1 xl:grid-cols-[48%_5%_32%] justify-between w-full md:gap-4 md:p-4">
+        <div className="flex flex-col gap-4">
+          {tipsArrayByEmployee.fields.map((field, index) => {
+            const tip = tipsValues[index];
 
-            console.log("tip", tip);
+            const isFocused = index === focusedIndex;
 
-            const index = tip.index;
+            const timeEnd = tip?.endDate;
+
+            const isFinished = timeEnd < currentTime;
 
             const numericValue = tempValues[index] || "";
             const typeAmount =
               tempTypes[index] ?? getValues(`tipsAdd.${index}.typeAmount`);
 
-            const employeeTotal = (tip.resultAmount || []).reduce(
+            const employeeTotal = (tip?.resultAmount || []).reduce(
               (s: number, v: any) => s + Number(v),
               0,
             );
 
             return (
               <div
-                key={opt.id}
+                key={field.fieldId}
                 className={cn(
                   "flex items-center justify-between",
-                  tip.isClosed && "opacity-40 line-through",
+                  tip?.isClosed && "opacity-40 line-through",
                 )}
               >
                 <div className="flex items-center gap-4">
-                  <div className="text-xs text-muted-foreground">
-                    {" "}
-                    {tip.isWaiters ? "waiters" : "barmen"}{" "}
+                  <div className="w-5">
+                    {isFinished && <Home className="h-4 w-4 text-rd" />}
                   </div>
+                  <div className="text-xs text-muted-foreground">
+                    {tip?.isWaiters ? "waiters" : "barmen"}
+                  </div>
+
                   <Switch
-                    checked={tip.isWaiters}
+                    checked={!!tip?.isWaiters}
                     onCheckedChange={(val) =>
                       setValue(`tipsAdd.${index}.isWaiters`, val, {
                         shouldDirty: true,
                       })
                     }
                     disabled={
-                      isPending || tip.isClosed || tip.role === "waiters"
+                      isPending || tip?.isClosed || tip?.role === "waiters"
                     }
                   />
 
                   <button
                     type="button"
-                    onClick={() =>
-                      startTransition(() => setConfirmIndex(index))
-                    }
+                    onClick={() => openConfirmModal(index)}
                     className="cursor-pointer mx-2"
                   >
                     <UserX className="w-4 h-4 text-rd" />
                   </button>
+
                   <div className="w-6 px-2 text-xs">
                     {employeeTotal.toFixed(0)}
                   </div>
                 </div>
-                <div className="flex gap-2">
-                  <TextInput
-                    fieldName={`tipsAdd.${index}.employeeName`}
-                    className="w-32 bg-transparent! border-0 shadow-none font-bold p-1 pb-0 text-bl"
-                    readonly
-                  />
 
-                  <TextInput
-                    fieldName={`tipsAdd.${index}.shift`}
-                    className="w-12 bg-transparent! border-0 shadow-none font-bold p-1 pb-0 text-xs justify-center items-center"
-                    disabled
-                  />
+                <div
+                  className={cn(
+                    "text-sm font-bold text-bl",
+                    isFocused && "text-rd!",
+                  )}
+                >
+                  {tip?.employeeName}
                 </div>
+                <div className="text-sm font-bold text-bl">{tip?.shift}</div>
+
                 <div className="flex gap-8">
                   <SelectInput
                     value={typeAmount}
@@ -336,39 +316,39 @@ export default function TipsAddForm({
                     }
                     options={TYPE_AMOUNT}
                     className="w-14 h-7!"
-                    placeHolder="..."
                   />
 
                   <NumericInput
                     value={numericValue}
                     onChange={(val: string) =>
-                      setTempValues((prev) => ({ ...prev, [index]: val }))
+                      setTempValues((p) => ({ ...p, [index]: val }))
                     }
                     className={cn("w-14 h-7", !numericValue && "bg-bl")}
                     onFocus={() => setFocusedIndex(index)}
+                    disabled={isPending || tip?.isClosed}
                   />
 
                   <Button
                     type="button"
                     variant="ghost"
                     onClick={() => handleAddAmount(index)}
+                    disabled={
+                      !numericValue || !typeAmount || isPending || tip?.isClosed
+                    }
                     className={cn(
                       "h-8 w-10 cursor-pointer",
                       numericValue && "bg-red-600 text-white",
                     )}
-                    disabled={
-                      !numericValue || !typeAmount || isPending || tip.isClosed
-                    }
                   >
-                    {" "}
-                    <PlusIcon className="font-bold" />{" "}
+                    <PlusIcon />
                   </Button>
                 </div>
               </div>
             );
           })}
         </div>
-        <div className="hidden xl:block"></div>
+
+        <div className="hidden xl:block" />
 
         <div className="flex flex-col gap-2 md:mx-4">
           {allAmounts.map((item: any, i: number) => (
@@ -376,16 +356,14 @@ export default function TipsAddForm({
               key={i}
               className="grid grid-cols-5 text-xs w-full [&>span]:text-center"
             >
-              {" "}
               <span className="text-start!">
-                {" "}
                 {item.employeeName.split(" ")[1]}{" "}
-                {item.employeeName.split(" ")[0].slice(0, 1)}{" "}
-              </span>{" "}
-              <span>{item.shift}</span>{" "}
-              <span>{disabled ? "***" : item.value}</span>{" "}
-              <span>{disabled ? "***" : item.typeAmount}</span>{" "}
-              <span>{item.time}</span>{" "}
+                {item.employeeName.split(" ")[0].slice(0, 1)}
+              </span>
+              <span>{item.shift}</span>
+              <span>{disabled ? "***" : item.value}</span>
+              <span>{disabled ? "***" : item.typeAmount}</span>
+              <span>{item.time}</span>
             </div>
           ))}
         </div>

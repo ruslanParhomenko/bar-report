@@ -5,6 +5,7 @@ export const amountSchema = z.object({
   time: z.string(),
   typeAmount: z.enum(["mdl", "chips"]),
 });
+const resultAmountSchema = z.number();
 
 export type Amount = z.infer<typeof amountSchema>;
 
@@ -15,19 +16,29 @@ export const createDefaultAmount = (): Amount => ({
 });
 
 export const tipsAddSchema = z.object({
-  idEmployee: z.string(),
-  employeeName: z.string(),
   amount: z.array(amountSchema),
-  shift: z.enum(["8-20", "9-21", "12-00", "18-06", "20-08"]),
+  createdAt: z.number(),
+  employeeName: z.string(),
+  endDate: z.number(),
+  idEmployee: z.string(),
+  isClosed: z.boolean(),
+  isWaiters: z.boolean(),
+  resultAmount: z.array(resultAmountSchema),
   role: z.enum(["waiters", "barmen"]),
+  shift: z.enum(["8-20", "9-21", "12-00", "18-06", "20-08"]),
 });
 
 export type TipsAddFormValues = z.infer<typeof tipsAddSchema>;
 
 export const createDefaultTipsAdd = (): TipsAddFormValues => ({
-  idEmployee: "",
-  employeeName: "",
   amount: [createDefaultAmount()],
+  createdAt: 0,
+  endDate: 0,
+  idEmployee: "",
+  isClosed: false,
+  isWaiters: false,
+  resultAmount: [],
+  employeeName: "",
   shift: "8-20",
   role: "waiters",
 });
