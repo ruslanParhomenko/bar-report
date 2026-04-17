@@ -112,7 +112,9 @@ export default function TipsAddForm({
       minute: "2-digit",
     });
 
-    const newItem = { value, time, typeAmount };
+    const uniqueId = new Date().getTime().toString();
+
+    const newItem = { value, time, typeAmount, uniqueId };
 
     setValue(`tipsAdd.${index}.amount`, [...currentAmount, newItem], {
       shouldDirty: true,
@@ -129,7 +131,13 @@ export default function TipsAddForm({
 
       setValue(
         `tipsAdd.${index}.resultAmount`,
-        [...currentResult, Number(tipsMdl.toFixed(2))],
+        [
+          ...currentResult,
+          {
+            value: Number(tipsMdl.toFixed(2)),
+            uniqueId,
+          },
+        ],
         { shouldDirty: true },
       );
 
@@ -163,7 +171,13 @@ export default function TipsAddForm({
 
       setValue(
         `tipsAdd.${empIndex}.resultAmount`,
-        [...currentResult, Number(valueToPush.toFixed(2))],
+        [
+          ...currentResult,
+          {
+            value: Number(valueToPush.toFixed(2)),
+            uniqueId,
+          },
+        ],
         { shouldDirty: true },
       );
     });
