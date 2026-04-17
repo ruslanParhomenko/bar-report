@@ -267,7 +267,7 @@ export default function TipsAddForm({
               tempTypes[index] ?? getValues(`tipsAdd.${index}.typeAmount`);
 
             const employeeTotal = (tip?.resultAmount || []).reduce(
-              (s: number, v: any) => s + Number(v),
+              (s: number, v: any) => s + Number(v.value),
               0,
             );
 
