@@ -4,7 +4,7 @@ import { UseFieldArrayReturn, useFormContext, useWatch } from "react-hook-form";
 import NumericInput from "@/components/inputs-form/numeric-input";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState, useTransition } from "react";
-import { Home, PlusIcon, UserX } from "lucide-react";
+import { ClockPlusIcon, Home, PlusIcon, UserX } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { createDefaultTipsAdd } from "./schema";
 import SelectInput from "@/components/select/select-input";
@@ -45,6 +45,7 @@ export default function TipsAddForm({
   const [tempValues, setTempValues] = useState<Record<number, string>>({});
   const [tempTypes, setTempTypes] = useState<Record<number, string>>({});
   const [confirmIndex, setConfirmIndex] = useState<number | null>(null);
+  const [confirmOverIndex, setConfirmOverIndex] = useState<number | null>(null);
   const [isPending, startTransition] = useTransition();
 
   const [focusedIndex, setFocusedIndex] = useState<number | null>(null);
@@ -92,6 +93,7 @@ export default function TipsAddForm({
             isWaiters: emp.role === "waiters",
             resultAmount: [],
             isClosed: false,
+            over: 0,
           };
         }),
       );
@@ -150,7 +152,7 @@ export default function TipsAddForm({
 
     const filtered = allEmployees.filter((emp: any) => {
       if (!emp.isWaiters || emp.isClosed) return false;
-      return now >= emp.createdAt && now <= emp.endDate;
+      return now >= emp.createdAt && now <= emp.endDate + (emp.over || 0);
     });
 
     if (!filtered.length) return;
@@ -191,6 +193,12 @@ export default function TipsAddForm({
     });
   };
 
+  const openOverModal = (index: number) => {
+    startTransition(() => {
+      setConfirmOverIndex(index);
+    });
+  };
+
   const allAmounts =
     tipsValues
       ?.flatMap((emp: any) =>
@@ -206,6 +214,52 @@ export default function TipsAddForm({
 
   return (
     <>
+      <Dialog
+        open={confirmOverIndex !== null}
+        onOpenChange={(open) => !open && setConfirmOverIndex(null)}
+      >
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Добавить овертайм?</DialogTitle>
+            <DialogDescription>
+              Добавить сотруднику +1 час к смене.
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="text-sm font-medium">
+            {confirmOverIndex !== null &&
+              getValues(`tipsAdd.${confirmOverIndex}.employeeName`)}
+          </div>
+
+          <DialogFooter>
+            <Button variant="ghost" onClick={() => setConfirmOverIndex(null)}>
+              Отмена
+            </Button>
+
+            <Button
+              disabled={isPending}
+              onClick={() => {
+                if (confirmOverIndex === null) return;
+
+                const currentOver =
+                  getValues(`tipsAdd.${confirmOverIndex}.over`) || 0;
+
+                const ONE_HOUR = 60 * 60 * 1000;
+
+                setValue(
+                  `tipsAdd.${confirmOverIndex}.over`,
+                  currentOver + ONE_HOUR,
+                  { shouldDirty: true },
+                );
+
+                setConfirmOverIndex(null);
+              }}
+            >
+              Добавить
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
       <Dialog
         open={confirmIndex !== null}
         onOpenChange={(open) => !open && setConfirmIndex(null)}
@@ -251,8 +305,8 @@ export default function TipsAddForm({
         {currency}
       </div>
 
-      <div className="grid grid-cols-1 xl:grid-cols-[48%_5%_32%] justify-between w-full md:gap-4 md:p-4">
-        <div className="flex flex-col gap-4">
+      <div className="grid grid-cols-[60%_40%] h-full w-full md:gap-4 md:p-4">
+        <div className="flex flex-col gap-4 overflow-auto">
           {tipsArrayByEmployee.fields.map((field, index) => {
             const tip = tipsValues[index];
 
@@ -271,20 +325,27 @@ export default function TipsAddForm({
               0,
             );
 
+            const endTime = new Date(
+              tip?.endDate + (tip?.over || 0),
+            ).toLocaleTimeString("ru-RU", {
+              hour: "2-digit",
+              minute: "2-digit",
+            });
+
             return (
               <div
                 key={field.fieldId}
                 className={cn(
-                  "flex items-center justify-between",
+                  "grid grid-cols-3  items-center justify-between",
                   tip?.isClosed && "opacity-40 line-through",
                 )}
               >
                 <div className="flex items-center gap-4">
-                  <div className="w-5">
+                  <div className="w-6">
                     {isFinished && <Home className="h-4 w-4 text-rd" />}
                   </div>
-                  <div className="text-xs text-muted-foreground">
-                    {tip?.isWaiters ? "waiters" : "barmen"}
+                  <div className="text-xs text-muted-foreground w-8">
+                    {tip?.isWaiters ? "w" : "b"}
                   </div>
 
                   <Switch
@@ -297,32 +358,23 @@ export default function TipsAddForm({
                     disabled={
                       isPending || tip?.isClosed || tip?.role === "waiters"
                     }
+                    className="mx-2"
                   />
 
                   <button
                     type="button"
                     onClick={() => openConfirmModal(index)}
-                    className="cursor-pointer mx-2"
+                    className="cursor-pointer px-2"
                   >
                     <UserX className="w-4 h-4 text-rd" />
                   </button>
 
-                  <div className="w-6 px-2 text-xs">
+                  <div className="w-10 px-2 text-xs">
                     {employeeTotal.toFixed(0)}
                   </div>
                 </div>
 
-                <div
-                  className={cn(
-                    "text-sm font-bold text-bl",
-                    isFocused && "text-rd!",
-                  )}
-                >
-                  {tip?.employeeName}
-                </div>
-                <div className="text-sm font-bold text-bl">{tip?.shift}</div>
-
-                <div className="flex gap-8">
+                <div className="flex items-center justify-center gap-6">
                   <SelectInput
                     value={typeAmount}
                     onChange={(val: string) =>
@@ -357,18 +409,36 @@ export default function TipsAddForm({
                     <PlusIcon />
                   </Button>
                 </div>
+
+                <div className="flex items-center justify-center">
+                  <div
+                    className={cn(
+                      "text-sm font-bold text-bl w-40",
+                      isFocused && "text-rd!",
+                    )}
+                  >
+                    {tip?.employeeName}
+                  </div>
+
+                  <div className="text-sm font-bold w-12">{endTime}</div>
+                  <button
+                    type="button"
+                    className="w-12 cursor-pointer flex justify-center items-center"
+                    onClick={() => openOverModal(index)}
+                  >
+                    <ClockPlusIcon className="w-4 h-4 text-red-600" />
+                  </button>
+                </div>
               </div>
             );
           })}
         </div>
 
-        <div className="hidden xl:block" />
-
-        <div className="flex flex-col gap-2 md:mx-4">
+        <div className="flex flex-col gap-2 md:mx-4 overflow-auto h-[80vh]">
           {allAmounts.map((item: any, i: number) => (
             <div
               key={i}
-              className="grid grid-cols-5 text-xs w-full [&>span]:text-center"
+              className="grid grid-cols-5 text-xs w-full [&>span]:text-center [&>span]:text-muted-foreground [&>span]:p-0.5"
             >
               <span className="text-start!">
                 {item.employeeName.split(" ")[1]}{" "}

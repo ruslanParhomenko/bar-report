@@ -32,6 +32,7 @@ export const tipsAddSchema = z.object({
   resultAmount: z.array(resultAmountSchema),
   role: z.enum(["waiters", "barmen"]),
   shift: z.enum(["8-20", "9-21", "12-00", "18-06", "20-08"]),
+  over: z.number().optional(),
 });
 
 export type TipsAddFormValues = z.infer<typeof tipsAddSchema>;
@@ -47,4 +48,5 @@ export const createDefaultTipsAdd = (): TipsAddFormValues => ({
   employeeName: "",
   shift: "8-20",
   role: "waiters",
+  over: 0,
 });
