@@ -3,7 +3,7 @@ import { isCanEdit } from "./utils";
 import PrintButton from "@/components/buttons/print-button";
 import EditButton from "@/components/buttons/edit-button";
 import MailButton from "@/components/buttons/mail-button";
-import { PlusCircleIcon } from "lucide-react";
+import { PlusCircleIcon, SaveIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useContext } from "react";
 import { RefContext } from "@/providers/client-ref-provider";
@@ -59,6 +59,16 @@ export default function ScheduleActionButton({
         />
       </button>
       <ExitButton className="text-bl" url={returnUrl} />
+      <button
+        type="submit"
+        form="schedule-form"
+        onClick={() => console.log("click")}
+      >
+        <SaveIcon
+          className={cn("h-5 w-5", isSave && "text-rd")}
+          strokeWidth={ref ? 1.5 : 2}
+        />
+      </button>
     </div>
   );
 }

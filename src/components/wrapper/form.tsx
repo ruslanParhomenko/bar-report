@@ -24,6 +24,7 @@ type FormInputProps<T extends FieldValues> = {
   ref?: React.RefObject<HTMLDivElement | null> | null;
   url?: string;
   defaultValues?: any;
+  id?: string;
 };
 
 export default function FormInput<T extends FieldValues>({
@@ -41,6 +42,7 @@ export default function FormInput<T extends FieldValues>({
   ref,
   url,
   defaultValues,
+  id,
 }: FormInputProps<T>) {
   const router = useRouter();
 
@@ -57,6 +59,7 @@ export default function FormInput<T extends FieldValues>({
       <form
         onSubmit={form.handleSubmit(handleFormSubmit, onError || (() => {}))}
         className={cn("flex flex-col h-[95vh]", className)}
+        id={id}
       >
         {children}
 

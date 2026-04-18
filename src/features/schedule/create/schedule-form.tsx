@@ -131,7 +131,7 @@ export function ScheduleCreatePage({
   if (!tab) return null;
 
   return (
-    <FormInput form={form} onSubmit={onSubmit}>
+    <FormInput form={form} onSubmit={onSubmit} id={"schedule-form"}>
       <Table className="table-fixed">
         <ScheduleTableHeader
           addNewRow={addRow}
