@@ -10,7 +10,7 @@ import { cn } from "@/lib/utils";
 import { EmployeesContextValue } from "@/providers/employees-provider";
 import { ScheduleType } from "./schema";
 import { color } from "./constants";
-import { calculateSalaryByHours } from "../utils";
+import { calculateSalaryByHours } from "./utils";
 import SelectField from "@/components/inputs-form/select-input";
 import { handleMultiTableNavigation } from "@/utils/handle-table-navigation";
 import MoveButton from "@/components/buttons/move-button";
@@ -70,32 +70,35 @@ export default function ScheduleCreateTableBody({
             className="hover:text-rd group [&>td]:p-0 [&>td]:text-xs"
           >
             <TableCell
-              className="text-rd cursor-pointer"
+              className="text-rd cursor-pointer px-1"
               onClick={() => remove(rowIndex)}
             >
               {rowIndex + 1}
             </TableCell>
 
-            <TableCell className="text-bl hover-cell">
+            <TableCell className="text-bl hover-cell px-0">
               {totalDay || 0}
             </TableCell>
-            <TableCell className="text-bl hover-cell">
+            <TableCell className="text-bl hover-cell px-0">
               {totalNight || 0}
             </TableCell>
 
-            <TableCell className="font-bold">{total || 0}</TableCell>
+            <TableCell className="px-0">{total || 0}</TableCell>
 
-            <TableCell>{totalPay && ` ${totalPay.toFixed()}`}</TableCell>
+            <TableCell className="px-2">
+              {totalPay && totalPay.toFixed()}
+            </TableCell>
+            <TableCell className="text-muted-foreground  text-right px-2!">
+              {row.role.charAt(0)}
+              {rate / 1000}
+            </TableCell>
             <TableCell className="sticky left-0 pl-2!">
               <SelectField
                 fieldName={`rowShifts.${rowIndex}.employee`}
                 data={selectedEmployees.map((e) => e.name)}
-                className="hover-cell p-0 text-xs "
+                className="hover-cell p-0 text-xs truncate"
                 onChange={(name) => handleEmployeeChange(name, rowIndex)}
               />
-            </TableCell>
-            <TableCell>
-              {row.role.charAt(0)}-{rate / 1000}
             </TableCell>
 
             {row.shifts.map((shiftValue, dayIndex) => {

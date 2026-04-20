@@ -1,5 +1,5 @@
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
-import { getMonthDays } from "@/utils/get-month-days";
+import { MonthDayType } from "@/utils/get-month-days";
 import { UseFormReturn } from "react-hook-form";
 import { CashForm } from "./schema";
 import { cn } from "@/lib/utils";
@@ -9,7 +9,7 @@ export default function CashInfo({
   form,
   isDisabled,
 }: {
-  monthDays: ReturnType<typeof getMonthDays>;
+  monthDays: MonthDayType[];
   form: UseFormReturn<CashForm>;
   isDisabled?: boolean;
 }) {

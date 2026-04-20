@@ -19,7 +19,7 @@ export default async function Page({
   const schedules = (await getScheduleByMonthYear(month, year)) ?? null;
   return (
     <ClientRefProvider>
-      <SchedulePage schedules={schedules} params={params} swapsList={null} />
+      <SchedulePage schedules={schedules} params={params} />
     </ClientRefProvider>
   );
 }

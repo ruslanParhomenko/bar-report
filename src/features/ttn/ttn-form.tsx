@@ -31,7 +31,7 @@ export default function TTNForm({
   month: string;
   year: string;
 }) {
-  const monthDays = getMonthDays({ month, year });
+  const { monthDays } = getMonthDays({ month, year });
 
   const { isAdmin } = useAbility();
 

@@ -1,6 +1,6 @@
 import { TableCell, TableHeader, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
-import { getMonthDays } from "@/utils/get-month-days";
+import { MonthDayType } from "@/utils/get-month-days";
 import { useTranslations } from "next-intl";
 
 export function DayByMonthTable({
@@ -11,7 +11,7 @@ export function DayByMonthTable({
   infoCell = false,
 }: {
   month: string;
-  monthDays: ReturnType<typeof getMonthDays>;
+  monthDays: MonthDayType[];
   className?: string;
   navCell?: boolean;
   infoCell?: boolean;

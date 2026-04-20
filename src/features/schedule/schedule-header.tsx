@@ -1,57 +1,93 @@
 import { TableCell, TableHeader, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
-import { getMonthDays } from "@/utils/get-month-days";
-import ScheduleActionButton from "./schedule-action";
-import { ValueParams } from "@/types/params";
-import SelectDay from "@/components/select/select-day";
+import { useContext } from "react";
+import { RefContext } from "@/providers/client-ref-provider";
+import { PenBox, PenOff, PlusCircleIcon, SaveIcon } from "lucide-react";
+import PrintButton from "@/components/buttons/print-button";
+import MailButton from "@/components/buttons/mail-button";
 
 type ScheduleTableHeaderProps = {
-  scheduleId?: string;
-  addNewRow?: () => void;
-  isSave?: boolean;
-  params: ValueParams;
+  month: string;
+  addNewRow: () => void;
+  monthDays: { day: number; weekday: string }[];
   selectedDay?: string;
   setSelectedDay?: (day: string) => void;
+  setIsEdit?: (isEdit: boolean) => void;
+  isEdit: boolean;
   tab: string;
 };
 
 export default function ScheduleTableHeader({
-  scheduleId,
+  month,
   addNewRow,
-  isSave = false,
-  params,
+  monthDays,
   selectedDay,
   setSelectedDay,
+  setIsEdit,
+  isEdit,
   tab,
 }: ScheduleTableHeaderProps) {
-  const { month, year } = params;
   const todayDay = new Date().getDate();
-  const monthDays = getMonthDays({ month, year });
+
+  const ref = useContext(RefContext);
 
   return (
     <TableHeader>
       <TableRow className="h-14!">
-        <TableCell colSpan={5} className="w-40">
-          <ScheduleActionButton
-            scheduleId={scheduleId}
-            isSave={isSave}
-            addNewRow={addNewRow}
-            params={params}
-            tab={tab}
-          />
-        </TableCell>
-        <TableCell className="text-base pl-3 w-32">
-          {month?.toUpperCase() || ""}
-        </TableCell>
-        <TableCell className="w-8 p-0">
-          {selectedDay && (
-            <SelectDay
-              value={selectedDay}
-              onChange={setSelectedDay || (() => {})}
-              monthDays={monthDays}
-              className="w-6"
+        <TableCell colSpan={6} className="w-42">
+          <div className="flex justify-center items-start gap-3">
+            <button
+              type="button"
+              onClick={() => {
+                setIsEdit && setIsEdit(!isEdit);
+              }}
+              className="cursor-pointer"
+            >
+              {isEdit ? (
+                <PenOff className="h-5 w-5 hover:text-bl" />
+              ) : (
+                <PenBox className="h-5 w-5 hover:text-bl" />
+              )}
+            </button>
+            <PrintButton
+              componentRef={ref}
+              disabled={isEdit}
+              className="text-bl"
             />
-          )}
+
+            <MailButton
+              componentRef={ref}
+              disabled={isEdit}
+              patch={tab}
+              className="text-bl"
+            />
+            <button
+              type="button"
+              onClick={() => {
+                addNewRow();
+              }}
+              className={"cursor-pointer text-bl"}
+              disabled={!isEdit}
+            >
+              <PlusCircleIcon
+                className={cn("h-5 w-5", isEdit && "text-rd")}
+                strokeWidth={ref ? 1.5 : 2}
+              />
+            </button>
+            <button
+              type="submit"
+              disabled={!isEdit}
+              className={"cursor-pointer"}
+            >
+              <SaveIcon
+                className={cn("h-5 w-5 text-bl", !isEdit && "opacity-50")}
+                strokeWidth={ref ? 1.5 : 2}
+              />
+            </button>
+          </div>
+        </TableCell>
+        <TableCell className="text-base pl-2  w-26">
+          {month?.toUpperCase() || ""}
         </TableCell>
 
         {monthDays
@@ -64,9 +100,18 @@ export default function ScheduleTableHeader({
             <TableCell
               key={day.day}
               className={cn(
-                "w-10.5 cursor-pointer p-0",
+                "w-9 cursor-pointer p-0",
                 day.day === todayDay && "text-rd font-bold",
               )}
+              onClick={() => {
+                if (setSelectedDay) {
+                  if (selectedDay === day.day.toString()) {
+                    setSelectedDay("0");
+                  } else {
+                    setSelectedDay(day.day.toString());
+                  }
+                }
+              }}
             >
               <div className="flex flex-col items-center">
                 <span className="text-sm font-semibold">{day.day}</span>
@@ -77,7 +122,7 @@ export default function ScheduleTableHeader({
             </TableCell>
           ))}
 
-        {isSave && <TableCell className="w-6 p-0" />}
+        <TableCell className="w-4 p-0" />
       </TableRow>
     </TableHeader>
   );

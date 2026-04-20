@@ -31,7 +31,7 @@ export default function AoForm({
   month: string;
   year: string;
 }) {
-  const monthDays = getMonthDays({ month, year });
+  const { monthDays } = getMonthDays({ month, year });
 
   const { isAdmin, isCash } = useAbility();
   const isDisabled = !isAdmin && !isCash;

@@ -60,12 +60,14 @@ function SelectField({
             <FormControl>
               <SelectTrigger
                 className={cn(
-                  "flex justify-start min-w-12 [&>svg]:hidden bg-transparent!",
+                  "flex justify-start truncate w-full [&>svg]:hidden bg-transparent!",
                   className,
                   field.value && "border-0 shadow-none font-bold",
                 )}
               >
-                <SelectValue placeholder={placeHolder} />
+                <span className="truncate block">
+                  <SelectValue placeholder={placeHolder} />
+                </span>
               </SelectTrigger>
             </FormControl>
 

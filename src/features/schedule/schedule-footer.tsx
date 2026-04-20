@@ -1,18 +1,16 @@
 import { TableCell, TableFooter, TableRow } from "@/components/ui/table";
-import { COLOR_SHIFT, SHIFT_OPTIONS, SHIFTS } from "./create/constants";
+import { COLOR_SHIFT, SHIFT_OPTIONS, SHIFTS } from "./constants";
 import { cn } from "@/lib/utils";
-import { getShiftCounts } from "./utils";
-import { SchedulesContextValue } from "@/app/actions/schedule/schedule-action";
+import type { ShiftCounts } from "./utils";
 
 export default function ScheduleTableFooter({
-  schedule,
+  shiftCounts,
   role,
 }: {
-  schedule: SchedulesContextValue["rowShifts"] | null;
+  shiftCounts: ShiftCounts | null;
   role: string;
 }) {
-  const shiftCounts = schedule && getShiftCounts(schedule);
-
+  if (!shiftCounts) return null;
   return (
     <TableFooter data-html2canvas-ignore="true">
       {shiftCounts &&
@@ -22,8 +20,8 @@ export default function ScheduleTableFooter({
           <TableRow key={i} className="border-0">
             <TableCell colSpan={5} />
             <TableCell colSpan={1} className="print:hidden" />
-            <TableCell className="text-muted-gn py-0 px-3 text-end text-xs">
-              {item}
+            <TableCell className="text-muted-gn py-1 text-center text-xs">
+              {item}:00
             </TableCell>
             {shiftCounts?.[item]?.map((day, index) => (
               <TableCell

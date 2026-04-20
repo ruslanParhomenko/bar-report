@@ -11,7 +11,7 @@ import {
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import { handleMultiTableNavigation } from "@/utils/handle-table-navigation";
-import { type getMonthDays } from "@/utils/get-month-days";
+import { MonthDayType } from "@/utils/get-month-days";
 
 export type ArrayRow = {
   key: string;
@@ -28,7 +28,7 @@ type RowRenderProps<
   nameLabel?: string;
   arrayRows: ArrayRow[];
   form: UseFormReturn<TForm>;
-  monthDays: ReturnType<typeof getMonthDays>;
+  monthDays: MonthDayType[];
   isDisabled?: boolean;
   withTotalFooter?: boolean;
 };

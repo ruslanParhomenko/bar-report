@@ -1,20 +1,24 @@
 import {
   EMPLOYEE_ROLES_BY_DEPARTMENT,
+  SHIFT_HOURS_MAP_DAY,
+  SHIFT_HOURS_MAP_NIGHT,
   SHIFT_OPTIONS,
-} from "./create/constants";
+} from "./constants";
 import { MONTHS } from "@/utils/get-month-days";
 import { useEmployees } from "@/providers/employees-provider";
 import { SchedulesContextValue } from "@/app/actions/schedule/schedule-action";
 
 // getShiftCounts
-export function getShiftCounts(rowShifts: SchedulesContextValue["rowShifts"]) {
-  if (!rowShifts?.length) return {};
+export function getShiftCounts(
+  rowShifts: SchedulesContextValue["rowShifts"],
+): ShiftCounts | null {
+  if (!rowShifts?.length) return null;
 
   const daysCount = rowShifts[0]?.shifts?.length || 0;
 
   const result = Object.fromEntries(
     SHIFT_OPTIONS.map((s) => [s, Array(daysCount).fill(0)]),
-  );
+  ) as ShiftCounts;
 
   rowShifts.forEach((row) => {
     row.shifts.forEach((shiftValue: string, dayIndex: number) => {
@@ -24,7 +28,11 @@ export function getShiftCounts(rowShifts: SchedulesContextValue["rowShifts"]) {
     });
   });
 
-  return result;
+  const hasData = Object.values(result).some((arr) =>
+    arr.some((value) => value > 0),
+  );
+
+  return hasData ? result : null;
 }
 
 export type ShiftCounts = Record<string, number[]>;
@@ -77,4 +85,19 @@ export function getSelectedEmployeesByRole(
       if (roleA !== roleB) return roleA - roleB;
       return a.name.localeCompare(b.name);
     });
+}
+
+//
+export function calculateShiftTotals(shifts: string[] | undefined) {
+  const dayHours = (shifts || []).reduce(
+    (sum, val) => sum + (SHIFT_HOURS_MAP_DAY[val] ?? 0),
+    0,
+  );
+  const nightHours = (shifts || []).reduce(
+    (sum, val) => sum + (SHIFT_HOURS_MAP_NIGHT[val] ?? 0),
+    0,
+  );
+  const total = dayHours + nightHours;
+
+  return { totalDay: dayHours, totalNight: nightHours, total };
 }

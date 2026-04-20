@@ -18,7 +18,7 @@ export default function MoveButton<T extends FieldValues>({
         onClick={() => move(rowIndex, rowIndex - 1)}
         className="cursor-pointer"
       >
-        <ChevronUp className="w-5 h-4" />
+        <ChevronUp className="w-4 h-4" />
       </button>
       <button
         type="button"
@@ -26,7 +26,7 @@ export default function MoveButton<T extends FieldValues>({
         onClick={() => move(rowIndex, rowIndex + 1)}
         className="cursor-pointer"
       >
-        <ChevronDown className="w-5 h-4" />
+        <ChevronDown className="w-4 h-4" />
       </button>
     </div>
   );

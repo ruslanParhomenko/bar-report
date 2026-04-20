@@ -30,7 +30,7 @@ export default function TipsPage({
   const { isAdmin } = useAbility();
   const [showSendButton, setShowSendButton] = useState(false);
 
-  const monthDays = getMonthDays({ month, year });
+  const { monthDays } = getMonthDays({ month, year });
   const employees = useEmployees()
     .filter((e) => e.status === "active")
     .filter((e) =>

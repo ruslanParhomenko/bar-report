@@ -31,7 +31,7 @@ export default function CashPage({
 }) {
   const { month, year } = valueParams;
 
-  const monthDays = getMonthDays({ month, year });
+  const { monthDays } = getMonthDays({ month, year });
 
   const { isAdmin, isCash, isBar } = useAbility();
   const isDisabled = !isAdmin && !isCash;

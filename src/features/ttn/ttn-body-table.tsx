@@ -5,6 +5,7 @@ import { SuppliersFormType } from "./schema";
 import { cn } from "@/lib/utils";
 import { useEffect, useEffectEvent, useState } from "react";
 import { handleMultiTableNavigation } from "@/utils/handle-table-navigation";
+import { MonthDayType } from "@/utils/get-month-days";
 
 export default function TTNBodyTable({
   arrayRows,
@@ -12,7 +13,7 @@ export default function TTNBodyTable({
   isDisabled,
 }: {
   arrayRows: string[];
-  monthDays: ReturnType<typeof import("@/utils/get-month-days").getMonthDays>;
+  monthDays: MonthDayType[];
   isDisabled?: boolean;
 }) {
   const { register, control, setValue } = useFormContext<SuppliersFormType>();

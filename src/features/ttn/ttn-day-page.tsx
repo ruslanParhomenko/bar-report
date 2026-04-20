@@ -34,7 +34,7 @@ export default function TTNDayPage({
 }) {
   const componentRef = useRef<HTMLDivElement>(null);
 
-  const monthDays = getMonthDays({ month, year });
+  const { monthDays } = getMonthDays({ month, year });
 
   const [selectedDay, setSelectedDay] = useState<string>(
     new Date().getDate().toString(),

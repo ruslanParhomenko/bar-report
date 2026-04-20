@@ -63,7 +63,7 @@ export default function PenaltyDetails({
     await deleteRemarksDay(uniqueKey, day);
   };
   if (!data) return null;
-  const monthDays = getMonthDays({ month: data.month, year: data.year });
+  const { monthDays } = getMonthDays({ month: data.month, year: data.year });
 
   return (
     <div className="flex flex-col h-[94vh]">
