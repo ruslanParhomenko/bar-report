@@ -100,7 +100,7 @@ export default function NavTabs() {
   const flexType = navItems.length < 4 ? "flex-row" : "flex-col";
 
   const selectClassName =
-    "md:w-24 w-10 h-7! md:border px-1 rounded-md text-bl md:text-md text-xs";
+    "md:w-24 w-10 h-7! md:border-border/30 px-1 rounded-md text-bl md:text-md text-xs bg-border/30";
 
   return (
     <div

@@ -1,26 +1,24 @@
-import { Label } from "@/components/ui/label";
 import { TableCell, TableFooter, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
-import { UseFormReturn, useWatch } from "react-hook-form";
+import { useFormContext, UseFormReturn, useWatch } from "react-hook-form";
 import { calculateTipsTotal } from "./utils";
+import { handleMultiTableNavigation } from "@/utils/handle-table-navigation";
+import { useMonthDays } from "@/providers/month-days-provider";
 
-export function TipsTableFooter({
-  monthDays,
-  form,
-}: {
-  monthDays: { day: number; weekday: string }[];
-  form: UseFormReturn<any>;
-}) {
+export function TipsTableFooter({ isEdit }: { isEdit: boolean }) {
+  const { monthDays } = useMonthDays();
   if (!monthDays) return null;
+
+  const { control, register } = useFormContext();
 
   const value =
     useWatch({
-      control: form.control,
+      control: control,
       name: "rowEmployeesTips",
     }) || [];
   const cashValue =
     useWatch({
-      control: form.control,
+      control: control,
       name: "rowCashTips",
     }) || [];
 
@@ -32,17 +30,17 @@ export function TipsTableFooter({
 
   return (
     <TableFooter>
+      <TableRow className="h-4 border-b-0" />
       <TableRow>
         <TableCell colSpan={2} className="sticky left-0 p-1">
-          cash tips
+          {isEdit ? "Cash" : ""}
         </TableCell>
-        <TableCell className="px-1 p-1">
+
+        <TableCell className="p-1">
           <div className="flex flex-col items-center gap-2">
-            <Label className="text-center text-xs">{totalTips}</Label>
-            <Label className="text-center text-xs">{totalCash}</Label>
-            <Label className="text-center text-xs">
-              {totalTips - totalCash}
-            </Label>
+            <div className="text-center text-xs">{totalTips}</div>
+            <div className="text-center text-xs">{totalCash}</div>
+            <div className="text-center text-xs">{totalTips - totalCash}</div>
           </div>
         </TableCell>
         {monthDays.map((_day, dayIndex) => {
@@ -57,18 +55,29 @@ export function TipsTableFooter({
           return (
             <TableCell key={dayIndex} className="p-1">
               <div className="flex flex-col items-center gap-2">
-                <Label className="text-center text-xs text-bl">
+                <div className="text-center text-xs text-bl">
                   {sumTipsForDay}
-                </Label>
-                <Label className="text-xs">{cashValue?.[dayIndex]}</Label>
-                <Label
+                </div>
+
+                <input
+                  type="text"
+                  data-col={dayIndex}
+                  {...register(`rowCashTips.${dayIndex}`)}
+                  className={cn(
+                    "text-xs text-center w-full",
+                    isEdit ? "border bg-border" : "border-0",
+                  )}
+                  onKeyDown={handleMultiTableNavigation}
+                  disabled={!isEdit}
+                />
+                <div
                   className={cn(
                     "text-center text-xs text-muted-foreground",
                     differenceNum < 0 ? "text-rd" : "text-gr",
                   )}
                 >
                   {differenceNum.toFixed(0)}
-                </Label>
+                </div>
               </div>
             </TableCell>
           );

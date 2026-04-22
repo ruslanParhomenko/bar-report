@@ -7,7 +7,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import NumericInput from "@/components/inputs-form/numeric-input";
+import NumericInput from "@/components/input-controlled/numeric-input";
 import { CashVerifySchemaType } from "./schema";
 import { useFormContext, useWatch } from "react-hook-form";
 import { useEffect } from "react";

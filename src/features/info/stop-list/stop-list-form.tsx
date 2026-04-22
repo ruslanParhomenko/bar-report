@@ -15,7 +15,7 @@ import {
   stopListSchema,
   StopListSchemaType,
 } from "./schema";
-import SelectFieldWithSearch from "@/components/inputs-form/select-with-search";
+import SelectFieldWithSearch from "@/components/input-controlled/select-with-search";
 import { useEffect } from "react";
 import { toast } from "sonner";
 import { useAbility } from "@/providers/ability-provider";

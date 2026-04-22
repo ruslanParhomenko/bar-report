@@ -4,7 +4,7 @@ import { useFormContext } from "react-hook-form";
 export default function BidForm({ disabled = true }: { disabled: boolean }) {
   const form = useFormContext<TipsForm>();
   return (
-    <div className="md:flex justify-end mb-2 hidden ">
+    <div className="md:flex justify-end mb-2 hidden pb-4">
       <span className="text-xs">
         barmen-dish:
         <input

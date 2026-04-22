@@ -1,5 +1,5 @@
 "use client";
-import NumericInput from "@/components/inputs-form/numeric-input";
+import NumericInput from "@/components/input-controlled/numeric-input";
 import {
   Table,
   TableBody,

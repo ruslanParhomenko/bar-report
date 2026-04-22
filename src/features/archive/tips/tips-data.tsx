@@ -10,8 +10,6 @@ import { useTipsCalculation } from "@/hooks/use-tips-calculation";
 export default function TipsData({ data }: { data: TipsAddData[] | null }) {
   const [opened, setOpened] = useState<number[]>([]);
 
-  console.log(data);
-
   useEffect(() => {
     if (!data) return;
     if (reversed.length > 0) {

@@ -6,15 +6,27 @@ export const ROLE_URL = {
 };
 export const SHIFTS = {
   bar: ["8", "12", "18", "20"],
-  cucina: ["7", "19"],
+  cucina: ["7", "8.", "19"],
   dish: ["7", "18", "19"],
+};
+
+export const TIME_BY_SHIFT = {
+  7: "07:00 - 19:00",
+  8: "08:00 - 20:00",
+  "8.": "08:00 - 19:00",
+  12: "12:00 - 00:00",
+  13: "13:00 - 01:00",
+  14: "14:00 - 02:00",
+  18: "18:00 - 06:00",
+  19: "19:00 - 07:00",
+  20: "20:00 - 08:00",
 };
 
 export const COLOR_SHIFT = {
   0: "text-black",
   1: "text-rd",
-  2: "text-bl",
-  3: "text-rd",
+  2: "text-green-600",
+  3: "text-yl",
   4: "text-rd",
 };
 export const SHIFT_COLOR_MAP = ["v", "s", "x", "u", ""];
@@ -22,6 +34,7 @@ export const WAITER_EMPLOYEES = ["waiters"];
 export const SHIFT_OPTIONS = [
   "7",
   "8",
+  "8.",
   "9",
   "10",
   "12",
@@ -50,6 +63,9 @@ export const SHIFT_HOURS_MAP_DAY: Record<string, number> = {
   "7.-7": 5,
   "7.-8": 4,
   "8": 12,
+  "8.": 11,
+  "-1.8.": 10,
+  "8..-1": 10,
   "8.1": 13,
   "8.2": 14,
   "8.3": 14,

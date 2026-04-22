@@ -1,9 +1,9 @@
 "use client";
-import SelectField from "@/components/inputs-form/select-input";
-import TextInput from "@/components/inputs-form/text-input";
+import SelectField from "@/components/input-controlled/select-field";
+import TextInput from "@/components/input-controlled/text-input";
 import { useTranslations } from "next-intl";
 import { EMPLOYEES_ROLE, STATUS_OPTIONS } from "./constants";
-import DatePickerInput from "@/components/inputs-form/date-input";
+import DatePickerInput from "@/components/input-controlled/date-input";
 import { cn } from "@/lib/utils";
 
 export default function EmployeeDataForm() {

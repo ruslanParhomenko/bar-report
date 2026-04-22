@@ -1,7 +1,7 @@
 "use client";
 
 import { UseFieldArrayReturn, useFormContext, useWatch } from "react-hook-form";
-import NumericInput from "@/components/inputs-form/numeric-input";
+import NumericInput from "@/components/input-controlled/numeric-input";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState, useTransition } from "react";
 import { ClockPlusIcon, Home, PlusIcon, UserX } from "lucide-react";
@@ -305,7 +305,7 @@ export default function TipsAddForm({
         {currency}
       </div>
 
-      <div className="grid grid-cols-[60%_40%] h-full w-full md:gap-4 md:p-4">
+      <div className="grid md:grid-cols-[60%_40%] h-full w-full gap-4 md:p-4">
         <div className="flex flex-col gap-4 overflow-auto">
           {tipsArrayByEmployee.fields.map((field, index) => {
             const tip = tipsValues[index];
@@ -336,12 +336,12 @@ export default function TipsAddForm({
               <div
                 key={field.fieldId}
                 className={cn(
-                  "grid grid-cols-3  items-center justify-between",
+                  "md:grid md:grid-cols-3 flex  items-center justify-between",
                   tip?.isClosed && "opacity-40 line-through",
                 )}
               >
-                <div className="flex items-center gap-4">
-                  <div className="w-6">
+                <div className="flex items-center md:gap-4">
+                  <div className="md:w-6 w-4">
                     {isFinished && <Home className="h-4 w-4 text-rd" />}
                   </div>
                   <div className="text-xs text-muted-foreground w-8">
@@ -358,7 +358,7 @@ export default function TipsAddForm({
                     disabled={
                       isPending || tip?.isClosed || tip?.role === "waiters"
                     }
-                    className="mx-2"
+                    className="md:mx-2"
                   />
 
                   <button
@@ -374,14 +374,14 @@ export default function TipsAddForm({
                   </div>
                 </div>
 
-                <div className="flex items-center justify-center gap-6">
+                <div className="flex items-center justify-center md:gap-6 gap-2">
                   <SelectInput
                     value={typeAmount}
                     onChange={(val: string) =>
                       setTempTypes((p) => ({ ...p, [index]: val }))
                     }
                     options={TYPE_AMOUNT}
-                    className="w-14 h-7!"
+                    className="md:w-14  h-8! w-8"
                   />
 
                   <NumericInput
@@ -389,7 +389,7 @@ export default function TipsAddForm({
                     onChange={(val: string) =>
                       setTempValues((p) => ({ ...p, [index]: val }))
                     }
-                    className={cn("w-14 h-7", !numericValue && "bg-bl")}
+                    className={cn("md:w-14 w-8 h-8", !numericValue && "bg-bl")}
                     onFocus={() => setFocusedIndex(index)}
                     disabled={isPending || tip?.isClosed}
                   />
@@ -402,18 +402,18 @@ export default function TipsAddForm({
                       !numericValue || !typeAmount || isPending || tip?.isClosed
                     }
                     className={cn(
-                      "h-8 w-10 cursor-pointer",
+                      "h-8 md:w-10 w-8 cursor-pointer",
                       numericValue && "bg-red-600 text-white",
                     )}
                   >
-                    <PlusIcon />
+                    <PlusIcon className="h-4 w-4" />
                   </Button>
                 </div>
 
                 <div className="flex items-center justify-center">
                   <div
                     className={cn(
-                      "text-sm font-bold text-bl w-40",
+                      "text-sm font-bold text-bl truncate md:w-40 w-20",
                       isFocused && "text-rd!",
                     )}
                   >
@@ -434,7 +434,7 @@ export default function TipsAddForm({
           })}
         </div>
 
-        <div className="flex flex-col gap-2 md:mx-4 overflow-auto h-[80vh]">
+        <div className="flex flex-col gap-2 md:mx-4 overflow-auto md:h-[80vh]">
           {allAmounts.map((item: any, i: number) => (
             <div
               key={i}

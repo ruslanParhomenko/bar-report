@@ -11,10 +11,12 @@ import { EmployeesContextValue } from "@/providers/employees-provider";
 import { ScheduleType } from "./schema";
 import { color } from "./constants";
 import { calculateSalaryByHours } from "./utils";
-import SelectField from "@/components/inputs-form/select-input";
+import SelectField from "@/components/input-controlled/select-field";
 import { handleMultiTableNavigation } from "@/utils/handle-table-navigation";
 import MoveButton from "@/components/buttons/move-button";
 import { calculateShiftTotals } from "./utils";
+import { MonthDaysCells } from "@/components/table/month-days-cells";
+import { useMonthDays } from "@/providers/month-days-provider";
 
 export default function ScheduleCreateTableBody({
   fields,
@@ -30,6 +32,8 @@ export default function ScheduleCreateTableBody({
   update: UseFieldArrayReturn<ScheduleType, "rowShifts", "id">["update"];
 }) {
   const form = useFormContext();
+
+  const { monthDays } = useMonthDays();
 
   const shifts = useWatch({
     control: form.control,
@@ -127,6 +131,12 @@ export default function ScheduleCreateTableBody({
           </TableRow>
         );
       })}
+      <MonthDaysCells
+        monthDays={monthDays}
+        orientation="bottom"
+        colSpan={7}
+        clasName="h-10"
+      />
     </TableBody>
   );
 }

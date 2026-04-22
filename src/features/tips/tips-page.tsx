@@ -1,36 +1,43 @@
 "use client";
 import { Table } from "@/components/ui/table";
-import { TipsTableBody } from "./tips-body-table";
-import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
+import { TipsTableBody } from "./tips-body";
+import {
+  SubmitHandler,
+  useFieldArray,
+  useForm,
+  useWatch,
+} from "react-hook-form";
 import { defaultTipsForm, TipsForm, tipsSchema } from "./schema";
 import { createTips, GetTipsData } from "@/app/actions/tips/tips-action";
 import { toast } from "sonner";
-import { getMonthDays, MONTHS } from "@/utils/get-month-days";
-import { TipsTableFooter } from "./tips-footer-table";
-import { useEffect, useState } from "react";
+import { TipsTableFooter } from "./tips-footer";
+import { useEffect, useRef, useState } from "react";
 import { useAbility } from "@/providers/ability-provider";
 import BidForm from "./bid-form";
-import { DayByMonthTable } from "@/components/table/day-by-month-table";
 import { zodResolver } from "@hookform/resolvers/zod";
-import FormInput from "@/components/wrapper/form";
 import { useEmployees } from "@/providers/employees-provider";
-import TipsCashBody from "./tips-cash-body";
+import { useMonthDays } from "@/providers/month-days-provider";
+import TipsHeaderTable from "./tips-header";
+import { Form } from "@/components/ui/form";
+import { useRealtimeSave } from "@/hooks/use-realtime-save";
 
 const SELECTED_ROLE = ["waiters", "barmen"] as const;
 
 export default function TipsPage({
   dataTips,
-  month,
-  year,
 }: {
   dataTips: GetTipsData | null;
-  month: string;
-  year: string;
 }) {
   const { isAdmin } = useAbility();
-  const [showSendButton, setShowSendButton] = useState(false);
 
-  const { monthDays } = getMonthDays({ month, year });
+  const todayDay = new Date().getDate();
+
+  const [selectedDay, setSelectedDay] = useState<number>(todayDay);
+
+  const [isEdit, setIsEdit] = useState(false);
+
+  const { monthDays, month, year } = useMonthDays();
+
   const employees = useEmployees()
     .filter((e) => e.status === "active")
     .filter((e) =>
@@ -44,6 +51,8 @@ export default function TipsPage({
     mode: "onChange",
     reValidateMode: "onChange",
   });
+
+  // fields
   const { fields, remove, append } = useFieldArray<TipsForm>({
     control: form.control,
     name: "rowEmployeesTips",
@@ -64,6 +73,20 @@ export default function TipsPage({
     }
   };
 
+  const addNewRow = () => {
+    append({
+      id: (fields.length + 1).toString(),
+      employee: "",
+      role: "",
+      tipsByDay: Array(monthDays.length).fill(""),
+    });
+  };
+
+  const removeRow = (index: number) => {
+    if (!isAdmin) return;
+    remove(index);
+  };
+
   useEffect(() => {
     if (dataTips) {
       form.reset(dataTips.tipsData);
@@ -77,52 +100,44 @@ export default function TipsPage({
       role: employee.role ?? "",
       tipsByDay: Array(monthDays.length).fill(""),
     }));
+    const mewRowsCashTips = Array(monthDays.length).fill("");
 
     form.setValue("rowEmployeesTips", newRows);
+    form.setValue("rowCashTips", mewRowsCashTips);
   }, [dataTips, month, year, form, monthDays.length]);
 
-  useEffect(() => {
-    const currentDate = new Date();
-    const currentYear = currentDate.getFullYear();
-    const currentMonth = MONTHS[currentDate.getMonth()];
-    const prevMonth = MONTHS[currentDate.getMonth() - 1];
-
-    const show =
-      year === currentYear.toString() &&
-      (month === currentMonth || month === prevMonth);
-
-    setShowSendButton(show);
-  }, [month, year]);
+  const ref = useRef<HTMLDivElement | null>(null);
 
   return (
-    <FormInput
-      form={form}
-      onSubmit={onSubmit}
-      withButtons={showSendButton || isAdmin || fields.length > 0}
-      disabled={!isAdmin}
-    >
-      <BidForm disabled={!isAdmin} />
-      {fields.length > 0 && (
-        <Table>
-          <DayByMonthTable
-            month={month}
-            monthDays={monthDays}
-            navCell={true}
-            infoCell={true}
-          />
-          <TipsTableBody
-            data={fields}
-            monthDays={monthDays}
-            form={form}
-            remove={remove}
-            append={append}
-            selectedEmployees={employees}
-          />
-          <TipsCashBody monthDays={monthDays} />
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)}>
+        <BidForm disabled={!isAdmin} />
 
-          <TipsTableFooter monthDays={monthDays} form={form} />
-        </Table>
-      )}
-    </FormInput>
+        <div ref={ref} data-screenshot-root="true">
+          <Table className="table-fixed">
+            <TipsHeaderTable
+              selectedDay={selectedDay}
+              setSelectedDay={setSelectedDay}
+              addNewRow={addNewRow}
+              setIsEdit={setIsEdit}
+              isEdit={isEdit}
+              ref={ref}
+              disabled={!isAdmin}
+            />
+
+            <TipsTableBody
+              data={fields}
+              remove={removeRow}
+              selectedEmployees={employees}
+              selectedDay={selectedDay}
+              monthDays={monthDays}
+              isEdit={isEdit}
+            />
+
+            <TipsTableFooter isEdit={isEdit} />
+          </Table>
+        </div>
+      </form>
+    </Form>
   );
 }

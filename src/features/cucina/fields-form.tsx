@@ -7,13 +7,13 @@ import {
   useWatch,
 } from "react-hook-form";
 
-import SelectField from "@/components/inputs-form/select-input";
+import SelectField from "@/components/input-controlled/select-field";
 import { Label } from "@/components/ui/label";
 import { useTranslations } from "next-intl";
 import { Separator } from "@radix-ui/react-separator";
 import { ProductPreparedType, ReportCucinaInput } from "./schema";
-import SelectFieldWithSearch from "@/components/inputs-form/select-with-search";
-import NumericInput from "@/components/inputs-form/numeric-input";
+import SelectFieldWithSearch from "@/components/input-controlled/select-with-search";
+import NumericInput from "@/components/input-controlled/numeric-input";
 import { useEffect } from "react";
 import { AddRemoveFieldsButton } from "@/components/buttons/action-fields";
 import { formatNow } from "@/utils/format-date";

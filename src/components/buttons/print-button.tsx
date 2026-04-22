@@ -60,7 +60,7 @@ export default function PrintButton({
       className={cn(
         "print:hidden  cursor-pointer ",
         className,
-        disabled && "opacity-50"
+        disabled && "opacity-50",
       )}
     >
       <Printer className="h-5 w-5 hover:text-bl" strokeWidth={1.5} />

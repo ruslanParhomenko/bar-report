@@ -16,11 +16,13 @@ import {
 } from "@/providers/order-products-provider";
 import { SidebarToggleButton } from "@/components/sidebar/sidebar-toggle";
 
-const NavPage = async ({
+import MonthDaysProvider from "@/providers/month-days-provider";
+
+export default async function HomeLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
-}>) => {
+}>) {
   const [employees, users, ordersProducts] = await Promise.all([
     getEmployees(),
     getUsers(),
@@ -38,13 +40,13 @@ const NavPage = async ({
             <SidebarNav />
             <div className="flex flex-col h-screen w-screen overflow-y-auto px-1">
               <NavTabs />
-              <ClientRefProvider>{children}</ClientRefProvider>
+              <ClientRefProvider>
+                <MonthDaysProvider>{children}</MonthDaysProvider>
+              </ClientRefProvider>
             </div>
           </SidebarProvider>
         </OrderProductsProvider>
       </EmployeesProvider>
     </AbilityProvider>
   );
-};
-
-export default NavPage;
+}

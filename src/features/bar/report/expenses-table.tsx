@@ -8,8 +8,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import NumericInput from "@/components/inputs-form/numeric-input";
-import SelectField from "@/components/inputs-form/select-input";
+import NumericInput from "@/components/input-controlled/numeric-input";
+import SelectField from "@/components/input-controlled/select-field";
 import { useFieldArray, useFormContext, useWatch } from "react-hook-form";
 import { Trash2Icon } from "lucide-react";
 import { useEffect } from "react";

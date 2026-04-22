@@ -17,11 +17,5 @@ export default async function Page({
 
   const dataTips = await getTipsByYearAndMonth(year, month);
 
-  return (
-    <TipsPage
-      dataTips={dataTips}
-      month={month as string}
-      year={year as string}
-    />
-  );
+  return <TipsPage dataTips={dataTips} />;
 }

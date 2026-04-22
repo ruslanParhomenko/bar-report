@@ -63,7 +63,7 @@ export default function SelectInput({
         <FormControl>
           <SelectTrigger
             className={cn(
-              "flex justify-start min-w-12 [&>svg]:hidden bg-transparent!",
+              "flex justify-start w-full [&>svg]:hidden bg-transparent!",
               className,
               value && "border-0 shadow-none font-bold",
             )}

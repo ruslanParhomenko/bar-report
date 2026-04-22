@@ -19,7 +19,7 @@ import { useAbility } from "@/providers/ability-provider";
 import { createReportCucina } from "@/app/actions/report-cucina/report-cucina-action";
 import { MONTHS } from "@/utils/get-month-days";
 import FormInput from "@/components/wrapper/form";
-import DatePickerInput from "@/components/inputs-form/date-input";
+import DatePickerInput from "@/components/input-controlled/date-input";
 import { createDataProducts } from "@/app/actions/data-constants/data-products-action";
 import { useLocalStorageForm } from "@/hooks/use-local-storage";
 

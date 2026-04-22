@@ -27,7 +27,7 @@ type Props = {
   onChange?: (value: string) => void;
 };
 
-function SelectField({
+export default function SelectField({
   fieldName,
   fieldLabel,
   placeHolder,
@@ -86,5 +86,3 @@ function SelectField({
     />
   );
 }
-
-export default SelectField;

@@ -5,28 +5,25 @@ import { color, SHIFT_COLOR_MAP } from "./constants";
 import { calculateSalaryByHours } from "./utils";
 import { SchedulesContextValue } from "@/app/actions/schedule/schedule-action";
 import { useAbility } from "@/providers/ability-provider";
-import { Month } from "date-fns";
-import { MonthDayType } from "@/utils/get-month-days";
+import { useMonthDays } from "@/providers/month-days-provider";
+import { MonthDaysCells } from "@/components/table/month-days-cells";
 
 export default function ScheduleTableBody({
   schedule,
   selectedDay,
-  monthDays,
 }: {
   schedule: SchedulesContextValue | null;
-  selectedDay: string;
-  monthDays: MonthDayType[];
+  selectedDay: number;
 }) {
-  const todayDay = new Date().getDate();
+  const { monthDays } = useMonthDays();
 
   const { isAdmin } = useAbility();
   return (
     <TableBody>
       {schedule?.rowShifts?.map((row, rowIndex) => {
-        const isSelected =
-          selectedDay === "0"
-            ? !SHIFT_COLOR_MAP.includes(row.shifts?.[todayDay - 1])
-            : !SHIFT_COLOR_MAP.includes(row.shifts?.[Number(selectedDay) - 1]);
+        const isSelected = !SHIFT_COLOR_MAP.includes(
+          row.shifts?.[Number(selectedDay) - 1],
+        );
         const totalPay = isAdmin
           ? calculateSalaryByHours(row).toFixed(0).toString()
           : "0";
@@ -56,29 +53,32 @@ export default function ScheduleTableBody({
               {row.employee}
             </TableCell>
 
-            {row.shifts
-              ?.filter((_, index) =>
-                selectedDay === "0" ? true : Number(selectedDay) === index + 1,
-              )
-              .map((day, dayIndex) => {
-                const isSelected = dayIndex === todayDay - 1;
+            {row.shifts.map((day, dayIndex) => {
+              const isSelected = dayIndex === selectedDay - 1;
 
-                return (
-                  <TableCell
-                    key={dayIndex}
-                    className={cn(
-                      "text-center border-x text-xs p-0",
-                      color[day as keyof typeof color],
-                      isSelected && "text-rd font-bold",
-                    )}
-                  >
-                    {SHIFT_COLOR_MAP.includes(day) ? null : day}
-                  </TableCell>
-                );
-              })}
+              return (
+                <TableCell
+                  key={dayIndex}
+                  className={cn(
+                    "text-center border-x text-xs p-0",
+                    color[day as keyof typeof color],
+                    isSelected && "text-rd font-bold",
+                  )}
+                >
+                  {SHIFT_COLOR_MAP.includes(day) ? null : day}
+                </TableCell>
+              );
+            })}
           </TableRow>
         );
       })}
+      <MonthDaysCells
+        monthDays={monthDays}
+        selectedDay={selectedDay}
+        orientation="bottom"
+        colSpan={7}
+        clasName="h-10"
+      />
     </TableBody>
   );
 }

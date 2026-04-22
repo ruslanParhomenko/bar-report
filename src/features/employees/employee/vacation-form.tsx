@@ -2,8 +2,8 @@
 import { Button } from "@/components/ui/button";
 import { Plus, Trash } from "lucide-react";
 import { defaultVacationPay } from "./schema";
-import TextInput from "@/components/inputs-form/text-input";
-import { DatePickerRange } from "@/components/inputs-form/date-range-input";
+import TextInput from "@/components/input-controlled/text-input";
+import { DatePickerRange } from "@/components/input-controlled/date-range-input";
 import { Label } from "@/components/ui/label";
 import { useFieldArray, useFormContext, useWatch } from "react-hook-form";
 import { useTranslations } from "next-intl";

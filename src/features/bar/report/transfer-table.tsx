@@ -7,10 +7,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import SelectFieldWithSearch from "@/components/inputs-form/select-with-search";
-import SelectField from "@/components/inputs-form/select-input";
+import SelectFieldWithSearch from "@/components/input-controlled/select-with-search";
+import SelectField from "@/components/input-controlled/select-field";
 import { useFieldArray, useFormContext, useWatch } from "react-hook-form";
-import NumericInput from "@/components/inputs-form/numeric-input";
+import NumericInput from "@/components/input-controlled/numeric-input";
 import { Trash2Icon } from "lucide-react";
 import { useEffect } from "react";
 import { formatNow } from "@/utils/format-date";

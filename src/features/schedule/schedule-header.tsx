@@ -1,39 +1,44 @@
+"use client";
 import { TableCell, TableHeader, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import { useContext } from "react";
 import { RefContext } from "@/providers/client-ref-provider";
-import { PenBox, PenOff, PlusCircleIcon, SaveIcon } from "lucide-react";
+import {
+  PenBox,
+  PenOff,
+  PlusCircleIcon,
+  RotateCw,
+  SaveIcon,
+} from "lucide-react";
 import PrintButton from "@/components/buttons/print-button";
 import MailButton from "@/components/buttons/mail-button";
-
-type ScheduleTableHeaderProps = {
-  month: string;
-  addNewRow: () => void;
-  monthDays: { day: number; weekday: string }[];
-  selectedDay?: string;
-  setSelectedDay?: (day: string) => void;
-  setIsEdit?: (isEdit: boolean) => void;
-  isEdit: boolean;
-  tab: string;
-};
+import { useMonthDays } from "@/providers/month-days-provider";
+import { MonthDaysCells } from "@/components/table/month-days-cells";
 
 export default function ScheduleTableHeader({
-  month,
   addNewRow,
-  monthDays,
   selectedDay,
   setSelectedDay,
   setIsEdit,
   isEdit,
   tab,
-}: ScheduleTableHeaderProps) {
+}: {
+  addNewRow: () => void;
+  selectedDay: number;
+  setSelectedDay: (day: number) => void;
+  setIsEdit?: (isEdit: boolean) => void;
+  isEdit: boolean;
+  tab: string;
+}) {
+  const { monthDays, month } = useMonthDays();
+
   const todayDay = new Date().getDate();
 
   const ref = useContext(RefContext);
 
   return (
     <TableHeader>
-      <TableRow className="h-14!">
+      <TableRow>
         <TableCell colSpan={6} className="w-42">
           <div className="flex justify-center items-start gap-3">
             <button
@@ -86,41 +91,26 @@ export default function ScheduleTableHeader({
             </button>
           </div>
         </TableCell>
-        <TableCell className="text-base pl-2  w-26">
-          {month?.toUpperCase() || ""}
+        <TableCell className="px-3  w-26">
+          <div className="flex justify-between">
+            <span className="text-base">{month?.toUpperCase() || ""}</span>
+            <button
+              type="button"
+              onClick={() => setSelectedDay && setSelectedDay(todayDay)}
+              className={selectedDay === todayDay ? "hidden" : "cursor-pointer"}
+            >
+              <RotateCw className="h-4 w-4 text-rd font-bold" />
+            </button>
+          </div>
         </TableCell>
 
-        {monthDays
-          ?.filter((_, index) =>
-            !selectedDay || selectedDay === "0"
-              ? true
-              : Number(selectedDay) === index + 1,
-          )
-          .map((day) => (
-            <TableCell
-              key={day.day}
-              className={cn(
-                "w-9 cursor-pointer p-0",
-                day.day === todayDay && "text-rd font-bold",
-              )}
-              onClick={() => {
-                if (setSelectedDay) {
-                  if (selectedDay === day.day.toString()) {
-                    setSelectedDay("0");
-                  } else {
-                    setSelectedDay(day.day.toString());
-                  }
-                }
-              }}
-            >
-              <div className="flex flex-col items-center">
-                <span className="text-sm font-semibold">{day.day}</span>
-                <span className="text-xs text-muted-foreground">
-                  {day.weekday}
-                </span>
-              </div>
-            </TableCell>
-          ))}
+        <MonthDaysCells
+          monthDays={monthDays}
+          selectedDay={selectedDay}
+          setSelectedDay={setSelectedDay}
+          orientation="top"
+          clasName="w-9"
+        />
 
         <TableCell className="w-4 p-0" />
       </TableRow>

@@ -1,7 +1,7 @@
 import { TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import { TIME_LABELS } from "./constant";
-import DatePickerInput from "@/components/inputs-form/date-input";
+import DatePickerInput from "@/components/input-controlled/date-input";
 
 const currentHour = new Date().getHours();
 export default function BreakTableHeader() {
