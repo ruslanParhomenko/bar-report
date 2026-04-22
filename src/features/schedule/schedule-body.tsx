@@ -72,13 +72,15 @@ export default function ScheduleTableBody({
           </TableRow>
         );
       })}
-      <MonthDaysCells
-        monthDays={monthDays}
-        selectedDay={selectedDay}
-        orientation="bottom"
-        colSpan={7}
-        clasName="h-10"
-      />
+      <TableRow>
+        <MonthDaysCells
+          monthDays={monthDays}
+          selectedDay={selectedDay}
+          orientation="bottom"
+          colSpan={7}
+          clasName="h-10"
+        />
+      </TableRow>
     </TableBody>
   );
 }
