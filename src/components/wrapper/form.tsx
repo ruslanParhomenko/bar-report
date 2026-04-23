@@ -7,7 +7,7 @@ import { Button } from "../ui/button";
 import ModalConfirm from "../modal/modal-confirm";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import MailButton from "../buttons/mail-button";
+import SendOrdersButton from "../buttons/screen-button";
 
 type FormInputProps<T extends FieldValues> = {
   form: UseFormReturn<T>;
@@ -78,7 +78,7 @@ export default function FormInput<T extends FieldValues>({
               </Button>
             )}
             {sendTelegram && (
-              <MailButton
+              <SendOrdersButton
                 componentRef={ref}
                 disabled={!ref}
                 patch={url || ""}

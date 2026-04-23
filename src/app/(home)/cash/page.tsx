@@ -26,7 +26,5 @@ export default async function Page({
     getAOByUniqueKey(uniqueKey),
   ]);
 
-  return (
-    <CashPage dataAo={dataAo} dataCash={dataCash} valueParams={valueParams} />
-  );
+  return <CashPage dataAo={dataAo} dataCash={dataCash} />;
 }

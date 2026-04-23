@@ -1,34 +1,31 @@
-"use client";
-import { useRouter } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
-import { useAbility } from "@/providers/ability-provider";
-import { PenBox } from "lucide-react";
-import { toast } from "sonner";
+import { LogOut, PenBox } from "lucide-react";
 
 export default function EditButton({
   className,
-  canEdit = true,
-  url,
+  disabled = true,
+  isEdit,
+  setIsEdit,
+  size = 21,
 }: {
   className?: string;
-  canEdit?: boolean;
-  url: string;
+  disabled?: boolean;
+  isEdit: boolean;
+  setIsEdit: (isEdit: boolean) => void;
+  size?: number;
 }) {
-  const router = useRouter();
-  const { isAdmin, isManager } = useAbility();
-  const isDisabled = !isAdmin && !isManager;
   return (
     <button
       type="button"
-      onClick={() => {
-        canEdit || isAdmin
-          ? router.push(url)
-          : toast.error("Редактирование недоступно");
-      }}
-      disabled={isDisabled}
-      className={cn("cursor-pointer", className, isDisabled && "opacity-50")}
+      onClick={() => setIsEdit(!isEdit)}
+      className={cn(className, "cursor-pointer hover:text-black")}
+      disabled={disabled}
     >
-      <PenBox className="h-5 w-5 hover:text-bl" strokeWidth={1.5} />
+      {isEdit ? (
+        <LogOut size={size} className="text-rd" strokeWidth={1.5} />
+      ) : (
+        <PenBox size={size} className="text-bl" strokeWidth={1.5} />
+      )}
     </button>
   );
 }

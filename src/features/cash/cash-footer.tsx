@@ -1,17 +1,13 @@
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
-import { UseFormReturn } from "react-hook-form";
+import { useFormContext } from "react-hook-form";
 import { CashForm } from "./schema";
-import { MonthDayType } from "@/utils/get-month-days";
+import { useMonthDays } from "@/providers/month-days-provider";
 
-export function CashFooterTable({
-  monthDays,
-  form,
-}: {
-  monthDays: MonthDayType[];
-  form: UseFormReturn<CashForm>;
-}) {
-  const value = form.watch("rowCashData");
+export function CashFooterTable() {
+  const { monthDays } = useMonthDays();
+  const { watch } = useFormContext<CashForm>();
+  const value = watch("rowCashData");
 
   const totalCash = value?.cash
     ? Object.values(value.cash)
@@ -29,6 +25,8 @@ export function CashFooterTable({
         .toFixed(2)
     : 0;
 
+  const isNegative =
+    Number(totalCashBar) + Number(totalVisaBar) - Number(totalCash) < 0;
   return (
     <TableBody>
       <TableRow className="h-6" />
@@ -40,19 +38,14 @@ export function CashFooterTable({
             <div
               className={cn(
                 "text-center text-xs text-muted-foreground",
-                Number(totalCashBar) +
-                  Number(totalVisaBar) -
-                  Number(totalCash) <
-                  0
-                  ? "text-rd"
-                  : "text-gn",
+                isNegative ? "text-rd" : "text-gn",
               )}
             >
               {Number(totalCashBar) + Number(totalVisaBar) - Number(totalCash)}
             </div>
           </div>
         </TableCell>
-        <TableCell colSpan={2} className="border-r" />
+        <TableCell className="border-r" />
 
         {monthDays.map((_day, dayIndex) => {
           const cashBarByDay = Array.isArray(value?.cashBarByDay)

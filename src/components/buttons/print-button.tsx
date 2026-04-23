@@ -9,11 +9,13 @@ export default function PrintButton({
   componentRef,
   className,
   disabled = false,
+  size = 21,
 }: {
   formatPage?: string;
   componentRef?: React.RefObject<HTMLDivElement | null> | null;
   className?: string;
   disabled?: boolean;
+  size?: number;
 }) {
   if (!componentRef) return null;
   const handlePrint = useReactToPrint({
@@ -57,13 +59,13 @@ export default function PrintButton({
       }}
       type="button"
       disabled={disabled}
-      className={cn(
-        "print:hidden  cursor-pointer ",
-        className,
-        disabled && "opacity-50",
-      )}
+      className={cn(className, "print:hidden cursor-pointer")}
     >
-      <Printer className="h-5 w-5 hover:text-bl" strokeWidth={1.5} />
+      <Printer
+        size={size}
+        className={cn("text-bl hover:text-black", disabled && "opacity-50")}
+        strokeWidth={1.5}
+      />
     </button>
   );
 }

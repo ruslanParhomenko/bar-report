@@ -1,12 +1,7 @@
 "use client";
 import { Table } from "@/components/ui/table";
 import { TipsTableBody } from "./tips-body";
-import {
-  SubmitHandler,
-  useFieldArray,
-  useForm,
-  useWatch,
-} from "react-hook-form";
+import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
 import { defaultTipsForm, TipsForm, tipsSchema } from "./schema";
 import { createTips, GetTipsData } from "@/app/actions/tips/tips-action";
 import { toast } from "sonner";
@@ -19,7 +14,6 @@ import { useEmployees } from "@/providers/employees-provider";
 import { useMonthDays } from "@/providers/month-days-provider";
 import TipsHeaderTable from "./tips-header";
 import { Form } from "@/components/ui/form";
-import { useRealtimeSave } from "@/hooks/use-realtime-save";
 
 const SELECTED_ROLE = ["waiters", "barmen"] as const;
 
@@ -31,11 +25,8 @@ export default function TipsPage({
   const { isAdmin } = useAbility();
 
   const todayDay = new Date().getDate();
-
   const [selectedDay, setSelectedDay] = useState<number>(todayDay);
-
   const [isEdit, setIsEdit] = useState(false);
-
   const { monthDays, month, year } = useMonthDays();
 
   const employees = useEmployees()
