@@ -3,7 +3,7 @@ import { TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import { MonthDayType } from "@/utils/get-month-days";
 import { handleMultiTableNavigation } from "@/utils/handle-table-navigation";
-import { useEffect, useEffectEvent, useState } from "react";
+import { useEffect, useEffectEvent } from "react";
 import { FieldPath, useFormContext, useWatch } from "react-hook-form";
 import { SuppliersFormType } from "./schema";
 
@@ -11,10 +11,12 @@ export default function TTNBodyTable({
   arrayRows,
   monthDays,
   isDisabled,
+  normalizedSearch,
 }: {
   arrayRows: string[];
   monthDays: MonthDayType[];
   isDisabled?: boolean;
+  normalizedSearch: string;
 }) {
   const { register, control, setValue } = useFormContext<SuppliersFormType>();
   const value = useWatch({
@@ -23,9 +25,6 @@ export default function TTNBodyTable({
   });
 
   const currentDay = new Date().getDate();
-
-  const [itemSearch, setItemSearch] = useState<string>("");
-  const normalizedSearch = itemSearch.trim().toLowerCase();
 
   const sum = (arr?: Array<string | undefined>) =>
     (arr ?? []).reduce((acc, v) => acc + (Number(v ?? 0) || 0), 0);
@@ -50,19 +49,6 @@ export default function TTNBodyTable({
   }, [arrayRows, updateFinal]);
   return (
     <TableBody>
-      <TableRow>
-        <TableCell
-          colSpan={monthDays.length + 3}
-          className="border-r p-0 pr-0.5 text-xs"
-        >
-          <input
-            type="text"
-            placeholder="...search"
-            onChange={(e) => setItemSearch(e.target.value)}
-            className="p-1 outline-none focus:ring-0 focus:outline-none focus-visible:ring-0"
-          ></input>
-        </TableCell>
-      </TableRow>
       {arrayRows
         .filter((row) => row.includes(normalizedSearch))
         .map((row, rowIndex) => {
@@ -72,13 +58,12 @@ export default function TTNBodyTable({
 
           const isRowByCurrentDay = value?.[row]?.plus?.[currentDay - 1];
 
-          const classNameInput =
-            "h-4 w-full text-end text-xs border-0 p-0 m-0 box-border leading-none px-0.5";
+          const classNameInput = "h-4 w-full text-end text-xs border-0 px-0.5";
 
           return (
             <TableRow key={row} className="group">
-              <TableCell className="border-r p-0 pr-0.5 text-xs">
-                <div className="grid w-30 grid-cols-2 gap-1">
+              <TableCell className="border-r p-0 text-xs">
+                <div className="grid w-full grid-cols-2 gap-0.5">
                   <div className="flex flex-col items-end">
                     <span
                       className={cn(

@@ -41,7 +41,7 @@ export default function TipsHeaderTable({
           </div>
         </TableCell>
 
-        <TableCell className="w-30">
+        <TableCell className="w-28">
           <div className="flex items-center justify-center gap-4">
             <EditButton
               isEdit={isEdit}
@@ -61,14 +61,14 @@ export default function TipsHeaderTable({
             />
           </div>
         </TableCell>
-        <TableCell className="w-11 font-bold">
+        <TableCell className="w-10 font-bold">
           {month?.toUpperCase().slice(0, 3) || ""}
         </TableCell>
         <MonthDaysCells
           selectedDay={selectedDay}
           setSelectedDay={setSelectedDay}
           monthDays={monthDays}
-          clasName="w-12"
+          className="w-9"
         />
       </TableRow>
     </TableHeader>

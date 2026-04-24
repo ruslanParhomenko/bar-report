@@ -7,7 +7,7 @@ type MonthDaysCellsProps = {
   setSelectedDay?: (day: number) => void;
   orientation?: "top" | "bottom";
   colSpan?: number;
-  clasName?: string;
+  className?: string;
 };
 
 export function MonthDaysCells({
@@ -16,7 +16,7 @@ export function MonthDaysCells({
   setSelectedDay,
   orientation = "top",
   colSpan = 0,
-  clasName,
+  className,
 }: MonthDaysCellsProps) {
   const todayDay = new Date().getDate();
   const day = selectedDay ?? todayDay;
@@ -29,7 +29,7 @@ export function MonthDaysCells({
         return (
           <TableCell
             key={item.day}
-            className={cn("cursor-pointer p-0", clasName)}
+            className={cn("cursor-pointer p-0", className)}
             onClick={() => {
               if (!setSelectedDay) return;
 

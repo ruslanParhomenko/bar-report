@@ -36,8 +36,6 @@ export default function TTNPage({
           dataTtn={dataTtn}
           dataTtnPrev={dataTtnPrev}
           agentTTN={agentTTN.agent}
-          month={month as string}
-          year={year as string}
         />
       </Activity>
       <Activity mode={tab === "year" ? "visible" : "hidden"}>

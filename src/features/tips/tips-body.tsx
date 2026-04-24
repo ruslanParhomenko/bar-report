@@ -55,7 +55,7 @@ export function TipsTableBody({
                     )
                     .map((emp) => emp.name)}
                   className={cn(
-                    "bg-background! h-6! w-34 justify-start pl-1 text-[13px]",
+                    "bg-background! h-6! justify-start truncate pl-1 text-xs",
                     value[index]?.role === "barmen" &&
                       "text-muted-foreground font-light!",
                   )}
@@ -73,7 +73,7 @@ export function TipsTableBody({
               ) : (
                 <div
                   className={cn(
-                    "flex h-6 items-center text-xs font-bold",
+                    "flex h-6 items-center truncate text-xs font-bold",
                     item.role === "barmen" &&
                       "text-muted-foreground font-light!",
                   )}
@@ -89,7 +89,7 @@ export function TipsTableBody({
             {monthDays.map((_, dayIndex) => {
               const isSelected = dayIndex + 1 === selectedDay;
               return (
-                <TableCell key={dayIndex} className="relative border-x p-0.5">
+                <TableCell key={dayIndex} className="border-x p-0.5">
                   <input
                     {...register(
                       `rowEmployeesTips.${index}.tipsByDay.${dayIndex}`,
@@ -98,8 +98,8 @@ export function TipsTableBody({
                     data-col={dayIndex}
                     onKeyDown={handleMultiTableNavigation}
                     className={cn(
+                      "hover-cell h-6 w-full border-0 p-0 text-center text-xs shadow-none",
                       isSelected && "text-rd font-bold",
-                      "hover-cell h-6 w-11 border-0 p-0 text-center text-xs shadow-none",
                     )}
                     disabled={!isEdit}
                   />

@@ -104,7 +104,7 @@ export default function ScheduleCreateTableBody({
               {row.role.charAt(0)}
               {rate / 1000}
             </TableCell>
-            <TableCell className="sticky left-0 pl-2! bg-background md:bg-transparent">
+            <TableCell className="bg-background sticky left-0 pl-2! md:bg-transparent">
               <SelectField
                 fieldName={`rowShifts.${rowIndex}.employee`}
                 data={selectedEmployees.map((e) => e.name)}
@@ -141,7 +141,7 @@ export default function ScheduleCreateTableBody({
                     <NumericInput
                       fieldName={`rowShifts.${rowIndex}.shifts.${dayIndex}`}
                       className={cn(
-                        "hover-cell h-9 w-full border-0 shadow-none text-center text-xs p-0 rounded-none!",
+                        "hover-cell h-9 w-full rounded-none! border-0 p-0 text-center text-xs shadow-none",
                         shiftValue === "" ? "bg-border/20" : "",
                         color[shiftValue as keyof typeof color],
                       )}
@@ -163,7 +163,7 @@ export default function ScheduleCreateTableBody({
           selectedDay={selectedDay}
           orientation="bottom"
           colSpan={7}
-          clasName="h-10"
+          className="h-10"
         />
       </TableRow>
     </TableBody>

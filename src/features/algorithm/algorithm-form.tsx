@@ -36,7 +36,7 @@ export default function AlgorithmForm({
               <TableCell className="p-0">
                 <Textarea
                   {...register(`${fieldName}.${idx}.value` as const)}
-                  className="min-h-1 border-0 text-xs! shadow-none"
+                  className="bg-background! min-h-1 border-0 text-xs! shadow-none"
                   readOnly={!isEdit}
                 />
               </TableCell>

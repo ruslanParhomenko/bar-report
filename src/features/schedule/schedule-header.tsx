@@ -41,8 +41,8 @@ export default function ScheduleTableHeader({
   return (
     <TableHeader>
       <TableRow>
-        <TableCell colSpan={6} className="w-42 sticky left-0 ">
-          <div className="flex md:justify-center md:gap-3 gap-1">
+        <TableCell colSpan={6} className="sticky left-0 w-42">
+          <div className="flex gap-1 md:justify-center md:gap-3">
             <EditButton
               isEdit={isEdit}
               setIsEdit={setIsEdit}
@@ -74,7 +74,7 @@ export default function ScheduleTableHeader({
           selectedDay={selectedDay}
           setSelectedDay={setSelectedDay}
           orientation="top"
-          clasName="w-9"
+          className="w-9"
         />
 
         <TableCell className="w-4 p-0" />

@@ -61,8 +61,8 @@ export default function AlgorithmPage() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
-        <div className="overflow-auto h-[95vh]">
-          <div className="flex w-full items-center gap-4 p-3 sticky top-0 bg-background z-10">
+        <div className="h-[95vh] overflow-auto">
+          <div className="bg-background sticky top-0 z-10 flex w-full items-center gap-4 p-3">
             <EditButton
               isEdit={isEdit}
               setIsEdit={setIsEdit}

@@ -7,7 +7,8 @@ import { TableCell, TableHeader, TableRow } from "@/components/ui/table";
 import { useAbility } from "@/providers/ability-provider";
 import { useMonthDays } from "@/providers/month-days-provider";
 
-export default function AoHeaderTable({
+export default function TtnHeaderTable({
+  setItemSearch,
   selectedDay,
   setSelectedDay,
   setIsEdit,
@@ -15,6 +16,7 @@ export default function AoHeaderTable({
   ref,
   disabled,
 }: {
+  setItemSearch: (itemSearch: string) => void;
   selectedDay: number;
   setSelectedDay: (day: number) => void;
   setIsEdit: (isEdit: boolean) => void;
@@ -31,7 +33,7 @@ export default function AoHeaderTable({
   return (
     <TableHeader>
       <TableRow>
-        <TableCell className="bg-background sticky left-0 w-22 md:bg-transparent">
+        <TableCell className="bg-background sticky left-0 md:bg-transparent">
           <div className="flex items-center justify-center gap-3">
             <PrintButton componentRef={ref} disabled={isEdit || disabled} />
             <EditButton
@@ -44,13 +46,22 @@ export default function AoHeaderTable({
           </div>
         </TableCell>
 
-        <TableCell className="w-26">
-          <div className="flex items-center justify-center gap-4">
-            <span>{month?.toUpperCase().slice(0, 3) || ""}</span>
+        <TableCell>
+          <input
+            type="text"
+            placeholder="...search"
+            onChange={(e) => setItemSearch(e.target.value)}
+            className="w-20 p-1 outline-none focus:ring-0 focus:outline-none focus-visible:ring-0"
+          ></input>
+        </TableCell>
+        <TableCell>
+          <div className="flex items-center justify-center gap-2">
             <ResetButton
               reset={resetSelectedDay}
               className={todayDay === selectedDay ? "hidden" : ""}
+              size={12}
             />
+            <span>{month?.toUpperCase().slice(0, 3) || ""}</span>
           </div>
         </TableCell>
 
@@ -58,7 +69,6 @@ export default function AoHeaderTable({
           selectedDay={selectedDay}
           setSelectedDay={setSelectedDay}
           monthDays={monthDays}
-          className="w-12"
         />
       </TableRow>
     </TableHeader>

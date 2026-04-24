@@ -32,9 +32,8 @@ export default function CashHeaderTable({
   return (
     <TableHeader>
       <TableRow>
-        <TableCell className="bg-background sticky left-0 w-22 md:bg-transparent">
+        <TableCell className="bg-background sticky left-0 w-16 md:bg-transparent">
           <div className="flex items-center justify-center gap-3">
-            <PrintButton componentRef={ref} disabled={isEdit || disabled} />
             <EditButton
               isEdit={isEdit}
               setIsEdit={setIsEdit}
@@ -45,8 +44,9 @@ export default function CashHeaderTable({
           </div>
         </TableCell>
 
-        <TableCell className="w-26">
+        <TableCell className="w-24">
           <div className="flex items-center justify-center gap-4">
+            <PrintButton componentRef={ref} disabled={isEdit || disabled} />
             <span>{month?.toUpperCase().slice(0, 3) || ""}</span>
             <ResetButton
               reset={resetSelectedDay}
@@ -59,7 +59,7 @@ export default function CashHeaderTable({
           selectedDay={selectedDay}
           setSelectedDay={setSelectedDay}
           monthDays={monthDays}
-          clasName="w-12"
+          className="w-10"
         />
       </TableRow>
     </TableHeader>

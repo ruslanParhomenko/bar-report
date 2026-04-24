@@ -36,7 +36,7 @@ export default function BreakTableBody({
 
         return (
           <TableRow key={`${row.id}-${rowIndex}`}>
-            <TableCell className="p-0 text-bl border-0 bg-transparent! px-0.5 text-xs shadow-none">
+            <TableCell className="text-bl border-0 bg-transparent! p-0 px-0.5 text-xs shadow-none">
               {row.id}
             </TableCell>
 

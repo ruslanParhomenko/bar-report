@@ -30,6 +30,7 @@ export function TipsBodyTable({
 
   return (
     <TableBody>
+      <TableRow className="h-6" />
       {data.map((row, rowIndex) => {
         const rowValues = value?.[row.key] as unknown as string[] | undefined;
 

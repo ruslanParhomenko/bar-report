@@ -1,28 +1,12 @@
 {
-  "cSpell.words": [
-    "cmdk",
-    "Cucina",
-    "mngr",
-    "papaparse",
-    "supabase",
-    "swipeable",
-    "turbopack"
-  ],
-  "cSpell.language": "en,ru,ro",
   "editor.formatOnSave": true,
-  "editor.formatOnPaste": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
 
-  "[javascript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[typescript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[javascriptreact]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[typescriptreact]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  }
+  "prettier.requireConfig": true,
+  "prettier.prettierPath": "./node_modules/prettier",
+
+  "eslint.format.enable": false,
+
+  "cSpell.language": "en,ru,ro",
+  "cSpell.words": ["cmdk", "Cucina", "mngr", "papaparse", "supabase", "swipeable", "turbopack"]
 }

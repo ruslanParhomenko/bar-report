@@ -5,36 +5,40 @@ import {
   TTNGetDataType,
   updateTTN,
 } from "@/app/actions/ttn/ttn-actions";
-import { DayByMonthTable } from "@/components/table/day-by-month-table";
+import { Form } from "@/components/ui/form";
 import { Table } from "@/components/ui/table";
-import FormInput from "@/components/wrapper/form";
 import { useAbility } from "@/providers/ability-provider";
-import { getMonthDays } from "@/utils/get-month-days";
+import { useMonthDays } from "@/providers/month-days-provider";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect } from "react";
-import { FieldErrors, SubmitHandler, useForm } from "react-hook-form";
+import { useEffect, useRef, useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { SuppliersFormType, suppliersSchema } from "./schema";
 import TTNBodyTable from "./ttn-body-table";
 import TTNFooterTable from "./ttn-footer-table";
+import TtnHeaderTable from "./ttn-header";
 
 export default function TTNForm({
   dataTtn,
   dataTtnPrev,
   agentTTN,
-  month,
-  year,
 }: {
   dataTtn: TTNGetDataType | null;
   dataTtnPrev: TTNGetDataType | null;
   agentTTN: CreateDataTTN["agent"];
-  month: string;
-  year: string;
 }) {
-  const { monthDays } = getMonthDays({ month, year });
+  const { monthDays, month, year } = useMonthDays();
 
   const { isAdmin } = useAbility();
+  const isDisabled = !isAdmin;
 
+  const todayDay = new Date().getDate();
+  const [selectedDay, setSelectedDay] = useState<number>(todayDay);
+  const [isEdit, setIsEdit] = useState(false);
+  const [itemSearch, setItemSearch] = useState<string>("");
+  const normalizedSearch = itemSearch.trim().toLowerCase();
+
+  // form
   const form = useForm<SuppliersFormType>({
     resolver: zodResolver(suppliersSchema),
     defaultValues: {
@@ -42,25 +46,18 @@ export default function TTNForm({
     },
   });
 
-  const onError = (_: FieldErrors<SuppliersFormType>) => {
-    toast.error(
-      "Ошибка: проверьте числовые поля (допустимы только цифры и точка)",
-    );
-  };
-
+  // submit
   const onSubmit: SubmitHandler<SuppliersFormType> = async (data) => {
     const formatData = { ...data, month, year, unique_key: `${year}-${month}` };
     if (dataTtn?.id) {
       await updateTTN(dataTtn.id, formatData);
       toast.success("TTN успешно обновлён!");
-
-      return;
     } else {
       await createTTN(formatData);
       toast.success("TTN успешно создан!");
-
-      return;
     }
+
+    setIsEdit(false);
   };
 
   useEffect(() => {
@@ -94,18 +91,36 @@ export default function TTNForm({
       form.setValue(`rowSuppliers.${agent}.start`, value);
     });
   }, [dataTtnPrev, month, year, form, agentTTN]);
+
+  const ref = useRef<HTMLDivElement | null>(null);
+
   return (
-    <FormInput
-      form={form}
-      onSubmit={onSubmit}
-      onError={onError}
-      withButtons={isAdmin}
-    >
-      <Table>
-        <DayByMonthTable month={month} monthDays={monthDays} infoCell />
-        <TTNBodyTable arrayRows={[...agentTTN]} monthDays={monthDays} />
-        <TTNFooterTable arrayRows={[...agentTTN]} monthDays={monthDays} />
-      </Table>
-    </FormInput>
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)}>
+        <div
+          ref={ref}
+          data-screenshot-root="true"
+          className="mt-4 h-[92vh] overflow-auto"
+        >
+          <Table className="table-auto">
+            <TtnHeaderTable
+              setItemSearch={setItemSearch}
+              selectedDay={selectedDay}
+              setSelectedDay={setSelectedDay}
+              setIsEdit={setIsEdit}
+              isEdit={isEdit}
+              disabled={!isAdmin}
+              ref={ref}
+            />
+            <TTNBodyTable
+              arrayRows={[...agentTTN]}
+              monthDays={monthDays}
+              normalizedSearch={normalizedSearch}
+            />
+            <TTNFooterTable arrayRows={[...agentTTN]} monthDays={monthDays} />
+          </Table>
+        </div>
+      </form>
+    </Form>
   );
 }

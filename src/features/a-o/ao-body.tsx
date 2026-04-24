@@ -42,7 +42,7 @@ export default function AoBodyTable({
 
   return (
     <TableBody>
-      <TableRow className="h-10" />
+      <TableRow className="h-6" />
       {data.map((row, rowIndex) => {
         const rowValues = value?.[row.key] as unknown as string[] | undefined;
 
@@ -95,7 +95,7 @@ export default function AoBodyTable({
         );
       })}
       <TableRow>
-        <TableCell className="text-center text-xs font-bold text-black">
+        <TableCell className="text-center text-xs font-bold">
           {totalByDay.reduce((a, b) => a + b, 0).toFixed(2)}
         </TableCell>
         <TableCell />

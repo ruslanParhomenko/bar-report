@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import { useAbility } from "@/providers/ability-provider";
 import { useMonthDays } from "@/providers/month-days-provider";
 import { color, SHIFT_COLOR_MAP } from "./constants";
+
 import { calculateSalaryByHours } from "./utils";
 
 export default function ScheduleTableBody({
@@ -46,7 +47,7 @@ export default function ScheduleTableBody({
             </TableCell>
             <TableCell
               className={cn(
-                "bg-background text-muted-foreground sticky left-0 h-9 truncate pr-1 pl-2",
+                "bg-background text-muted-foreground sticky left-0 h-9 truncate pr-1 pl-2 md:bg-transparent",
                 isSelected && "text-rd font-bold",
               )}
             >
@@ -78,7 +79,7 @@ export default function ScheduleTableBody({
           selectedDay={selectedDay}
           orientation="bottom"
           colSpan={7}
-          clasName="h-10"
+          className="h-10"
         />
       </TableRow>
     </TableBody>
