@@ -1,10 +1,10 @@
+import SelectField from "@/components/input-controlled/select-field";
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
+import { cn } from "@/lib/utils";
+import { handleMultiTableNavigation } from "@/utils/handle-table-navigation";
 import { FieldArrayWithId, useFormContext, useWatch } from "react-hook-form";
 import { TipsForm } from "./schema";
-import SelectField from "@/components/input-controlled/select-field";
-import { cn } from "@/lib/utils";
 import { calculateTipsTotal } from "./utils";
-import { handleMultiTableNavigation } from "@/utils/handle-table-navigation";
 
 const ROLES: Array<"waiters" | "barmen"> = ["waiters", "barmen"];
 
@@ -39,13 +39,13 @@ export function TipsTableBody({
         return (
           <TableRow key={item.id} className="group">
             <TableCell
-              className="text-rd p-0.5 cursor-pointer text-xs"
+              className="text-rd cursor-pointer p-0.5 text-xs"
               onClick={() => isEdit && remove(index)}
             >
               {index + 1}
             </TableCell>
 
-            <TableCell className="sticky left-0 p-1 bg-background md:bg-transparent w-24 hover-cell">
+            <TableCell className="bg-background hover-cell sticky left-0 w-24 p-1 md:bg-transparent">
               {isEdit ? (
                 <SelectField
                   fieldName={`rowEmployeesTips.${index}.employee`}
@@ -55,7 +55,7 @@ export function TipsTableBody({
                     )
                     .map((emp) => emp.name)}
                   className={cn(
-                    "justify-start  h-6! text-[13px] pl-1 w-34 bg-background!",
+                    "bg-background! h-6! w-34 justify-start pl-1 text-[13px]",
                     value[index]?.role === "barmen" &&
                       "text-muted-foreground font-light!",
                   )}
@@ -73,7 +73,7 @@ export function TipsTableBody({
               ) : (
                 <div
                   className={cn(
-                    "text-xs h-6 font-bold flex items-center",
+                    "flex h-6 items-center text-xs font-bold",
                     item.role === "barmen" &&
                       "text-muted-foreground font-light!",
                   )}
@@ -82,14 +82,14 @@ export function TipsTableBody({
                 </div>
               )}
             </TableCell>
-            <TableCell className="p-0 text-xs text-green-600 text-end pr-2">
+            <TableCell className="p-0 pr-2 text-end text-xs text-green-600">
               {employeeTotal}
             </TableCell>
 
             {monthDays.map((_, dayIndex) => {
               const isSelected = dayIndex + 1 === selectedDay;
               return (
-                <TableCell key={dayIndex} className="p-0.5 border-x relative">
+                <TableCell key={dayIndex} className="relative border-x p-0.5">
                   <input
                     {...register(
                       `rowEmployeesTips.${index}.tipsByDay.${dayIndex}`,
@@ -99,7 +99,7 @@ export function TipsTableBody({
                     onKeyDown={handleMultiTableNavigation}
                     className={cn(
                       isSelected && "text-rd font-bold",
-                      "w-11 h-6 text-xs text-center p-0 border-0 shadow-none hover-cell",
+                      "hover-cell h-6 w-11 border-0 p-0 text-center text-xs shadow-none",
                     )}
                     disabled={!isEdit}
                   />

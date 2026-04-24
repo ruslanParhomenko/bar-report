@@ -22,7 +22,7 @@ export default function PenaltyDetailsFooter({
   }, 0);
   return (
     <TableFooter>
-      <TableRow className="font-semibold sticky bottom-0 bg-background z-40">
+      <TableRow className="bg-background sticky bottom-0 z-40 font-semibold">
         <TableCell className="text-right" colSpan={5}>
           total
         </TableCell>

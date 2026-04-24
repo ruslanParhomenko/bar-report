@@ -1,9 +1,9 @@
 "use server";
 
+import { TTN_ACTION_TAG } from "@/constants/action-tag";
+import { SuppliersFormType } from "@/features/ttn/schema";
 import { dbAdmin } from "@/lib/firebase-admin";
 import { unstable_cache, updateTag } from "next/cache";
-import { SuppliersFormType } from "@/features/ttn/schema";
-import { TTN_ACTION_TAG } from "@/constants/action-tag";
 
 export type TTNGetDataType = SuppliersFormType & {
   id: string;

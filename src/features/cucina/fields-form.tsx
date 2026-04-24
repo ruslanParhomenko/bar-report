@@ -7,16 +7,16 @@ import {
   useWatch,
 } from "react-hook-form";
 
-import SelectField from "@/components/input-controlled/select-field";
-import { Label } from "@/components/ui/label";
-import { useTranslations } from "next-intl";
-import { Separator } from "@radix-ui/react-separator";
-import { ProductPreparedType, ReportCucinaInput } from "./schema";
-import SelectFieldWithSearch from "@/components/input-controlled/select-with-search";
-import NumericInput from "@/components/input-controlled/numeric-input";
-import { useEffect } from "react";
 import { AddRemoveFieldsButton } from "@/components/buttons/action-fields";
+import NumericInput from "@/components/input-controlled/numeric-input";
+import SelectField from "@/components/input-controlled/select-field";
+import SelectFieldWithSearch from "@/components/input-controlled/select-with-search";
+import { Label } from "@/components/ui/label";
 import { formatNow } from "@/utils/format-date";
+import { Separator } from "@radix-ui/react-separator";
+import { useTranslations } from "next-intl";
+import { useEffect } from "react";
+import { ProductPreparedType, ReportCucinaInput } from "./schema";
 
 type RenderEmployeesTableProps = {
   name: ArrayPath<ReportCucinaInput>;
@@ -76,20 +76,20 @@ const RenderTableCucina = ({
   return (
     <div className="pb-4">
       <Label className="text-bl mb-1">{t(name as string)} :</Label>
-      <Separator className="p-[0.5px] bg-bl/40" />
+      <Separator className="bg-bl/40 p-[0.5px]" />
 
       {fieldsArray.fields.map((field, index) => {
         return (
           <div
             key={field.id}
-            className="flex justify-between items-center pt-1"
+            className="flex items-center justify-between pt-1"
           >
-            <div className="flex justify-between w-full items-center">
-              <div className="flex justify-start md:gap-8 gap-2 md:px-6 w-full items-center">
+            <div className="flex w-full items-center justify-between">
+              <div className="flex w-full items-center justify-start gap-2 md:gap-8 md:px-6">
                 <SelectFieldWithSearch
                   fieldName={`${name}.${index}.${fieldName}`}
                   data={dataFieldArray || []}
-                  className="cursor-pointer h-7 w-40  text-sm border-bl/40"
+                  className="border-bl/40 h-7 w-40 cursor-pointer text-sm"
                   disabled={isDisabled}
                 />
                 {":"}
@@ -97,7 +97,7 @@ const RenderTableCucina = ({
                   <SelectField
                     fieldName={`${name}.${index}.${shift}`}
                     data={dataShifts}
-                    className="justify-center md:w-25 w-15 h-7! border-bl/40"
+                    className="border-bl/40 h-7! w-15 justify-center md:w-25"
                     disabled={isDisabled}
                   />
                 )}
@@ -105,7 +105,7 @@ const RenderTableCucina = ({
                 {(weight || over) && (
                   <NumericInput
                     fieldName={`${name}.${index}.${weight}`}
-                    className="md:w-25 w-15  h-7 border-bl/40"
+                    className="border-bl/40 h-7 w-15 md:w-25"
                     disabled={isDisabled}
                   />
                 )}
@@ -114,12 +114,12 @@ const RenderTableCucina = ({
                     fieldName={`${name}.${index}.${shift}`}
                     placeHolder="причина"
                     data={dataReasons}
-                    className="justify-center md:w-25 w-15 h-7! border-bl/40"
+                    className="border-bl/40 h-7! w-15 justify-center md:w-25"
                     disabled={isDisabled}
                   />
                 )}
               </div>
-              <div className="text-sm text-red-600 flex items-center justify-center px-4">
+              <div className="flex items-center justify-center px-4 text-sm text-red-600">
                 {time && fieldsValues?.[index]?.time}
               </div>
             </div>

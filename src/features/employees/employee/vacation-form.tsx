@@ -1,12 +1,12 @@
 "use client";
-import { Button } from "@/components/ui/button";
-import { Plus, Trash } from "lucide-react";
-import { defaultVacationPay } from "./schema";
-import TextInput from "@/components/input-controlled/text-input";
 import { DatePickerRange } from "@/components/input-controlled/date-range-input";
+import TextInput from "@/components/input-controlled/text-input";
+import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { useFieldArray, useFormContext, useWatch } from "react-hook-form";
+import { Plus, Trash } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { useFieldArray, useFormContext, useWatch } from "react-hook-form";
+import { defaultVacationPay } from "./schema";
 
 export default function VacationForm() {
   const t = useTranslations("Home");
@@ -29,7 +29,7 @@ export default function VacationForm() {
           const startDate = vacationPayValues?.[index]?.startDate;
           const endDate = vacationPayValues?.[index]?.endDate;
           return (
-            <div key={field.id} className="flex flex-col  gap-4">
+            <div key={field.id} className="flex flex-col gap-4">
               <div className="flex w-full">
                 <DatePickerRange
                   value={{
@@ -59,11 +59,11 @@ export default function VacationForm() {
                     }
                   }}
                   resetTrigger={false}
-                  className="flex-1 h-10"
+                  className="h-10 flex-1"
                 />
                 <TextInput
                   fieldName={`vacationPay.${index}.countDays`}
-                  className="flex-none w-11 p-0 h-10 text-center mx-4"
+                  className="mx-4 h-10 w-11 flex-none p-0 text-center"
                 />
                 <Button
                   type="button"

@@ -17,24 +17,24 @@ export default function StandardKitchenTable({
     <Table className="table-fixed">
       <TableBody>
         <TableRow className="h-6">
-          <TableCell className="truncate w-25" />
-          <TableCell className="text-center truncate w-10  font-bold">
+          <TableCell className="w-25 truncate" />
+          <TableCell className="w-10 truncate text-center font-bold">
             +2…+3°C
           </TableCell>
-          <TableCell className="text-center truncate w-10  font-bold">
+          <TableCell className="w-10 truncate text-center font-bold">
             -18°C
           </TableCell>
         </TableRow>
         {tableData.map((emp, idx) => (
           <TableRow
             key={`${emp.name}-${idx}`}
-            className="h-6.5 hover:text-white hover:bg-gr"
+            className="hover:bg-gr h-6.5 hover:text-white"
           >
-            <TableCell className="truncate  w-18 text-xs">{emp.name}</TableCell>
-            <TableCell className="text-center truncate text-xs">
+            <TableCell className="w-18 truncate text-xs">{emp.name}</TableCell>
+            <TableCell className="truncate text-center text-xs">
               {emp.timePlus ?? "-"}
             </TableCell>
-            <TableCell className="text-center  text-xs">
+            <TableCell className="text-center text-xs">
               {emp.timeMinus ?? "-"}
             </TableCell>
           </TableRow>
@@ -44,7 +44,7 @@ export default function StandardKitchenTable({
   );
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-2">
+    <div className="mt-2 grid grid-cols-1 gap-6 md:grid-cols-2">
       {renderTable(firstHalf)}
       {renderTable(secondHalf)}
     </div>

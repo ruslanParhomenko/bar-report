@@ -44,7 +44,7 @@ export function MonthDaysCells({
             >
               <span
                 className={cn(
-                  "text-xs font-semibold text-bl",
+                  "text-bl text-xs font-semibold",
                   orientation === "bottom" && "order-2",
                 )}
               >
@@ -53,7 +53,7 @@ export function MonthDaysCells({
 
               <span
                 className={cn(
-                  "text-xs text-muted-foreground",
+                  "text-muted-foreground text-xs",
                   orientation === "bottom" && "order-1",
                 )}
               >

@@ -1,8 +1,8 @@
 "use client";
 
+import { useHashParam } from "@/hooks/use-hash";
 import { Activity } from "react";
 import SettingsJsonForm from "./setting-json-form";
-import { useHashParam } from "@/hooks/use-hash";
 
 export default function SettingPage({
   defaultValue,

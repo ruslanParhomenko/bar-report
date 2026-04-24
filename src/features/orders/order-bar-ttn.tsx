@@ -9,7 +9,7 @@ export const OrderListTTNBar = ({
   return (
     <div className="columns-1 md:columns-3 lg:columns-7">
       {allKeys.map((key) => (
-        <div key={key} className="break-inside-avoid mb-4">
+        <div key={key} className="mb-4 break-inside-avoid">
           <OrderCardWrapper data={data[key]} name={key} />
         </div>
       ))}

@@ -1,12 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
+import { useEffect, useState } from "react";
 
-import TobaccoTable from "./tobacco-table";
 import CashVerifyTable from "./cash-table";
 import ExpensesTable from "./expenses-table";
 import InventoryTable from "./inventory-table";
+import TobaccoTable from "./tobacco-table";
 import ProductTransferTable from "./transfer-table";
 
 import { ReportDataByUniqueKey } from "@/app/actions/report-bar/report-bar-action";
@@ -45,16 +45,16 @@ export default function ReportBarTable({
         return (
           <Card
             key={index}
-            className="bg-background! shadow-none m-2 cursor-pointer"
+            className="bg-background! m-2 cursor-pointer shadow-none"
             onClick={() => toggle(index)}
           >
-            <CardTitle className="text-xs text-bl p-4">
+            <CardTitle className="text-bl p-4 text-xs">
               day: {item.day}
             </CardTitle>
 
             {isOpen && (
               <CardContent className="flex flex-col gap-4 pb-4">
-                <div className="grid grid-cols-1 xl:grid-cols-4 gap-4">
+                <div className="grid grid-cols-1 gap-4 xl:grid-cols-4">
                   <TobaccoTable data={reportData?.tobacco} />
                   <ExpensesTable data={reportData?.expenses} />
                   <ProductTransferTable data={reportData?.productTransfer} />
@@ -65,7 +65,7 @@ export default function ReportBarTable({
                   <CashVerifyTable data={reportData?.cashVerify} />
                   <div className={classNameHead}>
                     notes:{" "}
-                    <span className="text-rd text-xs px-4">
+                    <span className="text-rd px-4 text-xs">
                       {reportData?.notes}
                     </span>
                   </div>

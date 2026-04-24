@@ -6,7 +6,6 @@ import { MonthDaysCells } from "@/components/table/month-days-cells";
 import { TableCell, TableHeader, TableRow } from "@/components/ui/table";
 import { useAbility } from "@/providers/ability-provider";
 import { useMonthDays } from "@/providers/month-days-provider";
-import { RotateCw } from "lucide-react";
 
 export default function CashHeaderTable({
   selectedDay,
@@ -33,8 +32,8 @@ export default function CashHeaderTable({
   return (
     <TableHeader>
       <TableRow>
-        <TableCell className="w-22 sticky left-0 bg-background md:bg-transparent">
-          <div className="flex justify-center items-center gap-3">
+        <TableCell className="bg-background sticky left-0 w-22 md:bg-transparent">
+          <div className="flex items-center justify-center gap-3">
             <PrintButton componentRef={ref} disabled={isEdit || disabled} />
             <EditButton
               isEdit={isEdit}
@@ -47,7 +46,7 @@ export default function CashHeaderTable({
         </TableCell>
 
         <TableCell className="w-26">
-          <div className="flex justify-center gap-4 items-center">
+          <div className="flex items-center justify-center gap-4">
             <span>{month?.toUpperCase().slice(0, 3) || ""}</span>
             <ResetButton
               reset={resetSelectedDay}

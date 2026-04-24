@@ -1,14 +1,14 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { Card, CardContent, CardFooter, CardTitle } from "@/components/ui/card";
-import RemainsTable from "./remains-table";
-import WriteOffTable from "./write-off-table";
-import PreparedTable from "./prepared-table";
-import { classNameHead } from "../bar/report-bar";
 import { ReportCucinaDataByUniqueKey } from "@/app/actions/report-cucina/report-cucina-action";
+import { Card, CardContent, CardFooter, CardTitle } from "@/components/ui/card";
+import { useEffect, useState } from "react";
+import { classNameHead } from "../bar/report-bar";
+import PreparedTable from "./prepared-table";
+import RemainsTable from "./remains-table";
 import ShiftsTable from "./shifts-table";
 import StaffTable from "./staff-table";
+import WriteOffTable from "./write-off-table";
 
 export const classNameHeadCucina = "text-shadow-muted-foreground font-bold";
 export const classNameRowBorderCucina = "border-b-bl";
@@ -51,17 +51,17 @@ export default function ReportCucinaTable({
         return (
           <Card
             key={index}
-            className="bg-background! shadow-none m-2 cursor-pointer"
+            className="bg-background! m-2 cursor-pointer shadow-none"
             onClick={() => toggle(index)}
           >
             {/* Показываем только card + day */}
-            <CardTitle className="text-xs text-bl p-4">
+            <CardTitle className="text-bl p-4 text-xs">
               day: {item.day}
             </CardTitle>
 
             {isOpen && (
               <>
-                <CardContent className="grid grid-cols-1 xl:grid-cols-4 gap-4 pb-4">
+                <CardContent className="grid grid-cols-1 gap-4 pb-4 xl:grid-cols-4">
                   <div>
                     <ShiftsTable data={reportData?.shifts} />
                     <RemainsTable data={reportData?.remains} />
@@ -74,7 +74,7 @@ export default function ReportCucinaTable({
                 <CardFooter>
                   <div className={classNameHead}>
                     notes:{" "}
-                    <span className="text-rd text-xs px-4">
+                    <span className="text-rd px-4 text-xs">
                       {reportData?.notes}
                     </span>
                   </div>

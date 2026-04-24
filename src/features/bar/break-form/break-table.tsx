@@ -1,6 +1,6 @@
 import { Table } from "@/components/ui/table";
-import BreakTableHeader from "./break-header";
 import BreakTableBody from "./break-body";
+import BreakTableHeader from "./break-header";
 export default function BreakTable({
   employeesName,
   isDisabled,
@@ -9,7 +9,7 @@ export default function BreakTable({
   isDisabled: boolean;
 }) {
   return (
-    <Table className="md:table-fixed my-4">
+    <Table className="my-4 md:table-fixed">
       <BreakTableHeader />
       <BreakTableBody employeesName={employeesName} isDisabled={isDisabled} />
     </Table>

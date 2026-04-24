@@ -35,14 +35,14 @@ export default function UsersActions({ id }: { id: string }) {
           onClick={() => router.push(`/create-users/${id}`)}
           disabled={!isAdmin}
         >
-          <Pencil className="w-4 h-4 text-bl" />
+          <Pencil className="text-bl h-4 w-4" />
         </button>
         <button
           className="cursor-pointer"
           type="button"
           onClick={() => setOpen(true)}
         >
-          <Trash2Icon className="w-4 h-4 text-rd" />
+          <Trash2Icon className="text-rd h-4 w-4" />
         </button>
       </div>
     </>

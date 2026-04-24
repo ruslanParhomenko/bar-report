@@ -7,11 +7,11 @@ import {
 import { Table } from "@/components/ui/table";
 import { useRouter } from "@/i18n/navigation";
 import { useAbility } from "@/providers/ability-provider";
-import { useState } from "react";
-import PenaltyDetailsHeader from "./penalty-details-header";
-import PenaltyDetailsFooter from "./penalty-details-footer";
-import PenaltyDetailsBody from "./penalty-details-body";
 import { getMonthDays } from "@/utils/get-month-days";
+import { useState } from "react";
+import PenaltyDetailsBody from "./penalty-details-body";
+import PenaltyDetailsFooter from "./penalty-details-footer";
+import PenaltyDetailsHeader from "./penalty-details-header";
 
 export default function PenaltyDetails({
   data,
@@ -66,7 +66,7 @@ export default function PenaltyDetails({
   const { monthDays } = getMonthDays({ month: data.month, year: data.year });
 
   return (
-    <div className="flex flex-col h-[94vh]">
+    <div className="flex h-[94vh] flex-col">
       <Table className="md:table-fixed">
         <PenaltyDetailsHeader
           options={employeesList}

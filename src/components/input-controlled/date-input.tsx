@@ -1,7 +1,5 @@
-import { useFormContext } from "react-hook-form";
-import { format, Locale } from "date-fns";
-import { ru, ro } from "date-fns/locale";
-import { useLocale } from "next-intl";
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
 import {
   FormControl,
   FormField,
@@ -13,13 +11,14 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { Calendar } from "@/components/ui/calendar";
+import { format, Locale } from "date-fns";
+import { ro, ru } from "date-fns/locale";
+import { useLocale } from "next-intl";
+import { useFormContext } from "react-hook-form";
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Label } from "../ui/label";
-import { useTheme } from "next-themes";
 
 function DatePickerInput({
   fieldName,
@@ -52,7 +51,7 @@ function DatePickerInput({
         return (
           <FormItem
             className={cn(
-              fieldLabel && "grid gap-2 pb-2 grid-cols-1 justify-items-start",
+              fieldLabel && "grid grid-cols-1 justify-items-start gap-2 pb-2",
             )}
           >
             {fieldLabel && <Label>{fieldLabel}</Label>}
@@ -63,7 +62,7 @@ function DatePickerInput({
                     disabled={disabled}
                     variant={"outline"}
                     className={cn(
-                      "text-base border-0 shadow-none bg-transparent!",
+                      "border-0 bg-transparent! text-base shadow-none",
                       className,
                     )}
                   >

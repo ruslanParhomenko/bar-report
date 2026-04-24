@@ -1,11 +1,10 @@
 "use client";
+import { useFormContext, useWatch } from "react-hook-form";
 import { Label } from "../ui/label";
 import { Separator } from "../ui/separator";
-import { useFormContext, useWatch } from "react-hook-form";
 
-import NumericInput from "../input-controlled/numeric-input";
 import { useTheme } from "next-themes";
-import { Trash2Icon } from "lucide-react";
+import NumericInput from "../input-controlled/numeric-input";
 
 export function OrderCardWrapper({
   data,
@@ -16,8 +15,8 @@ export function OrderCardWrapper({
 }) {
   return (
     <div>
-      <div className="flex flex-col  justify-center items-center">
-        <Label className="py-2 font-bold text-bl">{name}</Label>
+      <div className="flex flex-col items-center justify-center">
+        <Label className="text-bl py-2 font-bold">{name}</Label>
       </div>
       {data?.map((item, index) => (
         <OrderCardField
@@ -47,10 +46,10 @@ function OrderCardField({
 
   return (
     <div>
-      <div className="grid-cols-[82%_8%] grid">
+      <div className="grid grid-cols-[82%_8%]">
         {item && (
           <Label
-            className={`pl-1 text-sm text-muted-foreground cursor-pointer ${value ? "text-rd" : ""}`}
+            className={`text-muted-foreground cursor-pointer pl-1 text-sm ${value ? "text-rd" : ""}`}
             onClick={() => setValue(item, "")}
           >
             {item}
@@ -60,14 +59,14 @@ function OrderCardField({
           <input
             type="text"
             data-slot="input"
-            className={`pl-1 text-sm text-muted-foreground ${value ? "text-rd" : ""}`}
+            className={`text-muted-foreground pl-1 text-sm ${value ? "text-rd" : ""}`}
             {...register(`${item} + ${String(index)}`)}
           />
         )}
 
         <NumericInput
           fieldName={item || String(index)}
-          className="w-9! text-center h-6.5!"
+          className="h-6.5! w-9! text-center"
         />
       </div>
       {!isLast && (

@@ -1,19 +1,19 @@
 "use client";
 
-import { Activity } from "react";
-import { ReportDataByUniqueKey } from "@/app/actions/report-bar/report-bar-action";
-import ReportBarTable from "@/features/archive/bar/report-bar";
-import { ReportCucinaDataByUniqueKey } from "@/app/actions/report-cucina/report-cucina-action";
-import ReportCucinaTable from "@/features/archive/cucina/report-cucina";
 import { BreakGetType } from "@/app/actions/break/break-action";
-import { BreakListArchive } from "./break/break-list-archive";
 import { RemarksDataByUniqueKey } from "@/app/actions/remarks/remarks-action";
+import { ReportDataByUniqueKey } from "@/app/actions/report-bar/report-bar-action";
+import { ReportCucinaDataByUniqueKey } from "@/app/actions/report-cucina/report-cucina-action";
+import { TipsAddData } from "@/app/actions/tips-add/tips-add-actions";
+import ReportBarTable from "@/features/archive/bar/report-bar";
+import ReportCucinaTable from "@/features/archive/cucina/report-cucina";
+import { useHashParam } from "@/hooks/use-hash";
+import { useAbility } from "@/providers/ability-provider";
+import { Activity } from "react";
+import { BreakListArchive } from "./break/break-list-archive";
 import PenaltyDetails from "./penalty-details/penalty-details";
 import PenaltyGeneral from "./penalty-general/penalty-general";
-import { useHashParam } from "@/hooks/use-hash";
-import { TipsAddData } from "@/app/actions/tips-add/tips-add-actions";
 import TipsData from "./tips/tips-data";
-import { useAbility } from "@/providers/ability-provider";
 
 type TabValue = "bar" | "cucina" | "breakList" | "penalty" | "penaltyResult";
 export type ArchiveData = {

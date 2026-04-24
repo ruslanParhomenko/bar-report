@@ -1,4 +1,6 @@
 "use client";
+import PrintButton from "@/components/buttons/print-button";
+import SelectOptions from "@/components/select/select-options";
 import {
   Table,
   TableBody,
@@ -7,30 +9,17 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { differenceInMonths } from "date-fns";
 import { cn } from "@/lib/utils";
-import { EmployeesContextValue } from "@/providers/employees-provider";
-import ActionButtonEmployee from "./employee-actions";
-import { handleCopy } from "@/utils/handler-copy-text";
-import {
-  CheckCircle,
-  Folder,
-  FolderPenIcon,
-  FolderPlus,
-  PlusCircle,
-  PlusCircleIcon,
-  PlusSquareIcon,
-  UserX,
-  XCircle,
-} from "lucide-react";
 import { useAbility } from "@/providers/ability-provider";
-import { useRef, useState } from "react";
+import { EmployeesContextValue } from "@/providers/employees-provider";
 import { formatShortDate } from "@/utils/format-date";
-import PrintButton from "@/components/buttons/print-button";
-import SelectOptions from "@/components/select/select-options";
-import { EMPLOYEES_ROLE } from "./constants";
-import { Button } from "@/components/ui/button";
+import { handleCopy } from "@/utils/handler-copy-text";
+import { differenceInMonths } from "date-fns";
+import { CheckCircle, FolderPlus, UserX, XCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useRef, useState } from "react";
+import { EMPLOYEES_ROLE } from "./constants";
+import ActionButtonEmployee from "./employee-actions";
 
 export function EmployeesTable({ data }: { data: EmployeesContextValue[] }) {
   const router = useRouter();
@@ -45,7 +34,7 @@ export function EmployeesTable({ data }: { data: EmployeesContextValue[] }) {
   return (
     <div ref={componentRef}>
       <Table className="md:table-fixed">
-        <TableHeader className="sticky top-0 bg-background z-20">
+        <TableHeader className="bg-background sticky top-0 z-20">
           <TableRow className="text-gr h-10">
             <TableHead className="w-5" />
             <TableHead className="w-15" />
@@ -57,7 +46,7 @@ export function EmployeesTable({ data }: { data: EmployeesContextValue[] }) {
                 value={role}
                 onChange={setRole}
                 placeHolder="role"
-                className="bg-transparent! text-bl"
+                className="text-bl bg-transparent!"
               />
             </TableHead>
             <TableHead className="w-30">mail</TableHead>
@@ -69,7 +58,7 @@ export function EmployeesTable({ data }: { data: EmployeesContextValue[] }) {
             <TableHead className="w-15">status</TableHead>
             <TableHead className="w-15 truncate print:w-5">form</TableHead>
             <TableHead className="w-15 truncate">key</TableHead>
-            <TableHead className="text-center w-25">
+            <TableHead className="w-25 text-center">
               <div className="flex justify-center gap-6">
                 <PrintButton componentRef={componentRef} className="" />
                 <button
@@ -77,7 +66,7 @@ export function EmployeesTable({ data }: { data: EmployeesContextValue[] }) {
                   onClick={() => router.push("/create-employees")}
                   className="cursor-pointer"
                 >
-                  <FolderPlus className="w-5 h-5 text-bl" />
+                  <FolderPlus className="text-bl h-5 w-5" />
                 </button>
               </div>
             </TableHead>
@@ -103,7 +92,7 @@ export function EmployeesTable({ data }: { data: EmployeesContextValue[] }) {
                 <TableRow
                   key={emp.id}
                   className={cn(
-                    "hover:text-bl cursor-pointer h-10 [&>td]:py-1 [&>th]:py-1",
+                    "hover:text-bl h-10 cursor-pointer [&>td]:py-1 [&>th]:py-1",
                     !emp.employmentDate && "text-rd font-bold",
                   )}
                 >
@@ -116,7 +105,7 @@ export function EmployeesTable({ data }: { data: EmployeesContextValue[] }) {
 
                   <TableCell
                     className={cn(
-                      "sticky left-0 bg-background z-10 print:w-30 print:bg-transparent",
+                      "bg-background sticky left-0 z-10 print:w-30 print:bg-transparent",
                       emp.status && emp.status === "fired"
                         ? "text-muted-foreground!"
                         : "",
@@ -145,23 +134,23 @@ export function EmployeesTable({ data }: { data: EmployeesContextValue[] }) {
 
                   <TableCell>
                     {emp.status && emp.status === "fired" ? (
-                      <UserX className="w-4 h-4 text-rd" />
+                      <UserX className="text-rd h-4 w-4" />
                     ) : (
-                      <CheckCircle className="w-4 h-4 text-bl" />
+                      <CheckCircle className="text-bl h-4 w-4" />
                     )}
                   </TableCell>
                   <TableCell className="print:w-10">
                     {emp.employeesWorkForm ? (
-                      <CheckCircle className="w-4 h-4 text-bl" />
+                      <CheckCircle className="text-bl h-4 w-4" />
                     ) : (
-                      <XCircle className="w-4 h-4 text-rd" />
+                      <XCircle className="text-rd h-4 w-4" />
                     )}
                   </TableCell>
                   <TableCell className="print:w-10">
                     {emp.employeesKey ? (
-                      <CheckCircle className="w-4 h-4 text-bl" />
+                      <CheckCircle className="text-bl h-4 w-4" />
                     ) : (
-                      <XCircle className="w-4 h-4 text-rd" />
+                      <XCircle className="text-rd h-4 w-4" />
                     )}
                   </TableCell>
                   <TableCell className="print:hidden">

@@ -8,10 +8,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useFormContext, useWatch } from "react-hook-form";
+import { formatNow } from "@/utils/format-date";
 import { Trash2Icon } from "lucide-react";
 import { useEffect } from "react";
-import { formatNow } from "@/utils/format-date";
+import { useFormContext, useWatch } from "react-hook-form";
 import { INVENTORY_DATA } from "./constants";
 import { InventorySchemaType } from "./schema";
 
@@ -47,9 +47,9 @@ export function TableInventory({ disabled = false }: { disabled?: boolean }) {
     <Table className="md:table-fixed">
       <TableHeader>
         <TableRow>
-          <TableHead className="md:w-30 font-bold text-bl">
+          <TableHead className="text-bl font-bold md:w-30">
             Inventory
-            <span className="text-red-600 text-xs">(к концу дня)</span>
+            <span className="text-xs text-red-600">(к концу дня)</span>
           </TableHead>
           <TableHead className="w-10" />
           <TableHead className="w-11" />
@@ -72,7 +72,7 @@ export function TableInventory({ disabled = false }: { disabled?: boolean }) {
                 disabled={disabled}
               />
             </TableCell>
-            <TableCell className="text-xs text-rd">
+            <TableCell className="text-rd text-xs">
               {fieldsValues?.[idx]?.time}
             </TableCell>
 
@@ -81,7 +81,7 @@ export function TableInventory({ disabled = false }: { disabled?: boolean }) {
               className="cursor-pointer"
             >
               {fieldsValues?.[idx]?.quantity && (
-                <Trash2Icon className="w-4 h-4 text-rd" />
+                <Trash2Icon className="text-rd h-4 w-4" />
               )}
             </TableCell>
           </TableRow>

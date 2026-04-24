@@ -1,22 +1,22 @@
 "use client";
 
-import { SubmitHandler, useForm } from "react-hook-form";
-import { cashFormSchema, defaultCashForm } from "./schema";
-import type { CashForm } from "./schema";
-import { createCash, GetCashData } from "@/app/actions/cash/cash-action";
-import { toast } from "sonner";
-import { useAbility } from "@/providers/ability-provider";
-import { CashFooterTable } from "./cash-footer";
-import { useEffect, useRef, useState } from "react";
-import { Table } from "@/components/ui/table";
 import { AOContextValue } from "@/app/actions/a-o/ao-action";
+import { createCash, GetCashData } from "@/app/actions/cash/cash-action";
+import { Form } from "@/components/ui/form";
+import { Table } from "@/components/ui/table";
+import { useAbility } from "@/providers/ability-provider";
+import { useMonthDays } from "@/providers/month-days-provider";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect, useRef, useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { TipsBodyTable } from "./cash-body";
+import { CashFooterTable } from "./cash-footer";
+import CashHeaderTable from "./cash-header";
 import CashInfo from "./cash-info";
 import { rowCashBar } from "./constants";
-import { useMonthDays } from "@/providers/month-days-provider";
-import { Form } from "@/components/ui/form";
-import CashHeaderTable from "./cash-header";
-import { TipsBodyTable } from "./cash-body";
+import type { CashForm } from "./schema";
+import { cashFormSchema, defaultCashForm } from "./schema";
 
 export default function CashPage({
   dataAo,
@@ -59,8 +59,6 @@ export default function CashPage({
       rowCashBar.map((row) => [row.key, Array(monthDays.length).fill("")]),
     ),
   };
-
-  console.log(initialRowData);
 
   // reset
   useEffect(() => {

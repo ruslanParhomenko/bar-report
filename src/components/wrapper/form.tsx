@@ -1,13 +1,13 @@
 "use client";
 
-import { SubmitHandler, UseFormReturn, FieldValues } from "react-hook-form";
-import { Form } from "../ui/form";
 import { cn } from "@/lib/utils";
-import { Button } from "../ui/button";
-import ModalConfirm from "../modal/modal-confirm";
-import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { FieldValues, SubmitHandler, UseFormReturn } from "react-hook-form";
 import SendOrdersButton from "../buttons/screen-button";
+import ModalConfirm from "../modal/modal-confirm";
+import { Button } from "../ui/button";
+import { Form } from "../ui/form";
 
 type FormInputProps<T extends FieldValues> = {
   form: UseFormReturn<T>;
@@ -58,20 +58,20 @@ export default function FormInput<T extends FieldValues>({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(handleFormSubmit, onError || (() => {}))}
-        className={cn("flex flex-col h-[95vh]", className)}
+        className={cn("flex h-[95vh] flex-col", className)}
         id={id}
       >
         {children}
 
         {withButtons && (
           <div
-            className="sticky bottom-0 w-full flex justify-start gap-6 px-4 py-1 mt-auto bg-background z-30"
+            className="bg-background sticky bottom-0 z-30 mt-auto flex w-full justify-start gap-6 px-4 py-1"
             data-html2canvas-ignore="true"
           >
             {!sendTelegram && (
               <Button
                 type="submit"
-                className="bg-bl text-white mt-auto h-7 w-24"
+                className="bg-bl mt-auto h-7 w-24 text-white"
                 disabled={disabled}
               >
                 save
@@ -102,7 +102,7 @@ export default function FormInput<T extends FieldValues>({
               <Button
                 type="button"
                 variant="secondary"
-                className="hover:bg-rd text-bl hover:text-black h-7 w-24"
+                className="hover:bg-rd text-bl h-7 w-24 hover:text-black"
                 onClick={() =>
                   resetForm ? resetForm() : form.reset(defaultValues || {})
                 }

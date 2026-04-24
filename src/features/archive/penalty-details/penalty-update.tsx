@@ -1,23 +1,23 @@
 "use client";
 
-import { Resolver, SubmitHandler, useForm } from "react-hook-form";
-import { useRouter } from "@/i18n/navigation";
-import { toast } from "sonner";
 import {
   RemarksData,
   updateRemarks,
 } from "@/app/actions/remarks/remarks-action";
+import { useRouter } from "@/i18n/navigation";
+import { Resolver, SubmitHandler, useForm } from "react-hook-form";
+import { toast } from "sonner";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useAbility } from "@/providers/ability-provider";
-import z from "zod";
 import FormInput from "@/components/wrapper/form";
+import PenaltyTable from "@/features/bar/penalty/penalty-table";
 import {
   defaultRemarkValue,
   RemarksFormData,
   remarksSchema,
 } from "@/features/bar/penalty/schema";
-import PenaltyTable from "@/features/bar/penalty/penalty-table";
+import { useAbility } from "@/providers/ability-provider";
+import { zodResolver } from "@hookform/resolvers/zod";
+import z from "zod";
 
 type PenaltyFormData = {
   penalty: RemarksFormData;

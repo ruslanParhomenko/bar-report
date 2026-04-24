@@ -1,5 +1,5 @@
-import { useSession } from "next-auth/react";
 import { format } from "date-fns";
+import { useSession } from "next-auth/react";
 import { useCallback } from "react";
 import { toast } from "sonner";
 
@@ -31,7 +31,7 @@ export const useSendTelegram = () => {
           (value as any).quantity
         ) {
           filteredData.push(
-            `${(value as any).name}: ${(value as any).quantity}`
+            `${(value as any).name}: ${(value as any).quantity}`,
           );
         } else if (typeof value === "string" || typeof value === "number") {
           filteredData.push(`${key}: ${value}`);
@@ -58,7 +58,7 @@ export const useSendTelegram = () => {
         toast.error("Ошибка при отправке сообщения");
       }
     },
-    [session]
+    [session],
   );
 
   return { sendTelegramMessage };

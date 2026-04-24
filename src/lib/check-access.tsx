@@ -1,7 +1,7 @@
-import { getServerSession } from "next-auth";
-import { authOptions } from "./auth";
-import { redirect } from "next/navigation";
 import { SIDEBAR_NAVIGATION } from "@/components/sidebar/constants";
+import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
+import { authOptions } from "./auth";
 
 export async function checkAccess(mainRoute: string): Promise<boolean> {
   const session = await getServerSession(authOptions);

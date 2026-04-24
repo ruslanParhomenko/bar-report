@@ -1,16 +1,16 @@
 "use client";
 
-import { useState, useMemo } from "react";
-import { Controller, useFormContext } from "react-hook-form";
 import {
   FormControl,
   FormField,
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
+import { useMemo, useState } from "react";
+import { Controller, useFormContext } from "react-hook-form";
 
-import { Check } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Check } from "lucide-react";
 
 import {
   Popover,
@@ -51,7 +51,7 @@ function SelectFieldWithSearch({
   const filteredOptions = useMemo(() => {
     if (!search) return data;
     return data.filter((item) =>
-      item.toLowerCase().includes(search.toLowerCase())
+      item.toLowerCase().includes(search.toLowerCase()),
     );
   }, [search, data]);
 
@@ -71,12 +71,12 @@ function SelectFieldWithSearch({
                     <button
                       type="button"
                       className={cn(
-                        "w-full border rounded-md px-2 flex justify-between items-center h-8",
+                        "flex h-8 w-full items-center justify-between rounded-md border px-2",
                         field.value
-                          ? "overflow-hidden text-ellipsis whitespace-nowrap border-0"
+                          ? "overflow-hidden border-0 text-ellipsis whitespace-nowrap"
                           : "",
                         className,
-                        theme === "dark" ? "border-0 bg-background" : ""
+                        theme === "dark" ? "bg-background border-0" : "",
                       )}
                       disabled={disabled}
                     >
@@ -113,7 +113,7 @@ function SelectFieldWithSearch({
                                   "ml-auto",
                                   field.value === item
                                     ? "opacity-100"
-                                    : "opacity-0"
+                                    : "opacity-0",
                                 )}
                               />
                             </CommandItem>

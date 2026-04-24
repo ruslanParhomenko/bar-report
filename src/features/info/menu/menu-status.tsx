@@ -1,9 +1,9 @@
 "use client";
+import { Menu } from "@/app/actions/google/google-action";
 import PrintButton from "@/components/buttons/print-button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { columns, LABELS } from "./constants";
 import { useRef } from "react";
-import { Menu } from "@/app/actions/google/google-action";
+import { columns, LABELS } from "./constants";
 
 export default function StatusMenu({ data }: { data: Menu | null }) {
   const selectData = data && data.statusMenu;
@@ -14,15 +14,15 @@ export default function StatusMenu({ data }: { data: Menu | null }) {
       <PrintButton componentRef={componentRef} className="mb-2" />
       <div
         ref={componentRef}
-        className="flex flex-col md:flex-row gap-2 print:grid print:grid-cols-4"
+        className="flex flex-col gap-2 md:flex-row print:grid print:grid-cols-4"
       >
         {columns.map((col) => (
           <Card
             key={col.key}
-            className="rounded-2xl shadow-sm md:flex-1 md:min-w-[23%] bg-transparent"
+            className="rounded-2xl bg-transparent shadow-sm md:min-w-[23%] md:flex-1"
           >
             <CardHeader>
-              <CardTitle className="text-center font-bold text-md">
+              <CardTitle className="text-md text-center font-bold">
                 {col.title}
               </CardTitle>
             </CardHeader>
@@ -33,7 +33,7 @@ export default function StatusMenu({ data }: { data: Menu | null }) {
                     key={idx}
                     className={
                       LABELS.includes(item)
-                        ? "font-bold text-bl text-center pb-1"
+                        ? "text-bl pb-1 text-center font-bold"
                         : "truncate"
                     }
                   >

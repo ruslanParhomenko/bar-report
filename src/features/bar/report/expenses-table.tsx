@@ -10,12 +10,12 @@ import {
 
 import NumericInput from "@/components/input-controlled/numeric-input";
 import SelectField from "@/components/input-controlled/select-field";
-import { useFieldArray, useFormContext, useWatch } from "react-hook-form";
+import { formatNow } from "@/utils/format-date";
 import { Trash2Icon } from "lucide-react";
 import { useEffect } from "react";
-import { formatNow } from "@/utils/format-date";
-import { ExpensesSchemaType } from "./schema";
+import { useFieldArray, useFormContext, useWatch } from "react-hook-form";
 import { RECIPIENTS } from "./constants";
+import { ExpensesSchemaType } from "./schema";
 
 export default function TableExpenses({
   disabled = false,
@@ -59,7 +59,7 @@ export default function TableExpenses({
     <Table className="md:table-fixed">
       <TableHeader>
         <TableRow>
-          <TableHead className="w-16 font-bold text-bl">Expenses</TableHead>
+          <TableHead className="text-bl w-16 font-bold">Expenses</TableHead>
           <TableHead className="w-11" />
           <TableHead className="w-11" />
           <TableHead className="w-8" />
@@ -72,7 +72,7 @@ export default function TableExpenses({
               <SelectField
                 data={RECIPIENTS}
                 fieldName={`report.expenses.${idx}.name`}
-                className="w-full h-8!  border-0! shadow-none text-sm! font-medium!"
+                className="h-8! w-full border-0! text-sm! font-medium! shadow-none"
                 placeHolder="..."
                 disabled={disabled}
               />
@@ -84,7 +84,7 @@ export default function TableExpenses({
                 disabled={disabled}
               />
             </TableCell>
-            <TableCell className="text-xs text-rd">
+            <TableCell className="text-rd text-xs">
               {fieldsValues?.[idx]?.time}
             </TableCell>
             <TableCell
@@ -92,7 +92,7 @@ export default function TableExpenses({
               className="cursor-pointer"
             >
               {fieldsValues?.[idx]?.name && (
-                <Trash2Icon className="w-4 h-4 text-rd" />
+                <Trash2Icon className="text-rd h-4 w-4" />
               )}
             </TableCell>
           </TableRow>

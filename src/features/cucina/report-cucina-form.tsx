@@ -1,6 +1,9 @@
 "use client";
-import { ArrayPath, SubmitHandler, useForm } from "react-hook-form";
 import { Textarea } from "@/components/ui/textarea";
+import { ArrayPath, SubmitHandler, useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { REASON, SELECT_TIME } from "./constants";
+import RenderTableCucina from "./fields-form";
 import {
   defaultReportCucina,
   defaultShift,
@@ -9,19 +12,16 @@ import {
   ReportCucinaInput,
   schemaReportCucina,
 } from "./schema";
-import { REASON, SELECT_TIME } from "./constants";
-import { toast } from "sonner";
-import RenderTableCucina from "./fields-form";
 
-import { useEmployees } from "@/providers/employees-provider";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useAbility } from "@/providers/ability-provider";
-import { createReportCucina } from "@/app/actions/report-cucina/report-cucina-action";
-import { MONTHS } from "@/utils/get-month-days";
-import FormInput from "@/components/wrapper/form";
-import DatePickerInput from "@/components/input-controlled/date-input";
 import { createDataProducts } from "@/app/actions/data-constants/data-products-action";
+import { createReportCucina } from "@/app/actions/report-cucina/report-cucina-action";
+import DatePickerInput from "@/components/input-controlled/date-input";
+import FormInput from "@/components/wrapper/form";
 import { useLocalStorageForm } from "@/hooks/use-local-storage";
+import { useAbility } from "@/providers/ability-provider";
+import { useEmployees } from "@/providers/employees-provider";
+import { MONTHS } from "@/utils/get-month-days";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 const CUCINA_EMPLOYEES = ["cook"];
 
@@ -189,7 +189,7 @@ export default function ReportCucinaForm({
       disabled={isDisabled}
       className="md:px-6"
     >
-      <DatePickerInput fieldName="date" className="text-sm text-rd h-6" />
+      <DatePickerInput fieldName="date" className="text-rd h-6 text-sm" />
       {tablesConfig.map(
         ({
           name,
@@ -217,7 +217,7 @@ export default function ReportCucinaForm({
         placeholder="notes ..."
         {...form.register("notes")}
         disabled={isDisabled}
-        className="border-bl/40 "
+        className="border-bl/40"
       />
     </FormInput>
   );

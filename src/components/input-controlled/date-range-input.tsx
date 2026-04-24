@@ -1,8 +1,8 @@
 "use client";
-import { useEffect, useState } from "react";
-import { useLocale, useTranslations } from "next-intl";
 import { format, Locale } from "date-fns";
-import { ru, ro } from "date-fns/locale";
+import { ro, ru } from "date-fns/locale";
+import { useLocale, useTranslations } from "next-intl";
+import { useEffect, useState } from "react";
 import { DateRange } from "react-day-picker";
 
 import { Button } from "@/components/ui/button";
@@ -76,11 +76,11 @@ export const DatePickerRange = ({
       ? `${format(from, "dd.MM.y", { locale: locales[locale] })} - ${format(
           to,
           "dd.MM.y",
-          { locale: locales[locale] }
+          { locale: locales[locale] },
         )}`
       : from
-      ? `${format(from, "dd.MM.y", { locale: locales[locale] })} →`
-      : tDate("pickADate");
+        ? `${format(from, "dd.MM.y", { locale: locales[locale] })} →`
+        : tDate("pickADate");
 
   return (
     <Popover open={open} onOpenChange={setOpen}>

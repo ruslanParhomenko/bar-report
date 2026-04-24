@@ -1,10 +1,8 @@
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
-import { MonthDayType } from "@/utils/get-month-days";
-import { useFormContext, UseFormReturn } from "react-hook-form";
-import { CashForm } from "./schema";
 import { cn } from "@/lib/utils";
-import { use } from "react";
 import { useMonthDays } from "@/providers/month-days-provider";
+import { useFormContext } from "react-hook-form";
+import { CashForm } from "./schema";
 
 export default function CashInfo({ isEdit }: { isEdit?: boolean }) {
   const { monthDays } = useMonthDays();
@@ -56,64 +54,64 @@ export default function CashInfo({ isEdit }: { isEdit?: boolean }) {
       <TableRow className="h-12" />
       <TableRow>
         <TableCell colSpan={monthDays.length}>
-          <div className="flex gap-4 text-gn items-center">
+          <div className="text-gn flex items-center gap-4">
             <div>
               <span className="font-bold">remaining cash:</span>
-              <span className="h-7 py-1.5 px-2 ml-4 text-xs">
+              <span className="ml-4 h-7 px-2 py-1.5 text-xs">
                 {remainingCash.toFixed(2)}
               </span>
             </div>
             <div>
-              <span className=" font-bold">visa difference:</span>
-              <span className="h-7 py-1.5 px-2 ml-4 text-xs">
+              <span className="font-bold">visa difference:</span>
+              <span className="ml-4 h-7 px-2 py-1.5 text-xs">
                 {(Number(totalVisaBar) - Number(totalVisa)).toFixed(2)}
               </span>
             </div>
             <div>
-              <span className=" font-bold">start-241:</span>
+              <span className="font-bold">start-241:</span>
               <input
                 type="text"
                 disabled={!isEdit}
                 {...register("start_241")}
                 className={cn(
-                  "border-0 p-0 ml-4 h-7 text-center  shadow-none text-xs w-24",
+                  "ml-4 h-7 w-24 border-0 p-0 text-center text-xs shadow-none",
                   isEdit && "bg-accent",
                 )}
               />
             </div>
             <div>
-              <span className=" font-bold">832:</span>
-              <span className="h-7 py-1.5 px-2 ml-4 text-xs">
+              <span className="font-bold">832:</span>
+              <span className="ml-4 h-7 px-2 py-1.5 text-xs">
                 {totalNbmCollection ?? 0}
               </span>
             </div>
             <div>
-              <span className=" font-bold">z-531:</span>
+              <span className="font-bold">z-531:</span>
               <input
                 type="text"
                 disabled={!isEdit}
                 {...register("z_531")}
                 className={cn(
-                  "border-0 p-0 ml-4 h-7 text-center  shadow-none text-xs w-24",
+                  "ml-4 h-7 w-24 border-0 p-0 text-center text-xs shadow-none",
                   isEdit && "bg-accent",
                 )}
               />
             </div>
             <div>
-              <span className=" font-bold">ao-532:</span>
+              <span className="font-bold">ao-532:</span>
               <input
                 type="text"
                 disabled={!isEdit}
                 {...register("ao_532")}
                 className={cn(
-                  "border-0 p-0 ml-4 h-7 text-center  shadow-none text-xs w-24",
+                  "ml-4 h-7 w-24 border-0 p-0 text-center text-xs shadow-none",
                   isEdit && "bg-accent",
                 )}
               />
             </div>
             <div>
-              <span className=" font-bold">final_241:</span>
-              <span className="h-7 py-1.5 px-2 ml-4 text-xs">
+              <span className="font-bold">final_241:</span>
+              <span className="ml-4 h-7 px-2 py-1.5 text-xs">
                 {finalCash.toFixed(2)}
               </span>
             </div>

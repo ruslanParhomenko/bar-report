@@ -1,11 +1,11 @@
 "use client";
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
+import { cn } from "@/lib/utils";
+import { MonthDayType } from "@/utils/get-month-days";
+import { handleMultiTableNavigation } from "@/utils/handle-table-navigation";
+import { useEffect, useEffectEvent, useState } from "react";
 import { FieldPath, useFormContext, useWatch } from "react-hook-form";
 import { SuppliersFormType } from "./schema";
-import { cn } from "@/lib/utils";
-import { useEffect, useEffectEvent, useState } from "react";
-import { handleMultiTableNavigation } from "@/utils/handle-table-navigation";
-import { MonthDayType } from "@/utils/get-month-days";
 
 export default function TTNBodyTable({
   arrayRows,
@@ -53,13 +53,13 @@ export default function TTNBodyTable({
       <TableRow>
         <TableCell
           colSpan={monthDays.length + 3}
-          className="text-xs p-0 pr-0.5  border-r"
+          className="border-r p-0 pr-0.5 text-xs"
         >
           <input
             type="text"
             placeholder="...search"
             onChange={(e) => setItemSearch(e.target.value)}
-            className="p-1 outline-none focus:outline-none focus:ring-0 focus-visible:ring-0"
+            className="p-1 outline-none focus:ring-0 focus:outline-none focus-visible:ring-0"
           ></input>
         </TableCell>
       </TableRow>
@@ -77,9 +77,9 @@ export default function TTNBodyTable({
 
           return (
             <TableRow key={row} className="group">
-              <TableCell className="text-xs p-0 pr-0.5  border-r">
-                <div className="w-30 grid grid-cols-2 gap-1">
-                  <div className="flex flex-col  items-end">
+              <TableCell className="border-r p-0 pr-0.5 text-xs">
+                <div className="grid w-30 grid-cols-2 gap-1">
+                  <div className="flex flex-col items-end">
                     <span
                       className={cn(
                         "text-rd",
@@ -109,17 +109,17 @@ export default function TTNBodyTable({
                 </div>
               </TableCell>
 
-              <TableCell className="text-start p-0 pl-1 sticky left-0 bg-background">
+              <TableCell className="bg-background sticky left-0 p-0 pl-1 text-start">
                 <span
                   className={cn(
-                    "truncate font-bold hover-cell",
+                    "hover-cell truncate font-bold",
                     isRowByCurrentDay && "text-rd",
                   )}
                 >
                   {row}
                 </span>
               </TableCell>
-              <TableCell className="p-0 pr-0.5 border-l text-xs">
+              <TableCell className="border-l p-0 pr-0.5 text-xs">
                 <input
                   {...register(
                     `rowSuppliers.${row}.start` as FieldPath<SuppliersFormType>,
@@ -129,8 +129,8 @@ export default function TTNBodyTable({
                 />
               </TableCell>
               {monthDays.map((_, dayIndex) => (
-                <TableCell key={dayIndex} className="p-0 border-x">
-                  <div className="flex flex-col h-8">
+                <TableCell key={dayIndex} className="border-x p-0">
+                  <div className="flex h-8 flex-col">
                     <input
                       {...register(
                         `rowSuppliers.${row}.minus.${dayIndex}` as FieldPath<SuppliersFormType>,

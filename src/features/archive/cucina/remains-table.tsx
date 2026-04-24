@@ -6,8 +6,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { classNameHeadCucina, classNameRowBorderCucina } from "./report-cucina";
 import { ProductPreparedType } from "@/features/cucina/schema";
+import { classNameHeadCucina, classNameRowBorderCucina } from "./report-cucina";
 
 export default function RemainsTable({
   data,

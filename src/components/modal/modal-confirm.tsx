@@ -18,7 +18,7 @@ export default function ModalConfirm({
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent showCloseButton={false}>
         <DialogTitle className="hidden" />
-        <div className="flex w-full justify-around items-center">
+        <div className="flex w-full items-center justify-around">
           <Button
             onClick={handleConfirm}
             className="w-30"

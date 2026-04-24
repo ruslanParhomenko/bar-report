@@ -23,7 +23,7 @@ export default function ExitButton({
       disabled={disabled}
       className={cn("cursor-pointer", className, disabled && "opacity-50")}
     >
-      <LogOutIcon className="h-5 w-5 hover:text-bl" strokeWidth={1.5} />
+      <LogOutIcon className="hover:text-bl h-5 w-5" strokeWidth={1.5} />
     </button>
   );
 }

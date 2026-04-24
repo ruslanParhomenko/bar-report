@@ -1,15 +1,15 @@
 "use client";
 
+import { useHashParam } from "@/hooks/use-hash";
+import { useAbility } from "@/providers/ability-provider";
 import { useEmployees } from "@/providers/employees-provider";
 import { useSearchParams } from "next/navigation";
 import { Activity } from "react";
+import { EmployeeForm } from "./employee/employee-form";
 import { EmployeesTable } from "./employee/employees-table";
 import { VacationTable } from "./employee/vacation-table";
-import { EmployeeForm } from "./employee/employee-form";
 import UsersForm from "./users/users-form";
 import UsersTable from "./users/users-table";
-import { useAbility } from "@/providers/ability-provider";
-import { useHashParam } from "@/hooks/use-hash";
 
 export function EmployeesPage() {
   const searchParams = useSearchParams();

@@ -1,6 +1,6 @@
 "use client";
-import { Printer } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Printer } from "lucide-react";
 import { useReactToPrint } from "react-to-print";
 import { toast } from "sonner";
 
@@ -59,7 +59,7 @@ export default function PrintButton({
       }}
       type="button"
       disabled={disabled}
-      className={cn(className, "print:hidden cursor-pointer")}
+      className={cn(className, "cursor-pointer print:hidden")}
     >
       <Printer
         size={size}

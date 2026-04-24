@@ -1,5 +1,8 @@
 "use client";
 
+import { saveStopList } from "@/app/actions/stop-list/stop-list-action";
+import { AddRemoveFieldsButton } from "@/components/buttons/action-fields";
+import SelectFieldWithSearch from "@/components/input-controlled/select-with-search";
 import {
   Table,
   TableBody,
@@ -8,24 +11,21 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import FormInput from "@/components/wrapper/form";
+import { useRealtimeSave } from "@/hooks/use-realtime-save";
+import { useAbility } from "@/providers/ability-provider";
+import { useOrderProducts } from "@/providers/order-products-provider";
+import { formatNowData } from "@/utils/format-date";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect } from "react";
 import { useFieldArray, useForm, useWatch } from "react-hook-form";
+import { toast } from "sonner";
 import {
   defaultStopList,
   defaultStopListSchema,
   stopListSchema,
   StopListSchemaType,
 } from "./schema";
-import SelectFieldWithSearch from "@/components/input-controlled/select-with-search";
-import { useEffect } from "react";
-import { toast } from "sonner";
-import { useAbility } from "@/providers/ability-provider";
-import { formatNowData } from "@/utils/format-date";
-import { AddRemoveFieldsButton } from "@/components/buttons/action-fields";
-import { zodResolver } from "@hookform/resolvers/zod";
-import FormInput from "@/components/wrapper/form";
-import { useRealtimeSave } from "@/hooks/use-realtime-save";
-import { saveStopList } from "@/app/actions/stop-list/stop-list-action";
-import { useOrderProducts } from "@/providers/order-products-provider";
 
 export default function StopListForm({
   data,
@@ -98,12 +98,12 @@ export default function StopListForm({
       withButtons={false}
       onSubmit={() => {}}
     >
-      <Table className="[&_th]:text-center [&_td]:text-center table-fixed md:w-200 ">
+      <Table className="table-fixed md:w-200 [&_td]:text-center [&_th]:text-center">
         <TableHeader>
           <TableRow>
-            <TableHead className="md:w-90 w-32" />
-            <TableHead className="md:w-50 w-16">date</TableHead>
-            <TableHead className="text-left md:w-30 w-12">actions</TableHead>
+            <TableHead className="w-32 md:w-90" />
+            <TableHead className="w-16 md:w-50">date</TableHead>
+            <TableHead className="w-12 text-left md:w-30">actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -119,7 +119,7 @@ export default function StopListForm({
               </TableCell>
               <TableCell className="text-center">
                 {item.product && (
-                  <div className="text-center text-rd">{item.date}</div>
+                  <div className="text-rd text-center">{item.date}</div>
                 )}
               </TableCell>
               <TableCell className="flex justify-center">

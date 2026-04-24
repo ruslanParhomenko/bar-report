@@ -11,15 +11,15 @@ export const InsufficientRights = ({
 }) => {
   const t = useTranslations("Home");
   return (
-    <div className="py-20 flex flex-col gap-4 items-center justify-center">
-      <Label className="text-2xl text-center text-red-600">
+    <div className="flex flex-col items-center justify-center gap-4 py-20">
+      <Label className="text-center text-2xl text-red-600">
         {t("insufficientRights")}
       </Label>
       {exitButton && (
         <Button
           type="button"
           variant={"destructive"}
-          className="text-rd font-bold cursor-pointer"
+          className="text-rd cursor-pointer font-bold"
           onClick={() => signOut({ callbackUrl: "/" })}
         >
           {t("exit")}

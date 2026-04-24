@@ -8,10 +8,10 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import { useTranslations } from "next-intl";
-import PrintButton from "@/components/buttons/print-button";
-import { useRef } from "react";
 import { RemarksDataByUniqueKey } from "@/app/actions/remarks/remarks-action";
+import PrintButton from "@/components/buttons/print-button";
+import { useTranslations } from "next-intl";
+import { useRef } from "react";
 import { remarksByUniqueEmployee } from "../penalty-details/utils";
 
 export default function PenaltyGeneral({
@@ -44,7 +44,7 @@ export default function PenaltyGeneral({
         <TableBody>
           {formattedData.map((row, index) => (
             <TableRow key={index} className="hover:text-rd hover:bg-accent">
-              <TableCell className="sticky left-0 bg-background/20 z-10 print:bg-none">
+              <TableCell className="bg-background/20 sticky left-0 z-10 print:bg-none">
                 {row.name}
               </TableCell>
               <TableCell className="text-center">{row.dayHours}</TableCell>

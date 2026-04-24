@@ -11,14 +11,14 @@ export default function MoveButton<T extends FieldValues>({
   move: UseFieldArrayMove;
 }) {
   return (
-    <div className="flex flex-col justify-center items-center">
+    <div className="flex flex-col items-center justify-center">
       <button
         type="button"
         disabled={rowIndex === 0}
         onClick={() => move(rowIndex, rowIndex - 1)}
         className="cursor-pointer"
       >
-        <ChevronUp className="w-4 h-4" />
+        <ChevronUp className="h-4 w-4" />
       </button>
       <button
         type="button"
@@ -26,7 +26,7 @@ export default function MoveButton<T extends FieldValues>({
         onClick={() => move(rowIndex, rowIndex + 1)}
         className="cursor-pointer"
       >
-        <ChevronDown className="w-4 h-4" />
+        <ChevronDown className="h-4 w-4" />
       </button>
     </div>
   );

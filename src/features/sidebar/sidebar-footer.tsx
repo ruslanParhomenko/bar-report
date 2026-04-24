@@ -44,7 +44,7 @@ export default function SidebarFooterButtons() {
 
   return (
     <SidebarFooter>
-      <SidebarMenu className="flex flex-row  w-full items-center  gap-2 pb-2">
+      <SidebarMenu className="flex w-full flex-row items-center gap-2 pb-2">
         <SidebarMenuButton onClick={() => changeTheme()}>
           <ThemeIcon style={styleIcon} className="text-bl" />
         </SidebarMenuButton>

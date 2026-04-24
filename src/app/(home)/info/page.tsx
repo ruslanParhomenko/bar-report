@@ -3,10 +3,10 @@ import {
   getStandardKitchenCached,
 } from "@/app/actions/google/google-action";
 import { getStopList } from "@/app/actions/stop-list/stop-list-action";
+import { InsufficientRights } from "@/components/wrapper/insufficient-rights";
 import { INFO_MAIN_ROUTE } from "@/constants/endpoint-tag";
 import InfoPage from "@/features/info/info-page";
 import { checkAccess } from "@/lib/check-access";
-import { InsufficientRights } from "@/components/wrapper/insufficient-rights";
 
 export default async function Page() {
   const hasAccess = await checkAccess(INFO_MAIN_ROUTE);

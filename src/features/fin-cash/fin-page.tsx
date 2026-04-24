@@ -1,28 +1,28 @@
 "use client";
 import {
+  Table,
+  TableBody,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import FormInput from "@/components/wrapper/form";
+import {
   defaultFinCashForm,
   finCashSchema,
   FinForm,
 } from "@/features/fin-cash/schema";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-  TableFooter,
-} from "@/components/ui/table";
-import FormInput from "@/components/wrapper/form";
 import { MONTHS } from "@/utils/get-month-days";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect, useMemo } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { FIN_CASH_ITEMS_LIST } from "./constants";
-import { useEffect, useMemo } from "react";
 
-import { toast } from "sonner";
-import { handleMultiTableNavigation } from "@/utils/handle-table-navigation";
 import { createFin, GetFinData } from "@/app/actions/fin-cash/fin-action";
+import { handleMultiTableNavigation } from "@/utils/handle-table-navigation";
+import { toast } from "sonner";
 
 const VAT_PLUS_KEYS = ["nbm-vat", "bar-vat"];
 const VAT_MINUS_KEYS = ["ttn-vat"];
@@ -145,11 +145,11 @@ export default function FinPage({
       <Table className="md:table-fixed">
         <TableHeader>
           <TableRow className="border-0!">
-            <TableHead className="sticky left-0 bg-background" />
+            <TableHead className="bg-background sticky left-0" />
             {ALL_COLUMNS.map((col) => (
               <TableHead
                 key={col}
-                className="text-bl text-xs font-bold text-center"
+                className="text-bl text-center text-xs font-bold"
               >
                 {col}
               </TableHead>
@@ -163,28 +163,28 @@ export default function FinPage({
             const row = values?.[month] ?? [];
 
             return (
-              <TableRow key={month} className="[&>td]:p-0 border-0">
-                <TableCell className="text-bl text-xs font-bold pl-4! sticky left-0 bg-background">
+              <TableRow key={month} className="border-0 [&>td]:p-0">
+                <TableCell className="text-bl bg-background sticky left-0 pl-4! text-xs font-bold">
                   {month}
                 </TableCell>
 
-                <TableCell className="border border-muted-foreground/20 text-center text-xs font-bold">
+                <TableCell className="border-muted-foreground/20 border text-center text-xs font-bold">
                   {nds.toFixed(2)}
                 </TableCell>
-                <TableCell className="border border-muted-foreground/20 text-center text-xs font-bold">
+                <TableCell className="border-muted-foreground/20 border text-center text-xs font-bold">
                   {tax.toFixed(2)}
                 </TableCell>
 
                 {FIN_CASH_ITEMS_LIST.map((itemName, colIndex) => (
                   <TableCell
                     key={itemName}
-                    className="border border-muted-foreground/20"
+                    className="border-muted-foreground/20 border"
                   >
                     <input
                       {...form.register(
                         `rowFinCashMonth.${month}[${colIndex}].value`,
                       )}
-                      className="h-8 p-0 m-0 text-center w-full cursor-pointer text-xs font-bold"
+                      className="m-0 h-8 w-full cursor-pointer p-0 text-center text-xs font-bold"
                       data-row={rowIndex}
                       data-col={colIndex}
                       onKeyDown={handleMultiTableNavigation}
@@ -197,40 +197,40 @@ export default function FinPage({
         </TableBody>
 
         <TableFooter>
-          <TableRow className="border-0 text-bl">
-            <TableCell className="sticky left-0 bg-background font-bold text-xs pl-4!">
+          <TableRow className="text-bl border-0">
+            <TableCell className="bg-background sticky left-0 pl-4! text-xs font-bold">
               Итого
             </TableCell>
-            <TableCell className="border border-muted-foreground/20 text-center text-xs font-bold">
+            <TableCell className="border-muted-foreground/20 border text-center text-xs font-bold">
               {ndsTotal.toFixed(2)}
             </TableCell>
-            <TableCell className="border border-muted-foreground/20 text-center text-xs font-bold">
+            <TableCell className="border-muted-foreground/20 border text-center text-xs font-bold">
               {taxTotal.toFixed(2)}
             </TableCell>
             {columnTotals.map((total, index) => (
               <TableCell
                 key={index}
-                className="text-center font-bold text-xs border"
+                className="border text-center text-xs font-bold"
               >
                 {total.toFixed(2)}
               </TableCell>
             ))}
           </TableRow>
 
-          <TableRow className="border-0 text-muted-foreground">
-            <TableCell className="sticky left-0 bg-background font-bold text-xs pl-4!">
+          <TableRow className="text-muted-foreground border-0">
+            <TableCell className="bg-background sticky left-0 pl-4! text-xs font-bold">
               Среднее
             </TableCell>
-            <TableCell className="border border-muted-foreground/20 text-center text-xs font-bold">
+            <TableCell className="border-muted-foreground/20 border text-center text-xs font-bold">
               {ndsAverage.toFixed(2)}
             </TableCell>
-            <TableCell className="border border-muted-foreground/20 text-center text-xs font-bold">
+            <TableCell className="border-muted-foreground/20 border text-center text-xs font-bold">
               {taxAverage.toFixed(2)}
             </TableCell>
             {columnAverages.map((avg, index) => (
               <TableCell
                 key={index}
-                className="text-center font-bold text-xs border"
+                className="border text-center text-xs font-bold"
               >
                 {avg.toFixed(2)}
               </TableCell>

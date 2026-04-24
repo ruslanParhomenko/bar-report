@@ -1,8 +1,8 @@
 ignoredBuiltDependencies:
-  - '@firebase/util'
-  - '@prisma/client'
-  - '@prisma/engines'
-  - '@tailwindcss/oxide'
+  - "@firebase/util"
+  - "@prisma/client"
+  - "@prisma/engines"
+  - "@tailwindcss/oxide"
   - core-js
   - prisma
   - protobufjs
@@ -10,4 +10,4 @@ ignoredBuiltDependencies:
   - unrs-resolver
 
 onlyBuiltDependencies:
-  - '@vercel/speed-insights'
+  - "@vercel/speed-insights"

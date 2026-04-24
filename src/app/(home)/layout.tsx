@@ -1,20 +1,20 @@
-import SidebarNav from "@/features/sidebar/sidebar-nav";
+import NavTabs from "@/components/nav/nav-tabs";
+import { SidebarToggleButton } from "@/components/sidebar/sidebar-toggle";
 import { SidebarProvider } from "@/components/ui/sidebar";
+import SidebarNav from "@/features/sidebar/sidebar-nav";
 import { AbilityProvider } from "@/providers/ability-provider";
+import ClientRefProvider from "@/providers/client-ref-provider";
 import {
   EmployeesContextValue,
   EmployeesProvider,
 } from "@/providers/employees-provider";
-import { getEmployees } from "../actions/employees/employee-action";
-import NavTabs from "@/components/nav/nav-tabs";
-import ClientRefProvider from "@/providers/client-ref-provider";
-import { getUsers } from "../actions/users/user-action";
-import { getDataOrderProducts } from "../actions/data-constants/data-order-products";
 import {
   OrderProductsContextValue,
   OrderProductsProvider,
 } from "@/providers/order-products-provider";
-import { SidebarToggleButton } from "@/components/sidebar/sidebar-toggle";
+import { getDataOrderProducts } from "../actions/data-constants/data-order-products";
+import { getEmployees } from "../actions/employees/employee-action";
+import { getUsers } from "../actions/users/user-action";
 
 import MonthDaysProvider from "@/providers/month-days-provider";
 
@@ -38,7 +38,7 @@ export default async function HomeLayout({
           <SidebarProvider>
             <SidebarToggleButton />
             <SidebarNav />
-            <div className="flex flex-col h-screen w-screen overflow-y-auto px-1">
+            <div className="flex h-screen w-screen flex-col overflow-y-auto px-1">
               <NavTabs />
               <ClientRefProvider>
                 <MonthDaysProvider>{children}</MonthDaysProvider>

@@ -1,4 +1,7 @@
 "use client";
+import NumericInput from "@/components/input-controlled/numeric-input";
+import SelectField from "@/components/input-controlled/select-field";
+import SelectFieldWithSearch from "@/components/input-controlled/select-with-search";
 import {
   Table,
   TableBody,
@@ -7,16 +10,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import SelectFieldWithSearch from "@/components/input-controlled/select-with-search";
-import SelectField from "@/components/input-controlled/select-field";
-import { useFieldArray, useFormContext, useWatch } from "react-hook-form";
-import NumericInput from "@/components/input-controlled/numeric-input";
+import { useOrderProducts } from "@/providers/order-products-provider";
+import { formatNow } from "@/utils/format-date";
 import { Trash2Icon } from "lucide-react";
 import { useEffect } from "react";
-import { formatNow } from "@/utils/format-date";
-import { ProductTransferSchemaType } from "./schema";
+import { useFieldArray, useFormContext, useWatch } from "react-hook-form";
 import { WAREHOUSES } from "./constants";
-import { useOrderProducts } from "@/providers/order-products-provider";
+import { ProductTransferSchemaType } from "./schema";
 
 export default function TableProductsTransfer({
   disabled = false,
@@ -69,7 +69,7 @@ export default function TableProductsTransfer({
     <Table className="md:table-fixed">
       <TableHeader>
         <TableRow>
-          <TableHead className="w-28 font-bold text-bl"> Transfer</TableHead>
+          <TableHead className="text-bl w-28 font-bold"> Transfer</TableHead>
           <TableHead className="w-18" />
           <TableHead className="w-10" />
           <TableHead className="w-10"></TableHead>
@@ -83,7 +83,7 @@ export default function TableProductsTransfer({
               <SelectFieldWithSearch
                 data={PRODUCTS}
                 fieldName={`report.productTransfer.${idx}.name`}
-                className="h-8 w-full text-center text-sm! border-0 shadow-none"
+                className="h-8 w-full border-0 text-center text-sm! shadow-none"
                 disabled={disabled}
                 placeHolder="...."
               />
@@ -92,7 +92,7 @@ export default function TableProductsTransfer({
               <SelectField
                 fieldName={`report.productTransfer.${idx}.destination`}
                 data={WAREHOUSES}
-                className="w-full text-center h-7! text-xs border-0 shadow-none font-medium!"
+                className="h-7! w-full border-0 text-center text-xs font-medium! shadow-none"
                 disabled={disabled}
                 placeHolder="...."
               />
@@ -104,7 +104,7 @@ export default function TableProductsTransfer({
                 disabled={disabled}
               />
             </TableCell>
-            <TableCell className="text-xs text-rd">
+            <TableCell className="text-rd text-xs">
               {fieldsValues?.[idx]?.time}
             </TableCell>
             <TableCell
@@ -112,7 +112,7 @@ export default function TableProductsTransfer({
               className="cursor-pointer"
             >
               {fieldsValues?.[idx]?.name && (
-                <Trash2Icon className="w-4 h-4 text-rd" />
+                <Trash2Icon className="text-rd h-4 w-4" />
               )}
             </TableCell>
           </TableRow>

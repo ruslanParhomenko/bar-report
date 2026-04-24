@@ -1,13 +1,13 @@
 "use client";
-import TableTobacco from "./tobacco-table";
 import { Textarea } from "@/components/ui/textarea";
-import TableCashVerify from "./cash-table";
 import { useFormContext } from "react-hook-form";
+import TableCashVerify from "./cash-table";
+import TableTobacco from "./tobacco-table";
 
+import { BarFormValues } from "../schema";
 import TableExpenses from "./expenses-table";
 import { TableInventory } from "./inventory-table";
 import TableProductsTransfer from "./transfer-table";
-import { BarFormValues } from "../schema";
 
 export default function ReportBarTable({
   isDisabled,
@@ -18,7 +18,7 @@ export default function ReportBarTable({
 
   return (
     <>
-      <div className="grid grid-cols-1 md:grid-cols-[25%_20%_20%_22%] justify-between my-4">
+      <div className="my-4 grid grid-cols-1 justify-between md:grid-cols-[25%_20%_20%_22%]">
         <TableTobacco disabled={isDisabled} />
         <TableInventory disabled={isDisabled} />
         <TableExpenses disabled={isDisabled} />
@@ -28,7 +28,7 @@ export default function ReportBarTable({
       <Textarea
         placeholder="notes ..."
         {...register("report.notes")}
-        className="resize-none my-4"
+        className="my-4 resize-none"
         disabled={isDisabled}
       />
     </>

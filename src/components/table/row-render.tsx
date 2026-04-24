@@ -10,8 +10,8 @@ import {
 
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
-import { handleMultiTableNavigation } from "@/utils/handle-table-navigation";
 import { MonthDayType } from "@/utils/get-month-days";
+import { handleMultiTableNavigation } from "@/utils/handle-table-navigation";
 
 export type ArrayRow = {
   key: string;
@@ -88,14 +88,14 @@ export function RowRender<
         return (
           <TableRow key={String(row.key)} className="border-b!">
             <TableCell
-              className={cn("text-right border-r  pr-2 text-xs", row.colorText)}
+              className={cn("border-r pr-2 text-right text-xs", row.colorText)}
             >
               {total}
             </TableCell>
             <TableCell
               colSpan={2}
               className={cn(
-                "font-medium sticky left-0 p-0 px-1 text-left text-md bg-background",
+                "text-md bg-background sticky left-0 p-0 px-1 text-left font-medium",
                 row.colorText,
               )}
             >
@@ -103,7 +103,7 @@ export function RowRender<
             </TableCell>
 
             {monthDays.map((_, dayIndex) => (
-              <TableCell key={dayIndex} className="p-0 text-center border-x">
+              <TableCell key={dayIndex} className="border-x p-0 text-center">
                 <input
                   type="text"
                   disabled={isDisabled}
@@ -115,7 +115,7 @@ export function RowRender<
                     )}.${dayIndex}` as FieldPath<TForm>,
                   )}
                   className={cn(
-                    "border-0 h-7 w-12 text-xs text-center",
+                    "h-7 w-12 border-0 text-center text-xs",
                     row.colorText,
                   )}
                   onKeyDown={handleMultiTableNavigation}
@@ -128,12 +128,12 @@ export function RowRender<
 
       {withTotalFooter && (
         <TableRow>
-          <TableCell className="text-center text-black text-xs font-bold">
+          <TableCell className="text-center text-xs font-bold text-black">
             {totalByDay.reduce((a, b) => a + b, 0).toFixed(2)}
           </TableCell>
           <TableCell colSpan={2} />
           {totalByDay.map((t, i) => (
-            <TableCell key={i} className="text-xs text-center">
+            <TableCell key={i} className="text-center text-xs">
               {t > 0 ? t.toFixed(0) : ""}
             </TableCell>
           ))}

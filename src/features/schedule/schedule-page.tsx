@@ -1,29 +1,29 @@
 "use client";
-import { Table } from "@/components/ui/table";
-import ScheduleTableFooter from "./schedule-footer";
-import ScheduleTableHeader from "./schedule-header";
-import ScheduleTableBody from "./schedule-body";
 import {
   createSchedule,
   ScheduleData,
   SchedulesContextValue,
   updateSchedule,
 } from "@/app/actions/schedule/schedule-action";
-import { useEffect, useState } from "react";
-import { useHashParam } from "@/hooks/use-hash";
-import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { defaultSchedule, scheduleSchema, ScheduleType } from "./schema";
 import { Form } from "@/components/ui/form";
+import { Table } from "@/components/ui/table";
+import { useHashParam } from "@/hooks/use-hash";
+import { useMonthDays } from "@/providers/month-days-provider";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect, useState } from "react";
+import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { EMPLOYEE_ROLES_BY_DEPARTMENT } from "./constants";
+import ScheduleTableBody from "./schedule-body";
+import ScheduleCreateTableBody from "./schedule-create-body";
+import ScheduleTableFooter from "./schedule-footer";
+import ScheduleTableHeader from "./schedule-header";
+import { defaultSchedule, scheduleSchema, ScheduleType } from "./schema";
 import {
   calculateShiftTotals,
   getSelectedEmployeesByRole,
   getShiftCounts,
 } from "./utils";
-import { EMPLOYEE_ROLES_BY_DEPARTMENT } from "./constants";
-import { toast } from "sonner";
-import ScheduleCreateTableBody from "./schedule-create-body";
-import { useMonthDays } from "@/providers/month-days-provider";
 
 export default function SchedulePage({
   schedules,
@@ -149,6 +149,7 @@ export default function SchedulePage({
             <ScheduleCreateTableBody
               fields={fields}
               selectedEmployees={selectedEmployees}
+              selectedDay={selectedDay}
               remove={remove}
               move={move}
               update={update}

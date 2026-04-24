@@ -1,13 +1,10 @@
 "use server";
 
-import { dbAdmin } from "@/lib/firebase-admin";
-import {
-  EmployeesSchemaType,
-  EmployeesSchemaTypeData,
-} from "@/features/employees/employee/schema";
-import { unstable_cache, updateTag } from "next/cache";
-import { redis } from "@/lib/redis";
 import { EMPLOYEES_ACTION_TAG } from "@/constants/action-tag";
+import { EmployeesSchemaTypeData } from "@/features/employees/employee/schema";
+import { dbAdmin } from "@/lib/firebase-admin";
+import { redis } from "@/lib/redis";
+import { unstable_cache, updateTag } from "next/cache";
 
 export type EmployeeData = EmployeesSchemaTypeData & { id: string };
 

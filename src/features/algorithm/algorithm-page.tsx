@@ -1,72 +1,86 @@
 "use client";
 
-import FormInput from "@/components/wrapper/form";
-
-import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { AlgorithmData, algorithmSchema, defaultAlgorithm } from "./schema";
-import { useHashParam } from "@/hooks/use-hash";
-import { Activity, useEffect, useTransition } from "react";
-import { useAbility } from "@/providers/ability-provider";
 import {
   createAlgorithmData,
   getAlgorithmData,
 } from "@/app/actions/algorithm/algorithm-actions";
+import EditButton from "@/components/buttons/edit-button";
+import SaveButton from "@/components/buttons/save-button";
+import { Form } from "@/components/ui/form";
+import { useHashParam } from "@/hooks/use-hash";
+import { useAbility } from "@/providers/ability-provider";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Activity, useEffect, useState } from "react";
+import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
+import { toast } from "sonner";
 import AlgorithmForm from "./algorithm-form";
+import { AlgorithmData, algorithmSchema, defaultAlgorithm } from "./schema";
+
+const FIELD_CONFIG = [
+  "tips",
+  "cash",
+  "shifts",
+  "vip",
+  "algorithm",
+  "workflow",
+] as const;
 
 export default function AlgorithmPage() {
   const { isAdmin } = useAbility();
   const [tab] = useHashParam("tab");
+
+  // state
+  const [isEdit, setIsEdit] = useState(false);
+  //form
   const form = useForm<AlgorithmData>({
     resolver: zodResolver(algorithmSchema),
     defaultValues: defaultAlgorithm,
   });
 
-  const tipsFields = useFieldArray({ control: form.control, name: "tips" });
-  const cashFields = useFieldArray({ control: form.control, name: "cash" });
-  const shiftsFields = useFieldArray({ control: form.control, name: "shifts" });
-  const vipFields = useFieldArray({ control: form.control, name: "vip" });
-  const algorithmFields = useFieldArray({
-    control: form.control,
-    name: "algorithm",
-  });
-  const workflowFields = useFieldArray({
-    control: form.control,
-    name: "workflow",
-  });
+  const fieldArrays = Object.fromEntries(
+    FIELD_CONFIG.map((name) => [
+      name,
+      useFieldArray({ control: form.control, name }),
+    ]),
+  );
 
-  const submit: SubmitHandler<AlgorithmData> = async (data) => {
+  const onSubmit: SubmitHandler<AlgorithmData> = async (data) => {
     await createAlgorithmData(data);
+    toast.success("Алгоритм успешно сохранён!");
+    setIsEdit(false);
   };
 
-  const [_isPending, startTransition] = useTransition();
-
   useEffect(() => {
-    startTransition(async () => {
+    const load = async () => {
       const data = await getAlgorithmData();
       if (data) form.reset(data);
-    });
+    };
+
+    load();
   }, [form]);
   return (
-    <FormInput form={form} onSubmit={submit} withButtons={isAdmin}>
-      <Activity mode={tab === "tips" ? "visible" : "hidden"}>
-        <AlgorithmForm fieldForm={tipsFields} fieldName="tips" />
-      </Activity>
-      <Activity mode={tab === "cash" ? "visible" : "hidden"}>
-        <AlgorithmForm fieldForm={cashFields} fieldName="cash" />
-      </Activity>
-      <Activity mode={tab === "shifts" ? "visible" : "hidden"}>
-        <AlgorithmForm fieldForm={shiftsFields} fieldName="shifts" />
-      </Activity>
-      <Activity mode={tab === "vip" ? "visible" : "hidden"}>
-        <AlgorithmForm fieldForm={vipFields} fieldName="vip" />
-      </Activity>
-      <Activity mode={tab === "algorithm" ? "visible" : "hidden"}>
-        <AlgorithmForm fieldForm={algorithmFields} fieldName="algorithm" />
-      </Activity>
-      <Activity mode={tab === "workflow" ? "visible" : "hidden"}>
-        <AlgorithmForm fieldForm={workflowFields} fieldName="workflow" />
-      </Activity>
-    </FormInput>
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)}>
+        <div className="overflow-auto h-[95vh]">
+          <div className="flex w-full items-center gap-4 p-3 sticky top-0 bg-background z-10">
+            <EditButton
+              isEdit={isEdit}
+              setIsEdit={setIsEdit}
+              disabled={!isAdmin}
+            />
+            <SaveButton isEdit={isEdit} disabled={!isEdit} />
+          </div>
+          {FIELD_CONFIG.map((name) => (
+            <Activity key={name} mode={tab === name ? "visible" : "hidden"}>
+              <AlgorithmForm
+                fieldForm={fieldArrays[name]}
+                fieldName={name}
+                isEdit={isEdit}
+              />
+            </Activity>
+          ))}
+        </div>
+      </form>
+    </Form>
   );
 }

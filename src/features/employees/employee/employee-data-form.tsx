@@ -1,10 +1,10 @@
 "use client";
+import DatePickerInput from "@/components/input-controlled/date-input";
 import SelectField from "@/components/input-controlled/select-field";
 import TextInput from "@/components/input-controlled/text-input";
+import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import { EMPLOYEES_ROLE, STATUS_OPTIONS } from "./constants";
-import DatePickerInput from "@/components/input-controlled/date-input";
-import { cn } from "@/lib/utils";
 
 export default function EmployeeDataForm() {
   const t = useTranslations("Home");

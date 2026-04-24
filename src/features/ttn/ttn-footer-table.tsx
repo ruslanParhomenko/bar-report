@@ -1,8 +1,8 @@
 import { TableCell, TableFooter, TableRow } from "@/components/ui/table";
+import type { MonthDayType } from "@/utils/get-month-days";
+import { useMemo } from "react";
 import { useFormContext, useWatch } from "react-hook-form";
 import { SuppliersFormType } from "./schema";
-import { useMemo } from "react";
-import type { MonthDayType } from "@/utils/get-month-days";
 
 export default function TTNFooterTable({
   arrayRows,
@@ -49,9 +49,9 @@ export default function TTNFooterTable({
 
   return (
     <TableFooter>
-      <TableRow className="sticky bottom-0 bg-background">
-        <TableCell className="text-xs text-rd h-8 p-0">
-          <div className="grid grid-cols-2 h-full gap-2">
+      <TableRow className="bg-background sticky bottom-0">
+        <TableCell className="text-rd h-8 p-0 text-xs">
+          <div className="grid h-full grid-cols-2 gap-2">
             <div className="flex flex-col items-end">
               <span className="text-rd">{totals.totalMinusSum.toFixed(2)}</span>
               <span className="text-bl">{totals.totalPlusSum.toFixed(2)}</span>
@@ -60,8 +60,8 @@ export default function TTNFooterTable({
           </div>
         </TableCell>
         <TableCell />
-        <TableCell className="text-xs text-rd  h-8 p-0">
-          <div className="flex flex-col h-full items-end">
+        <TableCell className="text-rd h-8 p-0 text-xs">
+          <div className="flex h-full flex-col items-end">
             <span className="text-rd">
               {totals.totalCreditStartSum.toFixed(2)}
             </span>
@@ -83,8 +83,8 @@ export default function TTNFooterTable({
           }, 0);
 
           return (
-            <TableCell key={dayIndex} className="text-end text-xs h-8 p-0">
-              <div className="flex flex-col h-full">
+            <TableCell key={dayIndex} className="h-8 p-0 text-end text-xs">
+              <div className="flex h-full flex-col">
                 <span className="text-rd">
                   {dayTotalMinus ? (
                     dayTotalMinus.toFixed(2)

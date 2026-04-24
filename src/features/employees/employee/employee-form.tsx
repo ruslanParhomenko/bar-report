@@ -1,27 +1,27 @@
 "use client";
 
-import { SubmitHandler, useForm } from "react-hook-form";
-import { cn } from "@/lib/utils";
-import { useEmployees } from "@/providers/employees-provider";
-import { toast } from "sonner";
 import {
   createEmployee,
   updateEmployee,
 } from "@/app/actions/employees/employee-action";
 import { sendNotificationEmail } from "@/app/actions/mail/email-action";
-import { useRouter } from "@/i18n/navigation";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useAbility } from "@/providers/ability-provider";
 import FormInput from "@/components/wrapper/form";
+import { useRouter } from "@/i18n/navigation";
+import { cn } from "@/lib/utils";
+import { useAbility } from "@/providers/ability-provider";
+import { useEmployees } from "@/providers/employees-provider";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { toast } from "sonner";
 import {
   defaultEmployeeSchemaValues,
   employeesSchema,
   EmployeesSchemaTypeData,
 } from "./schema";
 
-import VacationForm from "./vacation-form";
-import SwitchForm from "./switch-form";
 import EmployeeDataForm from "./employee-data-form";
+import SwitchForm from "./switch-form";
+import VacationForm from "./vacation-form";
 
 type FormData = EmployeesSchemaTypeData & { id?: string };
 
@@ -65,13 +65,13 @@ export function EmployeeForm({ id }: { id?: string }) {
     <FormInput
       form={form}
       onSubmit={handleSubmit}
-      className={cn("flex flex-col md:px-4 h-[90vh]")}
+      className={cn("flex h-[90vh] flex-col md:px-4")}
       resetButton={id ? false : true}
       returnButton={true}
       url={returUrl}
       disabled={isDisabled}
     >
-      <div className="grid grid-cols-1 md:grid-cols-3 md:gap-8 mt-4">
+      <div className="mt-4 grid grid-cols-1 md:grid-cols-3 md:gap-8">
         <EmployeeDataForm />
         <VacationForm />
         <SwitchForm />

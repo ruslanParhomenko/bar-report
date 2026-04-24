@@ -1,14 +1,14 @@
 "use client";
-import { extractUniqueEmployees, useResultCalculations } from "./utils";
-import ResultTableHeader from "./result-header-table";
 import { Table } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import ResultTableBody from "./result-body-table";
+import ResultTableHeader from "./result-header-table";
+import { extractUniqueEmployees, useResultCalculations } from "./utils";
 
-import { remarksByUniqueEmployee } from "../archive/penalty-details/utils";
 import { SchedulesContextValue } from "@/app/actions/schedule/schedule-action";
-import { useHashParam } from "@/hooks/use-hash";
 import { GetTipsData } from "@/app/actions/tips/tips-action";
+import { useHashParam } from "@/hooks/use-hash";
+import { remarksByUniqueEmployee } from "../archive/penalty-details/utils";
 
 const ROLE = {
   barmen: "bar",
@@ -54,7 +54,7 @@ export function PageResult({
 
   if (employees.length === 0)
     return (
-      <div className="flex justify-center h-[30vh] items-center text-md font-bold text-rd">
+      <div className="text-md text-rd flex h-[30vh] items-center justify-center font-bold">
         not data
       </div>
     );

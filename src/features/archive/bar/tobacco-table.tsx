@@ -1,5 +1,3 @@
-import { TobaccoSchemaType } from "@/features/bar/report/schema";
-import { classNameHead, classNameRowBorder } from "./report-bar";
 import {
   Table,
   TableBody,
@@ -8,6 +6,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { TobaccoSchemaType } from "@/features/bar/report/schema";
+import { classNameHead, classNameRowBorder } from "./report-bar";
 
 export default function TobaccoTable({
   data,

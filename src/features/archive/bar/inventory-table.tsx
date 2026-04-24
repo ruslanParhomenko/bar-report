@@ -27,7 +27,7 @@ export default function InventoryTable({
           <TableRow key={idx}>
             <TableCell>{i.name || "—"}</TableCell>
             <TableCell>{i.quantity || "0"}</TableCell>
-            <TableCell className="text-xs text-rd">{i.time || ""}</TableCell>
+            <TableCell className="text-rd text-xs">{i.time || ""}</TableCell>
           </TableRow>
         ))}
       </TableBody>

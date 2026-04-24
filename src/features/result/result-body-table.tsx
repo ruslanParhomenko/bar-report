@@ -1,8 +1,8 @@
 "use client";
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
-import { useResultCalculations } from "./utils";
 import { useAbility } from "@/providers/ability-provider";
 import { handleCopy } from "@/utils/handler-copy-text";
+import { useResultCalculations } from "./utils";
 
 export default function ResultTableBody({
   rows,
@@ -21,42 +21,42 @@ export default function ResultTableBody({
         ) => (
           <TableRow key={index}>
             <TableCell
-              className="sticky left-0 bg-background cursor-copy"
+              className="bg-background sticky left-0 cursor-copy"
               onClick={() => handleCopy(e.employee)}
             >
               {e.employee}
             </TableCell>
-            <TableCell className="text-center border-r">
+            <TableCell className="border-r text-center">
               {Number(rate) / 1000}
             </TableCell>
             <TableCell className="text-center">{dayH}</TableCell>
             <TableCell className="text-center">{nightH}</TableCell>
             <TableCell
               onClick={() => handleCopy(String(totalHours))}
-              className="text-center text-gn border-r cursor-copy"
+              className="text-gn cursor-copy border-r text-center"
             >
               {totalHours}
             </TableCell>
             <TableCell
-              className="text-center border-r cursor-copy"
+              className="cursor-copy border-r text-center"
               onClick={() => handleCopy(String(salary))}
             >
               {isAdmin ? salary : "****"}
             </TableCell>
             <TableCell
-              className="text-center cursor-copy"
+              className="cursor-copy text-center"
               onClick={() => handleCopy(String(sendTips))}
             >
               {sendTips}
             </TableCell>
             <TableCell
-              className="text-center text-rd cursor-copy"
+              className="text-rd cursor-copy text-center"
               onClick={() => handleCopy(String(e.penalty))}
             >
               {e.penalty}
             </TableCell>
             <TableCell
-              className="text-center border-r cursor-copy"
+              className="cursor-copy border-r text-center"
               onClick={() => handleCopy(String(e.bonus))}
             >
               {e.bonus}

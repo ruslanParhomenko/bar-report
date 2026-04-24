@@ -1,13 +1,12 @@
 "use client";
-import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
-import { UserData } from "@/app/actions/users/user-action";
-import UsersActions from "./users-action";
-import { CheckCircle, Folder, FolderPlus, UserX } from "lucide-react";
-import { updateUser } from "@/app/actions/users/user-action";
-import { useState } from "react";
+import { updateUser, UserData } from "@/app/actions/users/user-action";
 import { Switch } from "@/components/ui/switch";
+import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { CheckCircle, FolderPlus, UserX } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import UsersActions from "./users-action";
 
 export default function UsersTable({ users }: { users: UserData[] }) {
   const router = useRouter();
@@ -40,28 +39,28 @@ export default function UsersTable({ users }: { users: UserData[] }) {
         <TableRow>
           <TableCell colSpan={6}>
             <button onClick={() => router.push("/create-users")}>
-              <FolderPlus className="w-5 h-5 text-bl" />
+              <FolderPlus className="text-bl h-5 w-5" />
             </button>
           </TableCell>
         </TableRow>
         {localUsers?.map((user, idx) => (
           <TableRow key={user.id}>
             <TableCell className="max-w-4">{idx + 1}</TableCell>
-            <TableCell className="truncate max-w-8 md:w-80">
+            <TableCell className="max-w-8 truncate md:w-80">
               {user.mail}
             </TableCell>
             <TableCell className="max-w-4">
               {isMobile ? user.role[0] : user.role}
             </TableCell>
-            <TableCell className="font-medium md:w-20 max-w-14">
+            <TableCell className="max-w-14 font-medium md:w-20">
               {user.name}
             </TableCell>
             <TableCell className="max-w-16">
               <div className="flex items-center gap-6">
                 {user.status ? (
-                  <CheckCircle className="w-4 h-4 text-bl" />
+                  <CheckCircle className="text-bl h-4 w-4" />
                 ) : (
-                  <UserX className="w-4 h-4 text-rd" />
+                  <UserX className="text-rd h-4 w-4" />
                 )}
 
                 <Switch

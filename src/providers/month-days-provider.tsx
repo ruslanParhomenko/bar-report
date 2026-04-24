@@ -1,8 +1,8 @@
 "use client";
 
 import { getMonthDays, MONTHS } from "@/utils/get-month-days";
-import { createContext, ReactNode, useContext, useMemo } from "react";
 import { useSearchParams } from "next/navigation";
+import { createContext, ReactNode, useContext } from "react";
 
 type MonthDaysContextType = {
   month: string;

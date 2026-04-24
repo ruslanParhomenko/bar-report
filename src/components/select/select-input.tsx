@@ -1,6 +1,5 @@
 "use client";
 
-import { useFormContext } from "react-hook-form";
 import {
   FormControl,
   FormField,
@@ -15,6 +14,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
+import { useFormContext } from "react-hook-form";
 import { Label } from "../ui/label";
 
 export type OptionSelect = {
@@ -50,7 +50,7 @@ export default function SelectInput({
   const renderSelect = (value: string, onChange: (val: string) => void) => (
     <FormItem
       className={cn(
-        fieldLabel && "grid gap-2 pb-2 grid-cols-1 justify-items-start",
+        fieldLabel && "grid grid-cols-1 justify-items-start gap-2 pb-2",
       )}
     >
       {fieldLabel && <Label>{fieldLabel}</Label>}
@@ -63,9 +63,9 @@ export default function SelectInput({
         <FormControl>
           <SelectTrigger
             className={cn(
-              "flex justify-start w-full [&>svg]:hidden bg-transparent!",
+              "flex w-full justify-start bg-transparent! [&>svg]:hidden",
               className,
-              value && "border-0 shadow-none font-bold",
+              value && "border-0 font-bold shadow-none",
             )}
           >
             <SelectValue placeholder={placeHolder} />

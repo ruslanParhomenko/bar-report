@@ -1,22 +1,23 @@
 "use client";
+import MoveButton from "@/components/buttons/move-button";
+import NumericInput from "@/components/input-controlled/numeric-input";
+import SelectField from "@/components/input-controlled/select-field";
+import { MonthDaysCells } from "@/components/table/month-days-cells";
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { cn } from "@/lib/utils";
+import { EmployeesContextValue } from "@/providers/employees-provider";
+import { useMonthDays } from "@/providers/month-days-provider";
+import { handleMultiTableNavigation } from "@/utils/handle-table-navigation";
 import {
   FieldArrayWithId,
   UseFieldArrayReturn,
   useFormContext,
   useWatch,
 } from "react-hook-form";
-import { cn } from "@/lib/utils";
-import { EmployeesContextValue } from "@/providers/employees-provider";
+import { color, SHIFT_COLOR_MAP } from "./constants";
 import { ScheduleType } from "./schema";
-import { color } from "./constants";
-import { calculateSalaryByHours } from "./utils";
-import SelectField from "@/components/input-controlled/select-field";
-import { handleMultiTableNavigation } from "@/utils/handle-table-navigation";
-import MoveButton from "@/components/buttons/move-button";
-import { calculateShiftTotals } from "./utils";
-import { MonthDaysCells } from "@/components/table/month-days-cells";
-import { useMonthDays } from "@/providers/month-days-provider";
+import { calculateSalaryByHours, calculateShiftTotals } from "./utils";
 
 export default function ScheduleCreateTableBody({
   fields,
@@ -24,16 +25,19 @@ export default function ScheduleCreateTableBody({
   remove,
   move,
   update,
+  selectedDay,
 }: {
   fields: FieldArrayWithId<ScheduleType, "rowShifts", "id">[];
   selectedEmployees: EmployeesContextValue[];
   remove: UseFieldArrayReturn<ScheduleType, "rowShifts", "id">["remove"];
   move: UseFieldArrayReturn<ScheduleType, "rowShifts", "id">["move"];
   update: UseFieldArrayReturn<ScheduleType, "rowShifts", "id">["update"];
+  selectedDay: number;
 }) {
   const form = useFormContext();
 
   const { monthDays } = useMonthDays();
+  const isMobile = useIsMobile();
 
   const shifts = useWatch({
     control: form.control,
@@ -68,6 +72,10 @@ export default function ScheduleCreateTableBody({
           dayHours: totalDay,
           nightHours: totalNight,
         });
+
+        const isSelected = !SHIFT_COLOR_MAP.includes(
+          row.shifts?.[Number(selectedDay) - 1],
+        );
         return (
           <TableRow
             key={row.id}
@@ -92,35 +100,53 @@ export default function ScheduleCreateTableBody({
             <TableCell className="px-2">
               {totalPay && totalPay.toFixed()}
             </TableCell>
-            <TableCell className="text-muted-foreground  text-right px-2!">
+            <TableCell className="text-muted-foreground px-2! text-right">
               {row.role.charAt(0)}
               {rate / 1000}
             </TableCell>
-            <TableCell className="sticky left-0 pl-2!">
+            <TableCell className="sticky left-0 pl-2! bg-background md:bg-transparent">
               <SelectField
                 fieldName={`rowShifts.${rowIndex}.employee`}
                 data={selectedEmployees.map((e) => e.name)}
-                className="hover-cell p-0 text-xs truncate"
+                className={cn(
+                  "hover-cell truncate p-0 text-xs",
+                  isSelected && "text-rd font-bold",
+                )}
                 onChange={(name) => handleEmployeeChange(name, rowIndex)}
               />
             </TableCell>
 
             {row.shifts.map((shiftValue, dayIndex) => {
+              const isSelected = dayIndex === selectedDay - 1;
               return (
-                <TableCell key={dayIndex} className="border-x">
-                  <input
-                    {...form.register(
-                      `rowShifts.${rowIndex}.shifts.${dayIndex}`,
-                    )}
-                    data-row={rowIndex}
-                    data-col={dayIndex}
-                    onKeyDown={handleMultiTableNavigation}
-                    className={cn(
-                      "w-full h-9 text-center text-sm hover-cell",
-                      shiftValue === "" ? "bg-border/20" : "",
-                      color[shiftValue as keyof typeof color],
-                    )}
-                  />
+                <TableCell
+                  key={dayIndex}
+                  className={cn("border-x", isSelected && "text-rd font-bold")}
+                >
+                  {!isMobile ? (
+                    <input
+                      {...form.register(
+                        `rowShifts.${rowIndex}.shifts.${dayIndex}`,
+                      )}
+                      data-row={rowIndex}
+                      data-col={dayIndex}
+                      onKeyDown={handleMultiTableNavigation}
+                      className={cn(
+                        "hover-cell h-9 w-full text-center text-sm",
+                        shiftValue === "" ? "bg-border/20" : "",
+                        color[shiftValue as keyof typeof color],
+                      )}
+                    />
+                  ) : (
+                    <NumericInput
+                      fieldName={`rowShifts.${rowIndex}.shifts.${dayIndex}`}
+                      className={cn(
+                        "hover-cell h-9 w-full border-0 shadow-none text-center text-xs p-0 rounded-none!",
+                        shiftValue === "" ? "bg-border/20" : "",
+                        color[shiftValue as keyof typeof color],
+                      )}
+                    />
+                  )}
                 </TableCell>
               );
             })}
@@ -134,6 +160,7 @@ export default function ScheduleCreateTableBody({
       <TableRow>
         <MonthDaysCells
           monthDays={monthDays}
+          selectedDay={selectedDay}
           orientation="bottom"
           colSpan={7}
           clasName="h-10"

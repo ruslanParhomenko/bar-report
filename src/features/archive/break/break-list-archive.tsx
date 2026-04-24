@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { BreakGetType } from "@/app/actions/break/break-action";
+import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
+import { useEffect, useState } from "react";
 
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { TIME_LABELS } from "@/features/bar/break-form/constant";
@@ -34,11 +34,11 @@ export function BreakListArchive({ data }: { data: BreakGetType | null }) {
         return (
           <Card
             key={index}
-            className="bg-background! shadow-none m-2 cursor-pointer"
+            className="bg-background! m-2 cursor-pointer shadow-none"
             onClick={() => toggle(index)}
           >
             {/* card + day */}
-            <CardTitle className="text-xs text-bl p-4">
+            <CardTitle className="text-bl p-4 text-xs">
               day: {item.day}
             </CardTitle>
 
@@ -52,10 +52,10 @@ export function BreakListArchive({ data }: { data: BreakGetType | null }) {
                           key={row.id + rowIndex}
                           className="hover:text-rd cursor-pointer"
                         >
-                          <TableCell className="py-1 md:w-30 sticky left-0 bg-background">
+                          <TableCell className="bg-background sticky left-0 py-1 md:w-30">
                             {row.name ?? "-"}
                           </TableCell>
-                          <TableCell className="text-xs text-gr text-center">
+                          <TableCell className="text-gr text-center text-xs">
                             {row.id}
                           </TableCell>
 
@@ -65,7 +65,7 @@ export function BreakListArchive({ data }: { data: BreakGetType | null }) {
                             return (
                               <TableCell
                                 key={`${row.id}-${indexHour}`}
-                                className="text-center text-bl text-xs"
+                                className="text-bl text-center text-xs"
                               >
                                 {isView && `${hour}:${value}`}
                               </TableCell>

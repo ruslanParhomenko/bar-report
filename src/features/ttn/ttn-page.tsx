@@ -1,10 +1,10 @@
 "use client";
-import { TTNGetDataType } from "@/app/actions/ttn/ttn-actions";
-import { Activity } from "react";
-import TTNForm from "./ttn-form";
-import TTNDayPage from "./ttn-day-page";
 import { CreateDataTTN } from "@/app/actions/data-constants/data-ttn-action";
+import { TTNGetDataType } from "@/app/actions/ttn/ttn-actions";
 import { useHashParam } from "@/hooks/use-hash";
+import { Activity } from "react";
+import TTNDayPage from "./ttn-day-page";
+import TTNForm from "./ttn-form";
 
 export default function TTNPage({
   dataTtn,

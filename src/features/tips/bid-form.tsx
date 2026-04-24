@@ -1,15 +1,15 @@
-import { TipsForm } from "./schema";
 import { useFormContext } from "react-hook-form";
+import { TipsForm } from "./schema";
 
 export default function BidForm({ disabled = true }: { disabled: boolean }) {
   const form = useFormContext<TipsForm>();
   return (
-    <div className="md:flex justify-end mb-2 hidden pb-4">
+    <div className="mb-2 hidden justify-end pb-4 md:flex">
       <span className="text-xs">
         barmen-dish:
         <input
           {...form.register("barmenDishBid")}
-          className="w-10 text-xs text-bl ml-2"
+          className="text-bl ml-2 w-10 text-xs"
           disabled={disabled}
         ></input>
       </span>
@@ -17,7 +17,7 @@ export default function BidForm({ disabled = true }: { disabled: boolean }) {
         dish-dish:
         <input
           {...form.register("dishDishBid")}
-          className="w-10 text-xs text-bl ml-2"
+          className="text-bl ml-2 w-10 text-xs"
           disabled={disabled}
         ></input>
       </span>
@@ -25,7 +25,7 @@ export default function BidForm({ disabled = true }: { disabled: boolean }) {
         waiters-dish:
         <input
           {...form.register("waitersDishBid")}
-          className="w-10 text-xs text-bl ml-2"
+          className="text-bl ml-2 w-10 text-xs"
           disabled={disabled}
         ></input>
       </span>
@@ -33,7 +33,7 @@ export default function BidForm({ disabled = true }: { disabled: boolean }) {
         waiters-percent:
         <input
           {...form.register("percentTips")}
-          className="w-10 text-xs text-bl ml-2"
+          className="text-bl ml-2 w-10 text-xs"
           disabled={disabled}
         ></input>
       </span>
@@ -41,7 +41,7 @@ export default function BidForm({ disabled = true }: { disabled: boolean }) {
         barmen-percent:
         <input
           {...form.register("percentBarmen")}
-          className="w-10 text-xs text-bl ml-2"
+          className="text-bl ml-2 w-10 text-xs"
           disabled={disabled}
         ></input>
       </span>
@@ -49,7 +49,7 @@ export default function BidForm({ disabled = true }: { disabled: boolean }) {
         dish-percent:
         <input
           {...form.register("percentDish")}
-          className="w-10 text-xs text-bl ml-2"
+          className="text-bl ml-2 w-10 text-xs"
           disabled={disabled}
         ></input>
       </span>

@@ -2,9 +2,9 @@ import { getTodayUSDRateBNM } from "@/app/actions/currency/currency-actions";
 import { getDataBreakList } from "@/app/actions/data-constants/data-break-action";
 import { getRealtimeReportBar } from "@/app/actions/report-bar/report-bar-action";
 
+import { InsufficientRights } from "@/components/wrapper/insufficient-rights";
 import BarForm from "@/features/bar/bar-form";
 import { checkAccess } from "@/lib/check-access";
-import { InsufficientRights } from "@/components/wrapper/insufficient-rights";
 
 export default async function Page() {
   const hasAccess = await checkAccess("bar");

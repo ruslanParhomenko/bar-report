@@ -1,9 +1,9 @@
 "use client";
 
-import { useActionState } from "react";
+import { saveSettingsData } from "@/app/actions/settings/settings-action";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { saveSettingsData } from "@/app/actions/settings/settings-action";
+import { useActionState } from "react";
 
 type Props = {
   defaultValue: string;

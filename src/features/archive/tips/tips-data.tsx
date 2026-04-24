@@ -1,12 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
-import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { TipsAddData } from "@/app/actions/tips-add/tips-add-actions";
-import { cn } from "@/lib/utils";
+import { Card, CardContent, CardTitle } from "@/components/ui/card";
+import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { TipsAddFormValues } from "@/features/bar/tips-add/schema";
 import { useTipsCalculation } from "@/hooks/use-tips-calculation";
+import { cn } from "@/lib/utils";
+import { useEffect, useState } from "react";
 export default function TipsData({ data }: { data: TipsAddData[] | null }) {
   const [opened, setOpened] = useState<number[]>([]);
 
@@ -61,10 +61,10 @@ export default function TipsData({ data }: { data: TipsAddData[] | null }) {
         return (
           <Card
             key={index}
-            className="bg-background! shadow-none m-2 cursor-pointer"
+            className="bg-background! m-2 cursor-pointer shadow-none"
             onClick={() => toggle(index)}
           >
-            <CardTitle className="text-xs p-4">
+            <CardTitle className="p-4 text-xs">
               day: {dayItem.day} :
               <span className="text-bl px-2">{totalTips.toFixed(0)}</span>
             </CardTitle>
@@ -84,18 +84,18 @@ export default function TipsData({ data }: { data: TipsAddData[] | null }) {
                           key={emp.idEmployee + "-time"}
                           className="hover:bg-gray-100!"
                         >
-                          <TableCell className="w-3 pl-0 border-r text-start text-xs">
+                          <TableCell className="w-3 border-r pl-0 text-start text-xs">
                             {i + 1}
                           </TableCell>
-                          <TableCell className="w-9 text-green-600 font-bold text-center text-xs">
+                          <TableCell className="w-9 text-center text-xs font-bold text-green-600">
                             {personalResultAmount}
                           </TableCell>
-                          <TableCell className="text-muted-foreground w-8 text-xs text-center">
+                          <TableCell className="text-muted-foreground w-8 text-center text-xs">
                             {getEmployeeTotal(emp).toFixed(0)}
                           </TableCell>
                           <TableCell
                             className={cn(
-                              "w-26 sticky left-0 z-10 bg-background md:bg-transparent text-xs",
+                              "bg-background sticky left-0 z-10 w-26 text-xs md:bg-transparent",
                               emp.role === "barmen" && "text-bl",
                             )}
                           >
@@ -107,7 +107,7 @@ export default function TipsData({ data }: { data: TipsAddData[] | null }) {
                           <TableCell
                             className={cn(
                               emp.role === "barmen" && "text-bl",
-                              "text-xs w-12",
+                              "w-12 text-xs",
                             )}
                           >
                             {emp.shift.split("-")[0]} -
@@ -118,7 +118,7 @@ export default function TipsData({ data }: { data: TipsAddData[] | null }) {
                           <TableCell
                             className={cn(
                               emp.role === "barmen" && "text-bl",
-                              "text-xs w-9 text-muted-foreground",
+                              "text-muted-foreground w-9 text-xs",
                             )}
                           >
                             {personalTotal.toFixed(0)}
@@ -126,12 +126,12 @@ export default function TipsData({ data }: { data: TipsAddData[] | null }) {
 
                           {emp.amount.map((a, i) => (
                             <TableCell key={i} className="group">
-                              <div className="text-xs text-center text-muted-foreground group-hover:text-red-600">
+                              <div className="text-muted-foreground text-center text-xs group-hover:text-red-600">
                                 {a.time}
                               </div>
                               <div
                                 className={cn(
-                                  "text-xs text-center font-medium",
+                                  "text-center text-xs font-medium",
                                   a.typeAmount === "mdl" && "text-green-600",
                                   a.typeAmount === "chips" && "text-blue-600",
                                 )}

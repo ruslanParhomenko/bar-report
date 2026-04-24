@@ -13,9 +13,9 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import { getMonthDays } from "@/utils/get-month-days";
 import PrintButton from "@/components/buttons/print-button";
 import SelectDay from "@/components/select/select-day";
+import { getMonthDays } from "@/utils/get-month-days";
 
 type SupplierDayRow = {
   supplier: string;
@@ -73,7 +73,7 @@ export default function TTNDayPage({
       <PrintButton componentRef={componentRef} formatPage="A4 portrait" />
       <div
         ref={componentRef}
-        className="grid xl:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-10 w-full print:grid-cols-2"
+        className="grid w-full grid-cols-1 gap-10 md:grid-cols-2 xl:grid-cols-4 print:grid-cols-2"
       >
         <Table className="w-full">
           <TableHeader>
@@ -126,10 +126,10 @@ export default function TTNDayPage({
             <TableFooter>
               <TableRow>
                 <TableHead>Итого</TableHead>
-                <TableHead className="text-center text-bl">
+                <TableHead className="text-bl text-center">
                   {totalPlus}
                 </TableHead>
-                <TableHead className="text-center text-rd">
+                <TableHead className="text-rd text-center">
                   {totalMinus}
                 </TableHead>
               </TableRow>

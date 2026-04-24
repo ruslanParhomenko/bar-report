@@ -29,7 +29,7 @@ export default function ActionButtonEmployee({ id }: { id: string }) {
         setOpen={setOpen}
         handleConfirm={handleConfirm}
       />
-      <div className="flex gap-8 justify-center">
+      <div className="flex justify-center gap-8">
         <button
           className="cursor-pointer"
           type="button"
@@ -38,7 +38,7 @@ export default function ActionButtonEmployee({ id }: { id: string }) {
           }}
           disabled={isDisabled}
         >
-          <PenBox className="h-4 w-4  hover:text-rd" />
+          <PenBox className="hover:text-rd h-4 w-4" />
         </button>
         <button
           className="cursor-pointer"
@@ -46,7 +46,7 @@ export default function ActionButtonEmployee({ id }: { id: string }) {
           onClick={() => setOpen(true)}
           disabled={isDisabled}
         >
-          <Trash2Icon className="h-4 w-4 hover:text-rd" />
+          <Trash2Icon className="hover:text-rd h-4 w-4" />
         </button>
       </div>
     </>

@@ -1,9 +1,9 @@
 "use client";
+import SelectOptions from "@/components/select/select-options";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { useEmployees } from "@/providers/employees-provider";
-import { useState, useEffect } from "react";
 import { RefreshCw } from "lucide-react";
-import SelectOptions from "@/components/select/select-options";
+import { useEffect, useState } from "react";
 import { EMPLOYEES_ROLE } from "./constants";
 
 export function VacationTable() {
@@ -27,12 +27,12 @@ export function VacationTable() {
 
   return (
     <>
-      <div className="flex gap-8 my-6 mx-4">
+      <div className="mx-4 my-6 flex gap-8">
         <SelectOptions
           options={EMPLOYEES_ROLE}
           value={role}
           onChange={setRole}
-          className="w-42 border h-6! text-bl! border-bl"
+          className="text-bl! border-bl h-6! w-42 border"
           placeHolder="role"
         />
         {role && (
@@ -47,7 +47,7 @@ export function VacationTable() {
               })}
             value={employeeId}
             onChange={setEmployeeId}
-            className="w-42 border h-6! text-bl! border-bl"
+            className="text-bl! border-bl h-6! w-42 border"
             placeHolder="employee"
           />
         )}
@@ -56,7 +56,7 @@ export function VacationTable() {
           className="cursor-pointer rounded-full"
           title="Reset"
         >
-          <RefreshCw className="w-4 h-4 text-bl font-bold" />
+          <RefreshCw className="text-bl h-4 w-4 font-bold" />
         </button>
       </div>
 

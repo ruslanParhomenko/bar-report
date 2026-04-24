@@ -16,20 +16,20 @@ import {
   TTN_MAIN_ROUTE,
 } from "@/constants/endpoint-tag";
 import {
-  Calendar,
-  BarChart3,
-  List,
-  Info,
   Archive,
-  DollarSign,
-  CreditCard,
-  SigmaIcon,
-  PersonStandingIcon,
+  BarChart3,
   CalculatorIcon,
-  FileTextIcon,
-  Settings,
+  Calendar,
   ClipboardIcon,
   CodeIcon,
+  CreditCard,
+  DollarSign,
+  FileTextIcon,
+  Info,
+  List,
+  PersonStandingIcon,
+  Settings,
+  SigmaIcon,
 } from "lucide-react";
 
 export const SIDEBAR_NAVIGATION = [

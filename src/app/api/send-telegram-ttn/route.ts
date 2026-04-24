@@ -10,7 +10,7 @@ export async function POST(req: NextRequest) {
     if (!token || !chatId) {
       return NextResponse.json(
         { error: "Missing Telegram token or chat ID" },
-        { status: 500 }
+        { status: 500 },
       );
     }
 
@@ -24,7 +24,7 @@ export async function POST(req: NextRequest) {
           text,
           parse_mode: "HTML",
         }),
-      }
+      },
     );
 
     const data = await response.json();
@@ -32,7 +32,7 @@ export async function POST(req: NextRequest) {
     if (!data.ok) {
       return NextResponse.json(
         { error: "Failed to send message" },
-        { status: 500 }
+        { status: 500 },
       );
     }
 
@@ -40,7 +40,7 @@ export async function POST(req: NextRequest) {
   } catch (error) {
     return NextResponse.json(
       { error: "Internal Server Error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

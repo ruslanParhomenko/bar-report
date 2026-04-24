@@ -1,14 +1,14 @@
 import { ExpensesSchemaType } from "@/features/bar/report/schema";
 
-import { classNameHead, classNameRowBorder } from "./report-bar";
 import {
-  TableHeader,
-  TableRow,
-  TableHead,
+  Table,
   TableBody,
   TableCell,
-  Table,
+  TableHead,
+  TableHeader,
+  TableRow,
 } from "@/components/ui/table";
+import { classNameHead, classNameRowBorder } from "./report-bar";
 
 export default function ExpensesTable({
   data,
@@ -29,7 +29,7 @@ export default function ExpensesTable({
             <TableRow key={idx}>
               <TableCell>{e.name || "—"} -</TableCell>
               <TableCell>{e.sum || "0"}</TableCell>
-              <TableCell className="text-xs text-rd">{e.time || ""}</TableCell>
+              <TableCell className="text-rd text-xs">{e.time || ""}</TableCell>
             </TableRow>
           ))}
       </TableBody>

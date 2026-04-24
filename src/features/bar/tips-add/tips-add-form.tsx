@@ -1,22 +1,22 @@
 "use client";
 
-import { UseFieldArrayReturn, useFormContext, useWatch } from "react-hook-form";
 import NumericInput from "@/components/input-controlled/numeric-input";
-import { Button } from "@/components/ui/button";
-import { useEffect, useState, useTransition } from "react";
-import { ClockPlusIcon, Home, PlusIcon, UserX } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { createDefaultTipsAdd } from "./schema";
 import SelectInput from "@/components/select/select-input";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { ClockPlusIcon, Home, PlusIcon, UserX } from "lucide-react";
+import { useEffect, useState, useTransition } from "react";
+import { UseFieldArrayReturn, useFormContext, useWatch } from "react-hook-form";
 import { SHIFTS, TYPE_AMOUNT } from "./constants";
+import { createDefaultTipsAdd } from "./schema";
 
 import {
   Dialog,
   DialogContent,
-  DialogHeader,
-  DialogTitle,
   DialogDescription,
   DialogFooter,
+  DialogHeader,
+  DialogTitle,
 } from "@/components/ui/dialog";
 
 import { Switch } from "@/components/ui/switch";
@@ -301,11 +301,11 @@ export default function TipsAddForm({
         </DialogContent>
       </Dialog>
 
-      <div className="w-full text-center text-xs text-muted-foreground">
+      <div className="text-muted-foreground w-full text-center text-xs">
         {currency}
       </div>
 
-      <div className="grid md:grid-cols-[60%_40%] h-full w-full gap-4 md:p-4">
+      <div className="grid h-full w-full gap-4 md:grid-cols-[60%_40%] md:p-4">
         <div className="flex flex-col gap-4 overflow-auto">
           {tipsArrayByEmployee.fields.map((field, index) => {
             const tip = tipsValues[index];
@@ -336,15 +336,15 @@ export default function TipsAddForm({
               <div
                 key={field.fieldId}
                 className={cn(
-                  "md:grid md:grid-cols-3 flex  items-center justify-between",
-                  tip?.isClosed && "opacity-40 line-through",
+                  "flex items-center justify-between md:grid md:grid-cols-3",
+                  tip?.isClosed && "line-through opacity-40",
                 )}
               >
                 <div className="flex items-center md:gap-4">
-                  <div className="md:w-6 w-4">
-                    {isFinished && <Home className="h-4 w-4 text-rd" />}
+                  <div className="w-4 md:w-6">
+                    {isFinished && <Home className="text-rd h-4 w-4" />}
                   </div>
-                  <div className="text-xs text-muted-foreground w-8">
+                  <div className="text-muted-foreground w-8 text-xs">
                     {tip?.isWaiters ? "w" : "b"}
                   </div>
 
@@ -366,7 +366,7 @@ export default function TipsAddForm({
                     onClick={() => openConfirmModal(index)}
                     className="cursor-pointer px-2"
                   >
-                    <UserX className="w-4 h-4 text-rd" />
+                    <UserX className="text-rd h-4 w-4" />
                   </button>
 
                   <div className="w-10 px-2 text-xs">
@@ -374,14 +374,14 @@ export default function TipsAddForm({
                   </div>
                 </div>
 
-                <div className="flex items-center justify-center md:gap-6 gap-2">
+                <div className="flex items-center justify-center gap-2 md:gap-6">
                   <SelectInput
                     value={typeAmount}
                     onChange={(val: string) =>
                       setTempTypes((p) => ({ ...p, [index]: val }))
                     }
                     options={TYPE_AMOUNT}
-                    className="md:w-14  h-8! w-8"
+                    className="h-8! w-8 md:w-14"
                   />
 
                   <NumericInput
@@ -389,7 +389,7 @@ export default function TipsAddForm({
                     onChange={(val: string) =>
                       setTempValues((p) => ({ ...p, [index]: val }))
                     }
-                    className={cn("md:w-14 w-8 h-8", !numericValue && "bg-bl")}
+                    className={cn("h-8 w-8 md:w-14", !numericValue && "bg-bl")}
                     onFocus={() => setFocusedIndex(index)}
                     disabled={isPending || tip?.isClosed}
                   />
@@ -402,7 +402,7 @@ export default function TipsAddForm({
                       !numericValue || !typeAmount || isPending || tip?.isClosed
                     }
                     className={cn(
-                      "h-8 md:w-10 w-8 cursor-pointer",
+                      "h-8 w-8 cursor-pointer md:w-10",
                       numericValue && "bg-red-600 text-white",
                     )}
                   >
@@ -413,20 +413,20 @@ export default function TipsAddForm({
                 <div className="flex items-center justify-center">
                   <div
                     className={cn(
-                      "text-sm font-bold text-bl truncate md:w-40 w-20",
+                      "text-bl w-20 truncate text-sm font-bold md:w-40",
                       isFocused && "text-rd!",
                     )}
                   >
                     {tip?.employeeName}
                   </div>
 
-                  <div className="text-sm font-bold w-12">{endTime}</div>
+                  <div className="w-12 text-sm font-bold">{endTime}</div>
                   <button
                     type="button"
-                    className="w-12 cursor-pointer flex justify-center items-center"
+                    className="flex w-12 cursor-pointer items-center justify-center"
                     onClick={() => openOverModal(index)}
                   >
-                    <ClockPlusIcon className="w-4 h-4 text-red-600" />
+                    <ClockPlusIcon className="h-4 w-4 text-red-600" />
                   </button>
                 </div>
               </div>
@@ -434,11 +434,11 @@ export default function TipsAddForm({
           })}
         </div>
 
-        <div className="flex flex-col gap-2 md:mx-4 overflow-auto md:h-[80vh]">
+        <div className="flex flex-col gap-2 overflow-auto md:mx-4 md:h-[80vh]">
           {allAmounts.map((item: any, i: number) => (
             <div
               key={i}
-              className="grid grid-cols-5 text-xs w-full [&>span]:text-center [&>span]:text-muted-foreground [&>span]:p-0.5"
+              className="[&>span]:text-muted-foreground grid w-full grid-cols-5 text-xs [&>span]:p-0.5 [&>span]:text-center"
             >
               <span className="text-start!">
                 {item.employeeName.split(" ")[1]}{" "}

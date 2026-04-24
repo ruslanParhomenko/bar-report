@@ -1,12 +1,11 @@
-import { Path, useFormContext, useWatch } from "react-hook-form";
-import { BreakFormData } from "./schema";
-import { TableBody, TableCell, TableRow } from "@/components/ui/table";
-import { MINUTES_SELECT, TIME_LABELS } from "./constant";
-import { Input } from "@/components/ui/input";
 import SelectField from "@/components/input-controlled/select-field";
+import { TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import { Trash2 } from "lucide-react";
+import { Path, useFormContext, useWatch } from "react-hook-form";
 import { BarFormValues } from "../schema";
+import { MINUTES_SELECT, TIME_LABELS } from "./constant";
+import { BreakFormData } from "./schema";
 import { isCurrentCell } from "./utils";
 
 export default function BreakTableBody({
@@ -37,18 +36,11 @@ export default function BreakTableBody({
 
         return (
           <TableRow key={`${row.id}-${rowIndex}`}>
-            <TableCell className="p-0">
-              <Input
-                value={row.id}
-                disabled
-                className={cn(
-                  "px-0.5  border-0 shadow-none text-bl text-xs bg-transparent!",
-                )}
-                readOnly
-              />
+            <TableCell className="p-0 text-bl border-0 bg-transparent! px-0.5 text-xs shadow-none">
+              {row.id}
             </TableCell>
 
-            <TableCell className="sticky left-0 z-10 text-left py-0 bg-background">
+            <TableCell className="bg-background sticky left-0 z-10 py-0 text-left">
               <SelectField
                 fieldName={
                   `breakForm.rows.${rowIndex}.name` as Path<BreakFormData>
@@ -56,13 +48,13 @@ export default function BreakTableBody({
                 data={employeesName.map((e) => e.name)}
                 placeHolder="..."
                 className={cn(
-                  "border-0 shadow-none w-full bg-transparent!",
+                  "w-full border-0 bg-transparent! shadow-none",
                   rowHasTrue ? "text-rd!" : "",
                 )}
                 disabled={isDisabled}
               />
             </TableCell>
-            <TableCell className="p-0 text-bl">
+            <TableCell className="text-bl p-0">
               {row.name && totalBreak}
             </TableCell>
 
@@ -80,13 +72,13 @@ export default function BreakTableBody({
                       }
                       data={MINUTES_SELECT}
                       className={cn(
-                        "justify-center border-0 h-6! w-8!",
-                        isTrue ? "text-rd! font-bold text-[18px]" : "",
+                        "h-6! w-11 justify-center border-0 shadow-none",
+                        isTrue ? "text-rd! font-bold" : "",
                       )}
                       disabled={isDisabled}
                     />
                   ) : (
-                    <div className={cn("bg-gr w-9 h-6 rounded-md")}></div>
+                    <div className={cn("bg-gr h-6 w-11 rounded-md")}></div>
                   )}
                 </TableCell>
               );
@@ -94,7 +86,7 @@ export default function BreakTableBody({
 
             {row.name && (
               <TableCell
-                className="p-0 cursor-pointer"
+                className="cursor-pointer p-0"
                 onClick={() =>
                   !isDisabled &&
                   setValue(`breakForm.rows.${rowIndex}.name`, "", {
@@ -102,7 +94,7 @@ export default function BreakTableBody({
                   })
                 }
               >
-                <Trash2 className="w-3 h-3 text-rd" />
+                <Trash2 className="text-rd h-3 w-3" />
               </TableCell>
             )}
           </TableRow>

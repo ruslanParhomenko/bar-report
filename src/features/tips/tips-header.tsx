@@ -36,13 +36,13 @@ export default function TipsHeaderTable({
     <TableHeader>
       <TableRow>
         <TableCell className="w-5">
-          <div className="flex justify-center items-center">
+          <div className="flex items-center justify-center">
             <PrintButton componentRef={ref} disabled={isEdit || disabled} />
           </div>
         </TableCell>
 
-        <TableCell className="w-40">
-          <div className="flex justify-center gap-4 items-center">
+        <TableCell className="w-30">
+          <div className="flex items-center justify-center gap-4">
             <EditButton
               isEdit={isEdit}
               setIsEdit={setIsEdit}
@@ -68,6 +68,7 @@ export default function TipsHeaderTable({
           selectedDay={selectedDay}
           setSelectedDay={setSelectedDay}
           monthDays={monthDays}
+          clasName="w-12"
         />
       </TableRow>
     </TableHeader>

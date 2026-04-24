@@ -1,20 +1,20 @@
 "use client";
 
-import { usePathname, useSearchParams, useRouter } from "next/navigation";
-import { use, useEffect, useState, useTransition } from "react";
+import { revalidateNav } from "@/app/actions/revalidate-tag/revalidate-teg";
+import { useHashParam } from "@/hooks/use-hash";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { cn } from "@/lib/utils";
+import { MONTHS, YEAR } from "@/utils/get-month-days";
+import { RefreshCcw } from "lucide-react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState, useTransition } from "react";
+import SelectOptions from "../select/select-options";
 import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
 import {
   NAV_BY_PATCH,
   NAV_BY_PATCH_TYPE,
   REFRESH_NAV_ITEMS,
 } from "./constants";
-import { MONTHS, YEAR } from "@/utils/get-month-days";
-import { cn } from "@/lib/utils";
-import SelectOptions from "../select/select-options";
-import { useHashParam } from "@/hooks/use-hash";
-import { revalidateNav } from "@/app/actions/revalidate-tag/revalidate-teg";
-import { RefreshCcw } from "lucide-react";
-import { useIsMobile } from "@/hooks/use-mobile";
 
 export default function NavTabs() {
   const [_value, setHash] = useHashParam("tab");
@@ -105,7 +105,7 @@ export default function NavTabs() {
   return (
     <div
       className={cn(
-        "flex md:flex-row md:justify-between justify-center my-1 md:px-4 sticky top-0 md:gap-2 gap-1",
+        "sticky top-0 my-1 flex justify-center items-center gap-1 md:flex-row md:justify-between md:gap-2 md:px-4",
         flexType,
       )}
     >
@@ -114,11 +114,11 @@ export default function NavTabs() {
           value={defaultTab}
           onValueChange={handleTabChange}
           className={cn(
-            "sticky top-0 bg-background z-100",
+            "bg-background sticky top-0 z-100",
             !config && "hidden",
           )}
         >
-          <TabsList className="flex md:gap-4 h-8 order-1 md:order-0">
+          <TabsList className="order-1 flex h-8 md:order-0 md:gap-4">
             {navItems.map((item, index) => (
               <TabsTrigger
                 key={`${item}-${index}`}
@@ -128,7 +128,7 @@ export default function NavTabs() {
               >
                 <span
                   className={cn(
-                    "truncate block md:min-w-20 text-xs md:text-md text-bl",
+                    "md:text-md text-bl block truncate text-xs md:min-w-20",
                     itemsWidth,
                   )}
                 >
@@ -143,13 +143,13 @@ export default function NavTabs() {
         <button
           type="button"
           onClick={resetData}
-          className="cursor-pointer md:min-w-10 px-4"
+          className="cursor-pointer px-4 md:min-w-10"
         >
-          <RefreshCcw className="w-4 h-4 text-bl" />
+          <RefreshCcw className="text-bl h-4 w-4" />
         </button>
       )}
       {selectDate && (
-        <div className="flex md:justify-end justify-center gap-2">
+        <div className="flex justify-center gap-2 md:justify-end">
           <SelectOptions
             options={MONTHS.map((month, index) => ({
               value: month,

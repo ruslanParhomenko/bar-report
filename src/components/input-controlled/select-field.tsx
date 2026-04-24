@@ -1,6 +1,5 @@
 "use client";
 
-import { useFormContext } from "react-hook-form";
 import {
   FormControl,
   FormField,
@@ -15,6 +14,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
+import { useFormContext } from "react-hook-form";
 import { Label } from "../ui/label";
 
 type Props = {
@@ -45,7 +45,7 @@ export default function SelectField({
       render={({ field, fieldState }) => (
         <FormItem
           className={cn(
-            fieldLabel && "grid gap-2 pb-2 grid-cols-1 justify-items-start",
+            fieldLabel && "grid grid-cols-1 justify-items-start gap-2 pb-2",
           )}
         >
           {fieldLabel && <Label>{fieldLabel}</Label>}
@@ -60,12 +60,12 @@ export default function SelectField({
             <FormControl>
               <SelectTrigger
                 className={cn(
-                  "flex justify-start truncate w-full [&>svg]:hidden bg-transparent!",
+                  "flex w-full justify-start truncate bg-transparent! [&>svg]:hidden",
                   className,
-                  field.value && "border-0 shadow-none font-bold",
+                  field.value && "border-0 font-bold shadow-none",
                 )}
               >
-                <span className="truncate block">
+                <span className="block truncate">
                   <SelectValue placeholder={placeHolder} />
                 </span>
               </SelectTrigger>

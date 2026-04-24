@@ -131,7 +131,7 @@ export default function SendOrdersButton({
       onClick={() => sendScreenshot()}
       disabled={disabled || isSending}
       className={cn(
-        "cursor-pointer h-7 bg-bl text-white",
+        "bg-bl h-7 cursor-pointer text-white",
         disabled && "opacity-50",
         className,
       )}
@@ -145,7 +145,7 @@ export default function SendOrdersButton({
       disabled={disabled || isSending}
       className={cn("cursor-pointer", disabled && "opacity-50", className)}
     >
-      <MailIcon className="h-5 w-5 hover:text-bl" strokeWidth={1.5} />
+      <MailIcon className="hover:text-bl h-5 w-5" strokeWidth={1.5} />
     </button>
   );
 }

@@ -1,5 +1,3 @@
-import { ProductTransferSchemaType } from "@/features/bar/report/schema";
-import { classNameHead, classNameRowBorder } from "./report-bar";
 import {
   Table,
   TableBody,
@@ -8,6 +6,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { ProductTransferSchemaType } from "@/features/bar/report/schema";
+import { classNameHead, classNameRowBorder } from "./report-bar";
 
 export default function ProductTransferTable({
   data,
@@ -29,7 +29,7 @@ export default function ProductTransferTable({
               <TableCell>{e.name || "—"} -</TableCell>
               <TableCell>{e.destination || "-"}</TableCell>
               <TableCell>{e.quantity || "0"}</TableCell>
-              <TableCell className="text-xs text-rd">{e.time || ""}</TableCell>
+              <TableCell className="text-rd text-xs">{e.time || ""}</TableCell>
             </TableRow>
           ))}
       </TableBody>

@@ -1,4 +1,5 @@
 "use client";
+import NumericInput from "@/components/input-controlled/numeric-input";
 import {
   Table,
   TableBody,
@@ -7,9 +8,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { TobaccoSchemaType } from "./schema";
 import { useFieldArray, useFormContext, useWatch } from "react-hook-form";
-import NumericInput from "@/components/input-controlled/numeric-input";
+import { TobaccoSchemaType } from "./schema";
 
 export default function TableTobacco({
   disabled = false,
@@ -31,7 +31,7 @@ export default function TableTobacco({
     <Table className="md:table-fixed">
       <TableHeader>
         <TableRow>
-          <TableHead className="md:w-26 font-bold text-bl">Tobacco</TableHead>
+          <TableHead className="text-bl font-bold md:w-26">Tobacco</TableHead>
           <TableHead className="w-11" />
           <TableHead className="w-11 text-center">+</TableHead>
           <TableHead className="w-11 text-center">-</TableHead>
@@ -45,7 +45,7 @@ export default function TableTobacco({
             <TableCell>
               <NumericInput
                 fieldName={`report.tobacco.${idx}.stock`}
-                className="border-0! shadow-none"
+                className="border-0! shadow-none w-12"
                 disabled
               />
             </TableCell>

@@ -1,7 +1,7 @@
 "use client";
-import { useTranslations } from "next-intl";
-import { Dot } from "lucide-react";
 import { Menu } from "@/app/actions/google/google-action";
+import { Dot } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 export function MenuDaily({ data }: { data: Menu | null }) {
   const t = useTranslations("Menu");
@@ -19,21 +19,21 @@ export function MenuDaily({ data }: { data: Menu | null }) {
   return (
     <div className="flex flex-col items-center justify-center tracking-wider">
       {sections.map((sec, idx) => (
-        <div key={idx} className="w-full flex flex-col items-center">
-          <h1 className="flex justify-center items-center font-bold text-[20px] py-5 text-bl">
+        <div key={idx} className="flex w-full flex-col items-center">
+          <h1 className="text-bl flex items-center justify-center py-5 text-[20px] font-bold">
             <Dot />
             {sec.title}
             <Dot />
           </h1>
           {sec.items && (
-            <div className="flex flex-col w-full justify-center items-center gap-4 text-[16px] pt-1">
+            <div className="flex w-full flex-col items-center justify-center gap-4 pt-1 text-[16px]">
               <ul
-                className={`list-none flex flex-col items-center justify-center ${
+                className={`flex list-none flex-col items-center justify-center ${
                   sec.wHalf ? "w-1/2" : ""
                 }`}
               >
                 {sec.items.map((el, id) => (
-                  <li key={id} className="font-bold pt-4">
+                  <li key={id} className="pt-4 font-bold">
                     {el}
                   </li>
                 ))}

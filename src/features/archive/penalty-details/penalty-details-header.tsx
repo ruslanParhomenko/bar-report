@@ -18,7 +18,7 @@ export default function PenaltyDetailsHeader({
   monthDays: { day: number; weekday: string }[];
 }) {
   return (
-    <TableHeader className="sticky top-0 bg-background z-40">
+    <TableHeader className="bg-background sticky top-0 z-40">
       <TableRow className="[&>th]:text-muted-foreground [&>th]:py-0">
         <TableHead className="w-14">
           <SelectDay
@@ -28,7 +28,7 @@ export default function PenaltyDetailsHeader({
             className="bg-transparent!"
           />
         </TableHead>
-        <TableHead className="w-40 sticky left-0">
+        <TableHead className="sticky left-0 w-40">
           <SelectOptions
             options={options}
             value={value}
@@ -36,12 +36,12 @@ export default function PenaltyDetailsHeader({
             className="text-bl h-8! bg-transparent!"
           />
         </TableHead>
-        <TableHead className="text-center w-30">day</TableHead>
-        <TableHead className="text-center w-30">night</TableHead>
+        <TableHead className="w-30 text-center">day</TableHead>
+        <TableHead className="w-30 text-center">night</TableHead>
         <TableHead className="w-full">reason</TableHead>
-        <TableHead className="text-center w-30">bonus</TableHead>
-        <TableHead className="text-center w-30">penalty</TableHead>
-        <TableHead className="text-center w-30" />
+        <TableHead className="w-30 text-center">bonus</TableHead>
+        <TableHead className="w-30 text-center">penalty</TableHead>
+        <TableHead className="w-30 text-center" />
       </TableRow>
     </TableHeader>
   );

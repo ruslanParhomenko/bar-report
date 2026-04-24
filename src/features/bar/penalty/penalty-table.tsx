@@ -1,6 +1,6 @@
 import { Table } from "@/components/ui/table";
-import { PenaltyTableHeader } from "./penalty-header";
 import { PenaltyTableBody } from "./penalty-body";
+import { PenaltyTableHeader } from "./penalty-header";
 
 export default function PenaltyTable({
   day,
@@ -10,7 +10,7 @@ export default function PenaltyTable({
   isDisabled: boolean;
 }) {
   return (
-    <Table className="table-fixed my-4">
+    <Table className="my-4 table-fixed">
       <PenaltyTableHeader day={day} />
       <PenaltyTableBody isDisabled={isDisabled} />
     </Table>

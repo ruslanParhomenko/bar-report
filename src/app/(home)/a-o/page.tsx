@@ -1,7 +1,8 @@
 import { getAOByUniqueKey } from "@/app/actions/a-o/ao-action";
 import { InsufficientRights } from "@/components/wrapper/insufficient-rights";
 import { AO_REPORT_MAIN_ROUTE } from "@/constants/endpoint-tag";
-import AoForm from "@/features/a-o/ao-form";
+import AoPage from "@/features/a-o/ao-page";
+
 import { checkAccess } from "@/lib/check-access";
 
 export default async function Page({
@@ -18,7 +19,5 @@ export default async function Page({
 
   const dataAo = await getAOByUniqueKey(uniqueKey);
 
-  return (
-    <AoForm dataAo={dataAo} month={month as string} year={year as string} />
-  );
+  return <AoPage dataAo={dataAo} />;
 }

@@ -1,8 +1,8 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { Select, SelectContent, SelectTrigger } from "../ui/select";
 import { useState } from "react";
+import { Select, SelectContent, SelectTrigger } from "../ui/select";
 
 export default function SelectDay({
   value,
@@ -20,11 +20,11 @@ export default function SelectDay({
     <Select open={open} onOpenChange={setOpen}>
       <SelectTrigger
         className={cn(
-          "w-12 h-8! border-0 shadow-none text-xs [&>svg]:hidden justify-center bg-background!",
+          "bg-background! h-8! w-12 justify-center border-0 text-xs shadow-none [&>svg]:hidden",
           className,
         )}
       >
-        <span className="text-sm text-rd">{value}</span>
+        <span className="text-rd text-sm">{value}</span>
       </SelectTrigger>
 
       <SelectContent position="popper" className="p-2">

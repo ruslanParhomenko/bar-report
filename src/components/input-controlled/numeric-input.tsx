@@ -1,17 +1,17 @@
 "use client";
 
-import { useFormContext } from "react-hook-form";
-import { FormControl, FormField, FormItem } from "../ui/form";
-import { Input } from "../ui/input";
+import { Button } from "@/components/ui/button";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Button } from "@/components/ui/button";
-import { useEffect, useState } from "react";
-import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
+import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
+import { useFormContext } from "react-hook-form";
+import { FormControl, FormField, FormItem } from "../ui/form";
+import { Input } from "../ui/input";
 
 type NumericInputProps = {
   fieldName?: string;
@@ -57,10 +57,10 @@ function NumericInput({
               disabled={disabled}
               onClick={() => setOpen(true)}
               className={cn(
-                "cursor-pointer text-center h-8",
-                theme === "dark" ? " bg-transparent!" : "",
-                value && "border-0 shadow-none font-bold",
-                Number(value) <= 0 ? "text-rd " : "",
+                "h-8 cursor-pointer text-center",
+                theme === "dark" ? "bg-transparent!" : "",
+                value && "border-0 font-bold shadow-none",
+                Number(value) <= 0 ? "text-rd" : "",
                 className,
               )}
               onFocus={() => onFocus?.()}
@@ -72,7 +72,7 @@ function NumericInput({
 
         <PopoverContent
           className={cn(
-            "w-50 p-2 grid grid-cols-3 gap-2 border-none bg-bl",
+            "bg-bl grid w-50 grid-cols-3 gap-2 border-none p-2",
             theme === "dark" ? "bg-black" : "",
           )}
         >
@@ -80,7 +80,7 @@ function NumericInput({
             <Button
               key={num}
               variant="outline"
-              className="h-10 text-xl bg-background"
+              className="bg-background h-10 text-xl"
               onClick={() => onChange((value ?? "") + num)}
             >
               {num}
@@ -89,7 +89,7 @@ function NumericInput({
 
           <Button
             variant="outline"
-            className="h-10 text-xl bg-background"
+            className="bg-background h-10 text-xl"
             onClick={() => {
               if (!(value ?? "").startsWith("-")) {
                 onChange("-" + (value ?? ""));
@@ -101,7 +101,7 @@ function NumericInput({
 
           <Button
             variant="outline"
-            className="h-10 text-xl bg-background"
+            className="bg-background h-10 text-xl"
             onClick={() => onChange((value ?? "") + "0")}
           >
             0
@@ -109,7 +109,7 @@ function NumericInput({
 
           <Button
             variant="outline"
-            className="h-10 text-xl bg-background"
+            className="bg-background h-10 text-xl"
             onClick={() => {
               if (!(value ?? "").includes(".")) {
                 onChange((value ?? "") + ".");
@@ -121,7 +121,7 @@ function NumericInput({
 
           <Button
             variant="outline"
-            className="h-10 text-xl text-rd bg-background"
+            className="text-rd bg-background h-10 text-xl"
             onClick={() => onChange((value ?? "").slice(0, -1))}
           >
             x
@@ -129,7 +129,7 @@ function NumericInput({
 
           <Button
             variant="outline"
-            className="h-10 text-xl col-span-2 bg-background"
+            className="bg-background col-span-2 h-10 text-xl"
             onClick={() => setOpen(false)}
           >
             ok

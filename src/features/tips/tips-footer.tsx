@@ -1,9 +1,9 @@
 import { TableCell, TableFooter, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
-import { useFormContext, UseFormReturn, useWatch } from "react-hook-form";
-import { calculateTipsTotal } from "./utils";
-import { handleMultiTableNavigation } from "@/utils/handle-table-navigation";
 import { useMonthDays } from "@/providers/month-days-provider";
+import { handleMultiTableNavigation } from "@/utils/handle-table-navigation";
+import { useFormContext, useWatch } from "react-hook-form";
+import { calculateTipsTotal } from "./utils";
 
 export function TipsTableFooter({ isEdit }: { isEdit: boolean }) {
   const { monthDays } = useMonthDays();
@@ -55,7 +55,7 @@ export function TipsTableFooter({ isEdit }: { isEdit: boolean }) {
           return (
             <TableCell key={dayIndex} className="p-1">
               <div className="flex flex-col items-center gap-2">
-                <div className="text-center text-xs text-bl">
+                <div className="text-bl text-center text-xs">
                   {sumTipsForDay}
                 </div>
 
@@ -64,15 +64,15 @@ export function TipsTableFooter({ isEdit }: { isEdit: boolean }) {
                   data-col={dayIndex}
                   {...register(`rowCashTips.${dayIndex}`)}
                   className={cn(
-                    "text-xs text-center w-full",
-                    isEdit ? "border bg-border" : "border-0",
+                    "w-full text-center text-xs",
+                    isEdit ? "bg-border border" : "border-0",
                   )}
                   onKeyDown={handleMultiTableNavigation}
                   disabled={!isEdit}
                 />
                 <div
                   className={cn(
-                    "text-center text-xs text-muted-foreground",
+                    "text-muted-foreground text-center text-xs",
                     differenceNum < 0 ? "text-rd" : "text-gr",
                   )}
                 >

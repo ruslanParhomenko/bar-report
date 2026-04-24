@@ -1,6 +1,6 @@
-import GoogleProvider from "next-auth/providers/google";
-import type { NextAuthOptions } from "next-auth";
 import { getUsers } from "@/app/actions/users/user-action";
+import type { NextAuthOptions } from "next-auth";
+import GoogleProvider from "next-auth/providers/google";
 
 const ADMIN_EMAIL = process.env.ADMIN_GMAIL;
 

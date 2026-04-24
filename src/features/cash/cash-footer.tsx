@@ -1,8 +1,8 @@
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
+import { useMonthDays } from "@/providers/month-days-provider";
 import { useFormContext } from "react-hook-form";
 import { CashForm } from "./schema";
-import { useMonthDays } from "@/providers/month-days-provider";
 
 export function CashFooterTable() {
   const { monthDays } = useMonthDays();
@@ -33,11 +33,11 @@ export function CashFooterTable() {
       <TableRow>
         <TableCell className="border-r">
           <div className="flex flex-col items-center gap-1 p-0">
-            <div className="text-center text-xs p-0">{Number(totalCash)}</div>
+            <div className="p-0 text-center text-xs">{Number(totalCash)}</div>
 
             <div
               className={cn(
-                "text-center text-xs text-muted-foreground",
+                "text-muted-foreground text-center text-xs",
                 isNegative ? "text-rd" : "text-gn",
               )}
             >
@@ -76,11 +76,11 @@ export function CashFooterTable() {
           return (
             <TableCell key={dayIndex} className="p-0">
               <div className="flex flex-col items-center gap-1 p-0">
-                <div className="text-center text-xs p-0">{sumBarByDay}</div>
+                <div className="p-0 text-center text-xs">{sumBarByDay}</div>
 
                 <div
                   className={cn(
-                    "text-center text-xs text-muted-foreground",
+                    "text-muted-foreground text-center text-xs",
                     difference < 0 ? "text-rd" : "text-gn",
                   )}
                 >

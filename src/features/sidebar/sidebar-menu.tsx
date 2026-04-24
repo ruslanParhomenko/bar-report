@@ -40,7 +40,7 @@ export default function SidebarMenuButtons() {
                 href={`/${item.url}`}
                 onClick={handleMenuClick}
                 className={cn(
-                  "flex items-center w-full",
+                  "flex w-full items-center",
                   isActivePath && "bg-bl",
                 )}
               >
