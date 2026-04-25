@@ -3,8 +3,8 @@ import { CreateDataTTN } from "@/app/actions/data-constants/data-ttn-action";
 import { TTNGetDataType } from "@/app/actions/ttn/ttn-actions";
 import { useHashParam } from "@/hooks/use-hash";
 import { Activity } from "react";
-import TTNDayPage from "./ttn-day-page";
-import TTNForm from "./ttn-form";
+import TTNDayPage from "./ttn-day";
+import TtnMonth from "./ttn-month";
 
 export default function TTNPage({
   dataTtn,
@@ -32,7 +32,7 @@ export default function TTNPage({
       </Activity>
 
       <Activity mode={tab === "month" ? "visible" : "hidden"}>
-        <TTNForm
+        <TtnMonth
           dataTtn={dataTtn}
           dataTtnPrev={dataTtnPrev}
           agentTTN={agentTTN.agent}

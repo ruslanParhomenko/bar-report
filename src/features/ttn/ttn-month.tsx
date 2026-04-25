@@ -6,7 +6,6 @@ import {
   updateTTN,
 } from "@/app/actions/ttn/ttn-actions";
 import { Form } from "@/components/ui/form";
-import { Table } from "@/components/ui/table";
 import { useAbility } from "@/providers/ability-provider";
 import { useMonthDays } from "@/providers/month-days-provider";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -14,11 +13,11 @@ import { useEffect, useRef, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { SuppliersFormType, suppliersSchema } from "./schema";
-import TTNBodyTable from "./ttn-body-table";
+import TtnBodyTable from "./ttn-body";
 import TTNFooterTable from "./ttn-footer-table";
 import TtnHeaderTable from "./ttn-header";
 
-export default function TTNForm({
+export default function TtnMonth({
   dataTtn,
   dataTtnPrev,
   agentTTN,
@@ -30,7 +29,6 @@ export default function TTNForm({
   const { monthDays, month, year } = useMonthDays();
 
   const { isAdmin } = useAbility();
-  const isDisabled = !isAdmin;
 
   const todayDay = new Date().getDate();
   const [selectedDay, setSelectedDay] = useState<number>(todayDay);
@@ -100,9 +98,9 @@ export default function TTNForm({
         <div
           ref={ref}
           data-screenshot-root="true"
-          className="mt-4 h-[92vh] overflow-auto"
+          className="relative h-[95vh] overflow-auto"
         >
-          <Table className="table-auto">
+          <table className="w-full table-auto caption-bottom text-sm">
             <TtnHeaderTable
               setItemSearch={setItemSearch}
               selectedDay={selectedDay}
@@ -112,13 +110,13 @@ export default function TTNForm({
               disabled={!isAdmin}
               ref={ref}
             />
-            <TTNBodyTable
+            <TtnBodyTable
               arrayRows={[...agentTTN]}
-              monthDays={monthDays}
               normalizedSearch={normalizedSearch}
+              disabled={!isEdit}
             />
             <TTNFooterTable arrayRows={[...agentTTN]} monthDays={monthDays} />
-          </Table>
+          </table>
         </div>
       </form>
     </Form>

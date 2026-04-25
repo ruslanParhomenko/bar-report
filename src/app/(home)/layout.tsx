@@ -38,7 +38,7 @@ export default async function HomeLayout({
           <SidebarProvider>
             <SidebarToggleButton />
             <SidebarNav />
-            <div className="flex h-screen w-screen flex-col overflow-y-auto px-1">
+            <div className="w-full px-1">
               <NavTabs />
               <ClientRefProvider>
                 <MonthDaysProvider>{children}</MonthDaysProvider>

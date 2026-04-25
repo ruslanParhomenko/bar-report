@@ -31,9 +31,9 @@ export default function TtnHeaderTable({
     setSelectedDay(todayDay);
   };
   return (
-    <TableHeader>
-      <TableRow>
-        <TableCell className="bg-background sticky left-0 md:bg-transparent">
+    <TableHeader className="bg-background sticky top-0 left-0 z-12">
+      <TableRow className="[&>td]:py-0">
+        <TableCell>
           <div className="flex items-center justify-center gap-3">
             <PrintButton componentRef={ref} disabled={isEdit || disabled} />
             <EditButton
@@ -69,6 +69,7 @@ export default function TtnHeaderTable({
           selectedDay={selectedDay}
           setSelectedDay={setSelectedDay}
           monthDays={monthDays}
+          className="w-11"
         />
       </TableRow>
     </TableHeader>

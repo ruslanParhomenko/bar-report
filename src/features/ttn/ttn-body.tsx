@@ -1,24 +1,25 @@
 "use client";
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
-import { MonthDayType } from "@/utils/get-month-days";
+import { useMonthDays } from "@/providers/month-days-provider";
 import { handleMultiTableNavigation } from "@/utils/handle-table-navigation";
 import { useEffect, useEffectEvent } from "react";
 import { FieldPath, useFormContext, useWatch } from "react-hook-form";
 import { SuppliersFormType } from "./schema";
 
-export default function TTNBodyTable({
+export default function TtnBodyTable({
   arrayRows,
-  monthDays,
-  isDisabled,
+  disabled,
   normalizedSearch,
 }: {
   arrayRows: string[];
-  monthDays: MonthDayType[];
-  isDisabled?: boolean;
+  disabled?: boolean;
   normalizedSearch: string;
 }) {
   const { register, control, setValue } = useFormContext<SuppliersFormType>();
+
+  const { monthDays } = useMonthDays();
+
   const value = useWatch({
     control: control,
     name: "rowSuppliers",
@@ -58,7 +59,7 @@ export default function TTNBodyTable({
 
           const isRowByCurrentDay = value?.[row]?.plus?.[currentDay - 1];
 
-          const classNameInput = "h-4 w-full text-end text-xs border-0 px-0.5";
+          const classNameInput = "h-4 w-full text-end text-xs border-0 px-1";
 
           return (
             <TableRow key={row} className="group">
@@ -88,16 +89,16 @@ export default function TTNBodyTable({
                         `rowSuppliers.${row}.final` as FieldPath<SuppliersFormType>,
                       )}
                       className={cn(classNameInput, "text-gn hover-cell")}
-                      disabled={isDisabled}
+                      disabled={disabled}
                     />
                   </div>
                 </div>
               </TableCell>
 
-              <TableCell className="bg-background sticky left-0 p-0 pl-1 text-start">
+              <TableCell className="bg-background sticky left-0 p-0 pl-1 text-start md:bg-transparent">
                 <span
                   className={cn(
-                    "hover-cell truncate font-bold",
+                    "hover-cell truncate font-semibold text-green-600",
                     isRowByCurrentDay && "text-rd",
                   )}
                 >
@@ -110,7 +111,7 @@ export default function TTNBodyTable({
                     `rowSuppliers.${row}.start` as FieldPath<SuppliersFormType>,
                   )}
                   className={cn(classNameInput, "hover-cell")}
-                  disabled={isDisabled}
+                  disabled={disabled}
                 />
               </TableCell>
               {monthDays.map((_, dayIndex) => (
@@ -124,7 +125,7 @@ export default function TTNBodyTable({
                       data-col={dayIndex}
                       className={cn(classNameInput, "text-rd")}
                       onKeyDown={handleMultiTableNavigation}
-                      disabled={isDisabled}
+                      disabled={disabled}
                     />
                     <input
                       {...register(
@@ -134,7 +135,7 @@ export default function TTNBodyTable({
                       data-col={dayIndex}
                       className={cn(classNameInput, "text-bl")}
                       onKeyDown={handleMultiTableNavigation}
-                      disabled={isDisabled}
+                      disabled={disabled}
                     />
                   </div>
                 </TableCell>

@@ -48,8 +48,8 @@ export default function TTNFooterTable({
   }, [arrayRows, value]);
 
   return (
-    <TableFooter>
-      <TableRow className="bg-background sticky bottom-0">
+    <TableFooter className="bg-background sticky bottom-0 z-12">
+      <TableRow>
         <TableCell className="text-rd h-8 p-0 text-xs">
           <div className="grid h-full grid-cols-2 gap-2">
             <div className="flex flex-col items-end">
