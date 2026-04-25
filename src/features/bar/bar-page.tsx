@@ -22,7 +22,6 @@ import {
   createReportBar,
   realtimeReportBar,
 } from "@/app/actions/report-bar/report-bar-action";
-import FormInput from "@/components/wrapper/form";
 import {
   BreakFormData,
   defaultValuesBreak,
@@ -36,6 +35,8 @@ import { Activity, useEffect } from "react";
 import { BarFormValues, barSchema, defaultValuesBarForm } from "./schema";
 
 import { createTipsAdd } from "@/app/actions/tips-add/tips-add-actions";
+import { Button } from "@/components/ui/button";
+import { Form } from "@/components/ui/form";
 import BreakTable from "@/features/bar/break-form/break-table";
 import PenaltyTable from "@/features/bar/penalty/penalty-table";
 import { useHashParam } from "@/hooks/use-hash";
@@ -215,30 +216,44 @@ export default function BarForm({
       idShift: selectedMap.get(emp.name.trim()),
     }));
 
+  const onError = () => {
+    toast.error("Заполните обязательные красные поля");
+  };
+
   return (
-    <FormInput
-      form={form}
-      onSubmit={onSubmit}
-      onError={() => {
-        toast.error("Заполните обязательные красные поля");
-      }}
-      disabled={isDisabled}
-    >
-      <Activity mode={tab === "break" ? "visible" : "hidden"}>
-        <BreakTable isDisabled={isDisabled} employeesName={employeesName} />
-        <PenaltyTable isDisabled={isDisabled} />
-      </Activity>
-      <Activity mode={tab === "report" ? "visible" : "hidden"}>
-        <ReportBarTable isDisabled={isDisabled} />
-      </Activity>
-      <Activity mode={tab === "tips" ? "visible" : "hidden"}>
-        <TipsAddForm
-          tipsArrayByEmployee={tipsArrayByEmployee}
-          options={filteredEmployees}
-          disabled={!isAdmin}
-          currency={currencyUSD?.toFixed(2) ?? "0"}
-        />
-      </Activity>
-    </FormInput>
+    <Form {...form}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit, onError)}
+        className="flex h-[96vh] flex-col"
+      >
+        <Activity mode={tab === "break" ? "visible" : "hidden"}>
+          <BreakTable isDisabled={isDisabled} employeesName={employeesName} />
+          <PenaltyTable isDisabled={isDisabled} />
+        </Activity>
+        <Activity mode={tab === "report" ? "visible" : "hidden"}>
+          <ReportBarTable isDisabled={isDisabled} />
+        </Activity>
+        <Activity mode={tab === "tips" ? "visible" : "hidden"}>
+          <TipsAddForm
+            tipsArrayByEmployee={tipsArrayByEmployee}
+            options={filteredEmployees}
+            disabled={!isAdmin}
+            currency={currencyUSD?.toFixed(2) ?? "0"}
+          />
+        </Activity>
+        <div
+          className="bg-background sticky bottom-2 z-30 mt-auto flex w-full gap-6 px-4 py-1"
+          data-html2canvas-ignore="true"
+        >
+          <Button
+            type="submit"
+            className="bg-bl h-7 w-24 text-white"
+            disabled={isDisabled}
+          >
+            save
+          </Button>
+        </div>
+      </form>
+    </Form>
   );
 }

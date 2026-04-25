@@ -3,7 +3,7 @@ import { getDataBreakList } from "@/app/actions/data-constants/data-break-action
 import { getRealtimeReportBar } from "@/app/actions/report-bar/report-bar-action";
 
 import { InsufficientRights } from "@/components/wrapper/insufficient-rights";
-import BarForm from "@/features/bar/bar-form";
+import BarForm from "@/features/bar/bar-page";
 import { checkAccess } from "@/lib/check-access";
 
 export default async function Page() {

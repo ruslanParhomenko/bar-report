@@ -100,7 +100,7 @@ export default function NavTabs() {
   const flexType = navItems.length < 4 ? "flex-row" : "flex-col";
 
   const selectClassName =
-    "md:w-24 w-10 h-7! md:border-border/30 px-1 rounded-md text-bl md:text-md text-xs bg-border/30";
+    "md:w-24 w-10 h-6! md:border-border/30 px-1 rounded-md text-bl md:text-md text-xs bg-border/30";
 
   return (
     <div
@@ -118,7 +118,7 @@ export default function NavTabs() {
             !config && "hidden",
           )}
         >
-          <TabsList className="order-1 flex h-8 md:order-0 md:gap-4">
+          <TabsList className="order-1 flex h-7 md:order-0 md:gap-4">
             {navItems.map((item, index) => (
               <TabsTrigger
                 key={`${item}-${index}`}
