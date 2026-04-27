@@ -224,7 +224,7 @@ export default function BarForm({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit, onError)}
-        className="flex h-[96vh] flex-col"
+        className="flex h-full flex-col"
       >
         <Activity mode={tab === "break" ? "visible" : "hidden"}>
           <BreakTable isDisabled={isDisabled} employeesName={employeesName} />
@@ -242,7 +242,7 @@ export default function BarForm({
           />
         </Activity>
         <div
-          className="bg-background sticky bottom-2 z-30 mt-auto flex w-full gap-6 px-4 py-1"
+          className="bg-background sticky bottom-0 z-30 mt-auto flex w-full gap-6 px-4 py-1"
           data-html2canvas-ignore="true"
         >
           <Button

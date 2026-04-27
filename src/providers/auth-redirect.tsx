@@ -22,7 +22,7 @@ const SignInRedirect = ({ children }: { children: React.ReactNode }) => {
 
   if (status === "loading") {
     return (
-      <div className="flex h-screen items-center justify-center">
+      <div className="flex h-screen w-full items-center justify-center">
         <span>Loading...</span>
       </div>
     );

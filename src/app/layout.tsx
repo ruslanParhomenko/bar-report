@@ -1,23 +1,22 @@
 // next
 import type { Metadata } from "next";
 // intl
-import { NextIntlClientProvider } from "next-intl";
 import { getLocale } from "next-intl/server";
 // styles
 import { Lora } from "next/font/google";
 import "./globals.css";
 
 // providers
-import { SessionProviders } from "@/providers/session-providers";
-import { ThemeProvider } from "next-themes";
 // ui
-import { Toaster } from "@/components/ui/sonner";
+import RootProviders from "@/providers/root-providers";
+import { Toaster } from "sonner";
 
 const lora = Lora({
   variable: "--font-lora",
   subsets: ["latin"],
   weight: ["500", "700"],
   style: ["normal", "italic"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -35,17 +34,8 @@ export default async function RootLayout({
   return (
     <html lang={locale} suppressHydrationWarning>
       <body className={`${lora.variable} antialiased`}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <Toaster position="top-center" />
-          <SessionProviders>
-            <NextIntlClientProvider>{children}</NextIntlClientProvider>
-          </SessionProviders>
-        </ThemeProvider>
+        <Toaster position="top-center" />
+        <RootProviders>{children}</RootProviders>
       </body>
     </html>
   );

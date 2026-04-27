@@ -1,7 +1,8 @@
 import { getDataProducts } from "@/app/actions/data-constants/data-products-action";
 import { InsufficientRights } from "@/components/wrapper/insufficient-rights";
 import { REPORTS_CUCINA_ROUTE } from "@/constants/endpoint-tag";
-import ReportCucinaForm from "@/features/cucina/report-cucina-form";
+import KitchenReportPage from "@/features/cucina/kitchen-report-page";
+
 import { checkAccess } from "@/lib/check-access";
 
 export default async function Page() {
@@ -11,5 +12,5 @@ export default async function Page() {
 
   if (!data) return null;
 
-  return <ReportCucinaForm dataProducts={data ?? []} />;
+  return <KitchenReportPage dataProducts={data ?? []} />;
 }

@@ -16,7 +16,8 @@ import {
 import { createDataProducts } from "@/app/actions/data-constants/data-products-action";
 import { createReportCucina } from "@/app/actions/report-cucina/report-cucina-action";
 import DatePickerInput from "@/components/input-controlled/date-input";
-import FormInput from "@/components/wrapper/form";
+import { Button } from "@/components/ui/button";
+import { Form } from "@/components/ui/form";
 import { useLocalStorageForm } from "@/hooks/use-local-storage";
 import { useAbility } from "@/providers/ability-provider";
 import { useEmployees } from "@/providers/employees-provider";
@@ -27,7 +28,7 @@ const CUCINA_EMPLOYEES = ["cook"];
 
 const KEY_LOCALSTORAGE = "report-cucina";
 
-export default function ReportCucinaForm({
+export default function KitchenReportPage({
   dataProducts,
 }: {
   dataProducts: createDataProducts;
@@ -56,6 +57,7 @@ export default function ReportCucinaForm({
   const { isLoaded } = useLocalStorageForm(form, KEY_LOCALSTORAGE);
 
   const onSubmit: SubmitHandler<ReportCucinaInput> = async (data) => {
+    if (!isCucina) return;
     const parsed = schemaReportCucina.parse(data);
     const { date, ...rest } = parsed;
 
@@ -182,43 +184,61 @@ export default function ReportCucinaForm({
 
   if (!isLoaded) return null;
 
-  return (
-    <FormInput<ReportCucinaInput>
-      form={form}
-      onSubmit={onSubmit}
-      disabled={isDisabled}
-      className="md:px-6"
-    >
-      <DatePickerInput fieldName="date" className="text-rd h-6 text-sm" />
-      {tablesConfig.map(
-        ({
-          name,
-          placeHolder,
-          dataFieldArray,
-          defaultValue,
-          dataShifts,
-          dataReasons,
-        }) => (
-          <RenderTableCucina
-            key={name}
-            name={name}
-            form={form}
-            placeHolder={placeHolder}
-            dataShifts={dataShifts}
-            dataReasons={dataReasons}
-            dataFieldArray={dataFieldArray}
-            defaultValue={defaultValue}
-            isDisabled={isDisabled}
-          />
-        ),
-      )}
+  const onError = () => {
+    toast.error("Заполните обязательные красные поля");
+  };
 
-      <Textarea
-        placeholder="notes ..."
-        {...form.register("notes")}
-        disabled={isDisabled}
-        className="border-bl/40"
-      />
-    </FormInput>
+  return (
+    <Form {...form}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit, onError)}
+        className="flex h-full flex-col"
+      >
+        <div className="overflow-hidden">
+          <DatePickerInput fieldName="date" className="text-rd h-6 text-sm" />
+          {tablesConfig.map(
+            ({
+              name,
+              placeHolder,
+              dataFieldArray,
+              defaultValue,
+              dataShifts,
+              dataReasons,
+            }) => (
+              <RenderTableCucina
+                key={name}
+                name={name}
+                form={form}
+                placeHolder={placeHolder}
+                dataShifts={dataShifts}
+                dataReasons={dataReasons}
+                dataFieldArray={dataFieldArray}
+                defaultValue={defaultValue}
+                isDisabled={isDisabled}
+              />
+            ),
+          )}
+          <Textarea
+            placeholder="notes ..."
+            {...form.register("notes")}
+            disabled={isDisabled}
+            className="border-bl/40"
+          />
+        </div>
+
+        <div
+          className="bg-background sticky bottom-0 z-30 py-1"
+          data-html2canvas-ignore="true"
+        >
+          <Button
+            type="submit"
+            className="bg-bl h-7 w-24 text-white"
+            disabled={isDisabled}
+          >
+            save
+          </Button>
+        </div>
+      </form>
+    </Form>
   );
 }

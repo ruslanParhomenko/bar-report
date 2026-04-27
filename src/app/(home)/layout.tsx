@@ -1,6 +1,5 @@
 import NavTabs from "@/components/nav/nav-tabs";
 import { SidebarToggleButton } from "@/components/sidebar/sidebar-toggle";
-import { SidebarProvider } from "@/components/ui/sidebar";
 import SidebarNav from "@/features/sidebar/sidebar-nav";
 import { AbilityProvider } from "@/providers/ability-provider";
 import ClientRefProvider from "@/providers/client-ref-provider";
@@ -16,6 +15,9 @@ import { getDataOrderProducts } from "../actions/data-constants/data-order-produ
 import { getEmployees } from "../actions/employees/employee-action";
 import { getUsers } from "../actions/users/user-action";
 
+import NavBottom from "@/components/nav-bar-bottom/nav-bottom";
+
+import ScreenshotWrapper from "@/components/wrapper/screenshot-wrapper";
 import MonthDaysProvider from "@/providers/month-days-provider";
 
 export default async function HomeLayout({
@@ -35,16 +37,17 @@ export default async function HomeLayout({
         <OrderProductsProvider
           orderProducts={ordersProducts as OrderProductsContextValue}
         >
-          <SidebarProvider>
-            <SidebarToggleButton />
-            <SidebarNav />
-            <div className="w-full px-1">
-              <NavTabs />
-              <ClientRefProvider>
-                <MonthDaysProvider>{children}</MonthDaysProvider>
-              </ClientRefProvider>
-            </div>
-          </SidebarProvider>
+          <SidebarToggleButton />
+          <SidebarNav />
+          <div className="flex h-screen w-full flex-col px-1">
+            <NavTabs />
+            <ClientRefProvider>
+              <MonthDaysProvider>
+                <ScreenshotWrapper>{children}</ScreenshotWrapper>
+              </MonthDaysProvider>
+              <NavBottom />
+            </ClientRefProvider>
+          </div>
         </OrderProductsProvider>
       </EmployeesProvider>
     </AbilityProvider>

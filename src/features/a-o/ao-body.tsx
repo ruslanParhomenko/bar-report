@@ -4,6 +4,12 @@ import { cn } from "@/lib/utils";
 import { useMonthDays } from "@/providers/month-days-provider";
 import { handleMultiTableNavigation } from "@/utils/handle-table-navigation";
 import { useFormContext, useWatch } from "react-hook-form";
+import { rowsAdvance, rowsPurchaseModa, rowsPurchaseNMB } from "./constants";
+
+type RowConfig =
+  | (typeof rowsAdvance)[number]
+  | (typeof rowsPurchaseModa)[number]
+  | (typeof rowsPurchaseNMB)[number];
 
 export default function AoBodyTable({
   data,
@@ -11,12 +17,7 @@ export default function AoBodyTable({
   isEdit,
   fieldName,
 }: {
-  data: {
-    key: string;
-    label: string;
-    colorText: string;
-    type: "input" | "text";
-  }[];
+  data: readonly RowConfig[];
   selectedDay: number;
   isEdit: boolean;
   fieldName: string;

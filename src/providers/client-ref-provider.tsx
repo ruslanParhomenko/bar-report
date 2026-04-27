@@ -12,11 +12,5 @@ export default function ClientRefProvider({
 }) {
   const ref = useRef<HTMLDivElement | null>(null);
 
-  return (
-    <RefContext.Provider value={ref}>
-      <div ref={ref} data-screenshot-root="true">
-        {children}
-      </div>
-    </RefContext.Provider>
-  );
+  return <RefContext.Provider value={ref}>{children}</RefContext.Provider>;
 }

@@ -1,5 +1,3 @@
-import { ArrayRow } from "@/components/table/row-render";
-
 export const rowsAdvance = [
   {
     key: "advanceModaByDay",
@@ -19,7 +17,7 @@ export const rowsAdvance = [
     colorText: "text-bl",
     type: "input",
   },
-] satisfies ArrayRow[];
+];
 export const rowsPurchaseModa = [
   {
     key: "purchaseModaByDay",
@@ -63,7 +61,7 @@ export const rowsPurchaseModa = [
     colorText: "text-muted-foreground text-xs",
     type: "text",
   },
-] satisfies ArrayRow[];
+];
 
 export const rowsPurchaseNMB = [
   {
@@ -84,4 +82,4 @@ export const rowsPurchaseNMB = [
     colorText: "text-gn",
     type: "input",
   },
-] satisfies ArrayRow[];
+];
