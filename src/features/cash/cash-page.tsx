@@ -4,10 +4,11 @@ import { AOContextValue } from "@/app/actions/a-o/ao-action";
 import { createCash, GetCashData } from "@/app/actions/cash/cash-action";
 import { Form } from "@/components/ui/form";
 import { Table } from "@/components/ui/table";
-import { useAbility } from "@/providers/ability-provider";
+import { useEdit } from "@/providers/edit-provider";
 import { useMonthDays } from "@/providers/month-days-provider";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { TipsBodyTable } from "./cash-body";
@@ -25,12 +26,12 @@ export default function CashPage({
   dataAo: AOContextValue | null;
   dataCash: GetCashData | null;
 }) {
-  const { isAdmin } = useAbility();
-  const isDisabled = !isAdmin;
+  const pathname = usePathname();
+  const formId = pathname.split("/").pop() || "";
 
   const todayDay = new Date().getDate();
   const [selectedDay, setSelectedDay] = useState<number>(todayDay);
-  const [isEdit, setIsEdit] = useState(false);
+  const { isEdit, setIsEdit } = useEdit();
   const { monthDays, month, year } = useMonthDays();
 
   // form
@@ -52,6 +53,7 @@ export default function CashPage({
     } catch (error) {
       toast.error("Ошибка при сохранении формы!");
     }
+    setIsEdit(false);
   };
 
   const initialRowData = {
@@ -81,31 +83,23 @@ export default function CashPage({
     }
   }, [dataCash, dataAo, month, year]);
 
-  const ref = useRef<HTMLDivElement | null>(null);
-
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
-        <div ref={ref} data-screenshot-root="true" className="mt-4">
-          <Table className="table-fixed">
-            <CashHeaderTable
-              selectedDay={selectedDay}
-              setSelectedDay={setSelectedDay}
-              setIsEdit={setIsEdit}
-              isEdit={isEdit}
-              ref={ref}
-              disabled={isDisabled}
-            />
+      <form onSubmit={form.handleSubmit(onSubmit)} id={formId}>
+        <Table className="mt-4 table-fixed">
+          <CashHeaderTable
+            selectedDay={selectedDay}
+            setSelectedDay={setSelectedDay}
+          />
 
-            <TipsBodyTable
-              data={rowCashBar}
-              selectedDay={selectedDay}
-              isEdit={isEdit}
-            />
-            <CashFooterTable />
-            <CashInfo isEdit={isEdit} />
-          </Table>
-        </div>
+          <TipsBodyTable
+            data={rowCashBar}
+            selectedDay={selectedDay}
+            isEdit={isEdit}
+          />
+          <CashFooterTable />
+          <CashInfo isEdit={isEdit} />
+        </Table>
       </form>
     </Form>
   );

@@ -1,55 +1,30 @@
-import NavTabs from "@/components/nav/nav-tabs";
+import ActionBar from "@/components/home-layout/action-bar";
+import NavTabs from "@/components/home-layout/header-bar";
 import { SidebarToggleButton } from "@/components/sidebar/sidebar-toggle";
-import SidebarNav from "@/features/sidebar/sidebar-nav";
-import { AbilityProvider } from "@/providers/ability-provider";
-import ClientRefProvider from "@/providers/client-ref-provider";
-import {
-  EmployeesContextValue,
-  EmployeesProvider,
-} from "@/providers/employees-provider";
-import {
-  OrderProductsContextValue,
-  OrderProductsProvider,
-} from "@/providers/order-products-provider";
-import { getDataOrderProducts } from "../actions/data-constants/data-order-products";
-import { getEmployees } from "../actions/employees/employee-action";
-import { getUsers } from "../actions/users/user-action";
-
-import NavBottom from "@/components/nav-bar-bottom/nav-bottom";
-
 import ScreenshotWrapper from "@/components/wrapper/screenshot-wrapper";
+import SidebarNav from "@/features/sidebar/sidebar-nav";
+import HomeDataProviders from "@/providers/home-data-providers";
+import HomeUIProviders from "@/providers/home-ui-providers";
 import MonthDaysProvider from "@/providers/month-days-provider";
 
 export default async function HomeLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
-  const [employees, users, ordersProducts] = await Promise.all([
-    getEmployees(),
-    getUsers(),
-    getDataOrderProducts(),
-  ]);
-
+}) {
   return (
-    <AbilityProvider users={users}>
-      <EmployeesProvider employees={employees as EmployeesContextValue[]}>
-        <OrderProductsProvider
-          orderProducts={ordersProducts as OrderProductsContextValue}
-        >
-          <SidebarToggleButton />
-          <SidebarNav />
-          <div className="flex h-screen w-full flex-col px-1">
-            <NavTabs />
-            <ClientRefProvider>
-              <MonthDaysProvider>
-                <ScreenshotWrapper>{children}</ScreenshotWrapper>
-              </MonthDaysProvider>
-              <NavBottom />
-            </ClientRefProvider>
-          </div>
-        </OrderProductsProvider>
-      </EmployeesProvider>
-    </AbilityProvider>
+    <HomeDataProviders>
+      <HomeUIProviders>
+        <SidebarToggleButton />
+        <SidebarNav />
+        <div className="flex h-screen w-full flex-col px-1">
+          <NavTabs />
+          <ScreenshotWrapper>
+            <MonthDaysProvider>{children}</MonthDaysProvider>
+          </ScreenshotWrapper>
+          <ActionBar />
+        </div>
+      </HomeUIProviders>
+    </HomeDataProviders>
   );
 }

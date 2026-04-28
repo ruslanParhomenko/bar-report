@@ -13,34 +13,26 @@ import { useEmployees } from "@/providers/employees-provider";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
-import {
-  defaultEmployeeSchemaValues,
-  employeesSchema,
-  EmployeesSchemaTypeData,
-} from "./schema";
 
 import EmployeeDataForm from "./employee-data-form";
+import { defaultEmployeeForm, EmployeeForm, employeesSchema } from "./schema";
 import SwitchForm from "./switch-form";
 import VacationForm from "./vacation-form";
 
-type FormData = EmployeesSchemaTypeData & { id?: string };
-
-export function EmployeeForm({ id }: { id?: string }) {
+export default function EmployeePage({ id }: { id?: string }) {
   const { isAdmin, isManager } = useAbility();
   const isDisabled = !isAdmin && !isManager;
 
   const router = useRouter();
 
-  const employee = id
-    ? useEmployees().find((e: any) => e.id === id)
-    : undefined;
+  const employee = id ? useEmployees().find((e) => e.id === id) : undefined;
 
-  const form = useForm<EmployeesSchemaTypeData>({
+  const form = useForm<EmployeeForm>({
     resolver: zodResolver(employeesSchema),
-    defaultValues: employee || defaultEmployeeSchemaValues,
+    defaultValues: employee || defaultEmployeeForm,
   });
 
-  const handleSubmit: SubmitHandler<FormData> = async (data) => {
+  const handleSubmit: SubmitHandler<EmployeeForm> = async (data) => {
     if (id) {
       await updateEmployee(id, data);
       toast.success("Employee updated!");
@@ -55,7 +47,7 @@ export function EmployeeForm({ id }: { id?: string }) {
         text: `add new employee:${data.name}-${data.role}-${data.rate}`,
       });
     }
-    form.reset(defaultEmployeeSchemaValues);
+    form.reset(defaultEmployeeForm);
     router.back();
   };
 

@@ -15,16 +15,16 @@ import {
 } from "@/features/fin-cash/schema";
 import { MONTHS } from "@/utils/get-month-days";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { FIN_CASH_ITEMS_LIST } from "./constants";
 
 import { createFin, GetFinData } from "@/app/actions/fin-cash/fin-action";
-import EditButton from "@/components/buttons/edit-button";
-import SaveButton from "@/components/buttons/save-button";
 import { Form } from "@/components/ui/form";
 import { useAbility } from "@/providers/ability-provider";
+import { useEdit } from "@/providers/edit-provider";
 import { handleMultiTableNavigation } from "@/utils/handle-table-navigation";
+import { usePathname } from "next/navigation";
 import { toast } from "sonner";
 
 const VAT_PLUS_KEYS = ["nbm-vat", "bar-vat"];
@@ -38,6 +38,9 @@ export default function FinPage({
   finCashData: GetFinData | null;
   year: string;
 }) {
+  const pathname = usePathname();
+  const formId = pathname.split("/").pop() || "";
+
   const form = useForm<FinForm>({
     resolver: zodResolver(finCashSchema),
     defaultValues: defaultFinCashForm,
@@ -46,7 +49,7 @@ export default function FinPage({
   const { isAdmin } = useAbility();
   const isDisabled = !isAdmin;
 
-  const [isEdit, setIsEdit] = useState(false);
+  const { isEdit, setIsEdit } = useEdit();
 
   const FIXED_COLUMNS = ["НДС", "НАЛОГ"];
   const ALL_COLUMNS = [...FIXED_COLUMNS, ...FIN_CASH_ITEMS_LIST];
@@ -150,21 +153,11 @@ export default function FinPage({
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
+      <form onSubmit={form.handleSubmit(onSubmit)} id={formId}>
         <Table className="mt-4 md:table-fixed">
           <TableHeader>
             <TableRow className="border-0!">
-              <TableHead className="bg-background sticky left-0">
-                <div className="flex items-center justify-center gap-3">
-                  <EditButton
-                    isEdit={isEdit}
-                    setIsEdit={setIsEdit}
-                    disabled={isDisabled}
-                  />
-
-                  <SaveButton isEdit={isEdit} disabled={!isEdit} />
-                </div>
-              </TableHead>
+              <TableHead className="bg-background sticky left-0"></TableHead>
               {ALL_COLUMNS.map((col) => (
                 <TableHead
                   key={col}

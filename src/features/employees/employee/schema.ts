@@ -1,13 +1,11 @@
 import { z } from "zod";
-export const vacationPaySchema = z.object({
+export const vacationSchema = z.object({
   startDate: z.string(),
   endDate: z.string(),
   countDays: z.string(),
 });
 
-export type VacationPaySchemaType = z.infer<typeof vacationPaySchema>;
-
-export const defaultVacationPay = {
+export const defaultVacationForm = {
   startDate: "",
   endDate: "",
   countDays: "",
@@ -19,29 +17,24 @@ export const employeesSchema = z.object({
   tel: z.string().optional(),
   role: z.string().min(1, { message: "Role is required" }),
   rate: z.string().min(1, { message: "Rate is required" }),
-  employmentDate: z
-    .union([z.date(), z.string()])
-    .nullable()
-    .transform((val) => {
-      if (!val) return null;
-      return val instanceof Date ? val : new Date(val);
-    }),
+  employmentDate: z.string(),
   status: z.enum(["active", "fired"]),
   employeesWorkForm: z.boolean().optional(),
   employeesKey: z.boolean().optional(),
-  vacationPay: z.array(vacationPaySchema).optional(),
+  vacationPay: z.array(vacationSchema).optional(),
 });
 
-export type EmployeesSchemaTypeData = z.input<typeof employeesSchema>;
-export type EmployeesSchemaType = z.infer<typeof employeesSchema>;
+export type EmployeeForm = z.infer<typeof employeesSchema>;
 
-export const defaultEmployeeSchemaValues: Partial<EmployeesSchemaTypeData> = {
+export const defaultEmployeeForm: Partial<EmployeeForm> = {
   name: "",
   mail: "",
   tel: "",
   role: "",
   rate: "",
-  employmentDate: null,
+  employmentDate: "",
   status: "active",
-  vacationPay: [defaultVacationPay],
+  employeesWorkForm: false,
+  employeesKey: false,
+  vacationPay: [defaultVacationForm],
 };

@@ -4,13 +4,12 @@ import {
   createAlgorithmData,
   getAlgorithmData,
 } from "@/app/actions/algorithm/algorithm-actions";
-import EditButton from "@/components/buttons/edit-button";
-import SaveButton from "@/components/buttons/save-button";
 import { Form } from "@/components/ui/form";
 import { useHashParam } from "@/hooks/use-hash";
-import { useAbility } from "@/providers/ability-provider";
+import { useEdit } from "@/providers/edit-provider";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Activity, useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
+import { Activity, useEffect } from "react";
 import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import AlgorithmForm from "./algorithm-form";
@@ -26,11 +25,13 @@ const FIELD_CONFIG = [
 ] as const;
 
 export default function AlgorithmPage() {
-  const { isAdmin } = useAbility();
+  const pathname = usePathname();
+  const formId = pathname.split("/").pop() || "";
+
   const [tab] = useHashParam("tab");
 
   // state
-  const [isEdit, setIsEdit] = useState(false);
+  const { isEdit, setIsEdit } = useEdit();
   //form
   const form = useForm<AlgorithmData>({
     resolver: zodResolver(algorithmSchema),
@@ -60,26 +61,16 @@ export default function AlgorithmPage() {
   }, [form]);
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
-        <div className="h-[95vh] overflow-auto">
-          <div className="bg-background sticky top-0 z-10 flex w-full items-center gap-4 p-3">
-            <EditButton
+      <form onSubmit={form.handleSubmit(onSubmit)} id={formId}>
+        {FIELD_CONFIG.map((name) => (
+          <Activity key={name} mode={tab === name ? "visible" : "hidden"}>
+            <AlgorithmForm
+              fieldForm={fieldArrays[name]}
+              fieldName={name}
               isEdit={isEdit}
-              setIsEdit={setIsEdit}
-              disabled={!isAdmin}
             />
-            <SaveButton isEdit={isEdit} disabled={!isEdit} />
-          </div>
-          {FIELD_CONFIG.map((name) => (
-            <Activity key={name} mode={tab === name ? "visible" : "hidden"}>
-              <AlgorithmForm
-                fieldForm={fieldArrays[name]}
-                fieldName={name}
-                isEdit={isEdit}
-              />
-            </Activity>
-          ))}
-        </div>
+          </Activity>
+        ))}
       </form>
     </Form>
   );

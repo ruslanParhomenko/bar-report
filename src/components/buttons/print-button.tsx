@@ -1,50 +1,30 @@
 "use client";
 import { cn } from "@/lib/utils";
+import { RefContext } from "@/providers/client-ref-provider";
 import { Printer } from "lucide-react";
+import { useContext } from "react";
 import { useReactToPrint } from "react-to-print";
 import { toast } from "sonner";
 
 export default function PrintButton({
-  formatPage = "A4 landscape",
   componentRef,
   className,
   disabled = false,
   size = 21,
 }: {
-  formatPage?: string;
   componentRef?: React.RefObject<HTMLDivElement | null> | null;
   className?: string;
   disabled?: boolean;
   size?: number;
 }) {
-  if (!componentRef) return null;
+  const ref = componentRef || useContext(RefContext);
   const handlePrint = useReactToPrint({
-    contentRef: componentRef,
+    contentRef: ref as any,
     pageStyle: `
-  @page {
-    size: ${formatPage}; 
-    margin: 4mm;
-  }
-
+  @page { size: A4 landscape;margin: 4mm; }
   @media print {
-    body {
-      -webkit-print-color-adjust: exact;
-    }
-
-    .no-print {
-      display: none !important;
-    }
-    .print-area {
-      page-break-inside: avoid !important;
-      display: flex;
-      flex-wrap: wrap;
-      width: 100%;
-    }
-    .print-card {
-      page-break-inside: avoid !important;
-      flex: 1 1 22%; 
-      min-width: 22%;
-    }
+    body {-webkit-print-color-adjust: exact}
+    .no-print {display: none !important}
   }
 `,
     onAfterPrint: () => toast.success("Печать завершена"),
@@ -53,10 +33,7 @@ export default function PrintButton({
 
   return (
     <button
-      onClick={() => {
-        if (!componentRef) return;
-        handlePrint();
-      }}
+      onClick={() => ref && handlePrint()}
       type="button"
       disabled={disabled}
       className={cn(className, "cursor-pointer print:hidden")}

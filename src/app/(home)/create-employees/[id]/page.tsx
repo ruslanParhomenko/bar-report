@@ -1,4 +1,4 @@
-import { EmployeeForm } from "@/features/employees/employee/employee-form";
+import EmployeePage from "@/features/employees/employee/employee-page";
 
 export default async function Page({
   params,
@@ -9,5 +9,5 @@ export default async function Page({
 
   if (!id) return null;
 
-  return <EmployeeForm id={id} />;
+  return <EmployeePage id={id} />;
 }

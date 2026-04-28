@@ -35,12 +35,12 @@ import { Activity, useEffect } from "react";
 import { BarFormValues, barSchema, defaultValuesBarForm } from "./schema";
 
 import { createTipsAdd } from "@/app/actions/tips-add/tips-add-actions";
-import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import BreakTable from "@/features/bar/break-form/break-table";
 import PenaltyTable from "@/features/bar/penalty/penalty-table";
 import { useHashParam } from "@/hooks/use-hash";
 import { useRealtimeSave } from "@/hooks/use-realtime-save";
+import { usePathname } from "next/navigation";
 import ReportBarTable from "./report/report-bar-table";
 import TipsAddForm from "./tips-add/tips-add-form";
 
@@ -55,6 +55,9 @@ export default function BarForm({
   dataBreakList: BreakFormData | null;
   currencyUSD: number | null;
 }) {
+  const pathname = usePathname();
+  const formId = pathname.split("/").pop() || "";
+
   const [tab] = useHashParam("tab");
 
   const { isBar, isAdmin } = useAbility();
@@ -94,6 +97,8 @@ export default function BarForm({
   });
 
   const onSubmit: SubmitHandler<BarFormValues> = async (data) => {
+    console.log(data, "ok");
+    if (!isBar) return;
     const { date, report, penalty, breakForm, tipsAdd } = data;
 
     const dateValue = typeof date === "string" ? parseISO(date) : date;
@@ -225,6 +230,7 @@ export default function BarForm({
       <form
         onSubmit={form.handleSubmit(onSubmit, onError)}
         className="flex h-full flex-col"
+        id={formId}
       >
         <Activity mode={tab === "break" ? "visible" : "hidden"}>
           <BreakTable isDisabled={isDisabled} employeesName={employeesName} />
@@ -241,18 +247,6 @@ export default function BarForm({
             currency={currencyUSD?.toFixed(2) ?? "0"}
           />
         </Activity>
-        <div
-          className="bg-background sticky bottom-0 z-30 mt-auto flex w-full gap-6 px-4 py-1"
-          data-html2canvas-ignore="true"
-        >
-          <Button
-            type="submit"
-            className="bg-bl h-7 w-24 text-white"
-            disabled={isDisabled}
-          >
-            save
-          </Button>
-        </div>
       </form>
     </Form>
   );

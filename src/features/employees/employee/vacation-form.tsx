@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Plus, Trash } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useFieldArray, useFormContext, useWatch } from "react-hook-form";
-import { defaultVacationPay } from "./schema";
+import { defaultVacationForm } from "./schema";
 
 export default function VacationForm() {
   const t = useTranslations("Home");
@@ -71,7 +71,7 @@ export default function VacationForm() {
                   className="h-10 w-10 flex-none"
                   onClick={() =>
                     fields.length === 1
-                      ? replace(defaultVacationPay)
+                      ? replace(defaultVacationForm)
                       : remove(index)
                   }
                 >
@@ -85,7 +85,7 @@ export default function VacationForm() {
           <Button
             type="button"
             className="h-10 w-10 flex-none"
-            onClick={() => append(defaultVacationPay)}
+            onClick={() => append(defaultVacationForm)}
           >
             <Plus />
           </Button>

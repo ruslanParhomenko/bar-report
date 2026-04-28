@@ -1,50 +1,21 @@
-import EditButton from "@/components/buttons/edit-button";
-import PrintButton from "@/components/buttons/print-button";
-import ResetButton from "@/components/buttons/reset-button";
-import SaveButton from "@/components/buttons/save-button";
 import { MonthDaysCells } from "@/components/table/month-days-cells";
 import { TableCell, TableHeader, TableRow } from "@/components/ui/table";
-import { useAbility } from "@/providers/ability-provider";
 import { useMonthDays } from "@/providers/month-days-provider";
 
 export default function TtnHeaderTable({
   setItemSearch,
   selectedDay,
   setSelectedDay,
-  setIsEdit,
-  isEdit,
-  ref,
-  disabled,
 }: {
   setItemSearch: (itemSearch: string) => void;
   selectedDay: number;
   setSelectedDay: (day: number) => void;
-  setIsEdit: (isEdit: boolean) => void;
-  isEdit: boolean;
-  ref: React.RefObject<HTMLDivElement | null>;
-  disabled: boolean;
 }) {
-  const { isAdmin } = useAbility();
   const { monthDays, month } = useMonthDays();
-  const todayDay = new Date().getDate();
-  const resetSelectedDay = () => {
-    setSelectedDay(todayDay);
-  };
   return (
     <TableHeader className="bg-background sticky top-0 left-0 z-12">
       <TableRow className="[&>td]:py-0">
-        <TableCell>
-          <div className="flex items-center justify-center gap-3">
-            <PrintButton componentRef={ref} disabled={isEdit || disabled} />
-            <EditButton
-              isEdit={isEdit}
-              setIsEdit={setIsEdit}
-              disabled={!isAdmin}
-            />
-
-            <SaveButton isEdit={isEdit} disabled={!isEdit} />
-          </div>
-        </TableCell>
+        <TableCell>{month?.toUpperCase() || ""}</TableCell>
 
         <TableCell>
           <input
@@ -54,16 +25,7 @@ export default function TtnHeaderTable({
             className="w-20 p-1 outline-none focus:ring-0 focus:outline-none focus-visible:ring-0"
           ></input>
         </TableCell>
-        <TableCell>
-          <div className="flex items-center justify-center gap-2">
-            <ResetButton
-              reset={resetSelectedDay}
-              className={todayDay === selectedDay ? "hidden" : ""}
-              size={12}
-            />
-            <span>{month?.toUpperCase().slice(0, 3) || ""}</span>
-          </div>
-        </TableCell>
+        <TableCell className="w-12"></TableCell>
 
         <MonthDaysCells
           selectedDay={selectedDay}

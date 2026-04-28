@@ -2,11 +2,13 @@ import { cn } from "@/lib/utils";
 import { SaveIcon } from "lucide-react";
 
 export default function SaveButton({
+  formId,
   className,
   isEdit,
   disabled = true,
   size = 21,
 }: {
+  formId: string;
   className?: string;
   isEdit: boolean;
   disabled?: boolean;
@@ -14,6 +16,7 @@ export default function SaveButton({
 }) {
   return (
     <button
+      form={formId}
       type="submit"
       disabled={disabled}
       className={cn(className, "cursor-pointer")}

@@ -3,10 +3,12 @@ import { createTips, GetTipsData } from "@/app/actions/tips/tips-action";
 import { Form } from "@/components/ui/form";
 import { Table } from "@/components/ui/table";
 import { useAbility } from "@/providers/ability-provider";
+import { useEdit } from "@/providers/edit-provider";
 import { useEmployees } from "@/providers/employees-provider";
 import { useMonthDays } from "@/providers/month-days-provider";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import BidForm from "./bid-form";
@@ -22,11 +24,15 @@ export default function TipsPage({
 }: {
   dataTips: GetTipsData | null;
 }) {
+  const pathname = usePathname();
+
+  const formId = pathname.split("/").pop() || "";
   const { isAdmin } = useAbility();
 
   const todayDay = new Date().getDate();
   const [selectedDay, setSelectedDay] = useState<number>(todayDay);
-  const [isEdit, setIsEdit] = useState(false);
+
+  const { isEdit, setIsEdit } = useEdit();
   const { monthDays, month, year } = useMonthDays();
 
   const employees = useEmployees()
@@ -62,6 +68,8 @@ export default function TipsPage({
     } catch (error) {
       toast.error("Произошла ошибка при сохранении формы");
     }
+
+    setIsEdit(false);
   };
 
   const addNewRow = () => {
@@ -97,37 +105,30 @@ export default function TipsPage({
     form.setValue("rowCashTips", mewRowsCashTips);
   }, [dataTips, month, year, form, monthDays.length]);
 
-  const ref = useRef<HTMLDivElement | null>(null);
-
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
+      <form onSubmit={form.handleSubmit(onSubmit)} id={formId}>
         <BidForm disabled={!isAdmin} />
 
-        <div ref={ref} data-screenshot-root="true">
-          <Table className="table-fixed">
-            <TipsHeaderTable
-              selectedDay={selectedDay}
-              setSelectedDay={setSelectedDay}
-              addNewRow={addNewRow}
-              setIsEdit={setIsEdit}
-              isEdit={isEdit}
-              ref={ref}
-              disabled={!isAdmin}
-            />
+        <Table className="table-fixed">
+          <TipsHeaderTable
+            selectedDay={selectedDay}
+            setSelectedDay={setSelectedDay}
+            addNewRow={addNewRow}
+            isEdit={isEdit}
+          />
 
-            <TipsTableBody
-              data={fields}
-              remove={removeRow}
-              selectedEmployees={employees}
-              selectedDay={selectedDay}
-              monthDays={monthDays}
-              isEdit={isEdit}
-            />
+          <TipsTableBody
+            data={fields}
+            remove={removeRow}
+            selectedEmployees={employees}
+            selectedDay={selectedDay}
+            monthDays={monthDays}
+            isEdit={isEdit}
+          />
 
-            <TipsTableFooter isEdit={isEdit} />
-          </Table>
-        </div>
+          <TipsTableFooter isEdit={isEdit} />
+        </Table>
       </form>
     </Form>
   );

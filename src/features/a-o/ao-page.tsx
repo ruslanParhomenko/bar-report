@@ -9,10 +9,11 @@ import {
   updateAO,
 } from "@/app/actions/a-o/ao-action";
 import { Form } from "@/components/ui/form";
-import { useAbility } from "@/providers/ability-provider";
+import { useEdit } from "@/providers/edit-provider";
 import { useMonthDays } from "@/providers/month-days-provider";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
+import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 import AoBodyTable from "./ao-body";
 import AoFooterTable from "./ao-footer";
@@ -24,12 +25,12 @@ import { calculateRowAOTotals } from "./utils";
 export default function AoPage({ dataAo }: { dataAo: AOContextValue | null }) {
   const { monthDays, month, year } = useMonthDays();
 
-  const { isAdmin } = useAbility();
-  const isDisabled = !isAdmin;
+  const pathname = usePathname();
+  const formId = pathname.split("/").pop() || "";
 
   const todayDay = new Date().getDate();
   const [selectedDay, setSelectedDay] = useState<number>(todayDay);
-  const [isEdit, setIsEdit] = useState(false);
+  const { isEdit, setIsEdit } = useEdit();
 
   // form
   const form = useForm<AOFormTypeInput>({
@@ -99,41 +100,34 @@ export default function AoPage({ dataAo }: { dataAo: AOContextValue | null }) {
     n(totals.ttnNBMByDay)
   ).toFixed(2);
 
-  const ref = useRef<HTMLDivElement | null>(null);
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
-        <div ref={ref} data-screenshot-root="true" className="mt-4">
-          <Table>
-            <AoHeaderTable
-              selectedDay={selectedDay}
-              setSelectedDay={setSelectedDay}
-              setIsEdit={setIsEdit}
-              isEdit={isEdit}
-              ref={ref}
-              disabled={isDisabled}
-            />
-            <AoBodyTable
-              data={rowsAdvance}
-              selectedDay={selectedDay}
-              isEdit={isEdit}
-              fieldName="rowAOData"
-            />
-            <AoBodyTable
-              data={rowsPurchaseModa}
-              selectedDay={selectedDay}
-              isEdit={isEdit}
-              fieldName="rowAOData"
-            />
-            <AoBodyTable
-              data={rowsPurchaseNMB}
-              selectedDay={selectedDay}
-              isEdit={isEdit}
-              fieldName="rowAOData"
-            />
-            <AoFooterTable moda={differenceModa} nbm={differenceNBM} />
-          </Table>
-        </div>
+      <form onSubmit={form.handleSubmit(onSubmit)} id={formId}>
+        <Table className="mt-4">
+          <AoHeaderTable
+            selectedDay={selectedDay}
+            setSelectedDay={setSelectedDay}
+          />
+          <AoBodyTable
+            data={rowsAdvance}
+            selectedDay={selectedDay}
+            isEdit={isEdit}
+            fieldName="rowAOData"
+          />
+          <AoBodyTable
+            data={rowsPurchaseModa}
+            selectedDay={selectedDay}
+            isEdit={isEdit}
+            fieldName="rowAOData"
+          />
+          <AoBodyTable
+            data={rowsPurchaseNMB}
+            selectedDay={selectedDay}
+            isEdit={isEdit}
+            fieldName="rowAOData"
+          />
+          <AoFooterTable moda={differenceModa} nbm={differenceNBM} />
+        </Table>
       </form>
     </Form>
   );

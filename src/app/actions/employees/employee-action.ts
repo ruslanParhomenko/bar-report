@@ -1,15 +1,15 @@
 "use server";
 
 import { EMPLOYEES_ACTION_TAG } from "@/constants/action-tag";
-import { EmployeesSchemaTypeData } from "@/features/employees/employee/schema";
+import { EmployeeForm } from "@/features/employees/employee/schema";
 import { dbAdmin } from "@/lib/firebase-admin";
 import { redis } from "@/lib/redis";
 import { unstable_cache, updateTag } from "next/cache";
 
-export type EmployeeData = EmployeesSchemaTypeData & { id: string };
+export type Employee = EmployeeForm & { id: string };
 
 // create
-export async function createEmployee(data: Omit<EmployeeData, "id">) {
+export async function createEmployee(data: Omit<Employee, "id">) {
   const docRef = await dbAdmin.collection(EMPLOYEES_ACTION_TAG).add({
     name: data.name,
     role: data.role,
@@ -30,10 +30,7 @@ export async function createEmployee(data: Omit<EmployeeData, "id">) {
 }
 
 // update
-export async function updateEmployee(
-  id: string,
-  data: Omit<EmployeeData, "id">,
-) {
+export async function updateEmployee(id: string, data: Omit<Employee, "id">) {
   await dbAdmin
     .collection(EMPLOYEES_ACTION_TAG)
     .doc(id)
@@ -56,7 +53,7 @@ export async function deleteEmployee(id: string) {
 
 // get
 
-const _getEmployees = async (): Promise<EmployeeData[]> => {
+const _getEmployees = async (): Promise<Employee[]> => {
   const snapshot = await dbAdmin.collection(EMPLOYEES_ACTION_TAG).get();
 
   return snapshot.docs.map((doc) => {
@@ -78,7 +75,7 @@ const _getEmployees = async (): Promise<EmployeeData[]> => {
       id: doc.id,
       ...data,
       employmentDate,
-    } as EmployeeData;
+    } as Employee;
   });
 };
 

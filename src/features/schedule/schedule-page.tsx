@@ -8,8 +8,10 @@ import {
 import { Form } from "@/components/ui/form";
 import { Table } from "@/components/ui/table";
 import { useHashParam } from "@/hooks/use-hash";
+import { useEdit } from "@/providers/edit-provider";
 import { useMonthDays } from "@/providers/month-days-provider";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -30,6 +32,9 @@ export default function SchedulePage({
 }: {
   schedules: SchedulesContextValue[] | null;
 }) {
+  const pathname = usePathname();
+  const formId = pathname.split("/").pop() || "";
+
   const [tab] = useHashParam("tab");
 
   const schedule = schedules?.find((s: any) => s.role === tab) ?? null;
@@ -37,7 +42,8 @@ export default function SchedulePage({
   // state
   const todayDay = new Date().getDate();
   const [selectedDay, setSelectedDay] = useState<number>(todayDay);
-  const [isEdit, setIsEdit] = useState(false);
+
+  const { isEdit, setIsEdit } = useEdit();
 
   // set form
   const form = useForm<ScheduleType>({
@@ -133,15 +139,13 @@ export default function SchedulePage({
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="py-6">
+      <form onSubmit={form.handleSubmit(onSubmit)} id={formId}>
         <Table className="table-fixed">
           <ScheduleTableHeader
             addNewRow={addRow}
             selectedDay={selectedDay}
             setSelectedDay={setSelectedDay}
-            setIsEdit={setIsEdit}
             isEdit={isEdit}
-            tab={tab as string}
           />
           {!isEdit ? (
             <ScheduleTableBody schedule={schedule} selectedDay={selectedDay} />

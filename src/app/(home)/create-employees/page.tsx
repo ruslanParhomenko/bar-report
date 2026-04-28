@@ -1,5 +1,5 @@
-import { EmployeeForm } from "@/features/employees/employee/employee-form";
+import EmployeePage from "@/features/employees/employee/employee-page";
 
 export default function Page() {
-  return <EmployeeForm />;
+  return <EmployeePage />;
 }

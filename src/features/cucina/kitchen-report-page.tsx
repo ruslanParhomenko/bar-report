@@ -16,13 +16,13 @@ import {
 import { createDataProducts } from "@/app/actions/data-constants/data-products-action";
 import { createReportCucina } from "@/app/actions/report-cucina/report-cucina-action";
 import DatePickerInput from "@/components/input-controlled/date-input";
-import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { useLocalStorageForm } from "@/hooks/use-local-storage";
 import { useAbility } from "@/providers/ability-provider";
 import { useEmployees } from "@/providers/employees-provider";
 import { MONTHS } from "@/utils/get-month-days";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { usePathname } from "next/navigation";
 
 const CUCINA_EMPLOYEES = ["cook"];
 
@@ -33,6 +33,9 @@ export default function KitchenReportPage({
 }: {
   dataProducts: createDataProducts;
 }) {
+  const pathname = usePathname();
+  const formId = pathname.split("/").pop() || "";
+
   const { isCucina, isAdmin } = useAbility();
   const isDisabled = !(isAdmin || isCucina);
 
@@ -57,6 +60,7 @@ export default function KitchenReportPage({
   const { isLoaded } = useLocalStorageForm(form, KEY_LOCALSTORAGE);
 
   const onSubmit: SubmitHandler<ReportCucinaInput> = async (data) => {
+    console.log(data, "ok");
     if (!isCucina) return;
     const parsed = schemaReportCucina.parse(data);
     const { date, ...rest } = parsed;
@@ -190,54 +194,36 @@ export default function KitchenReportPage({
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit, onError)}
-        className="flex h-full flex-col"
-      >
-        <div className="overflow-hidden">
-          <DatePickerInput fieldName="date" className="text-rd h-6 text-sm" />
-          {tablesConfig.map(
-            ({
-              name,
-              placeHolder,
-              dataFieldArray,
-              defaultValue,
-              dataShifts,
-              dataReasons,
-            }) => (
-              <RenderTableCucina
-                key={name}
-                name={name}
-                form={form}
-                placeHolder={placeHolder}
-                dataShifts={dataShifts}
-                dataReasons={dataReasons}
-                dataFieldArray={dataFieldArray}
-                defaultValue={defaultValue}
-                isDisabled={isDisabled}
-              />
-            ),
-          )}
-          <Textarea
-            placeholder="notes ..."
-            {...form.register("notes")}
-            disabled={isDisabled}
-            className="border-bl/40"
-          />
-        </div>
-
-        <div
-          className="bg-background sticky bottom-0 z-30 py-1"
-          data-html2canvas-ignore="true"
-        >
-          <Button
-            type="submit"
-            className="bg-bl h-7 w-24 text-white"
-            disabled={isDisabled}
-          >
-            save
-          </Button>
-        </div>
+      <form onSubmit={form.handleSubmit(onSubmit, onError)} id={formId}>
+        <DatePickerInput fieldName="date" className="text-rd h-6 text-sm" />
+        {tablesConfig.map(
+          ({
+            name,
+            placeHolder,
+            dataFieldArray,
+            defaultValue,
+            dataShifts,
+            dataReasons,
+          }) => (
+            <RenderTableCucina
+              key={name}
+              name={name}
+              form={form}
+              placeHolder={placeHolder}
+              dataShifts={dataShifts}
+              dataReasons={dataReasons}
+              dataFieldArray={dataFieldArray}
+              defaultValue={defaultValue}
+              isDisabled={isDisabled}
+            />
+          ),
+        )}
+        <Textarea
+          placeholder="notes ..."
+          {...form.register("notes")}
+          disabled={isDisabled}
+          className="border-bl/40"
+        />
       </form>
     </Form>
   );

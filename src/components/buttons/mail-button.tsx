@@ -1,31 +1,34 @@
 "use client";
 import { sendToTelegram } from "@/app/actions/telegram/telegram-action";
 import { cn } from "@/lib/utils";
+import { RefContext } from "@/providers/client-ref-provider";
 import html2canvas from "html2canvas-pro";
 import { MailIcon } from "lucide-react";
-import { useTransition } from "react";
+import { useContext, useTransition } from "react";
 import { toast } from "sonner";
 
 export default function MailButton({
   componentRef,
   className,
   patch,
-  disabled,
+  disabled = false,
   size = 21,
 }: {
   componentRef?: React.RefObject<HTMLDivElement | null> | null;
   className?: string;
   patch: string;
-  disabled: boolean;
+  disabled?: boolean;
   size?: number;
 }) {
   const [isPending, startTransition] = useTransition();
 
+  const ref = componentRef || useContext(RefContext);
+
   const sendScreenshot = async () => {
-    if (!componentRef?.current) return;
+    if (!ref?.current) return;
 
     try {
-      const canvas = await html2canvas(componentRef.current, {
+      const canvas = await html2canvas(ref.current, {
         scale: 2,
         useCORS: true,
         backgroundColor: "#fff",

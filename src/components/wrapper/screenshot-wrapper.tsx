@@ -9,7 +9,11 @@ export default function ScreenshotWrapper({
 }) {
   const ref = useContext(RefContext);
   return (
-    <div className="flex-1" ref={ref} data-screenshot-root="true">
+    <div
+      className="min-h-0 flex-1 overflow-auto"
+      ref={ref}
+      data-screenshot-root="true"
+    >
       {children}
     </div>
   );

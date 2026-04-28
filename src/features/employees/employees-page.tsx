@@ -3,17 +3,15 @@
 import { useHashParam } from "@/hooks/use-hash";
 import { useAbility } from "@/providers/ability-provider";
 import { useEmployees } from "@/providers/employees-provider";
-import { useSearchParams } from "next/navigation";
 import { Activity } from "react";
-import { EmployeeForm } from "./employee/employee-form";
+
+import EmployeePage from "./employee/employee-page";
 import { EmployeesTable } from "./employee/employees-table";
 import { VacationTable } from "./employee/vacation-table";
 import UsersForm from "./users/users-form";
 import UsersTable from "./users/users-table";
 
 export function EmployeesPage() {
-  const searchParams = useSearchParams();
-  // const tab = searchParams.get("tab") as string;
   const [value] = useHashParam("tab");
 
   const tab = value || "employees";
@@ -29,7 +27,7 @@ export function EmployeesPage() {
         <VacationTable />
       </Activity>
       <Activity mode={tab === "create-employee" ? "visible" : "hidden"}>
-        <EmployeeForm />
+        <EmployeePage />
       </Activity>
       <Activity mode={tab === "users" ? "visible" : "hidden"}>
         <UsersTable users={users} />

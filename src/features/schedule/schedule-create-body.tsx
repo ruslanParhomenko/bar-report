@@ -6,7 +6,8 @@ import { MonthDaysCells } from "@/components/table/month-days-cells";
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
-import { EmployeesContextValue } from "@/providers/employees-provider";
+
+import { Employee } from "@/app/actions/employees/employee-action";
 import { useMonthDays } from "@/providers/month-days-provider";
 import { handleMultiTableNavigation } from "@/utils/handle-table-navigation";
 import {
@@ -28,7 +29,7 @@ export default function ScheduleCreateTableBody({
   selectedDay,
 }: {
   fields: FieldArrayWithId<ScheduleType, "rowShifts", "id">[];
-  selectedEmployees: EmployeesContextValue[];
+  selectedEmployees: Employee[];
   remove: UseFieldArrayReturn<ScheduleType, "rowShifts", "id">["remove"];
   move: UseFieldArrayReturn<ScheduleType, "rowShifts", "id">["move"];
   update: UseFieldArrayReturn<ScheduleType, "rowShifts", "id">["update"];

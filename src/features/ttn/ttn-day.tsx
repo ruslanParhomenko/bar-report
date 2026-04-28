@@ -1,7 +1,7 @@
 "use client";
 
 import { TTNGetDataType } from "@/app/actions/ttn/ttn-actions";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 import {
   Table,
@@ -13,7 +13,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import PrintButton from "@/components/buttons/print-button";
 import SelectDay from "@/components/select/select-day";
 import { getMonthDays } from "@/utils/get-month-days";
 
@@ -32,8 +31,6 @@ export default function TTNDayPage({
   month: string;
   year: string;
 }) {
-  const componentRef = useRef<HTMLDivElement>(null);
-
   const { monthDays } = getMonthDays({ month, year });
 
   const [selectedDay, setSelectedDay] = useState<string>(
@@ -69,32 +66,47 @@ export default function TTNDayPage({
   const secondTableData = selectedDayData.slice(middleIndex);
 
   return (
-    <>
-      <PrintButton componentRef={componentRef} formatPage="A4 portrait" />
-      <div
-        ref={componentRef}
-        className="grid w-full grid-cols-1 gap-10 md:grid-cols-2 xl:grid-cols-4 print:grid-cols-2"
-      >
+    <div className="grid w-full grid-cols-1 gap-10 md:grid-cols-2 xl:grid-cols-4 print:grid-cols-2">
+      <Table className="w-full">
+        <TableHeader>
+          <TableRow>
+            <TableHead>day:</TableHead>
+            <TableHead>
+              <SelectDay
+                value={selectedDay}
+                onChange={setSelectedDay}
+                monthDays={monthDays}
+              />
+            </TableHead>
+            <TableHead>+</TableHead>
+            <TableHead>-</TableHead>
+          </TableRow>
+        </TableHeader>
+
+        <TableBody>
+          {firstTableData.map((row, index) => (
+            <TableRow key={row.supplier}>
+              <TableCell>{index + 1}</TableCell>
+              <TableCell>{row.supplier}</TableCell>
+              <TableCell>{row.plus || "-"}</TableCell>
+              <TableCell>{row.minus || "-"}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+      <div>
         <Table className="w-full">
           <TableHeader>
             <TableRow>
-              <TableHead>day:</TableHead>
-              <TableHead>
-                <SelectDay
-                  value={selectedDay}
-                  onChange={setSelectedDay}
-                  monthDays={monthDays}
-                />
-              </TableHead>
+              <TableHead></TableHead>
               <TableHead>+</TableHead>
               <TableHead>-</TableHead>
             </TableRow>
           </TableHeader>
 
           <TableBody>
-            {firstTableData.map((row, index) => (
+            {secondTableData.map((row) => (
               <TableRow key={row.supplier}>
-                <TableCell>{index + 1}</TableCell>
                 <TableCell>{row.supplier}</TableCell>
                 <TableCell>{row.plus || "-"}</TableCell>
                 <TableCell>{row.minus || "-"}</TableCell>
@@ -102,41 +114,18 @@ export default function TTNDayPage({
             ))}
           </TableBody>
         </Table>
-        <div>
-          <Table className="w-full">
-            <TableHeader>
-              <TableRow>
-                <TableHead></TableHead>
-                <TableHead>+</TableHead>
-                <TableHead>-</TableHead>
-              </TableRow>
-            </TableHeader>
-
-            <TableBody>
-              {secondTableData.map((row) => (
-                <TableRow key={row.supplier}>
-                  <TableCell>{row.supplier}</TableCell>
-                  <TableCell>{row.plus || "-"}</TableCell>
-                  <TableCell>{row.minus || "-"}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-          <Table className="w-full">
-            <TableFooter>
-              <TableRow>
-                <TableHead>Итого</TableHead>
-                <TableHead className="text-bl text-center">
-                  {totalPlus}
-                </TableHead>
-                <TableHead className="text-rd text-center">
-                  {totalMinus}
-                </TableHead>
-              </TableRow>
-            </TableFooter>
-          </Table>
-        </div>
+        <Table className="w-full">
+          <TableFooter>
+            <TableRow>
+              <TableHead>Итого</TableHead>
+              <TableHead className="text-bl text-center">{totalPlus}</TableHead>
+              <TableHead className="text-rd text-center">
+                {totalMinus}
+              </TableHead>
+            </TableRow>
+          </TableFooter>
+        </Table>
       </div>
-    </>
+    </div>
   );
 }

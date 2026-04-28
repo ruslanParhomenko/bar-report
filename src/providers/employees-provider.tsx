@@ -1,19 +1,14 @@
 "use client";
-
-import { EmployeesSchemaType } from "@/features/employees/employee/schema";
+import { Employee } from "@/app/actions/employees/employee-action";
 import { createContext, useContext } from "react";
 
-export type EmployeesContextValue = EmployeesSchemaType & {
-  id: string;
-};
-
-const EmployeesContext = createContext<EmployeesContextValue[]>([]);
+const EmployeesContext = createContext<Employee[]>([]);
 
 export function EmployeesProvider({
   employees,
   children,
 }: {
-  employees: EmployeesContextValue[];
+  employees: Employee[];
   children: React.ReactNode;
 }) {
   return (
