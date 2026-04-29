@@ -5,23 +5,26 @@ import {
   updateEmployee,
 } from "@/app/actions/employees/employee-action";
 import { sendNotificationEmail } from "@/app/actions/mail/email-action";
-import FormInput from "@/components/wrapper/form";
 import { useRouter } from "@/i18n/navigation";
-import { cn } from "@/lib/utils";
-import { useAbility } from "@/providers/ability-provider";
 import { useEmployees } from "@/providers/employees-provider";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
+import { Form } from "@/components/ui/form";
+import { useEdit } from "@/providers/edit-provider";
+import { usePathname } from "next/navigation";
+import { useEffect } from "react";
 import EmployeeDataForm from "./employee-data-form";
 import { defaultEmployeeForm, EmployeeForm, employeesSchema } from "./schema";
 import SwitchForm from "./switch-form";
 import VacationForm from "./vacation-form";
 
 export default function EmployeePage({ id }: { id?: string }) {
-  const { isAdmin, isManager } = useAbility();
-  const isDisabled = !isAdmin && !isManager;
+  const pathname = usePathname();
+  const formId = pathname.split("/")[1] || "";
+
+  const { setIsEdit, registerReset } = useEdit();
 
   const router = useRouter();
 
@@ -47,27 +50,28 @@ export default function EmployeePage({ id }: { id?: string }) {
         text: `add new employee:${data.name}-${data.role}-${data.rate}`,
       });
     }
-    form.reset(defaultEmployeeForm);
-    router.back();
+
+    setIsEdit(false);
+    router.replace("/employees");
   };
 
-  const returUrl = "/employees#tab=employees";
+  useEffect(() => {
+    setIsEdit(true);
+    registerReset(form.reset);
+    return () => {
+      setIsEdit(false);
+    };
+  }, []);
 
   return (
-    <FormInput
-      form={form}
-      onSubmit={handleSubmit}
-      className={cn("flex h-[90vh] flex-col md:px-4")}
-      resetButton={id ? false : true}
-      returnButton={true}
-      url={returUrl}
-      disabled={isDisabled}
-    >
-      <div className="mt-4 grid grid-cols-1 md:grid-cols-3 md:gap-8">
-        <EmployeeDataForm />
-        <VacationForm />
-        <SwitchForm />
-      </div>
-    </FormInput>
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(handleSubmit)} id={formId}>
+        <div className="mt-4 grid grid-cols-1 md:grid-cols-3 md:gap-8">
+          <EmployeeDataForm />
+          <VacationForm />
+          <SwitchForm />
+        </div>
+      </form>
+    </Form>
   );
 }

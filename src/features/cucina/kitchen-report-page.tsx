@@ -34,7 +34,7 @@ export default function KitchenReportPage({
   dataProducts: createDataProducts;
 }) {
   const pathname = usePathname();
-  const formId = pathname.split("/").pop() || "";
+  const formId = pathname.split("/")[1] || "";
 
   const { isCucina, isAdmin } = useAbility();
   const isDisabled = !(isAdmin || isCucina);

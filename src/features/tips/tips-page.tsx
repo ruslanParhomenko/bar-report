@@ -26,7 +26,7 @@ export default function TipsPage({
 }) {
   const pathname = usePathname();
 
-  const formId = pathname.split("/").pop() || "";
+  const formId = pathname.split("/")[1] || "";
   const { isAdmin } = useAbility();
 
   const todayDay = new Date().getDate();

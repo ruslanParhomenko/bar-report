@@ -62,8 +62,8 @@ export default function TtnBodyTable({
           const classNameInput = "h-4 w-full text-end text-xs border-0 px-1";
 
           return (
-            <TableRow key={row} className="group">
-              <TableCell className="border-r p-0 text-xs">
+            <TableRow key={row} className="group [&>td]:text-xs">
+              <TableCell className="border-r p-0">
                 <div className="grid w-full grid-cols-2 gap-0.5">
                   <div className="flex flex-col items-end">
                     <span
@@ -105,7 +105,7 @@ export default function TtnBodyTable({
                   {row}
                 </span>
               </TableCell>
-              <TableCell className="border-l p-0 pr-0.5 text-xs">
+              <TableCell className="border-l p-0 pr-0.5">
                 <input
                   {...register(
                     `rowSuppliers.${row}.start` as FieldPath<SuppliersFormType>,

@@ -56,7 +56,7 @@ export default function BarForm({
   currencyUSD: number | null;
 }) {
   const pathname = usePathname();
-  const formId = pathname.split("/").pop() || "";
+  const formId = pathname.split("/")[1] || "";
 
   const [tab] = useHashParam("tab");
 

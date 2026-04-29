@@ -27,7 +27,7 @@ export default function CashPage({
   dataCash: GetCashData | null;
 }) {
   const pathname = usePathname();
-  const formId = pathname.split("/").pop() || "";
+  const formId = pathname.split("/")[1] || "";
 
   const todayDay = new Date().getDate();
   const [selectedDay, setSelectedDay] = useState<number>(todayDay);

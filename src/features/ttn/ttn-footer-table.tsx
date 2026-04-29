@@ -50,7 +50,7 @@ export default function TTNFooterTable({
   return (
     <TableFooter className="bg-background sticky bottom-0 z-12">
       <TableRow>
-        <TableCell className="text-rd h-8 p-0 text-xs">
+        <TableCell className="text-rd p-0 text-xs">
           <div className="grid h-full grid-cols-2 gap-2">
             <div className="flex flex-col items-end">
               <span className="text-rd">{totals.totalMinusSum.toFixed(2)}</span>
@@ -60,7 +60,7 @@ export default function TTNFooterTable({
           </div>
         </TableCell>
         <TableCell />
-        <TableCell className="text-rd h-8 p-0 text-xs">
+        <TableCell className="text-rd p-0 text-xs">
           <div className="flex h-full flex-col items-end">
             <span className="text-rd">
               {totals.totalCreditStartSum.toFixed(2)}
@@ -83,7 +83,7 @@ export default function TTNFooterTable({
           }, 0);
 
           return (
-            <TableCell key={dayIndex} className="h-8 p-0 text-end text-xs">
+            <TableCell key={dayIndex} className="h-9 p-0 text-end text-xs">
               <div className="flex h-full flex-col">
                 <span className="text-rd">
                   {dayTotalMinus ? (

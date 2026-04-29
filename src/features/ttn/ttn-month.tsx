@@ -6,7 +6,6 @@ import {
   updateTTN,
 } from "@/app/actions/ttn/ttn-actions";
 import { Form } from "@/components/ui/form";
-import { useAbility } from "@/providers/ability-provider";
 import { useEdit } from "@/providers/edit-provider";
 import { useMonthDays } from "@/providers/month-days-provider";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -29,11 +28,9 @@ export default function TtnMonth({
   agentTTN: CreateDataTTN["agent"];
 }) {
   const pathname = usePathname();
-  const formId = pathname.split("/").pop() || "";
+  const formId = pathname.split("/")[1] || "";
 
   const { monthDays, month, year } = useMonthDays();
-
-  const { isAdmin } = useAbility();
 
   const todayDay = new Date().getDate();
   const [selectedDay, setSelectedDay] = useState<number>(todayDay);
@@ -98,7 +95,7 @@ export default function TtnMonth({
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} id={formId}>
-        <table className="w-full table-auto caption-bottom text-sm">
+        <table>
           <TtnHeaderTable
             setItemSearch={setItemSearch}
             selectedDay={selectedDay}

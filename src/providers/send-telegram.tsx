@@ -5,6 +5,8 @@ import { createDataOrderProducts } from "@/app/actions/data-constants/data-order
 import FormInput from "@/components/wrapper/form";
 import { useLocalStorageForm } from "@/hooks/use-local-storage";
 import { useSendTelegram } from "@/hooks/use-send-telegram";
+import { useEffect } from "react";
+import { useEdit } from "./edit-provider";
 export const OrderListTelegramForm = ({
   children,
   defaultValues,
@@ -55,6 +57,8 @@ export const OrderListTelegramForm = ({
 
   const { sendTelegramMessage } = useSendTelegram();
 
+  const { registerReset } = useEdit();
+
   const form = useForm<typeof defaultValuesByKey>({
     defaultValues: defaultValuesByKey,
   });
@@ -68,6 +72,9 @@ export const OrderListTelegramForm = ({
       user,
     );
   };
+  useEffect(() => {
+    registerReset(form.reset);
+  }, []);
 
   if (!isLoaded) return null;
 

@@ -26,7 +26,7 @@ const FIELD_CONFIG = [
 
 export default function AlgorithmPage() {
   const pathname = usePathname();
-  const formId = pathname.split("/").pop() || "";
+  const formId = pathname.split("/")[1] || "";
 
   const [tab] = useHashParam("tab");
 

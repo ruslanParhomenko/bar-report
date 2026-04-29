@@ -20,14 +20,14 @@ export default function SelectDay({
     <Select open={open} onOpenChange={setOpen}>
       <SelectTrigger
         className={cn(
-          "bg-background! h-8! w-12 justify-center border-0 text-xs shadow-none [&>svg]:hidden",
+          "bg-background! h-6! w-full justify-center border-0 text-xs shadow-none [&>svg]:hidden",
           className,
         )}
       >
-        <span className="text-rd text-sm">{value}</span>
+        {value}
       </SelectTrigger>
 
-      <SelectContent position="popper" className="p-2">
+      <SelectContent position="popper" className="p-1">
         <div className="grid grid-cols-6 gap-2">
           {Array.from({ length: monthDays.length + 1 }, (_, i) => {
             const day = i;
@@ -43,7 +43,7 @@ export default function SelectDay({
                 type="button"
                 value={String(day)}
                 className={cn(
-                  "h-9 w-9 rounded-md text-sm transition",
+                  "h-6 w-6 rounded-md text-sm transition",
 
                   isSelected
                     ? "bg-primary text-primary-foreground"

@@ -18,7 +18,11 @@ export default function EditButton({
     <button
       type="button"
       onClick={() => setIsEdit(!isEdit)}
-      className={cn(className, "cursor-pointer hover:text-black")}
+      className={cn(
+        className,
+        "cursor-pointer hover:text-black",
+        disabled && "opacity-50",
+      )}
       disabled={disabled}
     >
       {isEdit ? (

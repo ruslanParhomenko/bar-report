@@ -3,7 +3,7 @@ import { deleteUser } from "@/app/actions/users/user-action";
 import ModalConfirm from "@/components/modal/modal-confirm";
 import { useRouter } from "@/i18n/navigation";
 import { useAbility } from "@/providers/ability-provider";
-import { Pencil, Trash2Icon } from "lucide-react";
+import { PenBox, Trash2Icon } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -28,21 +28,21 @@ export default function UsersActions({ id }: { id: string }) {
         setOpen={setOpen}
         handleConfirm={handleConfirm}
       />
-      <div className="flex justify-center gap-4">
+      <div className="flex justify-center gap-8">
         <button
           className="cursor-pointer"
           type="button"
           onClick={() => router.push(`/create-users/${id}`)}
           disabled={!isAdmin}
         >
-          <Pencil className="text-bl h-4 w-4" />
+          <PenBox className="hover:text-rd h-4 w-4" />
         </button>
         <button
           className="cursor-pointer"
           type="button"
           onClick={() => setOpen(true)}
         >
-          <Trash2Icon className="text-rd h-4 w-4" />
+          <Trash2Icon className="hover:text-rd h-4 w-4" />
         </button>
       </div>
     </>

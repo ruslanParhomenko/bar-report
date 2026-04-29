@@ -8,7 +8,7 @@ import { useRouter } from "@/i18n/navigation";
 import { Resolver, SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
-import FormInput from "@/components/wrapper/form";
+import { Form } from "@/components/ui/form";
 import PenaltyTable from "@/features/bar/penalty/penalty-table";
 import {
   defaultRemarkValue,
@@ -16,7 +16,10 @@ import {
   remarksSchema,
 } from "@/features/bar/penalty/schema";
 import { useAbility } from "@/providers/ability-provider";
+import { useEdit } from "@/providers/edit-provider";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { usePathname } from "next/navigation";
+import { useEffect } from "react";
 import z from "zod";
 
 type PenaltyFormData = {
@@ -37,8 +40,13 @@ export default function PenaltyUpdate({
   year: string;
   day: string;
 }) {
+  const pathname = usePathname();
+  const formId = pathname.split("/")[1] || "";
+
   const { isAdmin, isBar, isManager } = useAbility();
   const isDisabled = !isAdmin && !isBar && !isManager;
+
+  const { setIsEdit } = useEdit();
 
   const router = useRouter();
 
@@ -59,20 +67,22 @@ export default function PenaltyUpdate({
     await updateRemarks(dbUniqueKey, day, data.penalty.remarks);
 
     toast.success("Журнал успешно обновлен!");
-    router.back();
+    setIsEdit(false);
+    router.push(`/archive?month=${month}&year=${year}#tab=penalty`);
   };
 
-  const returnUrl = `/archive?month=${month}&year=${year}#tab=penalty`;
+  useEffect(() => {
+    setIsEdit(true);
+    return () => {
+      setIsEdit(false);
+    };
+  }, [setIsEdit]);
 
   return (
-    <FormInput
-      form={form}
-      onSubmit={onSubmit}
-      returnButton={true}
-      url={returnUrl}
-      withButtons={!isDisabled}
-    >
-      <PenaltyTable isDisabled={isDisabled} day={day} />
-    </FormInput>
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} id={formId}>
+        <PenaltyTable isDisabled={isDisabled} day={day} />
+      </form>
+    </Form>
   );
 }

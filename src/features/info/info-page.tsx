@@ -24,7 +24,7 @@ export default function InfoPage({ data }: InfoPageProps) {
   return (
     <>
       <Activity mode={tab === "stopList" ? "visible" : "hidden"}>
-        <StopListForm data={data.stopList || null} />;
+        <StopListForm data={data.stopList || null} />
       </Activity>
       <Activity mode={tab === "daily-menu" ? "visible" : "hidden"}>
         <MenuDaily data={data.menu} />

@@ -21,14 +21,13 @@ export default function PenaltyDetailsFooter({
     return acc + (isNaN(val) ? 0 : val);
   }, 0);
   return (
-    <TableFooter>
-      <TableRow className="bg-background sticky bottom-0 z-40 font-semibold">
+    <TableFooter className="bg-background sticky bottom-0 z-40">
+      <TableRow className="[&>td]:text-rd [&>td]:h-7! [&>td]:text-xs [&>th]:py-0!">
         <TableCell className="text-right" colSpan={5}>
           total
         </TableCell>
         <TableCell className="text-center">{totalBonus}</TableCell>
         <TableCell className="text-center">{totalPenalty}</TableCell>
-        <TableCell colSpan={2}></TableCell>
       </TableRow>
     </TableFooter>
   );

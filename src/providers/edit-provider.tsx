@@ -5,6 +5,8 @@ import { createContext, useContext, useEffect, useState } from "react";
 type EditContextType = {
   isEdit: boolean;
   setIsEdit: (v: boolean) => void;
+  resetFn: (() => void) | null;
+  registerReset: (fn: () => void) => void;
 };
 const EditContext = createContext<EditContextType | null>(null);
 export default function EditProvider({
@@ -14,12 +16,18 @@ export default function EditProvider({
 }) {
   const pathname = usePathname();
   const [isEdit, setIsEdit] = useState(false);
+  const [resetFn, setResetFn] = useState<(() => void) | null>(null);
+
+  const registerReset = (fn: () => void) => {
+    setResetFn(() => fn);
+  };
 
   useEffect(() => {
     setIsEdit(false);
+    setResetFn(null);
   }, [pathname]); // сбрасывает при каждом переходе
   return (
-    <EditContext.Provider value={{ isEdit, setIsEdit }}>
+    <EditContext.Provider value={{ isEdit, setIsEdit, resetFn, registerReset }}>
       {children}
     </EditContext.Provider>
   );

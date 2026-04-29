@@ -3,6 +3,7 @@
 import { saveStopList } from "@/app/actions/stop-list/stop-list-action";
 import { AddRemoveFieldsButton } from "@/components/buttons/action-fields";
 import SelectFieldWithSearch from "@/components/input-controlled/select-with-search";
+import { Form } from "@/components/ui/form";
 import {
   Table,
   TableBody,
@@ -11,7 +12,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import FormInput from "@/components/wrapper/form";
 import { useRealtimeSave } from "@/hooks/use-realtime-save";
 import { useAbility } from "@/providers/ability-provider";
 import { useOrderProducts } from "@/providers/order-products-provider";
@@ -19,7 +19,6 @@ import { formatNowData } from "@/utils/format-date";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
 import { useFieldArray, useForm, useWatch } from "react-hook-form";
-import { toast } from "sonner";
 import {
   defaultStopList,
   defaultStopListSchema,
@@ -55,6 +54,7 @@ export default function StopListForm({
   const form = useForm<StopListSchemaType>({
     resolver: zodResolver(stopListSchema),
     defaultValues: defaultStopListSchema,
+    mode: "onBlur",
   });
   const stopListFieldArray = useFieldArray({
     control: form.control,
@@ -69,7 +69,6 @@ export default function StopListForm({
   useRealtimeSave(watchStopList, isBar, async (stopList) => {
     if (!stopList) return;
     await saveStopList({ stopList });
-    toast.info("сохранение данных…", { duration: 2000 });
   });
 
   // set form data on mount
@@ -92,12 +91,7 @@ export default function StopListForm({
   }, [watchStopList]);
 
   return (
-    <FormInput
-      form={form}
-      className="md:py-4"
-      withButtons={false}
-      onSubmit={() => {}}
-    >
+    <Form {...form}>
       <Table className="table-fixed md:w-200 [&_td]:text-center [&_th]:text-center">
         <TableHeader>
           <TableRow>
@@ -134,6 +128,6 @@ export default function StopListForm({
           ))}
         </TableBody>
       </Table>
-    </FormInput>
+    </Form>
   );
 }

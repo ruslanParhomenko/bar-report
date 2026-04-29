@@ -4,12 +4,8 @@ import { useHashParam } from "@/hooks/use-hash";
 import { useAbility } from "@/providers/ability-provider";
 import { RefContext } from "@/providers/client-ref-provider";
 import { useOrderProducts } from "@/providers/order-products-provider";
-import { OrderListTelegramForm } from "@/providers/send-telegram";
 import { Activity, useContext } from "react";
 import { OrderListTTNBar } from "./order-bar-ttn";
-import { OrderListBar } from "./order-bar-zn";
-import { OrderListTTNCucina } from "./order-cucina-ttn";
-import { OrderListCucina } from "./order-cucina-zn";
 
 const FORM_PROPS = {
   "bar-ttn": {
@@ -47,18 +43,19 @@ export default function OrdersPage() {
 
   const ref = useContext(RefContext);
   return (
-    <OrderListTelegramForm
-      key={tab}
-      user={user}
-      url={url}
-      isDisabled={isDisabled}
-      ref={ref}
-      defaultValues={orderProducts}
-    >
+    // <OrderListTelegramForm
+    //   key={tab}
+    //   user={user}
+    //   url={url}
+    //   isDisabled={isDisabled}
+    //   ref={ref}
+    //   defaultValues={orderProducts}
+    // >
+    <>
       <Activity mode={tab === "bar-ttn" ? "visible" : "hidden"}>
         <OrderListTTNBar data={orderProducts.ttnBar} />
       </Activity>
-      <Activity mode={tab === "bar-zn" ? "visible" : "hidden"}>
+      {/* <Activity mode={tab === "bar-zn" ? "visible" : "hidden"}>
         <OrderListBar data={orderProducts.bar} />
       </Activity>
       <Activity mode={tab === "cucina-ttn" ? "visible" : "hidden"}>
@@ -66,7 +63,8 @@ export default function OrdersPage() {
       </Activity>
       <Activity mode={tab === "cucina-zn" ? "visible" : "hidden"}>
         <OrderListCucina data={orderProducts.cucina} />
-      </Activity>
-    </OrderListTelegramForm>
+      </Activity> */}
+    </>
+    // </OrderListTelegramForm>
   );
 }

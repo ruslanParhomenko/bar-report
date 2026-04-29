@@ -21,7 +21,6 @@ import { FIN_CASH_ITEMS_LIST } from "./constants";
 
 import { createFin, GetFinData } from "@/app/actions/fin-cash/fin-action";
 import { Form } from "@/components/ui/form";
-import { useAbility } from "@/providers/ability-provider";
 import { useEdit } from "@/providers/edit-provider";
 import { handleMultiTableNavigation } from "@/utils/handle-table-navigation";
 import { usePathname } from "next/navigation";
@@ -39,15 +38,12 @@ export default function FinPage({
   year: string;
 }) {
   const pathname = usePathname();
-  const formId = pathname.split("/").pop() || "";
+  const formId = pathname.split("/")[1] || "";
 
   const form = useForm<FinForm>({
     resolver: zodResolver(finCashSchema),
     defaultValues: defaultFinCashForm,
   });
-
-  const { isAdmin } = useAbility();
-  const isDisabled = !isAdmin;
 
   const { isEdit, setIsEdit } = useEdit();
 
@@ -61,6 +57,7 @@ export default function FinPage({
     };
     await createFin(formattedData);
     toast.success("Форма сохранена успешно!");
+    setIsEdit(false);
   };
 
   useEffect(() => {
@@ -138,18 +135,21 @@ export default function FinPage({
     });
   }, [values]);
 
-  const ndsAverage = useMemo(
-    () =>
-      MONTHS.reduce((sum, month) => sum + getRowCalculations(month).nds, 0) /
-      MONTHS.length,
-    [values],
-  );
-  const taxAverage = useMemo(
-    () =>
-      MONTHS.reduce((sum, month) => sum + getRowCalculations(month).tax, 0) /
-      MONTHS.length,
-    [values],
-  );
+  const ndsAverage = useMemo(() => {
+    const values = MONTHS.map((month) => getRowCalculations(month).nds);
+    const nonZero = values.filter((v) => v !== 0);
+    return nonZero.length > 0
+      ? nonZero.reduce((a, b) => a + b, 0) / nonZero.length
+      : 0;
+  }, [values]);
+
+  const taxAverage = useMemo(() => {
+    const vals = MONTHS.map((month) => getRowCalculations(month).tax);
+    const nonZero = vals.filter((v) => v !== 0);
+    return nonZero.length > 0
+      ? nonZero.reduce((a, b) => a + b, 0) / nonZero.length
+      : 0;
+  }, [values]);
 
   return (
     <Form {...form}>
@@ -172,11 +172,10 @@ export default function FinPage({
           <TableBody>
             {MONTHS.map((month, rowIndex) => {
               const { nds, tax } = getRowCalculations(month);
-              const row = values?.[month] ?? [];
 
               return (
-                <TableRow key={month} className="border-0 [&>td]:p-0">
-                  <TableCell className="text-bl bg-background sticky left-0 px-4 text-xs font-bold md:bg-transparent">
+                <TableRow key={month} className="[&>td]:p-0">
+                  <TableCell className="text-bl bg-background sticky left-0 px-4 text-center text-xs font-bold md:bg-transparent">
                     {month}
                   </TableCell>
 

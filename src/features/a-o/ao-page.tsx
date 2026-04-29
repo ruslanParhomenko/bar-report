@@ -26,7 +26,7 @@ export default function AoPage({ dataAo }: { dataAo: AOContextValue | null }) {
   const { monthDays, month, year } = useMonthDays();
 
   const pathname = usePathname();
-  const formId = pathname.split("/").pop() || "";
+  const formId = pathname.split("/")[1] || "";
 
   const todayDay = new Date().getDate();
   const [selectedDay, setSelectedDay] = useState<number>(todayDay);

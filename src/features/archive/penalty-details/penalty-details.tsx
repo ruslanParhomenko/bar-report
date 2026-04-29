@@ -4,7 +4,6 @@ import {
   deleteRemarksDay,
   RemarksDataByUniqueKey,
 } from "@/app/actions/remarks/remarks-action";
-import { Table } from "@/components/ui/table";
 import { useRouter } from "@/i18n/navigation";
 import { useAbility } from "@/providers/ability-provider";
 import { getMonthDays } from "@/utils/get-month-days";
@@ -66,24 +65,22 @@ export default function PenaltyDetails({
   const { monthDays } = getMonthDays({ month: data.month, year: data.year });
 
   return (
-    <div className="flex h-[94vh] flex-col">
-      <Table className="md:table-fixed">
-        <PenaltyDetailsHeader
-          options={employeesList}
-          value={selectedEmployee}
-          setValue={setSelectedEmployee}
-          monthDays={monthDays}
-          selectedDay={selectedDay}
-          setSelectedDay={setSelectedDay}
-        />
-        <PenaltyDetailsBody
-          rows={filteredRows}
-          editRemarks={editRemarks}
-          deleteRemarks={deleteRemarks}
-        />
+    <table className="w-full table-fixed">
+      <PenaltyDetailsHeader
+        options={employeesList}
+        value={selectedEmployee}
+        setValue={setSelectedEmployee}
+        monthDays={monthDays}
+        selectedDay={selectedDay}
+        setSelectedDay={setSelectedDay}
+      />
+      <PenaltyDetailsBody
+        rows={filteredRows}
+        editRemarks={editRemarks}
+        deleteRemarks={deleteRemarks}
+      />
 
-        <PenaltyDetailsFooter data={data} />
-      </Table>
-    </div>
+      <PenaltyDetailsFooter data={data} />
+    </table>
   );
 }

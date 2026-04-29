@@ -15,17 +15,17 @@ export default function TtnHeaderTable({
   return (
     <TableHeader className="bg-background sticky top-0 left-0 z-12">
       <TableRow className="[&>td]:py-0">
-        <TableCell>{month?.toUpperCase() || ""}</TableCell>
+        <TableCell className="text-sm">{month?.toUpperCase() || ""}</TableCell>
 
         <TableCell>
           <input
             type="text"
             placeholder="...search"
             onChange={(e) => setItemSearch(e.target.value)}
-            className="w-20 p-1 outline-none focus:ring-0 focus:outline-none focus-visible:ring-0"
+            className="w-20 p-1 text-xs outline-none focus:ring-0 focus:outline-none focus-visible:ring-0"
           ></input>
         </TableCell>
-        <TableCell className="w-12"></TableCell>
+        <TableCell className="w-16 p-0" />
 
         <MonthDaysCells
           selectedDay={selectedDay}

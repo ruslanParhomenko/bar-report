@@ -33,7 +33,7 @@ export default function SchedulePage({
   schedules: SchedulesContextValue[] | null;
 }) {
   const pathname = usePathname();
-  const formId = pathname.split("/").pop() || "";
+  const formId = pathname.split("/")[1] || "";
 
   const [tab] = useHashParam("tab");
 
