@@ -7,8 +7,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
-import { useTheme } from "next-themes";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { FormControl, FormField, FormItem } from "../ui/form";
 import { Input } from "../ui/input";
@@ -35,16 +34,8 @@ function NumericInput({
   value: externalValue,
   onChange: externalOnChange,
 }: NumericInputProps) {
-  const { theme } = useTheme();
   const { control } = useFormContext();
   const [open, setOpen] = useState(false);
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted) return null;
 
   const renderInput = (value: string, onChange: (val: string) => void) => (
     <FormItem>
@@ -58,7 +49,7 @@ function NumericInput({
               onClick={() => setOpen(true)}
               className={cn(
                 "h-8 cursor-pointer text-center",
-                theme === "dark" ? "bg-transparent!" : "",
+
                 value && "border-0 font-bold shadow-none",
                 Number(value) <= 0 ? "text-rd" : "",
                 className,
@@ -71,10 +62,7 @@ function NumericInput({
         </PopoverTrigger>
 
         <PopoverContent
-          className={cn(
-            "bg-bl grid w-50 grid-cols-3 gap-2 border-none p-2",
-            theme === "dark" ? "bg-black" : "",
-          )}
+          className={cn("bg-bl grid w-50 grid-cols-3 gap-2 border-none p-2")}
         >
           {Array.from({ length: 9 }, (_, i) => i + 1).map((num) => (
             <Button

@@ -105,7 +105,7 @@ export default function NavTabs() {
   return (
     <div
       className={cn(
-        "bg-background sticky top-0 z-100 flex items-center justify-center gap-1 py-1 md:flex-row md:justify-between md:gap-2 md:px-4",
+        "bg-background sticky top-0 z-10 flex items-center justify-center gap-1 py-1 md:flex-row md:justify-between md:gap-2 md:px-4",
         flexType,
       )}
     >

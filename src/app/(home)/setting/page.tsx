@@ -19,12 +19,12 @@ export default async function SettingsPage() {
       getDataTTN(),
     ]);
 
-  const defaultValue = {
+  const data = {
     productsData: JSON.stringify(dataProducts ?? [], null, 2),
     breakListData: JSON.stringify(dataBreakList ?? [], null, 2),
     orderProductsData: JSON.stringify(dataOrderProducts ?? [], null, 2),
     ttnData: JSON.stringify(dataTTN ?? [], null, 2),
   };
 
-  return <SettingPage defaultValue={defaultValue} />;
+  return <SettingPage data={data} />;
 }

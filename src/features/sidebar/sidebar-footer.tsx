@@ -31,11 +31,6 @@ export default function SidebarFooterButtons() {
     setTheme(theme === "dark" ? "light" : "dark");
   };
 
-  const styleIcon = {
-    width: "20px",
-    height: "20px",
-  };
-
   if (!mounted) {
     return null;
   }
@@ -44,15 +39,15 @@ export default function SidebarFooterButtons() {
 
   return (
     <SidebarFooter>
-      <SidebarMenu className="flex w-full flex-row items-center gap-2 pb-2">
+      <SidebarMenu className="flex w-full flex-row items-center gap-3">
         <SidebarMenuButton onClick={() => changeTheme()}>
-          <ThemeIcon style={styleIcon} className="text-bl" />
+          <ThemeIcon size={18} className="text-bl" />
         </SidebarMenuButton>
         <SidebarMenuButton onClick={changeLanguage}>
-          <Globe style={styleIcon} className="text-bl" />
+          <Globe size={18} className="text-bl" />
         </SidebarMenuButton>
         <SidebarMenuButton onClick={() => signOut({ callbackUrl: "/" })}>
-          <LogOut style={styleIcon} className="text-bl" />
+          <LogOut size={18} className="text-bl" />
         </SidebarMenuButton>
       </SidebarMenu>
     </SidebarFooter>

@@ -16,10 +16,7 @@ export default function ResetButton({
     <button
       type="button"
       disabled={disabled}
-      className={cn(
-        className,
-        "flex w-full cursor-pointer items-center justify-center",
-      )}
+      className={cn(className, "cursor-pointer")}
       onClick={() => reset()}
     >
       <RotateCw strokeWidth={1.5} size={size} className="text-rd" />

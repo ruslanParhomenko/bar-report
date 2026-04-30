@@ -10,7 +10,7 @@ export default function PrintButton({
   componentRef,
   className,
   disabled = false,
-  size = 21,
+  size = 18,
 }: {
   componentRef?: React.RefObject<HTMLDivElement | null> | null;
   className?: string;

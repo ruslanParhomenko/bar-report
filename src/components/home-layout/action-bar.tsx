@@ -1,38 +1,38 @@
 "use client";
 
 import { useHashParam } from "@/hooks/use-hash";
-import { useIsMobile } from "@/hooks/use-mobile";
 import { useAbility } from "@/providers/ability-provider";
 import { useEdit } from "@/providers/edit-provider";
-import { FolderPlus, RotateCcw, SaveAllIcon, SendIcon } from "lucide-react";
+import { FolderPlus, SaveAllIcon, SendIcon } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { useTransition, ViewTransition } from "react";
 import EditButton from "../buttons/edit-button";
 import ExitButton from "../buttons/exit-button";
-import MailButton from "../buttons/mail-button";
 import PrintButton from "../buttons/print-button";
+import ResetButton from "../buttons/reset-button";
 import SaveButton from "../buttons/save-button";
+import SendScreenButton from "../buttons/send-screen-button";
 
 const ACTION_ITEM_BY_PATCH = {
   schedule: ["edit", "save", "print", "mail"],
-  employees: ["print", "create", "exit"],
-  algorithm: ["edit", "save", "print", "mail"],
-  bar: ["save-all"],
+  employees: ["print", "create"],
+  algorithm: ["edit", "save", "print"],
+  bar: ["save-all", "print"],
   "report-cucina": ["save-all"],
-  orders: ["send"],
+  orders: ["send", "reset"],
   info: ["print"],
   archive: ["print"],
-  tips: ["edit", "save", "print", "mail"],
-  cash: ["edit", "save", "print", "mail"],
-  "a-o": ["edit", "save", "print", "mail"],
-  ttn: ["edit", "save", "print", "mail"],
+  tips: ["edit", "save", "print"],
+  cash: ["edit", "save", "print"],
+  "a-o": ["edit", "save", "print"],
+  ttn: ["edit", "save", "print"],
   "fin-cash": ["edit", "save", "print"],
   result: ["print"],
-  setting: ["save-all", "print"],
+  setting: ["save-all"],
 
   "penalty-update": ["save", "print", "exit", "mail"],
-  "create-employees": ["save", "print", "exit", "mail", "reset"],
-  "create-users": ["save", "print", "exit", "mail", "reset"],
+  "create-employees": ["save", "print", "exit", "reset"],
+  "create-users": ["save", "print", "exit", "reset"],
 } as const;
 
 const URL_CREATE_BY_TAB = {
@@ -62,12 +62,9 @@ export default function ActionBar() {
   const { isEdit, setIsEdit, resetFn } = useEdit();
   const [tab] = useHashParam("tab");
   const [isPending, startTransition] = useTransition();
-  const isMobile = useIsMobile();
   const router = useRouter();
 
-  const iconCn = isMobile
-    ? ""
-    : "bg-border rounded-md border px-4 py-0.5 cursor-pointer";
+  const iconCn = "bg-border rounded-md border px-3 py-1 cursor-pointer";
   const urlForCreate =
     URL_CREATE_BY_TAB[tab as keyof typeof URL_CREATE_BY_TAB] || pathname;
 
@@ -76,7 +73,7 @@ export default function ActionBar() {
 
   return (
     <ViewTransition>
-      <div className="bg-background z-100 flex items-center justify-center gap-1 py-1.5 md:justify-normal md:gap-6 md:px-4">
+      <div className="bg-background z-10 flex items-center justify-center gap-6 py-1 md:justify-normal md:gap-6 md:px-4">
         {has("edit") && (
           <EditButton
             isEdit={isEdit}
@@ -93,12 +90,14 @@ export default function ActionBar() {
             className={iconCn}
           />
         )}
-        {has("print") && <PrintButton className={iconCn} />}
-        {has("mail") && tab && <MailButton patch={tab} className={iconCn} />}
         {has("save-all") && (
           <button type="submit" className={iconCn} form={formId}>
-            <SaveAllIcon size={20} strokeWidth={1.5} className="text-bl" />
+            <SaveAllIcon size={18} strokeWidth={1.5} className="text-bl" />
           </button>
+        )}
+        {has("print") && <PrintButton className={iconCn} />}
+        {has("mail") && tab && (
+          <SendScreenButton patch={tab} className={iconCn} />
         )}
         {has("create") && (
           <button
@@ -118,13 +117,14 @@ export default function ActionBar() {
         )}
         {has("send") && (
           <button type="submit" form={formId} className={iconCn}>
-            <SendIcon size={20} strokeWidth={1.5} />
+            <SendIcon size={18} strokeWidth={1.5} />
           </button>
         )}
         {has("reset") && (
-          <button type="button" className={iconCn} onClick={() => resetFn?.()}>
-            <RotateCcw size={20} strokeWidth={1.5} />
-          </button>
+          <ResetButton
+            className={iconCn}
+            reset={() => startTransition(() => resetFn?.())}
+          />
         )}
       </div>
     </ViewTransition>

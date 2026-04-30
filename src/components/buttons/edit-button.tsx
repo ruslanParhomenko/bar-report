@@ -6,7 +6,7 @@ export default function EditButton({
   disabled = true,
   isEdit,
   setIsEdit,
-  size = 21,
+  size = 18,
 }: {
   className?: string;
   disabled?: boolean;

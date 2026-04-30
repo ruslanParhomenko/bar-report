@@ -6,7 +6,7 @@ export default function SaveButton({
   className,
   isEdit,
   disabled = true,
-  size = 21,
+  size = 18,
 }: {
   formId: string;
   className?: string;

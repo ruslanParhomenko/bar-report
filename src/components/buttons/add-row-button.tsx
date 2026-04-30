@@ -5,7 +5,7 @@ export default function AddRowButton({
   className,
   isEdit,
   addNewRow,
-  size = 21,
+  size = 18,
 }: {
   className?: string;
   isEdit: boolean;
