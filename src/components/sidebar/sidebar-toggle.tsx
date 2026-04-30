@@ -8,22 +8,31 @@ export function SidebarToggleButton() {
 
   const handlers = useSwipeable({
     onSwipedRight: (eventData) => {
-      if (eventData.initial[0] < 30 && eventData.deltaX > 60) {
+      const screenWidth = window.innerWidth;
+
+      const startX = eventData.initial[0];
+      const deltaX = eventData.deltaX;
+
+      // зона старта: от 30% до 60% экрана
+      const startZoneMin = screenWidth * 0.3;
+      const startZoneMax = screenWidth * 0.6;
+
+      const isFromCenter = startX > startZoneMin && startX < startZoneMax;
+
+      // короткий свайп (не нужно тащить далеко)
+      const isShortSwipe = deltaX > 40 && deltaX < 120;
+
+      if (isFromCenter && isShortSwipe) {
         toggleSidebar();
       }
     },
 
     trackTouch: true,
     trackMouse: false,
-    preventScrollOnSwipe: false, // важно — не ломает скролл
+    preventScrollOnSwipe: false,
   });
 
   if (!isMobile) return null;
 
-  return (
-    <div
-      {...handlers}
-      className="fixed inset-0 z-0" // прозрачный слой
-    />
-  );
+  return <div {...handlers} className="fixed inset-0 z-0" />;
 }
