@@ -1,9 +1,10 @@
 "use client";
 
 import { useHashParam } from "@/hooks/use-hash";
+import { cn } from "@/lib/utils";
 import { useAbility } from "@/providers/ability-provider";
 import { useEdit } from "@/providers/edit-provider";
-import { FolderPlus, SaveAllIcon, SendIcon } from "lucide-react";
+import { FolderPlus, Menu, SaveAllIcon, SendIcon } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { useTransition, ViewTransition } from "react";
 import EditButton from "../buttons/edit-button";
@@ -12,6 +13,7 @@ import PrintButton from "../buttons/print-button";
 import ResetButton from "../buttons/reset-button";
 import SaveButton from "../buttons/save-button";
 import SendScreenButton from "../buttons/send-screen-button";
+import { useSidebar } from "../ui/sidebar";
 
 const ACTION_ITEM_BY_PATCH = {
   schedule: ["edit", "save", "print", "mail"],
@@ -52,6 +54,8 @@ export default function ActionBar() {
   const pathname = usePathname();
   const formId = pathname.split("/")[1] || "";
 
+  const { toggleSidebar, isMobile } = useSidebar();
+
   const actions = (ACTION_ITEM_BY_PATCH[
     formId as keyof typeof ACTION_ITEM_BY_PATCH
   ] ?? []) as readonly string[];
@@ -73,7 +77,7 @@ export default function ActionBar() {
 
   return (
     <ViewTransition>
-      <div className="bg-background z-10 flex items-center justify-center gap-6 py-1 md:justify-normal md:gap-6 md:px-4">
+      <div className="bg-background z-10 flex items-center justify-around gap-6 px-4 py-1 md:justify-normal md:gap-6">
         {has("edit") && (
           <EditButton
             isEdit={isEdit}
@@ -126,6 +130,12 @@ export default function ActionBar() {
             reset={() => startTransition(() => resetFn?.())}
           />
         )}
+        <button
+          className={cn("md:hidden", iconCn)}
+          onClick={() => toggleSidebar()}
+        >
+          <Menu size={18} strokeWidth={1.5} className="text-bl" />
+        </button>
       </div>
     </ViewTransition>
   );

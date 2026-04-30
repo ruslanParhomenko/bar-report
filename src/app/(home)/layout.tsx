@@ -1,6 +1,5 @@
 import ActionBar from "@/components/home-layout/action-bar";
 import NavTabs from "@/components/home-layout/header-bar";
-import { SidebarToggleButton } from "@/components/sidebar/sidebar-toggle";
 import ScreenshotWrapper from "@/components/wrapper/screenshot-wrapper";
 import SidebarNav from "@/features/sidebar/sidebar-nav";
 import HomeDataProviders from "@/providers/home-data-providers";
@@ -15,7 +14,7 @@ export default async function HomeLayout({
   return (
     <HomeDataProviders>
       <HomeUIProviders>
-        <SidebarToggleButton />
+        {/* <SidebarToggleButton /> */}
         <SidebarNav />
         <div className="flex h-screen w-full flex-col px-1">
           <NavTabs />
