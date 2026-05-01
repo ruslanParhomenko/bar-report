@@ -45,7 +45,7 @@ export default function TableTobacco({
             <TableCell>
               <NumericInput
                 fieldName={`report.tobacco.${idx}.stock`}
-                className="w-12 border-0! shadow-none"
+                className="w-12 border-0! bg-transparent! shadow-none"
                 disabled
               />
             </TableCell>

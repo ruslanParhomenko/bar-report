@@ -94,7 +94,11 @@ export default function TtnMonth({
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} id={formId}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        id={formId}
+        className="w-[90vw]"
+      >
         <table>
           <TtnHeaderTable
             setItemSearch={setItemSearch}

@@ -24,7 +24,7 @@ export default function AlgorithmForm({
   };
 
   return (
-    <Table>
+    <Table className="mt-4">
       <TableBody>
         {fields.map((item, idx) => {
           const isLast = idx === fields.length - 1;

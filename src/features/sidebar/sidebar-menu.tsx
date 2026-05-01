@@ -45,7 +45,7 @@ export default function SidebarMenuButtons() {
                 )}
               >
                 <Icon className={isActivePath ? "" : "text-bl"} />
-                <span className={cn("ml-2", isActivePath ? "" : "text-bl")}>
+                <span className={cn("ml-1", isActivePath ? "" : "text-bl")}>
                   {t(item.title)}
                 </span>
               </Link>

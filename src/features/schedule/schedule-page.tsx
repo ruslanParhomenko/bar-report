@@ -140,7 +140,7 @@ export default function SchedulePage({
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} id={formId}>
-        <Table className="table-fixed">
+        <Table className="mt-4 table-fixed">
           <ScheduleTableHeader
             addNewRow={addRow}
             selectedDay={selectedDay}

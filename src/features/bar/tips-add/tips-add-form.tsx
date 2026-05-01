@@ -314,6 +314,16 @@ export default function TipsAddForm({
 
             const timeEnd = tip?.endDate;
 
+            console.log(
+              tip.employeeName,
+              ":",
+              timeEnd,
+              "current:",
+              currentTime,
+              "over:",
+              tip.over,
+            );
+
             const isFinished = timeEnd < currentTime;
 
             const numericValue = tempValues[index] || "";

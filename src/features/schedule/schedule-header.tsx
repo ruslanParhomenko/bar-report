@@ -22,8 +22,8 @@ export default function ScheduleTableHeader({
         <TableCell className="w-6 p-0">
           {isEdit && <AddRowButton isEdit={isEdit} addNewRow={addNewRow} />}
         </TableCell>
-        <TableCell colSpan={5} className="w-36"></TableCell>
-        <TableCell className="w-26 pl-3">
+        <TableCell colSpan={5} className="w-34"></TableCell>
+        <TableCell className="w-25 pl-2">
           {month?.toUpperCase() || ""}
         </TableCell>
 
@@ -32,7 +32,7 @@ export default function ScheduleTableHeader({
           selectedDay={selectedDay}
           setSelectedDay={setSelectedDay}
           orientation="top"
-          className="w-9"
+          className="w-8.5"
         />
 
         <TableCell className="w-4 p-0" />

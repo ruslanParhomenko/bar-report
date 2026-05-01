@@ -77,7 +77,7 @@ export default function ActionBar() {
 
   return (
     <ViewTransition>
-      <div className="bg-background z-10 flex items-center justify-around gap-6 px-4 py-1 md:justify-normal md:gap-6">
+      <div className="bg-background z-10 flex items-center justify-around gap-6 px-8 py-2 md:justify-end md:gap-6">
         {has("edit") && (
           <EditButton
             isEdit={isEdit}

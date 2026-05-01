@@ -51,7 +51,7 @@ export default function TTNFooterTable({
     <TableFooter className="bg-background sticky bottom-0 z-12">
       <TableRow>
         <TableCell className="text-rd p-0 text-xs">
-          <div className="grid h-full grid-cols-2 gap-2">
+          <div className="grid h-full grid-cols-2 gap-0.5 p-0">
             <div className="flex flex-col items-end">
               <span className="text-rd">{totals.totalMinusSum.toFixed(2)}</span>
               <span className="text-bl">{totals.totalPlusSum.toFixed(2)}</span>

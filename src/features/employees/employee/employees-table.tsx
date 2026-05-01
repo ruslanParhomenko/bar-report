@@ -15,14 +15,11 @@ import { formatShortDate } from "@/utils/format-date";
 import { handleCopy } from "@/utils/handler-copy-text";
 import { differenceInMonths } from "date-fns";
 import { CheckCircle, UserX, XCircle } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { EMPLOYEES_ROLE } from "./constants";
 import ActionButtonEmployee from "./employee-actions";
 
 export function EmployeesTable({ data }: { data: Employee[] }) {
-  const router = useRouter();
-
   const [role, setRole] = useState("waiters");
 
   const { isAdmin, isManager } = useAbility();
@@ -30,9 +27,9 @@ export function EmployeesTable({ data }: { data: Employee[] }) {
   const isViewer = isAdmin || isManager;
 
   return (
-    <Table className="md:table-fixed">
-      <TableHeader className="bg-background sticky top-0 z-20">
-        <TableRow className="text-gr h-10">
+    <Table className="md:table-fixed [&>tbody>tr]:text-xs">
+      <TableHeader className="bg-background sticky top-0 z-20 md:bg-transparent">
+        <TableRow className="text-gr">
           <TableHead className="w-5" />
           <TableHead className="w-15" />
           <TableHead className="sticky left-0 md:w-25" />
@@ -78,7 +75,7 @@ export function EmployeesTable({ data }: { data: Employee[] }) {
               <TableRow
                 key={emp.id}
                 className={cn(
-                  "hover:text-bl h-10 cursor-pointer [&>td]:py-1 [&>th]:py-1",
+                  "hover:text-bl cursor-pointer",
                   !emp.employmentDate && "text-rd font-bold",
                 )}
               >
@@ -91,7 +88,7 @@ export function EmployeesTable({ data }: { data: Employee[] }) {
 
                 <TableCell
                   className={cn(
-                    "bg-background sticky left-0 z-10 print:w-30 print:bg-transparent",
+                    "bg-background sticky left-0 z-10 md:bg-transparent print:w-30 print:bg-transparent",
                     emp.status && emp.status === "fired"
                       ? "text-muted-foreground!"
                       : "",
@@ -120,23 +117,23 @@ export function EmployeesTable({ data }: { data: Employee[] }) {
 
                 <TableCell>
                   {emp.status && emp.status === "fired" ? (
-                    <UserX className="text-rd h-4 w-4" />
+                    <UserX size={14} className="text-rd" />
                   ) : (
-                    <CheckCircle className="text-bl h-4 w-4" />
+                    <CheckCircle size={14} className="text-bl" />
                   )}
                 </TableCell>
                 <TableCell className="print:w-10">
                   {emp.employeesWorkForm ? (
-                    <CheckCircle className="text-bl h-4 w-4" />
+                    <CheckCircle size={14} className="text-bl" />
                   ) : (
-                    <XCircle className="text-rd h-4 w-4" />
+                    <XCircle size={14} className="text-rd" />
                   )}
                 </TableCell>
                 <TableCell className="print:w-10">
                   {emp.employeesKey ? (
-                    <CheckCircle className="text-bl h-4 w-4" />
+                    <CheckCircle size={14} className="text-bl" />
                   ) : (
-                    <XCircle className="text-rd h-4 w-4" />
+                    <XCircle size={14} className="text-rd" />
                   )}
                 </TableCell>
                 <TableCell className="print:hidden">

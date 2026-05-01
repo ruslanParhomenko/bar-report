@@ -64,7 +64,7 @@ export default function TtnBodyTable({
           return (
             <TableRow key={row} className="group [&>td]:text-xs">
               <TableCell className="border-r p-0">
-                <div className="grid w-full grid-cols-2 gap-0.5">
+                <div className="grid w-28 grid-cols-2 gap-0.5">
                   <div className="flex flex-col items-end">
                     <span
                       className={cn(
@@ -98,7 +98,7 @@ export default function TtnBodyTable({
               <TableCell className="bg-background sticky left-0 p-0 pl-1 text-start md:bg-transparent">
                 <span
                   className={cn(
-                    "hover-cell truncate font-semibold text-green-600",
+                    "hover-cell w-11 truncate font-semibold text-green-600",
                     isRowByCurrentDay && "text-rd",
                   )}
                 >
@@ -116,14 +116,17 @@ export default function TtnBodyTable({
               </TableCell>
               {monthDays.map((_, dayIndex) => (
                 <TableCell key={dayIndex} className="border-x p-0">
-                  <div className="flex h-8 flex-col">
+                  <div className="flex h-8 w-full flex-col px-1">
                     <input
                       {...register(
                         `rowSuppliers.${row}.minus.${dayIndex}` as FieldPath<SuppliersFormType>,
                       )}
                       data-row={rowIndex * 2}
                       data-col={dayIndex}
-                      className={cn(classNameInput, "text-rd")}
+                      className={cn(
+                        "h-4 w-full border-0 text-center text-xs",
+                        "text-rd",
+                      )}
                       onKeyDown={handleMultiTableNavigation}
                       disabled={disabled}
                     />
@@ -133,7 +136,10 @@ export default function TtnBodyTable({
                       )}
                       data-row={rowIndex * 2 + 1}
                       data-col={dayIndex}
-                      className={cn(classNameInput, "text-bl")}
+                      className={cn(
+                        "h-4 w-full border-0 text-center text-xs",
+                        "text-bl",
+                      )}
                       onKeyDown={handleMultiTableNavigation}
                       disabled={disabled}
                     />

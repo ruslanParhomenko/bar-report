@@ -38,7 +38,7 @@ export default function ActionButtonEmployee({ id }: { id: string }) {
           }}
           disabled={isDisabled}
         >
-          <PenBox className="hover:text-rd h-4 w-4" />
+          <PenBox size={14} className="hover:text-rd" />
         </button>
         <button
           className="cursor-pointer"
@@ -46,7 +46,7 @@ export default function ActionButtonEmployee({ id }: { id: string }) {
           onClick={() => setOpen(true)}
           disabled={isDisabled}
         >
-          <Trash2Icon className="hover:text-rd h-4 w-4" />
+          <Trash2Icon size={14} className="hover:text-rd" />
         </button>
       </div>
     </>
