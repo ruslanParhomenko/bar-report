@@ -31,7 +31,7 @@ export default function OrderCardWrapper({
     <div>
       <div className="flex flex-col items-center justify-center">
         <Label
-          className={`cursor-pointer py-2 font-bold transition-colors ${hasValues ? "text-rd" : "text-bl"}`}
+          className={`cursor-pointer py-1.5 font-bold transition-colors ${hasValues ? "text-rd" : "text-bl"}`}
           onClick={hasValues ? resetCategory : undefined}
         >
           {name}

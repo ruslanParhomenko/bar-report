@@ -63,35 +63,35 @@ export default function TtnBodyTable({
 
           return (
             <TableRow key={row} className="group [&>td]:text-xs">
-              <TableCell className="border-r p-0">
-                <div className="grid w-28 grid-cols-2 gap-0.5">
-                  <div className="flex flex-col items-end">
-                    <span
-                      className={cn(
-                        "text-rd",
-                        minusTotal === 0 && "text-muted-foreground",
-                      )}
-                    >
-                      {minusTotal.toFixed(2)}
-                    </span>
-                    <span
-                      className={cn(
-                        "text-bl",
-                        plusTotal === 0 && "text-muted-foreground",
-                      )}
-                    >
-                      {plusTotal.toFixed(2)}
-                    </span>
-                  </div>
-                  <div className="flex items-center">
-                    <input
-                      {...register(
-                        `rowSuppliers.${row}.final` as FieldPath<SuppliersFormType>,
-                      )}
-                      className={cn(classNameInput, "text-gn hover-cell")}
-                      disabled={disabled}
-                    />
-                  </div>
+              <TableCell className="w-18 border-r p-0 pr-1">
+                <div className="flex flex-col items-end">
+                  <span
+                    className={cn(
+                      "text-rd",
+                      minusTotal === 0 && "text-muted-foreground",
+                    )}
+                  >
+                    {minusTotal.toFixed(2)}
+                  </span>
+                  <span
+                    className={cn(
+                      "text-bl",
+                      plusTotal === 0 && "text-muted-foreground",
+                    )}
+                  >
+                    {plusTotal.toFixed(2)}
+                  </span>
+                </div>
+              </TableCell>
+              <TableCell className="w-18 border-r p-0">
+                <div className="flex items-center">
+                  <input
+                    {...register(
+                      `rowSuppliers.${row}.final` as FieldPath<SuppliersFormType>,
+                    )}
+                    className={cn(classNameInput, "text-gn hover-cell")}
+                    disabled={disabled}
+                  />
                 </div>
               </TableCell>
 
@@ -116,7 +116,7 @@ export default function TtnBodyTable({
               </TableCell>
               {monthDays.map((_, dayIndex) => (
                 <TableCell key={dayIndex} className="border-x p-0">
-                  <div className="flex h-8 w-full flex-col px-1">
+                  <div className="flex h-8 w-full flex-col px-0">
                     <input
                       {...register(
                         `rowSuppliers.${row}.minus.${dayIndex}` as FieldPath<SuppliersFormType>,
@@ -124,7 +124,7 @@ export default function TtnBodyTable({
                       data-row={rowIndex * 2}
                       data-col={dayIndex}
                       className={cn(
-                        "h-4 w-full border-0 text-center text-xs",
+                        "h-4 w-full border-0 px-0 text-center text-xs",
                         "text-rd",
                       )}
                       onKeyDown={handleMultiTableNavigation}

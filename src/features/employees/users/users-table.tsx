@@ -31,7 +31,7 @@ export default function UsersTable({ users }: { users: UserData[] }) {
   };
 
   return (
-    <Table className="mt-4 md:table-fixed">
+    <Table className="mt-4 md:table-fixed [&>tbody>tr]:text-xs">
       <TableBody>
         {localUsers?.map((user, idx) => (
           <TableRow key={user.id}>
@@ -44,12 +44,13 @@ export default function UsersTable({ users }: { users: UserData[] }) {
             <TableCell className="w-40">
               <div className="flex items-center gap-6">
                 {user.status ? (
-                  <CheckCircle className="text-bl h-4 w-4" />
+                  <CheckCircle size={14} className="text-bl" />
                 ) : (
-                  <UserX className="text-rd h-4 w-4" />
+                  <UserX size={14} className="text-rd" />
                 )}
 
                 <Switch
+                  className="h-4 w-8 [&>span]:h-3 [&>span]:w-3"
                   checked={user.status}
                   onCheckedChange={(checked) =>
                     user.id && handleStatusChange(user.id, checked)

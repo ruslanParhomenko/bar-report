@@ -35,14 +35,14 @@ export default function UsersActions({ id }: { id: string }) {
           onClick={() => router.push(`/create-users/${id}`)}
           disabled={!isAdmin}
         >
-          <PenBox className="hover:text-rd h-4 w-4" />
+          <PenBox size={14} className="hover:text-rd" />
         </button>
         <button
           className="cursor-pointer"
           type="button"
           onClick={() => setOpen(true)}
         >
-          <Trash2Icon className="hover:text-rd h-4 w-4" />
+          <Trash2Icon size={14} className="hover:text-rd" />
         </button>
       </div>
     </>

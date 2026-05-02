@@ -7,7 +7,7 @@ export function MenuVip({ data }: { data: Menu | null }) {
   const menuData = data?.vip;
 
   return (
-    <div className="grid grid-cols-1 gap-2 px-2 pt-4 md:grid-cols-3 md:gap-6">
+    <div className="grid grid-cols-1 gap-2 px-2 md:grid-cols-3 md:gap-6">
       {menuData?.map((column: any[], colIndex: number) => (
         <div
           key={colIndex}
@@ -15,7 +15,7 @@ export function MenuVip({ data }: { data: Menu | null }) {
         >
           {column.map((section: any, secIndex: number) => (
             <div key={secIndex}>
-              <h1 className="text-bl flex items-center justify-center py-1 font-bold">
+              <h1 className="text-bl flex items-center justify-center py-0.5 font-bold">
                 <Dot />
                 {t(section.title)}
                 <Dot />

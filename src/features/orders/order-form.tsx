@@ -92,7 +92,7 @@ export const OrderForm = ({
       <form id={formId} onSubmit={form.handleSubmit(onSubmit)}>
         <div className="columns-1 md:columns-3 lg:columns-4 xl:columns-6">
           {allKeys.map((key) => (
-            <div key={key} className="mb-4 break-inside-avoid">
+            <div key={key} className="break-inside-avoid">
               <OrderCardWrapper data={data[key]} name={key} />
             </div>
           ))}

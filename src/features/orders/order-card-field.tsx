@@ -30,7 +30,7 @@ export default function OrderCardField({
       <div className="grid grid-cols-[80%_8%]">
         {item ? (
           <Label
-            className={`text-muted-foreground cursor-pointer pl-1 text-sm ${value ? "text-rd" : ""}`}
+            className={`text-muted-foreground cursor-pointer pl-1 text-xs ${value ? "text-rd text-sm" : ""}`}
             onClick={() => setValue(fieldName, "")}
           >
             {item}
@@ -46,10 +46,7 @@ export default function OrderCardField({
             onClick={() => setValue(fieldName, "")}
           />
         )}
-        <NumericInput
-          fieldName={fieldName}
-          className="h-6.5! w-9! text-center"
-        />
+        <NumericInput fieldName={fieldName} className="h-6! w-9! text-center" />
       </div>
       {!isLast && <Separator className="my-1" />}
     </div>
