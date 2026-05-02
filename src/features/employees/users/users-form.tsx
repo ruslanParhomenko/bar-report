@@ -66,9 +66,6 @@ export default function UsersForm({ id }: { id?: string }) {
   useEffect(() => {
     setIsEdit(true);
     registerReset(form.reset);
-    return () => {
-      setIsEdit(false);
-    };
   }, []);
 
   const returnUrl = "/employees#tab=users";

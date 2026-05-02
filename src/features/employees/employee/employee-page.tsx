@@ -58,9 +58,6 @@ export default function EmployeePage({ id }: { id?: string }) {
   useEffect(() => {
     setIsEdit(true);
     registerReset(form.reset);
-    return () => {
-      setIsEdit(false);
-    };
   }, []);
 
   return (
