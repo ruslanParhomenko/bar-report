@@ -8,6 +8,8 @@ type EditContextType = {
   resetFn: (() => void) | null;
   registerReset: (fn: () => void) => void;
 };
+
+const EDIT_PATHS = new Set(["/create-employees", "/create-users"]);
 const EditContext = createContext<EditContextType | null>(null);
 export default function EditProvider({
   children,
@@ -23,9 +25,17 @@ export default function EditProvider({
   };
 
   useEffect(() => {
-    setIsEdit(false);
+    if (
+      EDIT_PATHS.has(pathname) ||
+      pathname.startsWith("/create-employees/") ||
+      pathname.startsWith("/create-users")
+    ) {
+      setIsEdit(true);
+    } else {
+      setIsEdit(false);
+    }
     setResetFn(null);
-  }, [pathname]); // сбрасывает при каждом переходе
+  }, [pathname]);
   return (
     <EditContext.Provider value={{ isEdit, setIsEdit, resetFn, registerReset }}>
       {children}

@@ -52,12 +52,15 @@ export default function EmployeePage({ id }: { id?: string }) {
     }
 
     setIsEdit(false);
-    router.replace("/employees");
+  };
+
+  const reset = () => {
+    form.reset({});
+    toast.success("Форма сброшена");
   };
 
   useEffect(() => {
-    setIsEdit(true);
-    registerReset(form.reset);
+    registerReset(reset);
   }, []);
 
   return (

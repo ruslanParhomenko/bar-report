@@ -5,6 +5,7 @@ import { EmployeeForm } from "@/features/employees/employee/schema";
 import { dbAdmin } from "@/lib/firebase-admin";
 import { redis } from "@/lib/redis";
 import { unstable_cache, updateTag } from "next/cache";
+import { redirect } from "next/navigation";
 
 export type Employee = EmployeeForm & { id: string };
 
@@ -26,6 +27,7 @@ export async function createEmployee(data: Omit<Employee, "id">) {
   });
   updateTag(EMPLOYEES_ACTION_TAG);
   await redis.del(EMPLOYEES_ACTION_TAG);
+  redirect("/employees");
   return docRef.id;
 }
 
@@ -42,6 +44,7 @@ export async function updateEmployee(id: string, data: Omit<Employee, "id">) {
     });
   updateTag(EMPLOYEES_ACTION_TAG);
   await redis.del(EMPLOYEES_ACTION_TAG);
+  redirect("/employees");
 }
 
 // delete
