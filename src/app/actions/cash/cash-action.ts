@@ -2,7 +2,7 @@
 
 import { CASH_ACTION_TAG } from "@/constants/action-tag";
 import { CashForm } from "@/features/cash/schema";
-import { dbAdmin } from "@/lib/firebase-admin";
+import { getYearMonthCollection, getYearMonthDoc } from "@/lib/firebase-doc";
 import { unstable_cache, updateTag } from "next/cache";
 
 // type
@@ -18,20 +18,16 @@ export type GetCashData = {
   cashData: CashForm;
 };
 
+const actionTag = CASH_ACTION_TAG;
+
 // create
 export async function createCash(data: Omit<CashDataForm, "id">) {
   const { year, month, cashData } = data;
 
-  const docRef = dbAdmin
-    .collection(CASH_ACTION_TAG)
-    .doc(year)
-    .collection("months")
-    .doc(month);
-
+  const docRef = getYearMonthDoc(actionTag, year, month);
   await docRef.set({ cashData });
 
-  updateTag(CASH_ACTION_TAG);
-
+  updateTag(actionTag);
   return docRef.id;
 }
 
@@ -40,11 +36,7 @@ export async function _getCashByYearAndMonth(
   year: string,
   month: string,
 ): Promise<GetCashData | null> {
-  const docRef = dbAdmin
-    .collection(CASH_ACTION_TAG)
-    .doc(year)
-    .collection("months")
-    .doc(month);
+  const docRef = getYearMonthDoc(actionTag, year, month);
 
   const snap = await docRef.get();
 
@@ -56,24 +48,16 @@ export async function _getCashByYearAndMonth(
 // get by year
 
 export async function getCashByYear(year: string) {
-  const colRef = dbAdmin
-    .collection(CASH_ACTION_TAG)
-    .doc(year)
-    .collection("months");
-
+  const colRef = getYearMonthCollection(actionTag, year);
   const snap = await colRef.get();
-
-  return snap.docs.map((doc) => ({
-    id: doc.id,
-    ...doc.data(),
-  }));
+  return snap.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
 }
 
 export const getCashByYearAndMonth = unstable_cache(
   _getCashByYearAndMonth,
-  [CASH_ACTION_TAG],
+  [actionTag],
   {
     revalidate: false,
-    tags: [CASH_ACTION_TAG],
+    tags: [actionTag],
   },
 );

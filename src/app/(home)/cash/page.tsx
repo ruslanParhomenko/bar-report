@@ -1,30 +1,26 @@
-import { getAOByUniqueKey } from "@/app/actions/a-o/ao-action";
+import { getAOByYearAndMonth } from "@/app/actions/a-o/ao-action";
 import { getCashByYearAndMonth } from "@/app/actions/cash/cash-action";
-import { InsufficientRights } from "@/components/wrapper/insufficient-rights";
+import { ProtectedPage } from "@/components/wrapper/protected-page";
 import { CASH_MAIN_ROUTE } from "@/constants/endpoint-tag";
 import CashPage from "@/features/cash/cash-page";
-import { checkAccess } from "@/lib/check-access";
-import { ValueParams } from "@/types/params";
 
 export default async function Page({
   searchParams,
 }: {
   searchParams: Promise<{ [key: string]: string | undefined }>;
 }) {
-  const hasAccess = await checkAccess(CASH_MAIN_ROUTE);
-  if (!hasAccess) return <InsufficientRights />;
-
-  const valueParams = (await searchParams) as ValueParams;
-
-  const { month, year } = valueParams;
+  const { month, year } = await searchParams;
 
   if (!month || !year) return null;
-  const uniqueKey = `${year}-${month}`;
 
   const [dataCash, dataAo] = await Promise.all([
     getCashByYearAndMonth(year, month),
-    getAOByUniqueKey(uniqueKey),
+    getAOByYearAndMonth(year, month),
   ]);
 
-  return <CashPage dataAo={dataAo} dataCash={dataCash} />;
+  return (
+    <ProtectedPage route={CASH_MAIN_ROUTE}>
+      <CashPage dataAo={dataAo} dataCash={dataCash} />
+    </ProtectedPage>
+  );
 }

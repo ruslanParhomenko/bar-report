@@ -1,23 +1,21 @@
-import { getAOByUniqueKey } from "@/app/actions/a-o/ao-action";
-import { InsufficientRights } from "@/components/wrapper/insufficient-rights";
+import { getAOByYearAndMonth } from "@/app/actions/a-o/ao-action";
+import { ProtectedPage } from "@/components/wrapper/protected-page";
 import { AO_REPORT_MAIN_ROUTE } from "@/constants/endpoint-tag";
 import AoPage from "@/features/a-o/ao-page";
-
-import { checkAccess } from "@/lib/check-access";
 
 export default async function Page({
   searchParams,
 }: {
   searchParams: Promise<{ [key: string]: string | undefined }>;
 }) {
-  const hasAccess = await checkAccess(AO_REPORT_MAIN_ROUTE);
-  if (!hasAccess) return <InsufficientRights />;
-
   const { month, year } = await searchParams;
   if (!month || !year) return null;
-  const uniqueKey = `${year}-${month}`;
 
-  const dataAo = await getAOByUniqueKey(uniqueKey);
+  const dataAo = await getAOByYearAndMonth(year, month);
 
-  return <AoPage dataAo={dataAo} />;
+  return (
+    <ProtectedPage route={AO_REPORT_MAIN_ROUTE}>
+      <AoPage dataAo={dataAo} />
+    </ProtectedPage>
+  );
 }

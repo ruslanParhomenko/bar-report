@@ -52,12 +52,12 @@ const URL_EXIT_BY_PATCH = {
 
 export default function ActionBar() {
   const pathname = usePathname();
-  const formId = pathname.split("/")[1] || "";
-
-  const { toggleSidebar, isMobile } = useSidebar();
+  const mainRoute = pathname.split("/")[1] || "";
+  const formId = `${mainRoute}-form`;
+  const { toggleSidebar } = useSidebar();
 
   const actions = (ACTION_ITEM_BY_PATCH[
-    formId as keyof typeof ACTION_ITEM_BY_PATCH
+    mainRoute as keyof typeof ACTION_ITEM_BY_PATCH
   ] ?? []) as readonly string[];
 
   const has = (key: string) => actions.includes(key);
@@ -73,11 +73,11 @@ export default function ActionBar() {
     URL_CREATE_BY_TAB[tab as keyof typeof URL_CREATE_BY_TAB] || pathname;
 
   const urlForExit =
-    URL_EXIT_BY_PATCH[formId as keyof typeof URL_EXIT_BY_PATCH] || pathname;
+    URL_EXIT_BY_PATCH[mainRoute as keyof typeof URL_EXIT_BY_PATCH] || pathname;
 
   return (
     <ViewTransition>
-      <div className="bg-background z-10 flex items-center justify-around gap-6 px-10 pt-1 pb-4 md:justify-end md:gap-6">
+      <div className="bg-background z-10 flex items-center justify-around gap-6 px-10 pt-1 pb-4 md:justify-start md:gap-6">
         {has("edit") && (
           <EditButton
             isEdit={isEdit}

@@ -68,5 +68,8 @@ export function getPrevUniqueKey(year: string, month: Month) {
 
   const prevYear = isJanuary ? yearNum - 1 : yearNum;
 
-  return `${prevYear}-${prevMonth}`;
+  return { prevYear: prevYear.toString(), prevMonth: prevMonth } as {
+    prevYear: string;
+    prevMonth: Month;
+  };
 }

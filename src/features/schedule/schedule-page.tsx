@@ -5,13 +5,12 @@ import {
   SchedulesContextValue,
   updateSchedule,
 } from "@/app/actions/schedule/schedule-action";
-import { Form } from "@/components/ui/form";
 import { Table } from "@/components/ui/table";
+import FormWrapper from "@/components/wrapper/form-wrapper";
 import { useHashParam } from "@/hooks/use-hash";
 import { useEdit } from "@/providers/edit-provider";
 import { useMonthDays } from "@/providers/month-days-provider";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -32,9 +31,6 @@ export default function SchedulePage({
 }: {
   schedules: SchedulesContextValue[] | null;
 }) {
-  const pathname = usePathname();
-  const formId = pathname.split("/")[1] || "";
-
   const [tab] = useHashParam("tab");
 
   const schedule = schedules?.find((s: any) => s.role === tab) ?? null;
@@ -138,31 +134,29 @@ export default function SchedulePage({
   }, [schedule, tab, isEdit]);
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} id={formId}>
-        <Table className="mt-4 table-fixed">
-          <ScheduleTableHeader
-            addNewRow={addRow}
+    <FormWrapper form={form} onSubmit={onSubmit}>
+      <Table className="mt-4 table-fixed">
+        <ScheduleTableHeader
+          addNewRow={addRow}
+          selectedDay={selectedDay}
+          setSelectedDay={setSelectedDay}
+          isEdit={isEdit}
+        />
+        {!isEdit ? (
+          <ScheduleTableBody schedule={schedule} selectedDay={selectedDay} />
+        ) : (
+          <ScheduleCreateTableBody
+            fields={fields}
+            selectedEmployees={selectedEmployees}
             selectedDay={selectedDay}
-            setSelectedDay={setSelectedDay}
-            isEdit={isEdit}
+            remove={remove}
+            move={move}
+            update={update}
           />
-          {!isEdit ? (
-            <ScheduleTableBody schedule={schedule} selectedDay={selectedDay} />
-          ) : (
-            <ScheduleCreateTableBody
-              fields={fields}
-              selectedEmployees={selectedEmployees}
-              selectedDay={selectedDay}
-              remove={remove}
-              move={move}
-              update={update}
-            />
-          )}
+        )}
 
-          <ScheduleTableFooter shiftCounts={shiftCounts} role={tab as string} />
-        </Table>
-      </form>
-    </Form>
+        <ScheduleTableFooter shiftCounts={shiftCounts} role={tab as string} />
+      </Table>
+    </FormWrapper>
   );
 }

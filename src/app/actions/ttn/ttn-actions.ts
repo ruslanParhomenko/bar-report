@@ -1,75 +1,71 @@
 "use server";
 
 import { TTN_ACTION_TAG } from "@/constants/action-tag";
-import { SuppliersFormType } from "@/features/ttn/schema";
-import { dbAdmin } from "@/lib/firebase-admin";
+import { TTNForm } from "@/features/ttn/schema";
+import { getYearMonthCollection, getYearMonthDoc } from "@/lib/firebase-doc";
 import { unstable_cache, updateTag } from "next/cache";
 
-export type TTNGetDataType = SuppliersFormType & {
+// type
+export type TTNDataForm = {
   id: string;
-  unique_key: string;
   year: string;
   month: string;
+  ttnData: TTNForm;
 };
 
-// create
-export async function createTTN(data: Omit<TTNGetDataType, "id">) {
-  const docRef = await dbAdmin.collection(TTN_ACTION_TAG).add({
-    unique_key: data.unique_key,
-    year: data.year,
-    month: data.month,
-    rowSuppliers: data.rowSuppliers,
-  });
-  updateTag(TTN_ACTION_TAG);
+export type GetTTNData = {
+  id: string;
+  ttnData: TTNForm;
+};
 
+const actionTag = TTN_ACTION_TAG;
+
+// create
+export async function createTTN(data: Omit<TTNDataForm, "id">) {
+  const { year, month, ttnData } = data;
+
+  const docRef = getYearMonthDoc(actionTag, year, month);
+  await docRef.set({ ttnData });
+
+  updateTag(actionTag);
   return docRef.id;
 }
 
-// update
-export async function updateTTN(id: string, data: SuppliersFormType) {
-  await dbAdmin.collection(TTN_ACTION_TAG).doc(id).update(data);
-  updateTag(TTN_ACTION_TAG);
+// get by month year
+export async function _getTTNByYearAndMonth(
+  year: string,
+  month: string,
+): Promise<GetTTNData | null> {
+  const docRef = getYearMonthDoc(actionTag, year, month);
+
+  const snap = await docRef.get();
+
+  if (!snap.exists) return null;
+
+  return { id: snap.id, ...snap.data() } as GetTTNData;
 }
 
-// get by id
-export const _getTTNById = async (id: string) => {
-  const doc = await dbAdmin.collection(TTN_ACTION_TAG).doc(id).get();
-  if (!doc.exists) return null;
-
-  return {
-    id: doc.id,
-    ...doc.data(),
-  } as TTNGetDataType;
-};
-
-export const getAOById = unstable_cache(_getTTNById, [TTN_ACTION_TAG], {
-  revalidate: false,
-  tags: [TTN_ACTION_TAG],
-});
-
-// get by filters
-export const _getTTNByUniqueKey = async (unique_key: string) => {
-  const snapshot = await dbAdmin
-    .collection(TTN_ACTION_TAG)
-    .where("unique_key", "==", unique_key)
-    .limit(1)
-    .get();
-
-  if (snapshot.empty) return null;
-
-  const doc = snapshot.docs[0];
-
-  return {
-    id: doc.id,
-    ...doc.data(),
-  } as TTNGetDataType;
-};
-
-export const getTTNByUniqueKey = unstable_cache(
-  _getTTNByUniqueKey,
-  [TTN_ACTION_TAG],
+export const getTTNByYearAndMonth = unstable_cache(
+  _getTTNByYearAndMonth,
+  [actionTag],
   {
     revalidate: false,
-    tags: [TTN_ACTION_TAG],
+    tags: [actionTag],
   },
 );
+
+// get by year
+
+export async function _getTTNByYear(year: string): Promise<GetTTNData[]> {
+  const colRef = getYearMonthCollection(actionTag, year);
+  const snap = await colRef.get();
+  return snap.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  })) as GetTTNData[];
+}
+
+export const getTTNByYear = unstable_cache(_getTTNByYear, [actionTag], {
+  revalidate: false,
+  tags: [actionTag],
+});

@@ -1,4 +1,4 @@
-import UsersForm from "@/features/employees/users/users-form";
+import UsersForm from "@/features/employees/users/create/users-create-page";
 
 export default async function Page({
   params,

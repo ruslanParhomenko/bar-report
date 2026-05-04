@@ -3,12 +3,12 @@ import { createUser, updateUser } from "@/app/actions/users/user-action";
 import SelectField from "@/components/input-controlled/select-field";
 import SwitchInput from "@/components/input-controlled/switch-input";
 import TextInput from "@/components/input-controlled/text-input";
-import { Form } from "@/components/ui/form";
+import FormWrapper from "@/components/wrapper/form-wrapper";
 import { useAbility } from "@/providers/ability-provider";
 import { useEdit } from "@/providers/edit-provider";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -18,10 +18,7 @@ const ROLES = ["ADMIN", "BAR", "CUCINA", "USER", "MNGR", "CASH", "FIN", "SCR"];
 
 type FormData = UsersSchemaTypeData;
 
-export default function UsersForm({ id }: { id?: string }) {
-  const pathname = usePathname();
-  const formId = pathname.split("/")[1] || "";
-
+export default function UsersCreatePage({ id }: { id?: string }) {
   const { setIsEdit, registerReset } = useEdit();
 
   const router = useRouter();
@@ -35,7 +32,7 @@ export default function UsersForm({ id }: { id?: string }) {
     defaultValues: user || defaultUser,
   });
 
-  const handleSubmit: SubmitHandler<FormData> = async (data) => {
+  const onSubmit: SubmitHandler<FormData> = async (data) => {
     try {
       if (id) {
         await updateUser(id, {
@@ -71,30 +68,28 @@ export default function UsersForm({ id }: { id?: string }) {
   const returnUrl = "/employees#tab=users";
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(handleSubmit)} id={formId}>
-        <div className="mt-6 flex flex-col gap-4">
-          <TextInput
-            fieldName="mail"
-            fieldLabel={t("mail")}
-            type="mail"
-            className="h-10 w-full"
-          />
-          <SelectField
-            fieldLabel={t("role")}
-            data={ROLES}
-            fieldName="role"
-            className="h-10 w-full truncate"
-          />
-          <TextInput
-            fieldName="name"
-            fieldLabel={t("name")}
-            type="text"
-            className="h-10 w-full"
-          />
-          <SwitchInput fieldName="status" fieldLabel={t("status")} />
-        </div>
-      </form>
-    </Form>
+    <FormWrapper form={form} onSubmit={onSubmit}>
+      <div className="mt-6 flex flex-col gap-4">
+        <TextInput
+          fieldName="mail"
+          fieldLabel={t("mail")}
+          type="mail"
+          className="h-10 w-full"
+        />
+        <SelectField
+          fieldLabel={t("role")}
+          data={ROLES}
+          fieldName="role"
+          className="h-10 w-full truncate"
+        />
+        <TextInput
+          fieldName="name"
+          fieldLabel={t("name")}
+          type="text"
+          className="h-10 w-full"
+        />
+        <SwitchInput fieldName="status" fieldLabel={t("status")} />
+      </div>
+    </FormWrapper>
   );
 }

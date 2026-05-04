@@ -4,11 +4,10 @@ import {
   createAlgorithmData,
   getAlgorithmData,
 } from "@/app/actions/algorithm/algorithm-actions";
-import { Form } from "@/components/ui/form";
+import FormWrapper from "@/components/wrapper/form-wrapper";
 import { useHashParam } from "@/hooks/use-hash";
 import { useEdit } from "@/providers/edit-provider";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { usePathname } from "next/navigation";
 import { Activity, useEffect } from "react";
 import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -25,9 +24,6 @@ const FIELD_CONFIG = [
 ] as const;
 
 export default function AlgorithmPage() {
-  const pathname = usePathname();
-  const formId = pathname.split("/")[1] || "";
-
   const [tab] = useHashParam("tab");
 
   // state
@@ -60,18 +56,16 @@ export default function AlgorithmPage() {
     load();
   }, [form]);
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} id={formId}>
-        {FIELD_CONFIG.map((name) => (
-          <Activity key={name} mode={tab === name ? "visible" : "hidden"}>
-            <AlgorithmForm
-              fieldForm={fieldArrays[name]}
-              fieldName={name}
-              isEdit={isEdit}
-            />
-          </Activity>
-        ))}
-      </form>
-    </Form>
+    <FormWrapper form={form} onSubmit={onSubmit}>
+      {FIELD_CONFIG.map((name) => (
+        <Activity key={name} mode={tab === name ? "visible" : "hidden"}>
+          <AlgorithmForm
+            fieldForm={fieldArrays[name]}
+            fieldName={name}
+            isEdit={isEdit}
+          />
+        </Activity>
+      ))}
+    </FormWrapper>
   );
 }

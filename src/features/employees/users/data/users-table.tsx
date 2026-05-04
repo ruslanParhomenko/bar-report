@@ -5,7 +5,7 @@ import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { CheckCircle, UserX } from "lucide-react";
 import { useState } from "react";
-import UsersActions from "./users-action";
+import UsersActions from "../create/users-action";
 
 export default function UsersTable({ users }: { users: UserData[] }) {
   const [localUsers, setLocalUsers] = useState(users);

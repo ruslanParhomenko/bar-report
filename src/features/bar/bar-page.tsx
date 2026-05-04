@@ -35,18 +35,17 @@ import { Activity, useEffect } from "react";
 import { BarFormValues, barSchema, defaultValuesBarForm } from "./schema";
 
 import { createTipsAdd } from "@/app/actions/tips-add/tips-add-actions";
-import { Form } from "@/components/ui/form";
+import FormWrapper from "@/components/wrapper/form-wrapper";
 import BreakTable from "@/features/bar/break-form/break-table";
 import PenaltyTable from "@/features/bar/penalty/penalty-table";
 import { useHashParam } from "@/hooks/use-hash";
 import { useRealtimeSave } from "@/hooks/use-realtime-save";
-import { usePathname } from "next/navigation";
 import ReportBarTable from "./report/report-bar-table";
 import TipsAddForm from "./tips-add/tips-add-form";
 
 const BAR_EMPLOYEES = ["waiters", "barmen"];
 
-export default function BarForm({
+export default function BarPage({
   realtimeData,
   dataBreakList,
   currencyUSD,
@@ -55,9 +54,6 @@ export default function BarForm({
   dataBreakList: BreakFormData | null;
   currencyUSD: number | null;
 }) {
-  const pathname = usePathname();
-  const formId = pathname.split("/")[1] || "";
-
   const [tab] = useHashParam("tab");
 
   const { isBar, isAdmin } = useAbility();
@@ -226,28 +222,22 @@ export default function BarForm({
   };
 
   return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit, onError)}
-        className="flex h-full flex-col"
-        id={formId}
-      >
-        <Activity mode={tab === "break" ? "visible" : "hidden"}>
-          <BreakTable isDisabled={isDisabled} employeesName={employeesName} />
-          <PenaltyTable isDisabled={isDisabled} />
-        </Activity>
-        <Activity mode={tab === "report" ? "visible" : "hidden"}>
-          <ReportBarTable isDisabled={isDisabled} />
-        </Activity>
-        <Activity mode={tab === "tips" ? "visible" : "hidden"}>
-          <TipsAddForm
-            tipsArrayByEmployee={tipsArrayByEmployee}
-            options={filteredEmployees}
-            disabled={!isAdmin}
-            currency={currencyUSD?.toFixed(2) ?? "0"}
-          />
-        </Activity>
-      </form>
-    </Form>
+    <FormWrapper form={form} onSubmit={onSubmit} onError={onError}>
+      <Activity mode={tab === "break" ? "visible" : "hidden"}>
+        <BreakTable isDisabled={isDisabled} employeesName={employeesName} />
+        <PenaltyTable isDisabled={isDisabled} />
+      </Activity>
+      <Activity mode={tab === "report" ? "visible" : "hidden"}>
+        <ReportBarTable isDisabled={isDisabled} />
+      </Activity>
+      <Activity mode={tab === "tips" ? "visible" : "hidden"}>
+        <TipsAddForm
+          tipsArrayByEmployee={tipsArrayByEmployee}
+          options={filteredEmployees}
+          disabled={!isAdmin}
+          currency={currencyUSD?.toFixed(2) ?? "0"}
+        />
+      </Activity>
+    </FormWrapper>
   );
 }

@@ -4,7 +4,7 @@ import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { useEmployees } from "@/providers/employees-provider";
 import { RefreshCw } from "lucide-react";
 import { useEffect, useState } from "react";
-import { EMPLOYEES_ROLE } from "./constants";
+import { EMPLOYEES_ROLE } from "../create/constants";
 
 export function VacationTable() {
   const employees = useEmployees();

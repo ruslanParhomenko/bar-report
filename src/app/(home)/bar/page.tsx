@@ -2,14 +2,10 @@ import { getTodayUSDRateBNM } from "@/app/actions/currency/currency-actions";
 import { getDataBreakList } from "@/app/actions/data-constants/data-break-action";
 import { getRealtimeReportBar } from "@/app/actions/report-bar/report-bar-action";
 
-import { InsufficientRights } from "@/components/wrapper/insufficient-rights";
-import BarForm from "@/features/bar/bar-page";
-import { checkAccess } from "@/lib/check-access";
+import { ProtectedPage } from "@/components/wrapper/protected-page";
+import BarPage from "@/features/bar/bar-page";
 
 export default async function Page() {
-  const hasAccess = await checkAccess("bar");
-  if (!hasAccess) return <InsufficientRights />;
-
   const [realtimeData, dataBreakList, currencyUSD] = await Promise.all([
     getRealtimeReportBar(),
     getDataBreakList(),
@@ -17,10 +13,12 @@ export default async function Page() {
   ]);
 
   return (
-    <BarForm
-      realtimeData={realtimeData}
-      dataBreakList={dataBreakList}
-      currencyUSD={currencyUSD ?? 0}
-    />
+    <ProtectedPage route={"bar"}>
+      <BarPage
+        realtimeData={realtimeData}
+        dataBreakList={dataBreakList}
+        currencyUSD={currencyUSD ?? 0}
+      />
+    </ProtectedPage>
   );
 }

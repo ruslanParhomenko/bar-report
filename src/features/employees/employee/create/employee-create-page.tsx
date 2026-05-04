@@ -5,28 +5,21 @@ import {
   updateEmployee,
 } from "@/app/actions/employees/employee-action";
 import { sendNotificationEmail } from "@/app/actions/mail/email-action";
-import { useRouter } from "@/i18n/navigation";
 import { useEmployees } from "@/providers/employees-provider";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
-import { Form } from "@/components/ui/form";
+import FormWrapper from "@/components/wrapper/form-wrapper";
 import { useEdit } from "@/providers/edit-provider";
-import { usePathname } from "next/navigation";
 import { useEffect } from "react";
-import EmployeeDataForm from "./employee-data-form";
+import EmployeeDataForm from "./employee-form";
 import { defaultEmployeeForm, EmployeeForm, employeesSchema } from "./schema";
 import SwitchForm from "./switch-form";
 import VacationForm from "./vacation-form";
 
-export default function EmployeePage({ id }: { id?: string }) {
-  const pathname = usePathname();
-  const formId = pathname.split("/")[1] || "";
-
+export default function EmployeeCreatePage({ id }: { id?: string }) {
   const { setIsEdit, registerReset } = useEdit();
-
-  const router = useRouter();
 
   const employee = id ? useEmployees().find((e) => e.id === id) : undefined;
 
@@ -35,7 +28,7 @@ export default function EmployeePage({ id }: { id?: string }) {
     defaultValues: employee || defaultEmployeeForm,
   });
 
-  const handleSubmit: SubmitHandler<EmployeeForm> = async (data) => {
+  const onSubmit: SubmitHandler<EmployeeForm> = async (data) => {
     if (id) {
       await updateEmployee(id, data);
       toast.success("Employee updated!");
@@ -64,14 +57,12 @@ export default function EmployeePage({ id }: { id?: string }) {
   }, []);
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(handleSubmit)} id={formId}>
-        <div className="mt-4 grid grid-cols-1 md:grid-cols-3 md:gap-8">
-          <EmployeeDataForm />
-          <VacationForm />
-          <SwitchForm />
-        </div>
-      </form>
-    </Form>
+    <FormWrapper form={form} onSubmit={onSubmit}>
+      <div className="mt-4 grid grid-cols-1 md:grid-cols-3 md:gap-8">
+        <EmployeeDataForm />
+        <VacationForm />
+        <SwitchForm />
+      </div>
+    </FormWrapper>
   );
 }

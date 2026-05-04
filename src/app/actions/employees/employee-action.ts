@@ -1,7 +1,7 @@
 "use server";
 
 import { EMPLOYEES_ACTION_TAG } from "@/constants/action-tag";
-import { EmployeeForm } from "@/features/employees/employee/schema";
+import { EmployeeForm } from "@/features/employees/employee/create/schema";
 import { dbAdmin } from "@/lib/firebase-admin";
 import { redis } from "@/lib/redis";
 import { unstable_cache, updateTag } from "next/cache";

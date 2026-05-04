@@ -9,7 +9,11 @@ type EditContextType = {
   registerReset: (fn: () => void) => void;
 };
 
-const EDIT_PATHS = new Set(["/create-employees", "/create-users"]);
+const EDIT_PATHS = new Set([
+  "create-employees",
+  "create-users",
+  "penalty-update",
+]);
 const EditContext = createContext<EditContextType | null>(null);
 export default function EditProvider({
   children,
@@ -17,6 +21,7 @@ export default function EditProvider({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
+  const mainRoute = pathname.split("/")[1] || "";
   const [isEdit, setIsEdit] = useState(false);
   const [resetFn, setResetFn] = useState<(() => void) | null>(null);
 
@@ -25,11 +30,7 @@ export default function EditProvider({
   };
 
   useEffect(() => {
-    if (
-      EDIT_PATHS.has(pathname) ||
-      pathname.startsWith("/create-employees/") ||
-      pathname.startsWith("/create-users")
-    ) {
+    if (EDIT_PATHS.has(mainRoute)) {
       setIsEdit(true);
     } else {
       setIsEdit(false);

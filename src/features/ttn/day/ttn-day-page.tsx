@@ -1,6 +1,6 @@
 "use client";
 
-import { TTNGetDataType } from "@/app/actions/ttn/ttn-actions";
+import { GetTTNData } from "@/app/actions/ttn/ttn-actions";
 import { useEffect, useState } from "react";
 
 import {
@@ -27,7 +27,7 @@ export default function TTNDayPage({
   month,
   year,
 }: {
-  dataTtn: TTNGetDataType | null;
+  dataTtn: GetTTNData | null;
   month: string;
   year: string;
 }) {
@@ -46,17 +46,17 @@ export default function TTNDayPage({
     .toFixed(2);
 
   useEffect(() => {
-    if (!dataTtn?.rowSuppliers) return;
+    if (!dataTtn?.ttnData?.rowSuppliers) return;
 
     const dayIndex = Number(selectedDay) - 1;
 
-    const rows: SupplierDayRow[] = Object.entries(dataTtn.rowSuppliers).map(
-      ([supplier, values]: any) => ({
-        supplier,
-        plus: values.plus?.[dayIndex] ?? "",
-        minus: values.minus?.[dayIndex] ?? "",
-      }),
-    );
+    const rows: SupplierDayRow[] = Object.entries(
+      dataTtn.ttnData.rowSuppliers,
+    ).map(([supplier, values]: any) => ({
+      supplier,
+      plus: values.plus?.[dayIndex] ?? "",
+      minus: values.minus?.[dayIndex] ?? "",
+    }));
 
     setSelectedDayData(rows);
   }, [dataTtn, selectedDay]);

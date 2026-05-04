@@ -2,7 +2,7 @@ import { TableCell, TableFooter, TableRow } from "@/components/ui/table";
 import type { MonthDayType } from "@/utils/get-month-days";
 import { useMemo } from "react";
 import { useFormContext, useWatch } from "react-hook-form";
-import { SuppliersFormType } from "./schema";
+import { TTNForm } from "../schema";
 
 export default function TTNFooterTable({
   arrayRows,
@@ -11,7 +11,7 @@ export default function TTNFooterTable({
   arrayRows: string[];
   monthDays: MonthDayType[];
 }) {
-  const { control } = useFormContext<SuppliersFormType>();
+  const { control } = useFormContext<TTNForm>();
   const value = useWatch({
     control: control,
     name: "rowSuppliers",

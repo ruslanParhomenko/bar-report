@@ -15,4 +15,4 @@ export const suppliersSchema = z.object({
   rowSuppliers: z.record(z.string(), supplierRowSchema),
 });
 
-export type SuppliersFormType = z.infer<typeof suppliersSchema>;
+export type TTNForm = z.infer<typeof suppliersSchema>;

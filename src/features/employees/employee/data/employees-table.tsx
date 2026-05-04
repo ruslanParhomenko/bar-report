@@ -16,8 +16,8 @@ import { handleCopy } from "@/utils/handler-copy-text";
 import { differenceInMonths } from "date-fns";
 import { CheckCircle, UserX, XCircle } from "lucide-react";
 import { useState } from "react";
-import { EMPLOYEES_ROLE } from "./constants";
-import ActionButtonEmployee from "./employee-actions";
+import { EMPLOYEES_ROLE } from "../create/constants";
+import ActionButtonEmployee from "../create/employee-actions";
 
 export function EmployeesTable({ data }: { data: Employee[] }) {
   const [role, setRole] = useState("waiters");

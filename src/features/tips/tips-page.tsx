@@ -1,13 +1,12 @@
 "use client";
 import { createTips, GetTipsData } from "@/app/actions/tips/tips-action";
-import { Form } from "@/components/ui/form";
 import { Table } from "@/components/ui/table";
+import FormWrapper from "@/components/wrapper/form-wrapper";
 import { useAbility } from "@/providers/ability-provider";
 import { useEdit } from "@/providers/edit-provider";
 import { useEmployees } from "@/providers/employees-provider";
 import { useMonthDays } from "@/providers/month-days-provider";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -24,9 +23,6 @@ export default function TipsPage({
 }: {
   dataTips: GetTipsData | null;
 }) {
-  const pathname = usePathname();
-
-  const formId = pathname.split("/")[1] || "";
   const { isAdmin } = useAbility();
 
   const todayDay = new Date().getDate();
@@ -106,30 +102,28 @@ export default function TipsPage({
   }, [dataTips, month, year, form, monthDays.length]);
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} id={formId}>
-        <BidForm disabled={!isAdmin} />
+    <FormWrapper form={form} onSubmit={onSubmit}>
+      <BidForm disabled={!isAdmin} />
 
-        <Table className="table-fixed">
-          <TipsHeaderTable
-            selectedDay={selectedDay}
-            setSelectedDay={setSelectedDay}
-            addNewRow={addNewRow}
-            isEdit={isEdit}
-          />
+      <Table className="table-fixed">
+        <TipsHeaderTable
+          selectedDay={selectedDay}
+          setSelectedDay={setSelectedDay}
+          addNewRow={addNewRow}
+          isEdit={isEdit}
+        />
 
-          <TipsTableBody
-            data={fields}
-            remove={removeRow}
-            selectedEmployees={employees}
-            selectedDay={selectedDay}
-            monthDays={monthDays}
-            isEdit={isEdit}
-          />
+        <TipsTableBody
+          data={fields}
+          remove={removeRow}
+          selectedEmployees={employees}
+          selectedDay={selectedDay}
+          monthDays={monthDays}
+          isEdit={isEdit}
+        />
 
-          <TipsTableFooter isEdit={isEdit} />
-        </Table>
-      </form>
-    </Form>
+        <TipsTableFooter isEdit={isEdit} />
+      </Table>
+    </FormWrapper>
   );
 }

@@ -1,13 +1,12 @@
 "use client";
 
-import { AOContextValue } from "@/app/actions/a-o/ao-action";
+import { GetAoData } from "@/app/actions/a-o/ao-action";
 import { createCash, GetCashData } from "@/app/actions/cash/cash-action";
-import { Form } from "@/components/ui/form";
 import { Table } from "@/components/ui/table";
+import FormWrapper from "@/components/wrapper/form-wrapper";
 import { useEdit } from "@/providers/edit-provider";
 import { useMonthDays } from "@/providers/month-days-provider";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -23,15 +22,14 @@ export default function CashPage({
   dataAo,
   dataCash,
 }: {
-  dataAo: AOContextValue | null;
+  dataAo: GetAoData | null;
   dataCash: GetCashData | null;
 }) {
-  const pathname = usePathname();
-  const formId = pathname.split("/")[1] || "";
-
   const todayDay = new Date().getDate();
+
   const [selectedDay, setSelectedDay] = useState<number>(todayDay);
   const { isEdit, setIsEdit } = useEdit();
+
   const { monthDays, month, year } = useMonthDays();
 
   // form
@@ -77,30 +75,32 @@ export default function CashPage({
     if (dataAo) {
       const sumArray = (arr: string[] = []) =>
         arr.reduce((acc, num) => acc + Number(num || 0), 0);
-      const totalTTNModa = sumArray(dataAo.rowAOData.ttnModaByDay as string[]);
-      const totalTTNBar = sumArray(dataAo.rowAOData.ttnBarByDay as string[]);
+      const totalTTNModa = sumArray(
+        dataAo.aoData.rowAOData.ttnModaByDay as string[],
+      );
+      const totalTTNBar = sumArray(
+        dataAo.aoData.rowAOData.ttnBarByDay as string[],
+      );
       form.setValue("ao_532", (totalTTNModa + totalTTNBar).toFixed(2));
     }
   }, [dataCash, dataAo, month, year]);
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} id={formId}>
-        <Table className="mt-4 table-fixed">
-          <CashHeaderTable
-            selectedDay={selectedDay}
-            setSelectedDay={setSelectedDay}
-          />
+    <FormWrapper form={form} onSubmit={onSubmit}>
+      <Table className="mt-4 table-fixed">
+        <CashHeaderTable
+          selectedDay={selectedDay}
+          setSelectedDay={setSelectedDay}
+        />
 
-          <TipsBodyTable
-            data={rowCashBar}
-            selectedDay={selectedDay}
-            isEdit={isEdit}
-          />
-          <CashFooterTable />
-          <CashInfo isEdit={isEdit} />
-        </Table>
-      </form>
-    </Form>
+        <TipsBodyTable
+          data={rowCashBar}
+          selectedDay={selectedDay}
+          isEdit={isEdit}
+        />
+        <CashFooterTable />
+        <CashInfo isEdit={isEdit} />
+      </Table>
+    </FormWrapper>
   );
 }

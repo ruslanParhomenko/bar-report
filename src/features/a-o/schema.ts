@@ -7,4 +7,4 @@ export const aoSchema = z.object({
   rowAOData: z.record(z.string(), rowAOSchema),
 });
 
-export type AOFormTypeInput = z.infer<typeof aoSchema>;
+export type AoForm = z.infer<typeof aoSchema>;

@@ -9,13 +9,11 @@ import ReportBarTable from "@/features/archive/bar/report-bar";
 import ReportCucinaTable from "@/features/archive/cucina/report-cucina";
 import { useHashParam } from "@/hooks/use-hash";
 import { useAbility } from "@/providers/ability-provider";
-import { Activity } from "react";
 import { BreakListArchive } from "./break/break-list-archive";
 import PenaltyDetails from "./penalty-details/penalty-details";
 import PenaltyGeneral from "./penalty-general/penalty-general";
 import TipsData from "./tips/tips-data";
 
-type TabValue = "bar" | "cucina" | "breakList" | "penalty" | "penaltyResult";
 export type ArchiveData = {
   bar: ReportDataByUniqueKey | null;
   cucina: ReportCucinaDataByUniqueKey | null;
@@ -23,45 +21,49 @@ export type ArchiveData = {
   penalty: RemarksDataByUniqueKey | null;
   tips: TipsAddData[] | null;
 };
+
 export default function ArchivePage({
   archiveData,
 }: {
   archiveData: ArchiveData;
 }) {
   const [tab] = useHashParam("tab");
-
   const { isBar, isCucina } = useAbility();
 
-  return (
-    <>
-      <Activity mode={tab === "bar" && !isCucina ? "visible" : "hidden"}>
-        <ReportBarTable data={archiveData.bar} />
-      </Activity>
+  const TABS = [
+    {
+      key: "bar",
+      visible: !isCucina,
+      render: () => <ReportBarTable data={archiveData.bar} />,
+    },
+    {
+      key: "cucina",
+      visible: !isBar,
+      render: () => <ReportCucinaTable data={archiveData.cucina} />,
+    },
+    {
+      key: "breakList",
+      visible: !isCucina,
+      render: () => <BreakListArchive data={archiveData.breakList} />,
+    },
+    {
+      key: "penalty",
+      visible: !isCucina,
+      render: () => <PenaltyDetails data={archiveData.penalty} />,
+    },
+    {
+      key: "penalty-result",
+      visible: !isCucina && !isBar,
+      render: () => <PenaltyGeneral data={archiveData.penalty} />,
+    },
+    {
+      key: "tips-add",
+      visible: !isCucina && !isBar,
+      render: () => <TipsData data={archiveData.tips} />,
+    },
+  ];
 
-      <Activity mode={tab === "cucina" && !isBar ? "visible" : "hidden"}>
-        <ReportCucinaTable data={archiveData.cucina} />
-      </Activity>
+  const activeTab = TABS.find((t) => t.key === tab && t.visible);
 
-      <Activity mode={tab === "breakList" && !isCucina ? "visible" : "hidden"}>
-        <BreakListArchive data={archiveData.breakList} />
-      </Activity>
-
-      <Activity mode={tab === "penalty" && !isCucina ? "visible" : "hidden"}>
-        <PenaltyDetails data={archiveData.penalty} />
-      </Activity>
-
-      <Activity
-        mode={
-          tab === "penalty-result" && !isCucina && !isBar ? "visible" : "hidden"
-        }
-      >
-        <PenaltyGeneral data={archiveData.penalty} />
-      </Activity>
-      <Activity
-        mode={tab === "tips-add" && !isCucina && !isBar ? "visible" : "hidden"}
-      >
-        <TipsData data={archiveData.tips} />
-      </Activity>
-    </>
-  );
+  return activeTab ? activeTab.render() : null;
 }

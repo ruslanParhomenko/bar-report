@@ -4,8 +4,8 @@ import { cn } from "@/lib/utils";
 import { useMonthDays } from "@/providers/month-days-provider";
 import { handleMultiTableNavigation } from "@/utils/handle-table-navigation";
 import { useEffect, useEffectEvent } from "react";
-import { FieldPath, useFormContext, useWatch } from "react-hook-form";
-import { SuppliersFormType } from "./schema";
+import { useFormContext, useWatch } from "react-hook-form";
+import { TTNForm } from "../schema";
 
 export default function TtnBodyTable({
   arrayRows,
@@ -16,7 +16,7 @@ export default function TtnBodyTable({
   disabled?: boolean;
   normalizedSearch: string;
 }) {
-  const { register, control, setValue } = useFormContext<SuppliersFormType>();
+  const { register, control, setValue } = useFormContext<TTNForm>();
 
   const { monthDays } = useMonthDays();
 
@@ -86,9 +86,7 @@ export default function TtnBodyTable({
               <TableCell className="w-18 border-r p-0">
                 <div className="flex items-center">
                   <input
-                    {...register(
-                      `rowSuppliers.${row}.final` as FieldPath<SuppliersFormType>,
-                    )}
+                    {...register(`rowSuppliers.${row}.final` as const)}
                     className={cn(classNameInput, "text-gn hover-cell")}
                     disabled={disabled}
                   />
@@ -107,9 +105,7 @@ export default function TtnBodyTable({
               </TableCell>
               <TableCell className="border-l p-0 pr-0.5">
                 <input
-                  {...register(
-                    `rowSuppliers.${row}.start` as FieldPath<SuppliersFormType>,
-                  )}
+                  {...register(`rowSuppliers.${row}.start` as const)}
                   className={cn(classNameInput, "hover-cell")}
                   disabled={disabled}
                 />
@@ -119,7 +115,7 @@ export default function TtnBodyTable({
                   <div className="flex h-8 w-full flex-col px-0">
                     <input
                       {...register(
-                        `rowSuppliers.${row}.minus.${dayIndex}` as FieldPath<SuppliersFormType>,
+                        `rowSuppliers.${row}.minus.${dayIndex}` as const,
                       )}
                       data-row={rowIndex * 2}
                       data-col={dayIndex}
@@ -132,7 +128,7 @@ export default function TtnBodyTable({
                     />
                     <input
                       {...register(
-                        `rowSuppliers.${row}.plus.${dayIndex}` as FieldPath<SuppliersFormType>,
+                        `rowSuppliers.${row}.plus.${dayIndex}` as const,
                       )}
                       data-row={rowIndex * 2 + 1}
                       data-col={dayIndex}

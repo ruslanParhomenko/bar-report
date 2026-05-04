@@ -16,13 +16,12 @@ import {
 import { createDataProducts } from "@/app/actions/data-constants/data-products-action";
 import { createReportCucina } from "@/app/actions/report-cucina/report-cucina-action";
 import DatePickerInput from "@/components/input-controlled/date-input";
-import { Form } from "@/components/ui/form";
+import FormWrapper from "@/components/wrapper/form-wrapper";
 import { useLocalStorageForm } from "@/hooks/use-local-storage";
 import { useAbility } from "@/providers/ability-provider";
 import { useEmployees } from "@/providers/employees-provider";
 import { MONTHS } from "@/utils/get-month-days";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { usePathname } from "next/navigation";
 
 const CUCINA_EMPLOYEES = ["cook"];
 
@@ -33,9 +32,6 @@ export default function KitchenReportPage({
 }: {
   dataProducts: createDataProducts;
 }) {
-  const pathname = usePathname();
-  const formId = pathname.split("/")[1] || "";
-
   const { isCucina, isAdmin } = useAbility();
   const isDisabled = !(isAdmin || isCucina);
 
@@ -193,38 +189,37 @@ export default function KitchenReportPage({
   };
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit, onError)} id={formId}>
-        <DatePickerInput fieldName="date" className="text-rd h-6 text-sm" />
-        {tablesConfig.map(
-          ({
-            name,
-            placeHolder,
-            dataFieldArray,
-            defaultValue,
-            dataShifts,
-            dataReasons,
-          }) => (
-            <RenderTableCucina
-              key={name}
-              name={name}
-              form={form}
-              placeHolder={placeHolder}
-              dataShifts={dataShifts}
-              dataReasons={dataReasons}
-              dataFieldArray={dataFieldArray}
-              defaultValue={defaultValue}
-              isDisabled={isDisabled}
-            />
-          ),
-        )}
-        <Textarea
-          placeholder="notes ..."
-          {...form.register("notes")}
-          disabled={isDisabled}
-          className="border-bl/40"
-        />
-      </form>
-    </Form>
+    <FormWrapper form={form} onSubmit={onSubmit} onError={onError}>
+      <DatePickerInput fieldName="date" className="text-rd h-6 text-sm" />
+
+      {tablesConfig.map(
+        ({
+          name,
+          placeHolder,
+          dataFieldArray,
+          defaultValue,
+          dataShifts,
+          dataReasons,
+        }) => (
+          <RenderTableCucina
+            key={name}
+            name={name}
+            form={form}
+            placeHolder={placeHolder}
+            dataShifts={dataShifts}
+            dataReasons={dataReasons}
+            dataFieldArray={dataFieldArray}
+            defaultValue={defaultValue}
+            isDisabled={isDisabled}
+          />
+        ),
+      )}
+      <Textarea
+        placeholder="notes ..."
+        {...form.register("notes")}
+        disabled={isDisabled}
+        className="border-bl/40"
+      />
+    </FormWrapper>
   );
 }

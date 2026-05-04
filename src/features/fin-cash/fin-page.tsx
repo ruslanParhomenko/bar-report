@@ -20,10 +20,9 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { FIN_CASH_ITEMS_LIST } from "./constants";
 
 import { createFin, GetFinData } from "@/app/actions/fin-cash/fin-action";
-import { Form } from "@/components/ui/form";
+import FormWrapper from "@/components/wrapper/form-wrapper";
 import { useEdit } from "@/providers/edit-provider";
 import { handleMultiTableNavigation } from "@/utils/handle-table-navigation";
-import { usePathname } from "next/navigation";
 import { toast } from "sonner";
 
 const VAT_PLUS_KEYS = ["nbm-vat", "bar-vat"];
@@ -37,9 +36,6 @@ export default function FinPage({
   finCashData: GetFinData | null;
   year: string;
 }) {
-  const pathname = usePathname();
-  const formId = pathname.split("/")[1] || "";
-
   const form = useForm<FinForm>({
     resolver: zodResolver(finCashSchema),
     defaultValues: defaultFinCashForm,
@@ -152,105 +148,103 @@ export default function FinPage({
   }, [values]);
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} id={formId}>
-        <Table className="mt-4 md:table-fixed">
-          <TableHeader>
-            <TableRow className="border-0!">
-              <TableHead className="bg-background sticky left-0"></TableHead>
-              {ALL_COLUMNS.map((col) => (
-                <TableHead
-                  key={col}
-                  className="text-bl text-center text-xs font-bold"
-                >
-                  {col}
-                </TableHead>
-              ))}
-            </TableRow>
-          </TableHeader>
+    <FormWrapper form={form} onSubmit={onSubmit}>
+      <Table className="mt-4 md:table-fixed">
+        <TableHeader>
+          <TableRow className="border-0!">
+            <TableHead className="bg-background sticky left-0"></TableHead>
+            {ALL_COLUMNS.map((col) => (
+              <TableHead
+                key={col}
+                className="text-bl text-center text-xs font-bold"
+              >
+                {col}
+              </TableHead>
+            ))}
+          </TableRow>
+        </TableHeader>
 
-          <TableBody>
-            {MONTHS.map((month, rowIndex) => {
-              const { nds, tax } = getRowCalculations(month);
+        <TableBody>
+          {MONTHS.map((month, rowIndex) => {
+            const { nds, tax } = getRowCalculations(month);
 
-              return (
-                <TableRow key={month} className="[&>td]:p-0">
-                  <TableCell className="text-bl bg-background sticky left-0 px-4 text-center text-xs font-bold md:bg-transparent">
-                    {month}
-                  </TableCell>
-
-                  <TableCell className="border-muted-foreground/20 border text-center text-xs font-bold">
-                    {nds.toFixed(2)}
-                  </TableCell>
-                  <TableCell className="border-muted-foreground/20 border text-center text-xs font-bold">
-                    {tax.toFixed(2)}
-                  </TableCell>
-
-                  {FIN_CASH_ITEMS_LIST.map((itemName, colIndex) => (
-                    <TableCell
-                      key={itemName}
-                      className="border-muted-foreground/20 border"
-                    >
-                      <input
-                        {...form.register(
-                          `rowFinCashMonth.${month}[${colIndex}].value`,
-                        )}
-                        className="m-0 h-8 w-full cursor-pointer p-0 text-center text-xs font-bold"
-                        data-row={rowIndex}
-                        data-col={colIndex}
-                        onKeyDown={handleMultiTableNavigation}
-                        disabled={!isEdit}
-                      />
-                    </TableCell>
-                  ))}
-                </TableRow>
-              );
-            })}
-          </TableBody>
-
-          <TableFooter>
-            <TableRow className="text-bl border-0">
-              <TableCell className="bg-background sticky left-0 pl-4! text-xs font-bold">
-                Итого
-              </TableCell>
-              <TableCell className="border-muted-foreground/20 border text-center text-xs font-bold">
-                {ndsTotal.toFixed(2)}
-              </TableCell>
-              <TableCell className="border-muted-foreground/20 border text-center text-xs font-bold">
-                {taxTotal.toFixed(2)}
-              </TableCell>
-              {columnTotals.map((total, index) => (
-                <TableCell
-                  key={index}
-                  className="border text-center text-xs font-bold"
-                >
-                  {total.toFixed(2)}
+            return (
+              <TableRow key={month} className="[&>td]:p-0">
+                <TableCell className="text-bl bg-background sticky left-0 px-4 text-center text-xs font-bold md:bg-transparent">
+                  {month}
                 </TableCell>
-              ))}
-            </TableRow>
 
-            <TableRow className="text-muted-foreground border-0">
-              <TableCell className="bg-background sticky left-0 pl-4! text-xs font-bold">
-                Среднее
-              </TableCell>
-              <TableCell className="border-muted-foreground/20 border text-center text-xs font-bold">
-                {ndsAverage.toFixed(2)}
-              </TableCell>
-              <TableCell className="border-muted-foreground/20 border text-center text-xs font-bold">
-                {taxAverage.toFixed(2)}
-              </TableCell>
-              {columnAverages.map((avg, index) => (
-                <TableCell
-                  key={index}
-                  className="border text-center text-xs font-bold"
-                >
-                  {avg.toFixed(2)}
+                <TableCell className="border-muted-foreground/20 border text-center text-xs font-bold">
+                  {nds.toFixed(2)}
                 </TableCell>
-              ))}
-            </TableRow>
-          </TableFooter>
-        </Table>
-      </form>
-    </Form>
+                <TableCell className="border-muted-foreground/20 border text-center text-xs font-bold">
+                  {tax.toFixed(2)}
+                </TableCell>
+
+                {FIN_CASH_ITEMS_LIST.map((itemName, colIndex) => (
+                  <TableCell
+                    key={itemName}
+                    className="border-muted-foreground/20 border"
+                  >
+                    <input
+                      {...form.register(
+                        `rowFinCashMonth.${month}[${colIndex}].value`,
+                      )}
+                      className="m-0 h-8 w-full cursor-pointer p-0 text-center text-xs font-bold"
+                      data-row={rowIndex}
+                      data-col={colIndex}
+                      onKeyDown={handleMultiTableNavigation}
+                      disabled={!isEdit}
+                    />
+                  </TableCell>
+                ))}
+              </TableRow>
+            );
+          })}
+        </TableBody>
+
+        <TableFooter>
+          <TableRow className="text-bl border-0">
+            <TableCell className="bg-background sticky left-0 pl-4! text-xs font-bold">
+              Итого
+            </TableCell>
+            <TableCell className="border-muted-foreground/20 border text-center text-xs font-bold">
+              {ndsTotal.toFixed(2)}
+            </TableCell>
+            <TableCell className="border-muted-foreground/20 border text-center text-xs font-bold">
+              {taxTotal.toFixed(2)}
+            </TableCell>
+            {columnTotals.map((total, index) => (
+              <TableCell
+                key={index}
+                className="border text-center text-xs font-bold"
+              >
+                {total.toFixed(2)}
+              </TableCell>
+            ))}
+          </TableRow>
+
+          <TableRow className="text-muted-foreground border-0">
+            <TableCell className="bg-background sticky left-0 pl-4! text-xs font-bold">
+              Среднее
+            </TableCell>
+            <TableCell className="border-muted-foreground/20 border text-center text-xs font-bold">
+              {ndsAverage.toFixed(2)}
+            </TableCell>
+            <TableCell className="border-muted-foreground/20 border text-center text-xs font-bold">
+              {taxAverage.toFixed(2)}
+            </TableCell>
+            {columnAverages.map((avg, index) => (
+              <TableCell
+                key={index}
+                className="border text-center text-xs font-bold"
+              >
+                {avg.toFixed(2)}
+              </TableCell>
+            ))}
+          </TableRow>
+        </TableFooter>
+      </Table>
+    </FormWrapper>
   );
 }
