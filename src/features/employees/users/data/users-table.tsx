@@ -3,6 +3,7 @@ import { updateUser, UserData } from "@/app/actions/users/user-action";
 import { Switch } from "@/components/ui/switch";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useAbility } from "@/providers/ability-provider";
 import { CheckCircle, UserX } from "lucide-react";
 import { useState } from "react";
 import UsersActions from "../create/users-action";
@@ -11,6 +12,8 @@ export default function UsersTable({ users }: { users: UserData[] }) {
   const [localUsers, setLocalUsers] = useState(users);
 
   const isMobile = useIsMobile();
+
+  const { isAdmin } = useAbility();
 
   const handleStatusChange = async (id: string, newStatus: boolean) => {
     setLocalUsers((prev) =>
@@ -55,6 +58,7 @@ export default function UsersTable({ users }: { users: UserData[] }) {
                   onCheckedChange={(checked) =>
                     user.id && handleStatusChange(user.id, checked)
                   }
+                  disabled={!isAdmin}
                 />
               </div>
             </TableCell>

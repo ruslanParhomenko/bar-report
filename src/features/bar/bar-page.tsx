@@ -93,7 +93,6 @@ export default function BarPage({
   });
 
   const onSubmit: SubmitHandler<BarFormValues> = async (data) => {
-    console.log(data, "ok");
     if (!isBar) return;
     const { date, report, penalty, breakForm, tipsAdd } = data;
 

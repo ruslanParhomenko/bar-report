@@ -108,6 +108,7 @@ export default function ActionBar() {
             type="button"
             className={iconCn}
             onClick={() => startTransition(() => router.push(urlForCreate))}
+            disabled={isPending || !isAdmin}
           >
             <FolderPlus size={20} strokeWidth={1.5} />
           </button>

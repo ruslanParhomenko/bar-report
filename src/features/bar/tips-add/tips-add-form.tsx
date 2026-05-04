@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/dialog";
 
 import { Switch } from "@/components/ui/switch";
+import { useAbility } from "@/providers/ability-provider";
 import { BarFormValues } from "../schema";
 
 export default function TipsAddForm({
@@ -39,6 +40,8 @@ export default function TipsAddForm({
   currency: string;
 }) {
   const { getValues, setValue } = useFormContext();
+
+  const { isBar } = useAbility();
 
   const currentTime = new Date().getTime();
 
@@ -284,7 +287,7 @@ export default function TipsAddForm({
 
             <Button
               variant="destructive"
-              disabled={isPending}
+              disabled={isPending || !isBar}
               onClick={() => {
                 if (confirmIndex === null) return;
 
@@ -366,7 +369,10 @@ export default function TipsAddForm({
                       })
                     }
                     disabled={
-                      isPending || tip?.isClosed || tip?.role === "waiters"
+                      isPending ||
+                      tip?.isClosed ||
+                      tip?.role === "waiters" ||
+                      !isBar
                     }
                     className="md:mx-2"
                   />
@@ -375,6 +381,7 @@ export default function TipsAddForm({
                     type="button"
                     onClick={() => openConfirmModal(index)}
                     className="cursor-pointer px-2"
+                    disabled={!isBar}
                   >
                     <UserX className="text-rd h-4 w-4" />
                   </button>
@@ -392,6 +399,7 @@ export default function TipsAddForm({
                     }
                     options={TYPE_AMOUNT}
                     className="h-8! w-8 md:w-14"
+                    disabled={isBar}
                   />
 
                   <NumericInput
@@ -401,7 +409,7 @@ export default function TipsAddForm({
                     }
                     className={cn("h-8 w-8 md:w-14", !numericValue && "bg-bl")}
                     onFocus={() => setFocusedIndex(index)}
-                    disabled={isPending || tip?.isClosed}
+                    disabled={isPending || tip?.isClosed || !isBar}
                   />
 
                   <Button
@@ -409,7 +417,11 @@ export default function TipsAddForm({
                     variant="ghost"
                     onClick={() => handleAddAmount(index)}
                     disabled={
-                      !numericValue || !typeAmount || isPending || tip?.isClosed
+                      !numericValue ||
+                      !typeAmount ||
+                      isPending ||
+                      tip?.isClosed ||
+                      !isBar
                     }
                     className={cn(
                       "h-8 w-8 cursor-pointer md:w-10",
