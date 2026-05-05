@@ -66,7 +66,7 @@ export const getStandardKitchenCached = unstable_cache(
   },
   ["standard-kitchen"],
   {
-    revalidate: 60 * 60 * 6,
+    revalidate: 60 * 60,
     tags: ["standard-kitchen"],
   },
 );
@@ -82,7 +82,7 @@ export const getMenuCached = unstable_cache(
   },
   ["menu"],
   {
-    revalidate: 60 * 60 * 6,
+    revalidate: 60 * 60,
     tags: ["menu"],
   },
 );
