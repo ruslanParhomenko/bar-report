@@ -207,7 +207,7 @@ export default function TtnYearPage({
               key={month}
               className={cn(
                 cellCn,
-                "w-30",
+                "h-9 w-30",
                 selectedMonth === month && "bg-muted/40",
               )}
             >

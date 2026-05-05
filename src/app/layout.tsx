@@ -1,13 +1,10 @@
-// next
-import type { Metadata } from "next";
-// intl
+import type { Metadata, Viewport } from "next";
+
 import { getLocale } from "next-intl/server";
-// styles
+
 import { Lora } from "next/font/google";
 import "./globals.css";
 
-// providers
-// ui
 import RootProviders from "@/providers/root-providers";
 import { Toaster } from "sonner";
 
@@ -22,6 +19,23 @@ const lora = Lora({
 export const metadata: Metadata = {
   title: "Bar App",
   description: "Report schedule and orders",
+  applicationName: "Bar App",
+
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "Bar App",
+  },
+
+  manifest: "/manifest.json",
+};
+
+export const viewport: Viewport = {
+  themeColor: "#000000",
+  viewportFit: "cover",
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
 };
 
 export default async function RootLayout({
