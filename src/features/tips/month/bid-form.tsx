@@ -1,5 +1,5 @@
 import { useFormContext } from "react-hook-form";
-import { TipsForm } from "./schema";
+import { TipsForm } from "../schema";
 
 export default function BidForm({ disabled = true }: { disabled: boolean }) {
   const form = useFormContext<TipsForm>();
