@@ -62,7 +62,7 @@ export function PriceListTable({ data }: { data: PriceListType }) {
   const priceList = data.priceList || {};
 
   return (
-    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4 print:grid-cols-4">
       {COLUMN_GROUPS.map((group, groupIndex) => (
         <Table key={groupIndex}>
           {group.map((category) => {
