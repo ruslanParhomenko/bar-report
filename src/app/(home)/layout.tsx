@@ -16,7 +16,7 @@ export default async function HomeLayout({
       <HomeUIProviders>
         {/* <SidebarToggleButton /> */}
         <SidebarNav />
-        <div className="flex h-dvh w-full flex-col px-1 md:h-screen">
+        <div className="flex h-dvh w-full flex-col px-1 pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)] md:h-screen md:pt-0 md:pb-0">
           <NavTabs />
           <ScreenshotWrapper>
             <MonthDaysProvider>{children}</MonthDaysProvider>
