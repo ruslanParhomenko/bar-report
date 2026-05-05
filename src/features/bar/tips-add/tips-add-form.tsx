@@ -107,7 +107,11 @@ export default function TipsAddForm({
 
     if (!value) return;
 
-    const currentAmount = getValues(`tipsAdd.${index}.amount`) || [];
+    // const currentAmount = getValues(`tipsAdd.${index}.amount`) || [];
+
+    // ✅ FIX: берем актуальное из useWatch
+    const tip = tipsValues[index];
+    const currentAmount = tip?.amount || [];
 
     const time = new Date().toLocaleTimeString("ru-RU", {
       hour: "2-digit",
