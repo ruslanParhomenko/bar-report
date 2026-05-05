@@ -56,7 +56,6 @@ export default function KitchenReportPage({
   const { isLoaded } = useLocalStorageForm(form, KEY_LOCALSTORAGE);
 
   const onSubmit: SubmitHandler<ReportCucinaInput> = async (data) => {
-    console.log(data, "ok");
     if (!isCucina) return;
     const parsed = schemaReportCucina.parse(data);
     const { date, ...rest } = parsed;

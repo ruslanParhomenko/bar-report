@@ -2,7 +2,7 @@ import { MonthDaysCells } from "@/components/table/month-days-cells";
 import { TableCell, TableHeader, TableRow } from "@/components/ui/table";
 import { useMonthDays } from "@/providers/month-days-provider";
 
-export default function CashHeaderTable({
+export default function CashMonthHeaderTable({
   selectedDay,
   setSelectedDay,
 }: {

@@ -103,7 +103,7 @@ export default function TtnBodyTable({
                   {row}
                 </span>
               </TableCell>
-              <TableCell className="border-l p-0 pr-0.5">
+              <TableCell className="border-l p-0 pr-0">
                 <input
                   {...register(`rowSuppliers.${row}.start` as const)}
                   className={cn(classNameInput, "hover-cell")}

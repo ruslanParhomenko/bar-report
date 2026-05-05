@@ -2,9 +2,9 @@ import { TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import { useMonthDays } from "@/providers/month-days-provider";
 import { useFormContext } from "react-hook-form";
-import { CashForm } from "./schema";
+import { CashForm } from "../schema";
 
-export function CashFooterTable() {
+export function CashMonthFooterTable() {
   const { monthDays } = useMonthDays();
   const { watch } = useFormContext<CashForm>();
   const value = watch("rowCashData");
@@ -24,9 +24,9 @@ export function CashFooterTable() {
         .reduce((acc, val) => acc + Number(val || 0), 0)
         .toFixed(2)
     : 0;
-
-  const isNegative =
-    Number(totalCashBar) + Number(totalVisaBar) - Number(totalCash) < 0;
+  const difference =
+    Number(totalCashBar) + Number(totalVisaBar) - Number(totalCash);
+  const isNegative = difference < 0;
   return (
     <TableBody>
       <TableRow className="h-6" />
@@ -41,7 +41,7 @@ export function CashFooterTable() {
                 isNegative ? "text-rd" : "text-gn",
               )}
             >
-              {Number(totalCashBar) + Number(totalVisaBar) - Number(totalCash)}
+              {difference.toFixed(2)}
             </div>
           </div>
         </TableCell>

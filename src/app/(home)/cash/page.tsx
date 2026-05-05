@@ -1,5 +1,5 @@
 import { getAOByYearAndMonth } from "@/app/actions/a-o/ao-action";
-import { getCashByYearAndMonth } from "@/app/actions/cash/cash-action";
+import { getCashByYear } from "@/app/actions/cash/cash-action";
 import { ProtectedPage } from "@/components/wrapper/protected-page";
 import { CASH_MAIN_ROUTE } from "@/constants/endpoint-tag";
 import CashPage from "@/features/cash/cash-page";
@@ -13,14 +13,14 @@ export default async function Page({
 
   if (!month || !year) return null;
 
-  const [dataCash, dataAo] = await Promise.all([
-    getCashByYearAndMonth(year, month),
+  const [dataCashYear, dataAo] = await Promise.all([
+    getCashByYear(year),
     getAOByYearAndMonth(year, month),
   ]);
 
   return (
     <ProtectedPage route={CASH_MAIN_ROUTE}>
-      <CashPage dataAo={dataAo} dataCash={dataCash} />
+      <CashPage dataAo={dataAo} dataCashYear={dataCashYear} />
     </ProtectedPage>
   );
 }

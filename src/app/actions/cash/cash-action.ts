@@ -47,10 +47,13 @@ export async function _getCashByYearAndMonth(
 
 // get by year
 
-export async function getCashByYear(year: string) {
+export async function _getCashByYear(year: string): Promise<GetCashData[]> {
   const colRef = getYearMonthCollection(actionTag, year);
   const snap = await colRef.get();
-  return snap.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+  return snap.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  })) as GetCashData[];
 }
 
 export const getCashByYearAndMonth = unstable_cache(
@@ -61,3 +64,8 @@ export const getCashByYearAndMonth = unstable_cache(
     tags: [actionTag],
   },
 );
+
+export const getCashByYear = unstable_cache(_getCashByYear, [actionTag], {
+  revalidate: false,
+  tags: [actionTag],
+});

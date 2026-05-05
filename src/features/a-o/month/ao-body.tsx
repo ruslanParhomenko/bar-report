@@ -1,32 +1,45 @@
+"use client";
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
-import { useFormContext, useWatch } from "react-hook-form";
-
 import { cn } from "@/lib/utils";
-
 import { useMonthDays } from "@/providers/month-days-provider";
 import { handleMultiTableNavigation } from "@/utils/handle-table-navigation";
+import { useFormContext, useWatch } from "react-hook-form";
+import { rowsAdvance, rowsPurchaseModa, rowsPurchaseNMB } from "../constants";
 
-export function TipsBodyTable({
+type RowConfig =
+  | (typeof rowsAdvance)[number]
+  | (typeof rowsPurchaseModa)[number]
+  | (typeof rowsPurchaseNMB)[number];
+
+export default function AoBodyTable({
   data,
   selectedDay,
   isEdit,
+  fieldName,
 }: {
-  data: {
-    key: string;
-    label: string;
-    colorText: string;
-  }[];
+  data: readonly RowConfig[];
   selectedDay: number;
   isEdit: boolean;
+  fieldName: string;
 }) {
   const { control, register } = useFormContext();
 
   const value = useWatch({
     control: control,
-    name: "rowCashData",
+    name: fieldName,
   });
 
   const { monthDays } = useMonthDays();
+
+  const totalByDay = monthDays.map((_, dayIndex) =>
+    data.reduce((acc, row) => {
+      const rowData = value?.[row.key] as unknown as string[] | undefined;
+      if (!rowData) return acc;
+
+      const num = Number(rowData[dayIndex]);
+      return acc + (isNaN(num) ? 0 : num);
+    }, 0),
+  );
 
   return (
     <TableBody>
@@ -34,9 +47,12 @@ export function TipsBodyTable({
       {data.map((row, rowIndex) => {
         const rowValues = value?.[row.key] as unknown as string[] | undefined;
 
-        const total = rowValues
-          ?.reduce((acc, val) => acc + Number(val || 0), 0)
-          .toFixed(2);
+        const total =
+          row.type === "input"
+            ? rowValues
+                ?.reduce((acc, val) => acc + Number(val || 0), 0)
+                .toFixed(2)
+            : undefined;
 
         return (
           <TableRow key={String(row.key)} className="border-b!">
@@ -63,9 +79,11 @@ export function TipsBodyTable({
                     disabled={!isEdit}
                     data-row={rowIndex}
                     data-col={dayIndex}
-                    {...register(`rowCashData.${String(row.key)}.${dayIndex}`)}
+                    {...register(
+                      `${fieldName}.${String(row.key)}.${dayIndex}` as const,
+                    )}
                     className={cn(
-                      "h-7 w-full border-0 text-center text-xs",
+                      "h-7 w-16 border-0 px-0 text-center text-xs md:w-full",
                       row.colorText,
                       isSelected && "text-rd font-bold",
                     )}
@@ -77,6 +95,17 @@ export function TipsBodyTable({
           </TableRow>
         );
       })}
+      <TableRow>
+        <TableCell className="text-center text-xs font-bold">
+          {totalByDay.reduce((a, b) => a + b, 0).toFixed(2)}
+        </TableCell>
+        <TableCell />
+        {totalByDay.map((t, i) => (
+          <TableCell key={i} className="text-center text-xs">
+            {t > 0 ? t.toFixed(0) : ""}
+          </TableCell>
+        ))}
+      </TableRow>
     </TableBody>
   );
 }

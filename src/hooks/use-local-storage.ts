@@ -29,11 +29,6 @@ export function useLocalStorageForm<T extends FieldValues>(
       }
     });
 
-    console.log(
-      "Subscribed to form changes for localStorage with key:",
-      subscription,
-    );
-
     return () => subscription.unsubscribe();
   }, [form, key, isLoaded]);
 

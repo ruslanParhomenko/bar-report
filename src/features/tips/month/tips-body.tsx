@@ -3,8 +3,8 @@ import { TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import { handleMultiTableNavigation } from "@/utils/handle-table-navigation";
 import { FieldArrayWithId, useFormContext, useWatch } from "react-hook-form";
-import { TipsForm } from "./schema";
-import { calculateTipsTotal } from "./utils";
+import { TipsForm } from "../schema";
+import { calculateTipsTotal } from "../utils";
 
 const ROLES: Array<"waiters" | "barmen"> = ["waiters", "barmen"];
 

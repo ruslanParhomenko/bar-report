@@ -82,11 +82,11 @@ export default function TtnYearPage({
   );
 
   return (
-    <table className="w-full text-sm">
+    <table className="w-full text-xs">
       <TableHeader className="bg-background sticky top-0 left-0 z-12">
         <TableRow className="[&>td]:py-0">
-          <TableCell className={cn(cellCn, "w-22 text-center")}>
-            {year?.toUpperCase() || ""}
+          <TableCell className={cn(cellCn, "w-22 text-center font-bold")}>
+            {year || ""}
           </TableCell>
           <TableCell className={cn(cellCn, "w-22")}>
             <input
@@ -96,18 +96,18 @@ export default function TtnYearPage({
               className="w-16 p-1 text-xs outline-none focus:ring-0 focus:outline-none focus-visible:ring-0"
             />
           </TableCell>
-          <TableCell className={cn(cellCn, "w-22")} />
+          <TableCell className={cn(cellCn)} />
           {MONTHS.map((month) => (
             <TableCell
               key={month}
               className={cn(
                 cellCn,
-                "w-30 cursor-pointer",
+                "w-30 cursor-pointer text-center font-bold",
                 selectedMonth === month && "bg-muted/40",
               )}
               onClick={() => setSelectedMonth(month)}
             >
-              {month.slice(0, 3).toUpperCase()}
+              {month.slice(0, 3)}
             </TableCell>
           ))}
         </TableRow>
@@ -116,8 +116,8 @@ export default function TtnYearPage({
       <TableBody>
         {filtered.map(
           ({ agent, agentMonthData, totalMinus, totalPlus, finalBalance }) => (
-            <TableRow key={agent} className="[&>td]:py-0">
-              <TableCell className={cn(cellCn, "w-22")}>
+            <TableRow key={agent} className="group [&>td]:py-0 [&>td]:text-xs">
+              <TableCell className="w-18 border-r px-4">
                 <div className="flex flex-col items-end">
                   <span
                     className={cn(
@@ -151,7 +151,7 @@ export default function TtnYearPage({
                 className={cn(
                   cellCn,
                   finalBalance < 0 ? "text-rd" : "text-bl",
-                  "text-right font-bold",
+                  "w-16 text-right font-bold",
                 )}
               >
                 {finalBalance.toFixed(2)}

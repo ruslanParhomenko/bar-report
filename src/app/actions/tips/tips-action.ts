@@ -3,8 +3,10 @@
 import { TipsForm } from "@/features/tips/schema";
 
 import { TIPS_ACTION_TAG } from "@/constants/action-tag";
-import { dbAdmin } from "@/lib/firebase-admin";
+import { getYearMonthCollection, getYearMonthDoc } from "@/lib/firebase-doc";
 import { unstable_cache, updateTag } from "next/cache";
+
+const actionTag = TIPS_ACTION_TAG;
 
 // type
 export type TipsDataForm = {
@@ -20,15 +22,11 @@ export type GetTipsData = Omit<TipsDataForm, "year" | "month">;
 export async function createTips(data: Omit<TipsDataForm, "id">) {
   const { year, month, tipsData } = data;
 
-  const docRef = dbAdmin
-    .collection(TIPS_ACTION_TAG)
-    .doc(year)
-    .collection("months")
-    .doc(month);
+  const docRef = getYearMonthDoc(actionTag, year, month);
 
   await docRef.set({ tipsData });
 
-  updateTag(TIPS_ACTION_TAG);
+  updateTag(actionTag);
 
   return docRef.id;
 }
@@ -38,11 +36,7 @@ export async function _getTipsByYearAndMonth(
   year: string,
   month: string,
 ): Promise<GetTipsData | null> {
-  const docRef = dbAdmin
-    .collection(TIPS_ACTION_TAG)
-    .doc(year)
-    .collection("months")
-    .doc(month);
+  const docRef = getYearMonthDoc(actionTag, year, month);
 
   const snap = await docRef.get();
 
@@ -50,28 +44,31 @@ export async function _getTipsByYearAndMonth(
 
   return { id: snap.id, ...snap.data() } as GetTipsData;
 }
+export const getTipsByYearAndMonth = unstable_cache(
+  _getTipsByYearAndMonth,
+  [actionTag],
+  {
+    revalidate: false,
+    tags: [actionTag],
+  },
+);
 
 // get by year
 
-export async function getTipsByYear(year: string) {
-  const colRef = dbAdmin
-    .collection(TIPS_ACTION_TAG)
-    .doc(year)
-    .collection("months");
+export async function _getTipsByYear(
+  year: string,
+): Promise<GetTipsData[] | null> {
+  const colRef = getYearMonthCollection(actionTag, year);
 
   const snap = await colRef.get();
 
   return snap.docs.map((doc) => ({
     id: doc.id,
     ...doc.data(),
-  }));
+  })) as GetTipsData[];
 }
 
-export const getTipsByYearAndMonth = unstable_cache(
-  _getTipsByYearAndMonth,
-  [TIPS_ACTION_TAG],
-  {
-    revalidate: false,
-    tags: [TIPS_ACTION_TAG],
-  },
-);
+export const getTipsByYear = unstable_cache(_getTipsByYear, [actionTag], {
+  revalidate: false,
+  tags: [actionTag],
+});

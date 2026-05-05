@@ -48,6 +48,9 @@ export const SETTINGS_NAV_ITEMS = [
 
 export const CASH_NAV_ITEMS = ["cash-month", "cash-year"];
 
+export const TIPS_NAV_ITEMS = ["tips-month", "tips-year"];
+export const AO_NAV_ITEMS = ["ao-month", "ao-year"];
+
 export const ALGORITHM_NAV_ITEMS = [
   "tips",
   "cash",
@@ -74,9 +77,9 @@ export const NAV_BY_PATCH = {
   result: { tabs: RESULT_NAV_ITEMS, selectDate: true },
   ttn: { tabs: TTN_NAV_ITEMS, selectDate: true },
   employees: { tabs: EMPLOYEES_NAV_ITEMS, selectDate: false },
-  tips: { tabs: [], selectDate: true },
+  tips: { tabs: TIPS_NAV_ITEMS, selectDate: true },
   cash: { tabs: CASH_NAV_ITEMS, selectDate: true },
-  "a-o": { tabs: [], selectDate: true },
+  "a-o": { tabs: AO_NAV_ITEMS, selectDate: true },
   "stop-list": { tabs: STOP_LIST_NAV_ITEMS, selectDate: false },
   orders: { tabs: ORDERS_NAV_ITEMS, selectDate: false },
   setting: { tabs: SETTINGS_NAV_ITEMS, selectDate: false },
