@@ -2,6 +2,7 @@
 
 import { createDataBreakList } from "../data-constants/data-break-action";
 import { createDataOrderProducts } from "../data-constants/data-order-products";
+import { createDataPriceList } from "../data-constants/data-price-list";
 import { createDataProducts } from "../data-constants/data-products-action";
 import { createDataTTN } from "../data-constants/data-ttn-action";
 
@@ -58,6 +59,11 @@ export async function saveSettingsData(
 
       case "ttn": {
         await createDataTTN(parsed);
+        break;
+      }
+
+      case "priceList": {
+        await createDataPriceList(parsed);
         break;
       }
 

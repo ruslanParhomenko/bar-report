@@ -20,6 +20,7 @@ export const INFO_NAV_ITEMS = [
   "staffMenu",
   "menuVip",
   "standardKitchen",
+  "price-list",
 ];
 
 export const RESULT_NAV_ITEMS = ["barmen", "waiters", "cucina", "dish"];
@@ -42,6 +43,7 @@ export const SETTINGS_NAV_ITEMS = [
   "break-list",
   "order-products",
   "ttn",
+  "price-list",
 ];
 
 export const CASH_NAV_ITEMS = ["cash-month", "cash-year"];

@@ -1,3 +1,4 @@
+import { getDataPriceList } from "@/app/actions/data-constants/data-price-list";
 import {
   getMenuCached,
   getStandardKitchenCached,
@@ -8,11 +9,13 @@ import { INFO_MAIN_ROUTE } from "@/constants/endpoint-tag";
 import InfoPage from "@/features/info/info-page";
 
 export default async function Page() {
-  const [standardKitchenRes, menuRes, stopListRes] = await Promise.allSettled([
-    getStandardKitchenCached(),
-    getMenuCached(),
-    getStopList(),
-  ]);
+  const [standardKitchenRes, menuRes, stopListRes, priceList] =
+    await Promise.allSettled([
+      getStandardKitchenCached(),
+      getMenuCached(),
+      getStopList(),
+      getDataPriceList(),
+    ]);
 
   return (
     <ProtectedPage route={INFO_MAIN_ROUTE}>
@@ -25,6 +28,7 @@ export default async function Page() {
           menu: menuRes.status === "fulfilled" ? menuRes.value : null,
           stopList:
             stopListRes.status === "fulfilled" ? stopListRes.value : null,
+          priceList: priceList.status === "fulfilled" ? priceList.value : null,
         }}
       />
     </ProtectedPage>

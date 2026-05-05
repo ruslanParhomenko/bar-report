@@ -25,3 +25,4 @@ export const DATA_PRODUCTS_ACTION_TAG = "data-products";
 export const DATA_ORDER_PRODUCTS_ACTION_TAG = "data-order-products";
 export const DATA_BREAK_ACTION_TAG = "data-break";
 export const DATA_TTN_ACTION_TAG = "data-ttn-list";
+export const DATA_PRICE_LIST_ACTION_TAG = "data-price-list";

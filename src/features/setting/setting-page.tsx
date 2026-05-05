@@ -1,8 +1,8 @@
 "use client";
 
 import { saveSettingsData } from "@/app/actions/settings/settings-action";
+import { useFormId } from "@/hooks/use-form-id";
 import { useHashParam } from "@/hooks/use-hash";
-import { usePathname } from "next/navigation";
 import { useActionState, useEffect } from "react";
 import { toast } from "sonner";
 import SettingsJson from "./setting-json-form";
@@ -15,14 +15,14 @@ export default function SettingPage({
     breakListData: string;
     orderProductsData: string;
     ttnData: string;
+    priceListData: string;
   };
 }) {
   const [tab] = useHashParam("tab");
 
   const [state, formAction, isPending] = useActionState(saveSettingsData, {});
 
-  const pathname = usePathname();
-  const formId = pathname.split("/")[1] || "";
+  const formId = useFormId();
 
   useEffect(() => {
     if (state?.success) toast.success("Saved successfully");
@@ -45,6 +45,10 @@ export default function SettingPage({
     ttn: {
       data: data.ttnData,
       type: "ttn",
+    },
+    "price-list": {
+      data: data.priceListData,
+      type: "priceList",
     },
   } as const;
 

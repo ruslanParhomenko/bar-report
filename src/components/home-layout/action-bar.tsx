@@ -1,5 +1,6 @@
 "use client";
 
+import { useFormId } from "@/hooks/use-form-id";
 import { useHashParam } from "@/hooks/use-hash";
 import { cn } from "@/lib/utils";
 import { useAbility } from "@/providers/ability-provider";
@@ -53,7 +54,8 @@ const URL_EXIT_BY_PATCH = {
 export default function ActionBar() {
   const pathname = usePathname();
   const mainRoute = pathname.split("/")[1] || "";
-  const formId = `${mainRoute}-form`;
+
+  const formId = useFormId();
   const { toggleSidebar } = useSidebar();
 
   const actions = (ACTION_ITEM_BY_PATCH[
