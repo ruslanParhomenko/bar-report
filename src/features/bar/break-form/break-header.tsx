@@ -1,4 +1,3 @@
-import DatePickerInput from "@/components/input-controlled/date-input";
 import { TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import { TIME_LABELS } from "./constant";
@@ -10,13 +9,8 @@ export default function BreakTableHeader() {
       <TableRow>
         <TableHead className="w-9" />
 
-        <TableHead className="w-30">
-          <DatePickerInput
-            fieldName="date"
-            className="text-rd h-5! text-sm"
-            // disabled
-          />
-        </TableHead>
+        <TableHead className="w-30" />
+
         <TableHead className="w-6" />
 
         {TIME_LABELS.map((h, i) => {

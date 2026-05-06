@@ -26,8 +26,6 @@ export const metadata: Metadata = {
     statusBarStyle: "black-translucent",
     title: "Bar App",
   },
-
-  manifest: "/manifest.json",
 };
 
 export const viewport: Viewport = {

@@ -25,6 +25,7 @@ import { MONTHS } from "@/utils/get-month-days";
 import { Activity } from "react";
 import { BarForm, barPageDefault, barPageSchema } from "./schema";
 
+import DatePickerInput from "@/components/input-controlled/date-input";
 import FormWrapper from "@/components/wrapper/form-wrapper";
 import BreakTable from "@/features/bar/break-form/break-table";
 import PenaltyTable from "@/features/bar/penalty/penalty-table";
@@ -185,6 +186,11 @@ export default function BarPage({
   if (!isLoaded) return null;
   return (
     <FormWrapper form={form} onSubmit={onSubmit} onError={onError}>
+      <DatePickerInput
+        fieldName="date"
+        className="text-rd h-6 text-sm"
+        disabled
+      />
       <Activity mode={tab === "break" ? "visible" : "hidden"}>
         <BreakTable isDisabled={isDisabled} employeesName={employeesName} />
         <PenaltyTable isDisabled={isDisabled} />
