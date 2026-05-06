@@ -1,11 +1,10 @@
 "use client";
 
-import { ReportCucinaDataByUniqueKey } from "@/app/actions/report-cucina/report-cucina-action";
+import { GetKitchenData } from "@/app/actions/report-kitchen/kitchen-action";
 import { Card, CardContent, CardFooter, CardTitle } from "@/components/ui/card";
 import { useEffect, useState } from "react";
-import { classNameHead } from "../bar/report-bar";
+import { classNameHead } from "../bar/report-bar-archive";
 import PreparedTable from "./prepared-table";
-import RemainsTable from "./remains-table";
 import ShiftsTable from "./shifts-table";
 import StaffTable from "./staff-table";
 import WriteOffTable from "./write-off-table";
@@ -13,10 +12,10 @@ import WriteOffTable from "./write-off-table";
 export const classNameHeadCucina = "text-shadow-muted-foreground font-bold";
 export const classNameRowBorderCucina = "border-b-bl";
 
-export default function ReportCucinaTable({
+export default function ReportKitchenTable({
   data,
 }: {
-  data: ReportCucinaDataByUniqueKey | null;
+  data: GetKitchenData[] | null;
 }) {
   const [opened, setOpened] = useState<number[]>([]);
 
@@ -34,7 +33,7 @@ export default function ReportCucinaTable({
   };
 
   if (!data) return null;
-  const reversed = [...data.data].reverse();
+  const reversed = [...data].reverse();
   return (
     <>
       {reversed.map((item, index) => {
@@ -43,9 +42,16 @@ export default function ReportCucinaTable({
 
         const prepared = [
           ...(reportData?.cutting?.filter((i) => i.product) || []),
+          ...(reportData?.preparedFirst?.filter((i) => i.product) || []),
+          ...(reportData?.preparedGarnish?.filter((i) => i.product) || []),
           ...(reportData?.preparedDesserts?.filter((i) => i.product) || []),
           ...(reportData?.preparedSalads?.filter((i) => i.product) || []),
           ...(reportData?.preparedSeconds?.filter((i) => i.product) || []),
+        ];
+
+        const preparedPersonal = [
+          ...(reportData?.staffFurchet?.filter((i) => i.product) || []),
+          ...(reportData?.staff?.filter((i) => i.product) || []),
         ];
 
         return (
@@ -56,7 +62,7 @@ export default function ReportCucinaTable({
           >
             {/* Показываем только card + day */}
             <CardTitle className="text-bl p-4 text-xs">
-              day: {item.day}
+              day: {item.id}
             </CardTitle>
 
             {isOpen && (
@@ -64,11 +70,10 @@ export default function ReportCucinaTable({
                 <CardContent className="grid grid-cols-1 gap-4 pb-4 xl:grid-cols-4">
                   <div>
                     <ShiftsTable data={reportData?.shifts} />
-                    <RemainsTable data={reportData?.remains} />
                   </div>
                   <WriteOffTable data={reportData?.writeOff} />
                   <PreparedTable data={prepared} />
-                  <StaffTable data={reportData?.staff} />
+                  <StaffTable data={preparedPersonal} />
                 </CardContent>
 
                 <CardFooter>

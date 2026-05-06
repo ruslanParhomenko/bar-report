@@ -16,6 +16,19 @@
     "setting": "настройки",
     "algorithm": "алгоритм"
   },
+  "ReportKitchen": {
+    "shifts": "смены",
+    "preparedFirst": "первое",
+    "preparedSalads": "салаты",
+    "preparedGarnish": "гарниры",
+    "preparedSeconds": "вторые блюда",
+    "preparedDesserts": "десерты",
+    "cutting": "разделка и полуфабрикаты",
+    "staffFurchet": "персонал - фуршет",
+    "staff": "персонал",
+    "writeOff": "списание и перемещение",
+    "notes": "заметки"
+  },
   "Home": {
     "employeesKey": "ключ",
     "employeesWorkForm": "форма",

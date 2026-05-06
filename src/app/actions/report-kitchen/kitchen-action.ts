@@ -1,23 +1,25 @@
 "use server";
-import { REPORT_BAR_ACTION_TAG } from "@/constants/action-tag";
-import { ReportBarForm } from "@/features/bar/report/schema";
+import { REPORT_CUCINA_ACTION_TAG } from "@/constants/action-tag";
+
+import { ReportKitchenForm } from "@/features/cucina/schema";
 import { getYearMonthDoc } from "@/lib/firebase-doc";
 import { unstable_cache, updateTag } from "next/cache";
 
-const actionTag = REPORT_BAR_ACTION_TAG;
-type ReportDataForm = {
+const actionTag = REPORT_CUCINA_ACTION_TAG;
+
+type KitchenDataForm = {
   year: string;
   month: string;
   day: string;
-  report: ReportBarForm;
+  report: Omit<ReportKitchenForm, "date">;
 };
 
-export type GetReportData = {
+export type GetKitchenData = {
   id: string;
-  report: ReportBarForm;
+  report: Omit<ReportKitchenForm, "date">;
 };
 // create
-export async function createReportBar(data: ReportDataForm) {
+export async function createReportKitchen(data: KitchenDataForm) {
   const { year, month, day, report } = data;
   const docRef = getYearMonthDoc(actionTag, year, month);
   const docRefByDay = docRef.collection("days").doc(day);
@@ -29,10 +31,10 @@ export async function createReportBar(data: ReportDataForm) {
 }
 
 // get by month year
-async function _getReportBarByYearMonth(
+async function _getReportKitchenByYearMonth(
   year: string,
   month: string,
-): Promise<GetReportData[] | null> {
+): Promise<GetKitchenData[] | null> {
   const docRef = getYearMonthDoc(actionTag, year, month);
   const daysSnap = await docRef.collection("days").get();
 
@@ -40,14 +42,14 @@ async function _getReportBarByYearMonth(
 
   const reports = daysSnap.docs.map((doc) => ({
     id: doc.id,
-    ...(doc.data() as { report: ReportBarForm }),
+    ...(doc.data() as { report: Omit<ReportKitchenForm, "date"> }),
   }));
 
   return reports;
 }
 
-export const getReportBarByYearMonth = unstable_cache(
-  _getReportBarByYearMonth,
+export const getReportKitchenByYearMonth = unstable_cache(
+  _getReportKitchenByYearMonth,
   [actionTag],
   {
     revalidate: false,

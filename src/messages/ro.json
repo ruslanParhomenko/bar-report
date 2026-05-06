@@ -16,6 +16,19 @@
     "setting": "setări",
     "algorithm": "algoritm"
   },
+  "ReportKitchen": {
+    "shifts": "schimb",
+    "preparedFirst": "primul",
+    "preparedSalads": "salate",
+    "preparedGarnish": "garnituri",
+    "preparedSeconds": "feluri principale",
+    "preparedDesserts": "deserturi",
+    "cutting": "tăiere și p.s",
+    "staffFurchet": "personal - furchet",
+    "staff": "personal",
+    "writeOff": "consum și mișcare",
+    "notes": "note"
+  },
   "Home": {
     "employeesKey": "cheie",
     "employeesWorkForm": "forma",

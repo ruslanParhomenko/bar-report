@@ -1,18 +1,15 @@
 "use client";
 
-import {
-  RemarksData,
-  updateRemarks,
-} from "@/app/actions/remarks/remarks-action";
 import { useRouter } from "@/i18n/navigation";
-import { Resolver, SubmitHandler, useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
+import { createRemarks } from "@/app/actions/remarks/remarks-action";
 import FormWrapper from "@/components/wrapper/form-wrapper";
 import PenaltyTable from "@/features/bar/penalty/penalty-table";
 import {
-  defaultRemarkValue,
-  RemarksFormData,
+  remarkDefault,
+  RemarksForm,
   remarksSchema,
 } from "@/features/bar/penalty/schema";
 import { useAbility } from "@/providers/ability-provider";
@@ -21,7 +18,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import z from "zod";
 
 type PenaltyFormData = {
-  penalty: RemarksFormData;
+  penalty: RemarksForm;
 };
 
 const penaltyFormSchema = z.object({
@@ -33,7 +30,7 @@ export default function PenaltyUpdate({
   year,
   day,
 }: {
-  data: RemarksData;
+  data: any;
   month: string;
   year: string;
   day: string;
@@ -47,19 +44,25 @@ export default function PenaltyUpdate({
 
   const formData = {
     penalty: {
-      remarks: data.remarks.length ? data.remarks : [defaultRemarkValue],
+      remarks: data.remarks.length ? data.remarks : [remarkDefault],
     },
   };
 
   const form = useForm<PenaltyFormData>({
-    resolver: zodResolver(penaltyFormSchema) as Resolver<PenaltyFormData>,
+    resolver: zodResolver(penaltyFormSchema),
     defaultValues: formData,
   });
 
   //submit
   const onSubmit: SubmitHandler<PenaltyFormData> = async (data) => {
-    const dbUniqueKey = `${year}-${month}`;
-    await updateRemarks(dbUniqueKey, day, data.penalty.remarks);
+    console.log("data", data.penalty);
+    const formattedData = {
+      day,
+      month,
+      year,
+      remarks: data.penalty,
+    };
+    await createRemarks(formattedData);
 
     toast.success("Журнал успешно обновлен!");
     setIsEdit(false);

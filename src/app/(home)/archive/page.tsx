@@ -1,7 +1,7 @@
-import { getBreakListByDate } from "@/app/actions/break/break-action";
-import { getRemarksByUniqueKey } from "@/app/actions/remarks/remarks-action";
-import { getReportByUniqueKey } from "@/app/actions/report-bar/report-bar-action";
-import { getReportCucinaByUniqueKey } from "@/app/actions/report-cucina/report-cucina-action";
+import { getBreakListByYearMonth } from "@/app/actions/break/break-action";
+import { getRemarksByYearMonth } from "@/app/actions/remarks/remarks-action";
+import { getReportBarByYearMonth } from "@/app/actions/report-bar/report-bar-action";
+import { getReportKitchenByYearMonth } from "@/app/actions/report-kitchen/kitchen-action";
 import { getTipsAddByUniqueKey } from "@/app/actions/tips-add/tips-add-actions";
 import { InsufficientRights } from "@/components/wrapper/insufficient-rights";
 import { ARCHIVE_MAIN_ROUTE } from "@/constants/endpoint-tag";
@@ -24,10 +24,10 @@ export default async function Page({
 
   const [dataReportBar, dataBreak, dataReportCucina, dataRemarks, tipsAdd] =
     await Promise.all([
-      getReportByUniqueKey(uniqueKey),
-      getBreakListByDate(uniqueKey),
-      getReportCucinaByUniqueKey(uniqueKey),
-      getRemarksByUniqueKey(uniqueKey),
+      getReportBarByYearMonth(year, month),
+      getBreakListByYearMonth(year, month),
+      getReportKitchenByYearMonth(year, month),
+      getRemarksByYearMonth(year, month),
       getTipsAddByUniqueKey(uniqueKey),
     ]);
   return (

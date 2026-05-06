@@ -7,12 +7,12 @@ import { cn } from "@/lib/utils";
 import { useEmployees } from "@/providers/employees-provider";
 import { Plus, Trash2 } from "lucide-react";
 import { useFieldArray, useFormContext } from "react-hook-form";
-import { BarFormValues } from "../schema";
-import { defaultRemarkValue } from "./schema";
+import { BarForm } from "../schema";
+import { remarkDefault } from "./schema";
 
 export function PenaltyTableBody({ isDisabled }: { isDisabled: boolean }) {
   const selectedEmployees = [...new Set(useEmployees().map((e) => e.name))];
-  const { control, setValue } = useFormContext<BarFormValues>();
+  const { control, setValue } = useFormContext<BarForm>();
 
   const {
     fields: dataRemarks,
@@ -78,7 +78,7 @@ export function PenaltyTableBody({ isDisabled }: { isDisabled: boolean }) {
               "cursor-pointer py-0 text-center",
               isDisabled && "hidden",
             )}
-            onClick={() => append(defaultRemarkValue)}
+            onClick={() => append(remarkDefault)}
           >
             <Plus className="text-bl h-4 w-4" />
           </TableCell>
@@ -89,7 +89,7 @@ export function PenaltyTableBody({ isDisabled }: { isDisabled: boolean }) {
             )}
             onClick={() => {
               if (idx === 0 && dataRemarks.length === 1) {
-                setValue(`penalty.remarks.${idx}`, defaultRemarkValue);
+                setValue(`penalty.remarks.${idx}`, remarkDefault);
               } else {
                 remove(idx);
               }

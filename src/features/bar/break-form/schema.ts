@@ -12,13 +12,13 @@ export const rowsSchema = z.object({
   hours: hoursSchema,
 });
 
-export type Row = z.infer<typeof rowsSchema>;
+type Row = z.infer<typeof rowsSchema>;
 
 export const breakSchema = z.object({
   rows: z.array(rowsSchema),
 });
-export type BreakFormData = z.infer<typeof breakSchema>;
+export type BreakForm = z.infer<typeof breakSchema>;
 
-export const defaultValuesBreak = (data: Row[]): BreakFormData => ({
-  rows: data as BreakFormData["rows"],
+export const breakListDefault = (data: Row[]): BreakForm => ({
+  rows: data as BreakForm["rows"],
 });

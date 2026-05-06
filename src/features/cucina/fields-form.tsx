@@ -16,11 +16,16 @@ import { formatNow } from "@/utils/format-date";
 import { Separator } from "@radix-ui/react-separator";
 import { useTranslations } from "next-intl";
 import { useEffect } from "react";
-import { ProductPreparedType, ReportCucinaInput } from "./schema";
+import {
+  ProductPreparedType,
+  ReportKitchenForm,
+  ReportShiftType,
+  ReportWriteOffType,
+} from "./schema";
 
 type RenderEmployeesTableProps = {
-  name: ArrayPath<ReportCucinaInput>;
-  form: UseFormReturn<ReportCucinaInput>;
+  name: ArrayPath<ReportKitchenForm>;
+  form: UseFormReturn<ReportKitchenForm>;
   placeHolder: {
     fieldName: string;
     weight?: string;
@@ -34,7 +39,7 @@ type RenderEmployeesTableProps = {
 
   dataFieldArray?: string[] | null;
 
-  defaultValue: {};
+  defaultValue: ReportShiftType | ProductPreparedType | ReportWriteOffType;
   isDisabled?: boolean;
 };
 
@@ -48,26 +53,22 @@ const RenderTableCucina = ({
   defaultValue,
   isDisabled = false,
 }: RenderEmployeesTableProps) => {
-  const t = useTranslations("Home");
+  const t = useTranslations("ReportKitchen");
   const { fieldName, weight, time, shift, over, reason } = placeHolder;
   const fieldsArray = useFieldArray({ control: form.control, name: name });
-  const fieldsValues = time
-    ? (useWatch({
-        control: form.control,
-        name: name,
-      }) as ProductPreparedType[])
-    : [];
+  const fieldsValues = useWatch({
+    control: form.control,
+    name: name,
+  });
 
   useEffect(() => {
     if (fieldsValues.length === 0) return;
     fieldsValues?.forEach((item, idx) => {
-      if (item?.product && !item?.time) {
+      if ("product" in item && "time" in item && item?.product && !item?.time) {
         form.setValue(
-          `${name}.${idx}.time` as FieldPath<ReportCucinaInput>,
+          `${name}.${idx}.time` as FieldPath<ReportKitchenForm>,
           formatNow(),
-          {
-            shouldDirty: true,
-          },
+          { shouldDirty: true },
         );
       }
     });
@@ -111,7 +112,7 @@ const RenderTableCucina = ({
                 )}
                 {reason && dataReasons && (
                   <SelectField
-                    fieldName={`${name}.${index}.${shift}`}
+                    fieldName={`${name}.${index}.${reason}`}
                     placeHolder="причина"
                     data={dataReasons}
                     className="border-bl/40 h-7! w-15 justify-center md:w-25"
@@ -120,7 +121,10 @@ const RenderTableCucina = ({
                 )}
               </div>
               <div className="flex items-center justify-center px-4 text-sm text-red-600">
-                {time && fieldsValues?.[index]?.time}
+                {time &&
+                  fieldsValues?.[index] &&
+                  "time" in fieldsValues[index] &&
+                  fieldsValues[index].time}
               </div>
             </div>
             <div className="md:px-4">

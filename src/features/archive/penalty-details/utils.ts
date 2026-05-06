@@ -1,4 +1,4 @@
-import { RemarksData } from "@/app/actions/remarks/remarks-action";
+import { GetRemarksData } from "@/app/actions/remarks/remarks-action";
 
 type GroupedData = {
   dayHours: number;
@@ -7,7 +7,7 @@ type GroupedData = {
   penalty: number;
 };
 
-export function remarksByUniqueEmployee(data: RemarksData[]) {
+export function remarksByUniqueEmployee(data: GetRemarksData[]) {
   const grouped: Record<string, GroupedData> = {};
   data
     ?.flatMap((r) => r.remarks)

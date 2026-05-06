@@ -1,12 +1,13 @@
 "use client";
 
-import { BreakGetType } from "@/app/actions/break/break-action";
-import { RemarksDataByUniqueKey } from "@/app/actions/remarks/remarks-action";
-import { ReportDataByUniqueKey } from "@/app/actions/report-bar/report-bar-action";
-import { ReportCucinaDataByUniqueKey } from "@/app/actions/report-cucina/report-cucina-action";
+import { GetBreakData } from "@/app/actions/break/break-action";
+
+import { GetRemarksData } from "@/app/actions/remarks/remarks-action";
+import { GetReportData } from "@/app/actions/report-bar/report-bar-action";
+import { GetKitchenData } from "@/app/actions/report-kitchen/kitchen-action";
 import { TipsAddData } from "@/app/actions/tips-add/tips-add-actions";
-import ReportBarTable from "@/features/archive/bar/report-bar";
-import ReportCucinaTable from "@/features/archive/cucina/report-cucina";
+import ReportBarTable from "@/features/archive/bar/report-bar-archive";
+import ReportKitchenTable from "@/features/archive/cucina/report-cucina";
 import { useHashParam } from "@/hooks/use-hash";
 import { useAbility } from "@/providers/ability-provider";
 import { BreakListArchive } from "./break/break-list-archive";
@@ -15,10 +16,10 @@ import PenaltyGeneral from "./penalty-general/penalty-general";
 import TipsData from "./tips/tips-data";
 
 export type ArchiveData = {
-  bar: ReportDataByUniqueKey | null;
-  cucina: ReportCucinaDataByUniqueKey | null;
-  breakList: BreakGetType | null;
-  penalty: RemarksDataByUniqueKey | null;
+  bar: GetReportData[] | null;
+  cucina: GetKitchenData[] | null;
+  breakList: GetBreakData[] | null;
+  penalty: GetRemarksData[] | null;
   tips: TipsAddData[] | null;
 };
 
@@ -39,7 +40,7 @@ export default function ArchivePage({
     {
       key: "cucina",
       visible: !isBar,
-      render: () => <ReportCucinaTable data={archiveData.cucina} />,
+      render: () => <ReportKitchenTable data={archiveData.cucina} />,
     },
     {
       key: "breakList",

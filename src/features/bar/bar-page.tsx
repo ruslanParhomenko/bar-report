@@ -8,7 +8,6 @@ import {
 import { toast } from "sonner";
 import {
   cashVerifyDefault,
-  defaultValuesReportBar,
   expensesDefault,
   inventoryDefault,
   productTransferDefault,
@@ -18,40 +17,31 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import { createBreakList } from "@/app/actions/break/break-action";
 import { createRemarks } from "@/app/actions/remarks/remarks-action";
-import {
-  createReportBar,
-  realtimeReportBar,
-} from "@/app/actions/report-bar/report-bar-action";
-import {
-  BreakFormData,
-  defaultValuesBreak,
-} from "@/features/bar/break-form/schema";
-import { defaultRemarksValue } from "@/features/bar/penalty/schema";
+import { createReportBar } from "@/app/actions/report-bar/report-bar-action";
+import { BreakForm, breakListDefault } from "@/features/bar/break-form/schema";
 import { useAbility } from "@/providers/ability-provider";
 import { useEmployees } from "@/providers/employees-provider";
 import { MONTHS } from "@/utils/get-month-days";
-import { parseISO } from "date-fns";
-import { Activity, useEffect } from "react";
-import { BarFormValues, barSchema, defaultValuesBarForm } from "./schema";
+import { Activity } from "react";
+import { BarForm, barPageDefault, barPageSchema } from "./schema";
 
-import { createTipsAdd } from "@/app/actions/tips-add/tips-add-actions";
 import FormWrapper from "@/components/wrapper/form-wrapper";
 import BreakTable from "@/features/bar/break-form/break-table";
 import PenaltyTable from "@/features/bar/penalty/penalty-table";
 import { useHashParam } from "@/hooks/use-hash";
-import { useRealtimeSave } from "@/hooks/use-realtime-save";
+import { useLocalStorageForm } from "@/hooks/use-local-storage";
+import { remarksDefault } from "./penalty/schema";
 import ReportBarTable from "./report/report-bar-table";
 import TipsAddForm from "./tips-add/tips-add-form";
 
 const BAR_EMPLOYEES = ["waiters", "barmen"];
+const KEY_LOCALSTORAGE = "report-bar-form";
 
 export default function BarPage({
-  realtimeData,
   dataBreakList,
   currencyUSD,
 }: {
-  realtimeData: BarFormValues | null;
-  dataBreakList: BreakFormData | null;
+  dataBreakList: BreakForm | null;
   currencyUSD: number | null;
 }) {
   const [tab] = useHashParam("tab");
@@ -66,15 +56,11 @@ export default function BarPage({
       return { name: e.name, id: e.id, role: e.role };
     });
 
-  const form = useForm<BarFormValues>({
-    defaultValues: defaultValuesBarForm,
-    resolver: zodResolver(barSchema),
+  const form = useForm<BarForm>({
+    defaultValues: barPageDefault,
+    resolver: zodResolver(barPageSchema),
   });
-  const { control, formState } = form;
-
-  const values = useWatch({
-    control: control,
-  });
+  const { control } = form;
 
   const tipsArrayByEmployee = useFieldArray({
     control: control,
@@ -87,47 +73,46 @@ export default function BarPage({
     name: "breakForm.rows",
   });
 
-  useRealtimeSave(values, isBar && formState.isDirty, async (data) => {
-    if (!data) return;
-    await realtimeReportBar(data as BarFormValues);
-  });
+  const { isLoaded } = useLocalStorageForm(form, KEY_LOCALSTORAGE);
 
-  const onSubmit: SubmitHandler<BarFormValues> = async (data) => {
-    if (!isBar) return;
+  const onSubmit: SubmitHandler<BarForm> = async (data) => {
+    // if (!isBar) return;
     const { date, report, penalty, breakForm, tipsAdd } = data;
 
-    const dateValue = typeof date === "string" ? parseISO(date) : date;
-    const month = MONTHS[dateValue.getMonth()];
-    const year = dateValue.getFullYear().toString();
-    const day = String(dateValue.getDate());
+    const dateObj = new Date(date);
+    const day = String(dateObj.getDate());
+    const month = MONTHS[dateObj.getMonth()];
+    const year = dateObj.getFullYear().toString();
 
-    const uniqueKey = `${year}-${month}`;
     const formateReportData = {
-      ...report,
-      tobacco: report.tobacco?.map((item) => ({
-        ...item,
-        stock: item.stock,
-        incoming: item.incoming ?? "0",
-        outgoing: item.outgoing ?? "0",
-        finalStock: item.stock + +item.incoming - +item.outgoing,
-      })),
-      cashVerify: report.cashVerify?.filter((item) => item.value),
-      expenses: report.expenses?.filter((item) => item.name),
-      productTransfer: report.productTransfer?.filter((item) => item.name),
-      inventory: report.inventory?.filter((item) => item.quantity),
-      notes: report.notes,
+      day,
+      month,
+      year,
+
+      report: {
+        tobacco: report.tobacco?.map((item) => ({
+          ...item,
+          stock: item.stock,
+          incoming: item.incoming ?? "0",
+          outgoing: item.outgoing ?? "0",
+          finalStock: item.stock + +item.incoming - +item.outgoing,
+        })),
+        cashVerify: report.cashVerify?.filter((item) => item.value),
+        expenses: report.expenses?.filter((item) => item.name),
+        productTransfer: report.productTransfer?.filter((item) => item.name),
+        inventory: report.inventory?.filter((item) => item.quantity),
+        notes: report.notes,
+      },
     };
 
     const formattedBreakData = {
       day,
       month,
       year,
-      uniqueKey,
       rows: breakForm.rows,
     };
     const formattedPenaltyData = {
-      remarks: penalty.remarks,
-      uniqueKey: uniqueKey,
+      remarks: penalty,
       month: month,
       year: year,
       day: day,
@@ -135,19 +120,15 @@ export default function BarPage({
 
     const formattedTipsAddData = {
       day,
-      uniqueKey,
+      uniqueKey: `${year}-${month}`,
       tipsAdd: tipsAdd,
       currency: currencyUSD?.toString() ?? "18",
     };
 
-    await createTipsAdd(formattedTipsAddData);
-
-    await createReportBar(uniqueKey, year, month, {
-      day,
-      report: formateReportData,
-    });
+    // await createTipsAdd(formattedTipsAddData);
+    await createReportBar(formateReportData);
     await createBreakList(formattedBreakData);
-    await createRemarks(uniqueKey, formattedPenaltyData);
+    await createRemarks(formattedPenaltyData);
 
     const updatedTobacco = report.tobacco?.map((item) => {
       const finalStock =
@@ -171,34 +152,15 @@ export default function BarPage({
     };
 
     form.reset({
-      date: new Date(),
+      date: new Date().toISOString(),
       report: updatedData,
-      penalty: defaultRemarksValue,
-      breakForm: defaultValuesBreak(dataBreakList?.rows ?? []),
-      tipsAdd: [],
-    });
-    await realtimeReportBar({
-      date: new Date(),
-      report: updatedData,
-      penalty: defaultRemarksValue,
-      breakForm: defaultValuesBreak(dataBreakList?.rows ?? []),
+      penalty: remarksDefault,
+      breakForm: breakListDefault(dataBreakList?.rows ?? []),
       tipsAdd: [],
     });
 
     toast.success("Бар отчет успешно сохранён !");
   };
-
-  useEffect(() => {
-    if (!realtimeData) return;
-    form.reset({
-      date: realtimeData.date ? new Date(realtimeData.date) : new Date(),
-      report: realtimeData.report ?? defaultValuesReportBar,
-      penalty: realtimeData.penalty ?? defaultRemarksValue,
-      breakForm:
-        realtimeData.breakForm ?? defaultValuesBreak(dataBreakList?.rows ?? []),
-      tipsAdd: realtimeData.tipsAdd ?? [],
-    });
-  }, [realtimeData, form]);
 
   const selectedMap = new Map(
     employeeNamesInBreak
@@ -220,6 +182,7 @@ export default function BarPage({
     toast.error("Заполните обязательные красные поля");
   };
 
+  if (!isLoaded) return null;
   return (
     <FormWrapper form={form} onSubmit={onSubmit} onError={onError}>
       <Activity mode={tab === "break" ? "visible" : "hidden"}>

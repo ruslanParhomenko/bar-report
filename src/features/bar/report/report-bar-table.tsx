@@ -4,7 +4,7 @@ import { useFormContext } from "react-hook-form";
 import TableCashVerify from "./cash-table";
 import TableTobacco from "./tobacco-table";
 
-import { BarFormValues } from "../schema";
+import { BarForm } from "../schema";
 import TableExpenses from "./expenses-table";
 import { TableInventory } from "./inventory-table";
 import TableProductsTransfer from "./transfer-table";
@@ -14,7 +14,7 @@ export default function ReportBarTable({
 }: {
   isDisabled: boolean;
 }) {
-  const { register } = useFormContext<BarFormValues>();
+  const { register } = useFormContext<BarForm>();
 
   return (
     <>

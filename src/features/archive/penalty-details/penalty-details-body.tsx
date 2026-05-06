@@ -3,7 +3,6 @@ import { TableBody, TableCell, TableRow } from "@/components/ui/table";
 export default function PenaltyDetailsBody({
   rows,
   editRemarks,
-  deleteRemarks,
 }: {
   rows: Array<{
     day: string;
@@ -16,7 +15,6 @@ export default function PenaltyDetailsBody({
     penalty: number;
   }>;
   editRemarks: (day: string) => void;
-  deleteRemarks: (uniqueKey: string, day: string) => Promise<void>;
 }) {
   return (
     <TableBody>

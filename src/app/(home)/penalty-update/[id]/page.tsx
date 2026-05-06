@@ -12,9 +12,11 @@ export default async function Page({
   const { month, year } = await searchParams;
   if (!month || !year || !id) return null;
 
-  const uniqueKey = `${year}-${month}`;
-  const dataByDay = await getRemarksByDay(uniqueKey, id);
+  const day = id;
+
+  const dataByDay = await getRemarksByDay(year, month, day);
+
   if (!dataByDay) return null;
 
-  return <PenaltyUpdate data={dataByDay} month={month} year={year} day={id} />;
+  return <PenaltyUpdate data={dataByDay} month={month} year={year} day={day} />;
 }

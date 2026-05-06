@@ -59,7 +59,7 @@ export const tobaccoSchema = z.object({
 
 export type TobaccoSchemaType = z.infer<typeof tobaccoSchema>;
 
-export const defaultTobaccoValue = LIST_TOBACCO.map((name) => ({
+export const tobaccoDefault = LIST_TOBACCO.map((name) => ({
   name,
   stock: 0,
   incoming: "",
@@ -88,11 +88,11 @@ export const reportBarSchema = z.object({
   notes: z.string(),
 });
 
-export type ReportBarFormValues = z.infer<typeof reportBarSchema>;
+export type ReportBarForm = z.infer<typeof reportBarSchema>;
 
-export const defaultValuesReportBar = {
+export const reportBarDefault = {
   expenses: expensesDefault,
-  tobacco: defaultTobaccoValue,
+  tobacco: tobaccoDefault,
   cashVerify: cashVerifyDefault,
   productTransfer: productTransferDefault,
   inventory: inventoryDefault,

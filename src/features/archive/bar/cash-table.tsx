@@ -8,7 +8,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { classNameHead, classNameRowBorder } from "./report-bar";
+import { classNameHead, classNameRowBorder } from "./report-bar-archive";
 
 export default function CashVerifyTable({
   data,

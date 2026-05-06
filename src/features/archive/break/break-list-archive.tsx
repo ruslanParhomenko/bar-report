@@ -1,13 +1,12 @@
 "use client";
-
-import { BreakGetType } from "@/app/actions/break/break-action";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { useEffect, useState } from "react";
 
+import { GetBreakData } from "@/app/actions/break/break-action";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { TIME_LABELS } from "@/features/bar/break-form/constant";
 
-export function BreakListArchive({ data }: { data: BreakGetType | null }) {
+export function BreakListArchive({ data }: { data: GetBreakData[] | null }) {
   const [opened, setOpened] = useState<number[]>([]);
 
   useEffect(() => {
@@ -24,7 +23,7 @@ export function BreakListArchive({ data }: { data: BreakGetType | null }) {
   };
   if (!data) return null;
 
-  const reversed = [...data.data].reverse();
+  const reversed = [...data].reverse();
 
   return (
     <>
@@ -39,7 +38,7 @@ export function BreakListArchive({ data }: { data: BreakGetType | null }) {
           >
             {/* card + day */}
             <CardTitle className="text-bl p-4 text-xs">
-              day: {item.day}
+              day: {item.id}
             </CardTitle>
 
             {isOpen && (

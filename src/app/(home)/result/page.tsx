@@ -1,4 +1,4 @@
-import { getRemarksByUniqueKey } from "@/app/actions/remarks/remarks-action";
+import { getRemarksByYearMonth } from "@/app/actions/remarks/remarks-action";
 import { getScheduleByMonthYear } from "@/app/actions/schedule/schedule-action";
 import { getTipsByYearAndMonth } from "@/app/actions/tips/tips-action";
 import { ProtectedPage } from "@/components/wrapper/protected-page";
@@ -13,17 +13,15 @@ export default async function Page({
   const { month, year } = await searchParams;
 
   if (!month || !year) return null;
-  // key
-  const uniqueKey = `${year}-${month}`;
 
   const [schedule, remarks, tipsData] = await Promise.all([
     getScheduleByMonthYear(month, year),
-    getRemarksByUniqueKey(uniqueKey),
+    getRemarksByYearMonth(year, month),
     getTipsByYearAndMonth(year, month),
   ]);
 
   const remarksByEmployee =
-    remarks && remarksByUniqueEmployee(remarks.data).formattedData;
+    remarks && remarksByUniqueEmployee(remarks).formattedData;
 
   return (
     <ProtectedPage route={RESULT_MAIN_ROUTE}>

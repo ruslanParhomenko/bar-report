@@ -20,7 +20,7 @@ import {
 } from "@/components/ui/dialog";
 
 import { Switch } from "@/components/ui/switch";
-import { BarFormValues } from "../schema";
+import { BarForm } from "../schema";
 
 export default function TipsAddForm({
   tipsArrayByEmployee,
@@ -28,7 +28,7 @@ export default function TipsAddForm({
   disabled,
   currency,
 }: {
-  tipsArrayByEmployee: UseFieldArrayReturn<BarFormValues, "tipsAdd", "fieldId">;
+  tipsArrayByEmployee: UseFieldArrayReturn<BarForm, "tipsAdd", "fieldId">;
   options: {
     id: string;
     name: string;
@@ -51,7 +51,7 @@ export default function TipsAddForm({
   const [focusedIndex, setFocusedIndex] = useState<number | null>(null);
 
   const tipsValues =
-    useWatch<BarFormValues, "tipsAdd">({
+    useWatch<BarForm, "tipsAdd">({
       name: "tipsAdd",
     }) ?? [];
 

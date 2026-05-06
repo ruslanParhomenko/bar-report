@@ -1,23 +1,23 @@
 import z from "zod";
-import { breakSchema, defaultValuesBreak } from "./break-form/schema";
-import { defaultRemarksValue, remarksSchema } from "./penalty/schema";
-import { defaultValuesReportBar, reportBarSchema } from "./report/schema";
+import { breakListDefault, breakSchema } from "./break-form/schema";
+import { remarksDefault, remarksSchema } from "./penalty/schema";
+import { reportBarDefault, reportBarSchema } from "./report/schema";
 import { createDefaultTipsAdd, tipsAddSchema } from "./tips-add/schema";
 
-export const barSchema = z.object({
-  date: z.date(),
+export const barPageSchema = z.object({
+  date: z.string(),
   report: reportBarSchema,
   penalty: remarksSchema,
   breakForm: breakSchema,
   tipsAdd: z.array(tipsAddSchema),
 });
 
-export type BarFormValues = z.infer<typeof barSchema>;
+export type BarForm = z.infer<typeof barPageSchema>;
 
-export const defaultValuesBarForm = {
-  date: new Date(),
-  report: defaultValuesReportBar,
-  penalty: defaultRemarksValue,
-  breakForm: defaultValuesBreak([]),
+export const barPageDefault = {
+  date: new Date().toISOString(),
+  report: reportBarDefault,
+  penalty: remarksDefault,
+  breakForm: breakListDefault([]),
   tipsAdd: [createDefaultTipsAdd()],
 };

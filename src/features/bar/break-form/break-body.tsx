@@ -2,10 +2,11 @@ import SelectField from "@/components/input-controlled/select-field";
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import { Trash2 } from "lucide-react";
-import { Path, useFormContext, useWatch } from "react-hook-form";
-import { BarFormValues } from "../schema";
+import { useFormContext, useWatch } from "react-hook-form";
+
 import { MINUTES_SELECT, TIME_LABELS } from "./constant";
-import { BreakFormData } from "./schema";
+
+import { BarForm } from "../schema";
 import { isCurrentCell } from "./utils";
 
 export default function BreakTableBody({
@@ -15,7 +16,7 @@ export default function BreakTableBody({
   employeesName: { name: string; id: string }[];
   isDisabled: boolean;
 }) {
-  const { control, setValue } = useFormContext<BarFormValues>();
+  const { control, setValue } = useFormContext<BarForm>();
 
   const values = useWatch({
     control,
@@ -42,9 +43,7 @@ export default function BreakTableBody({
 
             <TableCell className="bg-background sticky left-0 z-10 py-0 text-left">
               <SelectField
-                fieldName={
-                  `breakForm.rows.${rowIndex}.name` as Path<BreakFormData>
-                }
+                fieldName={`breakForm.rows.${rowIndex}.name`}
                 data={employeesName.map((e) => e.name)}
                 placeHolder="..."
                 className={cn(
@@ -67,9 +66,7 @@ export default function BreakTableBody({
                 <TableCell key={timeIndex} className="p-0">
                   {isView ? (
                     <SelectField
-                      fieldName={
-                        `breakForm.rows.${rowIndex}.hours.${timeIndex}` as Path<BreakFormData>
-                      }
+                      fieldName={`breakForm.rows.${rowIndex}.hours.${timeIndex}`}
                       data={MINUTES_SELECT}
                       className={cn(
                         "h-6! w-11 justify-center border-0 shadow-none",

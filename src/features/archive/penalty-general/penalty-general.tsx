@@ -8,21 +8,20 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import { RemarksDataByUniqueKey } from "@/app/actions/remarks/remarks-action";
+import { GetRemarksData } from "@/app/actions/remarks/remarks-action";
 import { useTranslations } from "next-intl";
 import { remarksByUniqueEmployee } from "../penalty-details/utils";
 
 export default function PenaltyGeneral({
   data,
 }: {
-  data: RemarksDataByUniqueKey | null;
+  data: GetRemarksData[] | null;
 }) {
   if (!data) return null;
   const t = useTranslations("Home");
 
-  const { formattedData, totalBonus, totalPenalty } = remarksByUniqueEmployee(
-    data?.data,
-  );
+  const { formattedData, totalBonus, totalPenalty } =
+    remarksByUniqueEmployee(data);
   return (
     <Table>
       <TableHeader>

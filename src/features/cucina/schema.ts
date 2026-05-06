@@ -1,13 +1,13 @@
 import { z } from "zod";
 
 // --- shifts
-export const schemaShift = z.object({
+export const shiftSchema = z.object({
   employees: z.string(),
   time: z.string(),
   over: z.string(),
 });
-export type ReportShiftType = z.infer<typeof schemaShift>;
-export const defaultShift = {
+export type ReportShiftType = z.infer<typeof shiftSchema>;
+export const shiftDefault = {
   employees: "",
   time: "",
   over: "",
@@ -32,7 +32,7 @@ export const writeOffSchema = z.object({
   reason: z.string(),
 });
 export type ReportWriteOffType = z.infer<typeof writeOffSchema>;
-export const defaultWriteOff = {
+export const writeOffDefault = {
   product: "",
   weight: "",
   reason: "",
@@ -40,30 +40,34 @@ export const defaultWriteOff = {
 
 // --- main form schema
 export const schemaReportCucina = z.object({
-  date: z.coerce.date(),
+  date: z.string(),
 
-  shifts: z.array(schemaShift),
-  remains: z.array(productPreparedSchema),
+  shifts: z.array(shiftSchema),
+  preparedFirst: z.array(productPreparedSchema),
   preparedSalads: z.array(productPreparedSchema),
+  preparedGarnish: z.array(productPreparedSchema),
   preparedSeconds: z.array(productPreparedSchema),
   preparedDesserts: z.array(productPreparedSchema),
   cutting: z.array(productPreparedSchema),
+  staffFurchet: z.array(productPreparedSchema),
   staff: z.array(productPreparedSchema),
   writeOff: z.array(writeOffSchema),
   notes: z.string(),
 });
 
-export type ReportCucinaInput = z.input<typeof schemaReportCucina>;
+export type ReportKitchenForm = z.infer<typeof schemaReportCucina>;
 
 export const defaultReportCucina = {
-  date: new Date(),
-  shifts: [defaultShift],
-  remains: [productPreparedDefault],
+  date: new Date().toISOString(),
+  shifts: [shiftDefault],
+  preparedFirst: [productPreparedDefault],
   preparedSalads: [productPreparedDefault],
+  preparedGarnish: [productPreparedDefault],
   preparedSeconds: [productPreparedDefault],
   preparedDesserts: [productPreparedDefault],
   cutting: [productPreparedDefault],
   staff: [productPreparedDefault],
-  writeOff: [defaultWriteOff],
+  staffFurchet: [productPreparedDefault],
+  writeOff: [writeOffDefault],
   notes: "",
 };

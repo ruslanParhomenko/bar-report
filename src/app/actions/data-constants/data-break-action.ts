@@ -1,11 +1,11 @@
 import { DATA_BREAK_ACTION_TAG } from "@/constants/action-tag";
-import { BreakFormData } from "@/features/bar/break-form/schema";
+import { BreakForm } from "@/features/bar/break-form/schema";
 import { dbAdmin } from "@/lib/firebase-admin";
 import { unstable_cache, updateTag } from "next/cache";
 
 //create
 
-export async function createDataBreakList(data: BreakFormData) {
+export async function createDataBreakList(data: BreakForm) {
   const docRef = dbAdmin
     .collection(DATA_BREAK_ACTION_TAG)
     .doc(DATA_BREAK_ACTION_TAG);
@@ -14,7 +14,7 @@ export async function createDataBreakList(data: BreakFormData) {
 
   updateTag(DATA_BREAK_ACTION_TAG);
 }
-export async function _getDataBreakList(): Promise<BreakFormData | null> {
+export async function _getDataBreakList(): Promise<BreakForm | null> {
   const docRef = dbAdmin
     .collection(DATA_BREAK_ACTION_TAG)
     .doc(DATA_BREAK_ACTION_TAG);
@@ -24,7 +24,7 @@ export async function _getDataBreakList(): Promise<BreakFormData | null> {
 
   const data = snap.data() as any;
 
-  return data as BreakFormData;
+  return data;
 }
 
 export const getDataBreakList = unstable_cache(

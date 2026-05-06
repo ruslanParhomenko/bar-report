@@ -6,15 +6,18 @@ import { REASON, SELECT_TIME } from "./constants";
 import RenderTableCucina from "./fields-form";
 import {
   defaultReportCucina,
-  defaultShift,
-  defaultWriteOff,
   productPreparedDefault,
-  ReportCucinaInput,
+  ProductPreparedType,
+  ReportKitchenForm,
+  ReportShiftType,
+  ReportWriteOffType,
   schemaReportCucina,
+  shiftDefault,
+  writeOffDefault,
 } from "./schema";
 
 import { createDataProducts } from "@/app/actions/data-constants/data-products-action";
-import { createReportCucina } from "@/app/actions/report-cucina/report-cucina-action";
+import { createReportKitchen } from "@/app/actions/report-kitchen/kitchen-action";
 import DatePickerInput from "@/components/input-controlled/date-input";
 import FormWrapper from "@/components/wrapper/form-wrapper";
 import { useLocalStorageForm } from "@/hooks/use-local-storage";
@@ -25,7 +28,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 const CUCINA_EMPLOYEES = ["cook"];
 
-const KEY_LOCALSTORAGE = "report-cucina";
+const KEY_LOCALSTORAGE = "report-kitchen-form";
 
 export default function KitchenReportPage({
   dataProducts,
@@ -35,41 +38,39 @@ export default function KitchenReportPage({
   const { isCucina, isAdmin } = useAbility();
   const isDisabled = !(isAdmin || isCucina);
 
-  const REMAINS_PRODUCTS = [
-    ...dataProducts.salad,
-    ...dataProducts.meat,
-    ...dataProducts.garnish,
-    ...dataProducts.dessert,
-  ];
-
   //employees
   const employees = useEmployees()
     .filter((emp) => CUCINA_EMPLOYEES.includes(emp.role))
     .map((emp) => emp.name);
 
   //form
-  const form = useForm<ReportCucinaInput>({
+  const form = useForm<ReportKitchenForm>({
     defaultValues: defaultReportCucina,
     resolver: zodResolver(schemaReportCucina),
   });
 
   const { isLoaded } = useLocalStorageForm(form, KEY_LOCALSTORAGE);
 
-  const onSubmit: SubmitHandler<ReportCucinaInput> = async (data) => {
+  const onSubmit: SubmitHandler<ReportKitchenForm> = async (data) => {
+    const { date, ...rest } = data;
+
     if (!isCucina) return;
-    const parsed = schemaReportCucina.parse(data);
-    const { date, ...rest } = parsed;
 
-    const month = MONTHS[date.getMonth()];
-    const year = date.getFullYear().toString();
-    const day = String(date.getDate());
+    const dateObj = new Date(date);
 
-    const uniqueKey = `${year}-${month}`;
+    const day = String(dateObj.getDate());
+    const month = MONTHS[dateObj.getMonth()];
+    const year = dateObj.getFullYear().toString();
 
     try {
-      await createReportCucina(uniqueKey, year, month, { day, report: rest });
+      await createReportKitchen({
+        year,
+        month,
+        day,
+        report: rest,
+      });
 
-      form.reset({ ...defaultReportCucina, date: new Date() });
+      form.reset({ ...defaultReportCucina, date: new Date().toISOString() });
       toast.success("Форма успешно отправлена!");
     } catch (error: any) {
       toast.error(error?.message || "Произошла ошибка");
@@ -82,18 +83,9 @@ export default function KitchenReportPage({
       placeHolder: { fieldName: "employees", shift: "time", over: "over" },
       dataShifts: SELECT_TIME,
       dataFieldArray: employees,
-      defaultValue: defaultShift,
+      defaultValue: shiftDefault,
     },
-    {
-      name: "remains",
-      placeHolder: {
-        fieldName: "product",
-        weight: "weight",
-        time: "time",
-      },
-      dataFieldArray: REMAINS_PRODUCTS,
-      defaultValue: productPreparedDefault,
-    },
+
     {
       name: "preparedSalads",
       placeHolder: {
@@ -101,12 +93,28 @@ export default function KitchenReportPage({
         weight: "weight",
         time: "time",
       },
-      dataFieldArray: [
-        ...dataProducts.garnish,
-        ...dataProducts.salad,
-        ...dataProducts.soup,
-      ],
+      dataFieldArray: dataProducts.salad,
+      defaultValue: productPreparedDefault,
+    },
+    {
+      name: "preparedFirst",
+      placeHolder: {
+        fieldName: "product",
+        weight: "weight",
+        time: "time",
+      },
+      dataFieldArray: dataProducts.soup,
+      defaultValue: productPreparedDefault,
+    },
 
+    {
+      name: "preparedGarnish",
+      placeHolder: {
+        fieldName: "product",
+        weight: "weight",
+        time: "time",
+      },
+      dataFieldArray: dataProducts.garnish,
       defaultValue: productPreparedDefault,
     },
     {
@@ -146,8 +154,18 @@ export default function KitchenReportPage({
         weight: "weight",
         time: "time",
       },
+      dataFieldArray: dataProducts.staff,
+
+      defaultValue: productPreparedDefault,
+    },
+    {
+      name: "staffFurchet",
+      placeHolder: {
+        fieldName: "product",
+        weight: "weight",
+        time: "time",
+      },
       dataFieldArray: [
-        ...dataProducts.staff,
         ...dataProducts.garnish,
         ...dataProducts.soup,
         ...dataProducts.meat,
@@ -162,11 +180,16 @@ export default function KitchenReportPage({
         reason: "reason",
       },
       dataReasons: REASON,
-      dataFieldArray: dataProducts.ingredients,
-      defaultValue: defaultWriteOff,
+      dataFieldArray: [
+        ...dataProducts.ingredients,
+        ...dataProducts.garnish,
+        ...dataProducts.soup,
+        ...dataProducts.meat,
+      ],
+      defaultValue: writeOffDefault,
     },
   ] satisfies Array<{
-    name: ArrayPath<ReportCucinaInput>;
+    name: ArrayPath<ReportKitchenForm>;
     placeHolder: {
       fieldName: string;
       weight?: string;
@@ -178,7 +201,7 @@ export default function KitchenReportPage({
     dataShifts?: string[];
     dataReasons?: string[];
     dataFieldArray: Array<string>;
-    defaultValue: any;
+    defaultValue: ReportShiftType | ProductPreparedType | ReportWriteOffType;
   }>;
 
   if (!isLoaded) return null;
@@ -189,7 +212,11 @@ export default function KitchenReportPage({
 
   return (
     <FormWrapper form={form} onSubmit={onSubmit} onError={onError}>
-      <DatePickerInput fieldName="date" className="text-rd h-6 text-sm" />
+      <DatePickerInput
+        fieldName="date"
+        className="text-rd h-6 text-sm"
+        disabled
+      />
 
       {tablesConfig.map(
         ({

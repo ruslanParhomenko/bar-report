@@ -6,7 +6,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { classNameHead, classNameRowBorder } from "./report-bar";
+import { classNameHead, classNameRowBorder } from "./report-bar-archive";
 
 import { InventorySchemaType } from "@/features/bar/report/schema";
 

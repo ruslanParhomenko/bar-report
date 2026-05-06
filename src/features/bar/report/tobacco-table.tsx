@@ -41,7 +41,7 @@ export default function TableTobacco({
       <TableBody>
         {fields?.map((item, idx) => (
           <TableRow key={item.id}>
-            <TableCell className="font-medium">{values[idx].name}</TableCell>
+            <TableCell className="font-medium">{values?.[idx].name}</TableCell>
             <TableCell>
               <NumericInput
                 fieldName={`report.tobacco.${idx}.stock`}

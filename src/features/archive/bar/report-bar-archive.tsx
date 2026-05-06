@@ -3,13 +3,12 @@
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { useEffect, useState } from "react";
 
+import { GetReportData } from "@/app/actions/report-bar/report-bar-action";
 import CashVerifyTable from "./cash-table";
 import ExpensesTable from "./expenses-table";
 import InventoryTable from "./inventory-table";
 import TobaccoTable from "./tobacco-table";
 import ProductTransferTable from "./transfer-table";
-
-import { ReportDataByUniqueKey } from "@/app/actions/report-bar/report-bar-action";
 
 export const classNameHead = "text-shadow-muted-foreground font-bold";
 export const classNameRowBorder = "border-b-bl";
@@ -17,7 +16,7 @@ export const classNameRowBorder = "border-b-bl";
 export default function ReportBarTable({
   data,
 }: {
-  data: ReportDataByUniqueKey | null;
+  data: GetReportData[] | null;
 }) {
   const [opened, setOpened] = useState<number[]>([]);
 
@@ -34,7 +33,7 @@ export default function ReportBarTable({
     );
   };
   if (!data) return null;
-  const reversedData = [...data.data].reverse();
+  const reversedData = [...data].reverse();
 
   return (
     <>
@@ -49,7 +48,7 @@ export default function ReportBarTable({
             onClick={() => toggle(index)}
           >
             <CardTitle className="text-bl p-4 text-xs">
-              day: {item.day}
+              day: {item.id}
             </CardTitle>
 
             {isOpen && (

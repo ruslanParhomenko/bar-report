@@ -17,7 +17,6 @@ import { ro, ru } from "date-fns/locale";
 import { useLocale } from "next-intl";
 import { useFormContext } from "react-hook-form";
 
-import { useEffect, useState } from "react";
 import { Label } from "../ui/label";
 
 function DatePickerInput({
@@ -38,11 +37,6 @@ function DatePickerInput({
   };
   const { control } = useFormContext();
 
-  const [isClient, setIsClient] = useState(false);
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
-
   return (
     <FormField
       control={control}
@@ -59,6 +53,7 @@ function DatePickerInput({
               <PopoverTrigger asChild>
                 <FormControl>
                   <Button
+                    suppressHydrationWarning
                     disabled={disabled}
                     variant={"outline"}
                     className={cn(
@@ -67,7 +62,6 @@ function DatePickerInput({
                     )}
                   >
                     {field.value &&
-                      isClient &&
                       format(new Date(field.value), "dd. MM. yy", {
                         locale: locales[locale],
                       })}
