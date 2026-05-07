@@ -1,5 +1,5 @@
 import { SHIFTS_DAY, SHIFTS_NIGHT } from "@/features/archive/tips/constants";
-import { TipsAddFormValues } from "@/features/bar/tips-add/schema";
+import { TipsAddForm } from "@/features/bar/tips-add/schema";
 
 type Amount = {
   time: string;
@@ -8,7 +8,7 @@ type Amount = {
 };
 
 export function useTipsCalculation(
-  employees: TipsAddFormValues[],
+  employees: TipsAddForm[],
   currencyDay: number,
 ) {
   const calcEmployeeTotal = (amounts: Amount[]) => {
@@ -57,7 +57,7 @@ export function useTipsCalculation(
   const totalTips =
     totalAmountWaitersDay + totalAmountWaitersNight + totalAmountBarmen;
 
-  const getEmployeeTotal = (emp: TipsAddFormValues) => {
+  const getEmployeeTotal = (emp: TipsAddForm) => {
     const personalTotal = calcEmployeeTotal(emp.amount);
 
     if (emp.role !== "waiters") return personalTotal;

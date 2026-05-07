@@ -5,7 +5,7 @@ import { GetBreakData } from "@/app/actions/break/break-action";
 import { GetRemarksData } from "@/app/actions/remarks/remarks-action";
 import { GetReportData } from "@/app/actions/report-bar/report-bar-action";
 import { GetKitchenData } from "@/app/actions/report-kitchen/kitchen-action";
-import { TipsAddData } from "@/app/actions/tips-add/tips-add-actions";
+import { GetTipsAddData } from "@/app/actions/tips-add/tips-add-actions";
 import ReportBarTable from "@/features/archive/bar/report-bar-archive";
 import ReportKitchenTable from "@/features/archive/cucina/report-cucina";
 import { useHashParam } from "@/hooks/use-hash";
@@ -20,7 +20,7 @@ export type ArchiveData = {
   cucina: GetKitchenData[] | null;
   breakList: GetBreakData[] | null;
   penalty: GetRemarksData[] | null;
-  tips: TipsAddData[] | null;
+  tips: GetTipsAddData[] | null;
 };
 
 export default function ArchivePage({

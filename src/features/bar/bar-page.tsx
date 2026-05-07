@@ -1,4 +1,5 @@
 "use client";
+
 import {
   SubmitHandler,
   useFieldArray,
@@ -6,6 +7,7 @@ import {
   useWatch,
 } from "react-hook-form";
 import { toast } from "sonner";
+
 import {
   cashVerifyDefault,
   expensesDefault,
@@ -18,11 +20,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { createBreakList } from "@/app/actions/break/break-action";
 import { createRemarks } from "@/app/actions/remarks/remarks-action";
 import { createReportBar } from "@/app/actions/report-bar/report-bar-action";
+import { createTipsAdd } from "@/app/actions/tips-add/tips-add-actions";
+
 import { BreakForm, breakListDefault } from "@/features/bar/break-form/schema";
 import { useAbility } from "@/providers/ability-provider";
 import { useEmployees } from "@/providers/employees-provider";
 import { MONTHS } from "@/utils/get-month-days";
-import { Activity } from "react";
+
 import { BarForm, barPageDefault, barPageSchema } from "./schema";
 
 import DatePickerInput from "@/components/input-controlled/date-input";
@@ -31,6 +35,7 @@ import BreakTable from "@/features/bar/break-form/break-table";
 import PenaltyTable from "@/features/bar/penalty/penalty-table";
 import { useHashParam } from "@/hooks/use-hash";
 import { useLocalStorageForm } from "@/hooks/use-local-storage";
+import { ViewTransition } from "react";
 import { remarksDefault } from "./penalty/schema";
 import ReportBarTable from "./report/report-bar-table";
 import TipsAddForm from "./tips-add/tips-add-form";
@@ -53,43 +58,48 @@ export default function BarPage({
   const employeesName = useEmployees()
     .filter((emp) => BAR_EMPLOYEES.includes(emp.role))
     .filter((emp) => emp.status === "active")
-    .map((e) => {
-      return { name: e.name, id: e.id, role: e.role };
-    });
+    .map((e) => ({
+      name: e.name,
+      id: e.id,
+      role: e.role,
+    }));
 
   const form = useForm<BarForm>({
-    defaultValues: barPageDefault,
+    defaultValues: {
+      ...barPageDefault,
+      breakForm: breakListDefault(dataBreakList?.rows ?? []),
+    },
     resolver: zodResolver(barPageSchema),
   });
+
   const { control } = form;
 
+  const { isLoaded } = useLocalStorageForm(form, KEY_LOCALSTORAGE);
+
   const tipsArrayByEmployee = useFieldArray({
-    control: control,
+    control,
     name: "tipsAdd",
     keyName: "fieldId",
   });
 
-  const employeeNamesInBreak = useWatch({
-    control: control,
+  const breakListValues = useWatch({
+    control,
     name: "breakForm.rows",
   });
 
-  const { isLoaded } = useLocalStorageForm(form, KEY_LOCALSTORAGE);
-
   const onSubmit: SubmitHandler<BarForm> = async (data) => {
-    // if (!isBar) return;
     const { date, report, penalty, breakForm, tipsAdd } = data;
 
     const dateObj = new Date(date);
     const day = String(dateObj.getDate());
     const month = MONTHS[dateObj.getMonth()];
     const year = dateObj.getFullYear().toString();
+    const currency = currencyUSD?.toFixed(2) ?? "18";
 
     const formateReportData = {
       day,
       month,
       year,
-
       report: {
         tobacco: report.tobacco?.map((item) => ({
           ...item,
@@ -106,30 +116,10 @@ export default function BarPage({
       },
     };
 
-    const formattedBreakData = {
-      day,
-      month,
-      year,
-      rows: breakForm.rows,
-    };
-    const formattedPenaltyData = {
-      remarks: penalty,
-      month: month,
-      year: year,
-      day: day,
-    };
-
-    const formattedTipsAddData = {
-      day,
-      uniqueKey: `${year}-${month}`,
-      tipsAdd: tipsAdd,
-      currency: currencyUSD?.toString() ?? "18",
-    };
-
-    // await createTipsAdd(formattedTipsAddData);
+    await createTipsAdd({ day, month, year, tipsAdd, currency });
     await createReportBar(formateReportData);
-    await createBreakList(formattedBreakData);
-    await createRemarks(formattedPenaltyData);
+    await createBreakList({ day, month, year, rows: breakForm.rows });
+    await createRemarks({ day, month, year, remarks: penalty });
 
     const updatedTobacco = report.tobacco?.map((item) => {
       const finalStock =
@@ -152,19 +142,21 @@ export default function BarPage({
       notes: "",
     };
 
-    form.reset({
+    const resetState: BarForm = {
       date: new Date().toISOString(),
       report: updatedData,
       penalty: remarksDefault,
       breakForm: breakListDefault(dataBreakList?.rows ?? []),
       tipsAdd: [],
-    });
+    };
+
+    form.reset(resetState);
 
     toast.success("Бар отчет успешно сохранён !");
   };
 
   const selectedMap = new Map(
-    employeeNamesInBreak
+    breakListValues
       .flatMap((item) =>
         item.name ? [{ name: item.name.trim(), idShift: item.id }] : [],
       )
@@ -183,7 +175,9 @@ export default function BarPage({
     toast.error("Заполните обязательные красные поля");
   };
 
-  if (!isLoaded) return null;
+  if (!isLoaded) {
+    return null;
+  }
   return (
     <FormWrapper form={form} onSubmit={onSubmit} onError={onError}>
       <DatePickerInput
@@ -191,21 +185,29 @@ export default function BarPage({
         className="text-rd h-6 text-sm"
         disabled
       />
-      <Activity mode={tab === "break" ? "visible" : "hidden"}>
-        <BreakTable isDisabled={isDisabled} employeesName={employeesName} />
-        <PenaltyTable isDisabled={isDisabled} />
-      </Activity>
-      <Activity mode={tab === "report" ? "visible" : "hidden"}>
-        <ReportBarTable isDisabled={isDisabled} />
-      </Activity>
-      <Activity mode={tab === "tips" ? "visible" : "hidden"}>
-        <TipsAddForm
-          tipsArrayByEmployee={tipsArrayByEmployee}
-          options={filteredEmployees}
-          disabled={!isAdmin}
-          currency={currencyUSD?.toFixed(2) ?? "0"}
-        />
-      </Activity>
+      {tab === "break" && (
+        <ViewTransition>
+          <BreakTable isDisabled={isDisabled} employeesName={employeesName} />
+          <PenaltyTable isDisabled={isDisabled} />
+        </ViewTransition>
+      )}
+
+      {tab === "report" && (
+        <ViewTransition>
+          <ReportBarTable isDisabled={isDisabled} />
+        </ViewTransition>
+      )}
+
+      {tab === "tips" && (
+        <ViewTransition>
+          <TipsAddForm
+            tipsArrayByEmployee={tipsArrayByEmployee}
+            options={filteredEmployees}
+            disabled={!isAdmin}
+            currency={currencyUSD?.toFixed(2) ?? "0"}
+          />
+        </ViewTransition>
+      )}
     </FormWrapper>
   );
 }

@@ -1,15 +1,10 @@
 "use client";
 
-import {
-  sendTelegramMessage,
-  sendTelegramPhoto,
-} from "@/app/actions/telegram/telegram-action";
+import { sendTelegramMessage } from "@/app/actions/telegram/telegram-action";
 
 import FormWrapper from "@/components/wrapper/form-wrapper";
 import { useLocalStorageForm } from "@/hooks/use-local-storage";
 import { useEdit } from "@/providers/edit-provider";
-import { createOrderScreenshot } from "@/utils/create-screenshot";
-import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import OrderCardWrapper from "./order-card-wrapper";
@@ -29,9 +24,9 @@ export const OrderForm = ({
 
   const form = useForm({ defaultValues: {} });
 
-  const { isLoaded, resetForm } = useLocalStorageForm(form, STORAGE_KEY);
+  const { isLoaded } = useLocalStorageForm(form, STORAGE_KEY);
 
-  const SCREENSHOT_PATCHES = ["cucina-zn"];
+  // const SCREENSHOT_PATCHES = ["cucina-zn"];
 
   const onSubmit = async (formData: any) => {
     try {
@@ -41,8 +36,11 @@ export const OrderForm = ({
             category,
             Object.fromEntries(
               Object.entries((items as Record<string, string>) ?? {}).filter(
-                ([_, value]) =>
-                  value !== "" && value !== null && value !== undefined,
+                ([key, value]) =>
+                  !key.startsWith("__name_") &&
+                  value !== "" &&
+                  value !== null &&
+                  value !== undefined,
               ),
             ),
           ])
@@ -54,34 +52,22 @@ export const OrderForm = ({
         return;
       }
 
-      if (SCREENSHOT_PATCHES.includes(tab)) {
-        const base64 = await createOrderScreenshot(filtered, tab);
-        await sendTelegramPhoto(base64, tab);
-      } else {
-        await sendTelegramMessage(filtered, tab);
-      }
+      await sendTelegramMessage(filtered, tab);
+      // if (SCREENSHOT_PATCHES.includes(tab)) {
+      //   const base64 = await createOrderScreenshot(filtered, tab);
+      //   await sendTelegramPhoto(base64, tab);
+      // } else {
+      // }
       toast.success("Заказ отправлен в Telegram!");
     } catch {
       toast.error("Ошибка отправки");
     }
   };
 
-  const reset = () => {
-    resetForm({});
-    form.reset({});
-
-    toast.success("Форма сброшена");
-  };
-
-  useEffect(() => {
-    registerReset(reset);
-  }, []);
-
   if (!isLoaded) return null;
-
   return (
     <FormWrapper form={form} onSubmit={onSubmit}>
-      <div className="columns-1 md:columns-3 lg:columns-4 xl:columns-6">
+      <div className="columns-1 md:columns-3 lg:columns-4 xl:columns-7">
         {allKeys.map((key) => (
           <div key={key} className="break-inside-avoid">
             <OrderCardWrapper data={data[key]} name={key} />

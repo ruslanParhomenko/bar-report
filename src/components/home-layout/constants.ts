@@ -65,12 +65,11 @@ export type NAV_BY_PATCH_TYPE = Record<
   {
     tabs: string[];
     selectDate: boolean;
-    refresh?: boolean;
   }
 >;
 
 export const NAV_BY_PATCH = {
-  bar: { tabs: BAR_NAV_ITEMS, selectDate: false, refresh: true },
+  bar: { tabs: BAR_NAV_ITEMS, selectDate: false },
   archive: { tabs: ARCHIVE_NAV_ITEMS, selectDate: true },
   schedule: { tabs: SCHEDULE_NAV_ITEMS, selectDate: true },
   info: { tabs: INFO_NAV_ITEMS, selectDate: false },

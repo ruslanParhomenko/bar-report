@@ -9,7 +9,7 @@ export default function BreakTableHeader() {
       <TableRow>
         <TableHead className="w-9" />
 
-        <TableHead className="w-30" />
+        <TableHead className="w-28" />
 
         <TableHead className="w-6" />
 

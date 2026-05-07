@@ -1,95 +1,64 @@
 "use server";
 
 import { TIPS_ADD_ACTION_TAG } from "@/constants/action-tag";
-import { TipsAddFormValues } from "@/features/bar/tips-add/schema";
-import { dbAdmin } from "@/lib/firebase-admin";
+import { TipsAddForm } from "@/features/bar/tips-add/schema";
+import { getYearMonthDoc } from "@/lib/firebase-doc";
 import { unstable_cache, updateTag } from "next/cache";
 
-type TipsAddCreateType = {
-  tipsAdd: TipsAddFormValues[];
+const actionTag = TIPS_ADD_ACTION_TAG;
+
+type TipsAddDataForm = {
   day: string;
-  uniqueKey: string;
+  month: string;
+  year: string;
   currency: string;
+  tipsAdd: TipsAddForm[];
 };
 
-export type TipsAddData = {
-  day: string;
-  tipsAdd: TipsAddFormValues[];
+export type GetTipsAddData = {
+  id: string;
   currency: string;
+  tipsAdd: TipsAddForm[];
 };
 
-export async function createTipsAdd(data: TipsAddCreateType) {
-  const docRef = dbAdmin.collection(TIPS_ADD_ACTION_TAG).doc(data.uniqueKey);
-  const snap = await docRef.get();
+export async function createTipsAdd(data: TipsAddDataForm) {
+  const { year, month, day, tipsAdd, currency } = data;
+  const docRef = getYearMonthDoc(actionTag, year, month);
+  const docRefByDay = docRef.collection("days").doc(day);
 
-  // 🟢 если документа нет — сразу новая структура
-  if (!snap.exists) {
-    await docRef.set({
-      data: [data],
-    });
-
-    updateTag(TIPS_ADD_ACTION_TAG);
-    return;
-  }
-
-  const raw = snap.data() as any;
-
-  // 🔥 МИГРАЦИЯ (можно удалить позже)
-  let currentData: TipsAddData[] = raw.data;
-
-  if (!currentData) {
-    if (raw.day) {
-      currentData = [
-        {
-          day: raw.day,
-          tipsAdd: raw.tipsAdd,
-          currency: raw.currency,
-        },
-      ];
-    } else {
-      currentData = [];
-    }
-  }
-  // 🔥 конец миграции
-
-  const isDayExists = currentData.some((d) => d.day === data.day);
-  if (isDayExists) return;
-
-  await docRef.update({
-    data: [...currentData, data],
+  await docRefByDay.set({
+    currency,
+    tipsAdd,
   });
 
-  updateTag(TIPS_ADD_ACTION_TAG);
+  updateTag(actionTag);
+  return docRefByDay.id;
 }
 
-// get by unique key
-export async function _getTipsAddByUniqueKey(uniqueKey: string) {
-  const docRef = dbAdmin.collection(TIPS_ADD_ACTION_TAG).doc(uniqueKey);
-  const snap = await docRef.get();
+// get by month year
+async function _getTipsAddByYearMonth(
+  year: string,
+  month: string,
+): Promise<GetTipsAddData[] | null> {
+  const docRef = getYearMonthDoc(actionTag, year, month);
+  const daysSnap = await docRef.collection("days").get();
 
-  if (!snap.exists) return null;
+  if (daysSnap.empty) return null;
 
-  const raw = snap.data() as any;
+  const tipsAdd = daysSnap.docs.map((doc) => ({
+    id: doc.id,
+    currency: doc.data().currency,
+    tipsAdd: doc.data().tipsAdd as TipsAddForm[],
+  }));
 
-  // 🔥 МИГРАЦИЯ (та же логика)
-  if (!raw.data) {
-    if (raw.day) {
-      return [
-        {
-          day: raw.day,
-          tipsAdd: raw.tipsAdd,
-          currency: raw.currency,
-        },
-      ];
-    }
-    return [];
-  }
-
-  return raw.data as TipsAddData[];
+  return tipsAdd;
 }
 
-export const getTipsAddByUniqueKey = unstable_cache(
-  _getTipsAddByUniqueKey,
-  [TIPS_ADD_ACTION_TAG],
-  { revalidate: false, tags: [TIPS_ADD_ACTION_TAG] },
+export const getTipsAddByYearMonth = unstable_cache(
+  _getTipsAddByYearMonth,
+  [actionTag],
+  {
+    revalidate: false,
+    tags: [actionTag],
+  },
 );

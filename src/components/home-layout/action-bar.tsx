@@ -22,7 +22,7 @@ const ACTION_ITEM_BY_PATCH = {
   algorithm: ["edit", "save", "print"],
   bar: ["save-all", "print"],
   "report-cucina": ["save-all"],
-  orders: ["send", "reset"],
+  orders: ["send"],
   info: ["print"],
   archive: ["print"],
   tips: ["edit", "save", "print"],

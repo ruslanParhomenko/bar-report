@@ -1,20 +1,14 @@
 "use client";
 
-import { revalidateNav } from "@/app/actions/revalidate-tag/revalidate-teg";
 import { useHashParam } from "@/hooks/use-hash";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 import { MONTHS, YEAR } from "@/utils/get-month-days";
-import { RefreshCcw } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState, useTransition } from "react";
 import SelectOptions from "../select/select-options";
 import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
-import {
-  NAV_BY_PATCH,
-  NAV_BY_PATCH_TYPE,
-  REFRESH_NAV_ITEMS,
-} from "./constants";
+import { NAV_BY_PATCH, NAV_BY_PATCH_TYPE } from "./constants";
 
 export default function NavTabs() {
   const [_value, setHash] = useHashParam("tab");
@@ -41,21 +35,28 @@ export default function NavTabs() {
     pathname.split("/")[1] as keyof typeof NAV_BY_PATCH
   ] as NAV_BY_PATCH_TYPE[string];
 
-  const refreshTeg =
-    REFRESH_NAV_ITEMS[
-      pathname.split("/")[1] as keyof typeof REFRESH_NAV_ITEMS
-    ] ?? "";
-
   const selectDate = config?.selectDate;
   const navItems = (config?.tabs ?? []) as string[];
-  const refresh = config?.refresh ?? false;
 
+  const [tab, setTab] = useState(navItems[0]);
   const defaultTab = localStorage.getItem(STORAGE_KEY) || navItems[0];
 
+  // useEffect(() => {
+  //   if (!navItems.includes(defaultTab)) return;
+  //   setHash(defaultTab);
+  // }, [defaultTab, navItems, setHash]);
+
   useEffect(() => {
-    if (!navItems.includes(defaultTab)) return;
-    setHash(defaultTab);
-  }, [defaultTab, navItems, setHash]);
+    const saved = localStorage.getItem(STORAGE_KEY);
+
+    if (saved && navItems.includes(saved)) {
+      setTab(saved);
+    }
+  }, [STORAGE_KEY, navItems]);
+
+  useEffect(() => {
+    setHash(tab);
+  }, [tab, setHash]);
 
   useEffect(() => {
     if (!selectDate) return;
@@ -87,11 +88,10 @@ export default function NavTabs() {
 
   const handleTabChange = (value: string) => {
     localStorage.setItem(STORAGE_KEY, value);
-    setHash(value);
-  };
-  const resetData = () => {
-    if (!refresh) return;
-    revalidateNav(refreshTeg);
+
+    startTransition(() => {
+      setTab(value);
+    });
   };
 
   const tabsWidth = `w-1/${navItems.length}`;
@@ -111,7 +111,7 @@ export default function NavTabs() {
     >
       {navItems.length > 0 && (
         <Tabs
-          value={defaultTab}
+          value={tab}
           onValueChange={handleTabChange}
           className={cn(
             "bg-background sticky top-0 z-100",
@@ -138,15 +138,6 @@ export default function NavTabs() {
             ))}
           </TabsList>
         </Tabs>
-      )}
-      {refresh && (
-        <button
-          type="button"
-          onClick={resetData}
-          className="cursor-pointer px-4 md:min-w-10"
-        >
-          <RefreshCcw className="text-bl h-4 w-4" />
-        </button>
       )}
       {selectDate && (
         <div className="flex justify-center gap-2 md:justify-end">

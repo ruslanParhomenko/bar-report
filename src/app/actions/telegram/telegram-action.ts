@@ -76,7 +76,7 @@ const ID_BY_PATCH = {
   "cucina-zn": process.env.TELEGRAM_CHAT_ID,
 };
 
-const TEXT_PATCHES = ["bar-ttn", "cucina-ttn", "bar-zn"];
+const TEXT_PATCHES = ["bar-ttn", "cucina-ttn", "bar-zn", "cucina-zn"];
 
 export async function sendTelegramMessage(
   data: Record<string, Record<string, string>>,

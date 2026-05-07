@@ -37,6 +37,8 @@ function NumericInput({
   const { control } = useFormContext();
   const [open, setOpen] = useState(false);
 
+  const classNameButton = "bg-gr h-12 text-xl text-white font-bold";
+
   const renderInput = (value: string, onChange: (val: string) => void) => (
     <FormItem>
       <Popover open={open} onOpenChange={setOpen}>
@@ -62,13 +64,15 @@ function NumericInput({
         </PopoverTrigger>
 
         <PopoverContent
-          className={cn("bg-bl grid w-50 grid-cols-3 gap-2 border-none p-2")}
+          className={cn(
+            "bg-background mt-2 grid w-60 grid-cols-3 gap-3 border-none p-3",
+          )}
         >
           {Array.from({ length: 9 }, (_, i) => i + 1).map((num) => (
             <Button
               key={num}
               variant="outline"
-              className="bg-background h-10 text-xl"
+              className={classNameButton}
               onClick={() => onChange((value ?? "") + num)}
             >
               {num}
@@ -77,7 +81,7 @@ function NumericInput({
 
           <Button
             variant="outline"
-            className="bg-background h-10 text-xl"
+            className={classNameButton}
             onClick={() => {
               if (!(value ?? "").startsWith("-")) {
                 onChange("-" + (value ?? ""));
@@ -89,7 +93,7 @@ function NumericInput({
 
           <Button
             variant="outline"
-            className="bg-background h-10 text-xl"
+            className={classNameButton}
             onClick={() => onChange((value ?? "") + "0")}
           >
             0
@@ -97,7 +101,7 @@ function NumericInput({
 
           <Button
             variant="outline"
-            className="bg-background h-10 text-xl"
+            className={classNameButton}
             onClick={() => {
               if (!(value ?? "").includes(".")) {
                 onChange((value ?? "") + ".");
@@ -109,7 +113,7 @@ function NumericInput({
 
           <Button
             variant="outline"
-            className="text-rd bg-background h-10 text-xl"
+            className={classNameButton}
             onClick={() => onChange((value ?? "").slice(0, -1))}
           >
             x
@@ -117,7 +121,7 @@ function NumericInput({
 
           <Button
             variant="outline"
-            className="bg-background col-span-2 h-10 text-xl"
+            className={cn(classNameButton, "col-span-2")}
             onClick={() => setOpen(false)}
           >
             ok

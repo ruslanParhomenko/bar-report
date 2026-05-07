@@ -21,6 +21,7 @@ export default function BreakTableBody({
   const values = useWatch({
     control,
     name: "breakForm.rows",
+    defaultValue: [],
   });
 
   return (
@@ -36,12 +37,12 @@ export default function BreakTableBody({
         });
 
         return (
-          <TableRow key={`${row.id}-${rowIndex}`}>
+          <TableRow key={`${row.id ?? "row"}-${rowIndex}-${row.name}`}>
             <TableCell className="text-bl border-0 bg-transparent! p-0 px-0.5 text-xs shadow-none">
               {row.id}
             </TableCell>
 
-            <TableCell className="bg-background sticky left-0 z-10 py-0 text-left">
+            <TableCell className="bg-background sticky left-0 z-10 py-0.5 text-left">
               <SelectField
                 fieldName={`breakForm.rows.${rowIndex}.name`}
                 data={employeesName.map((e) => e.name)}
@@ -88,6 +89,8 @@ export default function BreakTableBody({
                   !isDisabled &&
                   setValue(`breakForm.rows.${rowIndex}.name`, "", {
                     shouldDirty: true,
+                    shouldTouch: true,
+                    shouldValidate: true,
                   })
                 }
               >

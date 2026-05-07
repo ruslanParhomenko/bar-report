@@ -42,13 +42,9 @@ export default function TipsAddForm({
 
   const currentTime = new Date().getTime();
 
-  const [tempValues, setTempValues] = useState<Record<number, string>>({});
-  const [tempTypes, setTempTypes] = useState<Record<number, string>>({});
   const [confirmIndex, setConfirmIndex] = useState<number | null>(null);
   const [confirmOverIndex, setConfirmOverIndex] = useState<number | null>(null);
   const [isPending, startTransition] = useTransition();
-
-  const [focusedIndex, setFocusedIndex] = useState<number | null>(null);
 
   const tipsValues =
     useWatch<BarForm, "tipsAdd">({
@@ -94,6 +90,8 @@ export default function TipsAddForm({
             resultAmount: [],
             isClosed: false,
             over: 0,
+
+            draftValue: "",
           };
         }),
       );
@@ -101,15 +99,11 @@ export default function TipsAddForm({
   }, [options]);
 
   const handleAddAmount = (index: number) => {
-    const value = tempValues[index];
-    const typeAmount =
-      tempTypes[index] ?? getValues(`tipsAdd.${index}.typeAmount`);
+    const value = getValues(`tipsAdd.${index}.draftValue`);
+    const typeAmount = getValues(`tipsAdd.${index}.typeAmount`);
 
     if (!value) return;
 
-    // const currentAmount = getValues(`tipsAdd.${index}.amount`) || [];
-
-    // ✅ FIX: берем актуальное из useWatch
     const tip = tipsValues[index];
     const currentAmount = tip?.amount || [];
 
@@ -118,7 +112,7 @@ export default function TipsAddForm({
       minute: "2-digit",
     });
 
-    const uniqueId = new Date().getTime().toString();
+    const uniqueId = Date.now().toString();
 
     const newItem = { value, time, typeAmount, uniqueId };
 
@@ -147,7 +141,10 @@ export default function TipsAddForm({
         { shouldDirty: true },
       );
 
-      setTempValues((p) => ({ ...p, [index]: "" }));
+      setValue(`tipsAdd.${index}.draftValue`, "", {
+        shouldDirty: true,
+      });
+
       return;
     }
 
@@ -188,19 +185,17 @@ export default function TipsAddForm({
       );
     });
 
-    setTempValues((p) => ({ ...p, [index]: "" }));
+    setValue(`tipsAdd.${index}.draftValue`, "", {
+      shouldDirty: true,
+    });
   };
 
   const openConfirmModal = (index: number) => {
-    startTransition(() => {
-      setConfirmIndex(index);
-    });
+    startTransition(() => setConfirmIndex(index));
   };
 
   const openOverModal = (index: number) => {
-    startTransition(() => {
-      setConfirmOverIndex(index);
-    });
+    startTransition(() => setConfirmOverIndex(index));
   };
 
   const allAmounts =
@@ -218,6 +213,7 @@ export default function TipsAddForm({
 
   return (
     <>
+      {/* OVER MODAL */}
       <Dialog
         open={confirmOverIndex !== null}
         onOpenChange={(open) => !open && setConfirmOverIndex(null)}
@@ -264,6 +260,8 @@ export default function TipsAddForm({
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      {/* CLOSE MODAL */}
       <Dialog
         open={confirmIndex !== null}
         onOpenChange={(open) => !open && setConfirmIndex(null)}
@@ -305,24 +303,20 @@ export default function TipsAddForm({
         </DialogContent>
       </Dialog>
 
+      {/* HEADER */}
       <div className="text-muted-foreground w-full text-center text-xs">
         {currency}
       </div>
 
+      {/* MAIN GRID */}
       <div className="grid h-full w-full gap-4 md:grid-cols-[60%_40%] md:p-4">
+        {/* LEFT */}
         <div className="flex flex-col gap-4 overflow-auto">
           {tipsArrayByEmployee.fields.map((field, index) => {
             const tip = tipsValues[index];
 
-            const isFocused = index === focusedIndex;
-
-            const timeEnd = tip?.endDate;
-
-            const isFinished = timeEnd < currentTime;
-
-            const numericValue = tempValues[index] || "";
-            const typeAmount =
-              tempTypes[index] ?? getValues(`tipsAdd.${index}.typeAmount`);
+            const numericValue = tip?.draftValue ?? "";
+            const typeAmount = tip?.typeAmount;
 
             const employeeTotal = (tip?.resultAmount || []).reduce(
               (s: number, v: any) => s + Number(v.value),
@@ -336,6 +330,8 @@ export default function TipsAddForm({
               minute: "2-digit",
             });
 
+            const isFinished = tip?.endDate < currentTime;
+
             return (
               <div
                 key={field.fieldId}
@@ -348,6 +344,7 @@ export default function TipsAddForm({
                   <div className="w-4 md:w-6">
                     {isFinished && <Home className="text-rd h-4 w-4" />}
                   </div>
+
                   <div className="text-muted-foreground w-8 text-xs">
                     {tip?.isWaiters ? "w" : "b"}
                   </div>
@@ -362,7 +359,6 @@ export default function TipsAddForm({
                     disabled={
                       isPending || tip?.isClosed || tip?.role === "waiters"
                     }
-                    className="md:mx-2"
                   />
 
                   <button
@@ -380,21 +376,14 @@ export default function TipsAddForm({
 
                 <div className="flex items-center justify-center gap-2 md:gap-6">
                   <SelectInput
-                    value={typeAmount}
-                    onChange={(val: string) =>
-                      setTempTypes((p) => ({ ...p, [index]: val }))
-                    }
+                    fieldName={`tipsAdd.${index}.typeAmount`}
                     options={TYPE_AMOUNT}
                     className="h-8! w-8 md:w-14"
                   />
 
                   <NumericInput
-                    value={numericValue}
-                    onChange={(val: string) =>
-                      setTempValues((p) => ({ ...p, [index]: val }))
-                    }
+                    fieldName={`tipsAdd.${index}.draftValue`}
                     className={cn("h-8 w-8 md:w-14", !numericValue && "bg-bl")}
-                    onFocus={() => setFocusedIndex(index)}
                     disabled={isPending || tip?.isClosed}
                   />
 
@@ -415,16 +404,12 @@ export default function TipsAddForm({
                 </div>
 
                 <div className="flex items-center justify-center">
-                  <div
-                    className={cn(
-                      "text-bl w-20 truncate text-sm font-bold md:w-40",
-                      isFocused && "text-rd!",
-                    )}
-                  >
+                  <div className="text-bl w-20 truncate text-sm font-bold md:w-40">
                     {tip?.employeeName}
                   </div>
 
                   <div className="w-12 text-sm font-bold">{endTime}</div>
+
                   <button
                     type="button"
                     className="flex w-12 cursor-pointer items-center justify-center"
@@ -438,6 +423,7 @@ export default function TipsAddForm({
           })}
         </div>
 
+        {/* RIGHT */}
         <div className="flex flex-col gap-2 overflow-auto md:mx-4 md:h-[80vh]">
           {allAmounts.map((item: any, i: number) => (
             <div

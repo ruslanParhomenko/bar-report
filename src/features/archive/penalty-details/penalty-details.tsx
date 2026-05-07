@@ -23,7 +23,6 @@ export default function PenaltyDetails({
       (name): name is string => typeof name === "string" && name.trim() !== "",
     );
 
-  console.log("names", names);
   const employeesList = ["select", ...Array.from(new Set(names))].map(
     (name) => ({
       label: name,

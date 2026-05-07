@@ -1,18 +1,19 @@
 "use client";
 
-import { TipsAddData } from "@/app/actions/tips-add/tips-add-actions";
+import { GetTipsAddData } from "@/app/actions/tips-add/tips-add-actions";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
-import { TipsAddFormValues } from "@/features/bar/tips-add/schema";
+import { TipsAddForm } from "@/features/bar/tips-add/schema";
+
 import { useTipsCalculation } from "@/hooks/use-tips-calculation";
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
-export default function TipsData({ data }: { data: TipsAddData[] | null }) {
+export default function TipsData({ data }: { data: GetTipsAddData[] | null }) {
   const [opened, setOpened] = useState<number[]>([]);
 
   useEffect(() => {
     if (!data) return;
-    if (reversed.length > 0) {
+    if (sorted.length > 0) {
       setOpened([0]);
     }
   }, [data]);
@@ -23,37 +24,18 @@ export default function TipsData({ data }: { data: TipsAddData[] | null }) {
     );
   };
 
-  const mergeEmployees = (
-    tipsAdd: TipsAddFormValues[],
-  ): TipsAddFormValues[] => {
-    const map = new Map();
-
-    tipsAdd.forEach((emp) => {
-      if (!map.has(emp.idEmployee)) {
-        map.set(emp.idEmployee, {
-          ...emp,
-          amount: [...(emp.amount || [])],
-        });
-      } else {
-        const existing = map.get(emp.idEmployee);
-        existing.amount.push(...(emp.amount || []));
-      }
-    });
-
-    return Array.from(map.values());
-  };
-
   if (!data) return null;
-  const reversed = data && [...data].reverse();
-
+  const sorted = data
+    ? [...data].sort((a, b) => Number(b.id) - Number(a.id))
+    : [];
   return (
     <>
-      {reversed.map((dayItem, index) => {
+      {sorted.map((dayItem, index) => {
         const isOpen = opened.includes(index);
 
         const currencyDay = Number(dayItem.currency);
 
-        const employees = mergeEmployees(dayItem.tipsAdd);
+        const employees = dayItem.tipsAdd;
 
         const { totalTips, getEmployeeTotal, calcEmployeeTotal } =
           useTipsCalculation(employees, currencyDay);
@@ -64,16 +46,21 @@ export default function TipsData({ data }: { data: TipsAddData[] | null }) {
             className="bg-background! m-2 cursor-pointer shadow-none"
             onClick={() => toggle(index)}
           >
-            <CardTitle className="p-4 text-xs">
-              day: {dayItem.day} :
-              <span className="text-bl px-2">{totalTips.toFixed(0)}</span>
+            <CardTitle className="p-2 text-xs">
+              <span className="pr-4">day: {dayItem.id} :</span>
+              <span className="text-bl px-2">
+                total tips: {totalTips.toFixed(0)}
+              </span>
+              <span className="text-bl px-2">
+                currency: {dayItem.currency.slice(0, 5)}
+              </span>
             </CardTitle>
 
             {isOpen && (
               <CardContent className="overflow-auto px-0">
                 <Table className="md:table-fixed">
                   <TableBody>
-                    {employees.map((emp: TipsAddFormValues, i: number) => {
+                    {employees.map((emp: TipsAddForm, i: number) => {
                       const personalTotal = calcEmployeeTotal(emp.amount);
 
                       const personalResultAmount = emp.resultAmount
@@ -84,7 +71,7 @@ export default function TipsData({ data }: { data: TipsAddData[] | null }) {
                           key={emp.idEmployee + "-time"}
                           className="hover:bg-gray-100!"
                         >
-                          <TableCell className="w-3 border-r pl-0 text-start text-xs">
+                          <TableCell className="text-muted-foreground w-3 pl-0 text-start text-xs">
                             {i + 1}
                           </TableCell>
                           <TableCell className="w-9 text-center text-xs font-bold text-green-600">

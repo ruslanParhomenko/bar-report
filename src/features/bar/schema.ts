@@ -2,7 +2,7 @@ import z from "zod";
 import { breakListDefault, breakSchema } from "./break-form/schema";
 import { remarksDefault, remarksSchema } from "./penalty/schema";
 import { reportBarDefault, reportBarSchema } from "./report/schema";
-import { createDefaultTipsAdd, tipsAddSchema } from "./tips-add/schema";
+import { tipsAddSchema } from "./tips-add/schema";
 
 export const barPageSchema = z.object({
   date: z.string(),
@@ -19,5 +19,5 @@ export const barPageDefault = {
   report: reportBarDefault,
   penalty: remarksDefault,
   breakForm: breakListDefault([]),
-  tipsAdd: [createDefaultTipsAdd()],
+  tipsAdd: [],
 };

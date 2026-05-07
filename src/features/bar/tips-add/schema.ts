@@ -32,11 +32,14 @@ export const tipsAddSchema = z.object({
   role: z.enum(["waiters", "barmen"]),
   shift: z.enum(["8-20", "9-21", "12-00", "18-06", "20-08"]),
   over: z.number().optional(),
+
+  draftValue: z.string(),
+  typeAmount: z.enum(["mdl", "chips", ""]),
 });
 
-export type TipsAddFormValues = z.infer<typeof tipsAddSchema>;
+export type TipsAddForm = z.infer<typeof tipsAddSchema>;
 
-export const createDefaultTipsAdd = (): TipsAddFormValues => ({
+export const createDefaultTipsAdd = (): TipsAddForm => ({
   amount: [createDefaultAmount()],
   createdAt: 0,
   endDate: 0,
@@ -48,4 +51,7 @@ export const createDefaultTipsAdd = (): TipsAddFormValues => ({
   shift: "8-20",
   role: "waiters",
   over: 0,
+
+  draftValue: "",
+  typeAmount: "",
 });
