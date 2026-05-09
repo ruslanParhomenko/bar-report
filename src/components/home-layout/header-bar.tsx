@@ -38,25 +38,12 @@ export default function NavTabs() {
   const selectDate = config?.selectDate;
   const navItems = (config?.tabs ?? []) as string[];
 
-  const [tab, setTab] = useState(navItems[0]);
   const defaultTab = localStorage.getItem(STORAGE_KEY) || navItems[0];
 
-  // useEffect(() => {
-  //   if (!navItems.includes(defaultTab)) return;
-  //   setHash(defaultTab);
-  // }, [defaultTab, navItems, setHash]);
-
   useEffect(() => {
-    const saved = localStorage.getItem(STORAGE_KEY);
-
-    if (saved && navItems.includes(saved)) {
-      setTab(saved);
-    }
-  }, [STORAGE_KEY, navItems]);
-
-  useEffect(() => {
-    setHash(tab);
-  }, [tab, setHash]);
+    if (!navItems.includes(defaultTab)) return;
+    setHash(defaultTab);
+  }, [defaultTab, navItems, setHash]);
 
   useEffect(() => {
     if (!selectDate) return;
@@ -88,10 +75,7 @@ export default function NavTabs() {
 
   const handleTabChange = (value: string) => {
     localStorage.setItem(STORAGE_KEY, value);
-
-    startTransition(() => {
-      setTab(value);
-    });
+    setHash(value);
   };
 
   const tabsWidth = `w-1/${navItems.length}`;
@@ -111,7 +95,7 @@ export default function NavTabs() {
     >
       {navItems.length > 0 && (
         <Tabs
-          value={tab}
+          value={defaultTab}
           onValueChange={handleTabChange}
           className={cn(
             "bg-background sticky top-0 z-100",
