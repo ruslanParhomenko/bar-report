@@ -10,7 +10,8 @@ export async function checkAccess(mainRoute: string): Promise<boolean> {
   }
 
   const SET_ACCESS =
-    SIDEBAR_NAVIGATION.find((item) => item.title === mainRoute)?.setAcces || [];
+    SIDEBAR_NAVIGATION.find((item) => item.title === mainRoute)?.setAccess ||
+    [];
   const accessGranted =
     session.user.role === "ADMIN" ||
     SET_ACCESS.includes(session.user.role as string);

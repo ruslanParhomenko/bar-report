@@ -29,7 +29,7 @@ export default function SidebarMenuButtons() {
 
   return (
     <SidebarMenu className="flex h-full flex-col gap-4 pt-2">
-      {SIDEBAR_NAVIGATION.filter((item) => item.setAcces.includes(role)).map(
+      {SIDEBAR_NAVIGATION.filter((item) => item.setAccess.includes(role)).map(
         (item) => {
           const isActivePath = pathname.split("/")[1] === item.url;
           const Icon = item.icon;

@@ -1,5 +1,5 @@
 import ActionBar from "@/components/home-layout/action-bar";
-import NavTabs from "@/components/home-layout/header-bar";
+import HeaderBar from "@/components/home-layout/header-bar";
 import ScreenshotWrapper from "@/components/wrapper/screenshot-wrapper";
 import SidebarNav from "@/features/sidebar/sidebar-nav";
 import HomeDataProviders from "@/providers/home-data-providers";
@@ -18,7 +18,7 @@ export default async function HomeLayout({
         {/* <SidebarToggleButton /> */}
         <SidebarNav />
         <div className="flex h-dvh w-full flex-col px-1 pt-[env(safe-area-inset-top)] md:h-screen md:pt-0 md:pb-0">
-          <NavTabs />
+          <HeaderBar />
           <ScreenshotWrapper>
             <ViewTransitionProvider>
               <MonthDaysProvider>{children}</MonthDaysProvider>

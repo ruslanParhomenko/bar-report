@@ -1,5 +1,6 @@
 "use client";
 
+import { ACTION_ITEM_BY_ROUTE } from "@/constants/endpoint-tag";
 import { useFormId } from "@/hooks/use-form-id";
 import { useHashParam } from "@/hooks/use-hash";
 import { cn } from "@/lib/utils";
@@ -15,28 +16,6 @@ import ResetButton from "../buttons/reset-button";
 import SaveButton from "../buttons/save-button";
 import SendScreenButton from "../buttons/send-screen-button";
 import { useSidebar } from "../ui/sidebar";
-
-const ACTION_ITEM_BY_PATCH = {
-  schedule: ["edit", "save", "print", "mail"],
-  employees: ["print", "create"],
-  algorithm: ["edit", "save", "print"],
-  bar: ["save-all", "print"],
-  "report-cucina": ["save-all"],
-  orders: ["send"],
-  info: ["print"],
-  archive: ["print"],
-  tips: ["edit", "save", "print"],
-  cash: ["edit", "save", "print"],
-  "a-o": ["edit", "save", "print"],
-  ttn: ["edit", "save", "print"],
-  "fin-cash": ["edit", "save", "print"],
-  result: ["print"],
-  setting: ["save-all"],
-
-  "penalty-update": ["save", "print", "exit", "mail"],
-  "create-employees": ["save", "print", "exit", "reset"],
-  "create-users": ["save", "print", "exit", "reset"],
-} as const;
 
 const URL_CREATE_BY_TAB = {
   employees: "/create-employees",
@@ -58,8 +37,8 @@ export default function ActionBar() {
   const formId = useFormId();
   const { toggleSidebar } = useSidebar();
 
-  const actions = (ACTION_ITEM_BY_PATCH[
-    mainRoute as keyof typeof ACTION_ITEM_BY_PATCH
+  const actions = (ACTION_ITEM_BY_ROUTE[
+    mainRoute as keyof typeof ACTION_ITEM_BY_ROUTE
   ] ?? []) as readonly string[];
 
   const has = (key: string) => actions.includes(key);

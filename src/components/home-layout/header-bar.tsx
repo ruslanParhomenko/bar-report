@@ -1,19 +1,21 @@
 "use client";
 
+import { NAV_BY_PATCH } from "@/constants/endpoint-tag";
 import { useHashParam } from "@/hooks/use-hash";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 import { MONTHS, YEAR } from "@/utils/get-month-days";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState, useTransition } from "react";
+import NavTabs from "../nav-tabs/nav-tabs";
 import SelectOptions from "../select/select-options";
-import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
-import { NAV_BY_PATCH, NAV_BY_PATCH_TYPE } from "./constants";
 
-export default function NavTabs() {
-  const [_value, setHash] = useHashParam("tab");
+export default function HeaderBar() {
+  const [tab, setHash] = useHashParam("tab");
 
   const pathname = usePathname();
+  const mainRoute = pathname.split("/")[1] || "";
+
   const searchParams = useSearchParams();
 
   const isMobile = useIsMobile();
@@ -31,19 +33,19 @@ export default function NavTabs() {
   const [month, setMonth] = useState(defaultMonth);
   const [year, setYear] = useState(defaultYear);
 
-  const config = NAV_BY_PATCH[
-    pathname.split("/")[1] as keyof typeof NAV_BY_PATCH
-  ] as NAV_BY_PATCH_TYPE[string];
+  const config = NAV_BY_PATCH[mainRoute as keyof typeof NAV_BY_PATCH];
 
   const selectDate = config?.selectDate;
-  const navItems = (config?.tabs ?? []) as string[];
-
-  const defaultTab = localStorage.getItem(STORAGE_KEY) || navItems[0];
+  const navItems: readonly string[] = config?.tabs ?? [];
+  const activeTab = tab || navItems[0] || "";
 
   useEffect(() => {
-    if (!navItems.includes(defaultTab)) return;
-    setHash(defaultTab);
-  }, [defaultTab, navItems, setHash]);
+    const saved = localStorage.getItem(STORAGE_KEY);
+
+    if (saved && navItems.includes(saved)) {
+      setHash(saved);
+    }
+  }, [STORAGE_KEY, navItems, setHash]);
 
   useEffect(() => {
     if (!selectDate) return;
@@ -78,9 +80,6 @@ export default function NavTabs() {
     setHash(value);
   };
 
-  const tabsWidth = `w-1/${navItems.length}`;
-  const itemsWidth = navItems.length < 6 ? "w-16" : "w-8";
-
   const flexType = navItems.length < 4 ? "flex-row" : "flex-col";
 
   const selectClassName =
@@ -93,36 +92,12 @@ export default function NavTabs() {
         flexType,
       )}
     >
-      {navItems.length > 0 && (
-        <Tabs
-          value={defaultTab}
-          onValueChange={handleTabChange}
-          className={cn(
-            "bg-background sticky top-0 z-100",
-            !config && "hidden",
-          )}
-        >
-          <TabsList className="order-1 flex h-7 md:order-0 md:gap-4">
-            {navItems.map((item, index) => (
-              <TabsTrigger
-                key={`${item}-${index}`}
-                value={item}
-                className={cn("hover:text-bl cursor-pointer", tabsWidth)}
-                disabled={isPending}
-              >
-                <span
-                  className={cn(
-                    "md:text-md text-bl block truncate text-xs md:min-w-20",
-                    itemsWidth,
-                  )}
-                >
-                  {item}
-                </span>
-              </TabsTrigger>
-            ))}
-          </TabsList>
-        </Tabs>
-      )}
+      <NavTabs
+        navItems={navItems}
+        activeTab={activeTab}
+        handleTabChange={handleTabChange}
+        disabled={isPending}
+      />
       {selectDate && (
         <div className="flex justify-center gap-2 md:justify-end">
           <SelectOptions
