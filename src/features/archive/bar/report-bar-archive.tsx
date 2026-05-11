@@ -22,7 +22,7 @@ export default function ReportBarTable({
 
   useEffect(() => {
     if (!data) return;
-    if (reversedData.length > 0) {
+    if (data.length > 0) {
       setOpened([0]);
     }
   }, [data]);
@@ -33,11 +33,11 @@ export default function ReportBarTable({
     );
   };
   if (!data) return null;
-  const reversedData = [...data].reverse();
+  const sortedData = data.sort((a, b) => Number(b.id) - Number(a.id));
 
   return (
     <>
-      {reversedData.map((item, index) => {
+      {sortedData.map((item, index) => {
         const reportData = item.report;
         const isOpen = opened.includes(index);
 

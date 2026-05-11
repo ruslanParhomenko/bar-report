@@ -5,6 +5,7 @@ export const usersSchema = z.object({
   role: z.string().min(1, { message: "required" }),
   name: z.string(),
   status: z.boolean(),
+  accessList: z.array(z.string()),
 });
 
 export type UsersSchemaTypeData = z.infer<typeof usersSchema> & {
@@ -16,4 +17,5 @@ export const defaultUser: UsersSchemaTypeData = {
   role: "",
   name: "",
   status: false,
+  accessList: [],
 };

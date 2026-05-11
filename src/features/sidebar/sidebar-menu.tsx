@@ -25,34 +25,35 @@ export default function SidebarMenuButtons() {
   if (status === "loading") {
     return null;
   }
-  const role = (session?.user as any)?.role ?? "OBSERVER";
+  const role = session?.user?.role ?? "OBSERVER";
+  const accessList = session?.user?.accessList ?? [];
 
   return (
     <SidebarMenu className="flex h-full flex-col gap-4 pt-2">
-      {SIDEBAR_NAVIGATION.filter((item) => item.setAccess.includes(role)).map(
-        (item) => {
-          const isActivePath = pathname.split("/")[1] === item.url;
-          const Icon = item.icon;
+      {SIDEBAR_NAVIGATION.filter(
+        (item) => accessList.includes(item.url) || role === "ADMIN",
+      ).map((item) => {
+        const isActivePath = pathname.split("/")[1] === item.url;
+        const Icon = item.icon;
 
-          return (
-            <SidebarMenuButton key={item.title} asChild>
-              <Link
-                href={`/${item.url}`}
-                onClick={handleMenuClick}
-                className={cn(
-                  "flex w-full items-center",
-                  isActivePath && "bg-bl",
-                )}
-              >
-                <Icon className={isActivePath ? "" : "text-bl"} />
-                <span className={cn("ml-1", isActivePath ? "" : "text-bl")}>
-                  {t(item.title)}
-                </span>
-              </Link>
-            </SidebarMenuButton>
-          );
-        },
-      )}
+        return (
+          <SidebarMenuButton key={item.title} asChild>
+            <Link
+              href={`/${item.url}`}
+              onClick={handleMenuClick}
+              className={cn(
+                "flex w-full items-center",
+                isActivePath && "bg-bl",
+              )}
+            >
+              <Icon className={isActivePath ? "" : "text-bl"} />
+              <span className={cn("ml-1", isActivePath ? "" : "text-bl")}>
+                {t(item.title)}
+              </span>
+            </Link>
+          </SidebarMenuButton>
+        );
+      })}
     </SidebarMenu>
   );
 }

@@ -55,7 +55,6 @@ export default function PenaltyUpdate({
 
   //submit
   const onSubmit: SubmitHandler<PenaltyFormData> = async (data) => {
-    console.log("data", data.penalty);
     const formattedData = {
       day,
       month,

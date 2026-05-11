@@ -1,6 +1,6 @@
 "use client";
 
-import { NAV_BY_PATCH } from "@/constants/endpoint-tag";
+import { NAV_BY_PATCH } from "@/constants/header-bar";
 import { useHashParam } from "@/hooks/use-hash";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";

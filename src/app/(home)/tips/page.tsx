@@ -1,6 +1,4 @@
 import { getTipsByYear } from "@/app/actions/tips/tips-action";
-import { ProtectedPage } from "@/components/wrapper/protected-page";
-import { TIPS_MAIN_ROUTE } from "@/constants/endpoint-tag";
 import TipsPage from "@/features/tips/tips-page";
 
 export default async function Page({
@@ -13,9 +11,5 @@ export default async function Page({
 
   const dataTipsYear = await getTipsByYear(year);
 
-  return (
-    <ProtectedPage route={TIPS_MAIN_ROUTE}>
-      <TipsPage dataTipsYear={dataTipsYear} />
-    </ProtectedPage>
-  );
+  return <TipsPage dataTipsYear={dataTipsYear} />;
 }

@@ -12,16 +12,13 @@ import { Activity, useEffect } from "react";
 import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import AlgorithmForm from "./algorithm-form";
-import { AlgorithmData, algorithmSchema, defaultAlgorithm } from "./schema";
-
-const FIELD_CONFIG = [
-  "tips",
-  "cash",
-  "shifts",
-  "vip",
-  "algorithm",
-  "workflow",
-] as const;
+import {
+  AlgorithmData,
+  algorithmSchema,
+  defaultAlgorithm,
+  defaultValues,
+  FIELD_CONFIG,
+} from "./schema";
 
 export default function AlgorithmPage() {
   const [tab] = useHashParam("tab");
@@ -50,7 +47,13 @@ export default function AlgorithmPage() {
   useEffect(() => {
     const load = async () => {
       const data = await getAlgorithmData();
-      if (data) form.reset(data);
+      if (!data) return;
+      const dataForm = {
+        ...Object.fromEntries(
+          FIELD_CONFIG.map((name) => [name, data[name] || defaultValues]),
+        ),
+      };
+      if (data) form.reset(dataForm);
     };
 
     load();

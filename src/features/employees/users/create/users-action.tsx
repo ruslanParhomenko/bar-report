@@ -1,6 +1,7 @@
 "use client";
 import { deleteUser } from "@/app/actions/users/user-action";
 import ModalConfirm from "@/components/modal/modal-confirm";
+import { CREATE_USER_MAIN_ROUTE } from "@/constants/route-tag";
 import { useRouter } from "@/i18n/navigation";
 import { useAbility } from "@/providers/ability-provider";
 import { PenBox, Trash2Icon } from "lucide-react";
@@ -32,7 +33,7 @@ export default function UsersActions({ id }: { id: string }) {
         <button
           className="cursor-pointer"
           type="button"
-          onClick={() => router.push(`/create-users/${id}`)}
+          onClick={() => router.push(`/${CREATE_USER_MAIN_ROUTE}/${id}`)}
           disabled={!isAdmin}
         >
           <PenBox size={14} className="hover:text-rd" />

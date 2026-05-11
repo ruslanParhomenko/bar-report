@@ -1,7 +1,5 @@
 import { getAOByYearAndMonth } from "@/app/actions/a-o/ao-action";
 import { getCashByYear } from "@/app/actions/cash/cash-action";
-import { ProtectedPage } from "@/components/wrapper/protected-page";
-import { CASH_MAIN_ROUTE } from "@/constants/endpoint-tag";
 import CashPage from "@/features/cash/cash-page";
 
 export default async function Page({
@@ -18,9 +16,5 @@ export default async function Page({
     getAOByYearAndMonth(year, month),
   ]);
 
-  return (
-    <ProtectedPage route={CASH_MAIN_ROUTE}>
-      <CashPage dataAo={dataAo} dataCashYear={dataCashYear} />
-    </ProtectedPage>
-  );
+  return <CashPage dataAo={dataAo} dataCashYear={dataCashYear} />;
 }

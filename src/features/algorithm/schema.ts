@@ -1,4 +1,8 @@
+import { TABS_BY_ROUTE } from "@/constants/header-bar";
+import { ALGORITHM_MAIN_ROUTE } from "@/constants/route-tag";
 import z from "zod";
+
+export const FIELD_CONFIG = TABS_BY_ROUTE[ALGORITHM_MAIN_ROUTE];
 
 export const valueSchema = z.object({
   value: z.string(),
@@ -9,21 +13,13 @@ export const defaultValues: z.infer<typeof valueSchema> = {
 };
 
 export const algorithmSchema = z.object({
-  tips: z.array(valueSchema),
-  cash: z.array(valueSchema),
-  shifts: z.array(valueSchema),
-  vip: z.array(valueSchema),
-  algorithm: z.array(valueSchema),
-  workflow: z.array(valueSchema),
+  ...Object.fromEntries(
+    FIELD_CONFIG.map((name) => [name, z.array(valueSchema)]),
+  ),
 });
 
 export type AlgorithmData = z.infer<typeof algorithmSchema>;
 
 export const defaultAlgorithm: AlgorithmData = {
-  tips: [defaultValues],
-  cash: [defaultValues],
-  shifts: [defaultValues],
-  vip: [defaultValues],
-  algorithm: [defaultValues],
-  workflow: [defaultValues],
+  ...Object.fromEntries(FIELD_CONFIG.map((name) => [name, [defaultValues]])),
 };

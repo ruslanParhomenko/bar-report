@@ -17,8 +17,14 @@ import AoBodyTable from "./ao-body";
 import AoFooterTable from "./ao-footer";
 import AoHeaderTable from "./ao-header";
 
-export default function AoMonthPage({ dataAo }: { dataAo: GetAoData | null }) {
+export default function AoMonthPage({
+  dataAoYear,
+}: {
+  dataAoYear: GetAoData[] | null;
+}) {
   const { monthDays, month, year } = useMonthDays();
+
+  const dataAo = dataAoYear?.find((ao) => ao.id === month) || null;
 
   const todayDay = new Date().getDate();
   const [selectedDay, setSelectedDay] = useState<number>(todayDay);

@@ -8,5 +8,14 @@
   "eslint.format.enable": false,
 
   "cSpell.language": "en,ru,ro",
-  "cSpell.words": ["cmdk", "Cucina", "mngr", "papaparse", "supabase", "swipeable", "turbopack"]
+  "cSpell.words": [
+    "cmdk",
+    "Cucina",
+    "mngr",
+    "NEXTAUTH",
+    "papaparse",
+    "supabase",
+    "swipeable",
+    "turbopack"
+  ]
 }

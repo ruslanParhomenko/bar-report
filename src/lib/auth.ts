@@ -20,7 +20,7 @@ export const authOptions: NextAuthOptions = {
 
   pages: {
     signIn: "/signin",
-    error: "/403",
+    error: "/no-access",
   },
 
   debug: false,
@@ -37,9 +37,12 @@ export const authOptions: NextAuthOptions = {
             profile.email === ADMIN_EMAIL
               ? "ADMIN"
               : (dbUser?.role ?? "OBSERVER");
+
+          token.accessList = dbUser?.accessList ?? [];
         } catch (e) {
           console.error("JWT ERROR:", e);
           token.role = "OBSERVER";
+          token.accessList = [];
         }
       }
 
@@ -47,7 +50,8 @@ export const authOptions: NextAuthOptions = {
     },
     async session({ session, token }) {
       if (session.user) {
-        (session.user as any).role = token.role ?? "OBSERVER";
+        session.user.role = token.role ?? "OBSERVER";
+        session.user.accessList = token.accessList ?? [];
       }
       return session;
     },
@@ -59,12 +63,12 @@ export const authOptions: NextAuthOptions = {
         const users = (await getUsers()).filter((u) => u.status);
         const dbUser = users.find((u) => u.mail === profile?.email);
 
-        if (!dbUser) return "/403";
+        if (!dbUser) return "/no-access";
 
         return true;
       } catch (e) {
         console.error("SIGNIN ERROR:", e);
-        return "/403"; // не 500!
+        return "/no-access";
       }
     },
   },

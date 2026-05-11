@@ -3,8 +3,6 @@ import { getDataOrderProducts } from "@/app/actions/data-constants/data-order-pr
 import { getDataPriceList } from "@/app/actions/data-constants/data-price-list";
 import { getDataProducts } from "@/app/actions/data-constants/data-products-action";
 import { getDataTTN } from "@/app/actions/data-constants/data-ttn-action";
-import { ProtectedPage } from "@/components/wrapper/protected-page";
-import { SETTING_MAIN_ROUTE } from "@/constants/endpoint-tag";
 import SettingPage from "@/features/setting/setting-page";
 
 export default async function SettingsPage() {
@@ -30,9 +28,5 @@ export default async function SettingsPage() {
     priceListData: JSON.stringify(dataPriceList ?? [], null, 2),
   };
 
-  return (
-    <ProtectedPage route={SETTING_MAIN_ROUTE}>
-      <SettingPage data={data} />
-    </ProtectedPage>
-  );
+  return <SettingPage data={data} />;
 }

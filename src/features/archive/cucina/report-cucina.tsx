@@ -33,7 +33,7 @@ export default function ReportKitchenTable({
   };
 
   if (!data) return null;
-  const reversed = [...data].reverse();
+  const reversed = data.sort((a, b) => Number(b.id) - Number(a.id));
   return (
     <>
       {reversed.map((item, index) => {

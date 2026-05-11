@@ -10,7 +10,6 @@ export default function TipsPage({
 }: {
   dataTipsYear: GetTipsData[] | null;
 }) {
-  console.log("dataTipsYear", dataTipsYear);
   const [tab] = useHashParam("tab");
 
   const { month } = useMonthDays();

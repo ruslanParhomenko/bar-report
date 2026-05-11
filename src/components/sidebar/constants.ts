@@ -14,7 +14,7 @@ import {
   SETTING_MAIN_ROUTE,
   TIPS_MAIN_ROUTE,
   TTN_MAIN_ROUTE,
-} from "@/constants/endpoint-tag";
+} from "@/constants/route-tag";
 import {
   Archive,
   BarChart3,

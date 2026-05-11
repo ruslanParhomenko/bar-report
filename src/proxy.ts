@@ -2,28 +2,33 @@ import { getToken } from "next-auth/jwt";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
-// This function can be marked `async` if using `await` inside
 export async function proxy(request: NextRequest) {
   const url = request.nextUrl.clone();
-  const patchName = url.pathname;
-  console.log("PATCH NAME", patchName);
+
+  if (url.pathname === "/no-access") {
+    return NextResponse.next();
+  }
 
   const token = await getToken({
     req: request,
     secret: process.env.NEXTAUTH_SECRET,
   });
 
-  console.log("TOKEN", token?.role);
-
-  // token
-  const session =
-    request.cookies.get("next-auth.session-token") ||
-    request.cookies.get("__Secure-next-auth.session-token");
-  const isAuthenticated = !!session;
-
-  if (!isAuthenticated) {
+  if (!token) {
     return NextResponse.redirect(new URL("/", request.url));
   }
+
+  const segment = url.pathname.split("/")[1];
+
+  const allowedRoutes = token.accessList;
+
+  const accessGranted =
+    token.role === "ADMIN" || allowedRoutes.includes(segment as string);
+
+  if (!accessGranted) {
+    return NextResponse.redirect(new URL("/no-access", request.url));
+  }
+
   return NextResponse.next();
 }
 

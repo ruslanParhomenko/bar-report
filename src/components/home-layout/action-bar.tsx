@@ -1,6 +1,13 @@
 "use client";
 
-import { ACTION_ITEM_BY_ROUTE } from "@/constants/endpoint-tag";
+import { ACTION_ITEM_BY_ROUTE } from "@/constants/footer-bar";
+import {
+  ARCHIVE_MAIN_ROUTE,
+  CREATE_EMPLOYEE_MAIN_ROUTE,
+  CREATE_USER_MAIN_ROUTE,
+  EMPLOYEES_MAIN_ROUTE,
+  PENALTY_UPDATE_MAIN_ROUTE,
+} from "@/constants/route-tag";
 import { useFormId } from "@/hooks/use-form-id";
 import { useHashParam } from "@/hooks/use-hash";
 import { cn } from "@/lib/utils";
@@ -18,16 +25,16 @@ import SendScreenButton from "../buttons/send-screen-button";
 import { useSidebar } from "../ui/sidebar";
 
 const URL_CREATE_BY_TAB = {
-  employees: "/create-employees",
-  users: "/create-users",
+  [EMPLOYEES_MAIN_ROUTE]: `/${CREATE_EMPLOYEE_MAIN_ROUTE}`,
+  users: `/${CREATE_USER_MAIN_ROUTE}`,
 };
 
 const URL_EXIT_BY_PATCH = {
-  employees: "/employees",
-  users: "/users",
-  "penalty-update": "/archive#tab=penalty",
-  "create-employees": "/employees",
-  "create-users": "/employees",
+  [EMPLOYEES_MAIN_ROUTE]: `/${EMPLOYEES_MAIN_ROUTE}`,
+  users: `/${EMPLOYEES_MAIN_ROUTE}`,
+  [PENALTY_UPDATE_MAIN_ROUTE]: `/${ARCHIVE_MAIN_ROUTE}`,
+  [CREATE_EMPLOYEE_MAIN_ROUTE]: `/${EMPLOYEES_MAIN_ROUTE}`,
+  [CREATE_USER_MAIN_ROUTE]: `/${EMPLOYEES_MAIN_ROUTE}`,
 };
 
 export default function ActionBar() {

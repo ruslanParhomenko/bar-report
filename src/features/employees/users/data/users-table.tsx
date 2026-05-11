@@ -11,6 +11,8 @@ import UsersActions from "../create/users-action";
 export default function UsersTable({ users }: { users: UserData[] }) {
   const [localUsers, setLocalUsers] = useState(users);
 
+  console.log(localUsers);
+
   const isMobile = useIsMobile();
 
   const { isAdmin } = useAbility();
@@ -39,8 +41,8 @@ export default function UsersTable({ users }: { users: UserData[] }) {
         {localUsers?.map((user, idx) => (
           <TableRow key={user.id}>
             <TableCell className="w-8">{idx + 1}</TableCell>
-            <TableCell className="w-80 truncate">{user.mail}</TableCell>
-            <TableCell className="w-40">
+            <TableCell className="w-50 truncate">{user.mail}</TableCell>
+            <TableCell className="w-20">
               {isMobile ? user.role[0] : user.role}
             </TableCell>
             <TableCell className="w-30 font-medium">{user.name}</TableCell>
@@ -60,6 +62,15 @@ export default function UsersTable({ users }: { users: UserData[] }) {
                   }
                   disabled={!isAdmin}
                 />
+              </div>
+            </TableCell>
+            <TableCell className="w-100">
+              <div className="flex items-center">
+                {user.accessList?.map((route, idx) => (
+                  <span key={idx} className="mx-1">
+                    {route.toUpperCase()}
+                  </span>
+                ))}
               </div>
             </TableCell>
             <TableCell className="w-12 md:px-4">
