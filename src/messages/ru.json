@@ -29,6 +29,11 @@
     "writeOff": "списание и перемещение",
     "notes": "заметки"
   },
+  "Dialog": {
+    "confirm": "подтвердить",
+    "cancel": "отменить",
+    "confirmDelete": "вы уверены, что хотите удалить?"
+  },
   "Home": {
     "employeesKey": "ключ",
     "employeesWorkForm": "форма",

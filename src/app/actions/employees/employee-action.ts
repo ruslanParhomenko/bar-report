@@ -28,7 +28,6 @@ export async function createEmployee(data: Omit<Employee, "id">) {
   updateTag(EMPLOYEES_ACTION_TAG);
   await redis.del(EMPLOYEES_ACTION_TAG);
   redirect("/employees");
-  return docRef.id;
 }
 
 // update

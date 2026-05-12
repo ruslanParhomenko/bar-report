@@ -1,8 +1,5 @@
-"use client";
 import { CreateDataTTN } from "@/app/actions/data-constants/data-ttn-action";
 import { GetTTNData } from "@/app/actions/ttn/ttn-actions";
-import { useHashParam } from "@/hooks/use-hash";
-import { useMonthDays } from "@/providers/month-days-provider";
 import { MONTHS } from "@/utils/get-month-days";
 import TTNDayPage from "./day/ttn-day-page";
 import TtnMonthPage from "./month/ttn-month-page";
@@ -11,13 +8,16 @@ import TtnYearPage from "./year/ttn-year-page";
 export default function TTNPage({
   dataTTN,
   agentTTN,
+  tab,
+  month,
+  year,
 }: {
   dataTTN: GetTTNData[] | null;
   agentTTN: CreateDataTTN;
+  tab: string;
+  month: string;
+  year: string;
 }) {
-  const [tab] = useHashParam("tab");
-
-  const { month, year } = useMonthDays();
   const indexOfCurrentMonth = MONTHS.findIndex((m) => m === month);
   const prevMonth = month === "january" ? "" : MONTHS[indexOfCurrentMonth - 1];
 

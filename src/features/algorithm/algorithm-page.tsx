@@ -5,7 +5,6 @@ import {
   getAlgorithmData,
 } from "@/app/actions/algorithm/algorithm-actions";
 import FormWrapper from "@/components/wrapper/form-wrapper";
-import { useHashParam } from "@/hooks/use-hash";
 import { useEdit } from "@/providers/edit-provider";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Activity, useEffect } from "react";
@@ -20,8 +19,8 @@ import {
   FIELD_CONFIG,
 } from "./schema";
 
-export default function AlgorithmPage() {
-  const [tab] = useHashParam("tab");
+export default function AlgorithmPage({ tab }: { tab: string }) {
+  // const [tab] = useHashParam("tab");
 
   // state
   const { isEdit, setIsEdit } = useEdit();

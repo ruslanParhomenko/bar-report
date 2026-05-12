@@ -1,4 +1,3 @@
-"use client";
 import { Table } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import ResultTableBody from "./result-body-table";
@@ -7,7 +6,6 @@ import { extractUniqueEmployees, useResultCalculations } from "./utils";
 
 import { SchedulesContextValue } from "@/app/actions/schedule/schedule-action";
 import { GetTipsData } from "@/app/actions/tips/tips-action";
-import { useHashParam } from "@/hooks/use-hash";
 import { remarksByUniqueEmployee } from "../archive/penalty-details/utils";
 
 const ROLE = {
@@ -23,14 +21,17 @@ export function PageResult({
   tipsData,
   month,
   year,
+  tab,
+  isAdmin,
 }: {
   dataSchedule: SchedulesContextValue[];
   dataRemarks: ReturnType<typeof remarksByUniqueEmployee>["formattedData"];
   tipsData: GetTipsData | null;
   month: string;
   year: string;
+  tab: string;
+  isAdmin: boolean;
 }) {
-  const [tab] = useHashParam("tab");
   const role = tab ?? "barmen";
 
   const selectedSchedule = dataSchedule.filter(
@@ -61,7 +62,7 @@ export function PageResult({
   return (
     <Table className={cn(employees.length === 0 && "hidden")}>
       <ResultTableHeader />
-      <ResultTableBody rows={rows} totals={totals} />
+      <ResultTableBody rows={rows} totals={totals} isAdmin={isAdmin} />
     </Table>
   );
 }

@@ -1,17 +1,17 @@
 "use client";
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
-import { useAbility } from "@/providers/ability-provider";
 import { handleCopy } from "@/utils/handler-copy-text";
 import { useResultCalculations } from "./utils";
 
 export default function ResultTableBody({
   rows,
   totals,
+  isAdmin,
 }: {
   rows: ReturnType<typeof useResultCalculations>["rows"];
   totals: ReturnType<typeof useResultCalculations>["totals"];
+  isAdmin: boolean;
 }) {
-  const { isAdmin } = useAbility();
   return (
     <TableBody>
       {rows.map(

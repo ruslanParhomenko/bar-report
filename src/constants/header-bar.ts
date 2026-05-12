@@ -80,11 +80,23 @@ export const TABS_BY_ROUTE = {
   ],
 } as const;
 
+const FILTERS_BY_ROUTE = {
+  [EMPLOYEES_MAIN_ROUTE]: [
+    "waiters",
+    "barmen",
+    "cook",
+    "dish",
+    "mngr",
+    "buyer",
+  ],
+};
+
 export type NAV_BY_PATCH_TYPE = Record<
   Route,
   {
     tabs: readonly string[];
     selectDate: boolean;
+    filters: readonly string[];
   }
 >;
 
@@ -92,75 +104,90 @@ export const NAV_BY_PATCH = {
   [SCHEDULE_MAIN_ROUTE]: {
     tabs: TABS_BY_ROUTE[SCHEDULE_MAIN_ROUTE],
     selectDate: true,
+    filters: [],
   },
 
   [ALGORITHM_MAIN_ROUTE]: {
     tabs: TABS_BY_ROUTE[ALGORITHM_MAIN_ROUTE],
     selectDate: false,
+    filters: [],
   },
 
   [REPORTS_BAR_ROUTE]: {
     tabs: TABS_BY_ROUTE[REPORTS_BAR_ROUTE],
     selectDate: false,
+    filters: [],
   },
 
   [REPORTS_CUCINA_ROUTE]: {
     tabs: TABS_BY_ROUTE[REPORTS_CUCINA_ROUTE],
     selectDate: false,
+    filters: [],
   },
 
   [ARCHIVE_MAIN_ROUTE]: {
     tabs: TABS_BY_ROUTE[ARCHIVE_MAIN_ROUTE],
     selectDate: true,
+    filters: [],
   },
 
   [INFO_MAIN_ROUTE]: {
     tabs: TABS_BY_ROUTE[INFO_MAIN_ROUTE],
     selectDate: false,
+    filters: [],
   },
 
   [RESULT_MAIN_ROUTE]: {
     tabs: TABS_BY_ROUTE[RESULT_MAIN_ROUTE],
     selectDate: true,
+    filters: [],
   },
 
   [TTN_MAIN_ROUTE]: {
     tabs: TABS_BY_ROUTE[TTN_MAIN_ROUTE],
     selectDate: true,
+    filters: [],
   },
 
   [EMPLOYEES_MAIN_ROUTE]: {
     tabs: TABS_BY_ROUTE[EMPLOYEES_MAIN_ROUTE],
     selectDate: false,
+    filters: FILTERS_BY_ROUTE[EMPLOYEES_MAIN_ROUTE],
   },
 
   [TIPS_MAIN_ROUTE]: {
     tabs: TABS_BY_ROUTE[TIPS_MAIN_ROUTE],
     selectDate: true,
+    filters: [],
   },
 
   [CASH_MAIN_ROUTE]: {
     tabs: TABS_BY_ROUTE[CASH_MAIN_ROUTE],
     selectDate: true,
+    filters: [],
   },
 
   [AO_REPORT_MAIN_ROUTE]: {
     tabs: TABS_BY_ROUTE[AO_REPORT_MAIN_ROUTE],
     selectDate: true,
+    filters: [],
   },
 
   [ORDERS_MAIN_ROUTE]: {
     tabs: TABS_BY_ROUTE[ORDERS_MAIN_ROUTE],
     selectDate: false,
+    filters: [],
   },
 
   [SETTING_MAIN_ROUTE]: {
     tabs: TABS_BY_ROUTE[SETTING_MAIN_ROUTE],
     selectDate: false,
+    filters: [],
   },
 
   [FIN_CASH_MAIN_ROUTE]: {
     tabs: TABS_BY_ROUTE[FIN_CASH_MAIN_ROUTE],
     selectDate: true,
+    filters: [],
   },
 } satisfies Partial<NAV_BY_PATCH_TYPE>;

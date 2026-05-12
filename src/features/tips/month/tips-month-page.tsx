@@ -21,9 +21,9 @@ import TipsHeaderTable from "./tips-header";
 const SELECTED_ROLE = ["waiters", "barmen"] as const;
 
 export default function TipsMonthPage({
-  dataTips,
+  dataTipsYear,
 }: {
-  dataTips: GetTipsData | null;
+  dataTipsYear: GetTipsData[] | null;
 }) {
   const { isAdmin } = useAbility();
 
@@ -32,6 +32,7 @@ export default function TipsMonthPage({
 
   const { isEdit, setIsEdit } = useEdit();
   const { monthDays, month, year } = useMonthDays();
+  const dataTips = dataTipsYear?.find((data) => data.id === month) || null;
 
   const employees = useEmployees()
     .filter((e) => e.status === "active")

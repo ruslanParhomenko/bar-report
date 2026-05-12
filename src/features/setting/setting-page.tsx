@@ -1,14 +1,15 @@
 "use client";
 
 import { saveSettingsData } from "@/app/actions/settings/settings-action";
+
 import { useFormId } from "@/hooks/use-form-id";
-import { useHashParam } from "@/hooks/use-hash";
 import { useActionState, useEffect } from "react";
 import { toast } from "sonner";
 import SettingsJson from "./setting-json-form";
 
 export default function SettingPage({
   data,
+  tab,
 }: {
   data: {
     productsData: string;
@@ -17,8 +18,9 @@ export default function SettingPage({
     ttnData: string;
     priceListData: string;
   };
+  tab: string;
 }) {
-  const [tab] = useHashParam("tab");
+  // const [tab] = useHashParam("tab");
 
   const [state, formAction, isPending] = useActionState(saveSettingsData, {});
 

@@ -3,14 +3,18 @@ import { getScheduleByMonthYear } from "@/app/actions/schedule/schedule-action";
 import { getTipsByYearAndMonth } from "@/app/actions/tips/tips-action";
 import { remarksByUniqueEmployee } from "@/features/archive/penalty-details/utils";
 import { PageResult } from "@/features/result/result-page";
+import { headers } from "next/headers";
 export default async function Page({
   searchParams,
 }: {
   searchParams: Promise<{ [key: string]: string | undefined }>;
 }) {
-  const { month, year } = await searchParams;
+  const { month, year, tab } = await searchParams;
 
-  if (!month || !year) return null;
+  const headerStore = await headers();
+  const isAdmin = headerStore.get("x-is-admin") === "true";
+
+  if (!month || !year || !tab) return null;
 
   const [schedule, remarks, tipsData] = await Promise.all([
     getScheduleByMonthYear(month, year),
@@ -32,6 +36,8 @@ export default async function Page({
       tipsData={tipsData}
       month={month}
       year={year}
+      tab={tab}
+      isAdmin={isAdmin}
     />
   );
 }

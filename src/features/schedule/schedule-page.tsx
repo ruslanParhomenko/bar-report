@@ -7,7 +7,7 @@ import {
 } from "@/app/actions/schedule/schedule-action";
 import { Table } from "@/components/ui/table";
 import FormWrapper from "@/components/wrapper/form-wrapper";
-import { useHashParam } from "@/hooks/use-hash";
+
 import { useEdit } from "@/providers/edit-provider";
 import { useMonthDays } from "@/providers/month-days-provider";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -28,10 +28,12 @@ import {
 
 export default function SchedulePage({
   schedules,
+  tab,
 }: {
   schedules: SchedulesContextValue[] | null;
+  tab: string;
 }) {
-  const [tab] = useHashParam("tab");
+  // const [tab] = useHashParam("tab");
 
   const schedule = schedules?.find((s: any) => s.role === tab) ?? null;
 

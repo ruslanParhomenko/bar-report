@@ -4,6 +4,7 @@ import SelectField from "@/components/input-controlled/select-field";
 import SwitchInput from "@/components/input-controlled/switch-input";
 import TextInput from "@/components/input-controlled/text-input";
 import FormWrapper from "@/components/wrapper/form-wrapper";
+import { EMPLOYEES_MAIN_ROUTE } from "@/constants/route-tag";
 import { ROUTES } from "@/constants/routes";
 import { useAbility } from "@/providers/ability-provider";
 import { useEdit } from "@/providers/edit-provider";
@@ -13,11 +14,11 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { SubmitHandler, useForm, useWatch } from "react-hook-form";
 import { toast } from "sonner";
-import { defaultUser, usersSchema, UsersSchemaTypeData } from "./schema";
+import { defaultUser, UserForm, usersSchema } from "./schema";
 
 const ROLES = ["ADMIN", "BAR", "CUCINA", "USER", "MNGR", "CASH", "FIN", "SCR"];
 
-type FormData = UsersSchemaTypeData;
+type FormData = UserForm;
 
 export default function UsersCreatePage({ id }: { id?: string }) {
   const { setIsEdit, registerReset } = useEdit();
@@ -28,10 +29,9 @@ export default function UsersCreatePage({ id }: { id?: string }) {
 
   const form = useForm<FormData>({
     resolver: zodResolver(usersSchema),
-    defaultValues: user ? { ...defaultUser, ...user } : defaultUser,
+    defaultValues: user || defaultUser,
   });
 
-  // Watch accessList to derive boolean state for each route switch
   const accessList = useWatch({ control: form.control, name: "accessList" });
 
   const handleRouteToggle = (route: string, checked: boolean) => {
@@ -43,37 +43,18 @@ export default function UsersCreatePage({ id }: { id?: string }) {
   };
 
   useEffect(() => {
-    if (user) {
-      form.reset({ ...defaultUser, ...user });
-    }
-  }, [user]);
-
-  useEffect(() => {
-    setIsEdit(true);
     registerReset(form.reset);
   }, []);
 
-  const returnUrl = "/employees#tab=users";
+  const returnUrl = `/${EMPLOYEES_MAIN_ROUTE}`;
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     try {
       if (id) {
-        await updateUser(id, {
-          mail: data.mail,
-          role: data.role,
-          name: data.name,
-          status: data.status,
-          accessList: data.accessList,
-        });
+        await updateUser(id, data);
         toast.success("User is updated !");
       } else {
-        await createUser({
-          mail: data.mail,
-          role: data.role,
-          name: data.name,
-          status: data.status,
-          accessList: data.accessList,
-        });
+        await createUser(data);
         toast.success("User is added !");
       }
     } catch (e) {

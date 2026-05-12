@@ -1,9 +1,7 @@
 import { TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
-import { useTranslations } from "next-intl";
 
 export default function ResultTableHeader() {
-  const t = useTranslations("Home");
   const classNameRow = "text-center text-gr w-10";
   return (
     <TableHeader>

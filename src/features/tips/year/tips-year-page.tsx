@@ -1,3 +1,4 @@
+"use client";
 import { GetTipsData } from "@/app/actions/tips/tips-action";
 import {
   Table,

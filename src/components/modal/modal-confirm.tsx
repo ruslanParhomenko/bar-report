@@ -1,39 +1,55 @@
 import { useTranslations } from "next-intl";
 import { Button } from "../ui/button";
-import { Dialog, DialogContent, DialogTitle } from "../ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "../ui/dialog";
 
 export default function ModalConfirm({
   open,
   setOpen,
   handleConfirm,
   confirmDisabled,
+  dialogText = "confirm",
+  descriptionText,
 }: {
   open: boolean;
   setOpen: (open: boolean) => void;
   handleConfirm: () => void;
   confirmDisabled?: boolean;
+  dialogText?: string;
+  descriptionText?: string;
 }) {
-  const t = useTranslations("Home");
+  const t = useTranslations("Dialog");
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent showCloseButton={false}>
-        <DialogTitle className="hidden" />
-        <div className="flex w-full items-center justify-around">
-          <Button
-            onClick={handleConfirm}
-            className="w-30"
-            disabled={confirmDisabled}
-          >
-            {t("confirm")}
-          </Button>
-          <Button
-            variant="destructive"
-            className="w-30"
-            onClick={() => setOpen(false)}
-          >
-            {t("cancel")}
-          </Button>
-        </div>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>{t(dialogText)}</DialogTitle>
+          <DialogDescription>{descriptionText}</DialogDescription>
+        </DialogHeader>
+        <DialogFooter>
+          <div className="flex w-full items-center justify-end gap-8">
+            <Button
+              onClick={handleConfirm}
+              className="w-28"
+              disabled={confirmDisabled}
+            >
+              {t("confirm")}
+            </Button>
+            <Button
+              variant="destructive"
+              className="w-28"
+              onClick={() => setOpen(false)}
+            >
+              {t("cancel")}
+            </Button>
+          </div>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   );

@@ -1,6 +1,5 @@
 "use client";
 import { Menu, StandardKitchen } from "@/app/actions/google/google-action";
-import { useHashParam } from "@/hooks/use-hash";
 import { MenuDaily } from "./menu/menu-daily";
 import StaffMenu from "./menu/menu-staff";
 import StatusMenu from "./menu/menu-status";
@@ -17,11 +16,10 @@ type InfoPageProps = {
     stopList: StopListSchemaType | null;
     priceList: any | null;
   };
+  tab: string;
 };
 
-export default function InfoPage({ data }: InfoPageProps) {
-  const [tab] = useHashParam("tab");
-
+export default function InfoPage({ data, tab }: InfoPageProps) {
   return (
     <>
       {tab === "stopList" && <StopListForm data={data.stopList || null} />}

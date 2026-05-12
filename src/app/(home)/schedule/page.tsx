@@ -6,8 +6,8 @@ export default async function Page({
 }: {
   searchParams: Promise<{ [key: string]: string }>;
 }) {
-  const { month, year } = await searchParams;
-  if (!month || !year) return null;
+  const { month, year, tab } = await searchParams;
+  if (!month || !year || !tab) return null;
   const schedules = (await getScheduleByMonthYear(month, year)) ?? null;
-  return <SchedulePage schedules={schedules} />;
+  return <SchedulePage schedules={schedules} tab={tab} />;
 }

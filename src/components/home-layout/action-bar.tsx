@@ -8,13 +8,13 @@ import {
   EMPLOYEES_MAIN_ROUTE,
   PENALTY_UPDATE_MAIN_ROUTE,
 } from "@/constants/route-tag";
+
 import { useFormId } from "@/hooks/use-form-id";
-import { useHashParam } from "@/hooks/use-hash";
 import { cn } from "@/lib/utils";
 import { useAbility } from "@/providers/ability-provider";
 import { useEdit } from "@/providers/edit-provider";
 import { FolderPlus, Menu, SaveAllIcon, SendIcon } from "lucide-react";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useTransition, ViewTransition } from "react";
 import EditButton from "../buttons/edit-button";
 import ExitButton from "../buttons/exit-button";
@@ -39,6 +39,7 @@ const URL_EXIT_BY_PATCH = {
 
 export default function ActionBar() {
   const pathname = usePathname();
+  const tab = useSearchParams().get("tab") || "";
   const mainRoute = pathname.split("/")[1] || "";
 
   const formId = useFormId();
@@ -52,7 +53,7 @@ export default function ActionBar() {
 
   const { isAdmin } = useAbility();
   const { isEdit, setIsEdit, resetFn } = useEdit();
-  const [tab] = useHashParam("tab");
+  // const [tab] = useHashParam("tab");
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
 

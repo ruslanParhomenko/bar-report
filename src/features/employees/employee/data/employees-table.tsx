@@ -1,6 +1,7 @@
 "use client";
-import { Employee } from "@/app/actions/employees/employee-action";
-import SelectOptions from "@/components/select/select-options";
+import { deleteEmployee } from "@/app/actions/employees/employee-action";
+import DeleteButton from "@/components/buttons/delete-button";
+import LinkEditButton from "@/components/buttons/link-edit-button";
 import {
   Table,
   TableBody,
@@ -9,23 +10,23 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { CREATE_EMPLOYEE_MAIN_ROUTE } from "@/constants/route-tag";
 import { cn } from "@/lib/utils";
-import { useAbility } from "@/providers/ability-provider";
+import { useEmployees } from "@/providers/employees-provider";
 import { formatShortDate } from "@/utils/format-date";
 import { handleCopy } from "@/utils/handler-copy-text";
 import { differenceInMonths } from "date-fns";
 import { CheckCircle, UserX, XCircle } from "lucide-react";
-import { useState } from "react";
-import { EMPLOYEES_ROLE } from "../create/constants";
-import ActionButtonEmployee from "../create/employee-actions";
 
-export function EmployeesTable({ data }: { data: Employee[] }) {
-  const [role, setRole] = useState("waiters");
-
-  const { isAdmin, isManager } = useAbility();
-
-  const isViewer = isAdmin || isManager;
-
+export function EmployeesTable({
+  isAdmin,
+  filter,
+}: {
+  isAdmin: boolean;
+  filter: string;
+}) {
+  const employees = useEmployees();
+  const role = filter;
   return (
     <Table className="md:table-fixed [&>tbody>tr]:text-xs">
       <TableHeader className="bg-background sticky top-0 z-20 md:bg-transparent">
@@ -35,13 +36,13 @@ export function EmployeesTable({ data }: { data: Employee[] }) {
           <TableHead className="sticky left-0 md:w-25" />
           <TableHead className="w-15" />
           <TableHead className="w-20">
-            <SelectOptions
+            {/* <SelectOptions
               options={EMPLOYEES_ROLE}
               value={role}
               onChange={setRole}
               placeHolder="role"
               className="text-bl bg-transparent!"
-            />
+            /> */}
           </TableHead>
           <TableHead className="w-30" />
           <TableHead className="w-20 truncate" />
@@ -57,7 +58,7 @@ export function EmployeesTable({ data }: { data: Employee[] }) {
       </TableHeader>
 
       <TableBody>
-        {data
+        {employees
           ?.filter((emp) => role === "all" || emp.role === role)
           .sort((a, b) => a.name.localeCompare(b.name))
           .map((emp, idx) => {
@@ -97,7 +98,7 @@ export function EmployeesTable({ data }: { data: Employee[] }) {
                 >
                   {emp.name}
                 </TableCell>
-                <TableCell>{isViewer ? Number(emp.rate) : "-"}</TableCell>
+                <TableCell>{isAdmin ? Number(emp.rate) : "-"}</TableCell>
                 <TableCell>{emp.role}</TableCell>
                 <TableCell
                   className="truncate"
@@ -137,7 +138,16 @@ export function EmployeesTable({ data }: { data: Employee[] }) {
                   )}
                 </TableCell>
                 <TableCell className="print:hidden">
-                  <ActionButtonEmployee id={emp.id} />
+                  <div className="flex justify-center gap-8">
+                    <LinkEditButton
+                      url={`/${CREATE_EMPLOYEE_MAIN_ROUTE}/${emp.id}`}
+                    />
+                    <DeleteButton
+                      dialogText="confirmDelete"
+                      descriptionText={emp.name}
+                      onDelete={() => deleteEmployee(emp.id)}
+                    />
+                  </div>
                 </TableCell>
               </TableRow>
             );

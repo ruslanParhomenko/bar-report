@@ -22,6 +22,8 @@ export async function proxy(request: NextRequest) {
 
   const allowedRoutes = token.accessList;
 
+  const isAdmin = token.role === "ADMIN";
+
   const accessGranted =
     token.role === "ADMIN" || allowedRoutes.includes(segment as string);
 
@@ -29,7 +31,9 @@ export async function proxy(request: NextRequest) {
     return NextResponse.redirect(new URL("/no-access", request.url));
   }
 
-  return NextResponse.next();
+  const response = NextResponse.next();
+  response.headers.set("x-is-admin", isAdmin ? "true" : "false");
+  return response;
 }
 
 export const config = {

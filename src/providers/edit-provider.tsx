@@ -1,4 +1,9 @@
 "use client";
+import {
+  CREATE_EMPLOYEE_MAIN_ROUTE,
+  CREATE_USER_MAIN_ROUTE,
+  PENALTY_UPDATE_MAIN_ROUTE,
+} from "@/constants/route-tag";
 import { usePathname } from "next/navigation";
 import { createContext, useContext, useEffect, useState } from "react";
 
@@ -10,9 +15,9 @@ type EditContextType = {
 };
 
 const EDIT_PATHS = new Set([
-  "create-employees",
-  "create-users",
-  "penalty-update",
+  CREATE_EMPLOYEE_MAIN_ROUTE,
+  CREATE_USER_MAIN_ROUTE,
+  PENALTY_UPDATE_MAIN_ROUTE,
 ]);
 const EditContext = createContext<EditContextType | null>(null);
 export default function EditProvider({

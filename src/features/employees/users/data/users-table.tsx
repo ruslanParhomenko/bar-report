@@ -1,21 +1,20 @@
 "use client";
-import { updateUser, UserData } from "@/app/actions/users/user-action";
+import { deleteUser, updateUser } from "@/app/actions/users/user-action";
+import DeleteButton from "@/components/buttons/delete-button";
+import LinkEditButton from "@/components/buttons/link-edit-button";
 import { Switch } from "@/components/ui/switch";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
+import { CREATE_USER_MAIN_ROUTE } from "@/constants/route-tag";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useAbility } from "@/providers/ability-provider";
 import { CheckCircle, UserX } from "lucide-react";
 import { useState } from "react";
-import UsersActions from "../create/users-action";
 
-export default function UsersTable({ users }: { users: UserData[] }) {
+export default function UsersTable({ isAdmin }: { isAdmin: boolean }) {
+  const { users } = useAbility();
   const [localUsers, setLocalUsers] = useState(users);
 
-  console.log(localUsers);
-
   const isMobile = useIsMobile();
-
-  const { isAdmin } = useAbility();
 
   const handleStatusChange = async (id: string, newStatus: boolean) => {
     setLocalUsers((prev) =>
@@ -74,7 +73,14 @@ export default function UsersTable({ users }: { users: UserData[] }) {
               </div>
             </TableCell>
             <TableCell className="w-12 md:px-4">
-              <UsersActions id={user.id as string} />
+              <div className="flex justify-center gap-8">
+                <LinkEditButton url={`/${CREATE_USER_MAIN_ROUTE}/${user.id}`} />
+                <DeleteButton
+                  dialogText="confirmDelete"
+                  descriptionText={user.mail}
+                  onDelete={() => deleteUser(user.id as string)}
+                />
+              </div>
             </TableCell>
           </TableRow>
         ))}

@@ -33,7 +33,7 @@ import DatePickerInput from "@/components/input-controlled/date-input";
 import FormWrapper from "@/components/wrapper/form-wrapper";
 import BreakTable from "@/features/bar/break-form/break-table";
 import PenaltyTable from "@/features/bar/penalty/penalty-table";
-import { useHashParam } from "@/hooks/use-hash";
+
 import { useLocalStorageForm } from "@/hooks/use-local-storage";
 import { ViewTransition } from "react";
 import { remarksDefault } from "./penalty/schema";
@@ -46,11 +46,13 @@ const KEY_LOCALSTORAGE = "report-bar-form";
 export default function BarPage({
   dataBreakList,
   currencyUSD,
+  tab,
 }: {
   dataBreakList: BreakForm | null;
   currencyUSD: number | null;
+  tab: string;
 }) {
-  const [tab] = useHashParam("tab");
+  // const [tab] = useHashParam("tab");
 
   const { isBar, isAdmin } = useAbility();
   const isDisabled = !(isAdmin || isBar);

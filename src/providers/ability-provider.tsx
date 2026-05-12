@@ -1,5 +1,5 @@
 "use client";
-import { UsersSchemaTypeData } from "@/features/employees/users/create/schema";
+import { GetUserData } from "@/app/actions/users/user-action";
 import { useSession } from "next-auth/react";
 import React, { createContext, useContext } from "react";
 
@@ -16,7 +16,7 @@ type Ability = {
 
 type AbilityContextValue = {
   ability: Ability;
-  users: UsersSchemaTypeData[];
+  users: GetUserData[];
 };
 
 const AbilityContext = createContext<AbilityContextValue | null>(null);
@@ -26,7 +26,7 @@ export function AbilityProvider({
   users,
 }: {
   children: React.ReactNode;
-  users: UsersSchemaTypeData[];
+  users: GetUserData[];
 }) {
   const { data: session, status } = useSession();
 

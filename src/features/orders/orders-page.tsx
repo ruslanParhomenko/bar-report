@@ -1,12 +1,9 @@
 "use client";
 
-import { useHashParam } from "@/hooks/use-hash";
 import { useOrderProducts } from "@/providers/order-products-provider";
 import { OrderForm } from "./order-form";
 
-export default function OrdersPage() {
-  const [tab] = useHashParam("tab");
-
+export default function OrdersPage({ tab }: { tab: string }) {
   const orderProducts = useOrderProducts();
 
   if (!orderProducts) {

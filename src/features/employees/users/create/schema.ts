@@ -8,11 +8,9 @@ export const usersSchema = z.object({
   accessList: z.array(z.string()),
 });
 
-export type UsersSchemaTypeData = z.infer<typeof usersSchema> & {
-  id?: string;
-};
+export type UserForm = z.infer<typeof usersSchema>;
 
-export const defaultUser: UsersSchemaTypeData = {
+export const defaultUser: UserForm = {
   mail: "",
   role: "",
   name: "",

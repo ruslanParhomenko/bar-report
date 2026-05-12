@@ -8,7 +8,6 @@ import { GetKitchenData } from "@/app/actions/report-kitchen/kitchen-action";
 import { GetTipsAddData } from "@/app/actions/tips-add/tips-add-actions";
 import ReportBarTable from "@/features/archive/bar/report-bar-archive";
 import ReportKitchenTable from "@/features/archive/cucina/report-cucina";
-import { useHashParam } from "@/hooks/use-hash";
 import { useAbility } from "@/providers/ability-provider";
 import { BreakListArchive } from "./break/break-list-archive";
 import PenaltyDetails from "./penalty-details/penalty-details";
@@ -25,10 +24,11 @@ export type ArchiveData = {
 
 export default function ArchivePage({
   archiveData,
+  tab,
 }: {
   archiveData: ArchiveData;
+  tab: string;
 }) {
-  const [tab] = useHashParam("tab");
   const { isBar, isCucina } = useAbility();
 
   const TABS = [

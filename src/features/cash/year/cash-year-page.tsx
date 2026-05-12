@@ -1,3 +1,4 @@
+"use client";
 import { GetCashData } from "@/app/actions/cash/cash-action";
 import {
   Table,
