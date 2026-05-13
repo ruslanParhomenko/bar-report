@@ -2,11 +2,10 @@
 
 import { ACTION_ITEM_BY_ROUTE } from "@/constants/footer-bar";
 import {
-  ARCHIVE_MAIN_ROUTE,
   CREATE_EMPLOYEE_MAIN_ROUTE,
   CREATE_USER_MAIN_ROUTE,
   EMPLOYEES_MAIN_ROUTE,
-  PENALTY_UPDATE_MAIN_ROUTE,
+  USERS_MAIN_ROUTE,
 } from "@/constants/route-tag";
 
 import { useFormId } from "@/hooks/use-form-id";
@@ -26,15 +25,7 @@ import { useSidebar } from "../ui/sidebar";
 
 const URL_CREATE_BY_TAB = {
   [EMPLOYEES_MAIN_ROUTE]: `/${CREATE_EMPLOYEE_MAIN_ROUTE}`,
-  users: `/${CREATE_USER_MAIN_ROUTE}`,
-};
-
-const URL_EXIT_BY_PATCH = {
-  [EMPLOYEES_MAIN_ROUTE]: `/${EMPLOYEES_MAIN_ROUTE}`,
-  users: `/${EMPLOYEES_MAIN_ROUTE}`,
-  [PENALTY_UPDATE_MAIN_ROUTE]: `/${ARCHIVE_MAIN_ROUTE}`,
-  [CREATE_EMPLOYEE_MAIN_ROUTE]: `/${EMPLOYEES_MAIN_ROUTE}`,
-  [CREATE_USER_MAIN_ROUTE]: `/${EMPLOYEES_MAIN_ROUTE}`,
+  [USERS_MAIN_ROUTE]: `/${CREATE_USER_MAIN_ROUTE}`,
 };
 
 export default function ActionBar() {
@@ -53,16 +44,13 @@ export default function ActionBar() {
 
   const { isAdmin } = useAbility();
   const { isEdit, setIsEdit, resetFn } = useEdit();
-  // const [tab] = useHashParam("tab");
+
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
 
   const iconCn = "bg-border rounded-md border px-3 py-1 cursor-pointer";
   const urlForCreate =
-    URL_CREATE_BY_TAB[tab as keyof typeof URL_CREATE_BY_TAB] || pathname;
-
-  const urlForExit =
-    URL_EXIT_BY_PATCH[mainRoute as keyof typeof URL_EXIT_BY_PATCH] || pathname;
+    URL_CREATE_BY_TAB[mainRoute as keyof typeof URL_CREATE_BY_TAB];
 
   return (
     <ViewTransition>
@@ -102,13 +90,7 @@ export default function ActionBar() {
             <FolderPlus size={20} strokeWidth={1.5} />
           </button>
         )}
-        {has("exit") && (
-          <ExitButton
-            className={iconCn}
-            disabled={isPending}
-            url={urlForExit}
-          />
-        )}
+        {has("exit") && <ExitButton className={iconCn} disabled={isPending} />}
         {has("send") && (
           <button type="submit" form={formId} className={iconCn}>
             <SendIcon size={18} strokeWidth={1.5} />

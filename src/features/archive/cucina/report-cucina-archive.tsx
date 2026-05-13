@@ -12,7 +12,7 @@ import WriteOffTable from "./write-off-table";
 export const classNameHeadCucina = "text-shadow-muted-foreground font-bold";
 export const classNameRowBorderCucina = "border-b-bl";
 
-export default function ReportKitchenTable({
+export default function ReportCucinaArchive({
   data,
 }: {
   data: GetKitchenData[] | null;
@@ -57,10 +57,9 @@ export default function ReportKitchenTable({
         return (
           <Card
             key={index}
-            className="bg-background! m-2 cursor-pointer shadow-none"
+            className="bg-background! cursor-pointer shadow-none md:m-2"
             onClick={() => toggle(index)}
           >
-            {/* Показываем только card + day */}
             <CardTitle className="text-bl p-4 text-xs">
               day: {item.id}
             </CardTitle>

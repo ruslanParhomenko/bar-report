@@ -13,7 +13,7 @@ import ProductTransferTable from "./transfer-table";
 export const classNameHead = "text-shadow-muted-foreground font-bold";
 export const classNameRowBorder = "border-b-bl";
 
-export default function ReportBarTable({
+export default function ReportBarArchive({
   data,
 }: {
   data: GetReportData[] | null;
@@ -44,7 +44,7 @@ export default function ReportBarTable({
         return (
           <Card
             key={index}
-            className="bg-background! m-2 cursor-pointer shadow-none"
+            className="bg-background! cursor-pointer shadow-none md:m-2"
             onClick={() => toggle(index)}
           >
             <CardTitle className="text-bl p-4 text-xs">

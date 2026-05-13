@@ -49,7 +49,7 @@ export default function AlgorithmPage({ tab }: { tab: string }) {
       if (!data) return;
       const dataForm = {
         ...Object.fromEntries(
-          FIELD_CONFIG.map((name) => [name, data[name] || defaultValues]),
+          FIELD_CONFIG.map((name) => [name, data[name] || [defaultValues]]),
         ),
       };
       if (data) form.reset(dataForm);
@@ -57,6 +57,7 @@ export default function AlgorithmPage({ tab }: { tab: string }) {
 
     load();
   }, [form]);
+
   return (
     <FormWrapper form={form} onSubmit={onSubmit}>
       {FIELD_CONFIG.map((name) => (

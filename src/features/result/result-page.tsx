@@ -6,7 +6,7 @@ import { extractUniqueEmployees, useResultCalculations } from "./utils";
 
 import { SchedulesContextValue } from "@/app/actions/schedule/schedule-action";
 import { GetTipsData } from "@/app/actions/tips/tips-action";
-import { remarksByUniqueEmployee } from "../archive/penalty-details/utils";
+import { remarksByUniqueEmployee } from "../archive/penalty/utils";
 
 const ROLE = {
   barmen: "bar",

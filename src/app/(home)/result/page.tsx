@@ -1,7 +1,7 @@
 import { getRemarksByYearMonth } from "@/app/actions/remarks/remarks-action";
 import { getScheduleByMonthYear } from "@/app/actions/schedule/schedule-action";
 import { getTipsByYearAndMonth } from "@/app/actions/tips/tips-action";
-import { remarksByUniqueEmployee } from "@/features/archive/penalty-details/utils";
+import { remarksByUniqueEmployee } from "@/features/archive/penalty/utils";
 import { PageResult } from "@/features/result/result-page";
 import { headers } from "next/headers";
 export default async function Page({

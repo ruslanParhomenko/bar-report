@@ -8,7 +8,11 @@ import { TipsAddForm } from "@/features/bar/tips-add/schema";
 import { useTipsCalculation } from "@/hooks/use-tips-calculation";
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
-export default function TipsData({ data }: { data: GetTipsAddData[] | null }) {
+export default function TipsArchiveData({
+  data,
+}: {
+  data: GetTipsAddData[] | null;
+}) {
   const [opened, setOpened] = useState<number[]>([]);
 
   useEffect(() => {
@@ -43,7 +47,7 @@ export default function TipsData({ data }: { data: GetTipsAddData[] | null }) {
         return (
           <Card
             key={index}
-            className="bg-background! m-2 cursor-pointer shadow-none"
+            className="bg-background! cursor-pointer shadow-none md:m-2"
             onClick={() => toggle(index)}
           >
             <CardTitle className="p-2 text-xs">
@@ -57,7 +61,7 @@ export default function TipsData({ data }: { data: GetTipsAddData[] | null }) {
             </CardTitle>
 
             {isOpen && (
-              <CardContent className="overflow-auto px-0">
+              <CardContent className="overflow-auto">
                 <Table className="md:table-fixed">
                   <TableBody>
                     {employees.map((emp: TipsAddForm, i: number) => {

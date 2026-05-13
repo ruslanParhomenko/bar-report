@@ -1,4 +1,4 @@
-import { EmployeesPage } from "@/features/employees/employees-page";
+import { UsersPage } from "@/features/users/users-page";
 import { headers } from "next/headers";
 
 export default async function Page({
@@ -7,8 +7,8 @@ export default async function Page({
   searchParams: Promise<{ [key: string]: string }>;
 }) {
   const { filter } = await searchParams;
-  if (!filter) return null;
+
   const headerStore = await headers();
   const isAdmin = headerStore.get("x-is-admin") === "true";
-  return <EmployeesPage isAdmin={isAdmin} filter={filter} />;
+  return <UsersPage isAdmin={isAdmin} filter={filter} />;
 }

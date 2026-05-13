@@ -14,12 +14,13 @@ import {
   SETTING_MAIN_ROUTE,
   TIPS_MAIN_ROUTE,
   TTN_MAIN_ROUTE,
+  USERS_MAIN_ROUTE,
 } from "@/constants/route-tag";
 import {
   Archive,
-  BarChart3,
   CalculatorIcon,
   Calendar,
+  ChefHat,
   ClipboardIcon,
   CodeIcon,
   CreditCard,
@@ -27,9 +28,11 @@ import {
   FileTextIcon,
   Info,
   List,
+  Martini,
   PersonStandingIcon,
   Settings,
   SigmaIcon,
+  UserRoundCog,
 } from "lucide-react";
 
 export const SIDEBAR_NAVIGATION = [
@@ -37,7 +40,6 @@ export const SIDEBAR_NAVIGATION = [
     title: SCHEDULE_MAIN_ROUTE,
     url: SCHEDULE_MAIN_ROUTE,
     icon: Calendar,
-    setAccess: ["ADMIN", "BAR", "CUCINA", "USER"],
   },
   {
     title: EMPLOYEES_MAIN_ROUTE,
@@ -49,80 +51,72 @@ export const SIDEBAR_NAVIGATION = [
     title: ALGORITHM_MAIN_ROUTE,
     url: ALGORITHM_MAIN_ROUTE,
     icon: CodeIcon,
-    setAccess: ["ADMIN", "BAR", "CUCINA", "USER"],
   },
   {
     title: REPORTS_BAR_ROUTE,
     url: REPORTS_BAR_ROUTE,
-    icon: BarChart3,
-    setAccess: ["ADMIN", "BAR", "USER"],
+    icon: Martini,
   },
   {
     title: REPORTS_CUCINA_ROUTE,
     url: REPORTS_CUCINA_ROUTE,
-    icon: BarChart3,
-    setAccess: ["ADMIN", "CUCINA"],
+    icon: ChefHat,
   },
 
   {
     title: ORDERS_MAIN_ROUTE,
     url: ORDERS_MAIN_ROUTE,
     icon: List,
-    setAccess: ["ADMIN", "BAR", "CUCINA"],
   },
   {
     title: INFO_MAIN_ROUTE,
     url: INFO_MAIN_ROUTE,
     icon: Info,
-    setAccess: ["ADMIN", "BAR", "CUCINA", "USER"],
   },
   {
     title: ARCHIVE_MAIN_ROUTE,
     url: ARCHIVE_MAIN_ROUTE,
     icon: Archive,
-    setAccess: ["ADMIN", "USER", "BAR", "CUCINA"],
   },
 
   {
     title: TIPS_MAIN_ROUTE,
     url: TIPS_MAIN_ROUTE,
     icon: DollarSign,
-    setAccess: ["ADMIN"],
   },
   {
     title: CASH_MAIN_ROUTE,
     url: CASH_MAIN_ROUTE,
     icon: CreditCard,
-    setAccess: ["ADMIN", "CASH"],
   },
   {
     title: AO_REPORT_MAIN_ROUTE,
     url: AO_REPORT_MAIN_ROUTE,
     icon: CalculatorIcon,
-    setAccess: ["ADMIN"],
   },
   {
     title: TTN_MAIN_ROUTE,
     url: TTN_MAIN_ROUTE,
     icon: FileTextIcon,
-    setAccess: ["ADMIN", "FIN"],
   },
   {
     title: FIN_CASH_MAIN_ROUTE,
     url: FIN_CASH_MAIN_ROUTE,
     icon: ClipboardIcon,
-    setAccess: ["ADMIN"],
   },
   {
     title: RESULT_MAIN_ROUTE,
     url: RESULT_MAIN_ROUTE,
     icon: SigmaIcon,
-    setAccess: ["ADMIN", "MNGR"],
   },
   {
     title: SETTING_MAIN_ROUTE,
     url: SETTING_MAIN_ROUTE,
     icon: Settings,
-    setAccess: ["ADMIN"],
+  },
+  {
+    title: USERS_MAIN_ROUTE,
+    url: USERS_MAIN_ROUTE,
+    icon: UserRoundCog,
   },
 ];

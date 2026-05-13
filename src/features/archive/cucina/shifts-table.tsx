@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/table";
 import { ReportShiftType } from "@/features/cucina/schema";
 import { classNameRowBorder } from "../bar/report-bar-archive";
-import { classNameHeadCucina } from "./report-cucina";
+import { classNameHeadCucina } from "./report-cucina-archive";
 
 export default function ShiftsTable({ data }: { data: ReportShiftType[] }) {
   return (

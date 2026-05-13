@@ -14,7 +14,8 @@
     "fin-cash": "бух-касса",
     "result": "итог",
     "setting": "настройки",
-    "algorithm": "алгоритм"
+    "algorithm": "алгоритм",
+    "users": "пользователи"
   },
   "ReportKitchen": {
     "shifts": "смены",

@@ -22,8 +22,7 @@ export function BreakListArchive({ data }: { data: GetBreakData[] | null }) {
     );
   };
   if (!data) return null;
-
-  const reversed = [...data].reverse();
+  const reversed = data.sort((a, b) => Number(b.id) - Number(a.id));
 
   return (
     <>
@@ -33,10 +32,9 @@ export function BreakListArchive({ data }: { data: GetBreakData[] | null }) {
         return (
           <Card
             key={index}
-            className="bg-background! m-2 cursor-pointer shadow-none"
+            className="bg-background! cursor-pointer shadow-none md:m-2"
             onClick={() => toggle(index)}
           >
-            {/* card + day */}
             <CardTitle className="text-bl p-4 text-xs">
               day: {item.id}
             </CardTitle>

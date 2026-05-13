@@ -17,7 +17,27 @@ export default function NavTabs({
   if (!navItems.length) return null;
 
   const tabsWidth = `w-1/${navItems.length}`;
-  const itemsWidth = navItems.length < 6 ? "w-16" : "w-7";
+  const length = navItems.length;
+
+  let itemsWidth = "w-4";
+
+  switch (true) {
+    case length >= 1 && length <= 4:
+      itemsWidth = "w-14";
+      break;
+
+    case length >= 5 && length <= 6:
+      itemsWidth = "w-10";
+      break;
+
+    case length >= 7 && length <= 8:
+      itemsWidth = "w-6";
+      break;
+
+    default:
+      itemsWidth = "w-4";
+  }
+
   return (
     <Tabs
       value={activeTab}

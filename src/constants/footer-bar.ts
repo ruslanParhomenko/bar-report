@@ -19,6 +19,8 @@ import {
   SETTING_MAIN_ROUTE,
   TIPS_MAIN_ROUTE,
   TTN_MAIN_ROUTE,
+  USERS_MAIN_ROUTE,
+  VIEW_EMPLOYEE_MAIN_ROUTE,
 } from "./route-tag";
 
 export const ACTION_ITEM_BY_ROUTE = {
@@ -37,8 +39,11 @@ export const ACTION_ITEM_BY_ROUTE = {
   [FIN_CASH_MAIN_ROUTE]: ["edit", "save", "print"],
   [RESULT_MAIN_ROUTE]: ["print"],
   [SETTING_MAIN_ROUTE]: ["save-all"],
+  [USERS_MAIN_ROUTE]: ["print", "create"],
 
   [PENALTY_UPDATE_MAIN_ROUTE]: ["save", "print", "exit", "mail"],
   [CREATE_EMPLOYEE_MAIN_ROUTE]: ["save", "print", "exit", "reset"],
   [CREATE_USER_MAIN_ROUTE]: ["save", "print", "exit", "reset"],
+
+  [VIEW_EMPLOYEE_MAIN_ROUTE]: ["print", "exit"],
 } as const;

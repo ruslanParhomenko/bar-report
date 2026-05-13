@@ -1,7 +1,7 @@
 "use server";
 
 import { USERS_ACTION_TAG } from "@/constants/action-tag";
-import { UserForm } from "@/features/employees/users/create/schema";
+import { UserForm } from "@/features/users/create/schema";
 import { dbAdmin } from "@/lib/firebase-admin";
 import { redis } from "@/lib/redis";
 import { unstable_cache, updateTag } from "next/cache";

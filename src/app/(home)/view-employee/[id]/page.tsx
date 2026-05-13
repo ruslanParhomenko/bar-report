@@ -1,4 +1,4 @@
-import UsersForm from "@/features/users/create/users-create-page";
+import EmployeePage from "@/features/view-employee/employee-page";
 
 export default async function Page({
   params,
@@ -9,5 +9,5 @@ export default async function Page({
 
   if (!id) return null;
 
-  return <UsersForm id={id} />;
+  return <EmployeePage id={id} />;
 }

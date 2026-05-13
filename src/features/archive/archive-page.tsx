@@ -6,13 +6,13 @@ import { GetRemarksData } from "@/app/actions/remarks/remarks-action";
 import { GetReportData } from "@/app/actions/report-bar/report-bar-action";
 import { GetKitchenData } from "@/app/actions/report-kitchen/kitchen-action";
 import { GetTipsAddData } from "@/app/actions/tips-add/tips-add-actions";
-import ReportBarTable from "@/features/archive/bar/report-bar-archive";
-import ReportKitchenTable from "@/features/archive/cucina/report-cucina";
+import ReportBarArchive from "@/features/archive/bar/report-bar-archive";
+import ReportCucinaArchive from "@/features/archive/cucina/report-cucina-archive";
 import { useAbility } from "@/providers/ability-provider";
 import { BreakListArchive } from "./break/break-list-archive";
-import PenaltyDetails from "./penalty-details/penalty-details";
-import PenaltyGeneral from "./penalty-general/penalty-general";
-import TipsData from "./tips/tips-data";
+import PenaltyResult from "./penalty-result/penalty-result";
+import PenaltyArchiveData from "./penalty/penalty-archive-data";
+import TipsArchiveData from "./tips/tips-archive-data";
 
 export type ArchiveData = {
   bar: GetReportData[] | null;
@@ -35,12 +35,12 @@ export default function ArchivePage({
     {
       key: "bar",
       visible: !isCucina,
-      render: () => <ReportBarTable data={archiveData.bar} />,
+      render: () => <ReportBarArchive data={archiveData.bar} />,
     },
     {
       key: "cucina",
       visible: !isBar,
-      render: () => <ReportKitchenTable data={archiveData.cucina} />,
+      render: () => <ReportCucinaArchive data={archiveData.cucina} />,
     },
     {
       key: "breakList",
@@ -50,17 +50,17 @@ export default function ArchivePage({
     {
       key: "penalty",
       visible: !isCucina,
-      render: () => <PenaltyDetails data={archiveData.penalty} />,
+      render: () => <PenaltyArchiveData data={archiveData.penalty} />,
     },
     {
       key: "penalty-result",
       visible: !isCucina && !isBar,
-      render: () => <PenaltyGeneral data={archiveData.penalty} />,
+      render: () => <PenaltyResult data={archiveData.penalty} />,
     },
     {
       key: "tips-add",
       visible: !isCucina && !isBar,
-      render: () => <TipsData data={archiveData.tips} />,
+      render: () => <TipsArchiveData data={archiveData.tips} />,
     },
   ];
 

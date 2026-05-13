@@ -17,6 +17,7 @@ import {
   SETTING_MAIN_ROUTE,
   TIPS_MAIN_ROUTE,
   TTN_MAIN_ROUTE,
+  USERS_MAIN_ROUTE,
 } from "./route-tag";
 
 export const TABS_BY_ROUTE = {
@@ -32,7 +33,8 @@ export const TABS_BY_ROUTE = {
     "kitchen",
   ],
 
-  [EMPLOYEES_MAIN_ROUTE]: ["employees", "vacation", "users"],
+  [EMPLOYEES_MAIN_ROUTE]: [],
+  [USERS_MAIN_ROUTE]: [],
 
   [REPORTS_BAR_ROUTE]: ["break", "report", "tips"],
 
@@ -88,6 +90,17 @@ const FILTERS_BY_ROUTE = {
     "dish",
     "mngr",
     "buyer",
+  ],
+  [USERS_MAIN_ROUTE]: [
+    "all",
+    "bar",
+    "cucina",
+    "user",
+    "mngr",
+    "cash",
+    "fin",
+    "scr",
+    "admin",
   ],
 };
 
@@ -189,5 +202,11 @@ export const NAV_BY_PATCH = {
     tabs: TABS_BY_ROUTE[FIN_CASH_MAIN_ROUTE],
     selectDate: true,
     filters: [],
+  },
+
+  [USERS_MAIN_ROUTE]: {
+    tabs: TABS_BY_ROUTE[USERS_MAIN_ROUTE],
+    selectDate: false,
+    filters: FILTERS_BY_ROUTE[USERS_MAIN_ROUTE],
   },
 } satisfies Partial<NAV_BY_PATCH_TYPE>;

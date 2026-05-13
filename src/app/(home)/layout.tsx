@@ -5,7 +5,6 @@ import SidebarNav from "@/features/sidebar/sidebar-nav";
 import HomeDataProviders from "@/providers/home-data-providers";
 import HomeUIProviders from "@/providers/home-ui-providers";
 import MonthDaysProvider from "@/providers/month-days-provider";
-import ViewTransitionProvider from "@/providers/view-transition-provider";
 
 export default async function HomeLayout({
   children,
@@ -15,14 +14,11 @@ export default async function HomeLayout({
   return (
     <HomeDataProviders>
       <HomeUIProviders>
-        {/* <SidebarToggleButton /> */}
         <SidebarNav />
         <div className="flex h-dvh w-full flex-col px-1 pt-[env(safe-area-inset-top)] md:h-screen md:pt-0 md:pb-0">
           <HeaderBar />
           <ScreenshotWrapper>
-            <ViewTransitionProvider>
-              <MonthDaysProvider>{children}</MonthDaysProvider>
-            </ViewTransitionProvider>
+            <MonthDaysProvider>{children}</MonthDaysProvider>
           </ScreenshotWrapper>
           <ActionBar />
         </div>
