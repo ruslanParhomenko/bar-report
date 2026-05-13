@@ -33,7 +33,7 @@ export function EmployeesPage({
   const role = filter;
 
   return (
-    <Table className="mt-6 md:table-fixed [&>tbody>tr]:text-xs">
+    <Table className="md:table-fixed [&>tbody>tr]:text-xs">
       <TableHeader className="text-xs">
         <TableRow className="text-gr">
           <TableHead className="w-5" />
@@ -56,7 +56,10 @@ export function EmployeesPage({
       </TableHeader>
       <TableBody>
         {employees
-          ?.filter((emp) => role === "all" || emp.role === role)
+          ?.filter(
+            (emp) =>
+              role === "all" || emp.role.toLowerCase().includes(role ?? ""),
+          )
           .sort((a, b) => a.name.localeCompare(b.name))
           .map((emp, idx) => {
             const monthsWorked = emp?.employmentDate

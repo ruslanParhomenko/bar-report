@@ -7,7 +7,7 @@ export default async function Page({
   searchParams: Promise<{ [key: string]: string }>;
 }) {
   const { filter } = await searchParams;
-  if (!filter) return null;
+
   const headerStore = await headers();
   const isAdmin = headerStore.get("x-is-admin") === "true";
   return <EmployeesPage isAdmin={isAdmin} filter={filter} />;

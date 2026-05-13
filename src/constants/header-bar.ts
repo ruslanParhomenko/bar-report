@@ -84,6 +84,7 @@ export const TABS_BY_ROUTE = {
 
 const FILTERS_BY_ROUTE = {
   [EMPLOYEES_MAIN_ROUTE]: [
+    "all",
     "waiters",
     "barmen",
     "cook",
