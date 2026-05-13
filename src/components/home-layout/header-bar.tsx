@@ -23,12 +23,10 @@ export default function HeaderBar() {
   const config = NAV_BY_PATCH[mainRoute as keyof typeof NAV_BY_PATCH];
 
   const selectDate = config?.selectDate;
-  const withFilter = config?.filters?.length > 0;
+
   const navItems: readonly string[] = config?.tabs ?? [];
-  const filtersItems: readonly string[] = config?.filters ?? [];
 
   const activeTab = searchParams.get("tab") || navItems[0] || "";
-  const activeFilter = searchParams.get("filter") || filtersItems[0] || "";
 
   const urlMonth = searchParams.get("month");
   const urlYear = searchParams.get("year");
@@ -47,13 +45,7 @@ export default function HeaderBar() {
   }, [pathname]);
 
   const onSyncParams = useEffectEvent(
-    (
-      items: readonly string[],
-      m: string,
-      y: string,
-      withDate: boolean,
-      withFilter: boolean,
-    ) => {
+    (items: readonly string[], m: string, y: string, withDate: boolean) => {
       const params = new URLSearchParams(searchParams.toString());
 
       const hasItems = items.length > 0;
@@ -81,9 +73,6 @@ export default function HeaderBar() {
         params.set("month", m);
         params.set("year", y);
       }
-      if (withFilter) {
-        params.set("filter", activeFilter);
-      }
 
       startTransition(() => {
         router.replace(`${pathname}?${params.toString()}`, { scroll: false });
@@ -92,8 +81,8 @@ export default function HeaderBar() {
   );
 
   useEffect(() => {
-    onSyncParams(navItems, month, year, !!selectDate, !!withFilter);
-  }, [STORAGE_KEY, navItems, month, year, selectDate, pathname, withFilter]);
+    onSyncParams(navItems, month, year, !!selectDate);
+  }, [STORAGE_KEY, navItems, month, year, selectDate, pathname]);
 
   const handleTabChange = (value: string) => {
     localStorage.setItem(STORAGE_KEY, value);
@@ -101,17 +90,8 @@ export default function HeaderBar() {
     const params = new URLSearchParams(searchParams.toString());
     params.set("tab", value);
 
-    startTransition(() => {
-      router.replace(`${pathname}?${params.toString()}`, { scroll: false });
-    });
-  };
-  const handleFilterChange = (value: string) => {
-    const params = new URLSearchParams(searchParams.toString());
-    params.set("filter", value);
-
-    startTransition(() => {
-      router.replace(`${pathname}?${params.toString()}`, { scroll: false });
-    });
+    // router.replace(`${pathname}?${params.toString()}`, { scroll: false });
+    window.history.replaceState(null, "", `${pathname}?${params.toString()}`);
   };
 
   const selectClassName =
@@ -124,22 +104,13 @@ export default function HeaderBar() {
         navItems.length < 4 ? "flex-row" : "flex-col",
       )}
     >
-      <div className="flex w-full flex-col gap-4 md:flex-row md:justify-between">
-        <NavTabs
-          navItems={navItems}
-          activeTab={activeTab}
-          handleTabChange={handleTabChange}
-          disabled={isPending}
-        />
-        {filtersItems.length > 0 && (
-          <NavTabs
-            navItems={filtersItems}
-            activeTab={activeFilter}
-            handleTabChange={handleFilterChange}
-            disabled={isPending}
-          />
-        )}
-      </div>
+      <NavTabs
+        navItems={navItems}
+        activeTab={activeTab}
+        handleTabChange={handleTabChange}
+        disabled={isPending}
+      />
+
       {selectDate && (
         <div className="flex justify-center gap-2 md:justify-end">
           <SelectOptions

@@ -21,16 +21,11 @@ import { formatShortDate } from "@/utils/format-date";
 import { handleCopy } from "@/utils/handler-copy-text";
 import { differenceInMonths } from "date-fns";
 import { CheckCircle, UserX, XCircle } from "lucide-react";
+import { useSearchParams } from "next/navigation";
 
-export function EmployeesPage({
-  isAdmin,
-  filter,
-}: {
-  isAdmin: boolean;
-  filter: string;
-}) {
+export function EmployeesPage({ isAdmin }: { isAdmin: boolean }) {
+  const tab = useSearchParams().get("tab");
   const employees = useEmployees();
-  const role = filter;
 
   return (
     <Table className="md:table-fixed [&>tbody>tr]:text-xs">
@@ -56,10 +51,7 @@ export function EmployeesPage({
       </TableHeader>
       <TableBody>
         {employees
-          ?.filter(
-            (emp) =>
-              role === "all" || emp.role.toLowerCase().includes(role ?? ""),
-          )
+          ?.filter((emp) => emp.role.toLowerCase().includes(tab ?? ""))
           .sort((a, b) => a.name.localeCompare(b.name))
           .map((emp, idx) => {
             const monthsWorked = emp?.employmentDate

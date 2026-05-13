@@ -11,6 +11,7 @@ import FormWrapper from "@/components/wrapper/form-wrapper";
 import { useEdit } from "@/providers/edit-provider";
 import { useMonthDays } from "@/providers/month-days-provider";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -28,12 +29,14 @@ import {
 
 export default function SchedulePage({
   schedules,
-  tab,
 }: {
   schedules: SchedulesContextValue[] | null;
-  tab: string;
 }) {
   // const [tab] = useHashParam("tab");
+
+  const tab = useSearchParams().get(
+    "tab",
+  ) as keyof typeof EMPLOYEE_ROLES_BY_DEPARTMENT;
 
   const schedule = schedules?.find((s: any) => s.role === tab) ?? null;
 

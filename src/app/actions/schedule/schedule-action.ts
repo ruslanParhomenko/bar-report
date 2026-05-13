@@ -76,11 +76,9 @@ export const _getScheduleByMonthYear = async (month: string, year: string) => {
   })) as (ScheduleData & { id: string })[];
 };
 
-export const getScheduleByMonthYear = unstable_cache(
-  _getScheduleByMonthYear,
-  [SCHEDULE_ACTION_TAG],
-  {
-    revalidate: false,
-    tags: [SCHEDULE_ACTION_TAG],
-  },
-);
+export const getScheduleByMonthYear = async (month: string, year: string) =>
+  unstable_cache(
+    () => _getScheduleByMonthYear(month, year),
+    [SCHEDULE_ACTION_TAG, month, year],
+    { revalidate: false, tags: [SCHEDULE_ACTION_TAG] },
+  )();
