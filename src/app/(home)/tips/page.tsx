@@ -6,10 +6,10 @@ export default async function Page({
 }: {
   searchParams: Promise<{ [key: string]: string | undefined }>;
 }) {
-  const { month, year, tab } = await searchParams;
-  if (!month || !year || !tab) return null;
+  const { year } = await searchParams;
+  if (!year) return null;
 
   const dataTipsYear = await getTipsByYear(year);
 
-  return <TipsPage dataTipsYear={dataTipsYear} tab={tab} />;
+  return <TipsPage dataTipsYear={dataTipsYear} />;
 }

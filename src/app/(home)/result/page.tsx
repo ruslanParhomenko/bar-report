@@ -9,12 +9,12 @@ export default async function Page({
 }: {
   searchParams: Promise<{ [key: string]: string | undefined }>;
 }) {
-  const { month, year, tab } = await searchParams;
+  const { month, year } = await searchParams;
 
   const headerStore = await headers();
   const isAdmin = headerStore.get("x-is-admin") === "true";
 
-  if (!month || !year || !tab) return null;
+  if (!month || !year) return null;
 
   const [schedule, remarks, tipsData] = await Promise.all([
     getScheduleByMonthYear(month, year),
@@ -36,7 +36,6 @@ export default async function Page({
       tipsData={tipsData}
       month={month}
       year={year}
-      tab={tab}
       isAdmin={isAdmin}
     />
   );

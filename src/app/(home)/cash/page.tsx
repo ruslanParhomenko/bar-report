@@ -7,14 +7,14 @@ export default async function Page({
 }: {
   searchParams: Promise<{ [key: string]: string | undefined }>;
 }) {
-  const { month, year, tab } = await searchParams;
+  const { month, year } = await searchParams;
 
-  if (!month || !year || !tab) return null;
+  if (!month || !year) return null;
 
   const [dataCashYear, dataAo] = await Promise.all([
     getCashByYear(year),
     getAOByYearAndMonth(year, month),
   ]);
 
-  return <CashPage dataAo={dataAo} dataCashYear={dataCashYear} tab={tab} />;
+  return <CashPage dataAo={dataAo} dataCashYear={dataCashYear} />;
 }

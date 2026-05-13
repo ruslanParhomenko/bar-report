@@ -1,3 +1,4 @@
+"use client";
 import { Table } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import ResultTableBody from "./result-body-table";
@@ -6,6 +7,7 @@ import { extractUniqueEmployees, useResultCalculations } from "./utils";
 
 import { SchedulesContextValue } from "@/app/actions/schedule/schedule-action";
 import { GetTipsData } from "@/app/actions/tips/tips-action";
+import { useSearchParams } from "next/navigation";
 import { remarksByUniqueEmployee } from "../archive/penalty/utils";
 
 const ROLE = {
@@ -21,7 +23,6 @@ export function PageResult({
   tipsData,
   month,
   year,
-  tab,
   isAdmin,
 }: {
   dataSchedule: SchedulesContextValue[];
@@ -29,10 +30,9 @@ export function PageResult({
   tipsData: GetTipsData | null;
   month: string;
   year: string;
-  tab: string;
   isAdmin: boolean;
 }) {
-  const role = tab ?? "barmen";
+  const role = useSearchParams().get("tab") || "barmen";
 
   const selectedSchedule = dataSchedule.filter(
     (item: any) => item.role === ROLE[role as keyof typeof ROLE],

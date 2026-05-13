@@ -9,6 +9,7 @@ import { GetTipsAddData } from "@/app/actions/tips-add/tips-add-actions";
 import ReportBarArchive from "@/features/archive/bar/report-bar-archive";
 import ReportCucinaArchive from "@/features/archive/cucina/report-cucina-archive";
 import { useAbility } from "@/providers/ability-provider";
+import { useSearchParams } from "next/navigation";
 import { BreakListArchive } from "./break/break-list-archive";
 import PenaltyResult from "./penalty-result/penalty-result";
 import PenaltyArchiveData from "./penalty/penalty-archive-data";
@@ -24,12 +25,12 @@ export type ArchiveData = {
 
 export default function ArchivePage({
   archiveData,
-  tab,
 }: {
   archiveData: ArchiveData;
-  tab: string;
 }) {
   const { isBar, isCucina } = useAbility();
+
+  const tab = useSearchParams().get("tab");
 
   const TABS = [
     {

@@ -1,9 +1,11 @@
 "use client";
 
 import { useOrderProducts } from "@/providers/order-products-provider";
+import { useSearchParams } from "next/navigation";
 import { OrderForm } from "./order-form";
 
-export default function OrdersPage({ tab }: { tab: string }) {
+export default function OrdersPage() {
+  const tab = useSearchParams().get("tab");
   const orderProducts = useOrderProducts();
 
   if (!orderProducts) {

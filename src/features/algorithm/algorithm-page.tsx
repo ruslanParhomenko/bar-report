@@ -7,6 +7,7 @@ import {
 import FormWrapper from "@/components/wrapper/form-wrapper";
 import { useEdit } from "@/providers/edit-provider";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useSearchParams } from "next/navigation";
 import { Activity, useEffect } from "react";
 import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -19,8 +20,8 @@ import {
   FIELD_CONFIG,
 } from "./schema";
 
-export default function AlgorithmPage({ tab }: { tab: string }) {
-  // const [tab] = useHashParam("tab");
+export default function AlgorithmPage() {
+  const tab = useSearchParams().get("tab");
 
   // state
   const { isEdit, setIsEdit } = useEdit();

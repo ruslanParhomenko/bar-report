@@ -6,12 +6,7 @@ import {
 import { getStopList } from "@/app/actions/stop-list/stop-list-action";
 import InfoPage from "@/features/info/info-page";
 
-export default async function Page({
-  searchParams,
-}: {
-  searchParams: Promise<{ [key: string]: string }>;
-}) {
-  const { tab } = await searchParams;
+export default async function Page() {
   const [standardKitchenRes, menuRes, stopListRes, priceList] =
     await Promise.allSettled([
       getStandardKitchenCached(),
@@ -31,7 +26,6 @@ export default async function Page({
         stopList: stopListRes.status === "fulfilled" ? stopListRes.value : null,
         priceList: priceList.status === "fulfilled" ? priceList.value : null,
       }}
-      tab={tab}
     />
   );
 }

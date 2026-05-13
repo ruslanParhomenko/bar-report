@@ -35,7 +35,7 @@ import BreakTable from "@/features/bar/break-form/break-table";
 import PenaltyTable from "@/features/bar/penalty/penalty-table";
 
 import { useLocalStorageForm } from "@/hooks/use-local-storage";
-import { ViewTransition } from "react";
+import { useSearchParams } from "next/navigation";
 import { remarksDefault } from "./penalty/schema";
 import ReportBarTable from "./report/report-bar-table";
 import TipsAddForm from "./tips-add/tips-add-form";
@@ -46,13 +46,11 @@ const KEY_LOCALSTORAGE = "report-bar-form";
 export default function BarPage({
   dataBreakList,
   currencyUSD,
-  tab,
 }: {
   dataBreakList: BreakForm | null;
   currencyUSD: number | null;
-  tab: string;
 }) {
-  // const [tab] = useHashParam("tab");
+  const tab = useSearchParams().get("tab");
 
   const { isBar, isAdmin } = useAbility();
   const isDisabled = !(isAdmin || isBar);
@@ -188,27 +186,21 @@ export default function BarPage({
         disabled
       />
       {tab === "break" && (
-        <ViewTransition>
+        <>
           <BreakTable isDisabled={isDisabled} employeesName={employeesName} />
           <PenaltyTable isDisabled={isDisabled} />
-        </ViewTransition>
+        </>
       )}
 
-      {tab === "report" && (
-        <ViewTransition>
-          <ReportBarTable isDisabled={isDisabled} />
-        </ViewTransition>
-      )}
+      {tab === "report" && <ReportBarTable isDisabled={isDisabled} />}
 
       {tab === "tips" && (
-        <ViewTransition>
-          <TipsAddForm
-            tipsArrayByEmployee={tipsArrayByEmployee}
-            options={filteredEmployees}
-            disabled={!isAdmin}
-            currency={currencyUSD?.toFixed(2) ?? "0"}
-          />
-        </ViewTransition>
+        <TipsAddForm
+          tipsArrayByEmployee={tipsArrayByEmployee}
+          options={filteredEmployees}
+          disabled={!isAdmin}
+          currency={currencyUSD?.toFixed(2) ?? "0"}
+        />
       )}
     </FormWrapper>
   );

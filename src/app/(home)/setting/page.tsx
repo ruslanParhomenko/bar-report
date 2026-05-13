@@ -5,12 +5,7 @@ import { getDataProducts } from "@/app/actions/data-constants/data-products-acti
 import { getDataTTN } from "@/app/actions/data-constants/data-ttn-action";
 import SettingPage from "@/features/setting/setting-page";
 
-export default async function SettingsPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ [key: string]: string }>;
-}) {
-  const { tab } = await searchParams;
+export default async function SettingsPage() {
   const [
     dataProducts,
     dataBreakList,
@@ -33,5 +28,5 @@ export default async function SettingsPage({
     priceListData: JSON.stringify(dataPriceList ?? [], null, 2),
   };
 
-  return <SettingPage data={data} tab={tab} />;
+  return <SettingPage data={data} />;
 }

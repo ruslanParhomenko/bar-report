@@ -8,16 +8,13 @@ import { CREATE_USER_MAIN_ROUTE } from "@/constants/route-tag";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useAbility } from "@/providers/ability-provider";
 import { CheckCircle, UserX } from "lucide-react";
+import { useSearchParams } from "next/navigation";
 
 import { useState } from "react";
 
-export function UsersPage({
-  isAdmin,
-  filter,
-}: {
-  isAdmin: boolean;
-  filter: string;
-}) {
+export function UsersPage({ isAdmin }: { isAdmin: boolean }) {
+  const filter = useSearchParams().get("tab");
+
   const { users } = useAbility();
   const [localUsers, setLocalUsers] = useState(users);
 
