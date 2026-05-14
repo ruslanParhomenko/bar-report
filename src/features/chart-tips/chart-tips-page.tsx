@@ -37,7 +37,7 @@ export default function ChartTipsPage({
             transition: "opacity 0.3s ease",
           }}
         >
-          <ResponsiveContainer width="100%" height={700}>
+          <ResponsiveContainer width="100%" height={600}>
             <BarChart
               data={chartData}
               margin={{ top: 5, right: 5, left: -20, bottom: 10 }}

@@ -4,7 +4,6 @@ import SelectField from "@/components/input-controlled/select-field";
 import SwitchInput from "@/components/input-controlled/switch-input";
 import TextInput from "@/components/input-controlled/text-input";
 import FormWrapper from "@/components/wrapper/form-wrapper";
-import { EMPLOYEES_MAIN_ROUTE } from "@/constants/route-tag";
 import { ROUTES } from "@/constants/routes";
 import { useAbility } from "@/providers/ability-provider";
 import { useEdit } from "@/providers/edit-provider";
@@ -46,8 +45,6 @@ export default function UsersCreatePage({ id }: { id?: string }) {
     registerReset(form.reset);
   }, []);
 
-  const returnUrl = `/${EMPLOYEES_MAIN_ROUTE}`;
-
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     try {
       if (id) {
@@ -62,7 +59,7 @@ export default function UsersCreatePage({ id }: { id?: string }) {
     }
 
     setIsEdit(false);
-    router.replace(returnUrl);
+    router.back();
   };
 
   return (
