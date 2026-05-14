@@ -9,6 +9,7 @@ type FormWrapperProps<T extends FieldValues> = {
   onError?: (errors: any) => void;
   children: React.ReactNode;
   className?: string;
+  swipeHandlers?: ReturnType<typeof import("react-swipeable").useSwipeable>;
 };
 
 export default function FormWrapper<T extends FieldValues>({
@@ -17,12 +18,14 @@ export default function FormWrapper<T extends FieldValues>({
   onError,
   children,
   className,
+  swipeHandlers,
 }: FormWrapperProps<T>) {
   const formId = useFormId();
 
   return (
     <Form {...form}>
       <form
+        {...swipeHandlers}
         onSubmit={form.handleSubmit(onSubmit, onError ? onError : undefined)}
         className={className}
         id={formId}

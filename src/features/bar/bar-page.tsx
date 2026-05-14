@@ -35,10 +35,13 @@ import BreakTable from "@/features/bar/break-form/break-table";
 import PenaltyTable from "@/features/bar/penalty/penalty-table";
 
 import { useLocalStorageForm } from "@/hooks/use-local-storage";
-import { useSearchParams } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { remarksDefault } from "./penalty/schema";
 import ReportBarTable from "./report/report-bar-table";
 import TipsAddForm from "./tips-add/tips-add-form";
+
+import { TABS_BY_ROUTE } from "@/constants/header-bar";
+import { useSwipeable } from "react-swipeable";
 
 const BAR_EMPLOYEES = ["waiters", "barmen"];
 const KEY_LOCALSTORAGE = "report-bar-form";
@@ -50,7 +53,42 @@ export default function BarPage({
   dataBreakList: BreakForm | null;
   currencyUSD: number | null;
 }) {
-  const tab = useSearchParams().get("tab");
+  const pathname = usePathname();
+  const mainRoute = pathname.split("/")[1] || "";
+
+  const STORAGE_KEY = `nav-tab-${pathname}`;
+
+  const TABS = (TABS_BY_ROUTE[mainRoute as keyof typeof TABS_BY_ROUTE] ??
+    []) as readonly string[];
+
+  const searchParams = useSearchParams();
+
+  const tab = searchParams.get("tab");
+
+  const handleTabChange = (value: string) => {
+    localStorage.setItem(STORAGE_KEY, value);
+
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("tab", value);
+
+    window.history.replaceState(null, "", `${pathname}?${params.toString()}`);
+  };
+
+  const handlers = useSwipeable({
+    onSwipedLeft: () => {
+      const currentIndex = TABS.indexOf(tab ?? "");
+      const nextIndex = (currentIndex + 1) % TABS.length;
+      const nextTab = TABS[nextIndex];
+      handleTabChange(nextTab);
+    },
+    onSwipedRight: () => {
+      const currentIndex = TABS.indexOf(tab ?? "");
+      const prevIndex = (currentIndex - 1 + TABS.length) % TABS.length;
+      const prevTab = TABS[prevIndex];
+      handleTabChange(prevTab);
+    },
+    trackMouse: true,
+  });
 
   const { isBar, isAdmin } = useAbility();
   const isDisabled = !(isAdmin || isBar);
@@ -179,7 +217,13 @@ export default function BarPage({
     return null;
   }
   return (
-    <FormWrapper form={form} onSubmit={onSubmit} onError={onError}>
+    <FormWrapper
+      form={form}
+      onSubmit={onSubmit}
+      onError={onError}
+      className="h-full"
+      swipeHandlers={handlers}
+    >
       <DatePickerInput
         fieldName="date"
         className="text-rd h-6 text-sm"

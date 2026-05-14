@@ -8,12 +8,14 @@ import {
 import { Table } from "@/components/ui/table";
 import FormWrapper from "@/components/wrapper/form-wrapper";
 
+import { TABS_BY_ROUTE } from "@/constants/header-bar";
 import { useEdit } from "@/providers/edit-provider";
 import { useMonthDays } from "@/providers/month-days-provider";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useSearchParams } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
+import { useSwipeable } from "react-swipeable";
 import { toast } from "sonner";
 import { EMPLOYEE_ROLES_BY_DEPARTMENT } from "./constants";
 import ScheduleTableBody from "./schedule-body";
@@ -32,11 +34,42 @@ export default function SchedulePage({
 }: {
   schedules: SchedulesContextValue[] | null;
 }) {
-  // const [tab] = useHashParam("tab");
+  const pathname = usePathname();
+  const mainRoute = pathname.split("/")[1] || "";
 
-  const tab = useSearchParams().get(
-    "tab",
-  ) as keyof typeof EMPLOYEE_ROLES_BY_DEPARTMENT;
+  const STORAGE_KEY = `nav-tab-${pathname}`;
+
+  const TABS = (TABS_BY_ROUTE[mainRoute as keyof typeof TABS_BY_ROUTE] ??
+    []) as readonly string[];
+
+  const searchParams = useSearchParams();
+
+  const tab = searchParams.get("tab");
+
+  const handleTabChange = (value: string) => {
+    localStorage.setItem(STORAGE_KEY, value);
+
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("tab", value);
+
+    window.history.replaceState(null, "", `${pathname}?${params.toString()}`);
+  };
+
+  const handlers = useSwipeable({
+    onSwipedLeft: () => {
+      const currentIndex = TABS.indexOf(tab ?? "");
+      const nextIndex = (currentIndex + 1) % TABS.length;
+      const nextTab = TABS[nextIndex];
+      handleTabChange(nextTab);
+    },
+    onSwipedRight: () => {
+      const currentIndex = TABS.indexOf(tab ?? "");
+      const prevIndex = (currentIndex - 1 + TABS.length) % TABS.length;
+      const prevTab = TABS[prevIndex];
+      handleTabChange(prevTab);
+    },
+    trackMouse: true,
+  });
 
   const schedule = schedules?.find((s: any) => s.role === tab) ?? null;
 
@@ -139,7 +172,12 @@ export default function SchedulePage({
   }, [schedule, tab, isEdit]);
 
   return (
-    <FormWrapper form={form} onSubmit={onSubmit}>
+    <FormWrapper
+      form={form}
+      onSubmit={onSubmit}
+      swipeHandlers={handlers}
+      className="h-full"
+    >
       <Table className="mt-4 table-fixed">
         <ScheduleTableHeader
           addNewRow={addRow}
