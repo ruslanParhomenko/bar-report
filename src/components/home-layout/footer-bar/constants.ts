@@ -5,6 +5,8 @@ import {
   AO_REPORT_MAIN_ROUTE,
   ARCHIVE_MAIN_ROUTE,
   CASH_MAIN_ROUTE,
+  CHART_SCHEDULE_ROUTE,
+  CHART_TIPS_ROUTE,
   CREATE_EMPLOYEE_MAIN_ROUTE,
   CREATE_USER_MAIN_ROUTE,
   EMPLOYEES_MAIN_ROUTE,
@@ -21,10 +23,10 @@ import {
   TTN_MAIN_ROUTE,
   USERS_MAIN_ROUTE,
   VIEW_EMPLOYEE_MAIN_ROUTE,
-} from "./route-tag";
+} from "../../../constants/route-tag";
 
 export const ACTION_ITEM_BY_ROUTE = {
-  [SCHEDULE_MAIN_ROUTE]: ["edit", "save", "print", "mail"],
+  [SCHEDULE_MAIN_ROUTE]: ["edit", "save", "print", "mail", "chart"],
   [ALGORITHM_MAIN_ROUTE]: ["edit", "save", "print"],
   [EMPLOYEES_MAIN_ROUTE]: ["print", "create"],
   [REPORTS_BAR_ROUTE]: ["save-all", "print"],
@@ -32,7 +34,7 @@ export const ACTION_ITEM_BY_ROUTE = {
   [ORDERS_MAIN_ROUTE]: ["send"],
   [INFO_MAIN_ROUTE]: ["print"],
   [ARCHIVE_MAIN_ROUTE]: ["print"],
-  [TIPS_MAIN_ROUTE]: ["edit", "save", "print"],
+  [TIPS_MAIN_ROUTE]: ["edit", "save", "print", "chart"],
   [CASH_MAIN_ROUTE]: ["edit", "save", "print"],
   [AO_REPORT_MAIN_ROUTE]: ["edit", "save", "print"],
   [TTN_MAIN_ROUTE]: ["edit", "save", "print"],
@@ -46,4 +48,7 @@ export const ACTION_ITEM_BY_ROUTE = {
   [CREATE_USER_MAIN_ROUTE]: ["save", "print", "exit", "reset"],
 
   [VIEW_EMPLOYEE_MAIN_ROUTE]: ["print", "exit"],
+
+  [CHART_SCHEDULE_ROUTE]: ["print", "exit"],
+  [CHART_TIPS_ROUTE]: ["print", "exit"],
 } as const;

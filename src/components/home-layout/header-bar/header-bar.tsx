@@ -1,13 +1,13 @@
 "use client";
 
-import { NAV_BY_PATCH } from "@/constants/header-bar";
+import { NAV_BY_PATCH } from "@/components/home-layout/header-bar/constants";
+import NavTabs from "@/components/nav-tabs/nav-tabs";
+import SelectOptions from "@/components/select/select-options";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 import { MONTHS, YEAR } from "@/utils/get-month-days";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useEffectEvent, useState, useTransition } from "react";
-import NavTabs from "../nav-tabs/nav-tabs";
-import SelectOptions from "../select/select-options";
 
 export default function HeaderBar() {
   const pathname = usePathname();

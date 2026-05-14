@@ -1,10 +1,14 @@
 "use client";
 
-import { ACTION_ITEM_BY_ROUTE } from "@/constants/footer-bar";
+import { ACTION_ITEM_BY_ROUTE } from "@/components/home-layout/footer-bar/constants";
 import {
+  CHART_SCHEDULE_ROUTE,
+  CHART_TIPS_ROUTE,
   CREATE_EMPLOYEE_MAIN_ROUTE,
   CREATE_USER_MAIN_ROUTE,
   EMPLOYEES_MAIN_ROUTE,
+  SCHEDULE_MAIN_ROUTE,
+  TIPS_MAIN_ROUTE,
   USERS_MAIN_ROUTE,
 } from "@/constants/route-tag";
 
@@ -15,17 +19,23 @@ import { useEdit } from "@/providers/edit-provider";
 import { FolderPlus, Menu, SaveAllIcon, SendIcon } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useTransition, ViewTransition } from "react";
-import EditButton from "../buttons/edit-button";
-import ExitButton from "../buttons/exit-button";
-import PrintButton from "../buttons/print-button";
-import ResetButton from "../buttons/reset-button";
-import SaveButton from "../buttons/save-button";
-import SendScreenButton from "../buttons/send-screen-button";
-import { useSidebar } from "../ui/sidebar";
+import ChartButton from "../../buttons/chart-button";
+import EditButton from "../../buttons/edit-button";
+import ExitButton from "../../buttons/exit-button";
+import PrintButton from "../../buttons/print-button";
+import ResetButton from "../../buttons/reset-button";
+import SaveButton from "../../buttons/save-button";
+import SendScreenButton from "../../buttons/send-screen-button";
+import { useSidebar } from "../../ui/sidebar";
 
 const URL_CREATE_BY_TAB = {
   [EMPLOYEES_MAIN_ROUTE]: `/${CREATE_EMPLOYEE_MAIN_ROUTE}`,
   [USERS_MAIN_ROUTE]: `/${CREATE_USER_MAIN_ROUTE}`,
+};
+
+const CHART_URL_BY_TAB = {
+  [SCHEDULE_MAIN_ROUTE]: `/${CHART_SCHEDULE_ROUTE}`,
+  [TIPS_MAIN_ROUTE]: `/${CHART_TIPS_ROUTE}`,
 };
 
 export default function ActionBar() {
@@ -100,6 +110,12 @@ export default function ActionBar() {
           <ResetButton
             className={iconCn}
             reset={() => startTransition(() => resetFn?.())}
+          />
+        )}
+        {has("chart") && (
+          <ChartButton
+            className={iconCn}
+            url={CHART_URL_BY_TAB[mainRoute as keyof typeof CHART_URL_BY_TAB]}
           />
         )}
         <button

@@ -6,6 +6,8 @@ import {
   AO_REPORT_MAIN_ROUTE,
   ARCHIVE_MAIN_ROUTE,
   CASH_MAIN_ROUTE,
+  CHART_SCHEDULE_ROUTE,
+  CHART_TIPS_ROUTE,
   EMPLOYEES_MAIN_ROUTE,
   FIN_CASH_MAIN_ROUTE,
   INFO_MAIN_ROUTE,
@@ -18,10 +20,11 @@ import {
   TIPS_MAIN_ROUTE,
   TTN_MAIN_ROUTE,
   USERS_MAIN_ROUTE,
-} from "./route-tag";
+} from "../../../constants/route-tag";
 
 export const TABS_BY_ROUTE = {
   [SCHEDULE_MAIN_ROUTE]: ["bar", "cucina", "dish"],
+  [CHART_SCHEDULE_ROUTE]: ["bar", "cucina", "dish"],
 
   [ALGORITHM_MAIN_ROUTE]: [
     "tips",
@@ -78,6 +81,8 @@ export const TABS_BY_ROUTE = {
   ],
 
   [TIPS_MAIN_ROUTE]: ["tips-month", "tips-year"],
+
+  [CHART_TIPS_ROUTE]: [],
 
   [CASH_MAIN_ROUTE]: ["cash-month", "cash-year"],
 
@@ -185,5 +190,15 @@ export const NAV_BY_PATCH = {
   [USERS_MAIN_ROUTE]: {
     tabs: TABS_BY_ROUTE[USERS_MAIN_ROUTE],
     selectDate: false,
+  },
+
+  [CHART_SCHEDULE_ROUTE]: {
+    tabs: TABS_BY_ROUTE[CHART_SCHEDULE_ROUTE],
+    selectDate: true,
+  },
+
+  [CHART_TIPS_ROUTE]: {
+    tabs: TABS_BY_ROUTE[CHART_TIPS_ROUTE],
+    selectDate: true,
   },
 } satisfies Partial<NAV_BY_PATCH_TYPE>;

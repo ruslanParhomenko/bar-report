@@ -1,4 +1,4 @@
-import { TABS_BY_ROUTE } from "@/constants/header-bar";
+import { TABS_BY_ROUTE } from "@/components/home-layout/header-bar/constants";
 import { ALGORITHM_MAIN_ROUTE } from "@/constants/route-tag";
 import z from "zod";
 

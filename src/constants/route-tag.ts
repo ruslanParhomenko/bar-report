@@ -20,3 +20,6 @@ export const CREATE_EMPLOYEE_MAIN_ROUTE = "create-employee";
 export const CREATE_USER_MAIN_ROUTE = "create-user";
 
 export const VIEW_EMPLOYEE_MAIN_ROUTE = "view-employee";
+
+export const CHART_SCHEDULE_ROUTE = "chart-schedule";
+export const CHART_TIPS_ROUTE = "chart-tips";

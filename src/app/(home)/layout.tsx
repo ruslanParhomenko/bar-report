@@ -1,5 +1,6 @@
-import ActionBar from "@/components/home-layout/action-bar";
-import HeaderBar from "@/components/home-layout/header-bar";
+import ActionBar from "@/components/home-layout/footer-bar/footer-bar";
+import HeaderBar from "@/components/home-layout/header-bar/header-bar";
+
 import ScreenshotWrapper from "@/components/wrapper/screenshot-wrapper";
 import SidebarNav from "@/features/sidebar/sidebar-nav";
 import HomeDataProviders from "@/providers/home-data-providers";
