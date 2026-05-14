@@ -101,7 +101,7 @@ export default function HeaderBar() {
     <div
       className={cn(
         "bg-background sticky top-0 z-10 flex items-center justify-center gap-1 py-2 md:flex-row md:justify-between md:gap-2 md:px-4",
-        navItems.length < 4 ? "flex-row" : "flex-col",
+        navItems.length < 7 ? "flex-row" : "flex-col",
       )}
     >
       <NavTabs
@@ -109,6 +109,7 @@ export default function HeaderBar() {
         activeTab={activeTab}
         handleTabChange={handleTabChange}
         disabled={isPending}
+        withSelect={selectDate}
       />
 
       {selectDate && (

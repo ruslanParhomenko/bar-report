@@ -7,12 +7,14 @@ export default function NavTabs({
   handleTabChange,
   className,
   disabled,
+  withSelect = false,
 }: {
   navItems: readonly string[];
   activeTab: string;
   handleTabChange: (value: string) => void;
   className?: string;
   disabled?: boolean;
+  withSelect?: boolean;
 }) {
   if (!navItems.length) return null;
 
@@ -22,16 +24,19 @@ export default function NavTabs({
   let itemsWidth = "w-4";
 
   switch (true) {
-    case length >= 1 && length <= 4:
-      itemsWidth = "w-14";
+    case length >= 1 && length <= 2:
+      itemsWidth = withSelect ? "w-18" : "w-20";
+      break;
+    case length >= 3 && length <= 4:
+      itemsWidth = withSelect ? "w-12" : "w-16";
       break;
 
     case length >= 5 && length <= 6:
-      itemsWidth = "w-10";
+      itemsWidth = withSelect ? "w-5.5" : "w-9";
       break;
 
     case length >= 7 && length <= 8:
-      itemsWidth = "w-6";
+      itemsWidth = withSelect ? "w-5.5" : "w-6";
       break;
 
     default:
