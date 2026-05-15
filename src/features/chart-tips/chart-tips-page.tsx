@@ -1,12 +1,10 @@
 "use client";
 import { GetTipsData } from "@/app/actions/tips/tips-action";
-import CustomTooltip from "@/components/charts/custom-tooltip";
-import { ChartConfig, ChartContainer } from "@/components/ui/chart";
-import { cn } from "@/lib/utils";
+import CustomChart from "@/components/chart/custom-chart";
+import { ChartConfig } from "@/components/ui/chart";
 import { useMonthDays } from "@/providers/month-days-provider";
 import { useSearchParams } from "next/navigation";
 import { useMemo } from "react";
-import { Bar, BarChart, CartesianGrid, Tooltip, XAxis, YAxis } from "recharts";
 
 export default function ChartTipsPage({
   dataTipsYear,
@@ -39,12 +37,11 @@ export default function ChartTipsPage({
       .sort((a, b) => b.tips - a.tips);
   }, [dataTipsYear]);
 
-  const chartDataMonth = dataTipsMonth?.tipsData.rowEmployeesTips.map(
-    (row) => ({
+  const chartDataMonth =
+    dataTipsMonth?.tipsData.rowEmployeesTips.map((row) => ({
       name: row.employee.split(" ")[0] + " " + row.employee.split(" ")[1][0],
       tips: row.tipsByDay.reduce((sum, t) => sum + Number(t), 0),
-    }),
-  );
+    })) ?? [];
 
   const chartData = tab === "year" ? chartDataYear : chartDataMonth;
   const chartConfig = {
@@ -54,29 +51,14 @@ export default function ChartTipsPage({
     },
   } satisfies ChartConfig;
 
-  return (
-    <ChartContainer
-      config={chartConfig}
-      className={cn("mt-6 h-[86dvh] w-full")}
-    >
-      <BarChart accessibilityLayer data={chartData}>
-        <CartesianGrid vertical={false} />
+  const BAR_KEYS = [{ key: "tips", color: "var(--color-bl)", label: "Tips" }];
 
-        <XAxis
-          dataKey="name"
-          tickLine={false}
-          tickMargin={10}
-          axisLine={false}
-          interval={0}
-          tickFormatter={(value) => value.split(" ")[0]}
-        />
-        <YAxis axisLine={false} tickLine={false} />
-        <Tooltip
-          content={<CustomTooltip unit="mdl" />}
-          cursor={{ fill: "var(--sidebar)" }}
-        />
-        <Bar dataKey="tips" fill="var(--color-tips)" radius={6} />
-      </BarChart>
-    </ChartContainer>
+  return (
+    <CustomChart
+      chartData={chartData}
+      chartConfig={chartConfig}
+      barItem={BAR_KEYS}
+      className="mt-6 h-[86dvh] w-[90dvw]"
+    />
   );
 }

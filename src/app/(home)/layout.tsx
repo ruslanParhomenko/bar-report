@@ -2,6 +2,7 @@ import ActionBar from "@/components/home-layout/footer-bar/footer-bar";
 import HeaderBar from "@/components/home-layout/header-bar/header-bar";
 
 import ScreenshotWrapper from "@/components/wrapper/screenshot-wrapper";
+import SwipeWrapper from "@/components/wrapper/swipe-wrapper";
 import SidebarNav from "@/features/sidebar/sidebar-nav";
 import HomeDataProviders from "@/providers/home-data-providers";
 import HomeUIProviders from "@/providers/home-ui-providers";
@@ -16,13 +17,13 @@ export default async function HomeLayout({
     <HomeDataProviders>
       <HomeUIProviders>
         <SidebarNav />
-        <div className="flex h-dvh w-full flex-col px-1 pt-[env(safe-area-inset-top)] md:h-screen md:pt-0 md:pb-0">
+        <SwipeWrapper>
           <HeaderBar />
           <ScreenshotWrapper>
             <MonthDaysProvider>{children}</MonthDaysProvider>
           </ScreenshotWrapper>
           <ActionBar />
-        </div>
+        </SwipeWrapper>
       </HomeUIProviders>
     </HomeDataProviders>
   );
