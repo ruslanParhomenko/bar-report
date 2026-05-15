@@ -16,7 +16,9 @@ export default function ChartArchivePage({
 
   return (
     <>
-      {tab === "penalty" && <ChartRemarksPage dataRemarks={data.dataRemarks} />}
+      {(tab === "penalty-month" || tab === "penalty-year") && (
+        <ChartRemarksPage dataRemarks={data.dataRemarks} tab={tab} />
+      )}
     </>
   );
 }

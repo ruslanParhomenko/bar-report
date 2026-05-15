@@ -59,7 +59,7 @@ export default function NavTabs({
           >
             <span
               className={cn(
-                "md:text-md text-bl block truncate text-xs md:min-w-20",
+                "md:text-md text-bl block truncate text-xs md:min-w-22",
                 itemsWidth,
               )}
             >
