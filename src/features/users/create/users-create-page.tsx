@@ -15,7 +15,17 @@ import { SubmitHandler, useForm, useWatch } from "react-hook-form";
 import { toast } from "sonner";
 import { defaultUser, UserForm, usersSchema } from "./schema";
 
-const ROLES = ["ADMIN", "BAR", "CUCINA", "USER", "MNGR", "CASH", "FIN", "SCR"];
+const ROLES = [
+  "ADMIN",
+  "BAR",
+  "CUCINA",
+  "USER",
+  "MNGR",
+  "CASH",
+  "FIN",
+  "SCR",
+  "TECH",
+];
 
 type FormData = UserForm;
 

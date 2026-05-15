@@ -17,6 +17,7 @@ export default function OrdersPage() {
     "bar-zn": orderProducts.bar || {},
     "cucina-ttn": orderProducts.ttnCucina || {},
     "cucina-zn": orderProducts.cucina || {},
+    "tech-ttn": orderProducts.techTTN || {},
   };
 
   return (

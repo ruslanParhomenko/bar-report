@@ -3,6 +3,7 @@
 import { REMARKS_ACTION_TAG } from "@/constants/action-tag";
 import { RemarksForm } from "@/features/bar/penalty/schema";
 import { getYearMonthDoc } from "@/lib/firebase-doc";
+import { MONTHS } from "@/utils/get-month-days";
 import { unstable_cache, updateTag } from "next/cache";
 
 const actionTag = REMARKS_ACTION_TAG;
@@ -17,6 +18,11 @@ type RemarksDataForm = {
 export type GetRemarksData = {
   id: string;
   remarks: RemarksForm["remarks"];
+};
+
+export type YearData = {
+  id: string;
+  remarks: GetRemarksData[];
 };
 
 export async function createRemarks(data: RemarksDataForm) {
@@ -75,6 +81,34 @@ async function _getRemarksByDay(
 }
 
 export const getRemarksByDay = unstable_cache(_getRemarksByDay, [actionTag], {
+  revalidate: false,
+  tags: [actionTag],
+});
+
+// get by year
+
+async function _getRemarksByYear(year: string): Promise<YearData[]> {
+  const docs = await Promise.all(
+    MONTHS.map(async (month) => {
+      const docRef = getYearMonthDoc(actionTag, year, month);
+      const daysSnap = await docRef.collection("days").get();
+
+      if (daysSnap.empty) return null;
+
+      return {
+        id: month,
+        remarks: daysSnap.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        })),
+      };
+    }),
+  );
+
+  return docs.filter((item): item is YearData => item !== null);
+}
+
+export const getRemarksByYear = unstable_cache(_getRemarksByYear, [actionTag], {
   revalidate: false,
   tags: [actionTag],
 });

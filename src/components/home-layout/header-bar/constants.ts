@@ -6,6 +6,7 @@ import {
   AO_REPORT_MAIN_ROUTE,
   ARCHIVE_MAIN_ROUTE,
   CASH_MAIN_ROUTE,
+  CHART_ARCHIVE_ROUTE,
   CHART_SCHEDULE_ROUTE,
   CHART_TIPS_ROUTE,
   EMPLOYEES_MAIN_ROUTE,
@@ -59,7 +60,13 @@ export const TABS_BY_ROUTE = {
 
   [REPORTS_CUCINA_ROUTE]: [],
 
-  [ORDERS_MAIN_ROUTE]: ["bar-ttn", "bar-zn", "cucina-ttn", "cucina-zn"],
+  [ORDERS_MAIN_ROUTE]: [
+    "bar-ttn",
+    "bar-zn",
+    "cucina-ttn",
+    "cucina-zn",
+    "tech-ttn",
+  ],
 
   [INFO_MAIN_ROUTE]: [
     "stopList",
@@ -79,6 +86,7 @@ export const TABS_BY_ROUTE = {
     "penalty-result",
     "tips-add",
   ],
+  [CHART_ARCHIVE_ROUTE]: ["penalty"],
 
   [TIPS_MAIN_ROUTE]: ["tips-month", "tips-year"],
   [CHART_TIPS_ROUTE]: ["month", "year"],
@@ -198,6 +206,11 @@ export const NAV_BY_PATCH = {
 
   [CHART_TIPS_ROUTE]: {
     tabs: TABS_BY_ROUTE[CHART_TIPS_ROUTE],
+    selectDate: true,
+  },
+
+  [CHART_ARCHIVE_ROUTE]: {
+    tabs: TABS_BY_ROUTE[CHART_ARCHIVE_ROUTE],
     selectDate: true,
   },
 } satisfies Partial<NAV_BY_PATCH_TYPE>;

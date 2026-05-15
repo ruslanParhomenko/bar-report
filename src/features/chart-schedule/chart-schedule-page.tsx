@@ -1,18 +1,17 @@
 "use client";
 import { SchedulesContextValue } from "@/app/actions/schedule/schedule-action";
-import CustomTooltip from "@/components/charts/custom-tooltip";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { useIsMobile } from "@/hooks/use-mobile";
 import { useSearchParams } from "next/navigation";
+
 import {
-  Bar,
-  BarChart,
-  CartesianGrid,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from "recharts";
+  ChartContainer,
+  ChartLegend,
+  ChartLegendContent,
+  ChartTooltip,
+  ChartTooltipContent,
+  type ChartConfig,
+} from "@/components/ui/chart";
+import { cn } from "@/lib/utils";
+import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
 
 export default function ChartSchedulePage({
   schedules,
@@ -22,8 +21,6 @@ export default function ChartSchedulePage({
   const searchParams = useSearchParams();
   const tab = searchParams.get("tab");
 
-  const isMobile = useIsMobile();
-
   const schedule = schedules?.find((s: any) => s.role === tab) ?? null;
 
   const chartData = schedule?.rowShifts.map((row) => ({
@@ -31,67 +28,40 @@ export default function ChartSchedulePage({
     day: Number(row.dayHours),
     night: Number(row.nightHours),
   }));
-
-  const height = isMobile ? 600 : 700;
+  const chartConfig = {
+    day: {
+      label: "day",
+      color: "var(--color-bl)",
+    },
+    night: {
+      label: "night",
+      color: "var(--color-gr)",
+    },
+  } satisfies ChartConfig;
 
   return (
-    <Card className="border-0 shadow-none">
-      <CardHeader>
-        <CardTitle className="text-sm font-medium">
-          График отработанных часов
-        </CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div
-          style={{
-            transition: "opacity 0.3s ease",
-          }}
-        >
-          <ResponsiveContainer width="100%" height={height}>
-            <BarChart
-              data={chartData}
-              margin={{ top: 10, right: -1, left: -10, bottom: 10 }}
-              barCategoryGap={isMobile ? "10%" : "20%"}
-            >
-              <CartesianGrid stroke="var(--border)" />
-              <YAxis
-                tick={{ fill: "var(--muted-foreground)", fontSize: 12 }}
-                axisLine={false}
-                tickLine={false}
-              />
-              <XAxis
-                dataKey="name"
-                tick={{
-                  fill: "var(--muted-foreground)",
-                  fontSize: isMobile ? 10 : 12,
-                }}
-                axisLine={false}
-                tickLine={false}
-                interval={0}
-                angle={isMobile ? -90 : 0}
-                textAnchor={isMobile ? "end" : "middle"}
-                height={isMobile ? 80 : 30}
-              />
-              <Tooltip
-                content={<CustomTooltip />}
-                cursor={{ fill: "var(--sidebar)" }}
-              />
-              <Bar
-                dataKey="day"
-                stackId="a"
-                fill="var(--color-bl)"
-                name="Дневные"
-              />
-              <Bar
-                dataKey="night"
-                stackId="a"
-                fill="var(--color-gr)"
-                name="Ночные"
-              />
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
-      </CardContent>
-    </Card>
+    <ChartContainer
+      config={chartConfig}
+      className={cn("mt-6 h-[86dvh] w-full")}
+    >
+      <BarChart accessibilityLayer data={chartData}>
+        <CartesianGrid vertical={false} />
+
+        <XAxis
+          dataKey="name"
+          tickLine={false}
+          tickMargin={10}
+          axisLine={false}
+          tickFormatter={(value) => value.split(" ")[0]}
+        />
+        <YAxis axisLine={false} tickLine={false} />
+
+        <ChartTooltip content={<ChartTooltipContent />} />
+        <ChartLegend content={<ChartLegendContent payload={undefined} />} />
+
+        <Bar dataKey="day" fill="var(--color-day)" radius={6} />
+        <Bar dataKey="night" fill="var(--color-night)" radius={6} />
+      </BarChart>
+    </ChartContainer>
   );
 }

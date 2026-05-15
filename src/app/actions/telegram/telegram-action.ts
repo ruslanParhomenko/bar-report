@@ -74,13 +74,21 @@ const ID_BY_PATCH = {
   "cucina-ttn": process.env.TELEGRAM_CHAT_MY_ID,
   "bar-zn": process.env.TELEGRAM_CHAT_ID,
   "cucina-zn": process.env.TELEGRAM_CHAT_ID,
+  "tech-ttn": process.env.TELEGRAM_CHAT_MY_ID,
 };
 
-const TEXT_PATCHES = ["bar-ttn", "cucina-ttn", "bar-zn", "cucina-zn"];
+const TEXT_PATCHES = [
+  "bar-ttn",
+  "cucina-ttn",
+  "bar-zn",
+  "cucina-zn",
+  "tech-ttn",
+];
 
 export async function sendTelegramMessage(
   data: Record<string, Record<string, string>>,
   patch: string,
+  name?: string,
 ) {
   if (!TEXT_PATCHES.includes(patch)) {
     throw new Error(`patch ${patch} does not support text sending`);
@@ -91,7 +99,7 @@ export async function sendTelegramMessage(
 
   if (!token || !chatId) throw new Error("Missing Telegram token or chat ID");
 
-  const text = `<b>заявка ${patch}</b>\n\n${formatOrderText(data)}`;
+  const text = `<b>заявка ${patch} от ${name}</b>\n\n${formatOrderText(data)}`;
 
   const response = await fetch(
     `https://api.telegram.org/bot${token}/sendMessage`,

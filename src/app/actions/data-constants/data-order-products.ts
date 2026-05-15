@@ -9,6 +9,7 @@ export type createDataOrderProducts = {
   cucina: Record<string, string[]>;
   ttnBar: Record<string, string[]>;
   ttnCucina: Record<string, string[]>;
+  techTTN: Record<string, string[]>;
 };
 
 export async function createDataOrderProducts(data: createDataOrderProducts) {

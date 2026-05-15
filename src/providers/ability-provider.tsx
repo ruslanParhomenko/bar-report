@@ -12,6 +12,7 @@ type Ability = {
   isCash: boolean;
   isFin: boolean;
   isSCR: boolean;
+  isTech: boolean;
 };
 
 type AbilityContextValue = {
@@ -45,6 +46,7 @@ export function AbilityProvider({
     isCash: role === "CASH",
     isFin: role === "FIN",
     isSCR: role === "SCR",
+    isTech: role === "TECH",
   };
 
   return (

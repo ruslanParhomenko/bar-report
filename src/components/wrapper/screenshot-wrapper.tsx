@@ -46,9 +46,6 @@ export default function ScreenshotWrapper({
       handleTabChange(prevTab);
     },
     trackMouse: true,
-    preventScrollOnSwipe: false,
-    delta: { left: 80, right: 80, up: 1000, down: 1000 },
-    swipeDuration: 250,
   });
   return (
     <div

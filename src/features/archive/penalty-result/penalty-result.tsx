@@ -17,18 +17,6 @@ export default function PenaltyResult({
 
   const [selectedEmployee, setSelectedEmployee] = useState("select");
 
-  const names = data
-    ?.flatMap((item) => item.remarks?.map((r) => r.name))
-    .filter(
-      (name): name is string => typeof name === "string" && name.trim() !== "",
-    );
-
-  const employeesList = ["select", ...Array.from(new Set(names))].map(
-    (name) => ({
-      label: name,
-      value: name,
-    }),
-  );
   const sorted = data
     ? [...data].sort((a, b) => Number(b.id) - Number(a.id))
     : [];

@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { ChartArea } from "lucide-react";
+import { ChartColumnBig } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 export default function ChartButton({
@@ -25,7 +25,7 @@ export default function ChartButton({
       type="button"
       disabled={!url || disabled}
     >
-      <ChartArea size={size} className="text-bl" strokeWidth={1.5} />
+      <ChartColumnBig size={size} className="text-bl" strokeWidth={1.5} />
     </button>
   );
 }

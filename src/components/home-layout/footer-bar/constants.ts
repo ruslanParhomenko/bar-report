@@ -5,6 +5,7 @@ import {
   AO_REPORT_MAIN_ROUTE,
   ARCHIVE_MAIN_ROUTE,
   CASH_MAIN_ROUTE,
+  CHART_ARCHIVE_ROUTE,
   CHART_SCHEDULE_ROUTE,
   CHART_TIPS_ROUTE,
   CREATE_EMPLOYEE_MAIN_ROUTE,
@@ -33,7 +34,7 @@ export const ACTION_ITEM_BY_ROUTE = {
   [REPORTS_CUCINA_ROUTE]: ["save-all"],
   [ORDERS_MAIN_ROUTE]: ["send"],
   [INFO_MAIN_ROUTE]: ["print"],
-  [ARCHIVE_MAIN_ROUTE]: ["print"],
+  [ARCHIVE_MAIN_ROUTE]: ["print", "chart"],
   [TIPS_MAIN_ROUTE]: ["edit", "save", "print", "chart"],
   [CASH_MAIN_ROUTE]: ["edit", "save", "print"],
   [AO_REPORT_MAIN_ROUTE]: ["edit", "save", "print"],
@@ -51,4 +52,5 @@ export const ACTION_ITEM_BY_ROUTE = {
 
   [CHART_SCHEDULE_ROUTE]: ["print", "exit"],
   [CHART_TIPS_ROUTE]: ["print", "exit"],
+  [CHART_ARCHIVE_ROUTE]: ["print", "exit"],
 } as const;

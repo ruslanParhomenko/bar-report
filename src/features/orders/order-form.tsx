@@ -4,7 +4,8 @@ import { sendTelegramMessage } from "@/app/actions/telegram/telegram-action";
 
 import FormWrapper from "@/components/wrapper/form-wrapper";
 import { useLocalStorageForm } from "@/hooks/use-local-storage";
-import { useEdit } from "@/providers/edit-provider";
+import { useAbility } from "@/providers/ability-provider";
+import { useSession } from "next-auth/react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import OrderCardWrapper from "./order-card-wrapper";
@@ -18,15 +19,16 @@ export const OrderForm = ({
 }) => {
   const allKeys = Object.keys(data || {});
 
-  const { registerReset } = useEdit();
+  const { isBar, isCucina, isManager, isAdmin, isTech } = useAbility();
+
+  const { data: session } = useSession();
+  const name = session?.user?.name?.split(" ")[0];
 
   const STORAGE_KEY = `order-new-${tab}`;
 
   const form = useForm({ defaultValues: {} });
 
   const { isLoaded } = useLocalStorageForm(form, STORAGE_KEY);
-
-  // const SCREENSHOT_PATCHES = ["cucina-zn"];
 
   const onSubmit = async (formData: any) => {
     try {
@@ -52,12 +54,7 @@ export const OrderForm = ({
         return;
       }
 
-      await sendTelegramMessage(filtered, tab);
-      // if (SCREENSHOT_PATCHES.includes(tab)) {
-      //   const base64 = await createOrderScreenshot(filtered, tab);
-      //   await sendTelegramPhoto(base64, tab);
-      // } else {
-      // }
+      await sendTelegramMessage(filtered, tab, name || "");
       toast.success("Заказ отправлен в Telegram!");
     } catch {
       toast.error("Ошибка отправки");
@@ -65,6 +62,7 @@ export const OrderForm = ({
   };
 
   if (!isLoaded) return null;
+  if (isTech && tab !== "tech") return null;
   return (
     <FormWrapper form={form} onSubmit={onSubmit}>
       <div className="columns-1 md:columns-3 lg:columns-4 xl:columns-7">
