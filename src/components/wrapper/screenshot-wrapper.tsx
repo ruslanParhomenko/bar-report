@@ -22,41 +22,33 @@ export default function ScreenshotWrapper({
     []) as readonly string[];
 
   const searchParams = useSearchParams();
-
   const tab = searchParams.get("tab");
 
   const handleTabChange = (value: string) => {
     localStorage.setItem(STORAGE_KEY, value);
-
     const params = new URLSearchParams(searchParams.toString());
     params.set("tab", value);
-
     window.history.replaceState(null, "", `${pathname}?${params.toString()}`);
   };
 
   const handlers = useSwipeable({
     onSwipedLeft: () => {
-      if (isMobile) return;
       const currentIndex = TABS.indexOf(tab ?? "");
       const nextIndex = (currentIndex + 1) % TABS.length;
-      const nextTab = TABS[nextIndex];
-      handleTabChange(nextTab);
+      handleTabChange(TABS[nextIndex]);
     },
     onSwipedRight: () => {
-      if (isMobile) return;
       const currentIndex = TABS.indexOf(tab ?? "");
       const prevIndex = (currentIndex - 1 + TABS.length) % TABS.length;
-      const prevTab = TABS[prevIndex];
-      handleTabChange(prevTab);
+      handleTabChange(TABS[prevIndex]);
     },
     onSwiping: (eventData) => {
-      if (isMobile) return;
-      if (Math.abs(eventData.deltaX) > Math.abs(eventData.deltaY)) {
+      if (!isMobile) {
         eventData.event.preventDefault();
       }
     },
     trackMouse: true,
-    trackTouch: !isMobile,
+    trackTouch: true,
     delta: 50,
     touchEventOptions: { passive: false },
   });
