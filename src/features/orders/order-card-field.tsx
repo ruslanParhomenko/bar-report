@@ -2,6 +2,9 @@
 import NumericInput from "@/components/input-controlled/numeric-input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { cn } from "@/lib/utils";
+import { useEffect } from "react";
 import { useFormContext, useWatch } from "react-hook-form";
 
 const OTHER_CATEGORY = "OTHER";
@@ -19,7 +22,8 @@ export default function OrderCardField({
 }) {
   const isOther = category === OTHER_CATEGORY;
 
-  // имя кастомного поля хранится в форме
+  const isMobile = useIsMobile();
+
   const nameFieldKey = `${category}.__name_${index}_`;
   const { setValue, control, register } = useFormContext();
 
@@ -30,9 +34,28 @@ export default function OrderCardField({
 
   const value = useWatch({ control, name: fieldName });
 
+  const weekday = new Date().getDay();
+  const dayKey = `${fieldName}__day`;
+
+  const savedDay = useWatch({ control, name: dayKey });
+
+  useEffect(() => {
+    if (value && savedDay === undefined) {
+      setValue(dayKey, weekday, {
+        shouldDirty: false,
+        shouldTouch: false,
+      });
+    }
+  }, [value]);
+
+  console.log(fieldName, value);
+  const DAYS = ["вс", "пн", "вт", "ср", "чт", "пт", "сб"];
+
+  const dayLabel = savedDay != null ? DAYS[savedDay] : "";
+
   return (
     <div>
-      <div className="grid grid-cols-[80%_8%]">
+      <div className="grid grid-cols-[80%_8%_12%]">
         {isOther ? (
           <input
             type="text"
@@ -43,13 +66,20 @@ export default function OrderCardField({
           />
         ) : (
           <Label
-            className={`text-muted-foreground cursor-pointer pl-1 text-xs ${value ? "text-rd text-sm" : ""}`}
+            className={cn(
+              "text-muted-foreground cursor-pointer pl-1",
+              !isMobile && "text-xs",
+              value ? "text-rd text-sm" : "",
+            )}
             onClick={() => setValue(fieldName, "")}
           >
             {item}
           </Label>
         )}
         <NumericInput fieldName={fieldName} className="h-6! w-9! text-center" />
+        <div className="flex h-6 items-end justify-end px-2 text-xs">
+          {value ? dayLabel : ""}
+        </div>
       </div>
       {!isLast && <Separator className="my-1" />}
     </div>

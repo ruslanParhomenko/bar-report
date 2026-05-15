@@ -19,7 +19,7 @@ export const OrderForm = ({
 }) => {
   const allKeys = Object.keys(data || {});
 
-  const { isBar, isCucina, isManager, isAdmin, isTech } = useAbility();
+  const { isTech } = useAbility();
 
   const { data: session } = useSession();
   const name = session?.user?.name?.split(" ")[0];
@@ -40,6 +40,7 @@ export const OrderForm = ({
               Object.entries((items as Record<string, string>) ?? {}).filter(
                 ([key, value]) =>
                   !key.startsWith("__name_") &&
+                  !key.endsWith("__day") &&
                   value !== "" &&
                   value !== null &&
                   value !== undefined,
