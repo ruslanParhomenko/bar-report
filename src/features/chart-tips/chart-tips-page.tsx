@@ -58,7 +58,7 @@ export default function ChartTipsPage({
       chartData={chartData}
       chartConfig={chartConfig}
       barItem={BAR_KEYS}
-      className="mt-6 h-[86dvh] w-[90dvw]"
+      withLegend
     />
   );
 }

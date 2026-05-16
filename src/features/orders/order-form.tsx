@@ -66,7 +66,7 @@ export const OrderForm = ({
   if (isTech && tab !== "tech") return null;
   return (
     <FormWrapper form={form} onSubmit={onSubmit}>
-      <div className="columns-1 md:columns-3 lg:columns-4 xl:columns-7">
+      <div className="columns-1 md:columns-3 lg:columns-5 xl:columns-6">
         {allKeys.map((key) => (
           <div key={key} className="break-inside-avoid">
             <OrderCardWrapper data={data[key]} name={key} />
