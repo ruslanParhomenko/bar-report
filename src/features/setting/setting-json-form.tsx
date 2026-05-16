@@ -23,7 +23,7 @@ export default function SettingsJson({ data, type }: Props) {
         name="json"
         value={value}
         onChange={(e) => setValue(e.target.value)}
-        className="mt-2 h-[90vh] border-0 font-mono text-sm shadow-none"
+        className="mt-2 h-[88vh] border-0 font-mono text-sm shadow-none"
       />
     </>
   );

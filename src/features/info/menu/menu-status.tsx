@@ -1,4 +1,3 @@
-"use client";
 import { Menu } from "@/app/actions/google/google-action";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { columns, LABELS } from "./constants";
@@ -7,11 +6,11 @@ export default function StatusMenu({ data }: { data: Menu | null }) {
   const selectData = data && data.statusMenu;
 
   return (
-    <div className="flex flex-col gap-2 pt-4 md:flex-row print:grid print:grid-cols-4">
+    <div className="mx-auto flex w-full max-w-7xl flex-col gap-2 pt-4 md:flex-row print:grid print:grid-cols-4">
       {columns.map((col) => (
         <Card
           key={col.key}
-          className="rounded-2xl bg-transparent shadow-sm md:min-w-[23%] md:flex-1"
+          className="min-w-0 flex-1 rounded-2xl bg-transparent shadow-sm"
         >
           <CardHeader>
             <CardTitle className="text-md text-center font-bold">

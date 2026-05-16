@@ -48,20 +48,19 @@ export default function OrderCardField({
     }
   }, [value]);
 
-  console.log(fieldName, value);
   const DAYS = ["вс", "пн", "вт", "ср", "чт", "пт", "сб"];
 
   const dayLabel = savedDay != null ? DAYS[savedDay] : "";
 
   return (
     <div>
-      <div className="grid grid-cols-[75%_15%_10%]">
+      <div className="grid grid-cols-[72%_10%_10%]">
         {isOther ? (
           <input
             type="text"
             data-slot="input"
             placeholder="название..."
-            className={`text-muted-foreground w-40 pl-1 text-sm ${value ? "text-rd" : ""}`}
+            className={`text-muted-foreground w-36 pl-1 text-sm ${value ? "text-rd" : ""}`}
             {...register(nameFieldKey)}
           />
         ) : (
@@ -76,8 +75,8 @@ export default function OrderCardField({
             {item}
           </Label>
         )}
-        <NumericInput fieldName={fieldName} className="h-6! w-9! text-center" />
-        <div className="flex h-6 items-end justify-end px-2 text-xs">
+        <NumericInput fieldName={fieldName} className="flex h-6! w-9! p-0!" />
+        <div className="flex h-6 w-8 items-center justify-center p-0 text-xs">
           {value ? dayLabel : ""}
         </div>
       </div>

@@ -1,5 +1,5 @@
 import { Menu } from "@/app/actions/google/google-action";
-import { Dot } from "lucide-react";
+import { Card } from "@/components/ui/card";
 import { useTranslations } from "next-intl";
 
 export function MenuVip({ data }: { data: Menu | null }) {
@@ -7,18 +7,13 @@ export function MenuVip({ data }: { data: Menu | null }) {
   const menuData = data?.vip;
 
   return (
-    <div className="grid grid-cols-1 gap-2 px-2 md:grid-cols-3 md:gap-6">
+    <div className="grid grid-cols-1 gap-4 px-2 md:grid-cols-3">
       {menuData?.map((column: any[], colIndex: number) => (
-        <div
-          key={colIndex}
-          className="border-bl bg-transparent px-4 py-0 md:border-x"
-        >
+        <Card key={colIndex} className="bg-transparent p-2">
           {column.map((section: any, secIndex: number) => (
             <div key={secIndex}>
               <h1 className="text-bl flex items-center justify-center py-0.5 font-bold">
-                <Dot />
                 {t(section.title)}
-                <Dot />
               </h1>
               <div className="flex gap-4 text-xs">
                 <ul className="w-1/2 list-none">
@@ -41,7 +36,7 @@ export function MenuVip({ data }: { data: Menu | null }) {
               </div>
             </div>
           ))}
-        </div>
+        </Card>
       ))}
     </div>
   );

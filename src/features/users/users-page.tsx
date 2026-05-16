@@ -38,7 +38,7 @@ export function UsersPage({ isAdmin }: { isAdmin: boolean }) {
     }
   };
   return (
-    <Table className="mt-4 md:table-fixed [&>tbody>tr]:text-xs">
+    <Table className="mt-4 [&>tbody>tr]:text-xs">
       <TableBody>
         {localUsers
           ?.filter(
@@ -47,13 +47,11 @@ export function UsersPage({ isAdmin }: { isAdmin: boolean }) {
           )
           .map((user, idx) => (
             <TableRow key={user.id}>
-              <TableCell className="w-8">{idx + 1}</TableCell>
-              <TableCell className="w-50 truncate">{user.mail}</TableCell>
-              <TableCell className="w-20">
-                {isMobile ? user.role[0] : user.role}
-              </TableCell>
-              <TableCell className="w-30 font-medium">{user.name}</TableCell>
-              <TableCell className="w-40">
+              <TableCell className="w-6">{idx + 1}</TableCell>
+              <TableCell>{user.mail}</TableCell>
+              <TableCell>{isMobile ? user.role[0] : user.role}</TableCell>
+              <TableCell>{user.name}</TableCell>
+              <TableCell>
                 <div className="flex items-center gap-6">
                   {user.status ? (
                     <CheckCircle size={14} className="text-bl" />
@@ -71,7 +69,7 @@ export function UsersPage({ isAdmin }: { isAdmin: boolean }) {
                   />
                 </div>
               </TableCell>
-              <TableCell className="w-100">
+              <TableCell>
                 <div className="flex items-center">
                   {user.accessList?.map((route, idx) => (
                     <span key={idx} className="mx-1">
@@ -80,7 +78,7 @@ export function UsersPage({ isAdmin }: { isAdmin: boolean }) {
                   ))}
                 </div>
               </TableCell>
-              <TableCell className="w-12 md:px-4">
+              <TableCell>
                 <div className="flex justify-center gap-8">
                   <LinkEditButton
                     url={`/${CREATE_USER_MAIN_ROUTE}/${user.id}`}

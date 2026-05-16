@@ -58,8 +58,6 @@ export default function ChartResultPage({
     role,
   });
 
-  console.log(rows);
-
   const [visibleBars, setVisibleBars] = useState<Record<BarKey, boolean>>({
     salary: true,
     tips: true,

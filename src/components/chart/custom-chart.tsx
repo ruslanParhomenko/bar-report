@@ -41,7 +41,7 @@ export default function CustomChart({
 }: CustomChartProps) {
   const isMobile = useIsMobile();
 
-  const height = isMobile ? "h-[80dvh]" : "h-[86dvh]";
+  const height = isMobile ? "h-[78dvh]" : "h-[82dvh]";
 
   if (isMobile) {
     return (
