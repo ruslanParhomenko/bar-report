@@ -24,3 +24,4 @@ export const VIEW_EMPLOYEE_MAIN_ROUTE = "view-employee";
 export const CHART_SCHEDULE_ROUTE = "chart-schedule";
 export const CHART_TIPS_ROUTE = "chart-tips";
 export const CHART_ARCHIVE_ROUTE = "chart-archive";
+export const CHART_RESULT_ROUTE = "chart-result";

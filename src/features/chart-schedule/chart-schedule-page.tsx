@@ -2,16 +2,23 @@
 import { SchedulesContextValue } from "@/app/actions/schedule/schedule-action";
 import { useSearchParams } from "next/navigation";
 
-import {
-  ChartContainer,
-  ChartLegend,
-  ChartLegendContent,
-  ChartTooltip,
-  ChartTooltipContent,
-  type ChartConfig,
-} from "@/components/ui/chart";
-import { cn } from "@/lib/utils";
-import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
+import CustomChart from "@/components/chart/custom-chart";
+import CustomLegend from "@/components/chart/custom-legend";
+import { type ChartConfig } from "@/components/ui/chart";
+import { useState } from "react";
+
+type ChartDataItem = {
+  name: string;
+  day: number;
+  night: number;
+};
+
+type BarKey = keyof Omit<ChartDataItem, "name">;
+type BarItem = {
+  key: BarKey;
+  color: string;
+  label: string;
+};
 
 export default function ChartSchedulePage({
   schedules,
@@ -23,11 +30,21 @@ export default function ChartSchedulePage({
 
   const schedule = schedules?.find((s: any) => s.role === tab) ?? null;
 
-  const chartData = schedule?.rowShifts.map((row) => ({
-    name: row.employee.split(" ")[0] + " " + row.employee.split(" ")[1][0],
-    day: Number(row.dayHours),
-    night: Number(row.nightHours),
-  }));
+  const BAR_KEYS: BarItem[] = [
+    { key: "day", color: "var(--color-bl)", label: "Day" },
+    { key: "night", color: "var(--color-gr)", label: "Night" },
+  ];
+  const [visibleBars, setVisibleBars] = useState<Record<BarKey, boolean>>({
+    day: true,
+    night: true,
+  });
+  const chartData =
+    schedule?.rowShifts.map((row) => ({
+      name: row.employee.split(" ")[0] + " " + row.employee.split(" ")[1][0],
+      day: Number(row.dayHours),
+      night: Number(row.nightHours),
+    })) ?? [];
+
   const chartConfig = {
     day: {
       label: "day",
@@ -39,29 +56,23 @@ export default function ChartSchedulePage({
     },
   } satisfies ChartConfig;
 
+  const toggleBar = (key: BarKey) => {
+    setVisibleBars((prev) => ({ ...prev, [key]: !prev[key] }));
+  };
+
   return (
-    <ChartContainer
-      config={chartConfig}
-      className={cn("mt-6 h-[86dvh] w-full")}
-    >
-      <BarChart accessibilityLayer data={chartData}>
-        <CartesianGrid vertical={false} />
-
-        <XAxis
-          dataKey="name"
-          tickLine={false}
-          tickMargin={10}
-          axisLine={false}
-          tickFormatter={(value) => value.split(" ")[0]}
-        />
-        <YAxis axisLine={false} tickLine={false} />
-
-        <ChartTooltip content={<ChartTooltipContent />} />
-        <ChartLegend content={<ChartLegendContent payload={undefined} />} />
-
-        <Bar dataKey="day" fill="var(--color-day)" radius={6} />
-        <Bar dataKey="night" fill="var(--color-night)" radius={6} />
-      </BarChart>
-    </ChartContainer>
+    <>
+      <CustomLegend
+        items={BAR_KEYS}
+        visibleItems={visibleBars}
+        onToggle={toggleBar}
+      />
+      <CustomChart
+        chartData={chartData}
+        chartConfig={chartConfig}
+        barItem={BAR_KEYS.filter(({ key }) => visibleBars[key as BarKey])}
+        className="mt-6 h-[80dvh] w-[90dvw]"
+      />
+    </>
   );
 }
