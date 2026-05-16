@@ -3,6 +3,7 @@
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
 
 import { useIsMobile } from "@/hooks/use-mobile";
+import { cn } from "@/lib/utils";
 import {
   ChartConfig,
   ChartContainer,
@@ -28,6 +29,7 @@ type CustomChartProps = {
   chartConfig: ChartConfig;
   barItem: BarItem[];
   className?: string;
+  withLegend?: boolean;
 };
 
 export default function CustomChart({
@@ -35,12 +37,18 @@ export default function CustomChart({
   chartConfig,
   barItem,
   className,
+  withLegend = false,
 }: CustomChartProps) {
   const isMobile = useIsMobile();
 
+  const height = isMobile ? "h-[80dvh]" : "h-[86dvh]";
+
   if (isMobile) {
     return (
-      <ChartContainer config={chartConfig} className={className}>
+      <ChartContainer
+        config={chartConfig}
+        className={cn("mt-2 w-[90dvw] md:mt-6", height, className)}
+      >
         <BarChart accessibilityLayer data={chartData} layout="vertical">
           <CartesianGrid horizontal={false} />
           <XAxis type="number" tickLine={false} axisLine={false} />
@@ -53,7 +61,9 @@ export default function CustomChart({
             tickFormatter={(value: string) => value?.split(" ")[0]}
           />
           <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
-          <ChartLegend content={<ChartLegendContent payload={undefined} />} />
+          {withLegend && (
+            <ChartLegend content={<ChartLegendContent payload={undefined} />} />
+          )}
           {barItem.map(({ key, color }) => (
             <Bar key={key} dataKey={key} fill={color} radius={6} />
           ))}
@@ -63,7 +73,10 @@ export default function CustomChart({
   }
 
   return (
-    <ChartContainer config={chartConfig} className={className}>
+    <ChartContainer
+      config={chartConfig}
+      className={cn("mt-2 w-[90dvw] md:mt-6", height, className)}
+    >
       <BarChart accessibilityLayer data={chartData}>
         <CartesianGrid vertical={false} />
         <XAxis
@@ -75,7 +88,9 @@ export default function CustomChart({
         />
         <YAxis axisLine={false} tickLine={false} />
         <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
-        <ChartLegend content={<ChartLegendContent payload={undefined} />} />
+        {withLegend && (
+          <ChartLegend content={<ChartLegendContent payload={undefined} />} />
+        )}
         {barItem.map(({ key, color }) => (
           <Bar key={key} dataKey={key} fill={color} radius={6} />
         ))}

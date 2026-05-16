@@ -1,7 +1,7 @@
 import SelectField from "@/components/input-controlled/select-field";
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
-import { Trash2 } from "lucide-react";
+import { Minus, Plus, Trash2 } from "lucide-react";
 import { useFormContext, useWatch } from "react-hook-form";
 
 import { MINUTES_SELECT, TIME_LABELS } from "./constant";
@@ -16,7 +16,7 @@ export default function BreakTableBody({
   employeesName: { name: string; id: string }[];
   isDisabled: boolean;
 }) {
-  const { control, setValue } = useFormContext<BarForm>();
+  const { control, setValue, getValues } = useFormContext<BarForm>();
 
   const values = useWatch({
     control,
@@ -27,17 +27,69 @@ export default function BreakTableBody({
   return (
     <TableBody>
       {values?.map((row, rowIndex) => {
-        const totalBreak = row.hours.reduce(
-          (acc, value) => acc + (["00", "20", "40"].includes(value) ? 1 : 0),
-          0,
-        );
-        const rowHasTrue = row.hours.some((value, index) => {
-          const time = TIME_LABELS[index];
-          return isCurrentCell(time, value);
-        });
+        const totalBreak =
+          Array.isArray(row.hours) &&
+          row.hours?.reduce(
+            (acc, value) => acc + (["00", "20", "40"].includes(value) ? 1 : 0),
+            0,
+          );
+        const rowHasTrue =
+          Array.isArray(row.hours) &&
+          row.hours.some((value, index) => {
+            const time = TIME_LABELS[index];
+            return isCurrentCell(time, value);
+          });
 
         return (
           <TableRow key={`${row.id ?? "row"}-${rowIndex}-${row.name}`}>
+            <TableCell className="text-bl border-0 bg-transparent! p-0 px-0.5 text-xs shadow-none">
+              {row.isAdded ? (
+                <button
+                  type="button"
+                  disabled={isDisabled}
+                  className="hover:bg-muted mr-0.5 flex h-4 w-4 items-center justify-center rounded-sm border text-xs leading-none disabled:opacity-50"
+                  onClick={() => {
+                    const rows = getValues("breakForm.rows");
+                    const updatedRows = rows.filter((_, i) => i !== rowIndex);
+                    setValue("breakForm.rows", updatedRows, {
+                      shouldDirty: true,
+                      shouldTouch: true,
+                      shouldValidate: true,
+                    });
+                  }}
+                >
+                  <Minus size={12} strokeWidth={1.5} className="text-rd" />
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  disabled={isDisabled}
+                  className="hover:bg-muted mr-0.5 flex h-4 w-4 cursor-pointer items-center justify-center border-0 text-xs leading-none disabled:opacity-50"
+                  onClick={() => {
+                    const rows = getValues("breakForm.rows");
+                    const currentRow = rows[rowIndex];
+                    const newRow = {
+                      ...currentRow,
+                      isAdded: true,
+                      name: "",
+                      hours: currentRow.hours.map(() => "" as const),
+                    };
+                    const updatedRows = [
+                      ...rows.slice(0, rowIndex + 1),
+                      newRow,
+                      ...rows.slice(rowIndex + 1),
+                    ];
+                    setValue("breakForm.rows", updatedRows, {
+                      shouldDirty: true,
+                      shouldTouch: true,
+                      shouldValidate: true,
+                    });
+                  }}
+                >
+                  <Plus size={12} strokeWidth={1.5} />
+                </button>
+              )}
+            </TableCell>
             <TableCell className="text-bl border-0 bg-transparent! p-0 px-0.5 text-xs shadow-none">
               {row.id}
             </TableCell>

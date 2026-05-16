@@ -55,7 +55,7 @@ export default function OrderCardField({
 
   return (
     <div>
-      <div className="grid grid-cols-[80%_8%_12%]">
+      <div className="grid grid-cols-[75%_15%_10%]">
         {isOther ? (
           <input
             type="text"

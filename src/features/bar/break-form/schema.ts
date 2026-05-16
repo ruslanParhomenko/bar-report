@@ -10,6 +10,7 @@ export const rowsSchema = z.object({
   id: z.enum(["8-20", "9-21", "12-00", "18-06", "20-08"]),
   name: z.string(),
   hours: hoursSchema,
+  isAdded: z.boolean().optional(),
 });
 
 type Row = z.infer<typeof rowsSchema>;

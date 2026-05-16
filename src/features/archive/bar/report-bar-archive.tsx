@@ -44,7 +44,7 @@ export default function ReportBarArchive({
         return (
           <Card
             key={index}
-            className="bg-background! cursor-pointer shadow-none md:m-2"
+            className="bg-background! my-2 cursor-pointer shadow-none md:m-2"
             onClick={() => toggle(index)}
           >
             <CardTitle className="text-bl p-4 text-xs">

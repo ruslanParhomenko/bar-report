@@ -47,10 +47,10 @@ export default function TipsArchiveData({
         return (
           <Card
             key={index}
-            className="bg-background! cursor-pointer shadow-none md:m-2"
+            className="bg-background! my-2 cursor-pointer shadow-none md:m-2"
             onClick={() => toggle(index)}
           >
-            <CardTitle className="p-2 text-xs">
+            <CardTitle className="p-4 text-xs">
               <span className="pr-4">day: {dayItem.id} :</span>
               <span className="text-bl px-2">
                 total tips: {totalTips.toFixed(0)}

@@ -68,16 +68,15 @@ export default function ChartRemarksPage({
 
   return (
     <>
-      <CustomLegend
-        items={BAR_KEYS}
-        visibleItems={visibleBars}
-        onToggle={toggleBar}
-      />
       <CustomChart
         chartData={chartData}
         chartConfig={chartConfig}
         barItem={BAR_KEYS.filter(({ key }) => visibleBars[key])}
-        className="mt-6 h-[80dvh] w-[90dvw]"
+      />
+      <CustomLegend
+        items={BAR_KEYS}
+        visibleItems={visibleBars}
+        onToggle={toggleBar}
       />
     </>
   );
