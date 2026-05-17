@@ -89,7 +89,7 @@ export default function TtnMonthPage({
   }, [dataTtnPrev, month, year, form, agentTTN]);
 
   return (
-    <FormWrapper form={form} onSubmit={onSubmit}>
+    <FormWrapper form={form} onSubmit={onSubmit} className="max-w-[90dvw]">
       <table>
         <TtnHeaderTable
           setItemSearch={setItemSearch}

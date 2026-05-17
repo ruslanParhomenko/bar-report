@@ -7,6 +7,7 @@ import {
   ARCHIVE_MAIN_ROUTE,
   CASH_MAIN_ROUTE,
   CHART_ARCHIVE_ROUTE,
+  CHART_CASH_ROUTE,
   CHART_RESULT_ROUTE,
   CHART_SCHEDULE_ROUTE,
   CHART_TIPS_ROUTE,
@@ -93,6 +94,7 @@ export const TABS_BY_ROUTE = {
   [CHART_TIPS_ROUTE]: ["month", "year"],
 
   [CASH_MAIN_ROUTE]: ["cash-month", "cash-year"],
+  [CHART_CASH_ROUTE]: ["month", "year"],
 
   [AO_REPORT_MAIN_ROUTE]: ["ao-month", "ao-year"],
 
@@ -218,6 +220,11 @@ export const NAV_BY_PATCH = {
 
   [CHART_RESULT_ROUTE]: {
     tabs: TABS_BY_ROUTE[CHART_RESULT_ROUTE],
+    selectDate: true,
+  },
+
+  [CHART_CASH_ROUTE]: {
+    tabs: TABS_BY_ROUTE[CHART_CASH_ROUTE],
     selectDate: true,
   },
 } satisfies Partial<NAV_BY_PATCH_TYPE>;

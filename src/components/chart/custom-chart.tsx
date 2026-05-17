@@ -87,6 +87,7 @@ export default function CustomChart({
           tickFormatter={(value: string) => value?.split(" ")[0]}
         />
         <YAxis axisLine={false} tickLine={false} />
+
         <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
         {withLegend && (
           <ChartLegend content={<ChartLegendContent payload={undefined} />} />

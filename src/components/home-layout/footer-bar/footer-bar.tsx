@@ -3,7 +3,9 @@
 import { ACTION_ITEM_BY_ROUTE } from "@/components/home-layout/footer-bar/constants";
 import {
   ARCHIVE_MAIN_ROUTE,
+  CASH_MAIN_ROUTE,
   CHART_ARCHIVE_ROUTE,
+  CHART_CASH_ROUTE,
   CHART_RESULT_ROUTE,
   CHART_SCHEDULE_ROUTE,
   CHART_TIPS_ROUTE,
@@ -42,6 +44,7 @@ const CHART_URL_BY_TAB = {
   [TIPS_MAIN_ROUTE]: `/${CHART_TIPS_ROUTE}`,
   [ARCHIVE_MAIN_ROUTE]: `/${CHART_ARCHIVE_ROUTE}`,
   [RESULT_MAIN_ROUTE]: `/${CHART_RESULT_ROUTE}`,
+  [CASH_MAIN_ROUTE]: `/${CHART_CASH_ROUTE}`,
 };
 
 export default function ActionBar() {

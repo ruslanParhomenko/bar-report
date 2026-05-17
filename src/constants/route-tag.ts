@@ -25,3 +25,4 @@ export const CHART_SCHEDULE_ROUTE = "chart-schedule";
 export const CHART_TIPS_ROUTE = "chart-tips";
 export const CHART_ARCHIVE_ROUTE = "chart-archive";
 export const CHART_RESULT_ROUTE = "chart-result";
+export const CHART_CASH_ROUTE = "chart-cash";

@@ -32,7 +32,7 @@ export default function TtnHeaderTable({
           selectedDay={selectedDay}
           setSelectedDay={setSelectedDay}
           monthDays={monthDays}
-          className="min-w-9"
+          className="min-w-6"
         />
       </TableRow>
     </TableHeader>

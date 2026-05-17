@@ -6,6 +6,7 @@ import {
   ARCHIVE_MAIN_ROUTE,
   CASH_MAIN_ROUTE,
   CHART_ARCHIVE_ROUTE,
+  CHART_CASH_ROUTE,
   CHART_RESULT_ROUTE,
   CHART_SCHEDULE_ROUTE,
   CHART_TIPS_ROUTE,
@@ -37,7 +38,7 @@ export const ACTION_ITEM_BY_ROUTE = {
   [INFO_MAIN_ROUTE]: ["print"],
   [ARCHIVE_MAIN_ROUTE]: ["print", "chart"],
   [TIPS_MAIN_ROUTE]: ["edit", "save", "print", "chart"],
-  [CASH_MAIN_ROUTE]: ["edit", "save", "print"],
+  [CASH_MAIN_ROUTE]: ["edit", "save", "print", "chart"],
   [AO_REPORT_MAIN_ROUTE]: ["edit", "save", "print"],
   [TTN_MAIN_ROUTE]: ["edit", "save", "print"],
   [FIN_CASH_MAIN_ROUTE]: ["edit", "save", "print"],
@@ -55,4 +56,5 @@ export const ACTION_ITEM_BY_ROUTE = {
   [CHART_TIPS_ROUTE]: ["print", "exit"],
   [CHART_ARCHIVE_ROUTE]: ["print", "exit"],
   [CHART_RESULT_ROUTE]: ["print", "exit"],
+  [CHART_CASH_ROUTE]: ["print", "exit"],
 } as const;
