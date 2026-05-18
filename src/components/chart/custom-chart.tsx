@@ -30,6 +30,7 @@ type CustomChartProps = {
   barItem: BarItem[];
   className?: string;
   withLegend?: boolean;
+  vertical?: boolean;
 };
 
 export default function CustomChart({
@@ -38,6 +39,7 @@ export default function CustomChart({
   barItem,
   className,
   withLegend = false,
+  vertical = false,
 }: CustomChartProps) {
   const isMobile = useIsMobile();
 
@@ -60,7 +62,7 @@ export default function CustomChart({
             width={80}
             tickFormatter={(value: string) => value?.split(" ")[0]}
           />
-          <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
+          <ChartTooltip content={<ChartTooltipContent />} cursor={false} />
           {withLegend && (
             <ChartLegend content={<ChartLegendContent payload={undefined} />} />
           )}
@@ -82,13 +84,19 @@ export default function CustomChart({
         <XAxis
           dataKey="name"
           tickLine={false}
-          tickMargin={10}
+          tickMargin={5}
           axisLine={false}
+          angle={vertical ? -90 : 0}
+          textAnchor={vertical ? "end" : "middle"}
+          height={vertical ? 80 : 30}
           tickFormatter={(value: string) => value?.split(" ")[0]}
         />
         <YAxis axisLine={false} tickLine={false} />
 
-        <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
+        <ChartTooltip
+          cursor={{ fill: "var(--color-bg)" }}
+          content={<ChartTooltipContent />}
+        />
         {withLegend && (
           <ChartLegend content={<ChartLegendContent payload={undefined} />} />
         )}
