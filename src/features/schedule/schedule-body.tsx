@@ -1,5 +1,5 @@
 "use client";
-import { SchedulesContextValue } from "@/app/actions/schedule/schedule-action";
+import { GetScheduleData } from "@/app/actions/schedule/schedule-action";
 import { MonthDaysCells } from "@/components/table/month-days-cells";
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
@@ -13,7 +13,7 @@ export default function ScheduleTableBody({
   schedule,
   selectedDay,
 }: {
-  schedule: SchedulesContextValue | null;
+  schedule: GetScheduleData | null;
   selectedDay: number;
 }) {
   const { monthDays } = useMonthDays();

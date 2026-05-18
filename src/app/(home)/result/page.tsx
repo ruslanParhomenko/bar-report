@@ -1,5 +1,5 @@
 import { getRemarksByYearMonth } from "@/app/actions/remarks/remarks-action";
-import { getScheduleByMonthYear } from "@/app/actions/schedule/schedule-action";
+import { getScheduleByYearAndMonth } from "@/app/actions/schedule/schedule-action";
 import { getTipsByYearAndMonth } from "@/app/actions/tips/tips-action";
 import { remarksByUniqueEmployee } from "@/features/archive/penalty/utils";
 import { PageResult } from "@/features/result/result-page";
@@ -16,8 +16,8 @@ export default async function Page({
 
   if (!month || !year) return null;
 
-  const [schedule, remarks, tipsData] = await Promise.all([
-    getScheduleByMonthYear(month, year),
+  const [schedules, remarks, tipsData] = await Promise.all([
+    getScheduleByYearAndMonth(year, month),
     getRemarksByYearMonth(year, month),
     getTipsByYearAndMonth(year, month),
   ]);
@@ -27,7 +27,7 @@ export default async function Page({
 
   return (
     <PageResult
-      dataSchedule={schedule}
+      dataSchedules={schedules}
       dataRemarks={
         remarksByEmployee as ReturnType<
           typeof remarksByUniqueEmployee

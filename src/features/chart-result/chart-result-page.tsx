@@ -1,5 +1,5 @@
 "use client";
-import { SchedulesContextValue } from "@/app/actions/schedule/schedule-action";
+import { GetScheduleData } from "@/app/actions/schedule/schedule-action";
 import { GetTipsData } from "@/app/actions/tips/tips-action";
 import CustomChart from "@/components/chart/custom-chart";
 import CustomLegend from "@/components/chart/custom-legend";
@@ -31,21 +31,22 @@ type BarItem = {
 };
 
 export default function ChartResultPage({
-  dataSchedule,
+  dataSchedules,
   tipsData,
   month,
   year,
 }: {
-  dataSchedule: SchedulesContextValue[];
+  dataSchedules: GetScheduleData[] | null;
   tipsData: GetTipsData | null;
   month: string;
   year: string;
 }) {
   const role = useSearchParams().get("tab") || "barmen";
 
-  const selectedSchedule = dataSchedule.filter(
-    (item: any) => item.role === ROLE[role as keyof typeof ROLE],
-  );
+  const selectedSchedule =
+    dataSchedules?.filter(
+      (item: any) => item.id === ROLE[role as keyof typeof ROLE],
+    ) || [];
 
   const rowEmployees = tipsData?.tipsData?.rowEmployeesTips || [];
   const employees = extractUniqueEmployees(selectedSchedule, [], rowEmployees);

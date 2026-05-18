@@ -1,7 +1,9 @@
 "use client";
 
 import { YearData } from "@/app/actions/remarks/remarks-action";
+import { GetTipsAddByYear } from "@/app/actions/tips-add/tips-add-actions";
 import { useSearchParams } from "next/navigation";
+import ChartTipsAddPage from "../chart-tips-add-page/chart-tips-add-page";
 import ChartRemarksPage from "./chart-remarks/chart-remarks-page";
 
 export default function ChartArchivePage({
@@ -9,6 +11,7 @@ export default function ChartArchivePage({
 }: {
   data: {
     dataRemarks: YearData[];
+    dataTips: GetTipsAddByYear[];
   };
 }) {
   const searchParams = useSearchParams();
@@ -18,6 +21,11 @@ export default function ChartArchivePage({
     <>
       {(tab === "penalty-month" || tab === "penalty-year") && (
         <ChartRemarksPage dataRemarks={data.dataRemarks} tab={tab} />
+      )}
+      {(tab === "tips-month" ||
+        tab === "tips-year" ||
+        tab === "tips-employees") && (
+        <ChartTipsAddPage dataTipsAdd={data.dataTips} tab={tab} />
       )}
     </>
   );

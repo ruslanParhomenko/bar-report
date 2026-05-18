@@ -3,82 +3,68 @@
 import { SCHEDULE_ACTION_TAG } from "@/constants/action-tag";
 import { ScheduleType } from "@/features/schedule/schema";
 import { dbAdmin } from "@/lib/firebase-admin";
+import { getYearMonthDoc } from "@/lib/firebase-doc";
 import { unstable_cache, updateTag } from "next/cache";
 import { invalidateEverywhere } from "../invalidateEverywhere/invalidate-everywhere";
 
-export type ScheduleData = ScheduleType & {
-  uniqueKey: string;
+const actionTag = SCHEDULE_ACTION_TAG;
+
+// type
+export type ScheduleDataForm = {
   year: string;
   month: string;
   role: string;
+  rowShifts: ScheduleType["rowShifts"];
 };
-export type SchedulesContextValue = ScheduleData & {
+
+export type GetScheduleData = {
   id: string;
+  rowShifts: ScheduleType["rowShifts"];
 };
 
 // create
-export async function createSchedule(data: ScheduleData) {
-  const docRef = await dbAdmin.collection(SCHEDULE_ACTION_TAG).add({
-    uniqueKey: data.uniqueKey,
-    year: data.year,
-    month: data.month,
-    role: data.role,
-    rowShifts: data.rowShifts,
-  });
-  updateTag(SCHEDULE_ACTION_TAG);
-  await invalidateEverywhere(SCHEDULE_ACTION_TAG);
+export async function createSchedule(data: ScheduleDataForm) {
+  const { year, month, rowShifts, role } = data;
+
+  const docRef = getYearMonthDoc(actionTag, year, month);
+  const docRefRole = docRef.collection("role").doc(role);
+
+  await docRefRole.set({ rowShifts });
+
+  updateTag(actionTag);
+
+  await invalidateEverywhere(actionTag);
   return docRef.id;
 }
 
-// update
-export async function updateSchedule(
-  id: string,
-  data: Omit<ScheduleData, "id">,
-) {
-  await dbAdmin.collection(SCHEDULE_ACTION_TAG).doc(id).update(data);
-  updateTag(SCHEDULE_ACTION_TAG);
-  await invalidateEverywhere(SCHEDULE_ACTION_TAG);
-}
+// get by month year
+export async function _getScheduleByYearAndMonth(
+  year: string,
+  month: string,
+): Promise<GetScheduleData[] | null> {
+  const docRef = dbAdmin
+    .collection(actionTag)
+    .doc(year)
+    .collection("months")
+    .doc(month)
+    .collection("role");
 
-// get by id
-export const _getScheduleById = async (id: string) => {
-  const doc = await dbAdmin.collection(SCHEDULE_ACTION_TAG).doc(id).get();
-  if (!doc.exists) return null;
+  const snap = await docRef.get();
 
-  return {
+  if (snap.empty) return [];
+
+  const data = snap.docs.map((doc) => ({
     id: doc.id,
     ...doc.data(),
-  } as ScheduleData & { id: string };
-};
+  }));
 
-export const getScheduleById = unstable_cache(
-  _getScheduleById,
-  [SCHEDULE_ACTION_TAG],
+  return data as GetScheduleData[];
+}
+export const getScheduleByYearAndMonth = unstable_cache(
+  _getScheduleByYearAndMonth,
+  [actionTag],
   {
     revalidate: false,
-    tags: [SCHEDULE_ACTION_TAG],
+    tags: [actionTag],
   },
 );
-
-// get by filters
-export const _getScheduleByMonthYear = async (month: string, year: string) => {
-  const snapshot = await dbAdmin
-    .collection(SCHEDULE_ACTION_TAG)
-    .where("month", "==", month)
-    .where("year", "==", year)
-    .get();
-
-  if (snapshot.empty) return [];
-
-  return snapshot.docs.map((doc) => ({
-    id: doc.id,
-    ...doc.data(),
-  })) as (ScheduleData & { id: string })[];
-};
-
-export const getScheduleByMonthYear = async (month: string, year: string) =>
-  unstable_cache(
-    () => _getScheduleByMonthYear(month, year),
-    [SCHEDULE_ACTION_TAG, month, year],
-    { revalidate: false, tags: [SCHEDULE_ACTION_TAG] },
-  )();

@@ -1,4 +1,4 @@
-import { getScheduleByMonthYear } from "@/app/actions/schedule/schedule-action";
+import { getScheduleByYearAndMonth } from "@/app/actions/schedule/schedule-action";
 import SchedulePage from "@/features/schedule/schedule-page";
 
 export default async function Page({
@@ -8,6 +8,6 @@ export default async function Page({
 }) {
   const { month, year } = await searchParams;
   if (!month || !year) return null;
-  const schedules = (await getScheduleByMonthYear(month, year)) ?? null;
+  const schedules = await getScheduleByYearAndMonth(year, month);
   return <SchedulePage schedules={schedules} />;
 }

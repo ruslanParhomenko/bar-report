@@ -1,0 +1,196 @@
+"use client";
+import { GetTipsAddByYear } from "@/app/actions/tips-add/tips-add-actions";
+import CustomChart from "@/components/chart/custom-chart";
+import CustomLegend from "@/components/chart/custom-legend";
+import { ChartConfig } from "@/components/ui/chart";
+import { useMonthDays } from "@/providers/month-days-provider";
+import { useState } from "react";
+
+type ChartDataItem = {
+  name: string;
+  tipsMdl: number;
+  tipsChips: number;
+  tipsTotal: number;
+  resultTips: number;
+};
+
+type BarKey = keyof Omit<ChartDataItem, "name">;
+type BarItem = {
+  key: BarKey;
+  color: string;
+  label: string;
+};
+
+export default function ChartTipsAddPage({
+  dataTipsAdd,
+  tab,
+}: {
+  dataTipsAdd: GetTipsAddByYear[];
+  tab: string;
+}) {
+  console.log(dataTipsAdd);
+
+  const { month, monthDays } = useMonthDays();
+
+  const [visibleBars, setVisibleBars] = useState<Record<BarKey, boolean>>({
+    tipsMdl: true,
+    tipsChips: true,
+    tipsTotal: true,
+    resultTips: true,
+  });
+
+  const monthData = dataTipsAdd?.find((data) => data.id === month) || null;
+
+  const chartDataMonth: ChartDataItem[] = (monthData?.tipsAdd ?? [])
+    .slice()
+    .sort((a, b) => parseInt(a.id) - parseInt(b.id))
+    .map((day) => {
+      const currency = parseFloat(day.currency);
+      let tipsMdl = 0;
+      let tipsChips = 0;
+      let resultTips = 0;
+
+      day.tipsAdd.forEach((employee) => {
+        employee.amount.forEach((a) => {
+          const val = parseFloat(a.value);
+          if (a.typeAmount === "mdl") {
+            tipsMdl += val;
+          } else if (a.typeAmount === "chips") {
+            tipsChips += val * currency;
+          }
+        });
+        employee.resultAmount.forEach((r) => {
+          resultTips += r.value;
+        });
+      });
+
+      const tipsTotal = tipsMdl + tipsChips;
+
+      return {
+        name: day.id,
+        tipsMdl: parseFloat(tipsMdl.toFixed(2)),
+        tipsChips: parseFloat(tipsChips.toFixed(2)),
+        tipsTotal: parseFloat(tipsTotal.toFixed(2)),
+        resultTips: parseFloat(resultTips.toFixed(2)),
+      };
+    });
+  // chartDataYear — один элемент на месяц (агрегат всех дней)
+  const yearTotals = chartDataMonth.reduce(
+    (acc, day) => ({
+      tipsMdl: acc.tipsMdl + day.tipsMdl,
+      tipsChips: acc.tipsChips + day.tipsChips,
+      tipsTotal: acc.tipsTotal + day.tipsTotal,
+      resultTips: acc.resultTips + day.resultTips,
+    }),
+    { tipsMdl: 0, tipsChips: 0, tipsTotal: 0, resultTips: 0 },
+  );
+
+  const chartDataYear: ChartDataItem[] = [
+    {
+      name: monthData?.id ?? "",
+      tipsMdl: parseFloat(yearTotals.tipsMdl.toFixed(2)),
+      tipsChips: parseFloat(yearTotals.tipsChips.toFixed(2)),
+      tipsTotal: parseFloat(yearTotals.tipsTotal.toFixed(2)),
+      resultTips: parseFloat(yearTotals.resultTips.toFixed(2)),
+    },
+  ];
+
+  const chartDataEmployee: ChartDataItem[] = (() => {
+    const employeeMap = new Map<string, ChartDataItem>();
+
+    (monthData?.tipsAdd ?? []).forEach((day) => {
+      const currency = parseFloat(day.currency);
+
+      day.tipsAdd.forEach((employee) => {
+        const name = employee.employeeName.trim();
+
+        if (!employeeMap.has(name)) {
+          employeeMap.set(name, {
+            name,
+            tipsMdl: 0,
+            tipsChips: 0,
+            tipsTotal: 0,
+            resultTips: 0,
+          });
+        }
+
+        const entry = employeeMap.get(name)!;
+
+        employee.amount.forEach((a) => {
+          const val = parseFloat(a.value);
+          if (a.typeAmount === "mdl") {
+            entry.tipsMdl += val;
+          } else if (a.typeAmount === "chips") {
+            entry.tipsChips += val * currency;
+          }
+        });
+
+        employee.resultAmount.forEach((r) => {
+          entry.resultTips += r.value;
+        });
+
+        entry.tipsTotal = entry.tipsMdl + entry.tipsChips;
+      });
+    });
+
+    return Array.from(employeeMap.values()).map((e) => ({
+      ...e,
+      tipsMdl: parseFloat(e.tipsMdl.toFixed(2)),
+      tipsChips: parseFloat(e.tipsChips.toFixed(2)),
+      tipsTotal: parseFloat(e.tipsTotal.toFixed(2)),
+      resultTips: parseFloat(e.resultTips.toFixed(2)),
+    }));
+  })();
+
+  const chartData =
+    tab === "tips-month"
+      ? chartDataMonth
+      : tab === "tips-employees"
+        ? chartDataEmployee
+        : chartDataYear;
+  const chartConfig = {
+    tipsMdl: {
+      label: "tipsMdl",
+      color: "var(--color-bl)",
+    },
+    tipsChips: {
+      label: "tipsChips",
+      color: "var(--color-gn)",
+    },
+    tipsTotal: {
+      label: "tipsTotal",
+      color: "var(--color-black)",
+    },
+    resultTips: {
+      label: "resultTips",
+      color: "var(--color-rd)",
+    },
+  } satisfies ChartConfig;
+
+  const BAR_KEYS: BarItem[] = [
+    { key: "tipsMdl", color: "var(--color-bl)", label: "TipsMdl" },
+    { key: "tipsChips", color: "var(--color-gn)", label: "TipsChips" },
+    { key: "tipsTotal", color: "var(--color-black)", label: "TipsTotal" },
+    { key: "resultTips", color: "var(--color-rd)", label: "ResultTips" },
+  ] as const;
+
+  const toggleBar = (key: BarKey) => {
+    setVisibleBars((prev) => ({ ...prev, [key]: !prev[key] }));
+  };
+
+  return (
+    <>
+      <CustomChart
+        chartData={chartData}
+        chartConfig={chartConfig}
+        barItem={BAR_KEYS.filter(({ key }) => visibleBars[key as BarKey])}
+      />
+
+      <CustomLegend
+        items={BAR_KEYS}
+        visibleItems={visibleBars}
+        onToggle={toggleBar}
+      />
+    </>
+  );
+}

@@ -1,4 +1,4 @@
-export const SCHEDULE_ACTION_TAG = "schedule";
+export const SCHEDULE_ACTION_TAG = "schedule-new";
 export const EMPLOYEES_ACTION_TAG = "employees";
 export const REPORT_BAR_ACTION_TAG = "report-bar";
 export const REPORT_CUCINA_ACTION_TAG = "report-cucina";

@@ -1,4 +1,4 @@
-import { getScheduleByMonthYear } from "@/app/actions/schedule/schedule-action";
+import { getScheduleByYearAndMonth } from "@/app/actions/schedule/schedule-action";
 import { getTipsByYearAndMonth } from "@/app/actions/tips/tips-action";
 import ChartResultPage from "@/features/chart-result/chart-result-page";
 
@@ -10,13 +10,13 @@ export default async function Page({
   const { month, year } = await searchParams;
   if (!month || !year) return null;
 
-  const [schedule, tipsData] = await Promise.all([
-    getScheduleByMonthYear(month, year),
+  const [schedules, tipsData] = await Promise.all([
+    getScheduleByYearAndMonth(year, month),
     getTipsByYearAndMonth(year, month),
   ]);
   return (
     <ChartResultPage
-      dataSchedule={schedule}
+      dataSchedules={schedules}
       tipsData={tipsData}
       month={month}
       year={year}

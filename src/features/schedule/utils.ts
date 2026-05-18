@@ -1,4 +1,3 @@
-import { SchedulesContextValue } from "@/app/actions/schedule/schedule-action";
 import { useEmployees } from "@/providers/employees-provider";
 import { MONTHS } from "@/utils/get-month-days";
 import {
@@ -7,10 +6,11 @@ import {
   SHIFT_HOURS_MAP_NIGHT,
   SHIFT_OPTIONS,
 } from "./constants";
+import { ScheduleType } from "./schema";
 
 // getShiftCounts
 export function getShiftCounts(
-  rowShifts: SchedulesContextValue["rowShifts"],
+  rowShifts: ScheduleType["rowShifts"],
 ): ShiftCounts | null {
   if (!rowShifts?.length) return null;
 
@@ -49,9 +49,7 @@ export function isCanEdit({ year, month }: { year: string; month: string }) {
 }
 
 // calculateSalaryByHours
-export function calculateSalaryByHours(
-  row: SchedulesContextValue["rowShifts"][number],
-) {
+export function calculateSalaryByHours(row: ScheduleType["rowShifts"][number]) {
   const rate = Number(row.rate);
   const dayHours = Number(row.dayHours);
   const nightHours = Number(row.nightHours);

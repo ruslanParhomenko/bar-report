@@ -5,7 +5,7 @@ import ResultTableBody from "./result-body-table";
 import ResultTableHeader from "./result-header-table";
 import { extractUniqueEmployees, useResultCalculations } from "./utils";
 
-import { SchedulesContextValue } from "@/app/actions/schedule/schedule-action";
+import { GetScheduleData } from "@/app/actions/schedule/schedule-action";
 import { GetTipsData } from "@/app/actions/tips/tips-action";
 import { useSearchParams } from "next/navigation";
 import { remarksByUniqueEmployee } from "../archive/penalty/utils";
@@ -18,14 +18,14 @@ const ROLE = {
 };
 
 export function PageResult({
-  dataSchedule,
+  dataSchedules,
   dataRemarks,
   tipsData,
   month,
   year,
   isAdmin,
 }: {
-  dataSchedule: SchedulesContextValue[];
+  dataSchedules: GetScheduleData[] | null;
   dataRemarks: ReturnType<typeof remarksByUniqueEmployee>["formattedData"];
   tipsData: GetTipsData | null;
   month: string;
@@ -34,9 +34,10 @@ export function PageResult({
 }) {
   const role = useSearchParams().get("tab") || "barmen";
 
-  const selectedSchedule = dataSchedule.filter(
-    (item: any) => item.role === ROLE[role as keyof typeof ROLE],
-  );
+  const selectedSchedule =
+    dataSchedules?.filter(
+      (item) => item.id === ROLE[role as keyof typeof ROLE],
+    ) || [];
 
   const rowEmployees = tipsData?.tipsData?.rowEmployeesTips || [];
   const employees = extractUniqueEmployees(

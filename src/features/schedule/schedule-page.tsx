@@ -1,9 +1,7 @@
 "use client";
 import {
   createSchedule,
-  ScheduleData,
-  SchedulesContextValue,
-  updateSchedule,
+  GetScheduleData,
 } from "@/app/actions/schedule/schedule-action";
 import { Table } from "@/components/ui/table";
 import FormWrapper from "@/components/wrapper/form-wrapper";
@@ -30,13 +28,14 @@ import {
 export default function SchedulePage({
   schedules,
 }: {
-  schedules: SchedulesContextValue[] | null;
+  schedules: GetScheduleData[] | null;
 }) {
+  console.log(schedules);
   const searchParams = useSearchParams();
 
   const tab = searchParams.get("tab");
 
-  const schedule = schedules?.find((s: any) => s.role === tab) ?? null;
+  const schedule = schedules?.find((s) => s.id === tab) ?? null;
 
   // state
   const todayDay = new Date().getDate();
@@ -79,22 +78,24 @@ export default function SchedulePage({
       };
     });
 
-    const formatData: ScheduleData = {
-      ...data,
+    const formatData = {
+      year,
+      month,
+      role: tab as keyof typeof EMPLOYEE_ROLES_BY_DEPARTMENT,
       rowShifts: rowShiftsWithHours,
-      uniqueKey: `${year}-${month}-${tab}`,
-      month: month as string,
-      year: year as string,
-      role: tab as string,
     };
 
-    if (schedule?.id) {
-      await updateSchedule(schedule.id as string, formatData);
-      toast.success("График успешно обновлён!");
-    } else {
-      await createSchedule(formatData);
-      toast.success("График успешно создан!");
-    }
+    console.log("formatData", formatData);
+    await createSchedule(formatData);
+    toast.success("График успешно создан!");
+
+    // if (schedule?.id) {
+    //   await updateSchedule(schedule.id as string, formatData);
+    //   toast.success("График успешно обновлён!");
+    // } else {
+    //   await createSchedule(formatData);
+    //   toast.success("График успешно создан!");
+    // }
     setIsEdit(false);
   };
 

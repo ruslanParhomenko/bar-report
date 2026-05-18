@@ -1,5 +1,5 @@
 "use client";
-import { SchedulesContextValue } from "@/app/actions/schedule/schedule-action";
+import { GetScheduleData } from "@/app/actions/schedule/schedule-action";
 import { useSearchParams } from "next/navigation";
 
 import CustomChart from "@/components/chart/custom-chart";
@@ -11,6 +11,7 @@ type ChartDataItem = {
   name: string;
   day: number;
   night: number;
+  total: number;
 };
 
 type BarKey = keyof Omit<ChartDataItem, "name">;
@@ -23,26 +24,29 @@ type BarItem = {
 export default function ChartSchedulePage({
   schedules,
 }: {
-  schedules: SchedulesContextValue[] | null;
+  schedules: GetScheduleData[] | null;
 }) {
   const searchParams = useSearchParams();
   const tab = searchParams.get("tab");
 
-  const schedule = schedules?.find((s: any) => s.role === tab) ?? null;
+  const schedule = schedules?.find((s) => s.id === tab) ?? null;
 
   const BAR_KEYS: BarItem[] = [
     { key: "day", color: "var(--color-bl)", label: "Day" },
     { key: "night", color: "var(--color-gr)", label: "Night" },
+    { key: "total", color: "var(--color-gn)", label: "Total" },
   ];
   const [visibleBars, setVisibleBars] = useState<Record<BarKey, boolean>>({
     day: true,
     night: true,
+    total: true,
   });
   const chartData =
     schedule?.rowShifts.map((row) => ({
       name: row.employee.split(" ")[0] + " " + row.employee.split(" ")[1][0],
       day: Number(row.dayHours),
       night: Number(row.nightHours),
+      total: Number(row.totalHours),
     })) ?? [];
 
   const chartConfig = {
@@ -53,6 +57,10 @@ export default function ChartSchedulePage({
     night: {
       label: "night",
       color: "var(--color-gr)",
+    },
+    total: {
+      label: "total",
+      color: "var(--color-gn)",
     },
   } satisfies ChartConfig;
 
