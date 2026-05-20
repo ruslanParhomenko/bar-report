@@ -1,6 +1,5 @@
 "use client";
 
-import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 
 type LegendItem<T extends string> = {
@@ -22,7 +21,6 @@ export default function CustomLegend<T extends string>({
   onToggle,
   className,
 }: CustomLegendProps<T>) {
-  const isMobile = useIsMobile();
   return (
     <div
       className={cn(
@@ -32,6 +30,7 @@ export default function CustomLegend<T extends string>({
     >
       {items.map(({ key, color, label }) => (
         <button
+          type="button"
           key={key}
           onClick={() => onToggle(key)}
           className={cn(

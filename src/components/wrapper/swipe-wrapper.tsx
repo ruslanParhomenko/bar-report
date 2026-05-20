@@ -1,5 +1,6 @@
 "use client";
 
+import { useIsMobile } from "@/hooks/use-mobile";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useSwipeable } from "react-swipeable";
 import { TABS_BY_ROUTE } from "../home-layout/header-bar/constants";
@@ -9,6 +10,7 @@ export default function SwipeWrapper({
 }: {
   children: React.ReactNode;
 }) {
+  const isMobile = useIsMobile();
   const pathname = usePathname();
   const mainRoute = pathname.split("/")[1] || "";
 
@@ -30,9 +32,10 @@ export default function SwipeWrapper({
     window.history.replaceState(null, "", `${pathname}?${params.toString()}`);
   };
 
+  const delta = isMobile ? 200 : 50;
   const handlers = useSwipeable({
-    delta: 50,
-    swipeDuration: 500,
+    delta: delta,
+    swipeDuration: 1000,
     preventScrollOnSwipe: true,
     onSwipedLeft: () => {
       const currentIndex = TABS.indexOf(tab ?? "");

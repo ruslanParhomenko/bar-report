@@ -30,7 +30,6 @@ export default function SchedulePage({
 }: {
   schedules: GetScheduleData[] | null;
 }) {
-  console.log(schedules);
   const searchParams = useSearchParams();
 
   const tab = searchParams.get("tab");
@@ -85,17 +84,9 @@ export default function SchedulePage({
       rowShifts: rowShiftsWithHours,
     };
 
-    console.log("formatData", formatData);
     await createSchedule(formatData);
     toast.success("График успешно создан!");
 
-    // if (schedule?.id) {
-    //   await updateSchedule(schedule.id as string, formatData);
-    //   toast.success("График успешно обновлён!");
-    // } else {
-    //   await createSchedule(formatData);
-    //   toast.success("График успешно создан!");
-    // }
     setIsEdit(false);
   };
 

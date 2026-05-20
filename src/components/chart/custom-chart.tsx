@@ -31,6 +31,8 @@ type CustomChartProps = {
   className?: string;
   withLegend?: boolean;
   vertical?: boolean;
+  disableTooltip?: boolean;
+  disableYAxis?: boolean;
 };
 
 export default function CustomChart({
@@ -40,6 +42,8 @@ export default function CustomChart({
   className,
   withLegend = false,
   vertical = false,
+  disableTooltip = false,
+  disableYAxis = false,
 }: CustomChartProps) {
   const isMobile = useIsMobile();
 
@@ -53,7 +57,14 @@ export default function CustomChart({
       >
         <BarChart accessibilityLayer data={chartData} layout="vertical">
           <CartesianGrid horizontal={false} />
-          <XAxis type="number" tickLine={false} axisLine={false} />
+
+          <XAxis
+            type="number"
+            tickLine={false}
+            axisLine={false}
+            tick={!disableYAxis}
+          />
+
           <YAxis
             type="category"
             dataKey="name"
@@ -62,7 +73,9 @@ export default function CustomChart({
             width={80}
             tickFormatter={(value: string) => value?.split(" ")[0]}
           />
-          <ChartTooltip content={<ChartTooltipContent />} cursor={false} />
+          {!disableTooltip && (
+            <ChartTooltip content={<ChartTooltipContent />} cursor={false} />
+          )}
           {withLegend && (
             <ChartLegend content={<ChartLegendContent payload={undefined} />} />
           )}
@@ -91,12 +104,14 @@ export default function CustomChart({
           height={vertical ? 80 : 30}
           tickFormatter={(value: string) => value?.split(" ")[0]}
         />
-        <YAxis axisLine={false} tickLine={false} />
+        <YAxis axisLine={false} tickLine={false} tick={!disableYAxis} />
 
-        <ChartTooltip
-          cursor={{ fill: "var(--color-bg)" }}
-          content={<ChartTooltipContent />}
-        />
+        {!disableTooltip && (
+          <ChartTooltip
+            cursor={{ fill: "var(--color-bg)" }}
+            content={<ChartTooltipContent />}
+          />
+        )}
         {withLegend && (
           <ChartLegend content={<ChartLegendContent payload={undefined} />} />
         )}

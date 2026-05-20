@@ -3,7 +3,6 @@ import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 
 import { GetRemarksData } from "@/app/actions/remarks/remarks-action";
 import { cn } from "@/lib/utils";
-import { useTranslations } from "next-intl";
 import React, { useState } from "react";
 import { remarksByUniqueEmployee } from "../penalty/utils";
 
@@ -13,7 +12,6 @@ export default function PenaltyResult({
   data: GetRemarksData[] | null;
 }) {
   if (!data) return null;
-  const t = useTranslations("Home");
 
   const [selectedEmployee, setSelectedEmployee] = useState("select");
 

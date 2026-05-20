@@ -3,6 +3,7 @@ import { GetTipsAddByYear } from "@/app/actions/tips-add/tips-add-actions";
 import CustomChart from "@/components/chart/custom-chart";
 import CustomLegend from "@/components/chart/custom-legend";
 import { ChartConfig } from "@/components/ui/chart";
+import { useAbility } from "@/providers/ability-provider";
 import { useMonthDays } from "@/providers/month-days-provider";
 import { useState } from "react";
 
@@ -28,7 +29,7 @@ export default function ChartTipsAddPage({
   dataTipsAdd: GetTipsAddByYear[];
   tab: string;
 }) {
-  console.log(dataTipsAdd);
+  const { isAdmin } = useAbility();
 
   const { month, monthDays } = useMonthDays();
 
@@ -168,10 +169,10 @@ export default function ChartTipsAddPage({
   } satisfies ChartConfig;
 
   const BAR_KEYS: BarItem[] = [
-    { key: "tipsMdl", color: "var(--color-bl)", label: "TipsMdl" },
-    { key: "tipsChips", color: "var(--color-gn)", label: "TipsChips" },
-    { key: "tipsTotal", color: "var(--color-black)", label: "TipsTotal" },
-    { key: "resultTips", color: "var(--color-rd)", label: "ResultTips" },
+    { key: "tipsMdl", color: "var(--color-bl)", label: "mdl" },
+    { key: "tipsChips", color: "var(--color-gn)", label: "chips" },
+    { key: "tipsTotal", color: "var(--color-black)", label: "total" },
+    { key: "resultTips", color: "var(--color-rd)", label: "result" },
   ] as const;
 
   const toggleBar = (key: BarKey) => {
@@ -184,6 +185,8 @@ export default function ChartTipsAddPage({
         chartData={chartData}
         chartConfig={chartConfig}
         barItem={BAR_KEYS.filter(({ key }) => visibleBars[key as BarKey])}
+        disableTooltip={!isAdmin}
+        disableYAxis={!isAdmin}
       />
 
       <CustomLegend

@@ -30,6 +30,13 @@
     "writeOff": "consum și mișcare",
     "notes": "note"
   },
+  "Dialog": {
+    "confirm": "confirma",
+    "cancel": "anuleaza",
+    "confirmDelete": "confirma stergere",
+    "addOvertime": "adaugat timp suplimentar",
+    "closeEmployee": "inchide angajat"
+  },
   "Home": {
     "employeesKey": "cheie",
     "employeesWorkForm": "forma",

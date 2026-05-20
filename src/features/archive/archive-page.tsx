@@ -55,7 +55,7 @@ export default function ArchivePage({
     },
     {
       key: "penalty-result",
-      visible: !isCucina && !isBar,
+      visible: true,
       render: () => <PenaltyResult data={archiveData.penalty} />,
     },
     {

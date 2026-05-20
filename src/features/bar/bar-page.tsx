@@ -185,7 +185,7 @@ export default function BarPage({
       <DatePickerInput
         fieldName="date"
         className="text-rd h-6 text-sm"
-        disabled
+        disabled={!isAdmin}
       />
       {tab === "break" && (
         <>

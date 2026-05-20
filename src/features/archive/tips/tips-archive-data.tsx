@@ -8,6 +8,8 @@ import { TipsAddForm } from "@/features/bar/tips-add/schema";
 import { useTipsCalculation } from "@/hooks/use-tips-calculation";
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
+
+const HOURS_MS = 3600000;
 export default function TipsArchiveData({
   data,
 }: {
@@ -32,6 +34,11 @@ export default function TipsArchiveData({
   const sorted = data
     ? [...data].sort((a, b) => Number(b.id) - Number(a.id))
     : [];
+
+  const formatTime = (ms: number) => {
+    const date = new Date(ms);
+    return `${date.getHours()}:${String(date.getMinutes()).padStart(2, "0")}`;
+  };
   return (
     <>
       {sorted.map((dayItem, index) => {
@@ -75,18 +82,21 @@ export default function TipsArchiveData({
                           key={emp.idEmployee + "-time"}
                           className="hover:bg-gray-100!"
                         >
-                          <TableCell className="text-muted-foreground w-3 pl-0 text-start text-xs">
+                          <TableCell className="text-muted-foreground w-2 pl-0 text-start text-xs">
                             {i + 1}
                           </TableCell>
-                          <TableCell className="w-9 text-center text-xs font-bold text-green-600">
+                          <TableCell className="w-8 text-center text-xs font-bold text-green-600">
                             {personalResultAmount}
                           </TableCell>
-                          <TableCell className="text-muted-foreground w-8 text-center text-xs">
+                          {/* <TableCell className="text-muted-foreground w-8 text-center text-xs">
                             {getEmployeeTotal(emp).toFixed(0)}
+                          </TableCell> */}
+                          <TableCell className="text-yl w-5 text-xs">
+                            {emp.shift.split("-")[0]}
                           </TableCell>
                           <TableCell
                             className={cn(
-                              "bg-background sticky left-0 z-10 w-26 text-xs md:bg-transparent",
+                              "bg-background sticky left-0 z-10 w-22 text-xs md:bg-transparent",
                               emp.role === "barmen" && "text-bl",
                             )}
                           >
@@ -98,18 +108,20 @@ export default function TipsArchiveData({
                           <TableCell
                             className={cn(
                               emp.role === "barmen" && "text-bl",
-                              "w-12 text-xs",
+                              "w-22 text-xs",
+                              emp.over && emp.over > 0 && "text-red-600",
                             )}
                           >
-                            {emp.shift.split("-")[0]} -
-                            {emp.endDate
-                              ? new Date(emp.endDate).getHours()
+                            {formatTime(emp.createdAt)} -
+                            {formatTime(emp.endDate)}
+                            {emp.over && emp.over > 0
+                              ? `+${emp.over / HOURS_MS}`
                               : ""}
                           </TableCell>
                           <TableCell
                             className={cn(
                               emp.role === "barmen" && "text-bl",
-                              "text-muted-foreground w-9 text-xs",
+                              "text-muted-foreground w-7 text-xs",
                             )}
                           >
                             {personalTotal.toFixed(0)}

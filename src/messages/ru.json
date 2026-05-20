@@ -33,7 +33,9 @@
   "Dialog": {
     "confirm": "подтвердить",
     "cancel": "отменить",
-    "confirmDelete": "вы уверены, что хотите удалить?"
+    "confirmDelete": "вы уверены, что хотите удалить?",
+    "addOvertime": "добавить овер 1 час",
+    "closeEmployee": "удалить из списка сотрудника"
   },
   "Home": {
     "employeesKey": "ключ",
