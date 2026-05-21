@@ -144,6 +144,7 @@ export default function SchedulePage({
             fields={fields}
             selectedEmployees={selectedEmployees}
             selectedDay={selectedDay}
+            setSelectedDay={setSelectedDay}
             remove={remove}
             move={move}
             update={update}

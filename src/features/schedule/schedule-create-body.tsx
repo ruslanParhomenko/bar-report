@@ -27,6 +27,7 @@ export default function ScheduleCreateTableBody({
   move,
   update,
   selectedDay,
+  setSelectedDay,
 }: {
   fields: FieldArrayWithId<ScheduleType, "rowShifts", "id">[];
   selectedEmployees: Employee[];
@@ -34,6 +35,7 @@ export default function ScheduleCreateTableBody({
   move: UseFieldArrayReturn<ScheduleType, "rowShifts", "id">["move"];
   update: UseFieldArrayReturn<ScheduleType, "rowShifts", "id">["update"];
   selectedDay: number;
+  setSelectedDay: (day: number) => void;
 }) {
   const form = useFormContext();
 
@@ -80,7 +82,7 @@ export default function ScheduleCreateTableBody({
         return (
           <TableRow
             key={row.id}
-            className="hover:text-rd group [&>td]:p-0 [&>td]:text-xs"
+            className="group hover:text-green-600! [&>td]:p-0 [&>td]:text-xs"
           >
             <TableCell
               className="text-rd cursor-pointer px-1"
@@ -137,6 +139,7 @@ export default function ScheduleCreateTableBody({
                         shiftValue === "" ? "bg-border/20" : "",
                         color[shiftValue as keyof typeof color],
                       )}
+                      onFocus={() => setSelectedDay(dayIndex + 1)}
                     />
                   ) : (
                     <NumericInput
