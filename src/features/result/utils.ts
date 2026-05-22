@@ -29,8 +29,12 @@ export function extractUniqueEmployees(
 
       seen.add(employee);
 
-      const remark = remarksByEmployee?.find((r) => r.name === employee);
-      const tipRecord = dataTipsForMonth?.find((t) => t.employee === employee);
+      const remark = remarksByEmployee?.find(
+        (r) => r.name.trim() === employee.trim(),
+      );
+      const tipRecord = dataTipsForMonth?.find(
+        (t) => t.employee.trim() === employee.trim(),
+      );
 
       const tip =
         tipRecord?.tipsByDay?.reduce(

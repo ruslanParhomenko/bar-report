@@ -21,9 +21,9 @@ import VacationForm from "./vacation-form";
 export default function EmployeeCreatePage({ id }: { id?: string }) {
   const { setIsEdit, registerReset } = useEdit();
 
-  const employee = id ? useEmployees().find((e) => e.id === id) : undefined;
+  const employees = useEmployees();
 
-  console.log("employee", employee);
+  const employee = id ? employees.find((e) => e.id === id) : undefined;
 
   const form = useForm<EmployeeForm>({
     resolver: zodResolver(employeesSchema),
@@ -31,6 +31,9 @@ export default function EmployeeCreatePage({ id }: { id?: string }) {
   });
 
   const onSubmit: SubmitHandler<EmployeeForm> = async (data) => {
+    const name = data.name.trim();
+    const role = data.role.trim();
+    const existsName = employees.find((e) => e.name.trim() === name);
     if (id) {
       await updateEmployee(id, data);
       toast.success("Employee updated!");
@@ -39,6 +42,10 @@ export default function EmployeeCreatePage({ id }: { id?: string }) {
         text: `updated employee:${data.name}`,
       });
     } else {
+      if (existsName && existsName.role === role) {
+        toast.error("Name is already exists");
+        return;
+      }
       await createEmployee(data);
       toast.success("Employee added!");
       await sendNotificationEmail({
