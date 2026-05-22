@@ -23,6 +23,8 @@ export default function EmployeeCreatePage({ id }: { id?: string }) {
 
   const employee = id ? useEmployees().find((e) => e.id === id) : undefined;
 
+  console.log("employee", employee);
+
   const form = useForm<EmployeeForm>({
     resolver: zodResolver(employeesSchema),
     defaultValues: employee || defaultEmployeeForm,

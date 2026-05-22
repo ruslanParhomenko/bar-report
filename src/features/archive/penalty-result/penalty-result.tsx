@@ -23,7 +23,8 @@ export default function PenaltyResult({
       doc.remarks
         ?.filter(
           (r: any) =>
-            selectedEmployee === "select" || r.name === selectedEmployee,
+            selectedEmployee === "select" ||
+            r.name?.trim() === selectedEmployee?.trim(),
         )
         .map((r: any) => ({
           ...r,
@@ -42,8 +43,8 @@ export default function PenaltyResult({
               <TableCell className="w-8 text-xs">{index + 1}</TableCell>
               <TableCell
                 onClick={() =>
-                  selectedEmployee !== row.name
-                    ? setSelectedEmployee(row.name)
+                  selectedEmployee !== row.name.trim()
+                    ? setSelectedEmployee(row.name.trim())
                     : setSelectedEmployee("select")
                 }
                 className="bg-background sticky left-0 z-10 w-42 cursor-pointer md:w-60 md:bg-transparent print:bg-none"

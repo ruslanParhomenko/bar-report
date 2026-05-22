@@ -17,7 +17,7 @@ export const employeesSchema = z.object({
   tel: z.string().optional(),
   role: z.string().min(1, { message: "Role is required" }),
   rate: z.string().min(1, { message: "Rate is required" }),
-  employmentDate: z.string(),
+  employmentDate: z.string().nullable(),
   status: z.enum(["active", "fired"]),
   employeesWorkForm: z.boolean().optional(),
   employeesKey: z.boolean().optional(),
