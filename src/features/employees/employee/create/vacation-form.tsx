@@ -1,6 +1,6 @@
 "use client";
-import { DatePickerRange } from "@/components/input-controlled/date-range-input";
-import TextInput from "@/components/input-controlled/text-input";
+import { DatePickerRange } from "@/components/input-form/date-range-input";
+import TextInput from "@/components/input-form/text-input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Plus, Trash } from "lucide-react";

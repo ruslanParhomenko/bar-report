@@ -18,7 +18,7 @@ import {
 
 import { createDataProducts } from "@/app/actions/data-constants/data-products-action";
 import { createReportKitchen } from "@/app/actions/report-kitchen/kitchen-action";
-import DatePickerInput from "@/components/input-controlled/date-input";
+import DatePickerInput from "@/components/input-form/date-input";
 import FormWrapper from "@/components/wrapper/form-wrapper";
 import { useLocalStorageForm } from "@/hooks/use-local-storage";
 import { useAbility } from "@/providers/ability-provider";

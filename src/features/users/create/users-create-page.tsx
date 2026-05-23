@@ -1,8 +1,8 @@
 "use client";
 import { createUser, updateUser } from "@/app/actions/users/user-action";
 import SelectField from "@/components/input-controlled/select-field";
-import SwitchInput from "@/components/input-controlled/switch-input";
-import TextInput from "@/components/input-controlled/text-input";
+import SwitchInput from "@/components/input-form/switch-input";
+import TextInput from "@/components/input-form/text-input";
 import FormWrapper from "@/components/wrapper/form-wrapper";
 import { ROUTES } from "@/constants/routes";
 import { useAbility } from "@/providers/ability-provider";

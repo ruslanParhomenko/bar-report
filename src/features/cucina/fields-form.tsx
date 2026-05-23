@@ -10,7 +10,7 @@ import {
 import { AddRemoveFieldsButton } from "@/components/buttons/action-fields";
 import NumericInput from "@/components/input-controlled/numeric-input";
 import SelectField from "@/components/input-controlled/select-field";
-import SelectFieldWithSearch from "@/components/input-controlled/select-with-search";
+import SelectFieldWithSearch from "@/components/input-form/select-with-search";
 import { Label } from "@/components/ui/label";
 import { formatNow } from "@/utils/format-date";
 import { Separator } from "@radix-ui/react-separator";

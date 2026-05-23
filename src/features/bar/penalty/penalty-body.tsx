@@ -1,7 +1,7 @@
 "use client";
 import NumericInput from "@/components/input-controlled/numeric-input";
 import SelectField from "@/components/input-controlled/select-field";
-import TextInput from "@/components/input-controlled/text-input";
+import TextInput from "@/components/input-form/text-input";
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import { useEmployees } from "@/providers/employees-provider";

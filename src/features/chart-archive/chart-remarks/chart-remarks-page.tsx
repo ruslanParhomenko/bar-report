@@ -2,9 +2,15 @@
 import { YearData } from "@/app/actions/remarks/remarks-action";
 import CustomChart from "@/components/chart/custom-chart";
 import CustomLegend from "@/components/chart/custom-legend";
+import {
+  MonthPicker,
+  MonthRange,
+} from "@/components/input-controlled/month-range";
 import { ChartConfig } from "@/components/ui/chart";
 import { useMonthDays } from "@/providers/month-days-provider";
-import { useState } from "react";
+import { MONTHS } from "@/utils/get-month-days";
+import { TrashIcon } from "lucide-react";
+import { useMemo, useState } from "react";
 import { getChartDataFromMonth, getChartDataFromYear } from "./utils";
 
 export type ChartDataItem = {
@@ -39,6 +45,8 @@ export default function ChartRemarksPage({
 }) {
   const { month } = useMonthDays();
 
+  const [range, setRange] = useState<MonthRange>();
+
   const [visibleBars, setVisibleBars] = useState<Record<BarKey, boolean>>({
     reason: true,
     penalty: true,
@@ -49,6 +57,7 @@ export default function ChartRemarksPage({
   const toggleBar = (key: BarKey) => {
     setVisibleBars((prev) => ({ ...prev, [key]: !prev[key] }));
   };
+  const getMonthIndex = (id: string) => MONTHS.indexOf(id);
 
   const dataRemarksMonth =
     dataRemarks.find((data) => data.id === month) || null;
@@ -56,7 +65,21 @@ export default function ChartRemarksPage({
   const chartDataMonth = dataRemarksMonth
     ? getChartDataFromMonth(dataRemarksMonth)
     : [];
-  const chartDataYear = getChartDataFromYear(dataRemarks);
+
+  const dataRemarksPrevMonth = useMemo(() => {
+    if (range?.from === undefined || range?.to === undefined) {
+      return dataRemarks;
+    }
+
+    const from = range.from;
+    const to = range.to;
+
+    return dataRemarks?.filter((data) => {
+      const idx = getMonthIndex(data.id);
+      return idx >= from && idx <= to;
+    });
+  }, [range, dataRemarks]);
+  const chartDataYear = getChartDataFromYear(dataRemarksPrevMonth || []);
   const chartData = tab === "penalty-month" ? chartDataMonth : chartDataYear;
 
   const chartConfig = {
@@ -68,10 +91,24 @@ export default function ChartRemarksPage({
 
   return (
     <>
+      {tab === "penalty-year" && (
+        <div className="flex items-center justify-center gap-6 p-2">
+          <MonthPicker value={range} onChange={setRange} />
+          <button
+            disabled={!range}
+            type="button"
+            onClick={() => setRange(undefined)}
+            className="w-4"
+          >
+            {range && <TrashIcon className="text-rd h-4 w-4" />}
+          </button>
+        </div>
+      )}
       <CustomChart
         chartData={chartData}
         chartConfig={chartConfig}
         barItem={BAR_KEYS.filter(({ key }) => visibleBars[key])}
+        className="h-[77dvh]"
       />
       <CustomLegend
         items={BAR_KEYS}

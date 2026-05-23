@@ -29,7 +29,7 @@ import { MONTHS } from "@/utils/get-month-days";
 
 import { BarForm, barPageDefault, barPageSchema } from "./schema";
 
-import DatePickerInput from "@/components/input-controlled/date-input";
+import DatePickerInput from "@/components/input-form/date-input";
 import FormWrapper from "@/components/wrapper/form-wrapper";
 import BreakTable from "@/features/bar/break-form/break-table";
 import PenaltyTable from "@/features/bar/penalty/penalty-table";

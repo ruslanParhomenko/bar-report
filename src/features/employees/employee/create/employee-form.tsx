@@ -1,7 +1,7 @@
 "use client";
-import DatePickerInput from "@/components/input-controlled/date-input";
 import SelectField from "@/components/input-controlled/select-field";
-import TextInput from "@/components/input-controlled/text-input";
+import DatePickerInput from "@/components/input-form/date-input";
+import TextInput from "@/components/input-form/text-input";
 import { cn } from "@/lib/utils";
 import { Minus } from "lucide-react";
 import { useTranslations } from "next-intl";

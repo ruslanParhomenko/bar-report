@@ -1,4 +1,4 @@
-import SwitchInput from "@/components/input-controlled/switch-input";
+import SwitchInput from "@/components/input-form/switch-input";
 import { useTranslations } from "next-intl";
 
 export default function SwitchForm() {

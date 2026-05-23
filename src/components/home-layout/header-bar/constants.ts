@@ -99,7 +99,7 @@ export const TABS_BY_ROUTE = {
   ],
 
   [TIPS_MAIN_ROUTE]: ["tips-month", "tips-year"],
-  [CHART_TIPS_ROUTE]: ["month", "year"],
+  [CHART_TIPS_ROUTE]: ["month", "year", "range"],
 
   [CASH_MAIN_ROUTE]: ["cash-month", "cash-year"],
   [CHART_CASH_ROUTE]: ["month", "year"],

@@ -2,7 +2,7 @@
 
 import { saveStopList } from "@/app/actions/stop-list/stop-list-action";
 import { AddRemoveFieldsButton } from "@/components/buttons/action-fields";
-import SelectFieldWithSearch from "@/components/input-controlled/select-with-search";
+import SelectFieldWithSearch from "@/components/input-form/select-with-search";
 import { Form } from "@/components/ui/form";
 import {
   Table,

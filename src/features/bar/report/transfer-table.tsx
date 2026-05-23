@@ -1,7 +1,7 @@
 "use client";
 import NumericInput from "@/components/input-controlled/numeric-input";
 import SelectField from "@/components/input-controlled/select-field";
-import SelectFieldWithSearch from "@/components/input-controlled/select-with-search";
+import SelectFieldWithSearch from "@/components/input-form/select-with-search";
 import {
   Table,
   TableBody,
