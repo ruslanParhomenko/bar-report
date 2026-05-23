@@ -43,7 +43,6 @@ export default function ChartCashPage({
 
   const dataCash = dataCashYear?.find((cash) => cash.id === month)?.cashData
     .rowCashData;
-  console.log(dataCashYear);
 
   const chartDataMonth = monthDays.map((day, index) => ({
     name: String(day.day),

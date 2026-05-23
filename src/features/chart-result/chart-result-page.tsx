@@ -4,6 +4,8 @@ import { GetTipsData } from "@/app/actions/tips/tips-action";
 import CustomChart from "@/components/chart/custom-chart";
 import CustomLegend from "@/components/chart/custom-legend";
 import { ChartConfig } from "@/components/ui/chart";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { extractUniqueEmployees, useResultCalculations } from "../result/utils";
@@ -32,28 +34,33 @@ type BarItem = {
 
 export default function ChartResultPage({
   dataSchedules,
-  tipsData,
+  tipsDataYear,
   month,
   year,
 }: {
-  dataSchedules: GetScheduleData[] | null;
-  tipsData: GetTipsData | null;
+  dataSchedules: { month: string; data: GetScheduleData[] }[] | null;
+  tipsDataYear: GetTipsData[] | null;
   month: string;
   year: string;
 }) {
   const role = useSearchParams().get("tab") || "barmen";
 
-  const selectedSchedule =
-    dataSchedules?.filter(
-      (item: any) => item.id === ROLE[role as keyof typeof ROLE],
-    ) || [];
+  const [filters, setFilters] = useState<"month" | "year">("month");
 
-  const rowEmployees = tipsData?.tipsData?.rowEmployeesTips || [];
+  const selectedSchedule =
+    dataSchedules
+      ?.find((item) => item.month === month)
+      ?.data?.filter(
+        (item: any) => item.id === ROLE[role as keyof typeof ROLE],
+      ) || [];
+  const tipsData =
+    tipsDataYear?.find((item) => item.id === month)?.tipsData || null;
+  const rowEmployees = tipsData?.rowEmployeesTips || [];
   const employees = extractUniqueEmployees(selectedSchedule, [], rowEmployees);
 
   const { rows } = useResultCalculations({
     data: employees,
-    dataTipsBid: tipsData?.tipsData!,
+    dataTipsBid: tipsData!,
     month,
     year,
     role,
@@ -66,7 +73,7 @@ export default function ChartResultPage({
     hours: true,
     rate: true,
   });
-  const chartData: ChartDataItem[] = rows.map((row) => ({
+  const chartDataMonth: ChartDataItem[] = rows.map((row) => ({
     name: row.e.employee,
     salary: +row.salary,
     tips: row.sendTips,
@@ -74,6 +81,53 @@ export default function ChartResultPage({
     hours: row.totalHours,
     rate: row.rate,
   }));
+
+  const calcRows = useResultCalculations;
+  const yearTotalsMap: Record<string, ChartDataItem> = {};
+
+  for (const monthItem of dataSchedules || []) {
+    const schedule =
+      monthItem.data?.filter(
+        (item: any) => item.id === ROLE[role as keyof typeof ROLE],
+      ) || [];
+
+    const monthTipsData =
+      tipsDataYear?.find((item) => item.id === monthItem.month)?.tipsData ||
+      null;
+    const monthRowEmployees = monthTipsData?.rowEmployeesTips || [];
+
+    const emp = extractUniqueEmployees(schedule, [], monthRowEmployees);
+
+    const { rows: monthRows } = calcRows({
+      data: emp,
+      dataTipsBid: monthTipsData!,
+      month: monthItem.month,
+      year,
+      role,
+    });
+
+    for (const row of monthRows) {
+      const name = row.e.employee;
+      if (!yearTotalsMap[name]) {
+        yearTotalsMap[name] = {
+          name,
+          salary: 0,
+          tips: 0,
+          total: 0,
+          hours: 0,
+          rate: row.rate,
+        };
+      }
+      yearTotalsMap[name].salary += +row.salary;
+      yearTotalsMap[name].tips += row.sendTips;
+      yearTotalsMap[name].total += row.result;
+      yearTotalsMap[name].hours += row.totalHours;
+    }
+  }
+
+  const chartDataYear: ChartDataItem[] = Object.values(yearTotalsMap).sort(
+    (a, b) => a.name.localeCompare(b.name),
+  );
 
   const chartConfig = {
     salary: {
@@ -108,12 +162,24 @@ export default function ChartResultPage({
   const toggleBar = (key: BarKey) => {
     setVisibleBars((prev) => ({ ...prev, [key]: !prev[key] }));
   };
+
+  const chartData = filters === "month" ? chartDataMonth : chartDataYear;
   return (
     <>
+      <div className="flex items-center justify-start gap-4 px-4">
+        <Switch
+          id="chart-filter"
+          checked={filters === "year"}
+          onCheckedChange={(checked) => setFilters(checked ? "year" : "month")}
+          className="shadow-none"
+        />
+        <Label className="text-muted-foreground text-xs">{filters}</Label>
+      </div>
       <CustomChart
         chartData={chartData}
         chartConfig={chartConfig}
         barItem={BAR_KEYS.filter(({ key }) => visibleBars[key as BarKey])}
+        className="h-[80dvh]"
       />
       <CustomLegend
         items={BAR_KEYS}

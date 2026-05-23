@@ -68,3 +68,36 @@ export const getScheduleByYearAndMonth = unstable_cache(
     tags: [actionTag],
   },
 );
+
+// get by year
+export async function _getScheduleByYear(
+  year: string,
+): Promise<{ month: string; data: GetScheduleData[] }[] | null> {
+  const docRef = dbAdmin.collection(actionTag).doc(year).collection("months");
+
+  const snap = await docRef.listDocuments();
+
+  const result = await Promise.all(
+    snap.map(async (monthDoc) => {
+      const roleSnap = await monthDoc.collection("role").get();
+
+      return {
+        month: monthDoc.id,
+        data: roleSnap.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        })) as GetScheduleData[],
+      };
+    }),
+  );
+
+  return result;
+}
+export const getScheduleByYear = unstable_cache(
+  _getScheduleByYear,
+  [actionTag],
+  {
+    revalidate: false,
+    tags: [actionTag],
+  },
+);
