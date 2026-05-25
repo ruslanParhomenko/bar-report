@@ -4,7 +4,6 @@ import { useSearchParams } from "next/navigation";
 
 import CustomChart from "@/components/chart/custom-chart";
 import CustomLegend from "@/components/chart/custom-legend";
-import { type ChartConfig } from "@/components/ui/chart";
 import { useState } from "react";
 
 type ChartDataItem = {
@@ -49,21 +48,6 @@ export default function ChartSchedulePage({
       total: Number(row.totalHours),
     })) ?? [];
 
-  const chartConfig = {
-    day: {
-      label: "day",
-      color: "var(--color-bl)",
-    },
-    night: {
-      label: "night",
-      color: "var(--color-gr)",
-    },
-    total: {
-      label: "total",
-      color: "var(--color-gn)",
-    },
-  } satisfies ChartConfig;
-
   const toggleBar = (key: BarKey) => {
     setVisibleBars((prev) => ({ ...prev, [key]: !prev[key] }));
   };
@@ -72,7 +56,6 @@ export default function ChartSchedulePage({
     <>
       <CustomChart
         chartData={chartData}
-        chartConfig={chartConfig}
         barItem={BAR_KEYS.filter(({ key }) => visibleBars[key as BarKey])}
       />
       <CustomLegend

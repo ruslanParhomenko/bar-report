@@ -5,7 +5,6 @@ import {
   MonthPicker,
   MonthRange,
 } from "@/components/input-controlled/month-range";
-import { ChartConfig } from "@/components/ui/chart";
 import { useMonthDays } from "@/providers/month-days-provider";
 import { MONTHS } from "@/utils/get-month-days";
 import { TrashIcon } from "lucide-react";
@@ -67,13 +66,6 @@ export default function ChartTipsPage({
       tips: row.tipsByDay.reduce((sum, t) => sum + Number(t), 0),
     })) ?? [];
 
-  const chartConfig = {
-    tips: {
-      label: "tips",
-      color: "var(--color-bl)",
-    },
-  } satisfies ChartConfig;
-
   const BAR_KEYS = [{ key: "tips", color: "var(--color-bl)", label: "Tips" }];
 
   const chartData = tab === "month" ? chartDataMonth : chartDataYear;
@@ -95,7 +87,6 @@ export default function ChartTipsPage({
       )}
       <CustomChart
         chartData={chartData}
-        chartConfig={chartConfig}
         barItem={BAR_KEYS}
         withLegend
         vertical={tab === "year" || tab === "range"}

@@ -2,7 +2,6 @@
 import { GetTipsAddByYear } from "@/app/actions/tips-add/tips-add-actions";
 import CustomChart from "@/components/chart/custom-chart";
 import CustomLegend from "@/components/chart/custom-legend";
-import { ChartConfig } from "@/components/ui/chart";
 import { useAbility } from "@/providers/ability-provider";
 import { useMonthDays } from "@/providers/month-days-provider";
 import { useState } from "react";
@@ -31,7 +30,7 @@ export default function ChartTipsAddPage({
 }) {
   const { isAdmin } = useAbility();
 
-  const { month, monthDays } = useMonthDays();
+  const { month } = useMonthDays();
 
   const [visibleBars, setVisibleBars] = useState<Record<BarKey, boolean>>({
     tipsMdl: true,
@@ -149,24 +148,6 @@ export default function ChartTipsAddPage({
       : tab === "tips-employees"
         ? chartDataEmployee
         : chartDataYear;
-  const chartConfig = {
-    tipsMdl: {
-      label: "tipsMdl",
-      color: "var(--color-bl)",
-    },
-    tipsChips: {
-      label: "tipsChips",
-      color: "var(--color-gn)",
-    },
-    tipsTotal: {
-      label: "tipsTotal",
-      color: "var(--color-black)",
-    },
-    resultTips: {
-      label: "resultTips",
-      color: "var(--color-rd)",
-    },
-  } satisfies ChartConfig;
 
   const BAR_KEYS: BarItem[] = [
     { key: "tipsMdl", color: "var(--color-bl)", label: "mdl" },
@@ -183,7 +164,6 @@ export default function ChartTipsAddPage({
     <>
       <CustomChart
         chartData={chartData}
-        chartConfig={chartConfig}
         barItem={BAR_KEYS.filter(({ key }) => visibleBars[key as BarKey])}
         disableTooltip={!isAdmin}
         disableYAxis={!isAdmin}

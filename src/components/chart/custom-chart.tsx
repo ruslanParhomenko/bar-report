@@ -26,7 +26,6 @@ type BarItem = {
 
 type CustomChartProps = {
   chartData: ChartDataItem[];
-  chartConfig: ChartConfig;
   barItem: BarItem[];
   className?: string;
   withLegend?: boolean;
@@ -37,7 +36,6 @@ type CustomChartProps = {
 
 export default function CustomChart({
   chartData,
-  chartConfig,
   barItem,
   className,
   withLegend = false,
@@ -48,6 +46,16 @@ export default function CustomChart({
   const isMobile = useIsMobile();
 
   const height = isMobile ? "h-[78dvh]" : "h-[82dvh]";
+
+  const chartConfig = Object.fromEntries(
+    barItem.map(({ key, label, color }) => [
+      key,
+      {
+        label,
+        color,
+      },
+    ]),
+  ) as ChartConfig;
 
   if (isMobile) {
     return (

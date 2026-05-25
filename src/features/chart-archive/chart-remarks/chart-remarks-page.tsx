@@ -6,7 +6,6 @@ import {
   MonthPicker,
   MonthRange,
 } from "@/components/input-controlled/month-range";
-import { ChartConfig } from "@/components/ui/chart";
 import { useMonthDays } from "@/providers/month-days-provider";
 import { MONTHS } from "@/utils/get-month-days";
 import { TrashIcon } from "lucide-react";
@@ -82,13 +81,6 @@ export default function ChartRemarksPage({
   const chartDataYear = getChartDataFromYear(dataRemarksPrevMonth || []);
   const chartData = tab === "penalty-month" ? chartDataMonth : chartDataYear;
 
-  const chartConfig = {
-    reason: { label: "Reason", color: "var(--color-gr)" },
-    penalty: { label: "Penalty", color: "var(--color-rd)" },
-    bonus: { label: "Bonus", color: "var(--color-bl)" },
-    hours: { label: "Hours", color: "var(--color-gn)" },
-  } satisfies ChartConfig;
-
   return (
     <>
       {tab === "penalty-year" && (
@@ -106,7 +98,6 @@ export default function ChartRemarksPage({
       )}
       <CustomChart
         chartData={chartData}
-        chartConfig={chartConfig}
         barItem={BAR_KEYS.filter(({ key }) => visibleBars[key])}
         className="h-[77dvh]"
       />

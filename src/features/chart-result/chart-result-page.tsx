@@ -3,7 +3,6 @@ import { GetScheduleData } from "@/app/actions/schedule/schedule-action";
 import { GetTipsData } from "@/app/actions/tips/tips-action";
 import CustomChart from "@/components/chart/custom-chart";
 import CustomLegend from "@/components/chart/custom-legend";
-import { ChartConfig } from "@/components/ui/chart";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { useSearchParams } from "next/navigation";
@@ -129,29 +128,6 @@ export default function ChartResultPage({
     (a, b) => a.name.localeCompare(b.name),
   );
 
-  const chartConfig = {
-    salary: {
-      label: "salary",
-      color: "var(--color-gn)",
-    },
-    tips: {
-      label: "tips",
-      color: "var(--color-rd)",
-    },
-    total: {
-      label: "total",
-      color: "var(--color-bl)",
-    },
-    hours: {
-      label: "hours",
-      color: "var(--color-primary)",
-    },
-    rate: {
-      label: "rate",
-      color: "var(--color-yl)",
-    },
-  } satisfies ChartConfig;
-
   const BAR_KEYS: BarItem[] = [
     { key: "salary", color: "var(--color-gn)", label: "Salary" },
     { key: "tips", color: "var(--color-rd)", label: "Tips" },
@@ -177,7 +153,6 @@ export default function ChartResultPage({
       </div>
       <CustomChart
         chartData={chartData}
-        chartConfig={chartConfig}
         barItem={BAR_KEYS.filter(({ key }) => visibleBars[key as BarKey])}
         className="h-[80dvh]"
       />

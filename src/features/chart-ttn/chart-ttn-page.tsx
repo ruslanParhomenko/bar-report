@@ -3,7 +3,6 @@ import { CreateDataTTN } from "@/app/actions/data-constants/data-ttn-action";
 import { GetTTNData } from "@/app/actions/ttn/ttn-actions";
 import CustomChart from "@/components/chart/custom-chart";
 import CustomLegend from "@/components/chart/custom-legend";
-import { ChartConfig } from "@/components/ui/chart";
 import { useMonthDays } from "@/providers/month-days-provider";
 import { MONTHS } from "@/utils/get-month-days";
 import { useSearchParams } from "next/navigation";
@@ -122,21 +121,6 @@ export default function ChartTTNPage({
     };
   });
 
-  const chartConfig = {
-    payment: {
-      label: "payment",
-      color: "var(--color-bl)",
-    },
-    purchase: {
-      label: "purchase",
-      color: "var(--color-rd)",
-    },
-    final: {
-      label: "final",
-      color: "var(--color-gn)",
-    },
-  } satisfies ChartConfig;
-
   const BAR_KEYS: BarItem[] = [
     { key: "payment", color: "var(--color-bl)", label: "Payment" },
     { key: "purchase", color: "var(--color-rd)", label: "Purchase" },
@@ -158,7 +142,6 @@ export default function ChartTTNPage({
     <>
       <CustomChart
         chartData={chartData}
-        chartConfig={chartConfig}
         barItem={BAR_KEYS.filter(({ key }) => visibleBars[key as BarKey])}
         vertical={tab === "month"}
       />

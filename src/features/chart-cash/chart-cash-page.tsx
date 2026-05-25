@@ -2,7 +2,6 @@
 import { GetCashData } from "@/app/actions/cash/cash-action";
 import CustomChart from "@/components/chart/custom-chart";
 import CustomLegend from "@/components/chart/custom-legend";
-import { ChartConfig } from "@/components/ui/chart";
 import { useMonthDays } from "@/providers/month-days-provider";
 import { MONTHS } from "@/utils/get-month-days";
 import { useSearchParams } from "next/navigation";
@@ -68,29 +67,6 @@ export default function ChartCashPage({
     };
   });
 
-  const chartConfig = {
-    cash: {
-      label: "cash",
-      color: "var(--color-gn)",
-    },
-    visa: {
-      label: "visa",
-      color: "var(--color-rd)",
-    },
-    "nbm-coll": {
-      label: "nbm-coll",
-      color: "var(--color-bl)",
-    },
-    "bank-coll": {
-      label: "bank-coll",
-      color: "var(--color-primary)",
-    },
-    banquet: {
-      label: "banquet",
-      color: "var(--color-yl)",
-    },
-  } satisfies ChartConfig;
-
   const BAR_KEYS: BarItem[] = [
     { key: "cash", color: "var(--color-gn)", label: "Cash" },
     { key: "visa", color: "var(--color-rd)", label: "Visa" },
@@ -107,7 +83,6 @@ export default function ChartCashPage({
     <>
       <CustomChart
         chartData={chartData}
-        chartConfig={chartConfig}
         barItem={BAR_KEYS.filter(({ key }) => visibleBars[key as BarKey])}
       />
 

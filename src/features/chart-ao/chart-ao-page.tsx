@@ -2,7 +2,6 @@
 import { GetAoData } from "@/app/actions/a-o/ao-action";
 import CustomChart from "@/components/chart/custom-chart";
 import CustomLegend from "@/components/chart/custom-legend";
-import { ChartConfig } from "@/components/ui/chart";
 import { useMonthDays } from "@/providers/month-days-provider";
 import { MONTHS } from "@/utils/get-month-days";
 import { useSearchParams } from "next/navigation";
@@ -79,13 +78,6 @@ export default function ChartAOPage({
     };
   });
 
-  const chartConfig = {
-    value: {
-      label: "value",
-      color: "var(--color-bl)",
-    },
-  } satisfies ChartConfig;
-
   const BAR_KEYS: BarItem[] = [
     { key: "value", color: "var(--color-bl)", label: "Value" },
   ];
@@ -105,7 +97,6 @@ export default function ChartAOPage({
     <>
       <CustomChart
         chartData={chartData}
-        chartConfig={chartConfig}
         barItem={BAR_KEYS.filter(({ key }) => visibleBars[key as BarKey])}
       />
 

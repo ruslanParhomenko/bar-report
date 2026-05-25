@@ -3,7 +3,6 @@
 import CustomChart from "@/components/chart/custom-chart";
 import CustomLegend from "@/components/chart/custom-legend";
 import ModalConfirm from "@/components/modal/modal-confirm";
-import { ChartConfig } from "@/components/ui/chart";
 import { useEffect, useState, useTransition } from "react";
 import { UseFieldArrayReturn, useFormContext, useWatch } from "react-hook-form";
 import { BarForm } from "../schema";
@@ -14,11 +13,6 @@ import TipsAddRow from "./tips-add-row";
 type ChartDataItem = { name: string; personal: number; result: number };
 type BarKey = keyof Omit<ChartDataItem, "name">;
 type BarItem = { key: BarKey; color: string; label: string };
-
-const CHART_CONFIG = {
-  personal: { label: "personal", color: "var(--color-bl)" },
-  result: { label: "tipsChips", color: "var(--color-gn)" },
-} satisfies ChartConfig;
 
 const BAR_KEYS: BarItem[] = [
   { key: "personal", color: "var(--color-bl)", label: "personal" },
@@ -291,7 +285,6 @@ export default function TipsAddForm({
       <div className="flex h-1/3 flex-col">
         <CustomChart
           chartData={chartData}
-          chartConfig={CHART_CONFIG}
           barItem={BAR_KEYS.filter(({ key }) => visibleBars[key])}
           className="m-0 h-full p-0"
           disableYAxis={disabled}
