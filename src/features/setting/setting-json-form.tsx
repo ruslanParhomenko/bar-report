@@ -5,7 +5,13 @@ import { useEffect, useState } from "react";
 
 type Props = {
   data: string;
-  type: "products" | "breakList" | "orderProducts" | "ttn" | "priceList";
+  type:
+    | "products"
+    | "breakList"
+    | "orderProducts"
+    | "ttn"
+    | "priceList"
+    | "menu";
 };
 
 export default function SettingsJson({ data, type }: Props) {

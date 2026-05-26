@@ -1,4 +1,5 @@
 import { getDataBreakList } from "@/app/actions/data-constants/data-break-action";
+import { getDataMenu } from "@/app/actions/data-constants/data-menu-action";
 import { getDataOrderProducts } from "@/app/actions/data-constants/data-order-products";
 import { getDataPriceList } from "@/app/actions/data-constants/data-price-list";
 import { getDataProducts } from "@/app/actions/data-constants/data-products-action";
@@ -12,12 +13,14 @@ export default async function SettingsPage() {
     dataOrderProducts,
     dataTTN,
     dataPriceList,
+    dataMenu,
   ] = await Promise.all([
     getDataProducts(),
     getDataBreakList(),
     getDataOrderProducts(),
     getDataTTN(),
     getDataPriceList(),
+    getDataMenu(),
   ]);
 
   const data = {
@@ -26,6 +29,7 @@ export default async function SettingsPage() {
     orderProductsData: JSON.stringify(dataOrderProducts ?? [], null, 2),
     ttnData: JSON.stringify(dataTTN ?? [], null, 2),
     priceListData: JSON.stringify(dataPriceList ?? [], null, 2),
+    menuData: JSON.stringify(dataMenu ?? [], null, 2),
   };
 
   return <SettingPage data={data} />;

@@ -1,0 +1,660 @@
+{
+  "pages": [
+    {
+      "id": "page1",
+      "columns": [
+        {
+          "id": "cuisine",
+          "sections": [
+            {
+              "id": "breakfast",
+              "items": [
+                {
+                  "weight": "1/180",
+                  "price": 85,
+                  "name": "Omlette"
+                },
+                {
+                  "name": "Oatmeal with fresh fruits",
+                  "weight": "1/200/30",
+                  "price": 40
+                },
+                {
+                  "name": "Pancakes with red caviar",
+                  "weight": "1/180/30",
+                  "price": 180
+                },
+                {
+                  "price": 160,
+                  "weight": "1/180/80",
+                  "name": "Pancakes with slightly salted salmon"
+                },
+                {
+                  "name": "Bread and butter with red caviar",
+                  "price": 120,
+                  "weight": "1/20/10/15"
+                },
+                {
+                  "weight": "1/20/15/25",
+                  "price": 100,
+                  "name": "Bread and butter with salmon"
+                }
+              ],
+              "title": "Breakfast"
+            },
+            {
+              "items": [
+                {
+                  "price": 150,
+                  "weight": "1/310",
+                  "name": "Cesar salad with shrimps"
+                },
+                {
+                  "price": 90,
+                  "weight": "1/290",
+                  "name": "Cesar salad with chicken"
+                },
+                {
+                  "name": "Salmon carpaccio",
+                  "weight": "1/100",
+                  "price": 220
+                },
+                {
+                  "weight": "1/100",
+                  "price": 210,
+                  "name": "Veal carpaccio"
+                },
+                {
+                  "name": "Greek salad",
+                  "price": 110,
+                  "weight": "1/265"
+                }
+              ],
+              "id": "salads",
+              "title": "Salads & Appetizers"
+            },
+            {
+              "title": "Soups",
+              "items": [
+                {
+                  "name": "Zama",
+                  "weight": "1/300",
+                  "price": 60
+                }
+              ],
+              "id": "soups"
+            },
+            {
+              "title": "Second Courses",
+              "id": "second_courses",
+              "items": [
+                {
+                  "weight": "1/200/70",
+                  "price": 360,
+                  "name": "Grilled salmon steak"
+                },
+                {
+                  "price": 360,
+                  "weight": "1/350/70",
+                  "name": "Grilled Dorada"
+                },
+                {
+                  "price": 220,
+                  "weight": "1/230",
+                  "name": "Shrimps with Salsa"
+                },
+                {
+                  "weight": "1/250",
+                  "price": 320,
+                  "name": "Grilled tiger prawns"
+                },
+                {
+                  "weight": "1/170/30",
+                  "price": 210,
+                  "name": "Chicken steak"
+                },
+                {
+                  "name": "Chick \"Tabaka\"",
+                  "price": 220,
+                  "weight": "1/500"
+                },
+                {
+                  "weight": "1/300/30",
+                  "price": 800,
+                  "name": "Ribeye steak"
+                },
+                {
+                  "name": "Rack of milk veal",
+                  "price": 380,
+                  "weight": "1/270/80"
+                },
+                {
+                  "name": "Spaghetti Bolognese",
+                  "weight": "1/300",
+                  "price": 180
+                },
+                {
+                  "weight": "1/220/150/30",
+                  "price": 260,
+                  "name": "Burger"
+                },
+                {
+                  "weight": "1/160/100",
+                  "price": 190,
+                  "name": "Club sandwich with french fries"
+                }
+              ]
+            },
+            {
+              "title": "Side Dishes",
+              "items": [
+                {
+                  "weight": "1/150",
+                  "price": 40,
+                  "name": "Rice with vegetables"
+                },
+                {
+                  "name": "French fries",
+                  "price": 40,
+                  "weight": "1/220"
+                },
+                {
+                  "name": "Mashed potatoes",
+                  "price": 40,
+                  "weight": "1/150"
+                },
+                {
+                  "price": 60,
+                  "weight": "1/350",
+                  "name": "Grilled vegetables"
+                }
+              ],
+              "id": "side_dishes"
+            },
+            {
+              "id": "desserts",
+              "items": [
+                {
+                  "price": 150,
+                  "weight": "1/250",
+                  "name": "Fruit platter"
+                },
+                {
+                  "name": "Cheese platter",
+                  "weight": "1/270",
+                  "price": 250
+                },
+                {
+                  "price": 60,
+                  "weight": "1/100",
+                  "name": "Ice-Cream"
+                },
+                {
+                  "name": "cake",
+                  "price": 65,
+                  "weight": "1/80"
+                }
+              ],
+              "title": "Desserts"
+            }
+          ],
+          "title": "CUISINE"
+        },
+        {
+          "title": "BAR",
+          "id": "bar1",
+          "sections": [
+            {
+              "title": "Bitter & Vermut",
+              "id": "bitter",
+              "items": [
+                {
+                  "price": 90,
+                  "weight": "1/40",
+                  "name": "Campari"
+                },
+                {
+                  "name": "Martini (Bianco, Rosso, Extra Dry)",
+                  "price": 90,
+                  "weight": "1/40"
+                }
+              ]
+            },
+            {
+              "title": "Aperitive & Degestive",
+              "id": "aperitive",
+              "items": [
+                {
+                  "weight": "1/40",
+                  "price": 90,
+                  "name": "Jagermeister"
+                }
+              ]
+            },
+            {
+              "title": "Champagne & Sparkling Wine",
+              "id": "champagne",
+              "items": [
+                {
+                  "name": "Cricova Cuvee Prestige (Brut)",
+                  "price": 810,
+                  "weight": "1/750"
+                },
+                {
+                  "name": "Asti Martini (Dulce)",
+                  "weight": "1/750",
+                  "price": 720
+                },
+                {
+                  "name": "Foss Marai Prosecco (Brut)",
+                  "weight": "1/750",
+                  "price": 900
+                },
+                {
+                  "name": "Moet & Chandon (Brut)",
+                  "price": 2880,
+                  "weight": "1/750"
+                }
+              ]
+            },
+            {
+              "id": "wine",
+              "subgroups": [
+                {
+                  "items": [
+                    {
+                      "price": 180,
+                      "weight": "1/150",
+                      "name": "Chardonnay"
+                    },
+                    {
+                      "weight": "1/150",
+                      "price": 180,
+                      "name": "Polifonia №1"
+                    },
+                    {
+                      "name": "Rose",
+                      "price": 180,
+                      "weight": "1/150"
+                    },
+                    {
+                      "weight": "1/750",
+                      "price": 900,
+                      "name": "Chardonnay Barrel Fermented"
+                    },
+                    {
+                      "name": "De Autor Blend №3",
+                      "price": 900,
+                      "weight": "1/750"
+                    }
+                  ],
+                  "label": "MOLDOVA \"TIMBRUS\""
+                },
+                {
+                  "items": [
+                    {
+                      "price": 1170,
+                      "weight": "1/750",
+                      "name": "Alb de Purcari"
+                    },
+                    {
+                      "name": "Negru de Purcari",
+                      "price": 1170,
+                      "weight": "1/750"
+                    }
+                  ],
+                  "label": "MOLDOVA \"PURCARI\""
+                },
+                {
+                  "label": "ITALY",
+                  "items": [
+                    {
+                      "price": 180,
+                      "weight": "1/150",
+                      "name": "Piccini Pinot"
+                    },
+                    {
+                      "name": "Piccini Chianti",
+                      "weight": "1/150",
+                      "price": 180
+                    }
+                  ]
+                },
+                {
+                  "label": "GEORGIA \"IBERIULI\"",
+                  "items": [
+                    {
+                      "name": "Mukuzani",
+                      "price": 810,
+                      "weight": "1/750"
+                    },
+                    {
+                      "name": "Tsinandali",
+                      "weight": "1/750",
+                      "price": 810
+                    }
+                  ]
+                }
+              ],
+              "title": "Wine"
+            },
+            {
+              "title": "Vodka",
+              "id": "vodka",
+              "items": [
+                {
+                  "price": 90,
+                  "weight": "1/40",
+                  "name": "Hortita"
+                },
+                {
+                  "price": 126,
+                  "weight": "1/40",
+                  "name": "Absolut"
+                },
+                {
+                  "price": 126,
+                  "weight": "1/40",
+                  "name": "Finlandia"
+                },
+                {
+                  "name": "Grey Goose",
+                  "weight": "1/40",
+                  "price": 360
+                }
+              ]
+            },
+            {
+              "title": "Whisky",
+              "items": [
+                {
+                  "weight": "1/40",
+                  "price": 360,
+                  "name": "Glenmorange"
+                },
+                {
+                  "price": 126,
+                  "weight": "1/40",
+                  "name": "J.W. Red Label"
+                },
+                {
+                  "name": "J.W. Black Label",
+                  "weight": "1/40",
+                  "price": 270
+                },
+                {
+                  "name": "Jameson",
+                  "weight": "1/40",
+                  "price": 126
+                },
+                {
+                  "weight": "1/40",
+                  "price": 126,
+                  "name": "Jack Daniels"
+                },
+                {
+                  "price": 360,
+                  "weight": "1/40",
+                  "name": "Chivas Regal 12 YO"
+                },
+                {
+                  "weight": "1/40",
+                  "price": 630,
+                  "name": "Macallan 12 YO"
+                }
+              ],
+              "id": "whisky"
+            },
+            {
+              "title": "Rum",
+              "id": "rum",
+              "items": [
+                {
+                  "price": 180,
+                  "weight": "1/40",
+                  "name": "Bacardi"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "page2",
+      "columns": [
+        {
+          "note": "* Prices may vary",
+          "sections": [
+            {
+              "title": "Beer",
+              "items": [
+                {
+                  "name": "Chisinau Blonda",
+                  "weight": "1/200",
+                  "price": 90
+                },
+                {
+                  "price": 126,
+                  "weight": "0.330",
+                  "name": "Heineken"
+                },
+                {
+                  "price": 126,
+                  "weight": "0.500",
+                  "name": "Krombacher \"0\""
+                },
+                {
+                  "name": "Birra Moretti Zero",
+                  "price": 126,
+                  "weight": "0.330"
+                },
+                {
+                  "price": 126,
+                  "weight": "0.500",
+                  "name": "Krombacher"
+                }
+              ],
+              "id": "beer"
+            },
+            {
+              "id": "tequila",
+              "items": [
+                {
+                  "price": 180,
+                  "weight": "1/40",
+                  "name": "Sauza (Gold, Silver)"
+                },
+                {
+                  "weight": "1/40",
+                  "price": 450,
+                  "name": "Volcan"
+                }
+              ],
+              "title": "Tequila"
+            },
+            {
+              "id": "gin",
+              "items": [
+                {
+                  "weight": "1/40",
+                  "price": 126,
+                  "name": "Beefeater"
+                },
+                {
+                  "weight": "1/40",
+                  "price": 126,
+                  "name": "Gordons"
+                }
+              ],
+              "title": "Gin"
+            },
+            {
+              "id": "cognac",
+              "items": [
+                {
+                  "weight": "1/40",
+                  "price": 50,
+                  "name": "Surpriznii 10 YO"
+                },
+                {
+                  "name": "Kvint XO 14 YO",
+                  "weight": "1/40",
+                  "price": 360
+                },
+                {
+                  "weight": "1/40",
+                  "price": 630,
+                  "name": "Hennessy VSOP"
+                },
+                {
+                  "name": "Hennessy XO",
+                  "weight": "1/40",
+                  "price": 720
+                }
+              ],
+              "title": "Brandy & Cognac"
+            },
+            {
+              "items": [
+                {
+                  "price": 50,
+                  "weight": "1/40",
+                  "name": "Kahlua"
+                },
+                {
+                  "name": "Baileys",
+                  "weight": "1/40",
+                  "price": 90
+                },
+                {
+                  "weight": "1/40",
+                  "price": 90,
+                  "name": "Sambuca"
+                },
+                {
+                  "name": "Cointreau",
+                  "price": 90,
+                  "weight": "1/40"
+                }
+              ],
+              "id": "liqueur",
+              "title": "Liqueur"
+            },
+            {
+              "id": "energy",
+              "items": [
+                {
+                  "weight": "1",
+                  "price": 90,
+                  "name": "Tiger"
+                },
+                {
+                  "name": "Red Bull",
+                  "price": 180,
+                  "weight": "1"
+                }
+              ],
+              "title": "Energy Drinks"
+            },
+            {
+              "title": "Soft Drinks",
+              "items": [
+                {
+                  "name": "Cola cola",
+                  "price": 126,
+                  "weight": "0.250"
+                },
+                {
+                  "price": 35,
+                  "weight": "1.180",
+                  "name": "Schweppes"
+                },
+                {
+                  "name": "Bucovina",
+                  "weight": "0.500",
+                  "price": 90
+                },
+                {
+                  "name": "Norda",
+                  "price": 90,
+                  "weight": "0.500"
+                },
+                {
+                  "name": "Fresh Juices",
+                  "price": 126,
+                  "weight": "1/180"
+                },
+                {
+                  "price": 126,
+                  "weight": "1/270",
+                  "name": "Lemonade"
+                }
+              ],
+              "id": "soft_drinks"
+            },
+            {
+              "id": "coffee",
+              "items": [
+                {
+                  "name": "Espresso",
+                  "weight": "1 c.",
+                  "price": 40
+                },
+                {
+                  "name": "Cappucino",
+                  "weight": "1 c.",
+                  "price": 70
+                },
+                {
+                  "name": "Latte",
+                  "price": 70,
+                  "weight": "1 c."
+                }
+              ],
+              "title": "Coffee"
+            },
+            {
+              "items": [
+                {
+                  "price": 20,
+                  "weight": "1 c.",
+                  "name": "Assorted tea Ronnefeldt"
+                }
+              ],
+              "id": "tea",
+              "title": "Tea"
+            },
+            {
+              "title": "Snacks",
+              "items": [
+                {
+                  "weight": "1/75",
+                  "price": 75,
+                  "name": "Nuts"
+                },
+                {
+                  "weight": "1/50",
+                  "price": 65,
+                  "name": "Pistachios"
+                },
+                {
+                  "weight": "1 buc",
+                  "price": 120,
+                  "name": "Ciocolata \"Bucuria\""
+                }
+              ],
+              "id": "snacks"
+            }
+          ]
+        },
+        {
+          "qrUrl": "https://menu-vip.vercel.app/",
+          "title": "Menu",
+          "type": "cover",
+          "id": "cover"
+        }
+      ]
+    }
+  ]
+}

@@ -9,11 +9,11 @@ export function MenuDaily({ data }: { data: Menu | null }) {
   if (!dataDaily) return null;
 
   const sections: { title: string; items?: string[]; wHalf?: boolean }[] = [
-    { title: t("Saids & Appetizers"), items: dataDaily.titleSalad },
-    { title: t("Second Courses"), items: dataDaily.titleSecond },
-    { title: t("Soups"), items: dataDaily.titleSoup, wHalf: true },
-    { title: t("Side Dishes"), items: dataDaily.titleGarner, wHalf: true },
-    { title: t("Desserts"), items: dataDaily.titleDesserts, wHalf: true },
+    { title: t("salads_appetizers"), items: dataDaily.titleSalad },
+    { title: t("second_courses"), items: dataDaily.titleSecond },
+    { title: t("soups"), items: dataDaily.titleSoup, wHalf: true },
+    { title: t("side_dishes"), items: dataDaily.titleGarner, wHalf: true },
+    { title: t("desserts"), items: dataDaily.titleDesserts, wHalf: true },
   ];
 
   return (

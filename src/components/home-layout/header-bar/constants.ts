@@ -80,6 +80,7 @@ export const TABS_BY_ROUTE = {
     "menuVip",
     "standardKitchen",
     "price-list",
+    "data-menu",
   ],
 
   [ARCHIVE_MAIN_ROUTE]: [
@@ -122,6 +123,7 @@ export const TABS_BY_ROUTE = {
     "order-products",
     "ttn",
     "price-list",
+    "menu",
   ],
 } as const;
 

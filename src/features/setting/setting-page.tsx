@@ -17,6 +17,7 @@ export default function SettingPage({
     orderProductsData: string;
     ttnData: string;
     priceListData: string;
+    menuData: string;
   };
 }) {
   const tab = useSearchParams().get("tab");
@@ -50,6 +51,10 @@ export default function SettingPage({
     "price-list": {
       data: data.priceListData,
       type: "priceList",
+    },
+    menu: {
+      data: data.menuData,
+      type: "menu",
     },
   } as const;
 
