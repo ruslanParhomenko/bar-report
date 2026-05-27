@@ -89,6 +89,15 @@ export default function AoMonthPage({
     n(totals.ttnModaByDay)
   ).toFixed(2);
 
+  const nori = (n(totals.purchaseModaByDay) + n(totals.ttnModaByDay)).toFixed(
+    2,
+  );
+  const bar = (
+    n(totals.purchaseBarByDay) +
+    n(totals.ttnBarByDay) +
+    n(totals.purchaseCookByDay)
+  ).toFixed(2);
+
   const differenceNBM = (
     n(totals.advanceNBMByDay) -
     n(totals.fuelNBMByDay) -
@@ -121,7 +130,12 @@ export default function AoMonthPage({
           isEdit={isEdit}
           fieldName="rowAOData"
         />
-        <AoFooterTable moda={differenceModa} nbm={differenceNBM} />
+        <AoFooterTable
+          moda={differenceModa}
+          nbm={differenceNBM}
+          nori={nori}
+          bar={bar}
+        />
       </Table>
     </FormWrapper>
   );

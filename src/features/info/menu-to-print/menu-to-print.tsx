@@ -84,7 +84,7 @@ function Section({
 
 function ColSingle({ col, t }: { col: MenuColumn; t: LocalTranslateFn }) {
   return (
-    <div className="h-full px-1">
+    <div className="h-full px-1 pb-3">
       <h2
         className="text-center font-bold tracking-widest text-[#1a1a1a] uppercase"
         style={{ fontSize: "1rem" }}
@@ -105,7 +105,7 @@ function ColCover({ col, t }: { col: MenuColumn; t: LocalTranslateFn }) {
       <div className="flex w-full flex-1 items-center justify-center gap-4">
         <Dot size={36} />
 
-        <span className="pb-3 text-center text-6xl leading-none font-bold tracking-widest text-[#1a1a1a] select-none">
+        <span className="pb-3 text-center leading-none font-bold tracking-widest text-[#1a1a1a] select-none md:text-6xl">
           {col.title ? t(col.title) : t("menu_title")}
         </span>
 
@@ -117,7 +117,7 @@ function ColCover({ col, t }: { col: MenuColumn; t: LocalTranslateFn }) {
           <img
             src={`https://api.qrserver.com/v1/create-qr-code/?size=90x90&data=${encodeURIComponent(
               col.qrUrl,
-            )}`}
+            )}&&color=180-180-180&bgcolor=255-255-255`}
             alt="QR"
             width={90}
             height={90}
@@ -135,7 +135,7 @@ function ColCover({ col, t }: { col: MenuColumn; t: LocalTranslateFn }) {
 function Ornament({ className = "" }: { className?: string }) {
   return (
     <img
-      src="/2.svg"
+      src="/pattern.svg"
       alt=""
       aria-hidden
       draggable={false}
@@ -151,10 +151,10 @@ function OrnamentBorder({ children }: { children: React.ReactNode }) {
   return (
     <div className="relative h-full w-full overflow-hidden">
       <div className="relative h-full w-full px-2 py-1">
-        <Ornament className="top-0 left-0 h-10 w-10 -rotate-90" />
-        <Ornament className="top-0 right-0 h-10 w-10" />
-        <Ornament className="bottom-0 left-0 h-10 w-10 rotate-180" />
-        <Ornament className="right-0 bottom-0 h-10 w-10 rotate-90" />
+        <Ornament className="top-0 left-0 h-10 w-10 rotate-90" />
+        <Ornament className="top-0 right-0 h-10 w-10 rotate-180" />
+        <Ornament className="bottom-0 left-0 h-10 w-10" />
+        <Ornament className="right-0 bottom-0 h-10 w-10 -rotate-90" />
 
         <div className="relative z-10 h-full">{children}</div>
       </div>
@@ -206,17 +206,20 @@ function SinglePage({
         </button>
       </div>
 
-      {/* Добавили dir={isRtl ? "rtl" : "ltr"} чтобы иврит отображался корректно справа налево */}
       <div
         ref={printRef}
         dir={isRtl ? "rtl" : "ltr"}
         className="print-root flex min-h-0 flex-1 flex-col px-2 pb-2"
       >
         <div className="print-inner min-h-0 flex-1">
-          <div className="grid h-full grid-cols-2 gap-4">
+          <div className="grid h-full grid-cols-1 gap-4 md:grid-cols-2">
             {page.columns.map((col, i) => {
               if (col.type === "cover") {
-                return <ColCover key={col.id} col={col} t={t} />;
+                return (
+                  <OrnamentBorder key={`${col.id}-${i}`}>
+                    <ColCover key={col.id} col={col} t={t} />;
+                  </OrnamentBorder>
+                );
               }
 
               return (
