@@ -124,6 +124,7 @@ export const TABS_BY_ROUTE = {
     "ttn",
     "price-list",
     "menu",
+    "menu-daily",
   ],
 } as const;
 

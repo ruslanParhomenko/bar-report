@@ -47,8 +47,6 @@ export default function TipsAddForm({
     result: false,
   });
 
-  // watch всего массива только для chart и allAmounts
-  // draftValue не вызывает ре-рендер родителя — он теперь в TipsAddRow
   const tipsValues = useWatch<BarForm, "tipsAdd">({ name: "tipsAdd" }) ?? [];
 
   useEffect(() => {
@@ -188,7 +186,7 @@ export default function TipsAddForm({
   }));
 
   return (
-    <div className="flex w-full flex-col gap-1 md:h-[77dvh] md:px-2">
+    <div className="flex w-full flex-col gap-1 md:h-[80dvh] md:px-2">
       {/* OVER MODAL */}
       <ModalConfirm
         open={confirmOverIndex !== null}

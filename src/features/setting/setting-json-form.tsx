@@ -11,7 +11,8 @@ type Props = {
     | "orderProducts"
     | "ttn"
     | "priceList"
-    | "menu";
+    | "menu"
+    | "menuDaily";
 };
 
 export default function SettingsJson({ data, type }: Props) {

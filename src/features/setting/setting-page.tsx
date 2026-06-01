@@ -18,6 +18,7 @@ export default function SettingPage({
     ttnData: string;
     priceListData: string;
     menuData: string;
+    menuDailyData: string;
   };
 }) {
   const tab = useSearchParams().get("tab");
@@ -55,6 +56,10 @@ export default function SettingPage({
     menu: {
       data: data.menuData,
       type: "menu",
+    },
+    "menu-daily": {
+      data: data.menuDailyData,
+      type: "menuDaily",
     },
   } as const;
 

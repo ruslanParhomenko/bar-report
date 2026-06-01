@@ -27,3 +27,4 @@ export const DATA_BREAK_ACTION_TAG = "data-break";
 export const DATA_TTN_ACTION_TAG = "data-ttn-list";
 export const DATA_PRICE_LIST_ACTION_TAG = "data-price-list";
 export const DATA_MENU_ACTION_TAG = "data-menu";
+export const DATA_MENU_DAILY_ACTION_TAG = "data-menu-daily";

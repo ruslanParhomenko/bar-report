@@ -30,10 +30,12 @@ export const INVENTORY_DATA = [
   "Виски Macallan, л",
   "Foss Marai",
   "Moet and Shandon",
-  "Прачка - скатерть",
   "молоко стафф",
   "Пепельница",
   "Гильотина",
+  "Буковина 0,5",
+  "Om 0.5",
+  "Om 1.5 шт",
 ];
 
 // tobacco data

@@ -2,6 +2,7 @@
 
 import { createDataBreakList } from "../data-constants/data-break-action";
 import { createDataMenu } from "../data-constants/data-menu-action";
+import { createDataMenuDaily } from "../data-constants/data-menu-daily-action";
 import { createDataOrderProducts } from "../data-constants/data-order-products";
 import { createDataPriceList } from "../data-constants/data-price-list";
 import { createDataProducts } from "../data-constants/data-products-action";
@@ -38,17 +39,11 @@ export async function saveSettingsData(
   try {
     switch (type) {
       case "products": {
-        if (typeof parsed !== "object" || Array.isArray(parsed)) {
-          return { error: "Products JSON must be an object" };
-        }
         await createDataProducts(parsed);
         break;
       }
 
       case "breakList": {
-        if (!Array.isArray(parsed)) {
-          return { error: "BreakList must be an array" };
-        }
         await createDataBreakList({ rows: parsed });
         break;
       }
@@ -69,6 +64,10 @@ export async function saveSettingsData(
       }
       case "menu": {
         await createDataMenu(parsed);
+        break;
+      }
+      case "menuDaily": {
+        await createDataMenuDaily(parsed);
         break;
       }
 
