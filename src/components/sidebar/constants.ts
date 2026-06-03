@@ -3,9 +3,11 @@ import {
   AO_REPORT_MAIN_ROUTE,
   ARCHIVE_MAIN_ROUTE,
   CASH_MAIN_ROUTE,
+  CONSTRUCTOR_CHART_MAIN_ROUTE,
   EMPLOYEES_MAIN_ROUTE,
   FIN_CASH_MAIN_ROUTE,
   INFO_MAIN_ROUTE,
+  MENU_MAIN_ROUTE,
   ORDERS_MAIN_ROUTE,
   REPORTS_BAR_ROUTE,
   REPORTS_CUCINA_ROUTE,
@@ -20,6 +22,7 @@ import {
   Archive,
   CalculatorIcon,
   Calendar,
+  ChartBarIcon,
   ChefHat,
   ClipboardIcon,
   CodeIcon,
@@ -32,6 +35,7 @@ import {
   PersonStandingIcon,
   Settings,
   SigmaIcon,
+  SquareMenu,
   UserRoundCog,
 } from "lucide-react";
 
@@ -61,6 +65,12 @@ export const SIDEBAR_NAVIGATION = [
     title: REPORTS_CUCINA_ROUTE,
     url: REPORTS_CUCINA_ROUTE,
     icon: ChefHat,
+  },
+
+  {
+    title: MENU_MAIN_ROUTE,
+    url: MENU_MAIN_ROUTE,
+    icon: SquareMenu,
   },
 
   {
@@ -118,5 +128,10 @@ export const SIDEBAR_NAVIGATION = [
     title: USERS_MAIN_ROUTE,
     url: USERS_MAIN_ROUTE,
     icon: UserRoundCog,
+  },
+  {
+    title: CONSTRUCTOR_CHART_MAIN_ROUTE,
+    url: CONSTRUCTOR_CHART_MAIN_ROUTE,
+    icon: ChartBarIcon,
   },
 ];

@@ -109,7 +109,7 @@ export default function CustomChart({
           axisLine={false}
           angle={vertical ? -90 : 0}
           textAnchor={vertical ? "end" : "middle"}
-          height={vertical ? 80 : 30}
+          height={vertical ? 90 : 30}
           tickFormatter={(value: string) => value?.split(" ")[0]}
         />
         <YAxis axisLine={false} tickLine={false} tick={!disableYAxis} />

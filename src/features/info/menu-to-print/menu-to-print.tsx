@@ -132,7 +132,7 @@ function ColCover({ col, t }: { col: MenuColumn; t: LocalTranslateFn }) {
   );
 }
 
-function Ornament({ className = "" }: { className?: string }) {
+export function Ornament({ className = "" }: { className?: string }) {
   return (
     <img
       src="/pattern.svg"
@@ -147,7 +147,7 @@ function Ornament({ className = "" }: { className?: string }) {
   );
 }
 
-function OrnamentBorder({ children }: { children: React.ReactNode }) {
+export function OrnamentBorder({ children }: { children: React.ReactNode }) {
   return (
     <div className="relative h-full w-full overflow-hidden">
       <div className="relative h-full w-full px-2 py-1">

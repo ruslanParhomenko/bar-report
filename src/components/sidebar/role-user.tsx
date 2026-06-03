@@ -18,7 +18,5 @@ export default function RoleUser() {
 
   const roleLabel = ROLE_BY_ABILITY[role as keyof typeof ROLE_BY_ABILITY];
 
-  return (
-    <div className="text-rd flex justify-center py-2 text-xs">{roleLabel}</div>
-  );
+  return <div className="text-rd flex justify-center text-xs">{roleLabel}</div>;
 }

@@ -1,6 +1,7 @@
 "use server";
 
 import { createDataBreakList } from "../data-constants/data-break-action";
+import { createDataBuffet } from "../data-constants/data-buffet-action";
 import { createDataMenu } from "../data-constants/data-menu-action";
 import { createDataMenuDaily } from "../data-constants/data-menu-daily-action";
 import { createDataOrderProducts } from "../data-constants/data-order-products";
@@ -68,6 +69,10 @@ export async function saveSettingsData(
       }
       case "menuDaily": {
         await createDataMenuDaily(parsed);
+        break;
+      }
+      case "buffet": {
+        await createDataBuffet(parsed);
         break;
       }
 

@@ -3,6 +3,7 @@ export const ALGORITHM_MAIN_ROUTE = "algorithm";
 export const EMPLOYEES_MAIN_ROUTE = "employees";
 export const REPORTS_BAR_ROUTE = "report-bar";
 export const REPORTS_CUCINA_ROUTE = "report-cucina";
+export const MENU_MAIN_ROUTE = "menu";
 export const ORDERS_MAIN_ROUTE = "orders";
 export const INFO_MAIN_ROUTE = "info";
 export const ARCHIVE_MAIN_ROUTE = "archive";
@@ -14,6 +15,7 @@ export const FIN_CASH_MAIN_ROUTE = "fin-cash";
 export const RESULT_MAIN_ROUTE = "result";
 export const SETTING_MAIN_ROUTE = "setting";
 export const USERS_MAIN_ROUTE = "users";
+export const CONSTRUCTOR_CHART_MAIN_ROUTE = "constructor-chart";
 
 export const PENALTY_UPDATE_MAIN_ROUTE = "penalty-update";
 export const CREATE_EMPLOYEE_MAIN_ROUTE = "create-employee";

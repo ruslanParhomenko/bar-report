@@ -4,6 +4,7 @@
     "employees": "сотрудники",
     "report-bar": "бар",
     "report-cucina": "кухня",
+    "menu": "меню",
     "orders": "заказы",
     "info": "инфо",
     "archive": "архив",
@@ -15,7 +16,8 @@
     "result": "итог",
     "setting": "настройки",
     "algorithm": "алгоритм",
-    "users": "пользователи"
+    "users": "пользователи",
+    "constructor-chart": "диаграммы"
   },
   "ReportKitchen": {
     "shifts": "смены",

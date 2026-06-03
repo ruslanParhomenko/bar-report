@@ -29,7 +29,7 @@ export default function SidebarMenuButtons() {
   const accessList = session?.user?.accessList ?? [];
 
   return (
-    <SidebarMenu className="flex h-full flex-col gap-4 pt-2">
+    <SidebarMenu className="flex h-full flex-col gap-3 pt-2">
       {SIDEBAR_NAVIGATION.filter(
         (item) => accessList.includes(item.url) || role === "ADMIN",
       ).map((item) => {

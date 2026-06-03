@@ -4,6 +4,7 @@
     "employees": "angajați",
     "report-bar": "bar",
     "report-cucina": "bucătărie",
+    "menu": "meniu",
     "orders": "comenzi",
     "info": "informații",
     "archive": "arhivă",
@@ -15,7 +16,8 @@
     "result": "rezultat",
     "setting": "setări",
     "algorithm": "algoritm",
-    "users": "utilizatori"
+    "users": "utilizatori",
+    "constructor-chart": "diagrame"
   },
   "ReportKitchen": {
     "shifts": "schimb",

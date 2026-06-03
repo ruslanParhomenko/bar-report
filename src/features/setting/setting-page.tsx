@@ -19,6 +19,7 @@ export default function SettingPage({
     priceListData: string;
     menuData: string;
     menuDailyData: string;
+    buffetData: string;
   };
 }) {
   const tab = useSearchParams().get("tab");
@@ -60,6 +61,10 @@ export default function SettingPage({
     "menu-daily": {
       data: data.menuDailyData,
       type: "menuDaily",
+    },
+    buffet: {
+      data: data.buffetData,
+      type: "buffet",
     },
   } as const;
 
