@@ -1,27 +1,14 @@
 import { DATA_MENU_DAILY_ACTION_TAG } from "@/constants/action-tag";
+import { MenuDailyForm } from "@/features/menu/menu-daily/schema";
 import { dbAdmin } from "@/lib/firebase-admin";
 import { unstable_cache, updateTag } from "next/cache";
 
 const actionTag = DATA_MENU_DAILY_ACTION_TAG;
-
-// TYPES
-
-export type MenuDailyItem = {
-  ro: string;
-  en: string;
-};
-
-export type MenuDailyDictionary = {
-  "felul principal": MenuDailyItem[];
-  garnituri: MenuDailyItem[];
-  "felul intii": MenuDailyItem[];
-  "salate si gustari": MenuDailyItem[];
-  deserturi: MenuDailyItem[];
-};
+type MenuDailyDataForm = MenuDailyForm;
 
 // CREATE
 
-export async function createDataMenuDaily(data: MenuDailyDictionary) {
+export async function createDataMenuDaily(data: MenuDailyDataForm) {
   const docRef = dbAdmin.collection(actionTag).doc(actionTag);
 
   await docRef.set(data);
@@ -38,7 +25,7 @@ export async function _getDataMenuDaily() {
 
   if (!snap.exists) return null;
 
-  return snap.data() as MenuDailyDictionary;
+  return snap.data() as MenuDailyDataForm;
 }
 
 export const getDataMenuDaily = unstable_cache(_getDataMenuDaily, [actionTag], {

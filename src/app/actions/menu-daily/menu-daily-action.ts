@@ -1,25 +1,15 @@
 "use server";
 
 import { MENU_DAILY_ACTION_TAG } from "@/constants/action-tag";
+import { MenuDailyForm } from "@/features/menu/menu-daily/schema";
 import { dbAdmin } from "@/lib/firebase-admin";
 import { unstable_cache, updateTag } from "next/cache";
 
 const actionTag = MENU_DAILY_ACTION_TAG;
 
-export type MenuItem = {
-  ro: string;
-  en: string;
-};
+type MenuDailyDataForm = MenuDailyForm;
 
-export type MenuDailyForm = {
-  deserturi?: MenuItem[];
-  "felul intii"?: MenuItem[];
-  "felul principal"?: MenuItem[];
-  garnituri?: MenuItem[];
-  "salate si gustari"?: MenuItem[];
-};
-
-export async function createMenuDaily(data: MenuDailyForm) {
+export async function createMenuDaily(data: MenuDailyDataForm) {
   const docRef = dbAdmin.collection(actionTag).doc("main");
 
   await docRef.set(data);
@@ -27,12 +17,12 @@ export async function createMenuDaily(data: MenuDailyForm) {
   updateTag(actionTag);
 }
 
-export async function _getMenuDailyData(): Promise<MenuDailyForm | null> {
+export async function _getMenuDailyData(): Promise<MenuDailyDataForm | null> {
   const doc = await dbAdmin.collection(actionTag).doc("main").get();
 
   if (!doc.exists) return null;
 
-  return doc.data() as MenuDailyForm;
+  return doc.data() as MenuDailyDataForm;
 }
 
 export const getMenuDailyData = unstable_cache(_getMenuDailyData, [actionTag], {

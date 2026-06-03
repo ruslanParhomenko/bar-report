@@ -1,29 +1,20 @@
 import SelectInput, { OptionSelect } from "@/components/select/select-input";
-import { useFieldArray, useFormContext, useWatch } from "react-hook-form";
-
-export type MenuCategory =
-  | "felul principal"
-  | "salate si gustari"
-  | "deserturi"
-  | "garnituri"
-  | "felul intii";
-
-type MenuItem = { en: string; ro: string };
+import { useFormContext } from "react-hook-form";
+import { SECTIONS } from "./constants";
+import { MenuDailyItem } from "./schema";
 
 function DishSelect({
   fieldName,
   options,
   currentItem,
   onValueChange,
-  onRemove,
   allOptions,
 }: {
   fieldName: string;
   options: OptionSelect[];
-  currentItem?: MenuItem | null;
-  onValueChange?: (item: MenuItem | null) => void;
-  onRemove?: () => void;
-  allOptions: MenuItem[];
+  currentItem?: MenuDailyItem | null;
+  onValueChange?: (item: MenuDailyItem | null) => void;
+  allOptions: MenuDailyItem[];
 }) {
   const { setValue, watch } = useFormContext();
 
@@ -49,7 +40,6 @@ function DishSelect({
     }
   };
 
-  const selectedEn = watch(`${basePath}.en`) ?? currentItem?.en ?? "";
   return (
     <div className="mb-4 text-center">
       <div className="flex items-center gap-2">
@@ -59,48 +49,23 @@ function DishSelect({
             options={options}
             value={value ?? currentItem?.ro ?? ""}
             onChange={handleChange}
-            placeHolder="— selectează —"
-            className="justify-center rounded-[2px] border border-[#c9b99a] bg-[rgba(201,185,154,0.12)] font-['Playfair_Display'] text-[16px] font-semibold text-[#2c1f0e]"
+            className="bg-gr! justify-center rounded-[2px] border border-[#c9b99a] font-['Playfair_Display'] text-[16px] font-semibold text-[#2c1f0e]"
           />
         </div>
-
-        <button
-          type="button"
-          onClick={onRemove}
-          className="h-9 w-9 rounded border border-[#c9b99a] bg-white text-lg font-bold"
-        >
-          −
-        </button>
       </div>
-
-      <p className="mt-1 min-h-4.5 font-['Cormorant_Garamond'] text-[13px] font-light text-[#7a6242] italic">
-        {selectedEn}
-      </p>
     </div>
   );
 }
-function DishDisplay({ item }: { item: MenuItem | null | undefined }) {
+function DishDisplay({ item }: { item: MenuDailyItem }) {
   if (!item) {
-    return (
-      <div className="my-6 text-center">
-        <span className="font-['Playfair_Display'] text-xl text-[#c9b99a]">
-          -
-        </span>
-      </div>
-    );
+    return null;
   }
   return (
     <div className="mb-5 text-center">
-      <p
-        className="mb-6 text-[20px] leading-tight font-semibold text-[#2c1f0e]"
-        style={{ fontFamily: "'Cormorant Garamond', serif" }}
-      >
+      <p className="mb-6 font-['Cormorant_Garamond'] text-[20px] leading-tight font-semibold text-[#2c1f0e]">
         {item.ro}
       </p>
-      <p
-        className="text-[13px] font-light text-[#7a6242] italic"
-        style={{ fontFamily: "'Cormorant Garamond', serif" }}
-      >
+      <p className="mt-1 min-h-4.5 font-['Cormorant_Garamond'] text-[13px] font-light text-[#7a6242] italic">
         {item.en}
       </p>
     </div>
@@ -113,23 +78,12 @@ export default function MenuSection({
   isEdit,
   fieldPrefix,
 }: {
-  category: MenuCategory | null;
-  items: MenuItem[] | null;
-  allOptions: MenuItem[] | null;
+  category: (typeof SECTIONS)[number] | null;
+  items: MenuDailyItem[] | null;
+  allOptions: MenuDailyItem[] | null;
   isEdit: boolean;
   fieldPrefix: string;
 }) {
-  const { control } = useFormContext();
-
-  const value = useWatch();
-
-  console.log("Watching values in MenuSection:", value); // Debug log
-
-  const { remove } = useFieldArray({
-    control,
-    name: fieldPrefix,
-  });
-
   const options: OptionSelect[] = (allOptions ?? []).map((d) => ({
     value: d.ro,
     label: d.ro,
@@ -138,7 +92,7 @@ export default function MenuSection({
   return (
     <div className="flex h-[40dvh] flex-col justify-between px-1 pb-3">
       <p
-        className="my-12 text-center text-[16px] tracking-[0.18em] text-[#9a8060] uppercase"
+        className="my-12 text-center text-[12px] tracking-[0.18em] text-[#9a8060] uppercase"
         style={{ fontFamily: "'Cormorant Garamond', serif" }}
       >
         — {category ? category : "Section"} —
@@ -151,10 +105,9 @@ export default function MenuSection({
           <DishSelect
             key={idx}
             fieldName={`${fieldPrefix}.${idx}.ro`}
-            options={options}
+            options={[{ value: "-", label: " —" }, ...options]}
             allOptions={allOptions ?? []}
             currentItem={item}
-            onRemove={() => remove(idx)}
           />
         ) : (
           <DishDisplay key={idx} item={item} />

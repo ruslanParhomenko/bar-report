@@ -19,7 +19,7 @@ function Row({ item, t }: { item: MenuItem; t: LocalTranslateFn }) {
   if (!item.name && !item.price) return null;
 
   return (
-    <div className="my-1.5 grid grid-cols-[2fr_1fr_auto] items-baseline gap-3 text-xs tracking-wider text-[#1a1a1a]">
+    <div className="my-0 grid grid-cols-[2fr_1fr_auto] items-baseline gap-3 text-xs tracking-wider text-[#1a1a1a] print:my-1.5">
       <span className="overflow-hidden text-ellipsis whitespace-nowrap">
         {item.name ? t(item.name) : ""}
       </span>
@@ -42,7 +42,7 @@ function Row({ item, t }: { item: MenuItem; t: LocalTranslateFn }) {
 
 function SectionTitle({ title, t }: { title: string; t: LocalTranslateFn }) {
   return (
-    <h3 className="mt-2 text-center font-bold tracking-widest text-[#1a1a1a] italic">
+    <h3 className="m-0 text-center font-bold tracking-widest text-[#1a1a1a] italic print:mt-2">
       · {t(title)} ·
     </h3>
   );
@@ -56,7 +56,7 @@ function Section({
   t: LocalTranslateFn;
 }) {
   return (
-    <div className="my-3">
+    <div className="print:my-3">
       <SectionTitle title={section.title} t={t} />
 
       {section.items?.map((item, i) => (
@@ -69,7 +69,6 @@ function Section({
             className="mb-px text-center font-bold tracking-wider text-[#1a1a1a] uppercase"
             style={{ fontSize: "0.55rem" }}
           >
-            {/* Если sg.label тоже нужно переводить, оберните в t(sg.label) */}
             {sg.label}
           </p>
 
@@ -101,7 +100,7 @@ function ColSingle({ col, t }: { col: MenuColumn; t: LocalTranslateFn }) {
 
 function ColCover({ col, t }: { col: MenuColumn; t: LocalTranslateFn }) {
   return (
-    <div className="flex h-full flex-col items-center justify-between py-6 pl-4">
+    <div className="flex h-full flex-col items-center justify-between py-8 pl-4">
       <div className="flex w-full flex-1 items-center justify-center gap-4">
         <Dot size={36} />
 
@@ -184,13 +183,12 @@ function SinglePage({
         html, body { font-family: "Playfair Display", Georgia, serif !important }
         .print-root {
           width: 210mm !important;
-          height: 297mm !important;
+          height: 288mm !important;
           padding: 4mm !important;
           box-sizing: border-box !important;
           display: flex !important;
           flex-direction: column !important;
         }
-        .print-inner { flex: 1 !important; min-height: 0 !important; height: 100% !important; width: 100% !important; }
         .no-print { display: none !important; }
         * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
         img, svg { break-inside: avoid; }
@@ -211,24 +209,22 @@ function SinglePage({
         dir={isRtl ? "rtl" : "ltr"}
         className="print-root flex min-h-0 flex-1 flex-col px-2 pb-2"
       >
-        <div className="print-inner min-h-0 flex-1">
-          <div className="grid h-full grid-cols-1 gap-4 md:grid-cols-2">
-            {page.columns.map((col, i) => {
-              if (col.type === "cover") {
-                return (
-                  <OrnamentBorder key={`${col.id}-${i}`}>
-                    <ColCover key={col.id} col={col} t={t} />;
-                  </OrnamentBorder>
-                );
-              }
-
+        <div className="grid h-full grid-cols-1 gap-4 md:grid-cols-2">
+          {page.columns.map((col, i) => {
+            if (col.type === "cover") {
               return (
                 <OrnamentBorder key={`${col.id}-${i}`}>
-                  <ColSingle col={col} t={t} />
+                  <ColCover key={col.id} col={col} t={t} />;
                 </OrnamentBorder>
               );
-            })}
-          </div>
+            }
+
+            return (
+              <OrnamentBorder key={`${col.id}-${i}`}>
+                <ColSingle col={col} t={t} />
+              </OrnamentBorder>
+            );
+          })}
         </div>
       </div>
     </div>
@@ -262,7 +258,6 @@ export default function MenuPage({ data }: { data: MenuDataType | null }) {
         href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
       />
 
-      {/* Панель переключения языков (не пойдет на печать благодаря классу no-print) */}
       <div className="no-print flex justify-center gap-4">
         {["ru", "ro", "en", "he", "tr"].map((lang) => (
           <button
@@ -280,7 +275,7 @@ export default function MenuPage({ data }: { data: MenuDataType | null }) {
       </div>
 
       <div
-        className="flex max-w-[90dvw] overflow-auto"
+        className="flex h-[86dvh] max-w-[90dvw]"
         style={{
           fontFamily: "'Playfair Display', Georgia, 'Times New Roman', serif",
         }}

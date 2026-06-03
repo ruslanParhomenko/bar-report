@@ -1,9 +1,7 @@
 "use client";
 import { MenuDataType } from "@/app/actions/data-constants/data-menu-action";
-import { MenuDailyDictionary } from "@/app/actions/data-constants/data-menu-daily-action";
 import { Menu, StandardKitchen } from "@/app/actions/google/google-action";
 import { useSearchParams } from "next/navigation";
-import MenuDailyForm from "../menu/menu-daily/menu-daily-page";
 import MenuToPrint from "./menu-to-print/menu-to-print";
 import StaffMenu from "./menu/menu-staff";
 import StatusMenu from "./menu/menu-status";
@@ -16,7 +14,6 @@ import StopListForm from "./stop-list/stop-list-form";
 type InfoPageProps = {
   data: {
     standardKitchen: StandardKitchen[] | null;
-    menuDaily: MenuDailyDictionary | null;
     menu: Menu | null;
     stopList: StopListSchemaType | null;
     priceList: any | null;
@@ -29,8 +26,6 @@ export default function InfoPage({ data }: InfoPageProps) {
   return (
     <>
       {tab === "stopList" && <StopListForm data={data.stopList || null} />}
-
-      {tab === "daily-menu" && <MenuDailyForm data={data.menuDaily} />}
 
       {tab === "statusMenu" && <StatusMenu data={data.menu} />}
 

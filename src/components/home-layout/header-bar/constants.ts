@@ -74,7 +74,6 @@ export const TABS_BY_ROUTE = {
 
   [INFO_MAIN_ROUTE]: [
     "stopList",
-    "daily-menu",
     "statusMenu",
     "staffMenu",
     "menuVip",

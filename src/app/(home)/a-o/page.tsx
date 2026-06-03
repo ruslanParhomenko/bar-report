@@ -1,9 +1,11 @@
 import { getAOByYear } from "@/app/actions/a-o/ao-action";
 import AoPage from "@/features/a-o/ao-page";
 
-type Params = PageProps<"/a-o">;
-
-export default async function Page({ searchParams }: Params) {
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | undefined }>;
+}) {
   const { year } = await searchParams;
   if (!year) return null;
 

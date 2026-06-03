@@ -15,6 +15,7 @@ import {
   CREATE_EMPLOYEE_MAIN_ROUTE,
   CREATE_USER_MAIN_ROUTE,
   EMPLOYEES_MAIN_ROUTE,
+  MENU_MAIN_ROUTE,
   RESULT_MAIN_ROUTE,
   SCHEDULE_MAIN_ROUTE,
   TIPS_MAIN_ROUTE,
@@ -58,6 +59,8 @@ export default function ActionBar() {
   const tab = useSearchParams().get("tab") || "";
   const mainRoute = pathname.split("/")[1] || "";
 
+  console.log("mainRoute", mainRoute);
+
   const formId = useFormId();
   const { toggleSidebar } = useSidebar();
 
@@ -77,6 +80,8 @@ export default function ActionBar() {
   const urlForCreate =
     URL_CREATE_BY_TAB[mainRoute as keyof typeof URL_CREATE_BY_TAB];
 
+  const isCanEdit = isAdmin && mainRoute === MENU_MAIN_ROUTE;
+
   return (
     <ViewTransition>
       <div className="bg-background z-10 flex items-center justify-around gap-4 pt-1 pb-4 md:justify-start md:gap-6 md:px-10">
@@ -84,7 +89,7 @@ export default function ActionBar() {
           <EditButton
             isEdit={isEdit}
             setIsEdit={setIsEdit}
-            disabled={!isAdmin}
+            disabled={!isCanEdit || isPending}
             className={iconCn}
           />
         )}
@@ -92,7 +97,7 @@ export default function ActionBar() {
           <SaveButton
             formId={formId}
             isEdit={isEdit}
-            disabled={!isAdmin || isPending || !isEdit}
+            disabled={!isCanEdit || isPending || !isEdit}
             className={iconCn}
           />
         )}

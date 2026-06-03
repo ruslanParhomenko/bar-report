@@ -1,5 +1,5 @@
-import { MenuCategory } from "./menu-daily-page";
+export const SECTION_1 = ["felul principal", "garnituri"];
+export const SECTION_2 = ["salate si gustari", "felul intii"];
+export const SECTION_3 = ["deserturi"];
 
-export const SECTION_1: MenuCategory[] = ["felul principal", "garnituri"];
-export const SECTION_2: MenuCategory[] = ["salate si gustari", "felul intii"];
-export const SECTION_3: (MenuCategory | null)[] = ["deserturi", null];
+export const SECTIONS = [...SECTION_1, ...SECTION_2, ...SECTION_3] as const;
