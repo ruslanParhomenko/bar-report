@@ -10,12 +10,15 @@ export function OrnamentBorder({
   return (
     <div className="relative h-full w-full overflow-hidden">
       <div className="relative h-full w-full px-2 py-1">
-        <Ornament rotation={90} className={cn("top-0 left-0", className)} />
-        <Ornament rotation={180} className={cn("top-0 right-0", className)} />
-        <Ornament rotation={0} className={cn("bottom-0 left-0", className)} />
         <Ornament
-          rotation={270}
-          className={cn("right-0 bottom-0", className)}
+          className={cn("top-0 left-0 h-10 w-10 rotate-90", className)}
+        />
+        <Ornament
+          className={cn("top-0 right-0 h-10 w-10 rotate-180", className)}
+        />
+        <Ornament className={cn("bottom-0 left-0 h-10 w-10", className)} />
+        <Ornament
+          className={cn("right-0 bottom-0 h-10 w-10 -rotate-90", className)}
         />
 
         <div className="relative z-10 h-full">{children}</div>
@@ -24,23 +27,19 @@ export function OrnamentBorder({
   );
 }
 
-function Ornament({
-  className = "",
-  rotation = 0,
-}: {
-  className?: string;
-  rotation?: number;
-}) {
+function Ornament({ className = "" }: { className?: string }) {
   return (
-    <img
-      src="/pattern.svg"
-      alt=""
+    <div
       aria-hidden
-      draggable={false}
-      className={`pointer-events-none absolute h-10 w-10 select-none ${className}`}
-      style={{ transform: `rotate(${rotation}deg)` }}
-      width={40}
-      height={40}
+      className={`pointer-events-none absolute select-none ${className}`}
+      style={{
+        backgroundImage: "url('/pattern.svg')",
+        backgroundSize: "contain",
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "center",
+        width: "2.5rem",
+        height: "2.5rem",
+      }}
     />
   );
 }
