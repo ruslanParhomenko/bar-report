@@ -62,10 +62,10 @@ function DishDisplay({ item }: { item: MenuDailyItem }) {
   }
   return (
     <div className="mb-5 text-center">
-      <p className="mb-6 font-['Cormorant_Garamond'] text-[20px] leading-tight font-semibold text-[#2c1f0e]">
+      <p className="mb-6 font-['Cormorant_Garamond'] text-[26px] leading-tight font-semibold text-[#2c1f0e]">
         {item.ro}
       </p>
-      <p className="mt-1 min-h-4.5 font-['Cormorant_Garamond'] text-[13px] font-light text-[#7a6242] italic">
+      <p className="mt-1 min-h-4.5 font-['Cormorant_Garamond'] text-[16px] font-light text-[#7a6242] italic">
         {item.en}
       </p>
     </div>
@@ -92,7 +92,7 @@ export default function MenuSection({
   return (
     <div className="flex h-[40dvh] flex-col justify-between px-1 pb-3">
       <p
-        className="my-12 text-center text-[12px] tracking-[0.18em] text-[#9a8060] uppercase"
+        className="my-12 text-center text-[12px] tracking-[0.18em] text-[#9a8060] uppercase print:text-base"
         style={{ fontFamily: "'Cormorant Garamond', serif" }}
       >
         — {category ? category : "Section"} —

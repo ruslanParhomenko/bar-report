@@ -7,9 +7,10 @@ import {
   MenuSection,
 } from "@/app/actions/data-constants/data-menu-action";
 
+import { OrnamentBorder } from "@/components/wrapper/ornament-border";
 import { Dot, PrinterIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useReactToPrint } from "react-to-print";
 import { LOCAL_TRANSLATIONS } from "./constants";
 
@@ -127,36 +128,6 @@ function ColCover({ col, t }: { col: MenuColumn; t: LocalTranslateFn }) {
           />
         </div>
       )}
-    </div>
-  );
-}
-
-export function Ornament({ className = "" }: { className?: string }) {
-  return (
-    <img
-      src="/pattern.svg"
-      alt=""
-      aria-hidden
-      draggable={false}
-      className={`pointer-events-none absolute select-none ${className}`}
-      style={{
-        imageRendering: "crisp-edges",
-      }}
-    />
-  );
-}
-
-export function OrnamentBorder({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="relative h-full w-full overflow-hidden">
-      <div className="relative h-full w-full px-2 py-1">
-        <Ornament className="top-0 left-0 h-10 w-10 rotate-90" />
-        <Ornament className="top-0 right-0 h-10 w-10 rotate-180" />
-        <Ornament className="bottom-0 left-0 h-10 w-10" />
-        <Ornament className="right-0 bottom-0 h-10 w-10 -rotate-90" />
-
-        <div className="relative z-10 h-full">{children}</div>
-      </div>
     </div>
   );
 }

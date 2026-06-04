@@ -6,14 +6,11 @@ import FormWrapper from "@/components/wrapper/form-wrapper";
 import { useEdit } from "@/providers/edit-provider";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { OrnamentBorder } from "../../info/menu-to-print/menu-to-print";
+
+import { OrnamentBorder } from "@/components/wrapper/ornament-border";
 import { SECTION_1, SECTION_2, SECTION_3, SECTIONS } from "./constants";
 import MenuSection from "./menu-section";
-import {
-  menuDailyDefaultValues,
-  MenuDailyForm,
-  menuDailySchema,
-} from "./schema";
+import { MenuDailyForm, menuDailySchema } from "./schema";
 
 export default function MenuDailyPage({
   data,
@@ -24,16 +21,22 @@ export default function MenuDailyPage({
 }) {
   const { isEdit, setIsEdit } = useEdit();
 
-  const initialData: MenuDailyForm = Object.fromEntries(
-    SECTIONS.map((section) => [section, menuDailyDefaultValues[section]]),
+  const defaultValues: MenuDailyForm = Object.fromEntries(
+    SECTIONS.map((section) => [
+      section,
+      [...Array(2)].map(
+        (_, index) =>
+          menuDaily?.[section]?.[index] ?? {
+            ro: "",
+            en: "",
+          },
+      ),
+    ]),
   ) as MenuDailyForm;
 
   const form = useForm<MenuDailyForm>({
     resolver: zodResolver(menuDailySchema),
-    defaultValues: {
-      ...initialData,
-      ...menuDaily,
-    },
+    defaultValues: defaultValues,
   });
 
   const value = form.watch();
@@ -55,7 +58,7 @@ export default function MenuDailyPage({
       <FormWrapper form={form} onSubmit={onSubmit}>
         <div className="grid grid-cols-3 gap-6">
           <div>
-            <OrnamentBorder>
+            <OrnamentBorder className="h-14! w-14!">
               {SECTION_1.map((cat) => (
                 <div key={cat} className="p-2">
                   <MenuSection
@@ -70,7 +73,7 @@ export default function MenuDailyPage({
             </OrnamentBorder>
           </div>
           <div>
-            <OrnamentBorder>
+            <OrnamentBorder className="h-14! w-14!">
               {SECTION_2.map((cat) => (
                 <div key={cat} className="p-2">
                   <MenuSection
@@ -85,7 +88,7 @@ export default function MenuDailyPage({
             </OrnamentBorder>
           </div>
           <div>
-            <OrnamentBorder>
+            <OrnamentBorder className="h-14! w-14!">
               {SECTION_3.map((cat) => (
                 <div key={cat} className="p-2">
                   <MenuSection

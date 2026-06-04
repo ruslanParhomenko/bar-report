@@ -59,8 +59,6 @@ export default function ActionBar() {
   const tab = useSearchParams().get("tab") || "";
   const mainRoute = pathname.split("/")[1] || "";
 
-  console.log("mainRoute", mainRoute);
-
   const formId = useFormId();
   const { toggleSidebar } = useSidebar();
 
@@ -80,7 +78,7 @@ export default function ActionBar() {
   const urlForCreate =
     URL_CREATE_BY_TAB[mainRoute as keyof typeof URL_CREATE_BY_TAB];
 
-  const isCanEdit = isAdmin && mainRoute === MENU_MAIN_ROUTE;
+  const isCanEdit = isAdmin || mainRoute === MENU_MAIN_ROUTE;
 
   return (
     <ViewTransition>
