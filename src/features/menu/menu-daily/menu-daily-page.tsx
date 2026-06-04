@@ -22,16 +22,21 @@ export default function MenuDailyPage({
   const { isEdit, setIsEdit } = useEdit();
 
   const defaultValues: MenuDailyForm = Object.fromEntries(
-    SECTIONS.map((section) => [
-      section,
-      [...Array(2)].map(
-        (_, index) =>
-          menuDaily?.[section]?.[index] ?? {
-            ro: "",
-            en: "",
-          },
-      ),
-    ]),
+    SECTIONS.map((section) => {
+      const count = section === "salate si gustari" ? 3 : 2;
+
+      return [
+        section,
+        Array.from(
+          { length: count },
+          (_, index) =>
+            menuDaily?.[section]?.[index] ?? {
+              ro: "",
+              en: "",
+            },
+        ),
+      ];
+    }),
   ) as MenuDailyForm;
 
   const form = useForm<MenuDailyForm>({
