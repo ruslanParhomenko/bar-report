@@ -125,6 +125,7 @@ export const TABS_BY_ROUTE = {
     "menu",
     "menu-daily",
     "buffet",
+    "parser",
   ],
 } as const;
 

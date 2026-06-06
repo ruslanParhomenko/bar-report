@@ -6,6 +6,7 @@ import { useFormId } from "@/hooks/use-form-id";
 import { useSearchParams } from "next/navigation";
 import { useActionState, useEffect } from "react";
 import { toast } from "sonner";
+import ParserPage from "./paser";
 import SettingsJson from "./setting-json-form";
 
 export default function SettingPage({
@@ -70,7 +71,9 @@ export default function SettingPage({
 
   const current = configMap[tab as keyof typeof configMap];
 
-  return (
+  return tab === "parser" ? (
+    <ParserPage />
+  ) : (
     <form
       key={formId}
       id={formId}
