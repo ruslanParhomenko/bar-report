@@ -7,7 +7,8 @@ import CustomChart from "@/components/chart/custom-chart";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { parseExp } from "./utils";
+import { cn } from "@/lib/utils";
+import { parseExp } from "../setting/utils";
 
 type ChartDataItem = { name: string; value: number };
 type BarKey = keyof Omit<ChartDataItem, "name">;
@@ -19,6 +20,7 @@ const CELESTA_TABS = [
   "Pit FM",
   "FREE (clients)",
   "Admin",
+  "Bar - Furset",
   "Furset",
   "Office",
   "Staff питание",
@@ -41,6 +43,7 @@ interface SaleItem {
 
 export default function ParserPage() {
   const [result, setResult] = useState<SaleItem[]>([]);
+  const [activeItem, setActiveItem] = useState<string>("all");
 
   const [fileName, setFileName] = useState("Выберите файл");
   const inputRef = useRef<HTMLInputElement>(null);
@@ -58,24 +61,27 @@ export default function ParserPage() {
   };
 
   const filteredData = result.filter((item) => item.client == activeTab);
+  const uniqueName = [...new Set(filteredData.map((item) => item.item)), "all"];
 
   const chartDataMonth = Object.values(
-    filteredData.reduce(
-      (acc, item) => {
-        const date = item.date;
-        if (!acc[date]) {
-          const d = new Date(date);
-          acc[date] = {
-            name: `${getWeekDayShort(date)}-${d.getDate()}`,
-            value: 0,
-            date,
-          };
-        }
-        acc[date].value += item.quantity;
-        return acc;
-      },
-      {} as Record<string, { name: string; value: number; date: string }>,
-    ),
+    filteredData
+      .filter((item) => activeItem === "all" || item.item === activeItem)
+      .reduce(
+        (acc, item) => {
+          const date = item.date;
+          if (!acc[date]) {
+            const d = new Date(date);
+            acc[date] = {
+              name: `${getWeekDayShort(date)}-${d.getDate()}`,
+              value: 0,
+              date,
+            };
+          }
+          acc[date].value += item.quantity;
+          return acc;
+        },
+        {} as Record<string, { name: string; value: number; date: string }>,
+      ),
   ).map((item) => ({
     ...item,
     value: Number(item.value.toFixed(0)),
@@ -113,41 +119,44 @@ export default function ParserPage() {
   };
 
   return (
-    <>
-      <>
-        <div className="bg-background sticky top-0 z-10 flex px-4 pb-2">
-          <div
-            className="flex h-10 cursor-pointer items-center gap-2 px-6"
-            onClick={() => inputRef.current?.click()}
-          >
-            <Input
-              ref={inputRef}
-              type="file"
-              accept=".exp"
-              onChange={handleFile}
-              className="hidden"
-            />
-
-            <span className="text-muted-foreground text-sm">{fileName}</span>
-          </div>
-          <ToggleGroup
-            type="single"
-            value={activeTab}
-            onValueChange={(val) => val && setActiveTab(val)}
-            className="flex flex-wrap justify-start gap-3"
-          >
-            {CELESTA_TABS.map((tab) => (
-              <ToggleGroupItem
-                key={tab}
-                value={tab}
-                variant="outline"
-                className="data-[state=on]:bg-primary data-[state=on]:text-primary-foreground h-7 rounded-full px-3 text-xs"
-              >
-                {tab}
-              </ToggleGroupItem>
-            ))}
-          </ToggleGroup>
+    <div className="flex h-[90dvh] flex-col">
+      <div className="bg-background sticky top-0 z-10 flex px-4 pb-2">
+        <div
+          className="flex h-10 cursor-pointer items-center gap-2 px-6"
+          onClick={() => inputRef.current?.click()}
+        >
+          <Input
+            ref={inputRef}
+            type="file"
+            accept=".exp"
+            onChange={handleFile}
+            className="hidden"
+          />
+          <span className="text-muted-foreground text-sm">{fileName}</span>
         </div>
+
+        <ToggleGroup
+          type="single"
+          value={activeTab}
+          onValueChange={(val) => {
+            if (val) {
+              setActiveTab(val);
+              setActiveItem("all");
+            }
+          }}
+          className="flex flex-wrap justify-start gap-3"
+        >
+          {CELESTA_TABS.map((tab) => (
+            <ToggleGroupItem
+              key={tab}
+              value={tab}
+              variant="outline"
+              className="data-[state=on]:bg-primary data-[state=on]:text-primary-foreground h-7 rounded-full px-3 text-xs"
+            >
+              {tab}
+            </ToggleGroupItem>
+          ))}
+        </ToggleGroup>
 
         <div className="flex items-center justify-start gap-4 px-4">
           <Switch
@@ -160,14 +169,31 @@ export default function ParserPage() {
           />
           <Label className="text-muted-foreground text-xs">{filters}</Label>
         </div>
+      </div>
 
-        <CustomChart
-          chartData={chartData}
-          barItem={BAR_KEYS}
-          className="h-[82dvh] w-full!"
-          vertical
-        />
-      </>
-    </>
+      <CustomChart
+        chartData={chartData}
+        barItem={BAR_KEYS}
+        className={cn("min-h-0 w-full! flex-1")}
+        vertical
+      />
+
+      {filters === "month" && (
+        <div className="flex flex-wrap justify-start gap-1 px-4 pb-2">
+          {uniqueName.map((name) => (
+            <span
+              key={name}
+              onClick={() => setActiveItem(name)}
+              className={cn(
+                "cursor-pointer rounded-full px-3 py-1 text-xs transition-opacity",
+                activeItem !== name && "opacity-35",
+              )}
+            >
+              {name}
+            </span>
+          ))}
+        </div>
+      )}
+    </div>
   );
 }
