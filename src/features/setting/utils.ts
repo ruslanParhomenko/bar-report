@@ -4,7 +4,6 @@ export interface SaleItem {
   item: string;
   quantity: number;
   price: number;
-  department: string;
   client: string;
 }
 
@@ -27,7 +26,6 @@ export function parseExp(content: string): SaleItem[] {
   let section = "";
 
   let currentDate = "";
-  let currentDepartment = "";
   let currentClient = "";
 
   const result: SaleItem[] = [];
@@ -82,13 +80,11 @@ export function parseExp(content: string): SaleItem[] {
       );
 
       if (headerMatch) {
-        const [, date, departmentRef, clientRef] = headerMatch;
+        const [, date, clientRef] = headerMatch;
 
         const [day, month, year] = date.split(".");
 
         currentDate = `20${year}-${month}-${day}`;
-
-        currentDepartment = departments.get(Number(departmentRef)) ?? "";
 
         currentClient = clients.get(Number(clientRef)) ?? "";
 
@@ -112,7 +108,6 @@ export function parseExp(content: string): SaleItem[] {
           item: product.name,
           quantity,
           price: product.price,
-          department: currentDepartment,
           client: currentClient,
         });
       }

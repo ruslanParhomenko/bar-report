@@ -15,7 +15,7 @@ export const FIN_CASH_MAIN_ROUTE = "fin-cash";
 export const RESULT_MAIN_ROUTE = "result";
 export const SETTING_MAIN_ROUTE = "setting";
 export const USERS_MAIN_ROUTE = "users";
-export const CONSTRUCTOR_CHART_MAIN_ROUTE = "constructor-chart";
+export const PARSER_1C_MAIN_ROUTE = "parser-1c";
 
 export const PENALTY_UPDATE_MAIN_ROUTE = "penalty-update";
 export const CREATE_EMPLOYEE_MAIN_ROUTE = "create-employee";

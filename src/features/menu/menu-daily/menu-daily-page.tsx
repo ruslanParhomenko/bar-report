@@ -5,6 +5,7 @@ import { createMenuDaily } from "@/app/actions/menu-daily/menu-daily-action";
 import FormWrapper from "@/components/wrapper/form-wrapper";
 import { useEdit } from "@/providers/edit-provider";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 import { OrnamentBorder } from "@/components/wrapper/ornament-border";
@@ -21,28 +22,28 @@ export default function MenuDailyPage({
 }) {
   const { isEdit, setIsEdit } = useEdit();
 
-  const defaultValues: MenuDailyForm = Object.fromEntries(
-    SECTIONS.map((section) => {
-      const count = section === "salate si gustari" ? 3 : 2;
-
-      return [
-        section,
-        Array.from(
-          { length: count },
-          (_, index) =>
-            menuDaily?.[section]?.[index] ?? {
-              ro: "",
-              en: "",
-            },
-        ),
-      ];
-    }),
-  ) as MenuDailyForm;
+  const getDefaultValues = (menuDaily?: MenuDailyForm | null): MenuDailyForm =>
+    Object.fromEntries(
+      SECTIONS.map((section) => {
+        const count = section === "salate si gustari" ? 3 : 2;
+        return [
+          section,
+          Array.from(
+            { length: count },
+            (_, index) => menuDaily?.[section]?.[index] ?? { ro: "", en: "" },
+          ),
+        ];
+      }),
+    ) as MenuDailyForm;
 
   const form = useForm<MenuDailyForm>({
     resolver: zodResolver(menuDailySchema),
-    defaultValues: defaultValues,
+    defaultValues: getDefaultValues(menuDaily),
   });
+
+  useEffect(() => {
+    form.reset(getDefaultValues(menuDaily));
+  }, [menuDaily]);
 
   const value = form.watch();
 

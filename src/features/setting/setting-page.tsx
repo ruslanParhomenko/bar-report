@@ -6,7 +6,6 @@ import { useFormId } from "@/hooks/use-form-id";
 import { useSearchParams } from "next/navigation";
 import { useActionState, useEffect } from "react";
 import { toast } from "sonner";
-import ParserPage from "./paser";
 import SettingsJson from "./setting-json-form";
 
 export default function SettingPage({
@@ -20,7 +19,6 @@ export default function SettingPage({
     priceListData: string;
     menuData: string;
     menuDailyData: string;
-    buffetData: string;
   };
 }) {
   const tab = useSearchParams().get("tab");
@@ -63,17 +61,11 @@ export default function SettingPage({
       data: data.menuDailyData,
       type: "menuDaily",
     },
-    buffet: {
-      data: data.buffetData,
-      type: "buffet",
-    },
   } as const;
 
   const current = configMap[tab as keyof typeof configMap];
 
-  return tab === "parser" ? (
-    <ParserPage />
-  ) : (
+  return (
     <form
       key={formId}
       id={formId}

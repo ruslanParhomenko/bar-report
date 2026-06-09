@@ -17,7 +17,8 @@
     "setting": "настройки",
     "algorithm": "алгоритм",
     "users": "пользователи",
-    "constructor-chart": "диаграммы"
+    "constructor-chart": "диаграммы",
+    "parser-1c": "парсер 1с"
   },
   "ReportKitchen": {
     "shifts": "смены",

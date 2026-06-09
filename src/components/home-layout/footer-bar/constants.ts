@@ -19,6 +19,7 @@ import {
   INFO_MAIN_ROUTE,
   MENU_MAIN_ROUTE,
   ORDERS_MAIN_ROUTE,
+  PARSER_1C_MAIN_ROUTE,
   PENALTY_UPDATE_MAIN_ROUTE,
   REPORTS_BAR_ROUTE,
   REPORTS_CUCINA_ROUTE,
@@ -49,6 +50,7 @@ export const ACTION_ITEM_BY_ROUTE = {
   [RESULT_MAIN_ROUTE]: ["print", "chart"],
   [SETTING_MAIN_ROUTE]: ["save-all"],
   [USERS_MAIN_ROUTE]: ["print", "create"],
+  [PARSER_1C_MAIN_ROUTE]: ["print"],
 
   [PENALTY_UPDATE_MAIN_ROUTE]: ["save", "print", "exit", "mail"],
   [CREATE_EMPLOYEE_MAIN_ROUTE]: ["save", "print", "exit", "reset"],

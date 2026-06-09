@@ -105,12 +105,16 @@ export default function CustomChart({
         <XAxis
           dataKey="name"
           tickLine={false}
-          tickMargin={5}
+          tickMargin={6}
           axisLine={false}
+          interval={0}
           angle={vertical ? -90 : 0}
           textAnchor={vertical ? "end" : "middle"}
           height={vertical ? 90 : 30}
-          tickFormatter={(value: string) => value?.split(" ")[0]}
+          tick={{ fontSize: vertical ? 11 : 12 }}
+          tickFormatter={(value: string) =>
+            value.length > 14 ? value.slice(0, 12) + "…" : value.split(" ")[0]
+          }
         />
         <YAxis axisLine={false} tickLine={false} tick={!disableYAxis} />
 
