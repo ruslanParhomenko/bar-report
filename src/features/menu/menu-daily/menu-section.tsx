@@ -49,7 +49,7 @@ function DishSelect({
             options={options}
             value={value ?? currentItem?.ro ?? ""}
             onChange={handleChange}
-            className="bg-gr! justify-center rounded-[2px] border border-[#c9b99a] font-['Playfair_Display'] text-[16px] font-semibold text-[#2c1f0e]"
+            className="bg-gr/30! text-rd justify-center rounded-[2px] border border-[#c9b99a] font-['Playfair_Display'] text-[16px] font-semibold"
           />
         </div>
       </div>
