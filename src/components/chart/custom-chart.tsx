@@ -1,6 +1,13 @@
 "use client";
 
-import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  LabelList,
+  XAxis,
+  YAxis,
+} from "recharts";
 
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
@@ -88,7 +95,14 @@ export default function CustomChart({
             <ChartLegend content={<ChartLegendContent payload={undefined} />} />
           )}
           {barItem.map(({ key, color }) => (
-            <Bar key={key} dataKey={key} fill={color} radius={6} />
+            <Bar key={key} dataKey={key} fill={color} radius={6}>
+              <LabelList
+                dataKey={key}
+                values={key}
+                position="top"
+                fill="white"
+              />
+            </Bar>
           ))}
         </BarChart>
       </ChartContainer>
@@ -128,7 +142,9 @@ export default function CustomChart({
           <ChartLegend content={<ChartLegendContent payload={undefined} />} />
         )}
         {barItem.map(({ key, color }) => (
-          <Bar key={key} dataKey={key} fill={color} radius={6} />
+          <Bar key={key} dataKey={key} fill={color} radius={6}>
+            <LabelList dataKey={key} values={key} position="top" fill="red" />
+          </Bar>
         ))}
       </BarChart>
     </ChartContainer>

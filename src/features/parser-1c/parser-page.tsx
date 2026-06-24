@@ -61,6 +61,7 @@ export default function ParserPage() {
   };
 
   const filteredData = result.filter((item) => item.client == activeTab);
+
   const uniqueName = [...new Set(filteredData.map((item) => item.item)), "all"];
 
   const chartDataMonth = Object.values(
@@ -84,18 +85,18 @@ export default function ParserPage() {
       ),
   ).map((item) => ({
     ...item,
-    value: Number(item.value.toFixed(0)),
+    value: Number(item.value.toFixed(2)),
   }));
 
   const chartDataProduct = Array.from(
     filteredData.reduce((acc, item) => {
       acc.set(
         item.item,
-        (acc.get(item.item) || 0) + Number(item.quantity.toFixed(0)),
+        (acc.get(item.item) || 0) + Number(item.quantity.toFixed(2)),
       );
       return acc;
     }, new Map<string, number>()),
-  ).map(([name, value]) => ({ name, value: Number(value.toFixed(0)) }));
+  ).map(([name, value]) => ({ name, value: Number(value.toFixed(2)) }));
 
   const chartData =
     filters === "month"

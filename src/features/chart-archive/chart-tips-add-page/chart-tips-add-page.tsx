@@ -68,10 +68,10 @@ export default function ChartTipsAddPage({
 
       return {
         name: day.id,
-        tipsMdl: parseFloat(tipsMdl.toFixed(2)),
-        tipsChips: parseFloat(tipsChips.toFixed(2)),
-        tipsTotal: parseFloat(tipsTotal.toFixed(2)),
-        resultTips: parseFloat(resultTips.toFixed(2)),
+        tipsMdl: parseFloat(tipsMdl.toFixed(0)),
+        tipsChips: parseFloat(tipsChips.toFixed(0)),
+        tipsTotal: parseFloat(tipsTotal.toFixed(0)),
+        resultTips: parseFloat(resultTips.toFixed(0)),
       };
     });
   // chartDataYear — один элемент на месяц (агрегат всех дней)
@@ -88,10 +88,10 @@ export default function ChartTipsAddPage({
   const chartDataYear: ChartDataItem[] = [
     {
       name: monthData?.id ?? "",
-      tipsMdl: parseFloat(yearTotals.tipsMdl.toFixed(2)),
-      tipsChips: parseFloat(yearTotals.tipsChips.toFixed(2)),
-      tipsTotal: parseFloat(yearTotals.tipsTotal.toFixed(2)),
-      resultTips: parseFloat(yearTotals.resultTips.toFixed(2)),
+      tipsMdl: parseFloat(yearTotals.tipsMdl.toFixed(0)),
+      tipsChips: parseFloat(yearTotals.tipsChips.toFixed(0)),
+      tipsTotal: parseFloat(yearTotals.tipsTotal.toFixed(0)),
+      resultTips: parseFloat(yearTotals.resultTips.toFixed(0)),
     },
   ];
 
@@ -106,7 +106,7 @@ export default function ChartTipsAddPage({
 
         if (!employeeMap.has(name)) {
           employeeMap.set(name, {
-            name,
+            name: name.split(" ")[0],
             tipsMdl: 0,
             tipsChips: 0,
             tipsTotal: 0,
@@ -135,10 +135,10 @@ export default function ChartTipsAddPage({
 
     return Array.from(employeeMap.values()).map((e) => ({
       ...e,
-      tipsMdl: parseFloat(e.tipsMdl.toFixed(2)),
-      tipsChips: parseFloat(e.tipsChips.toFixed(2)),
-      tipsTotal: parseFloat(e.tipsTotal.toFixed(2)),
-      resultTips: parseFloat(e.resultTips.toFixed(2)),
+      tipsMdl: parseFloat(e.tipsMdl.toFixed(0)),
+      tipsChips: parseFloat(e.tipsChips.toFixed(0)),
+      tipsTotal: parseFloat(e.tipsTotal.toFixed(0)),
+      resultTips: parseFloat(e.resultTips.toFixed(0)),
     }));
   })();
 

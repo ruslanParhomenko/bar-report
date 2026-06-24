@@ -73,7 +73,8 @@ export default function ChartResultPage({
     rate: true,
   });
   const chartDataMonth: ChartDataItem[] = rows.map((row) => ({
-    name: row.e.employee,
+    name:
+      row.e.employee.split(" ")[0] + "." + row.e.employee.split(" ")[1]?.[0],
     salary: +row.salary,
     tips: row.sendTips,
     total: row.result,
@@ -109,7 +110,7 @@ export default function ChartResultPage({
       const name = row.e.employee;
       if (!yearTotalsMap[name]) {
         yearTotalsMap[name] = {
-          name,
+          name: name.split(" ")[0] + "." + name.split(" ")[1]?.[0],
           salary: 0,
           tips: 0,
           total: 0,

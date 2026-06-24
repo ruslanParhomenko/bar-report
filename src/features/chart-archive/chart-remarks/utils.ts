@@ -38,7 +38,13 @@ export function getChartDataFromYear(data: YearData[]): ChartDataItem[] {
         const penaltyVal = parseFloat(entry.penalty) || 0;
         const hours = dayH + nightH;
         if (!map.has(name)) {
-          map.set(name, { name, reason: 0, bonus: 0, penalty: 0, hours: 0 });
+          map.set(name, {
+            name: name.split(" ")[0],
+            reason: 0,
+            bonus: 0,
+            penalty: 0,
+            hours: 0,
+          });
         }
         const item = map.get(name)!;
         item.reason += 1;
