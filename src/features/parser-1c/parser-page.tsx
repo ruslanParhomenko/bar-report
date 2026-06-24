@@ -121,7 +121,7 @@ export default function ParserPage() {
 
   return (
     <div className="flex h-[90dvh] flex-col">
-      <div className="bg-background sticky top-0 z-10 flex px-4 pb-2">
+      <div className="bg-background sticky top-0 z-10 flex px-4 pb-2 print:hidden">
         <div
           className="flex h-10 cursor-pointer items-center gap-2 px-6"
           onClick={() => inputRef.current?.click()}
@@ -171,6 +171,7 @@ export default function ParserPage() {
           <Label className="text-muted-foreground text-xs">{filters}</Label>
         </div>
       </div>
+      <Label className="block w-full text-center text-xs">{activeItem}</Label>
 
       <CustomChart
         chartData={chartData}
@@ -180,7 +181,7 @@ export default function ParserPage() {
       />
 
       {filters === "month" && (
-        <div className="flex flex-wrap justify-start gap-1 px-4 pb-2">
+        <div className="flex flex-wrap justify-start gap-1 px-4 pb-2 print:hidden">
           {uniqueName.map((name) => (
             <span
               key={name}
