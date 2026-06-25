@@ -58,7 +58,7 @@ export default function MenuDailyPage({
 
   return (
     <div
-      className="relative h-[92dvh] p-6"
+      className="relative h-[90dvh] p-2"
       style={{ fontFamily: "'Cormorant Garamond', serif" }}
     >
       <FormWrapper form={form} onSubmit={onSubmit}>

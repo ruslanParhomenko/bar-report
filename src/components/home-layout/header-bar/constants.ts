@@ -16,6 +16,7 @@ import {
   EMPLOYEES_MAIN_ROUTE,
   FIN_CASH_MAIN_ROUTE,
   INFO_MAIN_ROUTE,
+  MENU_MAIN_ROUTE,
   ORDERS_MAIN_ROUTE,
   REPORTS_BAR_ROUTE,
   REPORTS_CUCINA_ROUTE,
@@ -63,6 +64,7 @@ export const TABS_BY_ROUTE = {
   [REPORTS_BAR_ROUTE]: ["break", "report", "tips"],
 
   [REPORTS_CUCINA_ROUTE]: [],
+  [MENU_MAIN_ROUTE]: ["menu-daily", "menu-vip"],
 
   [ORDERS_MAIN_ROUTE]: [
     "bar-ttn",
@@ -79,7 +81,6 @@ export const TABS_BY_ROUTE = {
     "menuVip",
     "standardKitchen",
     "price-list",
-    "data-menu",
   ],
 
   [ARCHIVE_MAIN_ROUTE]: [
@@ -249,5 +250,9 @@ export const NAV_BY_PATCH = {
   [CHART_AO_ROUTE]: {
     tabs: TABS_BY_ROUTE[CHART_AO_ROUTE],
     selectDate: true,
+  },
+  [MENU_MAIN_ROUTE]: {
+    tabs: TABS_BY_ROUTE[MENU_MAIN_ROUTE],
+    selectDate: false,
   },
 } satisfies Partial<NAV_BY_PATCH_TYPE>;

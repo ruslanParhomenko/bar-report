@@ -286,6 +286,7 @@ export default function TipsAddForm({
           barItem={BAR_KEYS.filter(({ key }) => visibleBars[key])}
           className="m-0 h-full p-0"
           disableYAxis={disabled}
+          withLabelLIst={false}
         />
         <CustomLegend
           items={BAR_KEYS}

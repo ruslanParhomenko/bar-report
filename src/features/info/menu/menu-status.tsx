@@ -6,7 +6,7 @@ export default function StatusMenu({ data }: { data: Menu | null }) {
   const selectData = data && data.statusMenu;
 
   return (
-    <div className="mx-auto flex w-full max-w-7xl flex-col gap-2 pt-4 md:flex-row print:grid print:grid-cols-4">
+    <div className="mx-auto flex max-w-[90dvw] flex-col gap-3 pt-4 md:flex-row print:grid print:grid-cols-4 print:p-0">
       {columns.map((col) => (
         <Card
           key={col.key}

@@ -36,6 +36,7 @@ type CustomChartProps = {
   barItem: BarItem[];
   className?: string;
   withLegend?: boolean;
+  withLabelLIst?: boolean;
   vertical?: boolean;
   disableTooltip?: boolean;
   disableYAxis?: boolean;
@@ -46,6 +47,7 @@ export default function CustomChart({
   barItem,
   className,
   withLegend = false,
+  withLabelLIst = true,
   vertical = false,
   disableTooltip = false,
   disableYAxis = false,
@@ -96,12 +98,14 @@ export default function CustomChart({
           )}
           {barItem.map(({ key, color }) => (
             <Bar key={key} dataKey={key} fill={color} radius={6}>
-              <LabelList
-                dataKey={key}
-                values={key}
-                position="top"
-                fill="white"
-              />
+              {withLabelLIst && (
+                <LabelList
+                  dataKey={key}
+                  values={key}
+                  position="top"
+                  fill="white"
+                />
+              )}
             </Bar>
           ))}
         </BarChart>
@@ -143,7 +147,9 @@ export default function CustomChart({
         )}
         {barItem.map(({ key, color }) => (
           <Bar key={key} dataKey={key} fill={color} radius={6}>
-            <LabelList dataKey={key} values={key} position="top" fill="red" />
+            {withLabelLIst && (
+              <LabelList dataKey={key} values={key} position="top" fill="red" />
+            )}
           </Bar>
         ))}
       </BarChart>

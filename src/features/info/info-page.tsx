@@ -2,7 +2,6 @@
 import { MenuDataType } from "@/app/actions/data-constants/data-menu-action";
 import { Menu, StandardKitchen } from "@/app/actions/google/google-action";
 import { useSearchParams } from "next/navigation";
-import MenuToPrint from "./menu-to-print/menu-to-print";
 import StaffMenu from "./menu/menu-staff";
 import StatusMenu from "./menu/menu-status";
 import { MenuVip } from "./menu/menu-vip";
@@ -36,7 +35,6 @@ export default function InfoPage({ data }: InfoPageProps) {
         <StandardKitchenTable data={data.standardKitchen} />
       )}
       {tab === "price-list" && <PriceListTable data={data.priceList} />}
-      {tab === "data-menu" && <MenuToPrint data={data.dataMenu} />}
     </>
   );
 }

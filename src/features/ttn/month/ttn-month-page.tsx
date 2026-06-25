@@ -100,6 +100,7 @@ export default function TtnMonthPage({
           arrayRows={[...agentTTN]}
           normalizedSearch={normalizedSearch}
           disabled={!isEdit}
+          setSelectedDay={setSelectedDay}
         />
         <TTNFooterTable arrayRows={[...agentTTN]} monthDays={monthDays} />
       </table>

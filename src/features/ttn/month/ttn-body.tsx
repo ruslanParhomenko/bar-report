@@ -11,10 +11,12 @@ export default function TtnBodyTable({
   arrayRows,
   disabled,
   normalizedSearch,
+  setSelectedDay,
 }: {
   arrayRows: string[];
   disabled?: boolean;
   normalizedSearch: string;
+  setSelectedDay: (day: number) => void;
 }) {
   const { register, control, setValue } = useFormContext<TTNForm>();
 
@@ -125,6 +127,7 @@ export default function TtnBodyTable({
                       )}
                       onKeyDown={handleMultiTableNavigation}
                       disabled={disabled}
+                      onFocus={() => setSelectedDay(dayIndex + 1)}
                     />
                     <input
                       {...register(
@@ -138,6 +141,7 @@ export default function TtnBodyTable({
                       )}
                       onKeyDown={handleMultiTableNavigation}
                       disabled={disabled}
+                      onFocus={() => setSelectedDay(dayIndex + 1)}
                     />
                   </div>
                 </TableCell>

@@ -1,11 +1,20 @@
+import { getDataMenu } from "@/app/actions/data-constants/data-menu-action";
 import { getDataMenuDaily } from "@/app/actions/data-constants/data-menu-daily-action";
 import { getMenuDailyData } from "@/app/actions/menu-daily/menu-daily-action";
-import MenuDailyPage from "@/features/menu/menu-daily/menu-daily-page";
+import MenuPage from "@/features/menu/menu-page";
 
 export default async function Page() {
-  const data = await getDataMenuDaily();
+  const [dataMenuVip, dataMenuDaily, listMenuDaily] = await Promise.all([
+    getDataMenu(),
+    getMenuDailyData(),
+    getDataMenuDaily(),
+  ]);
 
-  const saveMenuDaily = await getMenuDailyData();
-
-  return <MenuDailyPage data={data} menuDaily={saveMenuDaily} />;
+  return (
+    <MenuPage
+      dataMenuVip={dataMenuVip}
+      dataMenuDaily={dataMenuDaily}
+      listMenuDaily={listMenuDaily}
+    />
+  );
 }

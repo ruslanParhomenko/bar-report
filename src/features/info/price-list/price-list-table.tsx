@@ -1,6 +1,7 @@
 "use client";
 
 import { PriceListType } from "@/app/actions/data-constants/data-price-list";
+import { Card, CardContent } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { useAbility } from "@/providers/ability-provider";
 
@@ -34,7 +35,7 @@ function CategoryBlock({
   return (
     <TableBody>
       <TableRow>
-        <TableCell colSpan={4} className="text-bl font-bold capitalize">
+        <TableCell colSpan={4} className="text-bl py-1.5 font-bold capitalize">
           {category}
         </TableCell>
       </TableRow>
@@ -64,20 +65,27 @@ export function PriceListTable({ data }: { data: PriceListType }) {
   return (
     <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4 print:grid-cols-4">
       {COLUMN_GROUPS.map((group, groupIndex) => (
-        <Table key={groupIndex}>
-          {group.map((category) => {
-            const list = priceList[category];
-            if (!list) return null;
-            return (
-              <CategoryBlock
-                key={category}
-                category={category}
-                list={list}
-                currency={currency}
-              />
-            );
-          })}
-        </Table>
+        <Card
+          key={groupIndex}
+          className="min-w-0 flex-1 rounded-2xl bg-transparent shadow-sm"
+        >
+          <CardContent>
+            <Table>
+              {group.map((category) => {
+                const list = priceList[category];
+                if (!list) return null;
+                return (
+                  <CategoryBlock
+                    key={category}
+                    category={category}
+                    list={list}
+                    currency={currency}
+                  />
+                );
+              })}
+            </Table>
+          </CardContent>
+        </Card>
       ))}
     </div>
   );

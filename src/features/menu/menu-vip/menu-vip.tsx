@@ -65,7 +65,7 @@ function Section({
       ))}
 
       {section.subgroups?.map((sg, i) => (
-        <div key={i} className="mt-1">
+        <div key={i} className="print:mt-1">
           <p
             className="mb-px text-center font-bold tracking-wider text-[#1a1a1a] uppercase"
             style={{ fontSize: "0.55rem" }}
@@ -169,12 +169,6 @@ function SinglePage({
 
   return (
     <div className="flex h-full flex-col">
-      <div className="no-print flex shrink-0 px-2 py-1.5">
-        <button onClick={() => handlePrint()} className="cursor-pointer">
-          <PrinterIcon className="h-4 w-4" />
-        </button>
-      </div>
-
       <div
         ref={printRef}
         dir={isRtl ? "rtl" : "ltr"}
@@ -198,11 +192,16 @@ function SinglePage({
           })}
         </div>
       </div>
+      <div className="no-print flex shrink-0 px-2">
+        <button onClick={() => handlePrint()} className="cursor-pointer">
+          <PrinterIcon className="h-4 w-4" />
+        </button>
+      </div>
     </div>
   );
 }
 
-export default function MenuPage({ data }: { data: MenuDataType | null }) {
+export default function MenuVip({ data }: { data: MenuDataType | null }) {
   const [currentLang, setCurrentLang] = useState<string>("ru");
 
   const globalT = useTranslations("Menu");
@@ -229,15 +228,13 @@ export default function MenuPage({ data }: { data: MenuDataType | null }) {
         href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
       />
 
-      <div className="no-print flex justify-center gap-4">
-        {["ru", "ro", "en", "he", "tr"].map((lang) => (
+      <div className="no-print flex justify-center gap-4 pb-1">
+        {["ru", "en", "he", "tr"].map((lang) => (
           <button
             key={lang}
             onClick={() => setCurrentLang(lang)}
-            className={`cursor-pointer rounded px-1 text-sm uppercase transition-all ${
-              currentLang === lang
-                ? "bg-black font-bold text-white"
-                : "bg-white text-gray-700 hover:bg-gray-50"
+            className={`cursor-pointer rounded text-xs uppercase transition-all ${
+              currentLang === lang ? "text-rd font-bold" : "text-bl"
             }`}
           >
             {lang}
@@ -246,16 +243,13 @@ export default function MenuPage({ data }: { data: MenuDataType | null }) {
       </div>
 
       <div
-        className="flex h-[86dvh] max-w-[90dvw]"
+        className="flex h-[87dvh] max-w-[90dvw]"
         style={{
           fontFamily: "'Playfair Display', Georgia, 'Times New Roman', serif",
         }}
       >
         {data.pages.map((page, i) => (
-          <div
-            key={page.id}
-            className="flex w-1/2 flex-col border-r border-[#bfb09a] last:border-r-0"
-          >
+          <div key={page.id} className="flex w-1/2 flex-col">
             <SinglePage
               page={page}
               label={i === 0 ? "Page 1" : "Page 2"}
