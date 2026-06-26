@@ -18,7 +18,8 @@
     "algorithm": "algoritm",
     "users": "utilizatori",
     "constructor-chart": "diagrame",
-    "parser-1c": "parser 1c"
+    "parser-1c": "parser 1c",
+    "stop-list": "stop-list"
   },
   "ReportKitchen": {
     "shifts": "schimb",

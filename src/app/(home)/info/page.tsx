@@ -4,15 +4,13 @@ import {
   getMenuCached,
   getStandardKitchenCached,
 } from "@/app/actions/google/google-action";
-import { getStopList } from "@/app/actions/stop-list/stop-list-action";
 import InfoPage from "@/features/info/info-page";
 
 export default async function Page() {
-  const [standardKitchenRes, menuRes, stopListRes, priceList, dataMenu] =
+  const [standardKitchenRes, menuRes, priceList, dataMenu] =
     await Promise.allSettled([
       getStandardKitchenCached(),
       getMenuCached(),
-      getStopList(),
       getDataPriceList(),
       getDataMenu(),
     ]);
@@ -25,7 +23,6 @@ export default async function Page() {
             ? standardKitchenRes.value
             : null,
         menu: menuRes.status === "fulfilled" ? menuRes.value : null,
-        stopList: stopListRes.status === "fulfilled" ? stopListRes.value : null,
         priceList: priceList.status === "fulfilled" ? priceList.value : null,
         dataMenu: dataMenu.status === "fulfilled" ? dataMenu.value : null,
       }}

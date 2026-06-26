@@ -34,10 +34,10 @@ export default function ChartCashPage({
 
   const [visibleBars, setVisibleBars] = useState<Record<BarKey, boolean>>({
     cash: true,
-    visa: true,
-    "nbm-coll": true,
-    "bank-coll": true,
-    banquet: true,
+    visa: false,
+    "nbm-coll": false,
+    "bank-coll": false,
+    banquet: false,
   });
 
   const dataCash = dataCashYear?.find((cash) => cash.id === month)?.cashData

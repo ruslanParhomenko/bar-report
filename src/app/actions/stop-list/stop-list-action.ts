@@ -1,5 +1,5 @@
 "use server";
-import { StopListSchemaType } from "@/features/info/stop-list/schema";
+import { StopListSchemaType } from "@/features/stop-list/schema";
 import { dbAdmin } from "@/lib/firebase-admin";
 import { unstable_cache, updateTag } from "next/cache";
 

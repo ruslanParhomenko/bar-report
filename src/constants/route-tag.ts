@@ -23,6 +23,8 @@ export const CREATE_USER_MAIN_ROUTE = "create-user";
 
 export const VIEW_EMPLOYEE_MAIN_ROUTE = "view-employee";
 
+export const STOP_LIST_MAIN_ROUTE = "stop-list";
+
 export const CHART_SCHEDULE_ROUTE = "chart-schedule";
 export const CHART_TIPS_ROUTE = "chart-tips";
 export const CHART_ARCHIVE_ROUTE = "chart-archive";

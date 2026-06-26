@@ -66,11 +66,11 @@ export default function ChartResultPage({
   });
 
   const [visibleBars, setVisibleBars] = useState<Record<BarKey, boolean>>({
-    salary: true,
-    tips: true,
+    salary: false,
+    tips: false,
     total: true,
-    hours: true,
-    rate: true,
+    hours: false,
+    rate: false,
   });
   const chartDataMonth: ChartDataItem[] = rows.map((row) => ({
     name:

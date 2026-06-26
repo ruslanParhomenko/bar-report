@@ -7,14 +7,11 @@ import StatusMenu from "./menu/menu-status";
 import { MenuVip } from "./menu/menu-vip";
 import { PriceListTable } from "./price-list/price-list-table";
 import StandardKitchenTable from "./standard/standard-kitchen";
-import { StopListSchemaType } from "./stop-list/schema";
-import StopListForm from "./stop-list/stop-list-form";
 
 type InfoPageProps = {
   data: {
     standardKitchen: StandardKitchen[] | null;
     menu: Menu | null;
-    stopList: StopListSchemaType | null;
     priceList: any | null;
     dataMenu: MenuDataType | null;
   };
@@ -24,8 +21,6 @@ export default function InfoPage({ data }: InfoPageProps) {
   const tab = useSearchParams().get("tab");
   return (
     <>
-      {tab === "stopList" && <StopListForm data={data.stopList || null} />}
-
       {tab === "statusMenu" && <StatusMenu data={data.menu} />}
 
       {tab === "staffMenu" && <StaffMenu data={data.menu} />}

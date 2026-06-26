@@ -14,6 +14,7 @@ import {
   RESULT_MAIN_ROUTE,
   SCHEDULE_MAIN_ROUTE,
   SETTING_MAIN_ROUTE,
+  STOP_LIST_MAIN_ROUTE,
   TIPS_MAIN_ROUTE,
   TTN_MAIN_ROUTE,
   USERS_MAIN_ROUTE,
@@ -32,6 +33,7 @@ import {
   Info,
   List,
   Martini,
+  MilkOff,
   PersonStandingIcon,
   Settings,
   SigmaIcon,
@@ -55,6 +57,11 @@ export const SIDEBAR_NAVIGATION = [
     title: ALGORITHM_MAIN_ROUTE,
     url: ALGORITHM_MAIN_ROUTE,
     icon: CodeIcon,
+  },
+  {
+    title: STOP_LIST_MAIN_ROUTE,
+    url: STOP_LIST_MAIN_ROUTE,
+    icon: MilkOff,
   },
   {
     title: REPORTS_BAR_ROUTE,

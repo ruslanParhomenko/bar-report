@@ -6,8 +6,8 @@ export const ROLE_URL = {
 };
 export const SHIFTS = {
   bar: ["8", "12", "18", "20"],
-  cucina: ["7", "8.", "19"],
-  dish: ["7", "18", "19"],
+  cucina: ["7", "8", "19"],
+  dish: ["7", "18", "19", "24"],
 };
 
 export const TIME_BY_SHIFT = {
@@ -20,6 +20,7 @@ export const TIME_BY_SHIFT = {
   18: "18:00 - 06:00",
   19: "19:00 - 07:00",
   20: "20:00 - 08:00",
+  24: "07:00 - 07:00",
 };
 
 export const COLOR_SHIFT = {
@@ -43,6 +44,7 @@ export const SHIFT_OPTIONS = [
   "18",
   "19",
   "20",
+  "24",
 ];
 export const SHIFT_HOURS_MAP_DAY: Record<string, number> = {
   "7": 12,

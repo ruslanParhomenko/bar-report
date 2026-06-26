@@ -36,7 +36,7 @@ export default function ChartTTNPage({
   const [visibleBars, setVisibleBars] = useState<Record<BarKey, boolean>>({
     payment: true,
     purchase: true,
-    final: true,
+    final: false,
   });
 
   const dataTTNMonth = dataTTN?.find((data) => data.id === month);
@@ -59,9 +59,9 @@ export default function ChartTTNPage({
 
     return {
       name: String(day.day),
-      payment: totalPayment,
-      purchase: totalPurchase,
-      final: totalPurchase - totalPayment,
+      payment: Number(totalPayment.toFixed(2)),
+      purchase: Number(totalPurchase.toFixed(2)),
+      final: Number((totalPurchase - totalPayment).toFixed(2)),
     };
   });
 
@@ -87,9 +87,9 @@ export default function ChartTTNPage({
 
     return {
       name: agent,
-      payment,
-      purchase,
-      final: purchase - payment,
+      payment: Number(payment.toFixed(2)),
+      purchase: Number(purchase.toFixed(2)),
+      final: Number((purchase - payment).toFixed(2)),
     };
   });
 
@@ -115,9 +115,9 @@ export default function ChartTTNPage({
 
     return {
       name: monthName,
-      payment: totalPlus,
-      purchase: totalMinus,
-      final: totalMinus - totalPlus,
+      payment: Number(totalPlus.toFixed(2)),
+      purchase: Number(totalMinus.toFixed(2)),
+      final: Number((totalMinus - totalPlus).toFixed(2)),
     };
   });
 

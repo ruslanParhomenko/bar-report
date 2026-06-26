@@ -4,10 +4,12 @@ import { Input } from "@/components/ui/input";
 import { useRef, useState } from "react";
 
 import CustomChart from "@/components/chart/custom-chart";
+import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { cn } from "@/lib/utils";
+import { Trash } from "lucide-react";
 import { parseExp } from "../setting/utils";
 
 type ChartDataItem = { name: string; value: number };
@@ -49,6 +51,7 @@ export default function ParserPage() {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const [filters, setFilters] = useState<"month" | "product">("month");
+  const [searchInput, setSearchInput] = useState<string>("");
   const [activeTab, setActiveTab] = useState<string>(DEFAULT_TAB);
 
   const BAR_KEYS: BarItem[] = [
@@ -182,20 +185,38 @@ export default function ParserPage() {
 
       {filters === "month" && (
         <div className="flex flex-wrap justify-start gap-1 px-4 pb-2 print:hidden">
-          {uniqueName.map((name) => (
-            <span
-              key={name}
-              onClick={() => setActiveItem(name)}
-              className={cn(
-                "cursor-pointer rounded-full px-3 py-1 text-xs transition-opacity",
-                activeItem !== name && "opacity-35",
-              )}
-            >
-              {name}
-            </span>
-          ))}
+          {uniqueName
+            .filter((name) => name.includes(searchInput))
+            .map((name) => (
+              <span
+                key={name}
+                onClick={() => setActiveItem(name)}
+                className={cn(
+                  "cursor-pointer rounded-full px-3 py-1 text-xs transition-opacity",
+                  activeItem !== name && "opacity-35",
+                )}
+              >
+                {name}
+              </span>
+            ))}
         </div>
       )}
+      <div className="flex items-center justify-center gap-1 px-4 pb-2 print:hidden">
+        <Input
+          className="h-7 w-40"
+          onChange={(e) => setSearchInput(e.target.value)}
+          placeholder="Search..."
+        />
+        {searchInput && (
+          <Button
+            onClick={() => setSearchInput("")}
+            variant="destructive"
+            className="h-6"
+          >
+            <Trash className="h-2 w-2 text-white" />
+          </Button>
+        )}
+      </div>
     </div>
   );
 }

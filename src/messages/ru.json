@@ -18,7 +18,8 @@
     "algorithm": "алгоритм",
     "users": "пользователи",
     "constructor-chart": "диаграммы",
-    "parser-1c": "парсер 1с"
+    "parser-1c": "парсер 1с",
+    "stop-list": "стоп-лист"
   },
   "ReportKitchen": {
     "shifts": "смены",

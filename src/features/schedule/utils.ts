@@ -22,8 +22,10 @@ export function getShiftCounts(
 
   rowShifts.forEach((row) => {
     row.shifts.forEach((shiftValue: string, dayIndex: number) => {
-      if (SHIFT_OPTIONS.includes(shiftValue)) {
-        result[shiftValue][dayIndex] += 1;
+      const parts = shiftValue.split(".");
+      const matchedPart = parts.find((part) => SHIFT_OPTIONS.includes(part));
+      if (matchedPart) {
+        result[matchedPart][dayIndex] += 1;
       }
     });
   });

@@ -11,6 +11,7 @@ export default function ScheduleTableFooter({
   role: string;
 }) {
   if (!shiftCounts) return null;
+
   return (
     <TableFooter data-html2canvas-ignore="true">
       {shiftCounts &&

@@ -61,6 +61,7 @@ export default function SchedulePage({
   const { daysCount, month, year } = useMonthDays();
 
   const rowShifts = isEdit ? form.watch("rowShifts") : schedule?.rowShifts;
+
   const shiftCounts = getShiftCounts(rowShifts ?? []);
 
   // submit
@@ -137,6 +138,7 @@ export default function SchedulePage({
           setSelectedDay={setSelectedDay}
           isEdit={isEdit}
         />
+
         {!isEdit ? (
           <ScheduleTableBody schedule={schedule} selectedDay={selectedDay} />
         ) : (

@@ -102,7 +102,7 @@ export default function CustomChart({
                 <LabelList
                   dataKey={key}
                   values={key}
-                  position="top"
+                  position="center"
                   fill="white"
                 />
               )}
