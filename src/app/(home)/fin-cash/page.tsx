@@ -1,4 +1,7 @@
-import { getFinByYear } from "@/app/actions/fin-cash/fin-action";
+import {
+  getFinBarByYear,
+  getFinByYear,
+} from "@/app/actions/fin-cash/fin-action";
 import FinPage from "@/features/fin-cash/fin-page";
 
 export default async function Page({
@@ -8,6 +11,15 @@ export default async function Page({
 }) {
   const { year } = await searchParams;
   if (!year) return null;
-  const finCashData = await getFinByYear(year);
-  return <FinPage finCashData={finCashData} year={year} />;
+  const [finCashData, finBarData] = await Promise.all([
+    getFinByYear(year),
+    getFinBarByYear(year),
+  ]);
+
+  console.log("finCashData", finCashData);
+  console.log("finBarData", finBarData);
+
+  return (
+    <FinPage finCashData={finCashData} finBarData={finBarData} year={year} />
+  );
 }

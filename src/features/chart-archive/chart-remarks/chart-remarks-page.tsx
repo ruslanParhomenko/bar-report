@@ -47,10 +47,10 @@ export default function ChartRemarksPage({
   const [range, setRange] = useState<MonthRange>();
 
   const [visibleBars, setVisibleBars] = useState<Record<BarKey, boolean>>({
-    reason: true,
+    reason: false,
     penalty: true,
     bonus: true,
-    hours: true,
+    hours: false,
   });
 
   const toggleBar = (key: BarKey) => {

@@ -14,6 +14,7 @@ export const TIPS_ACTION_TAG = "tips";
 export const TIPS_ADD_ACTION_TAG = "tips-add";
 export const CASH_ACTION_TAG = "cash";
 export const FIN_CASH_ACTION_TAG = "fin_cash";
+export const FIN_BAR_ACTION_TAG = "fin-bar";
 export const AO_REPORT_ACTION_TAG = "ao-report";
 export const TTN_ACTION_TAG = "ttn-report";
 export const ALGORITHM_ACTION_TAG = "algorithm";

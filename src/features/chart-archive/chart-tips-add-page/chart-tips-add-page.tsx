@@ -33,9 +33,9 @@ export default function ChartTipsAddPage({
   const { month } = useMonthDays();
 
   const [visibleBars, setVisibleBars] = useState<Record<BarKey, boolean>>({
-    tipsMdl: true,
-    tipsChips: true,
-    tipsTotal: true,
+    tipsMdl: false,
+    tipsChips: false,
+    tipsTotal: false,
     resultTips: true,
   });
 

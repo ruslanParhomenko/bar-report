@@ -15,3 +15,20 @@ export const FIN_CASH_ITEMS_LIST = [
   "533.2-9%",
   "533.1-24%",
 ];
+
+export const FIN_BAR_ITEMS_LIST = [
+  "521",
+  "reception",
+  "pit",
+  "admin",
+  "status",
+  "free",
+  "furchet",
+  "vip",
+  "cash",
+  "junket",
+  "office",
+  "staff",
+  "staff-furchet",
+  "714",
+];

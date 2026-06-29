@@ -111,7 +111,7 @@ export const TABS_BY_ROUTE = {
   [TTN_MAIN_ROUTE]: ["month", "day", "year"],
   [CHART_TTN_ROUTE]: ["month", "day", "year"],
 
-  [FIN_CASH_MAIN_ROUTE]: [],
+  [FIN_CASH_MAIN_ROUTE]: ["fin-nori", "fin-bar"],
 
   [RESULT_MAIN_ROUTE]: ["barmen", "waiters", "cucina", "dish"],
   [CHART_RESULT_ROUTE]: ["barmen", "waiters", "cucina", "dish"],

@@ -2,7 +2,6 @@ import {
   MenuDataType,
   MenuItem,
 } from "@/app/actions/data-constants/data-menu-action";
-import { Card } from "@/components/ui/card";
 import { useTranslations } from "next-intl";
 
 function SectionBlock({
@@ -22,7 +21,7 @@ function SectionBlock({
         {title}
       </h2>
 
-      <div className="flex gap-4 text-xs">
+      <div className="flex gap-3 text-xs">
         <ul className="w-1/2 list-none space-y-0.5">
           {items.map((item, id) => (
             <li key={id} className="leading-tight">
@@ -61,21 +60,28 @@ export function MenuVip({ data }: { data: MenuDataType | null }) {
     .filter((col) => col.type !== "cover");
 
   return (
-    <div className="grid grid-cols-1 gap-4 px-4 md:grid-cols-3">
+    <div className="grid grid-cols-1 gap-3 p-4 md:grid-cols-3">
       {columns.map((column, colIndex) => (
-        <Card key={colIndex} className="bg-transparent px-4 py-2">
+        <div
+          key={colIndex}
+          className={`flex flex-col space-y-0.5 ${
+            colIndex !== columns.length - 1 ? "md:border-r md:pr-3" : ""
+          }`}
+        >
           {(column.sections ?? []).map((section, secIndex) => {
             if (section.subgroups?.length) {
               return (
                 <div key={secIndex}>
-                  <h2 className="flex items-center justify-center py-0.5 text-sm font-bold tracking-wide uppercase">
+                  <h2 className="py-0.5 text-center text-sm font-bold tracking-wide uppercase">
                     {t(section.title)}
                   </h2>
+
                   {section.subgroups.map((sub, subIndex) => (
                     <div key={subIndex}>
                       <p className="text-muted-foreground text-center text-xs font-semibold">
                         {sub.label}
                       </p>
+
                       <SectionBlock title="" items={sub.items} t={t} />
                     </div>
                   ))}
@@ -92,7 +98,7 @@ export function MenuVip({ data }: { data: MenuDataType | null }) {
               />
             );
           })}
-        </Card>
+        </div>
       ))}
     </div>
   );

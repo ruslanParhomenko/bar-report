@@ -1,39 +1,35 @@
 import { Menu } from "@/app/actions/google/google-action";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { columns, LABELS } from "./constants";
 
 export default function StatusMenu({ data }: { data: Menu | null }) {
   const selectData = data && data.statusMenu;
 
   return (
-    <div className="mx-auto flex max-w-[90dvw] flex-col gap-3 pt-4 md:flex-row print:grid print:grid-cols-4 print:p-0">
-      {columns.map((col) => (
-        <Card
+    <div className="grid grid-cols-1 gap-3 p-4 md:grid-cols-4">
+      {columns.map((col, index) => (
+        <div
           key={col.key}
-          className="min-w-0 flex-1 rounded-2xl bg-transparent shadow-sm"
+          className={`flex flex-col space-y-2 ${index !== columns.length - 1 ? "md:border-r md:border-gray-300 md:pr-3" : ""} `}
         >
-          <CardHeader>
-            <CardTitle className="text-md text-center font-bold">
-              {col.title}
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <ul className="space-y-1 text-sm">
-              {selectData?.[col.key].map((item, idx) => (
-                <li
-                  key={idx}
-                  className={
-                    LABELS.includes(item)
-                      ? "text-bl pb-1 text-center font-bold"
-                      : "truncate"
-                  }
-                >
-                  {item === "-" ? <span> .</span> : item}
-                </li>
-              ))}
-            </ul>
-          </CardContent>
-        </Card>
+          <span className="text-md w-full py-4 text-center font-bold">
+            {col.title}
+          </span>
+
+          <ul className="space-y-1 text-sm">
+            {selectData?.[col.key].map((item, idx) => (
+              <li
+                key={idx}
+                className={
+                  LABELS.includes(item)
+                    ? "text-bl pb-1 text-center font-bold"
+                    : "truncate"
+                }
+              >
+                {item === "-" ? <span>.</span> : item}
+              </li>
+            ))}
+          </ul>
+        </div>
       ))}
     </div>
   );
