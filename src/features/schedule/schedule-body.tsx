@@ -29,7 +29,10 @@ export default function ScheduleTableBody({
           ? calculateSalaryByHours(row).toFixed(0).toString()
           : "0";
         return (
-          <TableRow key={row.id} className="[&>td]:text-xs">
+          <TableRow
+            key={row.id}
+            className="print:[&>td]:text-md! print:h-12 [&>td]:text-xs"
+          >
             <TableCell className="px-1">{rowIndex + 1}</TableCell>
             <TableCell className="text-bl px-0">{row.dayHours}</TableCell>
             <TableCell className="text-bl px-0">{row.nightHours}</TableCell>

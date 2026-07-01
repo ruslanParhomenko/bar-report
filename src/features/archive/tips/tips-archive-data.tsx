@@ -17,6 +17,10 @@ export default function TipsArchiveData({
 }) {
   const [opened, setOpened] = useState<number[]>([]);
 
+  const sorted = data
+    ? [...data].sort((a, b) => Number(b.id) - Number(a.id))
+    : [];
+
   useEffect(() => {
     if (!data) return;
     if (sorted.length > 0) {
@@ -31,14 +35,12 @@ export default function TipsArchiveData({
   };
 
   if (!data) return null;
-  const sorted = data
-    ? [...data].sort((a, b) => Number(b.id) - Number(a.id))
-    : [];
 
   const formatTime = (ms: number) => {
     const date = new Date(ms);
     return `${date.getHours()}:${String(date.getMinutes()).padStart(2, "0")}`;
   };
+
   return (
     <>
       {sorted.map((dayItem, index) => {
@@ -51,6 +53,24 @@ export default function TipsArchiveData({
         const { totalTips, getEmployeeTotal, calcEmployeeTotal } =
           useTipsCalculation(employees, currencyDay);
 
+        const totalMdl = employees.reduce(
+          (sum, emp) =>
+            sum +
+            +emp.amount
+              .filter((a) => a.typeAmount === "mdl")
+              .reduce((s, a) => s + +a.value, 0),
+          0,
+        );
+
+        const totalChips = employees.reduce(
+          (sum, emp) =>
+            sum +
+            +emp.amount
+              .filter((a) => a.typeAmount === "chips")
+              .reduce((s, a) => s + +a.value, 0),
+          0,
+        );
+
         return (
           <Card
             key={index}
@@ -61,6 +81,12 @@ export default function TipsArchiveData({
               <span className="pr-4">day: {dayItem.id} :</span>
               <span className="text-bl px-2">
                 total tips: {totalTips.toFixed(0)}
+              </span>
+              <span className="px-2 text-green-600">
+                total mdl: {totalMdl.toFixed(0)}
+              </span>
+              <span className="px-2 text-blue-600">
+                total chips: {totalChips.toFixed(0)}
               </span>
               <span className="text-bl px-2">
                 currency: {dayItem.currency.slice(0, 5)}
@@ -96,7 +122,7 @@ export default function TipsArchiveData({
                           </TableCell>
                           <TableCell
                             className={cn(
-                              "bg-background sticky left-0 z-10 w-22 text-xs md:bg-transparent",
+                              "bg-background sticky left-0 z-10 w-24 text-xs md:bg-transparent",
                               emp.role === "barmen" && "text-bl",
                             )}
                           >
@@ -127,22 +153,32 @@ export default function TipsArchiveData({
                             {personalTotal.toFixed(0)}
                           </TableCell>
 
-                          {emp.amount.map((a, i) => (
-                            <TableCell key={i} className="group">
-                              <div className="text-muted-foreground text-center text-xs group-hover:text-red-600">
-                                {a.time}
-                              </div>
-                              <div
-                                className={cn(
-                                  "text-center text-xs font-medium",
-                                  a.typeAmount === "mdl" && "text-green-600",
-                                  a.typeAmount === "chips" && "text-blue-600",
-                                )}
-                              >
-                                {a.value} {a.typeAmount === "mdl" ? "" : "$"}
-                              </div>
-                            </TableCell>
-                          ))}
+                          {/* Единственная ячейка вместо переменного числа TableCell — 
+                              так количество колонок в таблице всегда одинаковое, 
+                              и table-layout: fixed больше не "сжимает" остальные колонки */}
+                          <TableCell className="min-w-0">
+                            <div className="flex gap-1 md:flex-wrap">
+                              {emp.amount.map((a, i) => (
+                                <div key={i} className="group w-12 shrink-0">
+                                  <div className="text-muted-foreground text-center text-xs group-hover:text-red-600">
+                                    {a.time}
+                                  </div>
+                                  <div
+                                    className={cn(
+                                      "text-center text-xs font-medium",
+                                      a.typeAmount === "mdl" &&
+                                        "text-green-600",
+                                      a.typeAmount === "chips" &&
+                                        "text-blue-600",
+                                    )}
+                                  >
+                                    {a.value}{" "}
+                                    {a.typeAmount === "mdl" ? "" : "$"}
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          </TableCell>
                         </TableRow>
                       );
                     })}

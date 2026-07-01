@@ -2,6 +2,7 @@
 import AddRowButton from "@/components/buttons/add-row-button";
 import { MonthDaysCells } from "@/components/table/month-days-cells";
 import { TableCell, TableHeader, TableRow } from "@/components/ui/table";
+import { cn } from "@/lib/utils";
 import { useMonthDays } from "@/providers/month-days-provider";
 
 export default function ScheduleTableHeader({
@@ -22,8 +23,11 @@ export default function ScheduleTableHeader({
         <TableCell className="w-6 p-0">
           {isEdit && <AddRowButton isEdit={isEdit} addNewRow={addNewRow} />}
         </TableCell>
-        <TableCell colSpan={5} className="w-34"></TableCell>
-        <TableCell className="w-25 pl-2">
+        <TableCell
+          colSpan={5}
+          className={cn(isEdit ? "w-34" : "w-30")}
+        ></TableCell>
+        <TableCell className="w-24 pl-2">
           {month?.toUpperCase() || ""}
         </TableCell>
 
