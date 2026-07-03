@@ -49,14 +49,13 @@ export default function ChartSchedulePage({
     { key: "total", color: "var(--color-gn)", label: "Total" },
   ];
   const [visibleBars, setVisibleBars] = useState<Record<BarKey, boolean>>({
-    day: true,
-    night: true,
+    day: false,
+    night: false,
     total: true,
   });
 
   const scheduleDataByRole = schedules || [];
 
-  // Уникальные имена для выбранного tab
   const uniqueNames = [
     ...new Set(
       schedules?.flatMap(
@@ -103,7 +102,7 @@ export default function ChartSchedulePage({
 
   return (
     <>
-      <div className="flex items-center justify-start gap-4 px-6">
+      <div className="flex items-center justify-center gap-4 md:px-6 print:hidden">
         <Label
           className={cn(
             "text-xs",
@@ -127,6 +126,7 @@ export default function ChartSchedulePage({
           year
         </Label>
       </div>
+
       <CustomChart
         chartData={chartData}
         barItem={BAR_KEYS.filter(({ key }) => visibleBars[key as BarKey])}
@@ -137,7 +137,7 @@ export default function ChartSchedulePage({
         visibleItems={visibleBars}
         onToggle={toggleBar}
       />
-      <div className="flex flex-wrap gap-1 px-4 pb-2">
+      <div className="flex flex-wrap justify-center gap-1 md:px-4 md:pb-2">
         {filters === "year" &&
           uniqueNames.map((name) => (
             <span
@@ -146,8 +146,9 @@ export default function ChartSchedulePage({
                 setActiveName((prev) => (prev === name ? "" : name))
               }
               className={cn(
-                "cursor-pointer rounded-full px-3 py-1 text-xs transition-opacity",
+                "cursor-pointer rounded-full px-1 py-1 text-xs transition-opacity md:px-3",
                 activeName && activeName !== name && "opacity-35",
+                activeName !== name && "print:hidden",
               )}
             >
               {name}

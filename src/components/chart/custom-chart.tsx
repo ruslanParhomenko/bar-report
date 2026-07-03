@@ -70,9 +70,14 @@ export default function CustomChart({
     return (
       <ChartContainer
         config={chartConfig}
-        className={cn("mt-2 w-[90dvw] md:mt-6", height, className)}
+        className={cn("mt-4 w-[90dvw] md:mt-6", height, className)}
       >
-        <BarChart accessibilityLayer data={chartData} layout="vertical">
+        <BarChart
+          accessibilityLayer
+          data={chartData}
+          layout="vertical"
+          margin={{ top: 10, right: 30, left: 0, bottom: 10 }}
+        >
           <CartesianGrid horizontal={false} />
 
           <XAxis
@@ -102,8 +107,8 @@ export default function CustomChart({
                 <LabelList
                   dataKey={key}
                   values={key}
-                  position="center"
-                  fill="white"
+                  position="right"
+                  fill="black"
                 />
               )}
             </Bar>
@@ -118,7 +123,11 @@ export default function CustomChart({
       config={chartConfig}
       className={cn("mt-2 w-[90dvw] md:mt-6", height, className)}
     >
-      <BarChart accessibilityLayer data={chartData}>
+      <BarChart
+        accessibilityLayer
+        data={chartData}
+        margin={{ top: 10, right: 0, left: 0, bottom: 0 }}
+      >
         <CartesianGrid vertical={false} />
         <XAxis
           dataKey="name"
