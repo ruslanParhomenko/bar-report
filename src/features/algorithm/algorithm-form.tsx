@@ -33,14 +33,14 @@ export default function AlgorithmForm({
 
           return (
             <TableRow key={item.id}>
-              <TableCell className="w-6 py-0">{idx + 1}</TableCell>
+              <TableCell className="w-6 p-1.5">{idx + 1}</TableCell>
 
-              <TableCell className="p-0">
+              <TableCell className="p-1">
                 <TextareaAutosize
                   {...register(`${fieldName}.${idx}.value` as const)}
                   readOnly={!isEdit}
                   className={cn(
-                    "border-input placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 dark:bg-input/30 flex w-full rounded-md border bg-transparent px-3 py-2 text-base shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
+                    "border-input placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 dark:bg-input/30 flex w-full rounded-md border bg-transparent p-1 shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50",
                     "bg-background! min-h-1 resize-none border-0 text-xs! shadow-none",
                     theme === "dark" ? "border-0" : "",
                   )}
@@ -48,7 +48,7 @@ export default function AlgorithmForm({
               </TableCell>
 
               {isEdit && (
-                <TableCell className="w-16 p-0">
+                <TableCell className="w-16 p-1">
                   <div className="flex gap-3">
                     {isLast && (
                       <button
