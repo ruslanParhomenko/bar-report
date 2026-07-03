@@ -2,9 +2,15 @@
 import { GetTipsAddByYear } from "@/app/actions/tips-add/tips-add-actions";
 import CustomChart from "@/components/chart/custom-chart";
 import CustomLegend from "@/components/chart/custom-legend";
+import {
+  MonthPicker,
+  MonthRange,
+} from "@/components/input-controlled/month-range";
 import { useAbility } from "@/providers/ability-provider";
 import { useMonthDays } from "@/providers/month-days-provider";
-import { useState } from "react";
+import { MONTHS } from "@/utils/get-month-days";
+import { TrashIcon } from "lucide-react";
+import { useMemo, useState } from "react";
 
 type ChartDataItem = {
   name: string;
@@ -28,7 +34,8 @@ export default function ChartTipsAddPage({
   dataTipsAdd: GetTipsAddByYear[];
   tab: string;
 }) {
-  const { isAdmin } = useAbility();
+  const { isAdmin, isManager, isUser } = useAbility();
+  const canSeeAll = isAdmin || isManager || isUser;
 
   const { month } = useMonthDays();
 
@@ -38,9 +45,12 @@ export default function ChartTipsAddPage({
     tipsTotal: false,
     resultTips: true,
   });
+  const [range, setRange] = useState<MonthRange>();
 
   const monthData = dataTipsAdd?.find((data) => data.id === month) || null;
+  const getMonthIndex = (id: string) => MONTHS.indexOf(id);
 
+  // chart data for month view
   const chartDataMonth: ChartDataItem[] = (monthData?.tipsAdd ?? [])
     .slice()
     .sort((a, b) => parseInt(a.id) - parseInt(b.id))
@@ -74,62 +84,62 @@ export default function ChartTipsAddPage({
         resultTips: parseFloat(resultTips.toFixed(0)),
       };
     });
-  // chartDataYear — один элемент на месяц (агрегат всех дней)
-  const yearTotals = chartDataMonth.reduce(
-    (acc, day) => ({
-      tipsMdl: acc.tipsMdl + day.tipsMdl,
-      tipsChips: acc.tipsChips + day.tipsChips,
-      tipsTotal: acc.tipsTotal + day.tipsTotal,
-      resultTips: acc.resultTips + day.resultTips,
-    }),
-    { tipsMdl: 0, tipsChips: 0, tipsTotal: 0, resultTips: 0 },
-  );
 
-  const chartDataYear: ChartDataItem[] = [
-    {
-      name: monthData?.id ?? "",
-      tipsMdl: parseFloat(yearTotals.tipsMdl.toFixed(0)),
-      tipsChips: parseFloat(yearTotals.tipsChips.toFixed(0)),
-      tipsTotal: parseFloat(yearTotals.tipsTotal.toFixed(0)),
-      resultTips: parseFloat(yearTotals.resultTips.toFixed(0)),
-    },
-  ];
+  // chart data for year view
 
-  const chartDataEmployee: ChartDataItem[] = (() => {
+  const dataTipsPrevMonth = useMemo(() => {
+    if (range?.from === undefined || range?.to === undefined) {
+      return dataTipsAdd;
+    }
+
+    const from = range.from;
+    const to = range.to;
+
+    return dataTipsAdd?.filter((data) => {
+      const idx = getMonthIndex(data.id);
+      return idx >= from && idx <= to;
+    });
+  }, [range, dataTipsAdd]);
+
+  const chartDataYear: ChartDataItem[] = (() => {
     const employeeMap = new Map<string, ChartDataItem>();
 
-    (monthData?.tipsAdd ?? []).forEach((day) => {
-      const currency = parseFloat(day.currency);
+    // dataTipsPrevMonth теперь массив месяцев (результат .filter),
+    // поэтому сначала проходим по месяцам, а затем по дням внутри каждого
+    (dataTipsPrevMonth ?? []).forEach((monthData) => {
+      (monthData.tipsAdd ?? []).forEach((day) => {
+        const currency = parseFloat(day.currency);
 
-      day.tipsAdd.forEach((employee) => {
-        const name = employee.employeeName.trim();
+        day.tipsAdd.forEach((employee) => {
+          const name = employee.employeeName.trim();
 
-        if (!employeeMap.has(name)) {
-          employeeMap.set(name, {
-            name: name.split(" ")[0],
-            tipsMdl: 0,
-            tipsChips: 0,
-            tipsTotal: 0,
-            resultTips: 0,
-          });
-        }
-
-        const entry = employeeMap.get(name)!;
-
-        employee.amount.forEach((a) => {
-          const val = parseFloat(a.value);
-          if (a.typeAmount === "mdl") {
-            entry.tipsMdl += val;
-          } else if (a.typeAmount === "chips") {
-            entry.tipsChips += val * currency;
+          if (!employeeMap.has(name)) {
+            employeeMap.set(name, {
+              name: name.split(" ")[0],
+              tipsMdl: 0,
+              tipsChips: 0,
+              tipsTotal: 0,
+              resultTips: 0,
+            });
           }
-        });
 
-        employee.resultAmount.forEach((r) => {
-          entry.resultTips += r.value;
-        });
+          const entry = employeeMap.get(name)!;
 
-        entry.tipsTotal = entry.tipsMdl + entry.tipsChips;
+          employee.amount.forEach((a) => {
+            const val = parseFloat(a.value);
+            if (a.typeAmount === "mdl") {
+              entry.tipsMdl += val;
+            } else if (a.typeAmount === "chips") {
+              entry.tipsChips += val * currency;
+            }
+          });
+
+          employee.resultAmount.forEach((r) => {
+            entry.resultTips += r.value;
+          });
+
+          entry.tipsTotal = entry.tipsMdl + entry.tipsChips;
+        });
       });
     });
 
@@ -142,12 +152,12 @@ export default function ChartTipsAddPage({
     }));
   })();
 
-  const chartData =
-    tab === "tips-month"
-      ? chartDataMonth
-      : tab === "tips-employees"
-        ? chartDataEmployee
-        : chartDataYear;
+  const CHART_DATA_MAP: Record<string, ChartDataItem[]> = {
+    "tips-month": chartDataMonth,
+    "tips-year": chartDataYear,
+  };
+
+  const chartData = CHART_DATA_MAP[tab];
 
   const BAR_KEYS: BarItem[] = [
     { key: "tipsMdl", color: "var(--color-bl)", label: "mdl" },
@@ -160,11 +170,31 @@ export default function ChartTipsAddPage({
     setVisibleBars((prev) => ({ ...prev, [key]: !prev[key] }));
   };
 
+  if (!canSeeAll) {
+    return (
+      <div className="text-rd flex h-full items-center justify-center">
+        no permissions
+      </div>
+    );
+  }
+
   return (
     <>
+      <div className="flex items-center justify-center gap-6 p-2">
+        <MonthPicker value={range} onChange={setRange} />
+        <button
+          disabled={!range}
+          type="button"
+          onClick={() => setRange(undefined)}
+          className="w-4"
+        >
+          {range && <TrashIcon className="text-rd h-4 w-4" />}
+        </button>
+      </div>
       <CustomChart
         chartData={chartData}
         barItem={BAR_KEYS.filter(({ key }) => visibleBars[key as BarKey])}
+        className="h-[77dvh]"
         disableTooltip={!isAdmin}
         disableYAxis={!isAdmin}
       />

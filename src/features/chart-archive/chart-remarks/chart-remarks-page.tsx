@@ -6,11 +6,10 @@ import {
   MonthPicker,
   MonthRange,
 } from "@/components/input-controlled/month-range";
-import { useMonthDays } from "@/providers/month-days-provider";
 import { MONTHS } from "@/utils/get-month-days";
 import { TrashIcon } from "lucide-react";
 import { useMemo, useState } from "react";
-import { getChartDataFromMonth, getChartDataFromYear } from "./utils";
+import { getChartDataFromYear } from "./utils";
 
 export type ChartDataItem = {
   name: string;
@@ -37,13 +36,9 @@ const BAR_KEYS: BarItem[] = [
 
 export default function ChartRemarksPage({
   dataRemarks,
-  tab,
 }: {
   dataRemarks: YearData[];
-  tab: string;
 }) {
-  const { month } = useMonthDays();
-
   const [range, setRange] = useState<MonthRange>();
 
   const [visibleBars, setVisibleBars] = useState<Record<BarKey, boolean>>({
@@ -57,13 +52,6 @@ export default function ChartRemarksPage({
     setVisibleBars((prev) => ({ ...prev, [key]: !prev[key] }));
   };
   const getMonthIndex = (id: string) => MONTHS.indexOf(id);
-
-  const dataRemarksMonth =
-    dataRemarks.find((data) => data.id === month) || null;
-
-  const chartDataMonth = dataRemarksMonth
-    ? getChartDataFromMonth(dataRemarksMonth)
-    : [];
 
   const dataRemarksPrevMonth = useMemo(() => {
     if (range?.from === undefined || range?.to === undefined) {
@@ -79,23 +67,22 @@ export default function ChartRemarksPage({
     });
   }, [range, dataRemarks]);
   const chartDataYear = getChartDataFromYear(dataRemarksPrevMonth || []);
-  const chartData = tab === "penalty-month" ? chartDataMonth : chartDataYear;
+  const chartData = chartDataYear;
 
   return (
     <>
-      {tab === "penalty-year" && (
-        <div className="flex items-center justify-center gap-6 p-2">
-          <MonthPicker value={range} onChange={setRange} />
-          <button
-            disabled={!range}
-            type="button"
-            onClick={() => setRange(undefined)}
-            className="w-4"
-          >
-            {range && <TrashIcon className="text-rd h-4 w-4" />}
-          </button>
-        </div>
-      )}
+      <div className="flex items-center justify-center gap-6 p-2">
+        <MonthPicker value={range} onChange={setRange} />
+        <button
+          disabled={!range}
+          type="button"
+          onClick={() => setRange(undefined)}
+          className="w-4"
+        >
+          {range && <TrashIcon className="text-rd h-4 w-4" />}
+        </button>
+      </div>
+
       <CustomChart
         chartData={chartData}
         barItem={BAR_KEYS.filter(({ key }) => visibleBars[key])}
