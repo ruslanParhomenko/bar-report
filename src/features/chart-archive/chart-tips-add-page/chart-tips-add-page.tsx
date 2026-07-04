@@ -86,7 +86,7 @@ export default function ChartTipsAddPage({
   const chartDataByEmployee: ChartDataItem[] = !activeName
     ? []
     : MONTHS.map((monthId) => {
-        const monthData = dataTipsPrevMonth.find((m) => m.id === monthId);
+        const monthData = dataTipsAdd?.find((m) => m.id === monthId);
 
         let tipsMdl = 0;
         let tipsChips = 0;
@@ -236,27 +236,30 @@ export default function ChartTipsAddPage({
 
   return (
     <>
-      <div className="flex items-center justify-center gap-6 p-2">
-        <MonthPicker
-          value={range}
-          onChange={setRange}
-          disabled={tab !== "tips-year" && tab !== "tips-employee"}
-        />
-        <button
-          disabled={!range}
-          type="button"
-          onClick={() => setRange(undefined)}
-          className="w-4"
-        >
-          {range && <TrashIcon className="text-rd h-4 w-4" />}
-        </button>
-      </div>
+      {tab === "tips-year" && (
+        <div className="flex items-center justify-center gap-6 p-2">
+          <MonthPicker value={range} onChange={setRange} />
+          <button
+            disabled={!range}
+            type="button"
+            onClick={() => setRange(undefined)}
+            className="w-4"
+          >
+            {range && <TrashIcon className="text-rd h-4 w-4" />}
+          </button>
+        </div>
+      )}
       <CustomChart
         chartData={chartData}
         barItem={BAR_KEYS.filter(({ key }) => visibleBars[key as BarKey])}
-        className={cn(tab === "tips-employee" ? "h-[66dvh]" : "h-[77dvh]")}
+        className={cn(
+          tab === "tips-year" || tab === "tips-employee"
+            ? "h-[70dvh]"
+            : "h-[77dvh]",
+        )}
         disableTooltip={!isAdmin}
         disableYAxis={!isAdmin}
+        vertical={tab === "tips-year"}
       />
 
       <CustomLegend

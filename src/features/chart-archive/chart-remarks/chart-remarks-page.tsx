@@ -87,6 +87,7 @@ export default function ChartRemarksPage({
         chartData={chartData}
         barItem={BAR_KEYS.filter(({ key }) => visibleBars[key])}
         className="h-[77dvh]"
+        vertical
       />
       <CustomLegend
         items={BAR_KEYS}

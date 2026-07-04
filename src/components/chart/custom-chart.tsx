@@ -20,12 +20,12 @@ import {
   ChartTooltipContent,
 } from "../ui/chart";
 
-type ChartDataItem = {
+export type ChartDataItem = {
   name: string;
   [key: string]: string | number;
 };
 
-type BarItem = {
+export type BarItem = {
   key: string;
   color: string;
   label: string;
