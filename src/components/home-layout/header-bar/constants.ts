@@ -90,7 +90,12 @@ export const TABS_BY_ROUTE = {
     "penalty-result",
     "tips-add",
   ],
-  [CHART_ARCHIVE_ROUTE]: ["penalty-year", "tips-month", "tips-year"],
+  [CHART_ARCHIVE_ROUTE]: [
+    "penalty-year",
+    "tips-day",
+    "tips-year",
+    "tips-employee",
+  ],
 
   [TIPS_MAIN_ROUTE]: ["tips-month", "tips-year"],
   [CHART_TIPS_ROUTE]: ["month", "year", "range"],

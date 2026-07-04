@@ -35,7 +35,6 @@ export const INVENTORY_DATA = [
   "Гильотина",
   "Буковина 0,5",
   "Om 0.5",
-  "Om 1.5 шт",
 ];
 
 // tobacco data

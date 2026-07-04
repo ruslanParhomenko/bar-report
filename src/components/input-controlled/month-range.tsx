@@ -21,10 +21,12 @@ export function MonthPicker({
   value,
   onChange,
   className,
+  disabled = false,
 }: {
   value?: MonthRange;
   onChange?: (value?: MonthRange) => void;
   className?: string;
+  disabled?: boolean;
 }) {
   const [open, setOpen] = React.useState(false);
 
@@ -76,6 +78,7 @@ export function MonthPicker({
           <Button
             variant="outline"
             className="h-7 w-60 items-center justify-center gap-4 text-left text-xs font-normal"
+            disabled={disabled}
           >
             <CalendarIcon className="mr-2 h-4 w-4" />
             {label}

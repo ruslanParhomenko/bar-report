@@ -6,6 +6,7 @@ import {
   MonthPicker,
   MonthRange,
 } from "@/components/input-controlled/month-range";
+import { cn } from "@/lib/utils";
 import { useAbility } from "@/providers/ability-provider";
 import { useMonthDays } from "@/providers/month-days-provider";
 import { MONTHS } from "@/utils/get-month-days";
@@ -46,12 +47,84 @@ export default function ChartTipsAddPage({
     resultTips: true,
   });
   const [range, setRange] = useState<MonthRange>();
+  const [activeName, setActiveName] = useState<string>("");
 
   const monthData = dataTipsAdd?.find((data) => data.id === month) || null;
   const getMonthIndex = (id: string) => MONTHS.indexOf(id);
 
+  // chart data for year view
+
+  const dataTipsPrevMonth = useMemo(() => {
+    if (range?.from === undefined || range?.to === undefined) {
+      return dataTipsAdd;
+    }
+
+    const from = range.from;
+    const to = range.to;
+
+    return dataTipsAdd?.filter((data) => {
+      const idx = getMonthIndex(data.id);
+      return idx >= from && idx <= to;
+    });
+  }, [range, dataTipsAdd]);
+
+  // chart data by employee for month view
+
+  const uniqueEmployees = useMemo(() => {
+    const employeeSet = new Set<string>();
+    const dataTipsAllDay = dataTipsAdd.flatMap((month) =>
+      month.tipsAdd.flatMap((day) => day.tipsAdd),
+    );
+    dataTipsAllDay.forEach((employee) => {
+      employeeSet.add(employee.employeeName.trim());
+    });
+    return Array.from(employeeSet);
+  }, [monthData]);
+
+  // chart data by employee for year view
+
+  const chartDataByEmployee: ChartDataItem[] = !activeName
+    ? []
+    : MONTHS.map((monthId) => {
+        const monthData = dataTipsPrevMonth.find((m) => m.id === monthId);
+
+        let tipsMdl = 0;
+        let tipsChips = 0;
+        let resultTips = 0;
+
+        (monthData?.tipsAdd ?? []).forEach((day) => {
+          const currency = parseFloat(day.currency);
+
+          day.tipsAdd
+            .filter((employee) => employee.employeeName.trim() === activeName)
+            .forEach((employee) => {
+              employee.amount.forEach((a) => {
+                const val = parseFloat(a.value);
+                if (a.typeAmount === "mdl") {
+                  tipsMdl += val;
+                } else if (a.typeAmount === "chips") {
+                  tipsChips += val * currency;
+                }
+              });
+              employee.resultAmount.forEach((r) => {
+                resultTips += r.value;
+              });
+            });
+        });
+
+        const tipsTotal = tipsMdl + tipsChips;
+
+        return {
+          name: monthId,
+          tipsMdl: parseFloat(tipsMdl.toFixed(0)),
+          tipsChips: parseFloat(tipsChips.toFixed(0)),
+          tipsTotal: parseFloat(tipsTotal.toFixed(0)),
+          resultTips: parseFloat(resultTips.toFixed(0)),
+        };
+      });
+
   // chart data for month view
-  const chartDataMonth: ChartDataItem[] = (monthData?.tipsAdd ?? [])
+  const chartDataTipsByDay: ChartDataItem[] = (monthData?.tipsAdd ?? [])
     .slice()
     .sort((a, b) => parseInt(a.id) - parseInt(b.id))
     .map((day) => {
@@ -85,27 +158,9 @@ export default function ChartTipsAddPage({
       };
     });
 
-  // chart data for year view
-
-  const dataTipsPrevMonth = useMemo(() => {
-    if (range?.from === undefined || range?.to === undefined) {
-      return dataTipsAdd;
-    }
-
-    const from = range.from;
-    const to = range.to;
-
-    return dataTipsAdd?.filter((data) => {
-      const idx = getMonthIndex(data.id);
-      return idx >= from && idx <= to;
-    });
-  }, [range, dataTipsAdd]);
-
   const chartDataYear: ChartDataItem[] = (() => {
     const employeeMap = new Map<string, ChartDataItem>();
 
-    // dataTipsPrevMonth теперь массив месяцев (результат .filter),
-    // поэтому сначала проходим по месяцам, а затем по дням внутри каждого
     (dataTipsPrevMonth ?? []).forEach((monthData) => {
       (monthData.tipsAdd ?? []).forEach((day) => {
         const currency = parseFloat(day.currency);
@@ -153,8 +208,9 @@ export default function ChartTipsAddPage({
   })();
 
   const CHART_DATA_MAP: Record<string, ChartDataItem[]> = {
-    "tips-month": chartDataMonth,
+    "tips-day": chartDataTipsByDay,
     "tips-year": chartDataYear,
+    "tips-employee": chartDataByEmployee,
   };
 
   const chartData = CHART_DATA_MAP[tab];
@@ -181,7 +237,11 @@ export default function ChartTipsAddPage({
   return (
     <>
       <div className="flex items-center justify-center gap-6 p-2">
-        <MonthPicker value={range} onChange={setRange} />
+        <MonthPicker
+          value={range}
+          onChange={setRange}
+          disabled={tab !== "tips-year" && tab !== "tips-employee"}
+        />
         <button
           disabled={!range}
           type="button"
@@ -194,7 +254,7 @@ export default function ChartTipsAddPage({
       <CustomChart
         chartData={chartData}
         barItem={BAR_KEYS.filter(({ key }) => visibleBars[key as BarKey])}
-        className="h-[77dvh]"
+        className={cn(tab === "tips-employee" ? "h-[66dvh]" : "h-[77dvh]")}
         disableTooltip={!isAdmin}
         disableYAxis={!isAdmin}
       />
@@ -204,6 +264,24 @@ export default function ChartTipsAddPage({
         visibleItems={visibleBars}
         onToggle={toggleBar}
       />
+      <div className="flex flex-wrap justify-center gap-1 md:px-4 md:pb-2">
+        {tab === "tips-employee" &&
+          uniqueEmployees.map((name) => (
+            <span
+              key={name}
+              onClick={() =>
+                setActiveName((prev) => (prev === name ? "" : name))
+              }
+              className={cn(
+                "cursor-pointer rounded-full px-1 py-1 text-xs transition-opacity md:px-3",
+                activeName && activeName !== name && "opacity-35",
+                activeName !== name && "print:hidden",
+              )}
+            >
+              {name}
+            </span>
+          ))}
+      </div>
     </>
   );
 }

@@ -22,7 +22,9 @@ export default function ChartArchivePage({
       {tab === "penalty-year" && (
         <ChartRemarksPage dataRemarks={data.dataRemarks} />
       )}
-      {(tab === "tips-month" || tab === "tips-year") && (
+      {(tab === "tips-day" ||
+        tab === "tips-year" ||
+        tab === "tips-employee") && (
         <ChartTipsAddPage dataTipsAdd={data.dataTips} tab={tab} />
       )}
     </>
