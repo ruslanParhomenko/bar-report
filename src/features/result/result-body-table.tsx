@@ -1,5 +1,6 @@
 "use client";
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { handleCopy } from "@/utils/handler-copy-text";
 import { useResultCalculations } from "./utils";
 
@@ -12,6 +13,7 @@ export default function ResultTableBody({
   totals: ReturnType<typeof useResultCalculations>["totals"];
   isAdmin: boolean;
 }) {
+  const isMobile = useIsMobile();
   return (
     <TableBody>
       {rows.map(
@@ -19,15 +21,15 @@ export default function ResultTableBody({
           { e, dayH, nightH, totalHours, rate, salary, sendTips, result },
           index,
         ) => (
-          <TableRow key={index}>
+          <TableRow key={index} className="hover:text-rd hover:bg-accent">
             <TableCell
-              className="bg-background sticky left-0 cursor-copy"
+              className="bg-background sticky left-0 cursor-copy md:bg-transparent md:pl-4"
               onClick={() => handleCopy(e.employee)}
             >
               {e.employee}
             </TableCell>
-            <TableCell className="border-r text-center">
-              {Number(rate) / 1000}
+            <TableCell className="border-r text-start text-xs">
+              {rate}
             </TableCell>
             <TableCell className="text-center">{dayH}</TableCell>
             <TableCell className="text-center">{nightH}</TableCell>
@@ -38,11 +40,12 @@ export default function ResultTableBody({
               {totalHours}
             </TableCell>
             <TableCell
-              className="cursor-copy border-r text-center"
+              className="cursor-copy border-r px-4 text-start font-bold"
               onClick={() => handleCopy(String(salary))}
             >
               {isAdmin ? salary : "****"}
             </TableCell>
+
             <TableCell
               className="cursor-copy text-center"
               onClick={() => handleCopy(String(sendTips))}
@@ -61,6 +64,14 @@ export default function ResultTableBody({
             >
               {e.bonus}
             </TableCell>
+            {!isMobile && (
+              <TableCell
+                className="bg-background sticky left-0 cursor-copy md:bg-transparent md:pl-4"
+                onClick={() => handleCopy(e.employee)}
+              >
+                {e.employee}
+              </TableCell>
+            )}
             <TableCell className="text-center">
               {isAdmin ? result : "*****"}
             </TableCell>
@@ -68,18 +79,19 @@ export default function ResultTableBody({
         ),
       )}
 
-      <TableRow className="font-bold">
+      <TableRow className="text-bl font-bold">
         <TableCell></TableCell>
         <TableCell></TableCell>
         <TableCell className="text-center">{totals.dayH}</TableCell>
         <TableCell className="text-center">{totals.nightH}</TableCell>
         <TableCell className="text-center">{totals.totalHours}</TableCell>
-        <TableCell className="text-center">
+        <TableCell className="text-start">
           {isAdmin ? totals.salary : "****"}
         </TableCell>
         <TableCell className="text-center">{totals.sendTips}</TableCell>
         <TableCell className="text-center">{totals.penalty}</TableCell>
         <TableCell className="text-center">{totals.bonus}</TableCell>
+        {!isMobile && <TableCell />}
         <TableCell className="text-center">
           {isAdmin ? totals.result : "*****"}
         </TableCell>

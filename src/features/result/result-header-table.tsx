@@ -1,12 +1,16 @@
+"use client";
 import { TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 
 export default function ResultTableHeader() {
   const classNameRow = "text-center text-gr w-10";
+
+  const isMobile = useIsMobile();
   return (
     <TableHeader>
       <TableRow>
-        <TableHead className="md:w-30"></TableHead>
+        <TableHead className="md:w-20"></TableHead>
         <TableHead className={classNameRow} />
         <TableHead className={classNameRow}>d</TableHead>
         <TableHead className={classNameRow}>n</TableHead>
@@ -15,7 +19,8 @@ export default function ResultTableHeader() {
         <TableHead className={classNameRow}>tips</TableHead>
         <TableHead className={classNameRow}>-</TableHead>
         <TableHead className={cn(classNameRow)}>+</TableHead>
-        <TableHead className={cn(classNameRow, "w-50")} />
+        {!isMobile && <TableHead className="md:w-20"></TableHead>}
+        <TableHead className={cn(classNameRow, "w-30")} />
       </TableRow>
     </TableHeader>
   );
