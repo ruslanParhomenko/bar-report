@@ -5,7 +5,7 @@ import {
   MonthPicker,
   MonthRange,
 } from "@/components/input-controlled/month-range";
-import { useMonthDays } from "@/providers/month-days-provider";
+import { cn } from "@/lib/utils";
 import { MONTHS } from "@/utils/get-month-days";
 import { TrashIcon } from "lucide-react";
 import { useSearchParams } from "next/navigation";
@@ -18,13 +18,22 @@ export default function ChartTipsPage({
 }) {
   const tab = useSearchParams().get("tab");
 
-  const { month } = useMonthDays();
-
   const [range, setRange] = useState<MonthRange>();
-
-  const dataTipsMonth = dataTipsYear?.find((data) => data.id === month) || null;
+  const [activeName, setActiveName] = useState<string>("");
 
   const getMonthIndex = (id: string) => MONTHS.indexOf(id);
+
+  // chart data by employee for month view
+  const uniqueEmployees = useMemo(() => {
+    const employeeSet = new Set<string>();
+    const dataTipsAllDay = dataTipsYear?.flatMap(
+      (month) => month.tipsData.rowEmployeesTips,
+    );
+    dataTipsAllDay?.forEach((employee) => {
+      employeeSet.add(employee.employee.trim());
+    });
+    return Array.from(employeeSet);
+  }, [dataTipsYear]);
 
   const dataTipsPrevMonth = useMemo(() => {
     if (range?.from === undefined || range?.to === undefined) {
@@ -56,23 +65,47 @@ export default function ChartTipsPage({
         name: name.split(" ")[0],
         tips,
       }))
-      .filter((row) => row.tips > 0)
-      .sort((a, b) => b.tips - a.tips);
+      .filter((row) => row.tips > 0);
   }, [dataTipsPrevMonth]);
 
-  const chartDataMonth =
-    dataTipsMonth?.tipsData.rowEmployeesTips.map((row) => ({
-      name: row.employee.split(" ")[0] + " " + row.employee.split(" ")[1][0],
-      tips: row.tipsByDay.reduce((sum, t) => sum + Number(t), 0),
-    })) ?? [];
+  // chart data by employee for year view
+
+  const chartDataByEmployee = !activeName
+    ? []
+    : MONTHS.map((monthId) => {
+        const monthData = dataTipsYear?.find((m) => m.id === monthId);
+
+        let tips = 0;
+
+        (monthData?.tipsData.rowEmployeesTips ?? [])
+          .filter((employee) => employee.employee.trim() === activeName)
+          .forEach((employee) => {
+            employee.tipsByDay.forEach((a) => {
+              const val = parseFloat(a);
+              if (!isNaN(val)) {
+                tips += val;
+              }
+            });
+          });
+
+        return {
+          name: monthId,
+          tips: parseFloat(tips.toFixed(0)),
+        };
+      });
 
   const BAR_KEYS = [{ key: "tips", color: "var(--color-bl)", label: "Tips" }];
 
-  const chartData = tab === "month" ? chartDataMonth : chartDataYear;
+  const CHART_DATA_BY_TAB = {
+    "tips-employee": chartDataByEmployee,
+    "tips-year": chartDataYear,
+  };
+
+  const chartData = CHART_DATA_BY_TAB[tab as keyof typeof CHART_DATA_BY_TAB];
 
   return (
     <>
-      {tab === "range" && (
+      {tab === "tips-year" && (
         <div className="flex items-center justify-center gap-6 px-6">
           <MonthPicker value={range} onChange={setRange} />
           <button
@@ -88,9 +121,27 @@ export default function ChartTipsPage({
       <CustomChart
         chartData={chartData}
         barItem={BAR_KEYS}
-        withLegend
-        vertical={tab === "year" || tab === "range"}
+        vertical={chartData.length > 25}
+        className={cn(tab === "tips-year" ? "h-[80dvh]" : "h-[74dvh]")}
       />
+      <div className="flex flex-wrap justify-center gap-1 md:px-4 md:pb-2">
+        {tab === "tips-employee" &&
+          uniqueEmployees.map((name) => (
+            <span
+              key={name}
+              onClick={() =>
+                setActiveName((prev) => (prev === name ? "" : name))
+              }
+              className={cn(
+                "cursor-pointer rounded-full px-1 py-1 text-xs transition-opacity md:px-3",
+                activeName && activeName !== name && "opacity-35",
+                activeName !== name && "print:hidden",
+              )}
+            >
+              {name}
+            </span>
+          ))}
+      </div>
     </>
   );
 }

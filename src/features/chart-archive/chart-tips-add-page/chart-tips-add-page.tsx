@@ -259,7 +259,7 @@ export default function ChartTipsAddPage({
         )}
         disableTooltip={!isAdmin}
         disableYAxis={!isAdmin}
-        vertical={tab === "tips-year"}
+        vertical={chartData.length > 25}
       />
 
       <CustomLegend

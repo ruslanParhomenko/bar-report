@@ -67,25 +67,18 @@ export default function TipsYearPage({
   const labelCell =
     "bg-background sticky left-0 p-0 px-2 text-left font-medium md:bg-transparent text-xs";
   const dataCell = "border-x p-0 text-center text-xs";
-  const rowCn = "[&>td]:py-0";
+  const rowCn = "[&>td]:py-0.5 [&>td]:text-xs";
 
   return (
     <Table className="md:table-fixed">
       <TableHeader className="bg-background sticky top-0 z-10">
         <TableRow className={cn(rowCn, "[&>td]:border-0")}>
-          <TableCell className={cn(totalCell, "w-20 font-bold")}>
-            {year}
-          </TableCell>
-          <TableCell className={cn(labelCell, "w-40 font-bold")}>
-            сотрудник
-          </TableCell>
-          <TableCell className={cn(dataCell, "w-18 text-xs font-bold")} />
+          <TableCell className={cn(totalCell, "w-20")}>{year}</TableCell>
+          <TableCell className={cn(labelCell, "w-40")}>employee</TableCell>
+          <TableCell className={cn(dataCell, "w-18 text-xs")} />
 
           {MONTHS.map((month) => (
-            <TableCell
-              key={month}
-              className={cn(dataCell, "h-7 px-2 font-bold")}
-            >
+            <TableCell key={month} className={cn(dataCell, "h-6 px-2")}>
               {month.slice(0, 3).toUpperCase()}
             </TableCell>
           ))}
@@ -93,8 +86,6 @@ export default function TipsYearPage({
       </TableHeader>
 
       <TableBody>
-        <TableRow className="h-4" />
-
         {allEmployees.map((emp) => {
           const yearTotal = getEmployeeYearTotal(emp.employee);
           const colorText =
@@ -111,17 +102,13 @@ export default function TipsYearPage({
                 {emp.employee.trim()}
               </TableCell>
               <TableCell className={cn(dataCell, "text-muted-foreground px-1")}>
-                <div className="flex h-6 items-center justify-center">
-                  {emp.role.slice(0, 1).toUpperCase()}
-                </div>
+                {emp.role.slice(0, 1).toUpperCase()}
               </TableCell>
               {MONTHS.map((month) => {
                 const total = getEmployeeMonthTotal(emp.employee, month);
                 return (
                   <TableCell key={month} className={cn(dataCell, colorText)}>
-                    <div className="flex h-6 items-center justify-center px-2">
-                      {total ? total.toFixed(0) : ""}
-                    </div>
+                    {total ? total.toFixed(0) : ""}
                   </TableCell>
                 );
               })}
@@ -129,7 +116,7 @@ export default function TipsYearPage({
           );
         })}
 
-        <TableRow className="h-6" />
+        <TableRow className="h-4" />
 
         {/* строка кассовых чаевых */}
         <TableRow className={cn(rowCn, "border-b!")}>

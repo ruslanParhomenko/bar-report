@@ -69,6 +69,8 @@ export default function ChartRemarksPage({
   const chartDataYear = getChartDataFromYear(dataRemarksPrevMonth || []);
   const chartData = chartDataYear;
 
+  console.log("chartData", chartData);
+
   return (
     <>
       <div className="flex items-center justify-center gap-6 p-2">
@@ -87,7 +89,7 @@ export default function ChartRemarksPage({
         chartData={chartData}
         barItem={BAR_KEYS.filter(({ key }) => visibleBars[key])}
         className="h-[77dvh]"
-        vertical
+        vertical={chartData.length > 25}
       />
       <CustomLegend
         items={BAR_KEYS}
