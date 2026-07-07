@@ -65,6 +65,29 @@ export default function ChartResultPage({
     role,
   });
 
+  const roleKey = ROLE[role as keyof typeof ROLE];
+
+  const scheduleEmployees =
+    dataSchedules
+      ?.flatMap((item) => item.data)
+      .filter((item) => item.id === roleKey && true) // см. ниже про объединение фильтров
+      .flatMap((item) => item.rowShifts)
+      .filter((item) => item.role === role)
+      .map((item) => item.employee) ?? [];
+
+  const tipsEmployees =
+    tipsDataYear
+      ?.flatMap((item) => item.tipsData)
+      .flatMap((item) => item.rowEmployeesTips)
+      .filter((item) => item.role === role)
+      .map((item) => item.employee) ?? [];
+
+  const uniqueEmployees = Array.from(
+    new Set([...scheduleEmployees, ...tipsEmployees]),
+  );
+  const sortedEmployees = uniqueEmployees.sort((a, b) => a.localeCompare(b));
+  console.log("data", sortedEmployees);
+
   const [visibleBars, setVisibleBars] = useState<Record<BarKey, boolean>>({
     salary: false,
     tips: false,

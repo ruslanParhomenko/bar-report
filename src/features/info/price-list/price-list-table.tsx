@@ -43,6 +43,7 @@ function CategoryBlock({
         return (
           <TableRow key={index} className="[&>td]:py-1.5 [&>td]:text-xs">
             <TableCell>{item.name}</TableCell>
+            <TableCell>{isAdmin && item.cost}</TableCell>
             <TableCell className="text-rd font-bold">
               {item["price-chips"]}
             </TableCell>
