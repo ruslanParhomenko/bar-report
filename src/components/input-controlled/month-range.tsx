@@ -77,7 +77,7 @@ export function MonthPicker({
         <PopoverTrigger asChild>
           <Button
             variant="outline"
-            className="h-7 w-60 items-center justify-center gap-4 text-left text-xs font-normal"
+            className="text-bl h-7 w-60 items-center justify-center gap-4 border-0 text-left text-xs font-normal"
             disabled={disabled}
           >
             <CalendarIcon className="mr-2 h-4 w-4" />

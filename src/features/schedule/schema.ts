@@ -10,6 +10,7 @@ export const rowShiftSchema = z.object({
   employee: z.string(),
   role: z.string(),
   rate: z.string(),
+  salary: z.string().optional(),
   employeeId: z.string(),
   shifts: z.array(shiftsSchema),
 });
@@ -24,6 +25,7 @@ export const defaultRowShift = {
   employee: "",
   role: "",
   rate: "",
+  salary: "",
   employeeId: "",
   shifts: [],
 };

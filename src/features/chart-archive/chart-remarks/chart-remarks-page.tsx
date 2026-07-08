@@ -69,8 +69,6 @@ export default function ChartRemarksPage({
   const chartDataYear = getChartDataFromYear(dataRemarksPrevMonth || []);
   const chartData = chartDataYear;
 
-  console.log("chartData", chartData);
-
   return (
     <>
       <div className="flex items-center justify-center gap-6 p-2">

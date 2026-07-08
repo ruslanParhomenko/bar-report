@@ -20,6 +20,7 @@ import ScheduleTableFooter from "./schedule-footer";
 import ScheduleTableHeader from "./schedule-header";
 import { defaultSchedule, scheduleSchema, ScheduleType } from "./schema";
 import {
+  calculateSalaryByHours,
   calculateShiftTotals,
   getSelectedEmployeesByRole,
   getShiftCounts,
@@ -70,14 +71,22 @@ export default function SchedulePage({
       if (!row.shifts) return row;
       const { totalDay, totalNight, total } = calculateShiftTotals(row.shifts);
 
+      const totalPay = calculateSalaryByHours({
+        ...row,
+        dayHours: totalDay.toString(),
+        nightHours: totalNight.toString(),
+        totalHours: total.toString(),
+      });
+
       return {
         ...row,
         dayHours: totalDay.toString(),
         nightHours: totalNight.toString(),
         totalHours: total.toString(),
+        salary: totalPay.toFixed(0).toString(),
       };
     });
-
+    console.log("rowShiftsWithHours", rowShiftsWithHours);
     const formatData = {
       year,
       month,
@@ -100,6 +109,7 @@ export default function SchedulePage({
         nightHours: "",
         totalHours: "",
         employee: "",
+        salary: "",
         role: "",
         rate: "",
         employeeId: "",
@@ -119,6 +129,7 @@ export default function SchedulePage({
       dayHours: "",
       nightHours: "",
       totalHours: "",
+      salary: "",
       employee: employee.name,
       role: employee.role,
       rate: employee.rate,
@@ -128,6 +139,8 @@ export default function SchedulePage({
 
     replace(newRows);
   }, [schedule, tab, isEdit]);
+
+  console.log("onEror", form.formState.errors);
 
   return (
     <FormWrapper form={form} onSubmit={onSubmit}>

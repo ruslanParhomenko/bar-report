@@ -126,7 +126,7 @@ export default function CustomChart({
       <BarChart
         accessibilityLayer
         data={chartData}
-        margin={{ top: 10, right: 0, left: 0, bottom: 0 }}
+        margin={{ top: 20, right: 0, left: 0, bottom: 0 }}
       >
         <CartesianGrid vertical={false} />
         <XAxis
