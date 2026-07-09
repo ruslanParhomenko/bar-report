@@ -16,8 +16,6 @@ export default async function Page({
     getFinBarByYear(year),
   ]);
 
-  console.log("finCashData", finCashData);
-  console.log("finBarData", finBarData);
 
   return (
     <FinPage finCashData={finCashData} finBarData={finBarData} year={year} />

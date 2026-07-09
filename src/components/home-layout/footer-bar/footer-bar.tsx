@@ -18,6 +18,7 @@ import {
   MENU_MAIN_ROUTE,
   RESULT_MAIN_ROUTE,
   SCHEDULE_MAIN_ROUTE,
+  STOP_LIST_MAIN_ROUTE,
   TIPS_MAIN_ROUTE,
   TTN_MAIN_ROUTE,
   USERS_MAIN_ROUTE,
@@ -78,7 +79,7 @@ export default function ActionBar() {
   const urlForCreate =
     URL_CREATE_BY_TAB[mainRoute as keyof typeof URL_CREATE_BY_TAB];
 
-  const isCanEdit = isAdmin || mainRoute === MENU_MAIN_ROUTE;
+  const isCanEdit = isAdmin || mainRoute === MENU_MAIN_ROUTE || mainRoute === STOP_LIST_MAIN_ROUTE;
 
   return (
     <ViewTransition>

@@ -26,6 +26,7 @@ import {
   RESULT_MAIN_ROUTE,
   SCHEDULE_MAIN_ROUTE,
   SETTING_MAIN_ROUTE,
+  STOP_LIST_MAIN_ROUTE,
   TIPS_MAIN_ROUTE,
   TTN_MAIN_ROUTE,
   USERS_MAIN_ROUTE,
@@ -35,6 +36,7 @@ import {
 export const ACTION_ITEM_BY_ROUTE = {
   [SCHEDULE_MAIN_ROUTE]: ["edit", "save", "print", "mail", "chart"],
   [ALGORITHM_MAIN_ROUTE]: ["edit", "save", "print"],
+  [STOP_LIST_MAIN_ROUTE]: ["edit", "save", "print"],
   [EMPLOYEES_MAIN_ROUTE]: ["print", "create"],
   [REPORTS_BAR_ROUTE]: ["save-all", "print"],
   [REPORTS_CUCINA_ROUTE]: ["save-all"],

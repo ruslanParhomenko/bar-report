@@ -3,6 +3,7 @@ import { z } from "zod";
 export const stopListItemSchema = z.object({
   product: z.string(),
   date: z.string(),
+  autor: z.string(),
 });
 
 export type StopListItemSchemaType = z.infer<typeof stopListItemSchema>;
@@ -10,6 +11,7 @@ export type StopListItemSchemaType = z.infer<typeof stopListItemSchema>;
 export const defaultStopList = {
   product: "",
   date: "",
+  autor: "",
 };
 
 export const stopListSchema = z.object({

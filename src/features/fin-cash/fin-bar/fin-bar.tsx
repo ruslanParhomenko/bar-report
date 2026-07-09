@@ -56,7 +56,6 @@ export default function FinBar({
   };
 
   useEffect(() => {
-    console.log("finBarData", finBarData);
     if (finBarData) {
       form.reset(finBarData.finData);
     } else {
@@ -75,8 +74,6 @@ export default function FinBar({
   }, [finBarData]);
 
   const values = form.watch("rowFinCashMonth");
-
-  console.log("values bar", values);
 
   const getNumber = (val: any) => {
     const num = parseFloat(val);

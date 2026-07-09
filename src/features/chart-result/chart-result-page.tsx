@@ -12,7 +12,7 @@ import { cn } from "@/lib/utils";
 import { MONTHS } from "@/utils/get-month-days";
 import { TrashIcon } from "lucide-react";
 import { useSearchParams } from "next/navigation";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 
 const ROLE = {
   barmen: "bar",
@@ -47,12 +47,10 @@ const NAV_TABS = ["employees", "month"];
 export default function ChartResultPage({
   dataSchedules,
   tipsDataYear,
-  month,
   year,
 }: {
   dataSchedules: { month: string; data: GetScheduleData[] }[] | null;
   tipsDataYear: GetTipsData[] | null;
-  month: string;
   year: string;
 }) {
   const role = useSearchParams().get("tab") || "barmen";
@@ -84,7 +82,7 @@ export default function ChartResultPage({
   const [range, setRange] = useState<MonthRange>();
   const getMonthIndex = (id: string) => MONTHS.indexOf(id);
 
-  const dataSchedulesPrevMonth = useMemo(() => {
+  const dataSchedulesPrevMonth = (() => {
     if (range?.from === undefined || range?.to === undefined) {
       return dataSchedules;
     }
@@ -98,9 +96,9 @@ export default function ChartResultPage({
         return idx >= from && idx <= to;
       }) || []
     );
-  }, [range, dataSchedules]);
+  })();
 
-  const dataTipsPrevMonth = useMemo(() => {
+  const dataTipsPrevMonth = (() => {
     if (range?.from === undefined || range?.to === undefined) {
       return tipsDataYear || [];
     }
@@ -114,7 +112,7 @@ export default function ChartResultPage({
         return idx >= from && idx <= to;
       }) || []
     );
-  }, [range, tipsDataYear]);
+  })();
 
   const getBarmenHoursByMonth = (monthId: string) => {
     const monthData = dataSchedules?.find((item) => item.month === monthId);
@@ -271,106 +269,111 @@ export default function ChartResultPage({
     };
   });
 
-  const chartDataByMonth: ChartDataItem[] = useMemo(() => {
-    if (!activeName) return [];
+  const chartDataByMonth: ChartDataItem[] = !activeName
+    ? []
+    : MONTHS.map((monthId) => {
+        let totalTipsByEmployee = 0;
 
-    return MONTHS.map((monthId) => {
-      let totalTipsByEmployee = 0;
-
-      const monthSchedule = dataSchedules?.find(
-        (item) => item.month === monthId,
-      );
-
-      const scheduleRow = monthSchedule?.data
-        .filter((item) => item.id === ROLE[role as keyof typeof ROLE])
-        .flatMap((item) => item.rowShifts)
-        .find(
-          (item) =>
-            item.role === roleEmployees &&
-            item.employee.trim() === activeName.trim(),
+        const monthSchedule = dataSchedules?.find(
+          (item) => item.month === monthId,
         );
 
-      const salaryByEmployee = Number(scheduleRow?.salary) || 0;
-      const totalHoursByEmployee = Number(scheduleRow?.totalHours) || 0;
+        const scheduleRow = monthSchedule?.data
+          .filter((item) => item.id === ROLE[role as keyof typeof ROLE])
+          .flatMap((item) => item.rowShifts)
+          .find(
+            (item) =>
+              item.role === roleEmployees &&
+              item.employee.trim() === activeName.trim(),
+          );
 
-      const tipsMonth = tipsDataYear?.find((item) => item.id === monthId);
+        const salaryByEmployee = Number(scheduleRow?.salary) || 0;
+        const totalHoursByEmployee = Number(scheduleRow?.totalHours) || 0;
 
-      if (roleEmployees === "waiters" && tipsMonth) {
-        const percentTips = Number(tipsMonth.tipsData?.percentTips) || 0;
-        const waitersDishBid = Number(tipsMonth.tipsData?.waitersDishBid) || 0;
+        const tipsMonth = tipsDataYear?.find((item) => item.id === monthId);
 
-        const totalTips =
-          tipsMonth.tipsData?.rowEmployeesTips
-            .filter((item) => item.role === "waiters")
-            .filter((item) => item.employee.trim() === activeName.trim())
-            .flatMap((item) => item.tipsByDay)
-            .reduce((acc, item) => acc + Number(item), 0) || 0;
+        if (roleEmployees === "waiters" && tipsMonth) {
+          const percentTips = Number(tipsMonth.tipsData?.percentTips) || 0;
+          const waitersDishBid =
+            Number(tipsMonth.tipsData?.waitersDishBid) || 0;
 
-        totalTipsByEmployee = round5(
-          totalTips - totalTips * waitersDishBid - totalTips * percentTips,
-        );
-      }
+          const totalTips =
+            tipsMonth.tipsData?.rowEmployeesTips
+              .filter((item) => item.role === "waiters")
+              .filter((item) => item.employee.trim() === activeName.trim())
+              .flatMap((item) => item.tipsByDay)
+              .reduce((acc, item) => acc + Number(item), 0) || 0;
 
-      if (roleEmployees === "barmen" && tipsMonth) {
-        const monthNumber = MONTHS.findIndex(
-          (m) => m.toLowerCase() === monthId.toLowerCase(),
-        );
+          totalTipsByEmployee = round5(
+            totalTips - totalTips * waitersDishBid - totalTips * percentTips,
+          );
+        }
 
-        const daysInMonth = new Date(
-          Number(year),
-          monthNumber + 1,
-          0,
-        ).getDate();
+        if (roleEmployees === "barmen" && tipsMonth) {
+          const monthNumber = MONTHS.findIndex(
+            (m) => m.toLowerCase() === monthId.toLowerCase(),
+          );
 
-        const maxHours = daysInMonth * 24;
+          const daysInMonth = new Date(
+            Number(year),
+            monthNumber + 1,
+            0,
+          ).getDate();
 
-        const { totalHours: barmenHoursThisMonth, coefficientDayNight } =
-          getBarmenHoursByMonth(monthId);
+          const maxHours = daysInMonth * 24;
 
-        const constantHoursByMonth = Math.max(maxHours, barmenHoursThisMonth);
+          const { totalHours: barmenHoursThisMonth, coefficientDayNight } =
+            getBarmenHoursByMonth(monthId);
 
-        const percentTips = Number(tipsMonth.tipsData?.percentTips) || 0;
-        const percentBarmen = Number(tipsMonth.tipsData?.percentBarmen) || 0;
-        const barmenDishBid = Number(tipsMonth.tipsData?.barmenDishBid) || 0;
+          const constantHoursByMonth = Math.max(
+            maxHours,
+            barmenHoursThisMonth,
+          );
 
-        const waitersTipsThisMonth = getWaitersTipsByMonth(monthId);
+          const percentTips = Number(tipsMonth.tipsData?.percentTips) || 0;
+          const percentBarmen = Number(tipsMonth.tipsData?.percentBarmen) || 0;
+          const barmenDishBid = Number(tipsMonth.tipsData?.barmenDishBid) || 0;
 
-        const tipsForBarmen =
-          waitersTipsThisMonth * percentTips * percentBarmen;
+          const waitersTipsThisMonth = getWaitersTipsByMonth(monthId);
 
-        const coefficientBarmen = tipsForBarmen / (constantHoursByMonth || 1);
+          const tipsForBarmen =
+            waitersTipsThisMonth * percentTips * percentBarmen;
 
-        const ownTips =
-          tipsMonth.tipsData?.rowEmployeesTips
-            .filter((item) => item.role === "barmen")
-            .filter((item) => item.employee.trim() === activeName.trim())
-            .flatMap((item) => item.tipsByDay)
-            .reduce((acc, item) => acc + Number(item), 0) || 0;
+          const coefficientBarmen =
+            tipsForBarmen / (constantHoursByMonth || 1);
 
-        const dayH = Number(scheduleRow?.dayHours) || 0;
-        const nightH = Number(scheduleRow?.nightHours) || 0;
+          const ownTips =
+            tipsMonth.tipsData?.rowEmployeesTips
+              .filter((item) => item.role === "barmen")
+              .filter((item) => item.employee.trim() === activeName.trim())
+              .flatMap((item) => item.tipsByDay)
+              .reduce((acc, item) => acc + Number(item), 0) || 0;
 
-        const tipsByWaiters =
-          dayH * coefficientBarmen -
-          dayH * coefficientBarmen * 0.1 +
-          nightH * coefficientBarmen +
-          nightH * coefficientBarmen * 0.1 * coefficientDayNight;
+          const dayH = Number(scheduleRow?.dayHours) || 0;
+          const nightH = Number(scheduleRow?.nightHours) || 0;
 
-        totalTipsByEmployee = round5(
-          ownTips + tipsByWaiters - (ownTips + tipsByWaiters) * barmenDishBid,
-        );
-      }
+          const tipsByWaiters =
+            dayH * coefficientBarmen -
+            dayH * coefficientBarmen * 0.1 +
+            nightH * coefficientBarmen +
+            nightH * coefficientBarmen * 0.1 * coefficientDayNight;
 
-      return {
-        name: monthId,
-        salary: salaryByEmployee,
-        tips: totalTipsByEmployee,
-        total: salaryByEmployee + totalTipsByEmployee,
-        hours: totalHoursByEmployee,
-        rate: Number(scheduleRow?.rate) || 0,
-      };
-    });
-  }, [activeName, role, roleEmployees, dataSchedules, tipsDataYear, year]);
+          totalTipsByEmployee = round5(
+            ownTips +
+              tipsByWaiters -
+              (ownTips + tipsByWaiters) * barmenDishBid,
+          );
+        }
+
+        return {
+          name: monthId,
+          salary: salaryByEmployee,
+          tips: totalTipsByEmployee,
+          total: salaryByEmployee + totalTipsByEmployee,
+          hours: totalHoursByEmployee,
+          rate: Number(scheduleRow?.rate) || 0,
+        };
+      });
 
   const BAR_KEYS: BarItem[] = [
     { key: "salary", color: "var(--color-gn)", label: "Salary" },

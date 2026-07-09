@@ -3,10 +3,13 @@ import { CreateDataTTN } from "@/app/actions/data-constants/data-ttn-action";
 import { GetTTNData } from "@/app/actions/ttn/ttn-actions";
 import CustomChart from "@/components/chart/custom-chart";
 import CustomLegend from "@/components/chart/custom-legend";
+import { MonthPicker, MonthRange } from "@/components/input-controlled/month-range";
+import { cn } from "@/lib/utils";
 import { useMonthDays } from "@/providers/month-days-provider";
 import { MONTHS } from "@/utils/get-month-days";
+import { TrashIcon } from "lucide-react";
 import { useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 type ChartDataItem = {
   name: string;
@@ -33,13 +36,29 @@ export default function ChartTTNPage({
   const { monthDays, month } = useMonthDays();
   const tab = useSearchParams().get("tab");
 
+  const uniqueAgents = agentTTN.agent
+
   const [visibleBars, setVisibleBars] = useState<Record<BarKey, boolean>>({
     payment: true,
     purchase: true,
     final: false,
   });
+  const [activeName, setActiveName] = useState<string>("");
+   const [range, setRange] = useState<MonthRange>();
+    const getMonthIndex = (id: string) => MONTHS.indexOf(id);
 
   const dataTTNMonth = dataTTN?.find((data) => data.id === month);
+
+const dataTTNPrevMonth = useMemo(() => {
+  if (range?.from === undefined || range?.to === undefined) {
+    return dataTTN;
+  }
+  return dataTTN?.filter((data) => {
+    const idx = getMonthIndex(data.id);
+    return idx >= range.from! && idx <= range.to!;
+  }) || [];
+}, [dataTTN, range]);
+ 
 
   const chartDataDay = monthDays.map((day, index) => {
     let totalPayment = 0;
@@ -65,34 +84,31 @@ export default function ChartTTNPage({
     };
   });
 
-  const chartDataMonth = agentTTN.agent.map((agent) => {
-    const supplierData = dataTTNMonth?.ttnData?.rowSuppliers?.[agent];
-    if (!supplierData) {
-      return {
-        name: agent,
-        payment: 0,
-        purchase: 0,
-        final: 0,
-      };
-    }
+ const chartDataAgent = agentTTN.agent.map((agent) => {
+  let payment = 0;
+  let purchase = 0;
 
-    const payment = (supplierData.plus ?? []).reduce(
+  dataTTNPrevMonth?.forEach((monthData) => {
+    const supplierData = monthData?.ttnData?.rowSuppliers?.[agent];
+    if (!supplierData) return;
+
+    payment += (supplierData.plus ?? []).reduce(
       (acc, v) => acc + (Number(v) || 0),
       0,
     );
-    const purchase = (supplierData.minus ?? []).reduce(
+    purchase += (supplierData.minus ?? []).reduce(
       (acc, v) => acc + Math.abs(Number(v) || 0),
       0,
     );
-
-    return {
-      name: agent,
-      payment: Number(payment.toFixed(2)),
-      purchase: Number(purchase.toFixed(2)),
-      final: Number((purchase - payment).toFixed(2)),
-    };
   });
 
+  return {
+    name: agent,
+    payment: Number(payment.toFixed(0)),
+    purchase: Number(purchase.toFixed(0)),
+    final: Number((purchase - payment).toFixed(0)),
+  };
+});
   const chartDataYear = MONTHS.map((monthName) => {
     const monthData = dataTTN?.find((d) => d.id === monthName);
 
@@ -121,6 +137,31 @@ export default function ChartTTNPage({
     };
   });
 
+  const chartDataMonth = MONTHS.map((monthName) => {
+
+    if(!activeName) return {
+      name: monthName,
+      payment: 0,
+      purchase: 0,
+      final: 0,
+    }
+
+    const dataForMonth = dataTTN?.find((data) => data.id === monthName)?.ttnData?.rowSuppliers?.[activeName];
+  
+
+    const payment = dataForMonth?.plus?.reduce((acc, v) => acc + Number(v) || 0, 0) || 0;
+    const purchase = dataForMonth?.minus?.reduce((acc, v) => acc + Math.abs(Number(v) || 0), 0) || 0;
+    const final = purchase - payment;
+
+
+    return {
+      name: monthName,
+      payment: Number(payment.toFixed(0)),
+      purchase: Number(purchase.toFixed(0)),
+      final: Number(final.toFixed(0)),
+    };
+  })
+
   const BAR_KEYS: BarItem[] = [
     { key: "payment", color: "var(--color-bl)", label: "Payment" },
     { key: "purchase", color: "var(--color-rd)", label: "Purchase" },
@@ -131,19 +172,39 @@ export default function ChartTTNPage({
     setVisibleBars((prev) => ({ ...prev, [key]: !prev[key] }));
   };
 
+  const CHART_DATA_BY_TAB: Record<string, ChartDataItem[]> = {
+    year: chartDataYear,
+    agent: chartDataAgent,
+    day: chartDataDay,
+    month: chartDataMonth,
+  };
+
   const chartData =
-    tab === "year"
-      ? chartDataYear
-      : tab === "day"
-        ? chartDataDay
-        : chartDataMonth;
+    CHART_DATA_BY_TAB[tab as keyof typeof CHART_DATA_BY_TAB] 
+
+   
 
   return (
     <>
+      <div className="flex items-center justify-center gap-6 p-1">
+     
+        {tab === "agent" && (
+          <MonthPicker value={range} onChange={setRange} />
+        )}
+        <button
+          disabled={!range}
+          type="button"
+          onClick={() => setRange(undefined)}
+          className="w-4"
+        >
+          {range && <TrashIcon className="text-rd h-4 w-4" />}
+        </button>
+      </div>
       <CustomChart
         chartData={chartData}
         barItem={BAR_KEYS.filter(({ key }) => visibleBars[key as BarKey])}
-        vertical={tab === "month"}
+        vertical={tab === "agent"}
+        className={(tab === "day" || tab === "year") ? "h-[80dvh]" : "h-[72dvh]"}
       />
 
       <CustomLegend
@@ -151,6 +212,24 @@ export default function ChartTTNPage({
         visibleItems={visibleBars}
         onToggle={toggleBar}
       />
+         <div className="flex flex-wrap justify-center gap-1 md:px-4 md:pb-2">
+              {tab === "month" &&
+                uniqueAgents.map((name) => (
+                  <span
+                    key={name}
+                    onClick={() =>
+                      setActiveName((prev) => (prev === name ? "" : name))
+                    }
+                    className={cn(
+                      "cursor-pointer rounded-full px-1 py-1 text-xs transition-opacity md:px-3",
+                      activeName && activeName !== name && "opacity-35",
+                      activeName !== name && "print:hidden",
+                    )}
+                  >
+                    {name}
+                  </span>
+                ))}
+            </div>
     </>
   );
 }

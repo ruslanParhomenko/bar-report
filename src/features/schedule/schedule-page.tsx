@@ -86,7 +86,6 @@ export default function SchedulePage({
         salary: totalPay.toFixed(0).toString(),
       };
     });
-    console.log("rowShiftsWithHours", rowShiftsWithHours);
     const formatData = {
       year,
       month,
@@ -139,8 +138,6 @@ export default function SchedulePage({
 
     replace(newRows);
   }, [schedule, tab, isEdit]);
-
-  console.log("onEror", form.formState.errors);
 
   return (
     <FormWrapper form={form} onSubmit={onSubmit}>

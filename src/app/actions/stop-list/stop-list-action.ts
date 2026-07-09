@@ -1,28 +1,24 @@
 "use server";
+import { STOP_LIST_ACTION_TAG } from "@/constants/action-tag";
 import { StopListSchemaType } from "@/features/stop-list/schema";
 import { dbAdmin } from "@/lib/firebase-admin";
 import { unstable_cache, updateTag } from "next/cache";
 
-const REALTIME_DOC = "stop-list-bar-realtime";
+const actionTag = STOP_LIST_ACTION_TAG;
 
-export type StopListType = {
-  id: string;
-  user_email: string;
-  form_data: StopListSchemaType;
-};
 
 // create
 export async function saveStopList(data: StopListSchemaType) {
-  const docRef = dbAdmin.collection(REALTIME_DOC).doc(REALTIME_DOC);
+  const docRef = dbAdmin.collection(actionTag).doc(actionTag);
 
   await docRef.set(data);
 
-  updateTag(REALTIME_DOC);
+  updateTag(actionTag);
 }
 
 // get
 export async function _getStopList() {
-  const docRef = dbAdmin.collection(REALTIME_DOC).doc(REALTIME_DOC);
+  const docRef = dbAdmin.collection(actionTag).doc(actionTag);
   const snap = await docRef.get();
 
   if (!snap.exists) return null;
@@ -32,7 +28,7 @@ export async function _getStopList() {
   return data;
 }
 
-export const getStopList = unstable_cache(_getStopList, [REALTIME_DOC], {
+export const getStopList = unstable_cache(_getStopList, [actionTag], {
   revalidate: false,
-  tags: [REALTIME_DOC],
+  tags: [actionTag],
 });

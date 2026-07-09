@@ -108,7 +108,7 @@ export const TABS_BY_ROUTE = {
   [CHART_AO_ROUTE]: ["month", "year"],
 
   [TTN_MAIN_ROUTE]: ["month", "day", "year"],
-  [CHART_TTN_ROUTE]: ["month", "day", "year"],
+  [CHART_TTN_ROUTE]: ["month", "day", "year", "agent"],
 
   [FIN_CASH_MAIN_ROUTE]: ["fin-nori", "fin-bar"],
 

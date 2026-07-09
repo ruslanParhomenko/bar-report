@@ -80,8 +80,8 @@ export default function ResultTableBody({
       )}
 
       <TableRow className="text-bl font-bold">
-        <TableCell></TableCell>
-        <TableCell></TableCell>
+        <TableCell/>
+        <TableCell/>
         <TableCell className="text-center">{totals.dayH}</TableCell>
         <TableCell className="text-center">{totals.nightH}</TableCell>
         <TableCell className="text-center">{totals.totalHours}</TableCell>
