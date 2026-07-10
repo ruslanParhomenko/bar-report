@@ -9,7 +9,9 @@ import {
 } from "@/components/input-controlled/month-range";
 import NavTabs from "@/components/nav-tabs/nav-tabs";
 import { cn } from "@/lib/utils";
+import { useEmployees } from "@/providers/employees-provider";
 import { MONTHS } from "@/utils/get-month-days";
+import { monthsSince } from "@/utils/month-since";
 import { TrashIcon } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
@@ -33,6 +35,7 @@ type ChartDataItem = {
   total: number;
   hours: number;
   rate: number;
+  workedMonths: number;
 };
 
 type BarKey = keyof Omit<ChartDataItem, "name">;
@@ -58,6 +61,10 @@ export default function ChartResultPage({
   const [filters, setFilters] = useState<"employees" | "month">("employees");
   const [activeName, setActiveName] = useState<string>("");
 
+  const allEmployees = useEmployees();
+
+  console.log("allEmployees", allEmployees);
+
   const roleKey = ROLE[role as keyof typeof ROLE];
   const roleEmployees = ROLE_EMPLOYEES[role as keyof typeof ROLE_EMPLOYEES];
 
@@ -78,6 +85,7 @@ export default function ChartResultPage({
     total: true,
     hours: false,
     rate: false,
+    workedMonths: false,
   });
   const [range, setRange] = useState<MonthRange>();
   const getMonthIndex = (id: string) => MONTHS.indexOf(id);
@@ -164,6 +172,18 @@ export default function ChartResultPage({
       .filter((item) => item.role === roleEmployees)
       .filter((item) => item.employee.trim() === name.trim())
       .at(-1)?.rate;
+
+    const idEmployee = dataSchedulesPrevMonth
+      ?.flatMap((item) => item.data)
+      .filter((item) => item.id === ROLE[role as keyof typeof ROLE])
+      .flatMap((item) => item.rowShifts)
+      .filter((item) => item.role === roleEmployees)
+      .filter((item) => item.employee.trim() === name.trim())
+      .at(-1)?.employeeId;
+
+    const employmentDate = allEmployees.find(
+      (item) => item.id === idEmployee,
+    )?.employmentDate;
 
     const salaryByEmployee = dataSchedulesPrevMonth
       ?.flatMap((item) => item.data)
@@ -267,6 +287,7 @@ export default function ChartResultPage({
     }
 
     const totalPay = (salaryByEmployee ?? 0) + (totalTipsByEmployee ?? 0);
+    const workedMonthsByEmployee = monthsSince(employmentDate);
 
     return {
       name: name.split(" ")[0] + "." + (name.split(" ")[1]?.[0] ?? ""),
@@ -275,6 +296,7 @@ export default function ChartResultPage({
       total: totalPay,
       hours: totalHoursByEmployee ?? 0,
       rate: Number(rateByEmployee) || 0,
+      workedMonths: Number(workedMonthsByEmployee) ?? 0,
     };
   });
 
@@ -368,6 +390,8 @@ export default function ChartResultPage({
           );
         }
 
+        const workedMonths = 0;
+
         return {
           name: monthId,
           salary: salaryByEmployee,
@@ -375,6 +399,7 @@ export default function ChartResultPage({
           total: salaryByEmployee + totalTipsByEmployee,
           hours: totalHoursByEmployee,
           rate: Number(scheduleRow?.rate) || 0,
+          workedMonths: Number(workedMonths) || 0,
         };
       });
 
@@ -384,6 +409,7 @@ export default function ChartResultPage({
     { key: "total", color: "var(--color-bl)", label: "Total" },
     { key: "hours", color: "var(--color-primary)", label: "Hours" },
     { key: "rate", color: "var(--color-yl)", label: "Rate" },
+    { key: "workedMonths", color: "var(--color-yl)", label: "Worked months" },
   ];
   const toggleBar = (key: BarKey) => {
     setVisibleBars((prev) => ({ ...prev, [key]: !prev[key] }));
