@@ -156,6 +156,15 @@ export default function ChartResultPage({
 
   const chartDataByEmployee: ChartDataItem[] = sortedEmployees.map((name) => {
     let totalTipsByEmployee = 0;
+
+    const rateByEmployee = dataSchedulesPrevMonth
+      ?.flatMap((item) => item.data)
+      .filter((item) => item.id === ROLE[role as keyof typeof ROLE])
+      .flatMap((item) => item.rowShifts)
+      .filter((item) => item.role === roleEmployees)
+      .filter((item) => item.employee.trim() === name.trim())
+      .at(-1)?.rate;
+
     const salaryByEmployee = dataSchedulesPrevMonth
       ?.flatMap((item) => item.data)
       .filter((item) => item.id === ROLE[role as keyof typeof ROLE])
@@ -265,7 +274,7 @@ export default function ChartResultPage({
       tips: totalTipsByEmployee ?? 0,
       total: totalPay,
       hours: totalHoursByEmployee ?? 0,
-      rate: 0,
+      rate: Number(rateByEmployee) || 0,
     };
   });
 
@@ -325,10 +334,7 @@ export default function ChartResultPage({
           const { totalHours: barmenHoursThisMonth, coefficientDayNight } =
             getBarmenHoursByMonth(monthId);
 
-          const constantHoursByMonth = Math.max(
-            maxHours,
-            barmenHoursThisMonth,
-          );
+          const constantHoursByMonth = Math.max(maxHours, barmenHoursThisMonth);
 
           const percentTips = Number(tipsMonth.tipsData?.percentTips) || 0;
           const percentBarmen = Number(tipsMonth.tipsData?.percentBarmen) || 0;
@@ -339,8 +345,7 @@ export default function ChartResultPage({
           const tipsForBarmen =
             waitersTipsThisMonth * percentTips * percentBarmen;
 
-          const coefficientBarmen =
-            tipsForBarmen / (constantHoursByMonth || 1);
+          const coefficientBarmen = tipsForBarmen / (constantHoursByMonth || 1);
 
           const ownTips =
             tipsMonth.tipsData?.rowEmployeesTips
@@ -359,9 +364,7 @@ export default function ChartResultPage({
             nightH * coefficientBarmen * 0.1 * coefficientDayNight;
 
           totalTipsByEmployee = round5(
-            ownTips +
-              tipsByWaiters -
-              (ownTips + tipsByWaiters) * barmenDishBid,
+            ownTips + tipsByWaiters - (ownTips + tipsByWaiters) * barmenDishBid,
           );
         }
 
@@ -415,7 +418,7 @@ export default function ChartResultPage({
         </button>
       </div>
       <CustomChart
-        chartData={chartData}
+        chartData={chartData.filter((data) => data.total > 0)}
         barItem={BAR_KEYS.filter(({ key }) => visibleBars[key as BarKey])}
         className="h-[70dvh]"
         vertical={chartData.length > 20}

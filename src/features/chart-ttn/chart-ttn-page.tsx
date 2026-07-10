@@ -3,7 +3,10 @@ import { CreateDataTTN } from "@/app/actions/data-constants/data-ttn-action";
 import { GetTTNData } from "@/app/actions/ttn/ttn-actions";
 import CustomChart from "@/components/chart/custom-chart";
 import CustomLegend from "@/components/chart/custom-legend";
-import { MonthPicker, MonthRange } from "@/components/input-controlled/month-range";
+import {
+  MonthPicker,
+  MonthRange,
+} from "@/components/input-controlled/month-range";
 import { cn } from "@/lib/utils";
 import { useMonthDays } from "@/providers/month-days-provider";
 import { MONTHS } from "@/utils/get-month-days";
@@ -36,7 +39,7 @@ export default function ChartTTNPage({
   const { monthDays, month } = useMonthDays();
   const tab = useSearchParams().get("tab");
 
-  const uniqueAgents = agentTTN.agent
+  const uniqueAgents = agentTTN.agent;
 
   const [visibleBars, setVisibleBars] = useState<Record<BarKey, boolean>>({
     payment: true,
@@ -44,21 +47,22 @@ export default function ChartTTNPage({
     final: false,
   });
   const [activeName, setActiveName] = useState<string>("");
-   const [range, setRange] = useState<MonthRange>();
-    const getMonthIndex = (id: string) => MONTHS.indexOf(id);
+  const [range, setRange] = useState<MonthRange>();
+  const getMonthIndex = (id: string) => MONTHS.indexOf(id);
 
   const dataTTNMonth = dataTTN?.find((data) => data.id === month);
 
-const dataTTNPrevMonth = useMemo(() => {
-  if (range?.from === undefined || range?.to === undefined) {
-    return dataTTN;
-  }
-  return dataTTN?.filter((data) => {
-    const idx = getMonthIndex(data.id);
-    return idx >= range.from! && idx <= range.to!;
-  }) || [];
-}, [dataTTN, range]);
- 
+  const dataTTNPrevMonth = useMemo(() => {
+    if (range?.from === undefined || range?.to === undefined) {
+      return dataTTN;
+    }
+    return (
+      dataTTN?.filter((data) => {
+        const idx = getMonthIndex(data.id);
+        return idx >= range.from! && idx <= range.to!;
+      }) || []
+    );
+  }, [dataTTN, range]);
 
   const chartDataDay = monthDays.map((day, index) => {
     let totalPayment = 0;
@@ -84,31 +88,31 @@ const dataTTNPrevMonth = useMemo(() => {
     };
   });
 
- const chartDataAgent = agentTTN.agent.map((agent) => {
-  let payment = 0;
-  let purchase = 0;
+  const chartDataAgent = agentTTN.agent.map((agent) => {
+    let payment = 0;
+    let purchase = 0;
 
-  dataTTNPrevMonth?.forEach((monthData) => {
-    const supplierData = monthData?.ttnData?.rowSuppliers?.[agent];
-    if (!supplierData) return;
+    dataTTNPrevMonth?.forEach((monthData) => {
+      const supplierData = monthData?.ttnData?.rowSuppliers?.[agent];
+      if (!supplierData) return;
 
-    payment += (supplierData.plus ?? []).reduce(
-      (acc, v) => acc + (Number(v) || 0),
-      0,
-    );
-    purchase += (supplierData.minus ?? []).reduce(
-      (acc, v) => acc + Math.abs(Number(v) || 0),
-      0,
-    );
+      payment += (supplierData.plus ?? []).reduce(
+        (acc, v) => acc + (Number(v) || 0),
+        0,
+      );
+      purchase += (supplierData.minus ?? []).reduce(
+        (acc, v) => acc + Math.abs(Number(v) || 0),
+        0,
+      );
+    });
+
+    return {
+      name: agent,
+      payment: Number(payment.toFixed(0)),
+      purchase: Number(purchase.toFixed(0)),
+      final: Number((purchase - payment).toFixed(0)),
+    };
   });
-
-  return {
-    name: agent,
-    payment: Number(payment.toFixed(0)),
-    purchase: Number(purchase.toFixed(0)),
-    final: Number((purchase - payment).toFixed(0)),
-  };
-});
   const chartDataYear = MONTHS.map((monthName) => {
     const monthData = dataTTN?.find((d) => d.id === monthName);
 
@@ -138,21 +142,25 @@ const dataTTNPrevMonth = useMemo(() => {
   });
 
   const chartDataMonth = MONTHS.map((monthName) => {
+    if (!activeName)
+      return {
+        name: monthName,
+        payment: 0,
+        purchase: 0,
+        final: 0,
+      };
 
-    if(!activeName) return {
-      name: monthName,
-      payment: 0,
-      purchase: 0,
-      final: 0,
-    }
+    const dataForMonth = dataTTN?.find((data) => data.id === monthName)?.ttnData
+      ?.rowSuppliers?.[activeName];
 
-    const dataForMonth = dataTTN?.find((data) => data.id === monthName)?.ttnData?.rowSuppliers?.[activeName];
-  
-
-    const payment = dataForMonth?.plus?.reduce((acc, v) => acc + Number(v) || 0, 0) || 0;
-    const purchase = dataForMonth?.minus?.reduce((acc, v) => acc + Math.abs(Number(v) || 0), 0) || 0;
+    const payment =
+      dataForMonth?.plus?.reduce((acc, v) => acc + Number(v) || 0, 0) || 0;
+    const purchase =
+      dataForMonth?.minus?.reduce(
+        (acc, v) => acc + Math.abs(Number(v) || 0),
+        0,
+      ) || 0;
     const final = purchase - payment;
-
 
     return {
       name: monthName,
@@ -160,7 +168,7 @@ const dataTTNPrevMonth = useMemo(() => {
       purchase: Number(purchase.toFixed(0)),
       final: Number(final.toFixed(0)),
     };
-  })
+  });
 
   const BAR_KEYS: BarItem[] = [
     { key: "payment", color: "var(--color-bl)", label: "Payment" },
@@ -174,23 +182,19 @@ const dataTTNPrevMonth = useMemo(() => {
 
   const CHART_DATA_BY_TAB: Record<string, ChartDataItem[]> = {
     year: chartDataYear,
-    agent: chartDataAgent,
+    agent: chartDataAgent.filter(
+      (data) => data.payment > 0 || data.purchase > 0,
+    ),
     day: chartDataDay,
     month: chartDataMonth,
   };
 
-  const chartData =
-    CHART_DATA_BY_TAB[tab as keyof typeof CHART_DATA_BY_TAB] 
-
-   
+  const chartData = CHART_DATA_BY_TAB[tab as keyof typeof CHART_DATA_BY_TAB];
 
   return (
     <>
       <div className="flex items-center justify-center gap-6 p-1">
-     
-        {tab === "agent" && (
-          <MonthPicker value={range} onChange={setRange} />
-        )}
+        {tab === "agent" && <MonthPicker value={range} onChange={setRange} />}
         <button
           disabled={!range}
           type="button"
@@ -204,7 +208,7 @@ const dataTTNPrevMonth = useMemo(() => {
         chartData={chartData}
         barItem={BAR_KEYS.filter(({ key }) => visibleBars[key as BarKey])}
         vertical={tab === "agent"}
-        className={(tab === "day" || tab === "year") ? "h-[80dvh]" : "h-[72dvh]"}
+        className={tab === "day" || tab === "year" ? "h-[80dvh]" : "h-[72dvh]"}
       />
 
       <CustomLegend
@@ -212,24 +216,24 @@ const dataTTNPrevMonth = useMemo(() => {
         visibleItems={visibleBars}
         onToggle={toggleBar}
       />
-         <div className="flex flex-wrap justify-center gap-1 md:px-4 md:pb-2">
-              {tab === "month" &&
-                uniqueAgents.map((name) => (
-                  <span
-                    key={name}
-                    onClick={() =>
-                      setActiveName((prev) => (prev === name ? "" : name))
-                    }
-                    className={cn(
-                      "cursor-pointer rounded-full px-1 py-1 text-xs transition-opacity md:px-3",
-                      activeName && activeName !== name && "opacity-35",
-                      activeName !== name && "print:hidden",
-                    )}
-                  >
-                    {name}
-                  </span>
-                ))}
-            </div>
+      <div className="flex flex-wrap justify-center gap-1 md:px-4 md:pb-2">
+        {tab === "month" &&
+          uniqueAgents.map((name) => (
+            <span
+              key={name}
+              onClick={() =>
+                setActiveName((prev) => (prev === name ? "" : name))
+              }
+              className={cn(
+                "cursor-pointer rounded-full px-1 py-1 text-xs transition-opacity md:px-3",
+                activeName && activeName !== name && "opacity-35",
+                activeName !== name && "print:hidden",
+              )}
+            >
+              {name}
+            </span>
+          ))}
+      </div>
     </>
   );
 }

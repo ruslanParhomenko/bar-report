@@ -157,7 +157,13 @@ export default function CustomChart({
         {barItem.map(({ key, color }) => (
           <Bar key={key} dataKey={key} fill={color} radius={6}>
             {withLabelLIst && (
-              <LabelList dataKey={key} values={key} position="top" fill="red" />
+              <LabelList
+                dataKey={key}
+                values={key}
+                position="top"
+                fill="red"
+                fontSize={key.length > 6 ? 11 : 12}
+              />
             )}
           </Bar>
         ))}

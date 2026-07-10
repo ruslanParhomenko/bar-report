@@ -67,7 +67,7 @@ export default function ChartRemarksPage({
     });
   }, [range, dataRemarks]);
   const chartDataYear = getChartDataFromYear(dataRemarksPrevMonth || []);
-  const chartData = chartDataYear;
+  const chartData = chartDataYear.filter((item) => item.reason !== 0);
 
   return (
     <>
