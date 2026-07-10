@@ -32,7 +32,7 @@ export default function SwipeWrapper({
     window.history.replaceState(null, "", `${pathname}?${params.toString()}`);
   };
 
-  const delta = isMobile ? 200 : 50;
+  const delta = isMobile ? 300 : 50;
   const handlers = useSwipeable({
     delta: delta,
     swipeDuration: 1000,

@@ -22,7 +22,7 @@ export default function CashMonthHeaderTable({
           selectedDay={selectedDay}
           setSelectedDay={setSelectedDay}
           monthDays={monthDays}
-          className="min-w-8"
+          className="w-10"
         />
       </TableRow>
     </TableHeader>
