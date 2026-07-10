@@ -13,6 +13,7 @@ export default function CashPage({
   dataCashYear: GetCashData[] | null;
 }) {
   const tab = useSearchParams().get("tab");
+
   return (
     <>
       {tab === "cash-month" && (

@@ -1,16 +1,17 @@
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import { useMonthDays } from "@/providers/month-days-provider";
-import { useFormContext } from "react-hook-form";
+import { useFormContext, useWatch } from "react-hook-form";
 import { CashForm } from "../schema";
 
 export default function CashInfo({ isEdit }: { isEdit?: boolean }) {
   const { monthDays } = useMonthDays();
-  const { register, watch } = useFormContext<CashForm>();
-  const value = watch("rowCashData");
-  const start_241 = Number(watch("start_241") || 0);
-  const z_531 = Number(watch("z_531") || 0);
-  const ao_532 = Number(watch("ao_532") || 0).toFixed(2);
+  const { register, control } = useFormContext<CashForm>();
+  const value = useWatch({ control, name: "rowCashData" });
+
+  const start_241 = Number(useWatch({ control, name: "start_241" }) || 0);
+  const z_531 = Number(useWatch({ control, name: "z_531" }) || 0).toFixed(2);
+  const ao_532 = Number(useWatch({ control, name: "ao_532" }) || 0).toFixed(2);
   const totalCashBar = value?.cash
     ? Object.values(value.cash)
         .reduce((acc, val) => acc + Number(val || 0), 0)
