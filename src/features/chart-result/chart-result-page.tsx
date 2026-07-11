@@ -63,8 +63,6 @@ export default function ChartResultPage({
 
   const allEmployees = useEmployees();
 
-  console.log("allEmployees", allEmployees);
-
   const roleKey = ROLE[role as keyof typeof ROLE];
   const roleEmployees = ROLE_EMPLOYEES[role as keyof typeof ROLE_EMPLOYEES];
 
@@ -423,13 +421,14 @@ export default function ChartResultPage({
   const chartData = CHART_DATA_BY_FILTERS[filters];
   return (
     <>
-      <div className="flex items-center justify-center gap-6 p-1">
+      <div className="flex items-center justify-center gap-2 p-1 md:gap-6">
         <NavTabs
           navItems={NAV_TABS}
           activeTab={filters}
           handleTabChange={(value) =>
             setFilters(value as "employees" | "month")
           }
+          withSelect
         />
         {filters === "employees" && (
           <MonthPicker value={range} onChange={setRange} />
@@ -438,7 +437,7 @@ export default function ChartResultPage({
           disabled={!range}
           type="button"
           onClick={() => setRange(undefined)}
-          className="w-4"
+          className="w-2 md:w-4"
         >
           {range && <TrashIcon className="text-rd h-4 w-4" />}
         </button>
@@ -446,7 +445,7 @@ export default function ChartResultPage({
       <CustomChart
         chartData={chartData.filter((data) => data.total > 0)}
         barItem={BAR_KEYS.filter(({ key }) => visibleBars[key as BarKey])}
-        className="h-[70dvh]"
+        className="h-[64dvh] md:h-[70dvh]"
         vertical={chartData.length > 20}
       />
       <CustomLegend

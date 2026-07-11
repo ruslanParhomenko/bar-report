@@ -108,7 +108,7 @@ export default function CustomChart({
                   dataKey={key}
                   values={key}
                   position="right"
-                  fill="black"
+                  fill="red"
                 />
               )}
             </Bar>

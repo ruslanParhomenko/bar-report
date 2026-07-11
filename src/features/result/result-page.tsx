@@ -1,6 +1,5 @@
 "use client";
 import { Table } from "@/components/ui/table";
-import { cn } from "@/lib/utils";
 import ResultTableBody from "./result-body-table";
 import ResultTableHeader from "./result-header-table";
 import { extractUniqueEmployees, useResultCalculations } from "./utils";
@@ -61,7 +60,7 @@ export function PageResult({
       </div>
     );
   return (
-    <Table className={cn(employees.length === 0 && "hidden")}>
+    <Table className="table-fixed">
       <ResultTableHeader />
       <ResultTableBody rows={rows} totals={totals} isAdmin={isAdmin} />
     </Table>
