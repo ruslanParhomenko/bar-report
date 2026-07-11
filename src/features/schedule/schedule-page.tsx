@@ -10,7 +10,7 @@ import { useEdit } from "@/providers/edit-provider";
 import { useMonthDays } from "@/providers/month-days-provider";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useEffectEvent, useLayoutEffect, useRef, useState } from "react";
 import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { EMPLOYEE_ROLES_BY_DEPARTMENT } from "./constants";
@@ -25,6 +25,7 @@ import {
   getSelectedEmployeesByRole,
   getShiftCounts,
 } from "./utils";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 export default function SchedulePage({
   schedules,
@@ -36,6 +37,9 @@ export default function SchedulePage({
   const tab = searchParams.get("tab");
 
   const schedule = schedules?.find((s) => s.id === tab) ?? null;
+
+
+  const isMobile = useIsMobile();
 
   // state
   const todayDay = new Date().getDate();
@@ -139,9 +143,30 @@ export default function SchedulePage({
     replace(newRows);
   }, [schedule, tab, isEdit]);
 
+const refCell = useRef<HTMLTableElement>(null);
+
+const scrollTableToStart = useEffectEvent(() => {
+  if (!isMobile) return;
+
+  const scrollContainer = refCell.current?.closest<HTMLElement>(
+    '[data-slot="table-container"]',
+  );
+
+  if (!scrollContainer) return;
+
+  scrollContainer.scrollLeft = 140;
+});
+
+useLayoutEffect(() => {
+  requestAnimationFrame(() => {
+    scrollTableToStart();
+
+  });
+}, [tab]);
+
   return (
     <FormWrapper form={form} onSubmit={onSubmit}>
-      <Table className="mt-4 table-fixed">
+      <Table ref={refCell} className="mt-4 table-fixed">
         <ScheduleTableHeader
           addNewRow={addRow}
           selectedDay={selectedDay}

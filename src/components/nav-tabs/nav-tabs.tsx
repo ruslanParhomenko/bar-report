@@ -47,7 +47,6 @@ export default function NavTabs({
     <Tabs
       value={activeTab}
       onValueChange={handleTabChange}
-      className="bg-background sticky top-0 z-100"
     >
       <TabsList className="order-1 flex h-7 md:order-0 md:gap-4">
         {navItems.map((item, index) => (

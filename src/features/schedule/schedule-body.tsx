@@ -8,6 +8,7 @@ import { useMonthDays } from "@/providers/month-days-provider";
 import { color, SHIFT_COLOR_MAP } from "./constants";
 
 import { calculateSalaryByHours } from "./utils";
+import { useEffect, useRef } from "react";
 
 export default function ScheduleTableBody({
   schedule,
@@ -19,6 +20,8 @@ export default function ScheduleTableBody({
   const { monthDays } = useMonthDays();
 
   const { isAdmin } = useAbility();
+
+
   return (
     <TableBody>
       {schedule?.rowShifts?.map((row, rowIndex) => {
