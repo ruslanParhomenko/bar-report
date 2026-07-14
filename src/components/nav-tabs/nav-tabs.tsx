@@ -25,7 +25,7 @@ export default function NavTabs({
 
   switch (true) {
     case length >= 1 && length <= 2:
-      itemsWidth = withSelect ? "w-18" : "w-20";
+      itemsWidth = withSelect ? "w-16" : "w-20";
       break;
     case length >= 3 && length <= 4:
       itemsWidth = withSelect ? "w-12" : "w-16";

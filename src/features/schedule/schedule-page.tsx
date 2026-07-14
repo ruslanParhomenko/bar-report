@@ -39,6 +39,8 @@ export default function SchedulePage({
   const schedule = schedules?.find((s) => s.id === tab) ?? null;
 
 
+
+
   const isMobile = useIsMobile();
 
   // state

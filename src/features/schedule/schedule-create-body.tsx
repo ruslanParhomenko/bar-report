@@ -39,6 +39,12 @@ export default function ScheduleCreateTableBody({
 }) {
   const form = useFormContext();
 
+    const employeesLength = fields?.length || 0;
+
+
+    console.log("employeesLength", employeesLength);
+
+
   const { monthDays } = useMonthDays();
   const isMobile = useIsMobile();
 
@@ -114,6 +120,7 @@ export default function ScheduleCreateTableBody({
                 className={cn(
                   "hover-cell truncate p-0 text-xs",
                   isSelected && "text-rd font-bold",
+                employeesLength <  18 ? "h-9" : "h-7!",
                 )}
                 onChange={(name) => handleEmployeeChange(name, rowIndex)}
               />
@@ -135,9 +142,12 @@ export default function ScheduleCreateTableBody({
                       data-col={dayIndex}
                       onKeyDown={handleMultiTableNavigation}
                       className={cn(
-                        "hover-cell h-9 w-full text-center text-sm",
+                        "hover-cell  w-full text-center text-sm h-full",
                         shiftValue === "" ? "bg-border/20" : "",
                         color[shiftValue as keyof typeof color],
+                                        employeesLength <  18 ? "h-9" : "h-8!",
+
+
                       )}
                       onFocus={() => setSelectedDay(dayIndex + 1)}
                     />

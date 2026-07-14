@@ -70,13 +70,13 @@ export default function CustomChart({
     return (
       <ChartContainer
         config={chartConfig}
-        className={cn("mt-4 w-[90dvw] md:mt-6", height, className)}
+        className={cn("mt-4 w-full", height, className)}
       >
         <BarChart
           accessibilityLayer
           data={chartData}
           layout="vertical"
-          margin={{ top: 10, right: 30, left: 0, bottom: 10 }}
+          margin={{ top: 10, right: 20, left: 0, bottom: 10 }}
         >
           <CartesianGrid horizontal={false} />
 
@@ -92,7 +92,7 @@ export default function CustomChart({
             dataKey="name"
             tickLine={false}
             axisLine={false}
-            width={80}
+            width={82}
             tickFormatter={(value: string) => value?.split(" ")[0]}
           />
           {!disableTooltip && (
@@ -107,8 +107,9 @@ export default function CustomChart({
                 <LabelList
                   dataKey={key}
                   values={key}
+                  fontSize={10}
                   position="right"
-                  fill="red"
+                  className="fill-rd"
                 />
               )}
             </Bar>
@@ -161,8 +162,9 @@ export default function CustomChart({
                 dataKey={key}
                 values={key}
                 position="top"
-                fill="red"
                 fontSize={key.length > 6 ? 11 : 12}
+                offset={10}
+                className="fill-rd"
               />
             )}
           </Bar>
