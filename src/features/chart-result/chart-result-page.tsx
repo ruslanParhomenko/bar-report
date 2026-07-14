@@ -407,7 +407,7 @@ export default function ChartResultPage({
     { key: "total", color: "var(--color-bl)", label: "Total" },
     { key: "hours", color: "var(--color-primary)", label: "Hours" },
     { key: "rate", color: "var(--color-yl)", label: "Rate" },
-    { key: "workedMonths", color: "var(--color-yl)", label: "Worked months" },
+    { key: "workedMonths", color: "var(--color-yl)", label: "Worked" },
   ];
   const toggleBar = (key: BarKey) => {
     setVisibleBars((prev) => ({ ...prev, [key]: !prev[key] }));
@@ -421,7 +421,7 @@ export default function ChartResultPage({
   const chartData = CHART_DATA_BY_FILTERS[filters];
   return (
     <>
-      <div className="flex items-center justify-center gap-2 md:p-1 md:gap-6 print:hidden">
+      <div className="flex items-center justify-center gap-2 md:gap-6 md:p-1 print:hidden">
         <NavTabs
           navItems={NAV_TABS}
           activeTab={filters}
@@ -445,7 +445,9 @@ export default function ChartResultPage({
       <CustomChart
         chartData={chartData.filter((data) => data.total > 0)}
         barItem={BAR_KEYS.filter(({ key }) => visibleBars[key as BarKey])}
-        className="h-[64dvh] md:h-[70dvh]"
+        className={cn(
+          filters === "employees" ? "h-[66dvh] md:h-[77dvh]" : "h-[66dvh]",
+        )}
         vertical={chartData.length > 20}
       />
       <CustomLegend

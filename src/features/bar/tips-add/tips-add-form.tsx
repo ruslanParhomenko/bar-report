@@ -254,7 +254,7 @@ export default function TipsAddForm({
           ))}
         </div>
 
-        <div className="flex flex-col gap-2 overflow-auto">
+        <div className="flex flex-col gap-1 overflow-auto">
           {allAmounts.map((item: any, i: number) => (
             <div
               key={i}

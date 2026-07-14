@@ -22,7 +22,6 @@ export default function ScheduleTableBody({
 
   const employeesLength = schedule?.rowShifts.length || 0;
 
-
   return (
     <TableBody>
       {schedule?.rowShifts?.map((row, rowIndex) => {
@@ -54,9 +53,9 @@ export default function ScheduleTableBody({
             </TableCell>
             <TableCell
               className={cn(
-                "bg-background text-muted-foreground sticky left-0  truncate pr-1 pl-2 md:bg-transparent",
+                "bg-background text-muted-foreground sticky left-0 truncate pr-1 pl-2 md:bg-transparent",
                 isSelected && "text-rd font-bold",
-                employeesLength <  18 && "h-9",
+                employeesLength < 18 && "h-9",
               )}
             >
               {row.employee}

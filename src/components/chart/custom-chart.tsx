@@ -102,7 +102,14 @@ export default function CustomChart({
             <ChartLegend content={<ChartLegendContent payload={undefined} />} />
           )}
           {barItem.map(({ key, color }) => (
-            <Bar key={key} dataKey={key} fill={color} radius={6}>
+            <Bar
+              key={key}
+              dataKey={key}
+              fill={color}
+              radius={6}
+              animationDuration={900}
+              animationEasing="ease-in-out"
+            >
               {withLabelLIst && (
                 <LabelList
                   dataKey={key}
@@ -156,7 +163,14 @@ export default function CustomChart({
           <ChartLegend content={<ChartLegendContent payload={undefined} />} />
         )}
         {barItem.map(({ key, color }) => (
-          <Bar key={key} dataKey={key} fill={color} radius={6}>
+          <Bar
+            key={key}
+            dataKey={key}
+            fill={color}
+            radius={6}
+            animationEasing="ease-in-out"
+            animationDuration={600}
+          >
             {withLabelLIst && (
               <LabelList
                 dataKey={key}

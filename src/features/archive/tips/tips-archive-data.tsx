@@ -104,9 +104,9 @@ export default function TipsArchiveData({
                       return (
                         <TableRow
                           key={emp.idEmployee + "-time"}
-                          className="hover:bg-gray-100!"
+                          className="hover:bg-muted-foreground/10"
                         >
-                          <TableCell className="text-muted-foreground w-2 pl-0 text-start text-xs">
+                          <TableCell className="text-muted-foreground w-2 pl-1 text-start text-xs">
                             {i + 1}
                           </TableCell>
                           <TableCell className="w-6 text-center text-xs font-bold text-green-600 md:w-8">
@@ -148,10 +148,6 @@ export default function TipsArchiveData({
                           >
                             {personalTotal.toFixed(0)}
                           </TableCell>
-
-                          {/* Единственная ячейка вместо переменного числа TableCell — 
-                              так количество колонок в таблице всегда одинаковое, 
-                              и table-layout: fixed больше не "сжимает" остальные колонки */}
                           <TableCell className="min-w-0">
                             <div className="flex gap-1 md:flex-wrap">
                               {emp.amount.map((a, i) => (

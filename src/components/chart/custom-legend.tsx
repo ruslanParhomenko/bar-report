@@ -34,12 +34,12 @@ export default function CustomLegend<T extends string>({
           key={key}
           onClick={() => onToggle(key)}
           className={cn(
-            "flex cursor-pointer items-center gap-1 rounded-md px-3 py-1.5 text-xs font-medium transition-opacity md:gap-2 md:text-sm",
+            "flex cursor-pointer items-center gap-1 rounded-md px-2 py-1.5 text-xs font-medium transition-opacity md:gap-2 md:px-3 md:text-sm",
             !visibleItems[key] && "opacity-35 print:hidden",
           )}
         >
           <span
-            className="inline-block h-3 w-3 rounded-sm"
+            className="inline-block h-2 w-2 rounded-sm md:h-3 md:w-3"
             style={{ backgroundColor: color }}
           />
 

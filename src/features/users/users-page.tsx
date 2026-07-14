@@ -84,7 +84,7 @@ export function UsersPage({ isAdmin }: { isAdmin: boolean }) {
                 </div>
               </TableCell>
               <TableCell>
-                <div className="flex w-[70dvw] items-center truncate">
+                <div className="flex w-[60dvw] items-center truncate">
                   {user.accessList?.map((route, idx) => (
                     <span key={idx} className="mx-1">
                       {route.toUpperCase()}

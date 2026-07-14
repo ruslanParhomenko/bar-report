@@ -122,7 +122,7 @@ export default function BreakTableBody({
                       fieldName={`breakForm.rows.${rowIndex}.hours.${timeIndex}`}
                       data={MINUTES_SELECT}
                       className={cn(
-                        "h-6! w-6! justify-center border-0 px-0 text-xs shadow-none md:w-11 md:px-1 md:text-sm",
+                        "h-6! w-6! justify-center border-0 px-0 text-xs shadow-none md:w-11 md:text-sm",
                         isTrue ? "text-rd! font-bold" : "",
                       )}
                       disabled={isDisabled}

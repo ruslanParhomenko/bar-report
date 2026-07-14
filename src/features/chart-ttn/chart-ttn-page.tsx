@@ -191,6 +191,13 @@ export default function ChartTTNPage({
 
   const chartData = CHART_DATA_BY_TAB[tab as keyof typeof CHART_DATA_BY_TAB];
 
+  const heightByTab = {
+    agent: "h-[74dvh]",
+    day: "md:h-[80dvh] h-[76dvh]",
+    month: "md:h-[70dvh] h-[58dvh]",
+    year: "md:h-[80dvh] h-[76dvh]",
+  };
+
   return (
     <>
       <div className="flex items-center justify-center gap-6 p-1">
@@ -208,7 +215,7 @@ export default function ChartTTNPage({
         chartData={chartData}
         barItem={BAR_KEYS.filter(({ key }) => visibleBars[key as BarKey])}
         vertical={tab === "agent"}
-        className={tab === "day" || tab === "year" ? "h-[80dvh]" : "h-[72dvh]"}
+        className={heightByTab[tab as keyof typeof heightByTab]}
       />
 
       <CustomLegend
@@ -225,7 +232,7 @@ export default function ChartTTNPage({
                 setActiveName((prev) => (prev === name ? "" : name))
               }
               className={cn(
-                "cursor-pointer rounded-full px-1 py-1 text-xs transition-opacity md:px-3",
+                "cursor-pointer rounded-full px-1 py-0.5 text-xs transition-opacity md:px-3 md:py-1",
                 activeName && activeName !== name && "opacity-35",
                 activeName !== name && "print:hidden",
               )}
