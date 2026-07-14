@@ -238,7 +238,7 @@ export default function TipsAddForm({
         {currency}
       </div>
 
-      <div className="grid h-2/3 gap-4 md:grid-cols-[2fr_1fr]">
+      <div className="grid h-[50dvh] gap-4 md:grid-cols-[2fr_1fr]">
         <div className="flex flex-col gap-3.5 overflow-auto">
           {tipsArrayByEmployee.fields.map((field, index) => (
             <TipsAddRow

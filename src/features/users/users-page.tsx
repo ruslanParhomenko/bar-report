@@ -49,10 +49,24 @@ export function UsersPage({ isAdmin }: { isAdmin: boolean }) {
             <TableRow key={user.id}>
               <TableCell className="w-6">{idx + 1}</TableCell>
               <TableCell>{user.mail}</TableCell>
-              <TableCell>{isMobile ? user.role[0] : user.role}</TableCell>
+              <TableCell className="text-center md:px-4">
+                {isMobile ? user.role[0] : user.role}
+              </TableCell>
               <TableCell>{user.name}</TableCell>
               <TableCell>
-                <div className="flex items-center gap-6">
+                <div className="flex justify-center gap-8 pr-4">
+                  <LinkEditButton
+                    url={`/${CREATE_USER_MAIN_ROUTE}/${user.id}`}
+                  />
+                  <DeleteButton
+                    dialogText="confirmDelete"
+                    descriptionText={user.mail}
+                    onDelete={() => deleteUser(user.id as string)}
+                  />
+                </div>
+              </TableCell>
+              <TableCell>
+                <div className="flex items-center gap-8">
                   {user.status ? (
                     <CheckCircle size={14} className="text-bl" />
                   ) : (
@@ -70,24 +84,12 @@ export function UsersPage({ isAdmin }: { isAdmin: boolean }) {
                 </div>
               </TableCell>
               <TableCell>
-                <div className="flex items-center">
+                <div className="flex w-[70dvw] items-center truncate">
                   {user.accessList?.map((route, idx) => (
                     <span key={idx} className="mx-1">
                       {route.toUpperCase()}
                     </span>
                   ))}
-                </div>
-              </TableCell>
-              <TableCell>
-                <div className="flex justify-center gap-8">
-                  <LinkEditButton
-                    url={`/${CREATE_USER_MAIN_ROUTE}/${user.id}`}
-                  />
-                  <DeleteButton
-                    dialogText="confirmDelete"
-                    descriptionText={user.mail}
-                    onDelete={() => deleteUser(user.id as string)}
-                  />
                 </div>
               </TableCell>
             </TableRow>

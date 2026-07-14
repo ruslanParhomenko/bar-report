@@ -20,7 +20,7 @@ export default function BreakTableHeader() {
             <TableHead
               key={i}
               className={cn(
-                "w-6 px-0 text-center text-xs md:w-11 md:px-2 md:text-sm",
+                "w-6 px-0 text-left text-xs md:w-11 md:pr-1 md:text-sm",
                 isCurrentHour ? "text-rd font-bold md:text-lg" : "text-bl",
               )}
             >

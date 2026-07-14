@@ -2,7 +2,7 @@ import { TableCell, TableHeader, TableRow } from "@/components/ui/table";
 
 export function PenaltyTableHeader({ day }: { day?: string }) {
   return (
-    <TableHeader className="text-bl text-xs md:text-base">
+    <TableHeader className="text-bl text-xs md:text-sm">
       <TableRow>
         <TableCell className="w-4" />
         <TableCell className="w-20 md:w-38">{day || "-"}</TableCell>
