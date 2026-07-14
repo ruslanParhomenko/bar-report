@@ -90,7 +90,7 @@ export default function MenuSection({
   }));
 
   return (
-    <div className="flex h-[42dvh] flex-col justify-between px-1 pb-3">
+    <div className="flex h-[42dvh] flex-col justify-between pb-3 md:px-1">
       <p
         className="my-4 text-center text-[12px] tracking-[0.18em] text-[#9a8060] uppercase"
         style={{ fontFamily: "'Cormorant Garamond', serif" }}

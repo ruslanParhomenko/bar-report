@@ -40,18 +40,20 @@ export default function PenaltyResult({
         {formattedData.map((row, index) => (
           <React.Fragment key={index}>
             <TableRow key={index} className={cn("hover:text-rd")}>
-              <TableCell className="w-8 text-xs">{index + 1}</TableCell>
+              <TableCell className="w-4 px-0 text-xs md:w-8 md:px-1">
+                {index + 1}
+              </TableCell>
               <TableCell
                 onClick={() =>
                   selectedEmployee !== row.name.trim()
                     ? setSelectedEmployee(row.name.trim())
                     : setSelectedEmployee("select")
                 }
-                className="bg-background sticky left-0 z-10 w-42 cursor-pointer md:w-60 md:bg-transparent print:bg-none"
+                className="bg-background sticky left-0 z-10 w-36 cursor-pointer px-0.5 md:w-60 md:bg-transparent md:px-1 print:bg-none"
               >
                 {row.name}
               </TableCell>
-              <TableCell className="w-24">
+              <TableCell className="w-18 md:w-24">
                 {row.dayHours && (
                   <span>
                     d:
@@ -59,7 +61,7 @@ export default function PenaltyResult({
                   </span>
                 )}
               </TableCell>
-              <TableCell className="w-24">
+              <TableCell className="w-12 md:w-24">
                 {row.nightHours && (
                   <span>
                     n:
@@ -67,10 +69,10 @@ export default function PenaltyResult({
                   </span>
                 )}
               </TableCell>
-              <TableCell className="text-bl w-24 text-center">
+              <TableCell className="text-bl w-12 text-center md:w-24">
                 {row.bonus ? `+ ${row.bonus}` : ""}
               </TableCell>
-              <TableCell className="text-rd w-24 text-center">
+              <TableCell className="text-rd w-12 text-center md:w-24">
                 {row.penalty ? `- ${row.penalty}` : ""}
               </TableCell>
             </TableRow>

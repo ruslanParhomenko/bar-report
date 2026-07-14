@@ -26,42 +26,44 @@ export function PenaltyTableBody({ isDisabled }: { isDisabled: boolean }) {
   return (
     <TableBody>
       {dataRemarks.map((item, idx) => (
-        <TableRow key={item.id}>
-          <TableCell>{idx + 1}</TableCell>
-          <TableCell className="bg-background sticky left-0 z-10 py-0 text-left">
+        <TableRow key={item.id} className="[&>td]:py-0">
+          <TableCell className="px-0 text-xs md:px-1 md:text-sm">
+            {idx + 1}
+          </TableCell>
+          <TableCell className="bg-background sticky left-0 z-10 text-left">
             <SelectField
               fieldName={`penalty.remarks.${idx}.name`}
               placeHolder="..."
               data={selectedEmployees}
-              className="h-6 border-0 shadow-none"
+              className="h-6 border-0 px-0 text-xs shadow-none md:px-1 md:text-sm"
               disabled={isDisabled}
             />
           </TableCell>
           <TableCell>
             <NumericInput
               fieldName={`penalty.remarks.${idx}.dayHours`}
-              className="h-6 justify-center"
+              className="justify-center text-xs md:text-sm"
               disabled={isDisabled}
             />
           </TableCell>
           <TableCell>
             <NumericInput
               fieldName={`penalty.remarks.${idx}.nightHours`}
-              className="h-6 justify-center"
+              className="justify-center text-xs md:text-sm"
               disabled={isDisabled}
             />
           </TableCell>
           <TableCell>
             <NumericInput
               fieldName={`penalty.remarks.${idx}.penalty`}
-              className="h-6 justify-center"
+              className="justify-center text-xs md:text-sm"
               disabled={isDisabled}
             />
           </TableCell>
           <TableCell>
             <NumericInput
               fieldName={`penalty.remarks.${idx}.bonus`}
-              className="h-6 justify-center"
+              className="justify-center text-xs md:text-sm"
               disabled={isDisabled}
             />
           </TableCell>
@@ -69,7 +71,7 @@ export function PenaltyTableBody({ isDisabled }: { isDisabled: boolean }) {
             <TextInput
               fieldName={`penalty.remarks.${idx}.reason`}
               placeholder="...reason"
-              className="h-6 border-0 shadow-none"
+              className="mt-2 h-8 border-0 text-xs shadow-none md:text-sm"
               disabled={isDisabled}
             />
           </TableCell>
@@ -80,7 +82,7 @@ export function PenaltyTableBody({ isDisabled }: { isDisabled: boolean }) {
             )}
             onClick={() => append(remarkDefault)}
           >
-            <Plus className="text-bl h-4 w-4" />
+            <Plus className="text-bl h-4 w-3 md:w-4" />
           </TableCell>
           <TableCell
             className={cn(
@@ -95,7 +97,7 @@ export function PenaltyTableBody({ isDisabled }: { isDisabled: boolean }) {
               }
             }}
           >
-            <Trash2 className="h-4 w-4" />
+            <Trash2 className="h-4 w-3 md:w-4" />
           </TableCell>
         </TableRow>
       ))}

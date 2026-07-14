@@ -42,12 +42,12 @@ export default function BreakTableBody({
 
         return (
           <TableRow key={`${row.id ?? "row"}-${rowIndex}-${row.name}`}>
-            <TableCell className="text-bl border-0 bg-transparent! p-0 px-0.5 text-xs shadow-none">
+            <TableCell className="text-bl border-0 bg-transparent! p-0 px-0.5 text-xs shadow-none md:px-1">
               {row.isAdded ? (
                 <button
                   type="button"
                   disabled={isDisabled}
-                  className="hover:bg-muted mr-0.5 flex h-4 w-4 items-center justify-center rounded-sm border text-xs leading-none disabled:opacity-50"
+                  className="hover:bg-muted mr-0.5 flex h-4 w-4 items-center justify-center rounded-sm border leading-none disabled:opacity-50"
                   onClick={() => {
                     const rows = getValues("breakForm.rows");
                     const updatedRows = rows.filter((_, i) => i !== rowIndex);
@@ -90,7 +90,7 @@ export default function BreakTableBody({
                 </button>
               )}
             </TableCell>
-            <TableCell className="text-bl border-0 bg-transparent! p-0 px-0.5 text-xs shadow-none">
+            <TableCell className="text-bl border-0 bg-transparent! p-0 text-center text-xs shadow-none md:px-0.5 md:text-sm">
               {row.id}
             </TableCell>
 
@@ -100,13 +100,13 @@ export default function BreakTableBody({
                 data={employeesName.map((e) => e.name)}
                 placeHolder="..."
                 className={cn(
-                  "w-full border-0 bg-transparent! shadow-none",
+                  "w-18 border-0 bg-transparent! px-0 text-xs shadow-none md:w-full md:px-1 md:text-sm",
                   rowHasTrue ? "text-rd!" : "",
                 )}
                 disabled={isDisabled}
               />
             </TableCell>
-            <TableCell className="text-bl p-0">
+            <TableCell className="text-bl text-xs">
               {row.name && totalBreak}
             </TableCell>
 
@@ -122,13 +122,15 @@ export default function BreakTableBody({
                       fieldName={`breakForm.rows.${rowIndex}.hours.${timeIndex}`}
                       data={MINUTES_SELECT}
                       className={cn(
-                        "h-6! w-11 justify-center border-0 shadow-none",
+                        "h-6! w-6! justify-center border-0 px-0 text-xs shadow-none md:w-11 md:px-1 md:text-sm",
                         isTrue ? "text-rd! font-bold" : "",
                       )}
                       disabled={isDisabled}
                     />
                   ) : (
-                    <div className={cn("bg-gr h-6 w-11 rounded-md")}></div>
+                    <div
+                      className={cn("bg-gr h-6 w-6 rounded-md md:w-11")}
+                    ></div>
                   )}
                 </TableCell>
               );

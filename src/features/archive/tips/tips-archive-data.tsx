@@ -79,17 +79,15 @@ export default function TipsArchiveData({
           >
             <CardTitle className="p-4 text-xs">
               <span className="pr-4">day: {dayItem.id} :</span>
-              <span className="text-bl px-2">
-                total tips: {totalTips.toFixed(0)}
-              </span>
+              <span className="text-bl px-2">tips: {totalTips.toFixed(0)}</span>
               <span className="px-2 text-green-600">
-                total mdl: {totalMdl.toFixed(0)}
+                _mdl: {totalMdl.toFixed(0)}
               </span>
               <span className="px-2 text-blue-600">
-                total chips: {totalChips.toFixed(0)}
+                _chips: {totalChips.toFixed(0)}
               </span>
               <span className="text-bl px-2">
-                currency: {dayItem.currency.slice(0, 5)}
+                _$: {dayItem.currency.slice(0, 5)}
               </span>
             </CardTitle>
 
@@ -111,12 +109,10 @@ export default function TipsArchiveData({
                           <TableCell className="text-muted-foreground w-2 pl-0 text-start text-xs">
                             {i + 1}
                           </TableCell>
-                          <TableCell className="w-8 text-center text-xs font-bold text-green-600">
+                          <TableCell className="w-6 text-center text-xs font-bold text-green-600 md:w-8">
                             {personalResultAmount}
                           </TableCell>
-                          {/* <TableCell className="text-muted-foreground w-8 text-center text-xs">
-                            {getEmployeeTotal(emp).toFixed(0)}
-                          </TableCell> */}
+
                           <TableCell className="text-yl w-5 text-xs">
                             {emp.shift.split("-")[0]}
                           </TableCell>

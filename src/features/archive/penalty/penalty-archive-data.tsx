@@ -61,13 +61,13 @@ export default function PenaltyArchiveData({
                           key={index}
                           className="hover:text-rd hover:bg-accent cursor-pointer [&>td]:py-1 [&>td]:text-xs"
                         >
-                          <TableCell className="w-8 text-xs">
+                          <TableCell className="w-4 p-0 text-xs md:w-8">
                             {index + 1}
                           </TableCell>
-                          <TableCell className="bg-background/90 sticky left-0 z-20 w-40 text-xs md:bg-inherit">
+                          <TableCell className="bg-background/90 sticky left-0 z-20 w-30 text-xs md:w-40 md:bg-inherit">
                             {row.name}
                           </TableCell>
-                          <TableCell className="w-24">
+                          <TableCell className="w-12 md:w-24">
                             {row.dayHours && (
                               <span>
                                 day:
@@ -77,7 +77,7 @@ export default function PenaltyArchiveData({
                               </span>
                             )}
                           </TableCell>
-                          <TableCell className="w-24">
+                          <TableCell className="w-12 md:w-24">
                             {row.nightHours && (
                               <span>
                                 night:
@@ -87,13 +87,13 @@ export default function PenaltyArchiveData({
                               </span>
                             )}
                           </TableCell>
-                          <TableCell className="text-bl w-24 text-center">
+                          <TableCell className="text-bl w-12 text-center md:w-24">
                             {row.bonus ? `+ ${row.bonus}` : ""}
                           </TableCell>
-                          <TableCell className="text-rd w-24 text-center">
+                          <TableCell className="text-rd w-12 text-center md:w-24">
                             {row.penalty ? `- ${row.penalty}` : ""}
                           </TableCell>
-                          <TableCell className="pl-6">
+                          <TableCell className="md:pl-6">
                             {row.reason && (
                               <span>
                                 reason:

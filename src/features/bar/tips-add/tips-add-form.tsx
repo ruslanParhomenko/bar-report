@@ -186,8 +186,7 @@ export default function TipsAddForm({
   }));
 
   return (
-    <div className="flex w-full flex-col gap-1 md:h-[80dvh] md:px-2">
-      {/* OVER MODAL */}
+    <div className="flex h-[80dvh] w-full flex-col gap-1 md:px-2">
       <ModalConfirm
         open={confirmOverIndex !== null}
         setOpen={(open) => !open && setConfirmOverIndex(null)}
@@ -213,7 +212,6 @@ export default function TipsAddForm({
         }}
       />
 
-      {/* CLOSE MODAL */}
       <ModalConfirm
         open={confirmIndex !== null}
         setOpen={(open) => !open && setConfirmIndex(null)}
@@ -236,14 +234,11 @@ export default function TipsAddForm({
         }}
       />
 
-      {/* HEADER */}
       <div className="text-muted-foreground w-full text-center text-xs">
         {currency}
       </div>
 
-      {/* MAIN GRID */}
       <div className="grid h-2/3 gap-4 md:grid-cols-[2fr_1fr]">
-        {/* LEFT */}
         <div className="flex flex-col gap-3.5 overflow-auto">
           {tipsArrayByEmployee.fields.map((field, index) => (
             <TipsAddRow
@@ -259,7 +254,6 @@ export default function TipsAddForm({
           ))}
         </div>
 
-        {/* RIGHT */}
         <div className="flex flex-col gap-2 overflow-auto">
           {allAmounts.map((item: any, i: number) => (
             <div
@@ -279,7 +273,6 @@ export default function TipsAddForm({
         </div>
       </div>
 
-      {/* CHART */}
       <div className="flex h-1/3 flex-col">
         <CustomChart
           chartData={chartData}

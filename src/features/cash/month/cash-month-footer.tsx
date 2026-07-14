@@ -55,19 +55,12 @@ export function CashMonthFooterTable() {
           const visaBarByDay = Array.isArray(value?.visaBarByDay)
             ? Number(value.visaBarByDay[dayIndex] ?? 0)
             : 0;
-          const banquetBarByDay = Array.isArray(value?.banquetBarByDay)
-            ? Number(value.banquetBarByDay[dayIndex] ?? 0)
-            : 0;
-          const visaCasinoBarByDay = Array.isArray(value?.visaCasinoBarByDay)
-            ? Number(value.visaCasinoBarByDay[dayIndex] ?? 0)
-            : 0;
 
           const cashByDay = Array.isArray(value?.cash)
             ? Number(value.cash[dayIndex] ?? 0)
             : 0;
 
-          const sumCashBarByDay =
-            cashBarByDay + visaBarByDay + banquetBarByDay + visaCasinoBarByDay;
+          const sumCashBarByDay = cashBarByDay + visaBarByDay;
 
           const sumBarByDay = sumCashBarByDay.toFixed(0);
 

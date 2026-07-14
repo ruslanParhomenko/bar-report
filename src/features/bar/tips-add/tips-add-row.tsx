@@ -4,6 +4,7 @@ import NumericInput from "@/components/input-controlled/numeric-input";
 import SelectInput from "@/components/select/select-input";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 import { ClockPlusIcon, Home, PlusIcon, UserX } from "lucide-react";
 import { useFormContext, useWatch } from "react-hook-form";
@@ -30,7 +31,8 @@ export default function TipsAddRow({
 }: TipsAddRowProps) {
   const { setValue } = useFormContext();
 
-  // watch только своей строки
+  const isMobile = useIsMobile();
+
   const tip = useWatch({ name: `tipsAdd.${index}` });
 
   const numericValue = tip?.draftValue ?? "";
@@ -56,12 +58,12 @@ export default function TipsAddRow({
         tip?.isClosed && "line-through opacity-40",
       )}
     >
-      <div className="flex items-center md:gap-4">
-        <div className="w-4 md:w-6">
-          {isFinished && <Home className="text-rd h-4 w-4" />}
+      <div className="flex items-center gap-1 md:gap-4">
+        <div className="w-3 md:w-6">
+          {isFinished && <Home className="text-rd h-3 w-3 md:h-4 md:w-4" />}
         </div>
 
-        <div className="text-muted-foreground w-8 text-xs">
+        <div className="text-muted-foreground w-4 text-xs md:w-8">
           {tip?.isWaiters ? "w" : "b"}
         </div>
 
@@ -71,6 +73,8 @@ export default function TipsAddRow({
             setValue(`tipsAdd.${index}.isWaiters`, val, { shouldDirty: true })
           }
           disabled={isPending || tip?.isClosed || tip?.role === "waiters"}
+
+          className={cn(isMobile && "h-5 w-8")}
         />
 
         <button
@@ -79,22 +83,24 @@ export default function TipsAddRow({
           className="cursor-pointer px-2"
           disabled={isPending || tip?.isClosed}
         >
-          <UserX className="text-rd h-4 w-4" />
+          <UserX className="text-rd h-3 w-3 md:h-4 md:w-4" />
         </button>
 
-        <div className="w-10 px-2 text-xs">{employeeTotal.toFixed(0)}</div>
+        <div className="ms:w-10 w-6 text-xs md:px-2">
+          {employeeTotal.toFixed(0)}
+        </div>
       </div>
 
-      <div className="flex items-center justify-center gap-2 md:gap-6">
+      <div className="flex items-center justify-center gap-1 md:gap-6">
         <SelectInput
           fieldName={`tipsAdd.${index}.typeAmount`}
           options={TYPE_AMOUNT}
-          className="h-8! w-8 md:w-14"
+          className="h-6! w-9 md:h-8! md:w-14"
         />
 
         <NumericInput
           fieldName={`tipsAdd.${index}.draftValue`}
-          className={cn("h-8 w-8 md:w-14", !numericValue && "bg-bl")}
+          className={cn("h-5 w-6 md:h-8 md:w-14", !numericValue && "bg-bl")}
           disabled={isPending || tip?.isClosed}
         />
 
@@ -104,7 +110,7 @@ export default function TipsAddRow({
           onClick={() => onAdd(index)}
           disabled={!numericValue || !typeAmount || isPending || tip?.isClosed}
           className={cn(
-            "h-8 w-8 cursor-pointer md:w-10",
+            "h-6 w-6 cursor-pointer md:h-8 md:w-10",
             numericValue && "bg-red-600 text-white",
           )}
         >
@@ -113,15 +119,17 @@ export default function TipsAddRow({
       </div>
 
       <div className="flex items-center justify-center">
-        <div className="text-bl w-20 truncate text-sm font-bold md:w-40">
+        <div className="text-bl w-18 truncate text-xs font-bold md:w-40 md:text-sm">
           {tip?.employeeName}
         </div>
 
-        <div className="w-12 text-sm font-bold">{endTime}</div>
+        <div className="w-9 text-xs font-bold md:w-12 md:text-sm">
+          {endTime}
+        </div>
 
         <button
           type="button"
-          className="flex w-12 cursor-pointer items-center justify-center"
+          className="flex w-8 cursor-pointer items-center justify-center md:w-12"
           onClick={() => onOver(index)}
         >
           <ClockPlusIcon className="h-4 w-4 text-red-600" />

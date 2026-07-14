@@ -62,11 +62,11 @@ export default function MenuDailyPage({
       style={{ fontFamily: "'Cormorant Garamond', serif" }}
     >
       <FormWrapper form={form} onSubmit={onSubmit}>
-        <div className="grid grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 gap-2 md:grid-cols-3 md:gap-6">
           <div>
-            <OrnamentBorder className="h-14! w-14!">
+            <OrnamentBorder className="md:h-14! md:w-14!">
               {SECTION_1.map((cat) => (
-                <div key={cat} className="p-2">
+                <div key={cat} className="md:p-2">
                   <MenuSection
                     category={cat}
                     items={getItems(cat)}
@@ -79,9 +79,9 @@ export default function MenuDailyPage({
             </OrnamentBorder>
           </div>
           <div>
-            <OrnamentBorder className="h-14! w-14!">
+            <OrnamentBorder className="md:h-14! md:w-14!">
               {SECTION_2.map((cat) => (
-                <div key={cat} className="p-2">
+                <div key={cat} className="md:p-2">
                   <MenuSection
                     category={cat}
                     items={getItems(cat)}
@@ -94,9 +94,9 @@ export default function MenuDailyPage({
             </OrnamentBorder>
           </div>
           <div>
-            <OrnamentBorder className="h-14! w-14!">
+            <OrnamentBorder className="md:h-14! md:w-14!">
               {SECTION_3.map((cat) => (
-                <div key={cat} className="p-2">
+                <div key={cat} className="md:p-2">
                   <MenuSection
                     category={cat}
                     items={getItems(cat)}

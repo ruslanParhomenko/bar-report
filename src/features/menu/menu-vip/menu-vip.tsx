@@ -20,8 +20,8 @@ function Row({ item, t }: { item: MenuItem; t: LocalTranslateFn }) {
   if (!item.name && !item.price) return null;
 
   return (
-    <div className="my-0 grid grid-cols-[2fr_1fr_auto] items-baseline gap-3 text-xs tracking-wider text-[#1a1a1a] print:my-1.5">
-      <span className="overflow-hidden text-ellipsis whitespace-nowrap">
+    <div className="my-0 grid grid-cols-[2fr_1fr_auto] items-baseline gap-1 text-xs tracking-wider text-[#1a1a1a] md:gap-3 print:my-1.5">
+      <span className="overflow-hidden whitespace-nowrap md:text-ellipsis">
         {item.name ? t(item.name) : ""}
       </span>
 
@@ -43,7 +43,7 @@ function Row({ item, t }: { item: MenuItem; t: LocalTranslateFn }) {
 
 function SectionTitle({ title, t }: { title: string; t: LocalTranslateFn }) {
   return (
-    <h3 className="m-0 text-center font-bold tracking-widest text-[#1a1a1a] italic print:mt-2">
+    <h3 className="m-0 text-center text-xs font-bold tracking-widest text-[#1a1a1a] italic md:text-base print:mt-2">
       · {t(title)} ·
     </h3>
   );
@@ -67,7 +67,7 @@ function Section({
       {section.subgroups?.map((sg, i) => (
         <div key={i} className="print:mt-1">
           <p
-            className="mb-px text-center font-bold tracking-wider text-[#1a1a1a] uppercase"
+            className="mb-px text-center text-xs font-bold tracking-wider text-[#1a1a1a] uppercase md:text-base"
             style={{ fontSize: "0.55rem" }}
           >
             {sg.label}
@@ -84,7 +84,7 @@ function Section({
 
 function ColSingle({ col, t }: { col: MenuColumn; t: LocalTranslateFn }) {
   return (
-    <div className="h-full px-1 pb-3">
+    <div className="pb-3 md:h-full md:px-1">
       <h2
         className="text-center font-bold tracking-widest text-[#1a1a1a] uppercase"
         style={{ fontSize: "1rem" }}
@@ -168,11 +168,11 @@ function SinglePage({
   });
 
   return (
-    <div className="flex h-full flex-col">
+    <div className="flex flex-col md:h-full">
       <div
         ref={printRef}
         dir={isRtl ? "rtl" : "ltr"}
-        className="print-root flex min-h-0 flex-1 flex-col px-2 pb-2"
+        className="print-root flex min-h-0 flex-1 flex-col pb-2 md:px-2"
       >
         <div className="grid h-full grid-cols-1 gap-4 md:grid-cols-2">
           {page.columns.map((col, i) => {

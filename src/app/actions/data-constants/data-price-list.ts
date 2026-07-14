@@ -8,7 +8,12 @@ export type PriceListType = {
   currency: number;
   priceList: Record<
     string,
-    { name: string; "price-chips": number; cost: number }[]
+    {
+      name: string;
+      "price-chips": number;
+      cost: number;
+      "price-chips-new": number;
+    }[]
   >;
 };
 

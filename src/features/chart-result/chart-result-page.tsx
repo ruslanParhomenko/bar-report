@@ -421,7 +421,7 @@ export default function ChartResultPage({
   const chartData = CHART_DATA_BY_FILTERS[filters];
   return (
     <>
-      <div className="flex items-center justify-center gap-2 p-1 md:gap-6">
+      <div className="flex items-center justify-center gap-2 p-1 md:gap-6 print:hidden">
         <NavTabs
           navItems={NAV_TABS}
           activeTab={filters}

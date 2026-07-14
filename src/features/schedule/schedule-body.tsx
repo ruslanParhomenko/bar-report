@@ -8,7 +8,6 @@ import { useMonthDays } from "@/providers/month-days-provider";
 import { color, SHIFT_COLOR_MAP } from "./constants";
 
 import { calculateSalaryByHours } from "./utils";
-import { useEffect, useRef } from "react";
 
 export default function ScheduleTableBody({
   schedule,
@@ -20,7 +19,6 @@ export default function ScheduleTableBody({
   const { monthDays } = useMonthDays();
 
   const { isAdmin } = useAbility();
-
 
   return (
     <TableBody>
@@ -36,7 +34,7 @@ export default function ScheduleTableBody({
             key={row.id}
             className="print:[&>td]:text-md! print:h-12 [&>td]:text-xs"
           >
-            <TableCell className="px-1">{rowIndex + 1}</TableCell>
+            <TableCell className="px-1 print:px-0">{rowIndex + 1}</TableCell>
             <TableCell className="text-bl px-0">{row.dayHours}</TableCell>
             <TableCell className="text-bl px-0">{row.nightHours}</TableCell>
             <TableCell className="px-0">{row.totalHours}</TableCell>
@@ -48,7 +46,7 @@ export default function ScheduleTableBody({
                 {totalPay}
               </span>
             </TableCell>
-            <TableCell className="text-muted-foreground text-right">
+            <TableCell className="text-muted-foreground text-right print:w-6 print:px-0">
               {row.role.charAt(0)}
             </TableCell>
             <TableCell

@@ -186,6 +186,15 @@ body::-webkit-scrollbar {
     display: none !important;
     visibility: hidden !important;
   }
+  .recharts-xAxis .recharts-cartesian-axis-tick text {
+    font-size: 24px !important;
+  }
+  .recharts-yAxis .recharts-cartesian-axis-tick text {
+    font-size: 24px !important;
+  }
+  .recharts-label {
+    font-size: 22px !important;
+  }
 }
 
 .group:focus-within .hover-cell {

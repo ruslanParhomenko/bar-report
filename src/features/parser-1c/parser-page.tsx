@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 import { Trash } from "lucide-react";
 import { parseExp } from "../setting/utils";
@@ -44,6 +45,8 @@ interface SaleItem {
 }
 
 export default function ParserPage() {
+  const isMobile = useIsMobile();
+
   const [result, setResult] = useState<SaleItem[]>([]);
   const [activeItem, setActiveItem] = useState<string>("all");
 
@@ -123,55 +126,61 @@ export default function ParserPage() {
   };
 
   return (
-    <div className="flex h-[90dvh] flex-col">
-      <div className="bg-background sticky top-0 z-10 flex px-4 pb-2 print:hidden">
-        <div
-          className="flex h-10 cursor-pointer items-center gap-2 px-6"
-          onClick={() => inputRef.current?.click()}
-        >
-          <Input
-            ref={inputRef}
-            type="file"
-            accept=".exp"
-            onChange={handleFile}
-            className="hidden"
-          />
-          <span className="text-muted-foreground text-sm">{fileName}</span>
+    <div className="flex flex-col md:h-[90dvh]">
+      <div className="bg-background w-ful sticky top-0 z-10 grid grid-cols-1 gap-3 pb-1 md:grid-cols-[30%_auto] md:px-4 md:pb-2 print:hidden">
+        <div className="flex w-full items-center justify-center gap-4 md:justify-start">
+          <div
+            className="flex w-full cursor-pointer items-center justify-center px-6"
+            onClick={() => inputRef.current?.click()}
+          >
+            <Input
+              ref={inputRef}
+              type="file"
+              accept=".exp"
+              onChange={handleFile}
+              className="hidden"
+            />
+            <span className="text-muted-foreground w-30 text-xs md:text-sm">
+              {fileName.split("-")[0]}
+            </span>
+          </div>
+          <div className="flex w-full items-center justify-center gap-4">
+            <Switch
+              id="chart-filter"
+              checked={filters === "product"}
+              onCheckedChange={(checked) =>
+                setFilters(checked ? "product" : "month")
+              }
+              className="shadow-none"
+            />
+            <Label className="text-muted-foreground w-20 text-xs">
+              {filters}
+            </Label>
+          </div>
         </div>
-
-        <ToggleGroup
-          type="single"
-          value={activeTab}
-          onValueChange={(val) => {
-            if (val) {
-              setActiveTab(val);
-              setActiveItem("all");
-            }
-          }}
-          className="flex flex-wrap justify-start gap-3"
-        >
-          {CELESTA_TABS.map((tab) => (
-            <ToggleGroupItem
-              key={tab}
-              value={tab}
-              variant="outline"
-              className="data-[state=on]:bg-primary data-[state=on]:text-primary-foreground h-7 rounded-full px-3 text-xs"
-            >
-              {tab}
-            </ToggleGroupItem>
-          ))}
-        </ToggleGroup>
-
-        <div className="flex items-center justify-start gap-4 px-4">
-          <Switch
-            id="chart-filter"
-            checked={filters === "product"}
-            onCheckedChange={(checked) =>
-              setFilters(checked ? "product" : "month")
-            }
-            className="shadow-none"
-          />
-          <Label className="text-muted-foreground text-xs">{filters}</Label>
+        <div>
+          <ToggleGroup
+            type="single"
+            value={activeTab}
+            onValueChange={(val) => {
+              if (val) {
+                setActiveTab(val);
+                setActiveItem("all");
+              }
+            }}
+            className="flex flex-wrap items-center justify-center gap-1 md:justify-start md:gap-3"
+          >
+            {CELESTA_TABS.map((tab) => (
+              <ToggleGroupItem
+                key={tab}
+                value={tab}
+                variant="outline"
+                className="data-[state=on]:bg-primary data-[state=on]:text-primary-foreground h-6 rounded-full p-1.5 text-xs md:h-7 md:px-3"
+              >
+                {isMobile ? tab.slice(0, 6) : tab}
+              </ToggleGroupItem>
+            ))}
+          </ToggleGroup>
         </div>
       </div>
       <Label className="block w-full text-center text-xs">{activeItem}</Label>
@@ -179,12 +188,12 @@ export default function ParserPage() {
       <CustomChart
         chartData={chartData}
         barItem={BAR_KEYS}
-        className={cn("min-h-0 w-full! flex-1")}
+        className={cn("w-full! md:min-h-0 md:flex-1")}
         vertical
       />
 
       {filters === "month" && (
-        <div className="flex flex-wrap justify-start gap-1 px-4 pb-2 print:hidden">
+        <div className="flex flex-wrap justify-start gap-1 pb-2 md:px-4 print:hidden">
           {uniqueName
             .filter((name) => name.includes(searchInput))
             .map((name) => (
@@ -192,18 +201,18 @@ export default function ParserPage() {
                 key={name}
                 onClick={() => setActiveItem(name)}
                 className={cn(
-                  "cursor-pointer rounded-full px-3 py-1 text-xs transition-opacity",
+                  "cursor-pointer rounded-full px-1 text-xs transition-opacity md:px-3 md:py-1",
                   activeItem !== name && "opacity-35",
                 )}
               >
-                {name}
+                {isMobile ? name.slice(0, 14) : name}
               </span>
             ))}
         </div>
       )}
       <div className="flex items-center justify-center gap-1 px-4 pb-2 print:hidden">
         <Input
-          className="h-7 w-40"
+          className="h-6 w-40 text-xs md:h-7 md:text-base"
           onChange={(e) => setSearchInput(e.target.value)}
           placeholder="Search..."
         />

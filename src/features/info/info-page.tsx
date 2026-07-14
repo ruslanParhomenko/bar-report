@@ -1,18 +1,22 @@
 "use client";
 import { MenuDataType } from "@/app/actions/data-constants/data-menu-action";
+import { PriceListType } from "@/app/actions/data-constants/data-price-list";
 import { Menu, StandardKitchen } from "@/app/actions/google/google-action";
 import { useSearchParams } from "next/navigation";
 import StaffMenu from "./menu/menu-staff";
 import StatusMenu from "./menu/menu-status";
 import { MenuVip } from "./menu/menu-vip";
-import { PriceListTable } from "./price-list/price-list-table";
+import {
+  PriceListBarTable,
+  PriceListCucinaTable,
+} from "./price-list/price-list-table";
 import StandardKitchenTable from "./standard/standard-kitchen";
 
 type InfoPageProps = {
   data: {
     standardKitchen: StandardKitchen[] | null;
     menu: Menu | null;
-    priceList: any | null;
+    priceList: PriceListType | null;
     dataMenu: MenuDataType | null;
   };
 };
@@ -29,7 +33,10 @@ export default function InfoPage({ data }: InfoPageProps) {
       {tab === "standardKitchen" && (
         <StandardKitchenTable data={data.standardKitchen} />
       )}
-      {tab === "price-list" && <PriceListTable data={data.priceList} />}
+      {tab === "price-list-bar" && <PriceListBarTable data={data.priceList} />}
+      {tab === "price-list-cucina" && (
+        <PriceListCucinaTable data={data.priceList} />
+      )}
     </>
   );
 }

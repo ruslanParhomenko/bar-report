@@ -35,7 +35,7 @@ export default function CustomLegend<T extends string>({
           onClick={() => onToggle(key)}
           className={cn(
             "flex cursor-pointer items-center gap-1 rounded-md px-3 py-1.5 text-xs font-medium transition-opacity md:gap-2 md:text-sm",
-            !visibleItems[key] && "opacity-35",
+            !visibleItems[key] && "opacity-35 print:hidden",
           )}
         >
           <span
