@@ -13,6 +13,7 @@ export type PriceListType = {
       "price-chips": number;
       cost: number;
       "price-chips-new": number;
+      sales: number;
     }[]
   >;
 };

@@ -5,9 +5,8 @@ import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { useAbility } from "@/providers/ability-provider";
 
 const COLUMNS_1 = ["вермут", "настойка", "водка", "вино", "пиво"];
-const COLUMNS_2 = ["виски", "коньяк", "коктейль", "джин", "ликер"];
+const COLUMNS_2 = ["виски", "коньяк", "коктейль", "джин", "ликер", "ром"];
 const COLUMNS_3 = [
-  "ром",
   "текила",
   "шампанское",
   "сигары",
@@ -51,7 +50,7 @@ function CategoryBlock({
   return (
     <TableBody>
       <TableRow>
-        <TableCell colSpan={4} className="text-bl py-1 font-bold capitalize">
+        <TableCell colSpan={7} className="text-bl py-0.5 font-bold capitalize">
           {category}
         </TableCell>
       </TableRow>
@@ -62,20 +61,26 @@ function CategoryBlock({
           currency || 0,
         );
         return (
-          <TableRow key={index} className="[&>td]:py-1.5 [&>td]:text-xs">
-            <TableCell className="px-0 md:px-1 print:w-30">
-              {item.name}
+          <TableRow
+            key={index}
+            className="[$>td]:px-0 [&>td]:py-1.25 [&>td]:text-xs"
+          >
+            <TableCell className="px-0 md:px-1">{item.name}</TableCell>
+            <TableCell>{isAdmin && item.cost.toFixed(1)}</TableCell>
+            <TableCell className="text-muted-foreground text-center text-[10px]!">
+              {item["price-chips"].toFixed(0)}
             </TableCell>
-            <TableCell>{isAdmin && item.cost}</TableCell>
-            <TableCell className="text-muted-foreground">
-              {item["price-chips"]}
-            </TableCell>
-            <TableCell className="text-rd font-bold">
+            <TableCell className="text-rd border-x text-center font-bold">
               {item["price-chips-new"]}
             </TableCell>
-            <TableCell>{item["price-chips-new"] * (currency || 0)}</TableCell>
+            <TableCell className="text-center">
+              {item["price-chips-new"] * (currency || 0)}
+            </TableCell>
             <TableCell>
               {markup !== null && isAdmin ? `${markup}%` : "-"}
+            </TableCell>
+            <TableCell className="text-gn border-l text-center italic">
+              {(isAdmin && Math.ceil(item["sales"])) || "-"}
             </TableCell>
           </TableRow>
         );
