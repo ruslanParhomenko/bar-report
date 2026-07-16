@@ -2,7 +2,7 @@ import { TableCell, TableFooter, TableRow } from "@/components/ui/table";
 import type { MonthDayType } from "@/utils/get-month-days";
 import { useMemo } from "react";
 import { useFormContext, useWatch } from "react-hook-form";
-import { TTNForm } from "../schema";
+import { TTNForm } from "./schema";
 
 export default function TTNFooterTable({
   arrayRows,

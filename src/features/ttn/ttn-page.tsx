@@ -1,19 +1,23 @@
 "use client";
 import { CreateDataTTN } from "@/app/actions/data-constants/data-ttn-action";
 import { GetTTNData } from "@/app/actions/ttn/ttn-actions";
+import { GetTtnNbmData } from "@/app/actions/ttn/ttn-nbm-action";
 import { MONTHS } from "@/utils/get-month-days";
 import { useSearchParams } from "next/navigation";
 import TTNDayPage from "./day/ttn-day-page";
 import TtnMonthPage from "./month/ttn-month-page";
+import TtnNbmMonthPage from "./nbm/ttn-nbm-page";
 import TtnYearPage from "./year/ttn-year-page";
 
 export default function TTNPage({
   dataTTN,
+  dataTtnNbm,
   agentTTN,
   month,
   year,
 }: {
   dataTTN: GetTTNData[] | null;
+  dataTtnNbm: GetTtnNbmData[] | null;
   agentTTN: CreateDataTTN;
   month: string;
   year: string;
@@ -46,6 +50,12 @@ export default function TTNPage({
 
       {tab === "year" && (
         <TtnYearPage data={dataTTN} agentTTN={agentTTN.agent} />
+      )}
+      {tab === "nbm" && (
+        <TtnNbmMonthPage
+          dataTtnNBM={dataTtnNbm}
+          agentTtnNbm={agentTTN.agentNbm}
+        />
       )}
     </>
   );

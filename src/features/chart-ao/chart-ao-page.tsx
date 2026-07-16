@@ -2,14 +2,16 @@
 import { GetAoData } from "@/app/actions/a-o/ao-action";
 import CustomChart from "@/components/chart/custom-chart";
 import CustomLegend from "@/components/chart/custom-legend";
-import { useMonthDays } from "@/providers/month-days-provider";
 import { MONTHS } from "@/utils/get-month-days";
-import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 
 type ChartDataItem = {
   name: string;
-  value: number;
+  nori: number;
+  bar: number;
+  nbm: number;
+  zn: number;
+  moda: number;
 };
 
 type BarKey = keyof Omit<ChartDataItem, "name">;
@@ -25,73 +27,71 @@ export default function ChartAOPage({
 }: {
   dataAOYear: GetAoData[] | null;
 }) {
-  const { monthDays, month } = useMonthDays();
-  const tab = useSearchParams().get("tab");
-
   const [visibleBars, setVisibleBars] = useState<Record<BarKey, boolean>>({
-    value: true,
+    nori: false,
+    bar: false,
+    nbm: false,
+    zn: false,
+    moda: true,
   });
-
-  const dataAOMonth = dataAOYear?.find((data) => data.id === month);
-
-  const chartDataDay = monthDays.map((day, index) => {
-    let totalValue = 0;
-
-    const rowAOData = dataAOMonth?.aoData?.rowAOData || {};
-    Object.values(rowAOData).forEach((values) => {
-      if (Array.isArray(values) && values[index] !== undefined) {
-        totalValue += Number(values[index]) || 0;
-      }
-    });
-
-    return {
-      name: String(day.day),
-      value: totalValue,
-    };
-  });
-
-  const chartDataMonth = Object.entries(
-    dataAOMonth?.aoData?.rowAOData || {},
-  ).map(([name, values]) => ({
-    name,
-    value: (Array.isArray(values) ? values : []).reduce(
-      (sum, v) => sum + (Number(v) || 0),
-      0,
-    ),
-  }));
 
   const chartDataYear = MONTHS.map((monthName) => {
     const monthData = dataAOYear?.find((d) => d.id === monthName);
 
-    let totalValue = 0;
+    let totalNori = 0;
+    let totalBar = 0;
+    let totalNbm = 0;
+    let totalZn = 0;
 
     const rowAOData = monthData?.aoData?.rowAOData || {};
-    Object.values(rowAOData).forEach((values) => {
-      if (Array.isArray(values)) {
-        totalValue += values.reduce((sum, v) => sum + (Number(v) || 0), 0);
-      }
-    });
+
+    totalZn += rowAOData.advanceZBN?.reduce(
+      (sum, v) => sum + (Number(v) || 0),
+      0,
+    );
+    totalNbm += rowAOData.advanceNBMByDay?.reduce(
+      (sum, v) => sum + (Number(v) || 0),
+      0,
+    );
+    totalBar +=
+      rowAOData.purchaseBarByDay?.reduce(
+        (sum, v) => sum + (Number(v) || 0),
+        0,
+      ) +
+      rowAOData.purchaseCookByDay?.reduce(
+        (sum, v) => sum + (Number(v) || 0),
+        0,
+      ) +
+      rowAOData.ttnBarByDay?.reduce((sum, v) => sum + (Number(v) || 0), 0);
+    totalNori +=
+      rowAOData.purchaseModaByDay?.reduce(
+        (sum, v) => sum + (Number(v) || 0),
+        0,
+      ) + rowAOData.ttnModaByDay?.reduce((sum, v) => sum + (Number(v) || 0), 0);
 
     return {
       name: monthName,
-      value: totalValue,
+      nori: Number(totalNori.toFixed(0)) || 0,
+      bar: Number(totalBar.toFixed(0)) || 0,
+      nbm: Number(totalNbm.toFixed(0)) || 0,
+      zn: Number(totalZn.toFixed(0)) || 0,
+      moda: Number((totalNori + totalBar).toFixed(0)) || 0,
     };
   });
 
   const BAR_KEYS: BarItem[] = [
-    { key: "value", color: "var(--color-bl)", label: "Value" },
+    { key: "nori", color: "var(--color-yl)", label: "Nori" },
+    { key: "bar", color: "var(--color-gr)", label: "Bar" },
+    { key: "nbm", color: "var(--color-rd)", label: "NBM" },
+    { key: "zn", color: "var(--color-gn)", label: "ZN" },
+    { key: "moda", color: "var(--color-bl)", label: "Moda" },
   ];
 
   const toggleBar = (key: BarKey) => {
     setVisibleBars((prev) => ({ ...prev, [key]: !prev[key] }));
   };
 
-  const chartData =
-    tab === "year"
-      ? chartDataYear
-      : tab === "month"
-        ? chartDataMonth
-        : chartDataDay;
+  const chartData = chartDataYear;
 
   return (
     <>

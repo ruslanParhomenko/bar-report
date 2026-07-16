@@ -5,7 +5,7 @@ import { useMonthDays } from "@/providers/month-days-provider";
 import { handleMultiTableNavigation } from "@/utils/handle-table-navigation";
 import { useEffect, useEffectEvent } from "react";
 import { useFormContext, useWatch } from "react-hook-form";
-import { TTNForm } from "../schema";
+import { TTNForm } from "./schema";
 
 export default function TtnBodyTable({
   arrayRows,

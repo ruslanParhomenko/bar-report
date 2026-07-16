@@ -6,6 +6,7 @@ import { unstable_cache, updateTag } from "next/cache";
 
 export type CreateDataTTN = {
   agent: string[];
+  agentNbm: string[];
 };
 
 export async function createDataTTN(data: CreateDataTTN) {
@@ -23,7 +24,7 @@ export async function _getDataTTN() {
     .doc(DATA_TTN_ACTION_TAG);
   const snap = await docRef.get();
 
-  if (!snap.exists) return { agent: [] };
+  if (!snap.exists) return { agent: [], agentNbm: [] };
 
   const data = snap.data() as any;
 

@@ -1,6 +1,5 @@
 "use client";
 import { CreateDataTTN } from "@/app/actions/data-constants/data-ttn-action";
-import { createTTN, GetTTNData } from "@/app/actions/ttn/ttn-actions";
 import FormWrapper from "@/components/wrapper/form-wrapper";
 import { useEdit } from "@/providers/edit-provider";
 import { useMonthDays } from "@/providers/month-days-provider";
@@ -8,46 +7,44 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { suppliersSchema, TTNForm } from "./schema";
 
-import TtnBodyTable from "./ttn-body";
-import TTNFooterTable from "./ttn-footer";
-import TtnHeaderTable from "./ttn-header";
+import { createTtnNbm, GetTtnNbmData } from "@/app/actions/ttn/ttn-nbm-action";
+import { suppliersSchemaNBM, TTNFormNBM } from "./schema";
+import TtnNbmBodyTable from "./ttn-nbm-body";
+import TtnNbmHeaderTable from "./ttn-nbm-header";
 
-export default function TtnMonthPage({
-  dataTtn,
-  dataTtnPrev,
-  agentTTN,
+export default function TtnNbmMonthPage({
+  dataTtnNBM,
+  agentTtnNbm,
 }: {
-  dataTtn: GetTTNData | null;
-  dataTtnPrev: GetTTNData | null;
-  agentTTN: CreateDataTTN["agent"];
+  dataTtnNBM: GetTtnNbmData[] | null;
+  agentTtnNbm: CreateDataTTN["agentNbm"];
 }) {
   const { monthDays, month, year } = useMonthDays();
 
   const todayDay = new Date().getDate();
   const [selectedDay, setSelectedDay] = useState<number>(todayDay);
   const { isEdit, setIsEdit } = useEdit();
-  const [itemSearch, setItemSearch] = useState<string>("");
-  const normalizedSearch = itemSearch.trim().toLowerCase();
+
+  const dataTtnNbmByMont = dataTtnNBM?.find((ttn) => ttn.id === month);
 
   // form
-  const form = useForm<TTNForm>({
-    resolver: zodResolver(suppliersSchema),
+  const form = useForm<TTNFormNBM>({
+    resolver: zodResolver(suppliersSchemaNBM),
     defaultValues: {
       rowSuppliers: {},
     },
   });
 
   // submit
-  const onSubmit: SubmitHandler<TTNForm> = async (data) => {
+  const onSubmit: SubmitHandler<TTNFormNBM> = async (data) => {
     const formatData = {
       ttnData: data,
       month,
       year,
     };
     try {
-      await createTTN(formatData);
+      await createTtnNbm(formatData);
       toast.success("TTN успешно обновлён!");
     } catch (error) {
       toast.error("Ошибка при создании TTN!");
@@ -57,52 +54,37 @@ export default function TtnMonthPage({
   };
 
   useEffect(() => {
-    if (dataTtn || !agentTTN?.length) return;
+    if (dataTtnNBM || !agentTtnNbm?.length) return;
 
     const rows = Object.fromEntries(
-      agentTTN.map((s) => [
+      agentTtnNbm.map((s) => [
         s,
         {
-          start: "",
-          final: "",
           minus: Array(monthDays.length).fill(""),
-          plus: Array(monthDays.length).fill(""),
         },
       ]),
     );
 
     form.setValue("rowSuppliers", rows);
-  }, [dataTtn, form, agentTTN, monthDays]);
+  }, [dataTtnNBM, form, agentTtnNbm, monthDays]);
   useEffect(() => {
-    if (!dataTtn) return;
+    if (!dataTtnNbmByMont) return;
 
-    form.reset(dataTtn.ttnData);
-  }, [dataTtn, form]);
-
-  useEffect(() => {
-    if (!dataTtnPrev || !agentTTN?.length) return;
-    agentTTN.forEach((agent) => {
-      const value = dataTtnPrev.ttnData.rowSuppliers?.[agent]?.final ?? "";
-
-      form.setValue(`rowSuppliers.${agent}.start`, value);
-    });
-  }, [dataTtnPrev, month, year, form, agentTTN]);
+    form.reset(dataTtnNbmByMont?.ttnData);
+  }, [dataTtnNbmByMont, form]);
 
   return (
     <FormWrapper form={form} onSubmit={onSubmit} className="max-w-[90dvw]">
       <table>
-        <TtnHeaderTable
-          setItemSearch={setItemSearch}
+        <TtnNbmHeaderTable
           selectedDay={selectedDay}
           setSelectedDay={setSelectedDay}
         />
-        <TtnBodyTable
-          arrayRows={[...agentTTN]}
-          normalizedSearch={normalizedSearch}
+        <TtnNbmBodyTable
+          arrayRows={[...agentTtnNbm]}
           disabled={!isEdit}
           setSelectedDay={setSelectedDay}
         />
-        <TTNFooterTable arrayRows={[...agentTTN]} monthDays={monthDays} />
       </table>
     </FormWrapper>
   );

@@ -1,7 +1,8 @@
 "use server";
 
-import { TTN_ACTION_TAG } from "@/constants/action-tag";
-import { TTNForm } from "@/features/ttn/month/schema";
+import { TTN_NBM_ACTION_TAG } from "@/constants/action-tag";
+
+import { TTNFormNBM } from "@/features/ttn/nbm/schema";
 import { getYearMonthCollection, getYearMonthDoc } from "@/lib/firebase-doc";
 import { unstable_cache, updateTag } from "next/cache";
 
@@ -10,18 +11,18 @@ export type TTNDataForm = {
   id: string;
   year: string;
   month: string;
-  ttnData: TTNForm;
+  ttnData: TTNFormNBM;
 };
 
-export type GetTTNData = {
+export type GetTtnNbmData = {
   id: string;
-  ttnData: TTNForm;
+  ttnData: TTNFormNBM;
 };
 
-const actionTag = TTN_ACTION_TAG;
+const actionTag = TTN_NBM_ACTION_TAG;
 
 // create
-export async function createTTN(data: Omit<TTNDataForm, "id">) {
+export async function createTtnNbm(data: Omit<TTNDataForm, "id">) {
   const { year, month, ttnData } = data;
 
   const docRef = getYearMonthDoc(actionTag, year, month);
@@ -32,21 +33,21 @@ export async function createTTN(data: Omit<TTNDataForm, "id">) {
 }
 
 // get by month year
-export async function _getTTNByYearAndMonth(
+export async function _getTtnNbmByYearAndMonth(
   year: string,
   month: string,
-): Promise<GetTTNData | null> {
+): Promise<GetTtnNbmData | null> {
   const docRef = getYearMonthDoc(actionTag, year, month);
 
   const snap = await docRef.get();
 
   if (!snap.exists) return null;
 
-  return { id: snap.id, ...snap.data() } as GetTTNData;
+  return { id: snap.id, ...snap.data() } as GetTtnNbmData;
 }
 
-export const getTTNByYearAndMonth = unstable_cache(
-  _getTTNByYearAndMonth,
+export const getTtnNbmByYearAndMonth = unstable_cache(
+  _getTtnNbmByYearAndMonth,
   [actionTag],
   {
     revalidate: false,
@@ -56,16 +57,16 @@ export const getTTNByYearAndMonth = unstable_cache(
 
 // get by year
 
-export async function _getTTNByYear(year: string): Promise<GetTTNData[]> {
+export async function _getTtnNbmByYear(year: string): Promise<GetTtnNbmData[]> {
   const colRef = getYearMonthCollection(actionTag, year);
   const snap = await colRef.get();
   return snap.docs.map((doc) => ({
     id: doc.id,
     ...doc.data(),
-  })) as GetTTNData[];
+  })) as GetTtnNbmData[];
 }
 
-export const getTTNByYear = unstable_cache(_getTTNByYear, [actionTag], {
+export const getTtnNbmByYear = unstable_cache(_getTtnNbmByYear, [actionTag], {
   revalidate: false,
   tags: [actionTag],
 });
