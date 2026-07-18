@@ -178,7 +178,7 @@ export default function CustomChart({
                 position="top"
                 fontSize={key.length > 6 ? 11 : 12}
                 offset={10}
-                className="fill-rd"
+                className="fill-rd print:text-xl!"
               />
             )}
           </Bar>
