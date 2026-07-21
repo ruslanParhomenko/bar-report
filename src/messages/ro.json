@@ -242,7 +242,7 @@
     "liqueur": "Lichior",
     "energy_drinks": "Băuturi energizante",
     "soft_drinks": "Băuturi răcoritoare",
-    "coffee": "Cafea",
+    "coffee": "Băuturi Calde",
     "tea": "Ceai",
     "snacks": "Gustări",
 
@@ -331,6 +331,11 @@
     "beefeater": "Beefeater",
     "gordons": "Gordons",
 
+    "alcoholic_cocktails": "Cocktailuri Alcoolice",
+    "mohito": "Mojito",
+    "aperol_sprit": "Aperol Spritz",
+    "djin_tonic": "Gin Tonic",
+
     "surpriznii_10_yo": "Surpriznii 10 ani",
     "kvint_xo_14_yo": "Kvint XO 14 ani",
     "hennessy_vsop": "Hennessy VSOP",
@@ -350,6 +355,9 @@
     "norda": "Norda",
     "fresh_juices": "Sucuri fresh",
     "lemonade": "Limonadă",
+
+    "evian": "Evian",
+    "borjomi": "Borjomi",
 
     "espresso": "Espresso",
     "cappucino": "Cappuccino",

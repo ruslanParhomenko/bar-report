@@ -242,7 +242,7 @@
     "liqueur": "Ликёр",
     "energy_drinks": "Энергетические напитки",
     "soft_drinks": "Безалкогольные напитки",
-    "coffee": "Кофе",
+    "coffee": "Горячие напитки",
     "tea": "Чай",
     "snacks": "Закуски",
     "menu": "Меню",
@@ -332,6 +332,11 @@
     "beefeater": "Beefeater",
     "gordons": "Gordons",
 
+    "alcoholic_cocktails": "Алкогольные коктейли",
+    "mohito": "Мохито",
+    "aperol_sprit": "Апероль Шприц",
+    "djin_tonic": "Джин-тоник",
+
     "surpriznii_10_yo": "Surpriznii 10 лет",
     "kvint_xo_14_yo": "Kvint XO 14 лет",
     "hennessy_vsop": "Hennessy VSOP",
@@ -351,6 +356,9 @@
     "norda": "Norda",
     "fresh_juices": "Фреши",
     "lemonade": "Лимонад",
+
+    "evian": "Evian",
+    "borjomi": "Боржоми",
 
     "espresso": "Эспрессо",
     "cappucino": "Капучино",

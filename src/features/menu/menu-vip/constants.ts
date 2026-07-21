@@ -23,7 +23,7 @@ export const LOCAL_TRANSLATIONS: Record<string, Record<string, string>> = {
     liqueur: "Liqueur",
     energy_drinks: "Energy Drinks",
     soft_drinks: "Soft Drinks",
-    coffee: "Coffee",
+    coffee: "Hot Drinks",
     tea: "Tea",
     snacks: "Snacks",
     menu: "Menu",
@@ -113,6 +113,11 @@ export const LOCAL_TRANSLATIONS: Record<string, Record<string, string>> = {
     beefeater: "Beefeater",
     gordons: "Gordon's",
 
+    alcoholic_cocktails: "Alcoholic Cocktails",
+    mohito: "Mojito",
+    aperol_sprit: "Aperol Spritz",
+    djin_tonic: "Gin & Tonic",
+
     surpriznii_10_yo: "Surpriznii 10 YO",
     kvint_xo_14_yo: "Kvint XO 14 YO",
     hennessy_vsop: "Hennessy VSOP",
@@ -132,6 +137,9 @@ export const LOCAL_TRANSLATIONS: Record<string, Record<string, string>> = {
     norda: "Norda",
     fresh_juices: "Fresh Juices",
     lemonade: "Lemonade",
+
+    evian: "Evian",
+    borjomi: "Borjomi",
 
     espresso: "Espresso",
     cappucino: "Cappuccino",
@@ -167,7 +175,7 @@ export const LOCAL_TRANSLATIONS: Record<string, Record<string, string>> = {
     liqueur: "ליקר",
     energy_drinks: "משקאות אנרגיה",
     soft_drinks: "משקאות קלים",
-    coffee: "קפה",
+    coffee: "משקאות חמים",
     tea: "תה",
     snacks: "חטיפים",
     menu: "תפריט",
@@ -257,6 +265,11 @@ export const LOCAL_TRANSLATIONS: Record<string, Record<string, string>> = {
     beefeater: "Beefeater",
     gordons: "Gordon's",
 
+    alcoholic_cocktails: "קוקטיילים אלכוהוליים",
+    mohito: "מוחיטו",
+    aperol_sprit: "אפרול שפריץ",
+    djin_tonic: "ג'ין טוניק",
+
     surpriznii_10_yo: "Surpriznii 10 שנים",
     kvint_xo_14_yo: "Kvint XO 14 שנים",
     hennessy_vsop: "Hennessy VSOP",
@@ -276,6 +289,9 @@ export const LOCAL_TRANSLATIONS: Record<string, Record<string, string>> = {
     norda: "Norda",
     fresh_juices: "מיצים טבעיים",
     lemonade: "לימונדת",
+
+    evian: "Evian",
+    borjomi: "בורז'ומי",
 
     espresso: "אספרסו",
     cappucino: "קפוצ'ינו",
@@ -311,7 +327,7 @@ export const LOCAL_TRANSLATIONS: Record<string, Record<string, string>> = {
     liqueur: "Likör",
     energy_drinks: "Enerji İçecekleri",
     soft_drinks: "Alkolsüz İçecekler",
-    coffee: "Kahve",
+    coffee: "Sıcak İçecekler",
     tea: "Çay",
     snacks: "Atıştırmalıklar",
     menu: "Menü",
@@ -401,6 +417,11 @@ export const LOCAL_TRANSLATIONS: Record<string, Record<string, string>> = {
     beefeater: "Beefeater",
     gordons: "Gordon's",
 
+    alcoholic_cocktails: "Alkollü Kokteyller",
+    mohito: "Mojito",
+    aperol_sprit: "Aperol Spritz",
+    djin_tonic: "Cin Tonik",
+
     surpriznii_10_yo: "Surpriznii 10 Yıl",
     kvint_xo_14_yo: "Kvint XO 14 Yıl",
     hennessy_vsop: "Hennessy VSOP",
@@ -420,6 +441,9 @@ export const LOCAL_TRANSLATIONS: Record<string, Record<string, string>> = {
     norda: "Norda",
     fresh_juices: "Taze Sıkılmış Meyve Suları",
     lemonade: "Limonata",
+
+    evian: "Evian",
+    borjomi: "Borjomi",
 
     espresso: "Espresso",
     cappucino: "Cappuccino",
