@@ -10,44 +10,45 @@ export type MenuItem = {
   name: string;
   weight: string;
   price: number | null;
+  label?: string;
 };
 
-export type MenuSubgroup = {
-  label: string;
-  items: MenuItem[];
-};
+// export type MenuSubgroup = {
+//   label: string;
+//   items: MenuItem[];
+// };
 
-export type MenuSection = {
-  id: string;
-  title: string;
-  items?: MenuItem[];
-  subgroups?: MenuSubgroup[];
-};
+// export type MenuSection = {
+//   id: string;
+//   title: string;
+//   items?: MenuItem[];
+//   subgroups?: MenuSubgroup[];
+// };
 
-export type MenuColumn = {
-  id: string;
-  title?: string;
+// export type MenuColumn = {
+//   id: string;
+//   title?: string;
 
-  sections?: MenuSection[];
+//   sections?: MenuSection[];
 
-  twoColumnLayout?: boolean;
-  columnLeft?: MenuSection[];
-  columnRight?: MenuSection[];
+//   twoColumnLayout?: boolean;
+//   columnLeft?: MenuSection[];
+//   columnRight?: MenuSection[];
 
-  type?: "cover";
-  qrUrl?: string;
+//   type?: "cover";
+//   qrUrl?: string;
 
-  note?: string;
-};
+//   note?: string;
+// };
 
-export type MenuPage = {
-  id: string;
-  columns: MenuColumn[];
-};
+// export type MenuPage = {
+//   name: string;
+//   price: number;
+//   weight: string;
+//   label?: string;
+// };
 
-export type MenuDataType = {
-  pages: MenuPage[];
-};
+export type MenuDataType = Record<string, MenuItem[]>;
 
 // CREATE
 

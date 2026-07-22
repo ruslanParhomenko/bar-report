@@ -1,3 +1,4 @@
+// intl he tr en
 export const LOCAL_TRANSLATIONS: Record<string, Record<string, string>> = {
   en: {
     menu_title: "Menu",
@@ -456,3 +457,38 @@ export const LOCAL_TRANSLATIONS: Record<string, Record<string, string>> = {
     ciocolata_bucuria: '"Bucuria" Çikolatası',
   },
 };
+
+// Константы со списками ключей из объекта data
+export const PAGE_1 = [
+  "breakfast",
+  "salads_appetizers",
+  "soups",
+  "second_courses",
+  "side_dishes",
+  "desserts",
+  "snacks",
+] as const;
+
+export const PAGE_2 = [
+  "bitter_vermut",
+  "aperitive_digestive",
+  "champagne_sparkling_wine",
+  "wine",
+  "vodka",
+  "whisky",
+  "rum",
+  "tequila",
+] as const;
+
+export const PAGE_3 = [
+  "beer",
+  "gin",
+  "brandy_cognac",
+  "liqueur",
+  "alcoholic_cocktails",
+  "energy_drinks",
+  "soft_drinks",
+  "coffee",
+] as const;
+
+export const PAGE_4 = ["cover"] as const;

@@ -1,11 +1,9 @@
 "use client";
-import { MenuDataType } from "@/app/actions/data-constants/data-menu-action";
 import { PriceListType } from "@/app/actions/data-constants/data-price-list";
 import { Menu, StandardKitchen } from "@/app/actions/google/google-action";
 import { useSearchParams } from "next/navigation";
 import StaffMenu from "./menu/menu-staff";
 import StatusMenu from "./menu/menu-status";
-import { MenuVip } from "./menu/menu-vip";
 import {
   PriceListBarTable,
   PriceListCucinaTable,
@@ -17,7 +15,6 @@ type InfoPageProps = {
     standardKitchen: StandardKitchen[] | null;
     menu: Menu | null;
     priceList: PriceListType | null;
-    dataMenu: MenuDataType | null;
   };
 };
 
@@ -29,7 +26,6 @@ export default function InfoPage({ data }: InfoPageProps) {
 
       {tab === "staffMenu" && <StaffMenu data={data.menu} />}
 
-      {tab === "menuVip" && <MenuVip data={data.dataMenu} />}
       {tab === "standardKitchen" && (
         <StandardKitchenTable data={data.standardKitchen} />
       )}

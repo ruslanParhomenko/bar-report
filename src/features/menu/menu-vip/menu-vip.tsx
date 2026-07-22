@@ -1,212 +1,96 @@
 "use client";
 
 import {
-  MenuColumn,
   MenuDataType,
   MenuItem,
-  MenuSection,
 } from "@/app/actions/data-constants/data-menu-action";
-
-import { OrnamentBorder } from "@/components/wrapper/ornament-border";
-import { Dot, PrinterIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { useRef, useState } from "react";
-import { useReactToPrint } from "react-to-print";
-import { LOCAL_TRANSLATIONS } from "./constants";
-
-type LocalTranslateFn = (key: string) => string;
-
-function Row({ item, t }: { item: MenuItem; t: LocalTranslateFn }) {
-  if (!item.name && !item.price) return null;
-
-  return (
-    <div className="my-0 grid grid-cols-[2fr_1fr_auto] items-baseline gap-1 text-xs tracking-wider text-[#1a1a1a] md:gap-3 print:my-1.5">
-      <span className="overflow-hidden whitespace-nowrap md:text-ellipsis">
-        {item.name ? t(item.name) : ""}
-      </span>
-
-      <span
-        className="shrink-0 whitespace-nowrap text-[#777]"
-        style={{ fontSize: "0.56rem" }}
-      >
-        {item.weight}
-      </span>
-
-      {item.price != null && (
-        <span className="w-6 shrink-0 text-left font-semibold">
-          {item.price}
-        </span>
-      )}
-    </div>
-  );
-}
-
-function SectionTitle({ title, t }: { title: string; t: LocalTranslateFn }) {
-  return (
-    <h3 className="m-0 text-center text-xs font-bold tracking-widest text-[#1a1a1a] italic md:text-base print:mt-2">
-      · {t(title)} ·
-    </h3>
-  );
-}
-
-function Section({
-  section,
-  t,
-}: {
-  section: MenuSection;
-  t: LocalTranslateFn;
-}) {
-  return (
-    <div className="print:my-3">
-      <SectionTitle title={section.title} t={t} />
-
-      {section.items?.map((item, i) => (
-        <Row key={i} item={item} t={t} />
-      ))}
-
-      {section.subgroups?.map((sg, i) => (
-        <div key={i} className="print:mt-1">
-          <p
-            className="mb-px text-center text-xs font-bold tracking-wider text-[#1a1a1a] uppercase md:text-base"
-            style={{ fontSize: "0.55rem" }}
-          >
-            {sg.label}
-          </p>
-
-          {sg.items.map((item, j) => (
-            <Row key={j} item={item} t={t} />
-          ))}
-        </div>
-      ))}
-    </div>
-  );
-}
-
-function ColSingle({ col, t }: { col: MenuColumn; t: LocalTranslateFn }) {
-  return (
-    <div className="pb-3 md:h-full md:px-1">
-      <h2
-        className="text-center font-bold tracking-widest text-[#1a1a1a] uppercase"
-        style={{ fontSize: "1rem" }}
-      >
-        {col.title ? t(col.title) : ""}
-      </h2>
-
-      {col.sections?.map((sec) => (
-        <Section key={sec.id} section={sec} t={t} />
-      ))}
-    </div>
-  );
-}
-
-function ColCover({ col, t }: { col: MenuColumn; t: LocalTranslateFn }) {
-  return (
-    <div className="flex h-full flex-col items-center justify-between py-8 pl-4">
-      <div className="flex w-full flex-1 items-center justify-center gap-4">
-        <Dot size={36} />
-
-        <span className="pb-3 text-center leading-none font-bold tracking-widest text-[#1a1a1a] select-none md:text-6xl">
-          {col.title ? t(col.title) : t("menu_title")}
-        </span>
-
-        <Dot size={36} />
-      </div>
-
-      {col.qrUrl && (
-        <div className="flex items-center justify-center">
-          <img
-            src={`https://api.qrserver.com/v1/create-qr-code/?size=90x90&data=${encodeURIComponent(
-              col.qrUrl,
-            )}&&color=180-180-180&bgcolor=255-255-255`}
-            alt="QR"
-            width={90}
-            height={90}
-            style={{
-              imageRendering: "crisp-edges",
-              transform: "translateZ(0)",
-            }}
-          />
-        </div>
-      )}
-    </div>
-  );
-}
-
-function SinglePage({
-  page,
-  label,
-  t,
-  isRtl,
-}: {
-  page: MenuDataType["pages"][0];
-  label: string;
-  t: LocalTranslateFn;
-  isRtl: boolean;
-}) {
-  const printRef = useRef<HTMLDivElement>(null);
-
-  const handlePrint = useReactToPrint({
-    contentRef: printRef,
-    documentTitle: `Menu — ${label}`,
-    pageStyle: `
-      @page { size: A4 portrait; margin: 0; }
-      @media print {
-        html, body { font-family: "Playfair Display", Georgia, serif !important }
-        .print-root {
-          width: 210mm !important;
-          height: 288mm !important;
-          padding: 4mm !important;
-          box-sizing: border-box !important;
-          display: flex !important;
-          flex-direction: column !important;
-        }
-        .no-print { display: none !important; }
-        * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
-        img, svg { break-inside: avoid; }
-      }
-    `,
-  });
-
-  return (
-    <div className="flex flex-col md:h-full">
-      <div
-        ref={printRef}
-        dir={isRtl ? "rtl" : "ltr"}
-        className="print-root flex min-h-0 flex-1 flex-col pb-2 md:px-2"
-      >
-        <div className="grid h-full grid-cols-1 gap-4 md:grid-cols-2">
-          {page.columns.map((col, i) => {
-            if (col.type === "cover") {
-              return (
-                <OrnamentBorder key={`${col.id}-${i}`}>
-                  <ColCover key={col.id} col={col} t={t} />;
-                </OrnamentBorder>
-              );
-            }
-
-            return (
-              <OrnamentBorder key={`${col.id}-${i}`}>
-                <ColSingle col={col} t={t} />
-              </OrnamentBorder>
-            );
-          })}
-        </div>
-      </div>
-      <div className="no-print flex shrink-0 px-2">
-        <button onClick={() => handlePrint()} className="cursor-pointer">
-          <PrinterIcon className="h-4 w-4" />
-        </button>
-      </div>
-    </div>
-  );
-}
+import { useState } from "react";
+import { LOCAL_TRANSLATIONS, PAGE_1, PAGE_2, PAGE_3 } from "./constants";
+import { SinglePage } from "./menu-page";
+import { LocalTranslateFn, MenuSection, PageStructure } from "./types";
 
 export default function MenuVip({ data }: { data: MenuDataType | null }) {
+  console.log("data", data);
+
   const [currentLang, setCurrentLang] = useState<string>("ru");
 
   const globalT = useTranslations("Menu");
 
   if (!data) return null;
+
+  const buildSections = (keys: readonly string[]): MenuSection[] => {
+    return keys
+      .filter((key) => data[key] && data[key].length > 0)
+      .map((key) => {
+        const items = data[key];
+        const hasLabels = items.some((item) => !!item.label);
+
+        if (hasLabels) {
+          const subgroupsMap: Record<string, MenuItem[]> = {};
+          const directItems: MenuItem[] = [];
+
+          items.forEach((item) => {
+            if (item.label) {
+              if (!subgroupsMap[item.label]) {
+                subgroupsMap[item.label] = [];
+              }
+              subgroupsMap[item.label].push(item);
+            } else {
+              directItems.push(item);
+            }
+          });
+
+          return {
+            id: key,
+            title: key,
+            items: directItems.length > 0 ? directItems : undefined,
+            subgroups: Object.entries(subgroupsMap).map(([label, sgItems]) => ({
+              label,
+              items: sgItems,
+            })),
+          };
+        }
+
+        return {
+          id: key,
+          title: key,
+          items,
+        };
+      });
+  };
+
+  // Постраничная сборка (Страница 1 = Col 1 + Col 2; Страница 2 = Col 3 + Cover)
+  const pages: PageStructure[] = [
+    {
+      id: "page-1",
+      columns: [
+        {
+          id: "col-1",
+          sections: buildSections(PAGE_1),
+        },
+        {
+          id: "col-2",
+          sections: buildSections(PAGE_2),
+        },
+      ],
+    },
+    {
+      id: "page-2",
+      columns: [
+        {
+          id: "col-3",
+          sections: buildSections(PAGE_3),
+        },
+        {
+          id: "col-4",
+          type: "cover",
+          title: "menu_title",
+          qrUrl: "https://example.com/qr.png",
+        },
+      ],
+    },
+  ];
 
   const localT: LocalTranslateFn = (key: string) => {
     if (LOCAL_TRANSLATIONS[currentLang]?.[key]) {
@@ -248,7 +132,7 @@ export default function MenuVip({ data }: { data: MenuDataType | null }) {
           fontFamily: "'Playfair Display', Georgia, 'Times New Roman', serif",
         }}
       >
-        {data.pages.map((page, i) => (
+        {pages.map((page, i) => (
           <div key={page.id} className="flex w-1/2 flex-col">
             <SinglePage
               page={page}

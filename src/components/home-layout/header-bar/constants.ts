@@ -77,7 +77,6 @@ export const TABS_BY_ROUTE = {
   [INFO_MAIN_ROUTE]: [
     "statusMenu",
     "staffMenu",
-    "menuVip",
     "standardKitchen",
     "price-list-bar",
     "price-list-cucina",

@@ -1,4 +1,3 @@
-import { getDataMenu } from "@/app/actions/data-constants/data-menu-action";
 import { getDataPriceList } from "@/app/actions/data-constants/data-price-list";
 import {
   getMenuCached,
@@ -7,13 +6,11 @@ import {
 import InfoPage from "@/features/info/info-page";
 
 export default async function Page() {
-  const [standardKitchenRes, menuRes, priceList, dataMenu] =
-    await Promise.allSettled([
-      getStandardKitchenCached(),
-      getMenuCached(),
-      getDataPriceList(),
-      getDataMenu(),
-    ]);
+  const [standardKitchenRes, menuRes, priceList] = await Promise.allSettled([
+    getStandardKitchenCached(),
+    getMenuCached(),
+    getDataPriceList(),
+  ]);
 
   return (
     <InfoPage
@@ -24,7 +21,6 @@ export default async function Page() {
             : null,
         menu: menuRes.status === "fulfilled" ? menuRes.value : null,
         priceList: priceList.status === "fulfilled" ? priceList.value : null,
-        dataMenu: dataMenu.status === "fulfilled" ? dataMenu.value : null,
       }}
     />
   );

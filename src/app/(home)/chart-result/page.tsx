@@ -7,8 +7,8 @@ export default async function Page({
 }: {
   searchParams: Promise<{ [key: string]: string | undefined }>;
 }) {
-  const {  year } = await searchParams;
-  if ( !year) return null;
+  const { year } = await searchParams;
+  if (!year) return null;
 
   const [schedules, tipsDataYear] = await Promise.all([
     getScheduleByYear(year),
