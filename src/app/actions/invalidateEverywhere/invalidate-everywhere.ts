@@ -1,14 +1,21 @@
 "use server";
 
 export async function invalidateEverywhere(tag: string) {
-  const url = "https://schedule-nuovo.vercel.app/api/revalidate";
+  const urls = [
+    "https://schedule-nuovo.vercel.app/api/revalidate",
+    "https://menu-vip.vercel.app/api/revalidate",
+  ];
 
-  await fetch(url, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "x-revalidate-secret": process.env.REVALIDATE_SECRET!,
-    },
-    body: JSON.stringify({ tag }),
-  }).catch(() => {});
+  await Promise.all(
+    urls.map((url) =>
+      fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-revalidate-secret": process.env.REVALIDATE_SECRET!,
+        },
+        body: JSON.stringify({ tag }),
+      }).catch(() => {}),
+    ),
+  );
 }
