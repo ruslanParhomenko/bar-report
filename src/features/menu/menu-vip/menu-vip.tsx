@@ -11,8 +11,6 @@ import { SinglePage } from "./menu-page";
 import { LocalTranslateFn, MenuSection, PageStructure } from "./types";
 
 export default function MenuVip({ data }: { data: MenuDataType | null }) {
-  console.log("data", data);
-
   const [currentLang, setCurrentLang] = useState<string>("ru");
 
   const globalT = useTranslations("Menu");
