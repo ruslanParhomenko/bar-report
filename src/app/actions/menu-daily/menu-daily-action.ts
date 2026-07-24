@@ -4,6 +4,7 @@ import { MENU_DAILY_ACTION_TAG } from "@/constants/action-tag";
 import { MenuDailyForm } from "@/features/menu/menu-daily/schema";
 import { dbAdmin } from "@/lib/firebase-admin";
 import { unstable_cache, updateTag } from "next/cache";
+import { invalidateEverywhere } from "../invalidateEverywhere/invalidate-everywhere";
 
 const actionTag = MENU_DAILY_ACTION_TAG;
 
@@ -15,6 +16,8 @@ export async function createMenuDaily(data: MenuDailyDataForm) {
   await docRef.set(data);
 
   updateTag(actionTag);
+
+  invalidateEverywhere(actionTag);
 }
 
 export async function _getMenuDailyData(): Promise<MenuDailyDataForm | null> {

@@ -16,9 +16,11 @@ import { MenuDailyForm, menuDailySchema } from "./schema";
 export default function MenuDailyPage({
   data,
   menuDaily,
+  qrUrl,
 }: {
   data: MenuDailyForm | null;
   menuDaily?: MenuDailyForm | null;
+  qrUrl?: string;
 }) {
   const { isEdit, setIsEdit } = useEdit();
 
@@ -73,6 +75,7 @@ export default function MenuDailyPage({
                     allOptions={getAllOptions(cat)}
                     isEdit={isEdit}
                     fieldPrefix={cat}
+                    qrUrl={qrUrl}
                   />
                 </div>
               ))}
@@ -88,6 +91,7 @@ export default function MenuDailyPage({
                     allOptions={getAllOptions(cat)}
                     isEdit={isEdit}
                     fieldPrefix={cat}
+                    qrUrl={qrUrl}
                   />
                 </div>
               ))}

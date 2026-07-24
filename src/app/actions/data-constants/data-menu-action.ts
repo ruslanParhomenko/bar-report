@@ -12,6 +12,7 @@ export type MenuItem = {
   weight: string;
   price: number | null;
   label?: string;
+  qrUrl?: string;
 };
 
 export type MenuDataType = Record<string, MenuItem[]>;

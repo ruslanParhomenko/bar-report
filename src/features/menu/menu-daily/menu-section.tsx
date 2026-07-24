@@ -77,12 +77,14 @@ export default function MenuSection({
   allOptions,
   isEdit,
   fieldPrefix,
+  qrUrl,
 }: {
   category: (typeof SECTIONS)[number] | null;
   items: MenuDailyItem[] | null;
   allOptions: MenuDailyItem[] | null;
   isEdit: boolean;
   fieldPrefix: string;
+  qrUrl?: string;
 }) {
   const options: OptionSelect[] = (allOptions ?? []).map((d) => ({
     value: d.ro,
@@ -98,6 +100,24 @@ export default function MenuSection({
         — {category ? category : "Section"} —
       </p>
 
+      {(category === "garnituri" || category === "felul intii") &&
+        !isEdit &&
+        qrUrl && (
+          <div className="flex items-center justify-center">
+            <img
+              src={`https://api.qrserver.com/v1/create-qr-code/?size=90x90&data=${encodeURIComponent(
+                qrUrl,
+              )}&&color=180-180-180&bgcolor=255-255-255`}
+              alt="QR"
+              width={50}
+              height={50}
+              style={{
+                imageRendering: "crisp-edges",
+                transform: "translateZ(0)",
+              }}
+            />
+          </div>
+        )}
       {items?.map((item, idx) =>
         isEdit ? (
           <DishSelect

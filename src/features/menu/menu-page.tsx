@@ -17,7 +17,13 @@ export default function MenuPage({
 }: Props) {
   const tab = useSearchParams().get("tab");
   if (tab === "menu-daily") {
-    return <MenuDailyPage data={listMenuDaily} menuDaily={dataMenuDaily} />;
+    return (
+      <MenuDailyPage
+        data={listMenuDaily}
+        menuDaily={dataMenuDaily}
+        qrUrl={dataMenuVip?.cover[0]?.qrUrl}
+      />
+    );
   }
 
   if (tab === "menu-vip") {

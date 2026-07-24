@@ -58,7 +58,6 @@ export default function MenuVip({ data }: { data: MenuDataType | null }) {
       });
   };
 
-  // Постраничная сборка (Страница 1 = Col 1 + Col 2; Страница 2 = Col 3 + Cover)
   const pages: PageStructure[] = [
     {
       id: "page-1",
@@ -84,7 +83,7 @@ export default function MenuVip({ data }: { data: MenuDataType | null }) {
           id: "col-4",
           type: "cover",
           title: "menu_title",
-          qrUrl: "https://example.com/qr.png",
+          qrUrl: data.cover[0]?.qrUrl,
         },
       ],
     },
