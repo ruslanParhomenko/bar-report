@@ -107,13 +107,13 @@ export default function MenuSection({
             <img
               src={`https://api.qrserver.com/v1/create-qr-code/?size=90x90&data=${encodeURIComponent(
                 qrUrl,
-              )}&&color=180-180-180&bgcolor=255-255-255`}
+              )}&color=180-180-180&bgcolor=255-255-255`}
               alt="QR"
               width={50}
               height={50}
+              className="image-pixelated h-14 w-14 shrink-0"
               style={{
-                imageRendering: "crisp-edges",
-                transform: "translateZ(0)",
+                imageRendering: "pixelated",
               }}
             />
           </div>
