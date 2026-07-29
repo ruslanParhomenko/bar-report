@@ -18,13 +18,12 @@ import { ProductsFormNBM, productsSchemaNBM } from "./schema";
 type FormData = ProductsFormNBM;
 const schema = productsSchemaNBM;
 
-export default function ProductsNbmPage({
+export default function NbmProductsPage({
   data,
 }: {
   data: GetNbmProductsData[] | null;
 }) {
   const { monthDays, month, year } = useMonthDays();
-
   const orderProducts = Object.values(
     useOrderProducts()?.techTTN || {},
   ).flatMap((p) => p);
@@ -64,7 +63,10 @@ export default function ProductsNbmPage({
     if (data || !orderProducts?.length) return;
 
     const rows = Object.fromEntries(
-      orderProducts.map((s) => [s, Array(monthDays.length).fill("")]),
+      orderProducts.map((s) => [
+        s,
+        { arrival: Array(monthDays.length).fill(""), remain: "" },
+      ]),
     );
 
     form.setValue("rowProducts", rows);

@@ -16,6 +16,7 @@ export default function HeaderTable({
         <TableCell colSpan={2} className="text-center text-xs">
           {month?.toUpperCase() || ""}
         </TableCell>
+        <TableCell className="text-center text-xs" />
 
         <MonthDaysCells
           selectedDay={selectedDay}

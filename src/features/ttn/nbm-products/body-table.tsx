@@ -30,11 +30,13 @@ export default function BodyTable({
   return (
     <TableBody>
       {arrayRows.map((row, rowIndex) => {
-        const total = sum(value?.[row]);
-
+        const total = sum(value?.[row]?.arrival);
         return (
-          <TableRow key={row} className="group hover:text-rd! [&>td]:text-xs">
-            <TableCell className="w-18 border-r py-0 pr-1 text-center">
+          <TableRow
+            key={row}
+            className="group hover:text-rd! border [&>td]:text-xs"
+          >
+            <TableCell className="w-18 border border-r py-0 pr-1 text-center">
               <span
                 className={cn(
                   "group-hover:text-rd text-gn",
@@ -45,7 +47,7 @@ export default function BodyTable({
               </span>
             </TableCell>
 
-            <TableCell className="bg-background sticky left-0 w-32 py-0 pl-1 text-start md:bg-transparent">
+            <TableCell className="bg-background sticky left-0 w-32 border py-0 pl-1 text-start md:bg-transparent">
               <span
                 className={cn(
                   "hover-cell text-bl group-hover:text-rd truncate",
@@ -54,15 +56,30 @@ export default function BodyTable({
                 {row}
               </span>
             </TableCell>
+            <TableCell key={rowIndex} className="border p-0">
+              <input
+                {...register(`rowProducts.${row}.remain` as const)}
+                data-row={rowIndex * 2}
+                data-col={monthDays.length + 1}
+                className={cn(
+                  "text-rd bg-accent h-[1.23rem]! w-full border-0 px-0 text-center text-xs",
+                )}
+                onKeyDown={handleMultiTableNavigation}
+                disabled={disabled}
+                onFocus={() => setSelectedDay(monthDays.length + 1)}
+              />
+            </TableCell>
 
             {monthDays.map((_, dayIndex) => (
-              <TableCell key={dayIndex} className="border-x p-0">
+              <TableCell key={dayIndex} className="border p-0">
                 <input
-                  {...register(`rowProducts.${row}.${dayIndex}` as const)}
+                  {...register(
+                    `rowProducts.${row}.arrival.${dayIndex}` as const,
+                  )}
                   data-row={rowIndex * 2}
                   data-col={dayIndex}
                   className={cn(
-                    "h-[1.22rem]! w-full border-0 px-0 text-center text-xs",
+                    "h-[1.23rem]! w-full border-0 px-0 text-center text-xs",
                     "text-rd",
                   )}
                   onKeyDown={handleMultiTableNavigation}
