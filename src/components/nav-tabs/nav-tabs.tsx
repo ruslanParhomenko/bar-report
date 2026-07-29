@@ -1,20 +1,22 @@
 import { cn } from "@/lib/utils";
 import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
 
-export default function NavTabs({
+export default function NavTabs<T extends string>({
   navItems,
   activeTab,
   handleTabChange,
   className,
   disabled,
   withSelect = false,
+  tabsHeight = "h-7",
 }: {
-  navItems: readonly string[];
-  activeTab: string;
-  handleTabChange: (value: string) => void;
+  navItems: readonly T[];
+  activeTab: T;
+  handleTabChange: (value: T) => void;
   className?: string;
   disabled?: boolean;
   withSelect?: boolean;
+  tabsHeight?: string;
 }) {
   if (!navItems.length) return null;
 
@@ -46,9 +48,11 @@ export default function NavTabs({
   return (
     <Tabs
       value={activeTab}
-      onValueChange={handleTabChange}
+      onValueChange={(value) => {
+        handleTabChange(value as T);
+      }}
     >
-      <TabsList className="order-1 flex h-7 md:order-0 md:gap-4">
+      <TabsList className={cn("order-1 flex md:order-0 md:gap-4", tabsHeight)}>
         {navItems.map((item, index) => (
           <TabsTrigger
             key={`${item}-${index}`}

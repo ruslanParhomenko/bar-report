@@ -2,23 +2,27 @@
 import { CreateDataTTN } from "@/app/actions/data-constants/data-ttn-action";
 import { GetTTNData } from "@/app/actions/ttn/ttn-actions";
 import { GetTtnNbmData } from "@/app/actions/ttn/ttn-nbm-action";
+import { GetNbmProductsData } from "@/app/actions/ttn/ttn-nbm-products-action";
 import { MONTHS } from "@/utils/get-month-days";
 import { useSearchParams } from "next/navigation";
-import TTNDayPage from "./day/ttn-day-page";
-import TtnMonthPage from "./month/ttn-month-page";
-import TtnNbmMonthPage from "./nbm/ttn-nbm-page";
-import TtnYearPage from "./year/ttn-year-page";
+import TTNDayPage from "./moda-day/ttn-day-page";
+import TtnMonthPage from "./moda-month/ttn-month-page";
+import TtnYearPage from "./moda-year/ttn-year-page";
+import TtnNbmMonthPage from "./nbm-month/ttn-nbm-page";
+import ProductsNbmPage from "./nbm-products/products-nbm-page";
 
 export default function TTNPage({
   dataTTN,
   dataTtnNbm,
   agentTTN,
+  dataProductsNbm,
   month,
   year,
 }: {
   dataTTN: GetTTNData[] | null;
   dataTtnNbm: GetTtnNbmData[] | null;
   agentTTN: CreateDataTTN;
+  dataProductsNbm: GetNbmProductsData[] | null;
   month: string;
   year: string;
 }) {
@@ -32,7 +36,7 @@ export default function TTNPage({
 
   return (
     <>
-      {tab === "day" && (
+      {tab === "moda-day" && (
         <TTNDayPage
           dataTtn={dataTtn}
           month={month as string}
@@ -40,7 +44,7 @@ export default function TTNPage({
         />
       )}
 
-      {tab === "month" && (
+      {tab === "moda-month" && (
         <TtnMonthPage
           dataTtn={dataTtn}
           dataTtnPrev={dataTtnPrev}
@@ -48,15 +52,16 @@ export default function TTNPage({
         />
       )}
 
-      {tab === "year" && (
+      {tab === "moda-year" && (
         <TtnYearPage data={dataTTN} agentTTN={agentTTN.agent} />
       )}
-      {tab === "nbm" && (
+      {tab === "nbm-month" && (
         <TtnNbmMonthPage
           dataTtnNBM={dataTtnNbm}
           agentTtnNbm={agentTTN.agentNbm}
         />
       )}
+      {tab === "nbm-products" && <ProductsNbmPage data={dataProductsNbm} />}
     </>
   );
 }

@@ -115,6 +115,9 @@ export default function MenuSection({
               style={{
                 imageRendering: "pixelated",
               }}
+              onError={(e) => {
+                e.currentTarget.style.display = "none";
+              }}
             />
           </div>
         )}

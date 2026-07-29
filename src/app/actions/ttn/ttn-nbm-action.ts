@@ -2,7 +2,7 @@
 
 import { TTN_NBM_ACTION_TAG } from "@/constants/action-tag";
 
-import { TTNFormNBM } from "@/features/ttn/nbm/schema";
+import { TTNFormNBM } from "@/features/ttn/nbm-month/schema";
 import { getYearMonthCollection, getYearMonthDoc } from "@/lib/firebase-doc";
 import { unstable_cache, updateTag } from "next/cache";
 
