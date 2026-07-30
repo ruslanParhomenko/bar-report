@@ -141,7 +141,7 @@ export default function ChartTTNPage({
     });
 
     return {
-      name: product.slice(0, 6),
+      name: product,
       payment: 0,
       purchase: Number(purchase.toFixed(0)),
       final: Number(purchase.toFixed(0)),
@@ -339,7 +339,7 @@ export default function ChartTTNPage({
     "product-nbm": "md:h-[74dvh] h-full",
     agent: "md:h-[74dvh] h-dvh",
     day: "h-dvh md:h-[78dvh]",
-    month: "md:h-[70dvh] h-[58dvh]",
+    month: "md:h-[68dvh] h-[58dvh]",
     "month-nbm": "md:h-[70dvh] h-[58dvh]",
     "month-products": "md:h-[65dvh] h-[58dvh]",
     year: "h-[76dvh]",

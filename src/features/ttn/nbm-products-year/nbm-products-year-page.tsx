@@ -32,7 +32,7 @@ export default function NbmProductsYearPage({
               <div className="text-[10px]">{month}</div>
               <div className="flex flex-row items-center justify-center gap-10 text-[12px]">
                 <span>+</span>
-                <span>r</span>
+                <span>-</span>
               </div>
             </TableCell>
           ))}
@@ -53,16 +53,24 @@ export default function NbmProductsYearPage({
                 <TableCell className="text-bl group-hover:text-rd bg-background sticky left-0 w-38 md:bg-transparent">
                   {product.toLocaleLowerCase()}
                 </TableCell>
-                {MONTHS.map((month) => {
+                {MONTHS.map((month, idx) => {
+                  const dataProductsPrevMonth = data?.find(
+                    (item) => item.id === MONTHS[idx - 1],
+                  )?.dataProducts?.rowProducts?.[product];
+
                   const dataByProduct = data?.find((item) => item.id === month)
                     ?.dataProducts?.rowProducts?.[product];
 
-                  const arrival = dataByProduct?.arrival.reduce(
-                    (acc, cur) => acc + +cur,
-                    0,
-                  );
+                  const arrival =
+                    dataByProduct?.arrival.reduce(
+                      (acc, cur) => acc + +cur,
+                      0,
+                    ) || 0;
 
-                  const remain = dataByProduct?.remain || 0;
+                  const prev = Number(dataProductsPrevMonth?.remain || 0);
+                  const remain = Number(dataByProduct?.remain || 0);
+
+                  const utilization = prev + arrival - remain;
 
                   return (
                     <TableCell
@@ -71,10 +79,10 @@ export default function NbmProductsYearPage({
                     >
                       <div className="flex w-full flex-row items-center justify-center gap-4">
                         <span className="group-hover:text-rd w-8 px-2 text-start font-bold">
-                          {arrival}
+                          {arrival || ""}
                         </span>
-                        <span className="group-hover:text-rd w-8 px-2 text-end">
-                          {remain || ""}
+                        <span className="text-rd w-8 px-2 text-end">
+                          {utilization || ""}
                         </span>
                       </div>
                     </TableCell>

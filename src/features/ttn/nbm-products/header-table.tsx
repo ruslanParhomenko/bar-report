@@ -13,11 +13,11 @@ export default function HeaderTable({
   return (
     <TableHeader className="bg-background sticky top-0 left-0 z-12">
       <TableRow>
-        <TableCell className="w-14" />
-        <TableCell className="w-46 text-center text-xs">
+        <TableCell className="w-12" />
+        <TableCell className="w-44 text-center text-xs">
           {month?.toUpperCase() || ""}
         </TableCell>
-        <TableCell className="min-w-10 text-center text-xs md:w-14" />
+        <TableCell className="min-w-10 text-center text-xs md:w-12" />
 
         <MonthDaysCells
           selectedDay={selectedDay}
