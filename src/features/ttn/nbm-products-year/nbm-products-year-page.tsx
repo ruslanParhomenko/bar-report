@@ -22,18 +22,17 @@ export default function NbmProductsYearPage({
     ),
   ];
   return (
-    <Table className="table-fixed">
+    <Table className="md:table-fixed">
       <TableHeader>
         <TableRow className="[&>td]:py-0 [&>td]:text-xs">
           <TableCell className="w-10" />
           <TableCell className="w-36 text-center" />
           {MONTHS.map((month) => (
-            <TableCell key={month} className="w-24 text-center text-xs">
+            <TableCell key={month} className="w-18 text-center text-xs">
               <div className="text-[10px]">{month}</div>
-              <div className="flex flex-row items-center justify-between px-2 text-[12px]">
+              <div className="flex flex-row items-center justify-center gap-10 text-[12px]">
                 <span>+</span>
                 <span>r</span>
-                <span>f</span>
               </div>
             </TableCell>
           ))}
@@ -51,7 +50,7 @@ export default function NbmProductsYearPage({
                 <TableCell className="text-muted-foreground w-8">
                   {idx + 1}
                 </TableCell>
-                <TableCell className="text-bl group-hover:text-rd w-36">
+                <TableCell className="text-bl group-hover:text-rd bg-background sticky left-0 w-38 md:bg-transparent">
                   {product.toLocaleLowerCase()}
                 </TableCell>
                 {MONTHS.map((month) => {
@@ -65,19 +64,17 @@ export default function NbmProductsYearPage({
 
                   const remain = dataByProduct?.remain || 0;
 
-                  const final = Number(arrival || 0) - Number(remain || 0);
                   return (
                     <TableCell
                       key={month}
                       className="border-x text-center text-xs"
                     >
-                      <div className="flex w-full flex-row items-center justify-between">
-                        <span className="group-hover:text-rd w-10 text-start font-bold">
+                      <div className="flex w-full flex-row items-center justify-center gap-4">
+                        <span className="group-hover:text-rd w-8 px-2 text-start font-bold">
                           {arrival}
                         </span>
-                        <span className="w-10 text-center">{remain || ""}</span>
-                        <span className="text-rd w-10 text-end">
-                          {final || ""}
+                        <span className="group-hover:text-rd w-8 px-2 text-end">
+                          {remain || ""}
                         </span>
                       </div>
                     </TableCell>

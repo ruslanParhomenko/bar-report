@@ -54,7 +54,7 @@ export default function CustomChart({
 }: CustomChartProps) {
   const isMobile = useIsMobile();
 
-  const height = isMobile ? "h-[78dvh]" : "h-[82dvh]";
+  const height = isMobile ? "h-[80dvh]" : "h-[82dvh]";
 
   const chartConfig = Object.fromEntries(
     barItem.map(({ key, label, color }) => [
@@ -93,6 +93,8 @@ export default function CustomChart({
             tickLine={false}
             axisLine={false}
             width={82}
+            interval={0}
+            tickMargin={5}
             tickFormatter={(value: string) => value?.split(" ")[0]}
           />
           {!disableTooltip && (

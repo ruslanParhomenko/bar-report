@@ -17,13 +17,13 @@ export default function HeaderTable({
         <TableCell className="w-46 text-center text-xs">
           {month?.toUpperCase() || ""}
         </TableCell>
-        <TableCell className="w-14 text-center text-xs" />
+        <TableCell className="min-w-10 text-center text-xs md:w-14" />
 
         <MonthDaysCells
           selectedDay={selectedDay}
           setSelectedDay={setSelectedDay}
           monthDays={monthDays}
-          className="w-11.2"
+          className="md:w-11.2 min-w-10"
         />
       </TableRow>
     </TableHeader>

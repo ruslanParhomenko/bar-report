@@ -61,7 +61,7 @@ export default function BodyTable({
                   data-row={rowIndex * 2}
                   data-col={monthDays.length + 1}
                   className={cn(
-                    "bg-accent h-[1.2rem]! w-full border-0 px-0 text-center text-xs",
+                    "bg-accent h-[1.2rem]! w-full border-0 text-center text-xs md:px-0",
                   )}
                   onKeyDown={handleMultiTableNavigation}
                   disabled={disabled}
@@ -78,7 +78,7 @@ export default function BodyTable({
                     data-row={rowIndex * 2}
                     data-col={dayIndex}
                     className={cn(
-                      "w-full border-0 px-0 text-center text-xs",
+                      "w-full border-0 text-center text-xs",
                       "text-rd",
                     )}
                     onKeyDown={handleMultiTableNavigation}

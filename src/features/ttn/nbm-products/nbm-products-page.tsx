@@ -81,7 +81,7 @@ export default function NbmProductsPage({
 
   return (
     <FormWrapper form={form} onSubmit={onSubmit} className="max-w-[90dvw] pl-2">
-      <Table className="table-fixed">
+      <Table className="md:table-fixed">
         <HeaderTable
           selectedDay={selectedDay}
           setSelectedDay={setSelectedDay}

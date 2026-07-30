@@ -336,9 +336,9 @@ export default function ChartTTNPage({
 
   const heightByTab = {
     "agent-nbm": "h-[74dvh]",
-    "product-nbm": "h-[74dvh]",
-    agent: "h-[74dvh]",
-    day: "h-[76dvh]",
+    "product-nbm": "md:h-[74dvh] h-full",
+    agent: "md:h-[74dvh] h-dvh",
+    day: "h-dvh md:h-[78dvh]",
     month: "md:h-[70dvh] h-[58dvh]",
     "month-nbm": "md:h-[70dvh] h-[58dvh]",
     "month-products": "md:h-[65dvh] h-[58dvh]",

@@ -37,12 +37,12 @@ export default function NavTabs<T extends string>({
       itemsWidth = withSelect ? "w-5.5" : "w-9";
       break;
 
-    case length >= 7 && length <= 8:
+    case length >= 7 && length < 8:
       itemsWidth = withSelect ? "w-5.5" : "w-6";
       break;
 
     default:
-      itemsWidth = "w-4";
+      itemsWidth = "w-3";
   }
 
   return (
