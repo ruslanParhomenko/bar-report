@@ -9,7 +9,7 @@ export function Section({
   t: LocalTranslateFn;
 }) {
   return (
-    <div className="print:my-3">
+    <div className="my-1 print:my-3">
       <h3 className="m-0 text-center text-xs font-bold tracking-widest text-[#1a1a1a] italic md:text-base print:mt-2">
         · {t(section.title)} ·
       </h3>

@@ -9,6 +9,7 @@ import TTNDayPage from "./moda-day/ttn-day-page";
 import TtnMonthPage from "./moda-month/ttn-month-page";
 import TtnYearPage from "./moda-year/ttn-year-page";
 import TtnNbmMonthPage from "./nbm-month/ttn-nbm-page";
+import NbmProductsYearPage from "./nbm-products-year/nbm-products-year-page";
 import NbmProductsPage from "./nbm-products/nbm-products-page";
 
 export default function TTNPage({
@@ -62,6 +63,9 @@ export default function TTNPage({
         />
       )}
       {tab === "nbm-products" && <NbmProductsPage data={dataProductsNbm} />}
+      {tab === "nbm-products-year" && (
+        <NbmProductsYearPage data={dataProductsNbm} />
+      )}
     </>
   );
 }

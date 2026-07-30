@@ -3,6 +3,7 @@ import {
   createProductsNbm,
   GetNbmProductsData,
 } from "@/app/actions/ttn/ttn-nbm-products-action";
+import { Table } from "@/components/ui/table";
 import FormWrapper from "@/components/wrapper/form-wrapper";
 import { useEdit } from "@/providers/edit-provider";
 import { useMonthDays } from "@/providers/month-days-provider";
@@ -60,7 +61,7 @@ export default function NbmProductsPage({
   };
 
   useEffect(() => {
-    if (data || !orderProducts?.length) return;
+    if (dataByMont || !orderProducts?.length) return;
 
     const rows = Object.fromEntries(
       orderProducts.map((s) => [
@@ -71,6 +72,7 @@ export default function NbmProductsPage({
 
     form.setValue("rowProducts", rows);
   }, [data, form, orderProducts, monthDays]);
+
   useEffect(() => {
     if (!dataByMont) return;
 
@@ -78,8 +80,8 @@ export default function NbmProductsPage({
   }, [dataByMont, form]);
 
   return (
-    <FormWrapper form={form} onSubmit={onSubmit} className="max-w-[90dvw]">
-      <table className="overflow-auto">
+    <FormWrapper form={form} onSubmit={onSubmit} className="max-w-[90dvw] pl-2">
+      <Table className="table-fixed">
         <HeaderTable
           selectedDay={selectedDay}
           setSelectedDay={setSelectedDay}
@@ -89,7 +91,7 @@ export default function NbmProductsPage({
           disabled={!isEdit}
           setSelectedDay={setSelectedDay}
         />
-      </table>
+      </Table>
     </FormWrapper>
   );
 }

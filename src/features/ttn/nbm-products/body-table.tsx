@@ -29,68 +29,67 @@ export default function BodyTable({
 
   return (
     <TableBody>
-      {arrayRows.map((row, rowIndex) => {
-        const total = sum(value?.[row]?.arrival);
-        return (
-          <TableRow
-            key={row}
-            className="group hover:text-rd! border [&>td]:text-xs"
-          >
-            <TableCell className="w-18 border border-r py-0 pr-1 text-center">
-              <span
-                className={cn(
-                  "group-hover:text-rd text-gn",
-                  total === 0 && "text-gn/20",
-                )}
-              >
-                {total.toFixed(0)}
-              </span>
-            </TableCell>
-
-            <TableCell className="bg-background sticky left-0 w-32 border py-0 pl-1 text-start md:bg-transparent">
-              <span
-                className={cn(
-                  "hover-cell text-bl group-hover:text-rd truncate",
-                )}
-              >
-                {row}
-              </span>
-            </TableCell>
-            <TableCell key={rowIndex} className="border p-0">
-              <input
-                {...register(`rowProducts.${row}.remain` as const)}
-                data-row={rowIndex * 2}
-                data-col={monthDays.length + 1}
-                className={cn(
-                  "text-rd bg-accent h-[1.23rem]! w-full border-0 px-0 text-center text-xs",
-                )}
-                onKeyDown={handleMultiTableNavigation}
-                disabled={disabled}
-                onFocus={() => setSelectedDay(monthDays.length + 1)}
-              />
-            </TableCell>
-
-            {monthDays.map((_, dayIndex) => (
-              <TableCell key={dayIndex} className="border p-0">
-                <input
-                  {...register(
-                    `rowProducts.${row}.arrival.${dayIndex}` as const,
-                  )}
-                  data-row={rowIndex * 2}
-                  data-col={dayIndex}
+      {arrayRows
+        .sort((a, b) => a.localeCompare(b))
+        .map((row, rowIndex) => {
+          const total = sum(value?.[row]?.arrival);
+          return (
+            <TableRow key={row} className="group hover:text-rd! [&>td]:text-xs">
+              <TableCell className="py-0 pr-1 text-center">
+                <span
                   className={cn(
-                    "h-[1.23rem]! w-full border-0 px-0 text-center text-xs",
-                    "text-rd",
+                    "group-hover:text-rd text-gn",
+                    total === 0 && "text-gn/20",
+                  )}
+                >
+                  {total.toFixed(0)}
+                </span>
+              </TableCell>
+
+              <TableCell className="bg-background sticky left-0 py-0 pl-1 text-start md:bg-transparent">
+                <span
+                  className={cn(
+                    "hover-cell text-bl group-hover:text-rd truncate",
+                  )}
+                >
+                  {row.toLocaleLowerCase()}
+                </span>
+              </TableCell>
+              <TableCell key={rowIndex} className="border-l p-0">
+                <input
+                  {...register(`rowProducts.${row}.remain` as const)}
+                  data-row={rowIndex * 2}
+                  data-col={monthDays.length + 1}
+                  className={cn(
+                    "bg-accent h-[1.2rem]! w-full border-0 px-0 text-center text-xs",
                   )}
                   onKeyDown={handleMultiTableNavigation}
                   disabled={disabled}
-                  onFocus={() => setSelectedDay(dayIndex + 1)}
+                  onFocus={() => setSelectedDay(monthDays.length + 1)}
                 />
               </TableCell>
-            ))}
-          </TableRow>
-        );
-      })}
+
+              {monthDays.map((_, dayIndex) => (
+                <TableCell key={dayIndex} className="border-l p-0">
+                  <input
+                    {...register(
+                      `rowProducts.${row}.arrival.${dayIndex}` as const,
+                    )}
+                    data-row={rowIndex * 2}
+                    data-col={dayIndex}
+                    className={cn(
+                      "w-full border-0 px-0 text-center text-xs",
+                      "text-rd",
+                    )}
+                    onKeyDown={handleMultiTableNavigation}
+                    disabled={disabled}
+                    onFocus={() => setSelectedDay(dayIndex + 1)}
+                  />
+                </TableCell>
+              ))}
+            </TableRow>
+          );
+        })}
     </TableBody>
   );
 }

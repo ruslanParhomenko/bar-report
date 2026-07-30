@@ -113,8 +113,18 @@ export const TABS_BY_ROUTE = {
     "moda-year",
     "nbm-month",
     "nbm-products",
+    "nbm-products-year",
   ],
-  [CHART_TTN_ROUTE]: ["month", "day", "year", "agent"],
+  [CHART_TTN_ROUTE]: [
+    "month",
+    "month-nbm",
+    "month-products",
+    "day",
+    "year",
+    "agent",
+    "agent-nbm",
+    "product-nbm",
+  ],
 
   [FIN_CASH_MAIN_ROUTE]: ["fin-nori", "fin-bar"],
 
