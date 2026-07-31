@@ -6,6 +6,8 @@ import { useSearchParams } from "next/navigation";
 import ChartRemarksPage from "./chart-remarks/chart-remarks-page";
 import ChartTipsAddPage from "./chart-tips-add-page/chart-tips-add-page";
 
+const TIPS_TABS = ["tips-day", "tips-year", "tips-employee"] as const;
+
 export default function ChartArchivePage({
   data,
 }: {
@@ -14,19 +16,15 @@ export default function ChartArchivePage({
     dataTips: GetTipsAddByYear[];
   };
 }) {
-  const searchParams = useSearchParams();
-  const tab = searchParams.get("tab");
+  const tab = useSearchParams().get("tab");
 
-  return (
-    <>
-      {tab === "penalty-year" && (
-        <ChartRemarksPage dataRemarks={data.dataRemarks} />
-      )}
-      {(tab === "tips-day" ||
-        tab === "tips-year" ||
-        tab === "tips-employee") && (
-        <ChartTipsAddPage dataTipsAdd={data.dataTips} tab={tab} />
-      )}
-    </>
-  );
+  if (tab === "penalty-year") {
+    return <ChartRemarksPage dataRemarks={data.dataRemarks} />;
+  }
+
+  if (tab && TIPS_TABS.includes(tab as (typeof TIPS_TABS)[number])) {
+    return <ChartTipsAddPage dataTipsAdd={data.dataTips} tab={tab} />;
+  }
+
+  return null;
 }

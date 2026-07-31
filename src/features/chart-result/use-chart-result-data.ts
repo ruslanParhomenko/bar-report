@@ -1,3 +1,4 @@
+"use client";
 import type { GetScheduleData } from "@/app/actions/schedule/schedule-action";
 import type { GetTipsData } from "@/app/actions/tips/tips-action";
 import type { MonthRange } from "@/components/input-controlled/month-range";
@@ -12,11 +13,7 @@ import {
   getEmployeeMonthData,
 } from "./calculate-pay";
 import { ROLE, ROLE_EMPLOYEES } from "./constants";
-import type {
-  ChartDataItem,
-  ChartResultDataInput,
-  EmployeeTableRow,
-} from "./types";
+import type { ChartResultDataInput, EmployeeTableRow } from "./types";
 
 export function useChartResultData({
   dataSchedules,
@@ -34,7 +31,6 @@ export function useChartResultData({
 
   const getMonthIndex = (id: string) => MONTHS.indexOf(id);
 
-  // список сотрудников — всегда по полному году, вне зависимости от range
   const scheduleEmployees =
     dataSchedules
       ?.flatMap((item) => item.data)
@@ -49,7 +45,6 @@ export function useChartResultData({
   const rangeFrom = range?.from;
   const rangeTo = range?.to;
 
-  // данные, отфильтрованные по выбранному диапазону месяцев
   const dataSchedulesPrevMonth:
     { month: string; data: GetScheduleData[] }[] | null =
     rangeFrom === undefined || rangeTo === undefined
@@ -95,8 +90,7 @@ export function useChartResultData({
     return row;
   });
 
-  // данные для графика "по сотрудникам" (в пределах выбранного range)
-  const chartDataByEmployee: ChartDataItem[] = sortedEmployees.map((name) => {
+  const chartDataByEmployee = sortedEmployees.map((name) => {
     const employeeRows = dataSchedulesPrevMonth
       ?.flatMap((item) => item.data)
       .filter((item) => item.id === roleKey)
@@ -129,9 +123,6 @@ export function useChartResultData({
     if (roleEmployees === "barmen") {
       totalTipsByEmployee = dataTipsPrevMonth.reduce((acc, item) => {
         const monthId = item.id;
-
-        // важно: строка расписания для расчёта берётся из ПОЛНОГО года,
-        // как и в исходном компоненте (не из dataSchedulesPrevMonth)
         const scheduleRow = findScheduleRow(
           dataSchedules,
           monthId,
@@ -170,8 +161,7 @@ export function useChartResultData({
     };
   });
 
-  // данные для графика "по месяцам" одного выбранного сотрудника (по полному году)
-  const chartDataByMonth: ChartDataItem[] = !activeName
+  const chartDataByMonth = !activeName
     ? []
     : MONTHS.map((monthId) => {
         const scheduleRow = findScheduleRow(

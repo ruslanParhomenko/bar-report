@@ -2,27 +2,23 @@
 import { GetCashData } from "@/app/actions/cash/cash-action";
 import CustomChart from "@/components/chart/custom-chart";
 import CustomLegend from "@/components/chart/custom-legend";
+import { BarConfig } from "@/components/chart/types";
 import { useMonthDays } from "@/providers/month-days-provider";
 import { MONTHS } from "@/utils/get-month-days";
+import { toggleBarVisibility } from "@/utils/toggle-bar-visibility";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 
-type ChartDataItem = {
-  name: string;
-  cash: number;
-  visa: number;
-  "nbm-coll": number;
-  "bank-coll": number;
-  banquet: number;
-};
-type BarKey = keyof Omit<ChartDataItem, "name">;
+const ITEM_KEYS = ["cash", "visa", "nbm-coll", "bank-coll", "banquet"] as const;
+type BarKey = BarConfig<(typeof ITEM_KEYS)[number]>;
 
-type BarItem = {
-  key: BarKey;
-  color: string;
-  label: string;
-};
-
+const BAR_KEYS: BarKey[] = [
+  { key: "cash", color: "var(--color-gn)", visible: true },
+  { key: "visa", color: "var(--color-rd)", visible: false },
+  { key: "nbm-coll", color: "var(--color-bl)", visible: false },
+  { key: "bank-coll", color: "var(--color-primary)", visible: false },
+  { key: "banquet", color: "var(--color-yl)", visible: false },
+];
 export default function ChartCashPage({
   dataCashYear,
 }: {
@@ -32,13 +28,7 @@ export default function ChartCashPage({
 
   const tab = useSearchParams().get("tab");
 
-  const [visibleBars, setVisibleBars] = useState<Record<BarKey, boolean>>({
-    cash: true,
-    visa: false,
-    "nbm-coll": false,
-    "bank-coll": false,
-    banquet: false,
-  });
+  const [barKeys, setBarKeys] = useState(BAR_KEYS);
 
   const dataCash = dataCashYear?.find((cash) => cash.id === month)?.cashData
     .rowCashData;
@@ -67,30 +57,24 @@ export default function ChartCashPage({
     };
   });
 
-  const BAR_KEYS: BarItem[] = [
-    { key: "cash", color: "var(--color-gn)", label: "Cash" },
-    { key: "visa", color: "var(--color-rd)", label: "Visa" },
-    { key: "nbm-coll", color: "var(--color-bl)", label: "Nbm Coll" },
-    { key: "bank-coll", color: "var(--color-primary)", label: "Bank Coll" },
-    { key: "banquet", color: "var(--color-yl)", label: "Banquet" },
-  ];
-  const toggleBar = (key: BarKey) => {
-    setVisibleBars((prev) => ({ ...prev, [key]: !prev[key] }));
+  const toggleBar = (key: BarKey["key"]) => {
+    setBarKeys((prev) => toggleBarVisibility(prev, key));
   };
 
-  const chartData = tab === "year" ? chartDataYear : chartDataMonth;
+  const CHART_BY_FILTER = {
+    month: chartDataMonth,
+    year: chartDataYear,
+  };
+
+  const chartData = CHART_BY_FILTER[tab as "month" | "year"];
   return (
     <>
       <CustomChart
         chartData={chartData}
-        barItem={BAR_KEYS.filter(({ key }) => visibleBars[key as BarKey])}
+        barItem={barKeys.filter(({ visible }) => visible)}
       />
 
-      <CustomLegend
-        items={BAR_KEYS}
-        visibleItems={visibleBars}
-        onToggle={toggleBar}
-      />
+      <CustomLegend items={BAR_KEYS} onToggle={toggleBar} />
     </>
   );
 }

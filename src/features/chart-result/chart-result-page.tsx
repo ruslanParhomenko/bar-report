@@ -4,7 +4,6 @@ import type { GetScheduleData } from "@/app/actions/schedule/schedule-action";
 import type { GetTipsData } from "@/app/actions/tips/tips-action";
 import { MonthPicker } from "@/components/input-controlled/month-range";
 import NavTabs from "@/components/nav-tabs/nav-tabs";
-import { TrashIcon } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { ChartResultChart } from "./chart-result-chart";
@@ -38,8 +37,13 @@ export default function ChartResultPage({
     chartDataByMonth,
   } = useChartResultData({ dataSchedules, tipsDataYear, year, role });
 
+  const CHART_DATA_BY_TAB = {
+    employees: chartDataByEmployee,
+    month: chartDataByMonth,
+  };
+
   const chartData =
-    filters === "month" ? chartDataByMonth : chartDataByEmployee;
+    CHART_DATA_BY_TAB[filters as keyof typeof CHART_DATA_BY_TAB];
 
   const hasScheduleData = (month: string) =>
     dataSchedulesPrevMonth?.some(
@@ -53,20 +57,14 @@ export default function ChartResultPage({
           navItems={NAV_TABS}
           activeTab={filters}
           handleTabChange={(value) => setFilters(value as ChartResultFilter)}
+          classTrigger="h-5"
+          classTabs="h-6 bg-transparent"
           withSelect
         />
-        <div className="flex items-center gap-2">
-          <MonthPicker value={range} onChange={setRange} />
 
-          <button
-            disabled={!range}
-            type="button"
-            onClick={() => setRange(undefined)}
-            className="w-2 md:w-4"
-          >
-            {range && <TrashIcon className="text-rd h-4 w-4" />}
-          </button>
-        </div>
+        {filters !== "month" && (
+          <MonthPicker value={range} onChange={setRange} />
+        )}
       </div>
 
       {filters === "table" ? (

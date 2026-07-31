@@ -24,14 +24,6 @@ export type ChartDataItem = {
   workedMonths: number;
 };
 
-export type BarKey = keyof Omit<ChartDataItem, "name">;
-
-export type BarItem = {
-  key: BarKey;
-  color: string;
-  label: string;
-};
-
 export type ChartResultFilter = "employees" | "month" | "table";
 
 export type ChartResultDataInput = {

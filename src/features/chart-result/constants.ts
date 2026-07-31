@@ -1,4 +1,4 @@
-import type { BarItem, ChartResultFilter, MonthData } from "./types";
+import type { ChartResultFilter, MonthData } from "./types";
 
 export const ROLE: Record<string, string> = {
   barmen: "bar",
@@ -22,13 +22,4 @@ export const SUB_HEADERS: (keyof MonthData)[] = [
   "salary",
   "tips",
   "total",
-];
-
-export const BAR_KEYS: BarItem[] = [
-  { key: "salary", color: "var(--color-gn)", label: "Salary" },
-  { key: "tips", color: "var(--color-rd)", label: "Tips" },
-  { key: "total", color: "var(--color-bl)", label: "Total" },
-  { key: "hours", color: "var(--color-primary)", label: "Hours" },
-  { key: "rate", color: "var(--color-yl)", label: "Rate" },
-  { key: "workedMonths", color: "var(--color-yl)", label: "Worked" },
 ];

@@ -15,7 +15,7 @@ import { parseExp } from "../setting/utils";
 
 type ChartDataItem = { name: string; value: number };
 type BarKey = keyof Omit<ChartDataItem, "name">;
-type BarItem = { key: BarKey; color: string; label: string };
+type BarItem = { key: BarKey; color: string; visible: boolean };
 
 const CELESTA_TABS = [
   "ПЛАТНО",
@@ -58,7 +58,7 @@ export default function ParserPage() {
   const [activeTab, setActiveTab] = useState<string>(DEFAULT_TAB);
 
   const BAR_KEYS: BarItem[] = [
-    { key: "value", color: "var(--color-gn)", label: "value" },
+    { key: "value", color: "var(--color-gn)", visible: true },
   ];
 
   const getWeekDayShort = (dateStr: string) => {

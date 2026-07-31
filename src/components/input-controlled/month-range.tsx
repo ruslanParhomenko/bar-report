@@ -1,6 +1,6 @@
 "use client";
 
-import { CalendarIcon } from "lucide-react";
+import { CalendarIcon, TrashIcon } from "lucide-react";
 import * as React from "react";
 
 import { Button } from "@/components/ui/button";
@@ -72,12 +72,12 @@ export function MonthPicker({
   };
 
   return (
-    <div className={cn("grid gap-2", className)}>
+    <div className={cn("flex", className)}>
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button
             variant="outline"
-            className="text-bl h-7 w-36 items-center justify-center gap-2 border-0 text-left text-xs font-normal md:w-60 md:gap-4"
+            className="text-bl h-6 w-42 items-center justify-center gap-2 border-0 text-left text-xs font-normal shadow-none md:w-58"
             disabled={disabled}
           >
             <CalendarIcon className="h-4 w-4 md:mr-2" />
@@ -85,7 +85,16 @@ export function MonthPicker({
           </Button>
         </PopoverTrigger>
 
-        <PopoverContent className="w-60 p-3" align="start">
+        <button
+          disabled={!value}
+          type="button"
+          onClick={onChange && (() => onChange(undefined))}
+          className="w-4"
+        >
+          {value && <TrashIcon className="text-rd h-3.5 w-3.5" />}
+        </button>
+
+        <PopoverContent className="w-42 p-3 md:w-58" align="start">
           <div className="grid grid-cols-3 gap-2">
             {MONTHS.map((m, idx) => (
               <button

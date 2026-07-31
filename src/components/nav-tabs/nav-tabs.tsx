@@ -5,18 +5,18 @@ export default function NavTabs<T extends string>({
   navItems,
   activeTab,
   handleTabChange,
-  className,
+  classTrigger,
   disabled,
   withSelect = false,
-  tabsHeight = "h-7",
+  classTabs,
 }: {
   navItems: readonly T[];
   activeTab: T;
   handleTabChange: (value: T) => void;
-  className?: string;
+  classTrigger?: string;
   disabled?: boolean;
   withSelect?: boolean;
-  tabsHeight?: string;
+  classTabs?: string;
 }) {
   if (!navItems.length) return null;
 
@@ -52,12 +52,18 @@ export default function NavTabs<T extends string>({
         handleTabChange(value as T);
       }}
     >
-      <TabsList className={cn("order-1 flex md:order-0 md:gap-4", tabsHeight)}>
+      <TabsList
+        className={cn("order-1 flex h-7 md:order-0 md:gap-4", classTabs)}
+      >
         {navItems.map((item, index) => (
           <TabsTrigger
             key={`${item}-${index}`}
             value={item}
-            className={cn("hover:text-bl cursor-pointer", tabsWidth, className)}
+            className={cn(
+              "hover:text-bl cursor-pointer",
+              tabsWidth,
+              classTrigger,
+            )}
             disabled={disabled}
           >
             <span

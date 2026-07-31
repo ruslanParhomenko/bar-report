@@ -2,7 +2,9 @@
 
 import CustomChart from "@/components/chart/custom-chart";
 import CustomLegend from "@/components/chart/custom-legend";
+import { BarConfig } from "@/components/chart/types";
 import ModalConfirm from "@/components/modal/modal-confirm";
+import { toggleBarVisibility } from "@/utils/toggle-bar-visibility";
 import { useEffect, useState, useTransition } from "react";
 import { UseFieldArrayReturn, useFormContext, useWatch } from "react-hook-form";
 import { BarForm } from "../schema";
@@ -10,13 +12,12 @@ import { SHIFTS } from "./constants";
 import { createDefaultTipsAdd } from "./schema";
 import TipsAddRow from "./tips-add-row";
 
-type ChartDataItem = { name: string; personal: number; result: number };
-type BarKey = keyof Omit<ChartDataItem, "name">;
-type BarItem = { key: BarKey; color: string; label: string };
+const ITEM_KEYS = ["personal", "result"] as const;
+type BarKey = BarConfig<(typeof ITEM_KEYS)[number]>;
 
-const BAR_KEYS: BarItem[] = [
-  { key: "personal", color: "var(--color-bl)", label: "personal" },
-  { key: "result", color: "var(--color-gn)", label: "result" },
+const BAR_KEYS: BarKey[] = [
+  { key: "personal", color: "var(--color-bl)", visible: true },
+  { key: "result", color: "var(--color-gn)", visible: false },
 ];
 
 export default function TipsAddForm({
@@ -42,10 +43,7 @@ export default function TipsAddForm({
   const [confirmIndex, setConfirmIndex] = useState<number | null>(null);
   const [confirmOverIndex, setConfirmOverIndex] = useState<number | null>(null);
   const [isPending, startTransition] = useTransition();
-  const [visibleBars, setVisibleBars] = useState<Record<BarKey, boolean>>({
-    personal: true,
-    result: false,
-  });
+  const [barKeys, setBarKeys] = useState(BAR_KEYS);
 
   const tipsValues = useWatch<BarForm, "tipsAdd">({ name: "tipsAdd" }) ?? [];
 
@@ -185,6 +183,9 @@ export default function TipsAddForm({
     ),
   }));
 
+  const toggleBar = (key: BarKey["key"]) =>
+    setBarKeys((prev) => toggleBarVisibility(prev, key));
+
   return (
     <div className="flex h-[80dvh] w-full flex-col gap-1 md:px-2">
       <ModalConfirm
@@ -276,19 +277,12 @@ export default function TipsAddForm({
       <div className="flex h-1/3 flex-col">
         <CustomChart
           chartData={chartData}
-          barItem={BAR_KEYS.filter(({ key }) => visibleBars[key])}
+          barItem={barKeys.filter(({ visible }) => visible)}
           className="m-0 h-full p-0"
           disableYAxis={disabled}
           withLabelLIst={false}
         />
-        <CustomLegend
-          items={BAR_KEYS}
-          visibleItems={visibleBars}
-          onToggle={(key) =>
-            setVisibleBars((prev) => ({ ...prev, [key]: !prev[key] }))
-          }
-          className="m-0!"
-        />
+        <CustomLegend items={barKeys} onToggle={toggleBar} />
       </div>
     </div>
   );

@@ -5,31 +5,26 @@ import { GetTtnNbmData } from "@/app/actions/ttn/ttn-nbm-action";
 import { GetNbmProductsData } from "@/app/actions/ttn/ttn-nbm-products-action";
 import CustomChart from "@/components/chart/custom-chart";
 import CustomLegend from "@/components/chart/custom-legend";
+import NameFilter from "@/components/chart/name-filter";
+import { BarConfig } from "@/components/chart/types";
 import {
   MonthPicker,
   MonthRange,
 } from "@/components/input-controlled/month-range";
-import { cn } from "@/lib/utils";
 import { useMonthDays } from "@/providers/month-days-provider";
 import { MONTHS } from "@/utils/get-month-days";
-import { TrashIcon } from "lucide-react";
+import { toggleBarVisibility } from "@/utils/toggle-bar-visibility";
 import { useSearchParams } from "next/navigation";
 import { useMemo, useState } from "react";
 
-type ChartDataItem = {
-  name: string;
-  payment: number;
-  purchase: number;
-  final: number;
-};
+const ITEM_KEYS = ["payment", "purchase", "final"] as const;
+type BarKey = BarConfig<(typeof ITEM_KEYS)[number]>;
 
-type BarKey = keyof Omit<ChartDataItem, "name">;
-
-type BarItem = {
-  key: BarKey;
-  color: string;
-  label: string;
-};
+const BAR_KEYS: BarKey[] = [
+  { key: "payment", color: "var(--color-bl)", visible: false },
+  { key: "purchase", color: "var(--color-rd)", visible: true },
+  { key: "final", color: "var(--color-gn)", visible: false },
+];
 
 export default function ChartTTNPage({
   agentTTN,
@@ -45,6 +40,10 @@ export default function ChartTTNPage({
   const { monthDays, month } = useMonthDays();
   const tab = useSearchParams().get("tab");
 
+  const [activeName, setActiveName] = useState<string>("");
+  const [range, setRange] = useState<MonthRange>();
+  const [barKeys, setBarKeys] = useState(BAR_KEYS);
+
   const uniqueAgents = agentTTN.agent;
   const uniqueAgentsNbm = agentTTN.agentNbm;
 
@@ -56,13 +55,6 @@ export default function ChartTTNPage({
     ),
   ];
 
-  const [visibleBars, setVisibleBars] = useState<Record<BarKey, boolean>>({
-    payment: false,
-    purchase: true,
-    final: false,
-  });
-  const [activeName, setActiveName] = useState<string>("");
-  const [range, setRange] = useState<MonthRange>();
   const getMonthIndex = (id: string) => MONTHS.indexOf(id);
 
   const dataTTNMonth = dataTTN?.find((data) => data.id === month);
@@ -307,133 +299,86 @@ export default function ChartTTNPage({
     };
   });
 
-  const BAR_KEYS: BarItem[] = [
-    { key: "payment", color: "var(--color-bl)", label: "Payment" },
-    { key: "purchase", color: "var(--color-rd)", label: "Purchase" },
-    { key: "final", color: "var(--color-gn)", label: "Final" },
-  ];
+  const toggleBar = (key: BarKey["key"]) =>
+    setBarKeys((prev) => toggleBarVisibility(prev, key));
 
-  const toggleBar = (key: BarKey) => {
-    setVisibleBars((prev) => ({ ...prev, [key]: !prev[key] }));
-  };
-
-  const CHART_DATA_BY_TAB: Record<string, ChartDataItem[]> = {
-    year: chartDataYear,
-    agent: chartDataAgent.filter(
+  const CHART_DATA_BY_TAB = {
+    "moda-month": chartDataMonth,
+    "nbm-month": chartDataMonthNbm,
+    "products-month": chartDataProductMonth,
+    "moda-day": chartDataDay,
+    "moda-year": chartDataYear,
+    "moda-agent": chartDataAgent.filter(
       (data) => data.payment > 0 || data.purchase > 0,
     ),
-    day: chartDataDay,
-    month: chartDataMonth,
-    "month-nbm": chartDataMonthNbm,
-    "month-products": chartDataProductMonth,
-    "agent-nbm": chartDataAgentNbm.filter(
+    "nbm-agent": chartDataAgentNbm.filter(
       (data) => data.payment > 0 || data.purchase > 0,
     ),
-    "product-nbm": chartDataProductNbm,
+    "nbm-products": chartDataProductNbm,
   };
 
   const chartData = CHART_DATA_BY_TAB[tab as keyof typeof CHART_DATA_BY_TAB];
 
-  const heightByTab = {
-    "agent-nbm": "h-[74dvh]",
-    "product-nbm": "md:h-[74dvh] h-full",
-    agent: "md:h-[74dvh] h-dvh",
-    day: "h-dvh md:h-[78dvh]",
-    month: "md:h-[68dvh] h-[58dvh]",
-    "month-nbm": "md:h-[70dvh] h-[58dvh]",
-    "month-products": "md:h-[65dvh] h-[58dvh]",
-    year: "h-[76dvh]",
-  };
   const totalPurchase = chartData
-    .reduce((acc, item) => acc + item.purchase, 0)
+    ?.reduce((acc, item) => acc + item.purchase, 0)
     .toFixed(0);
   const totalPayment = chartData
-    .reduce((acc, item) => acc + item.payment, 0)
+    ?.reduce((acc, item) => acc + item.payment, 0)
     .toFixed(0);
   return (
     <>
       <div className="flex items-center justify-center gap-6 p-1">
-        {(tab === "agent" || tab === "agent-nbm" || tab === "product-nbm") && (
+        <div className="flex items-center justify-center gap-12 text-[10px] font-bold tracking-widest">
+          <span className="text-bl">{totalPayment || ""}</span>
+
+          <span className="text-rd">{totalPurchase || ""}</span>
+        </div>
+        {(tab === "moda-agent" ||
+          tab === "nbm-agent" ||
+          tab === "nbm-products") && (
           <MonthPicker value={range} onChange={setRange} />
-        )}
-        <button
-          disabled={!range}
-          type="button"
-          onClick={() => setRange(undefined)}
-          className="w-4"
-        >
-          {range && <TrashIcon className="text-rd h-4 w-4" />}
-        </button>
-      </div>
-      <div className="mt-2 flex items-center justify-center gap-12 text-[10px] font-bold tracking-widest">
-        {visibleBars.payment && <span className="text-bl">{totalPayment}</span>}
-        {visibleBars.purchase && (
-          <span className="text-rd">{totalPurchase}</span>
         )}
       </div>
       <CustomChart
         chartData={chartData}
-        barItem={BAR_KEYS.filter(({ key }) => visibleBars[key as BarKey])}
-        vertical={(tab === "agent" || tab === "product-nbm") && true}
-        className={heightByTab[tab as keyof typeof heightByTab]}
+        barItem={barKeys.filter(({ visible }) => visible)}
+        vertical={
+          (tab === "moda-agent" ||
+            tab === "product-nbm" ||
+            tab === "nbm-products") &&
+          true
+        }
+        className={
+          tab === "moda-month" ||
+          tab === "nbm-month" ||
+          tab === "products-month"
+            ? "h-[70dvh]"
+            : "h-[77dvh]"
+        }
       />
 
-      <CustomLegend
-        items={BAR_KEYS}
-        visibleItems={visibleBars}
-        onToggle={toggleBar}
-      />
-      <div className="flex flex-wrap justify-center gap-1 md:px-4 md:pb-2">
-        {tab === "month" &&
-          uniqueAgents.map((name) => (
-            <span
-              key={name}
-              onClick={() =>
-                setActiveName((prev) => (prev === name ? "" : name))
-              }
-              className={cn(
-                "cursor-pointer rounded-full px-1 py-0.5 text-xs transition-opacity md:px-3 md:py-1",
-                activeName && activeName !== name && "opacity-35",
-                activeName !== name && "print:hidden",
-              )}
-            >
-              {name}
-            </span>
-          ))}
-        {tab === "month-nbm" &&
-          uniqueAgentsNbm.map((name) => (
-            <span
-              key={name}
-              onClick={() =>
-                setActiveName((prev) => (prev === name ? "" : name))
-              }
-              className={cn(
-                "cursor-pointer rounded-full px-1 py-0.5 text-xs transition-opacity md:px-3 md:py-1",
-                activeName && activeName !== name && "opacity-35",
-                activeName !== name && "print:hidden",
-              )}
-            >
-              {name}
-            </span>
-          ))}
+      <CustomLegend items={barKeys} onToggle={toggleBar} />
 
-        {tab === "month-products" &&
-          uniqueProducts.map((name) => (
-            <span
-              key={name}
-              onClick={() =>
-                setActiveName((prev) => (prev === name ? "" : name))
-              }
-              className={cn(
-                "cursor-pointer rounded-full px-1 py-0.5 text-xs transition-opacity md:px-3 md:py-1",
-                activeName && activeName !== name && "opacity-35",
-                activeName !== name && "print:hidden",
-              )}
-            >
-              {name}
-            </span>
-          ))}
-      </div>
+      <NameFilter
+        names={uniqueAgents}
+        activeName={activeName}
+        onChange={setActiveName}
+        isVisible={tab === "moda-month"}
+      />
+
+      <NameFilter
+        names={uniqueAgentsNbm}
+        activeName={activeName}
+        onChange={setActiveName}
+        isVisible={tab === "nbm-month"}
+      />
+
+      <NameFilter
+        names={uniqueProducts}
+        activeName={activeName}
+        onChange={setActiveName}
+        isVisible={tab === "products-month"}
+      />
     </>
   );
 }

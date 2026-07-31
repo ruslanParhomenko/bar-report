@@ -20,15 +20,15 @@ import {
   ChartTooltipContent,
 } from "../ui/chart";
 
-export type ChartDataItem = {
+type ChartDataItem = {
   name: string;
   [key: string]: string | number;
 };
 
-export type BarItem = {
+type BarItem = {
   key: string;
   color: string;
-  label: string;
+  visible: boolean;
 };
 
 type CustomChartProps = {
@@ -54,13 +54,13 @@ export default function CustomChart({
 }: CustomChartProps) {
   const isMobile = useIsMobile();
 
-  const height = isMobile ? "h-[80dvh]" : "h-[82dvh]";
+  const height = isMobile ? "h-dvh" : "h-[78dvh]";
 
   const chartConfig = Object.fromEntries(
-    barItem.map(({ key, label, color }) => [
+    barItem.map(({ key, color }) => [
       key,
       {
-        label,
+        label: key,
         color,
       },
     ]),
@@ -147,10 +147,10 @@ export default function CustomChart({
           interval={0}
           angle={vertical ? -90 : 0}
           textAnchor={vertical ? "end" : "middle"}
-          height={vertical ? 90 : 30}
+          height={vertical ? 120 : 30}
           tick={{ fontSize: vertical ? 11 : 12 }}
           tickFormatter={(value: string) =>
-            value.length > 14 ? value.slice(0, 12) + "…" : value.split(" ")[0]
+            value.length > 14 ? value.slice(0, 16) : value.split(" ")[0]
           }
         />
         <YAxis axisLine={false} tickLine={false} tick={!disableYAxis} />

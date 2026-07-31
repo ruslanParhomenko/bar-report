@@ -41,9 +41,9 @@ export function ChartResultTable({
 
   return (
     <>
-      <Table className="my-2">
+      <Table className="mt-4">
         <TableHeader>
-          <TableRow className="[&>th]:h-5! [&>th]:p-0!">
+          <TableRow className="[&>th]:h-4! [&>th]:p-0!">
             <TableHead className="bg-background sticky left-0 z-10" />
             <TableHead />
 
@@ -59,7 +59,7 @@ export function ChartResultTable({
           </TableRow>
           <TableRow className="[&>th]:h-6! [&>th]:p-0!">
             <TableHead className="bg-background sticky left-0 z-10" />
-            <TableHead className="text-bl p-0 text-center text-xs">W</TableHead>
+            <TableHead className="text-bl p-0 text-center text-xs">w</TableHead>
             {monthsToDisplay.map((month) => {
               const hasData = hasScheduleData(month);
               if (!hasData) return null;
@@ -71,7 +71,7 @@ export function ChartResultTable({
                     !hasData && "bg-muted/50",
                   )}
                 >
-                  {subHeader.slice(0, 1).toUpperCase()}
+                  {subHeader.slice(0, 1)}
                 </TableHead>
               ));
             })}
@@ -88,7 +88,7 @@ export function ChartResultTable({
               <TableRow
                 key={idx}
                 className={cn(
-                  "[&>td]:py-1.5 [&>td]:text-xs print:[&>td]:py-3",
+                  "[&>td]:py-1.25 [&>td]:text-xs print:[&>td]:py-3",
                   idx % 2 === 0 && "bg-gray-100",
                   tableData.length < 16 && "[&>td]:py-3",
                 )}
