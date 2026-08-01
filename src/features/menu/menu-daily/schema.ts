@@ -4,6 +4,9 @@ import { SECTIONS } from "./constants";
 export const itemMenuDailySchema = z.object({
   ro: z.string(),
   en: z.string(),
+  ru: z.string(),
+  he: z.string(),
+  tr: z.string(),
 });
 
 export type MenuDailyItem = z.infer<typeof itemMenuDailySchema>;
@@ -23,8 +26,8 @@ export const menuDailyDefaultValues: MenuDailyForm = Object.fromEntries(
   SECTIONS.map((section) => [
     section,
     [
-      { ro: "", en: "" },
-      { ro: "", en: "" },
+      { ro: "", en: "", ru: "", he: "", tr: "" },
+      { ro: "", en: "", ru: "", he: "", tr: "" },
     ],
   ]),
 ) as MenuDailyForm;

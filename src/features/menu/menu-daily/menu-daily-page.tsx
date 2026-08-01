@@ -49,7 +49,10 @@ export default function MenuDailyPage({
 
   const value = form.watch();
 
+  console.log("value", value);
+
   const onSubmit: SubmitHandler<MenuDailyForm> = async (formData) => {
+    console.log("Submitting form data:", formData);
     await createMenuDaily(formData);
     setIsEdit(false);
   };

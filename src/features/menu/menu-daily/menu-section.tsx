@@ -28,12 +28,19 @@ function DishSelect({
     setValue(`${basePath}.ro`, val);
     setValue(`${basePath}.en`, found?.en ?? "");
 
+    setValue(`${basePath}.ru`, found?.ru ?? "");
+    setValue(`${basePath}.he`, found?.he ?? "");
+    setValue(`${basePath}.tr`, found?.tr ?? "");
+
     if (onValueChange) {
       onValueChange(
         found
           ? {
               ro: found.ro,
               en: found.en,
+              ru: found.ru,
+              he: found.he,
+              tr: found.tr,
             }
           : null,
       );
