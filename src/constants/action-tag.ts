@@ -5,6 +5,8 @@ export const REPORT_CUCINA_ACTION_TAG = "report-cucina";
 export const BREAK_ACTION_TAG = "break";
 export const BREAK_REALTIME_ACTION_TAG = "break-realtime";
 
+export const ORDERS_ACTION_TAG = "orders-archive";
+
 export const STOP_LIST_ACTION_TAG = "stop-list";
 export const USERS_ACTION_TAG = "users";
 export const REMARKS_ACTION_TAG = "remarks";

@@ -8,6 +8,7 @@ import { useAbility } from "@/providers/ability-provider";
 import { useSession } from "next-auth/react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { createOrders } from "./actions/order-action";
 import OrderCardWrapper from "./order-card-wrapper";
 
 export const OrderForm = ({
@@ -56,6 +57,14 @@ export const OrderForm = ({
       }
 
       await sendTelegramMessage(filtered, tab, name || "");
+
+      await createOrders({
+        tab,
+        year: new Date().getFullYear().toString(),
+        month: (new Date().getMonth() + 1).toString(),
+        day: new Date().getDate().toString(),
+        orders: filtered,
+      });
       toast.success("Заказ отправлен в Telegram!");
     } catch {
       toast.error("Ошибка отправки");

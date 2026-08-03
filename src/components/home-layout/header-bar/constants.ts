@@ -89,6 +89,7 @@ export const TABS_BY_ROUTE = {
     "penalty",
     "penalty-result",
     "tips-add",
+    "orders",
   ],
   [CHART_ARCHIVE_ROUTE]: [
     "penalty-year",

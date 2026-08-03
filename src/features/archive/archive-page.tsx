@@ -11,6 +11,7 @@ import ReportCucinaArchive from "@/features/archive/cucina/report-cucina-archive
 import { useAbility } from "@/providers/ability-provider";
 import { useSearchParams } from "next/navigation";
 import { BreakListArchive } from "./break/break-list-archive";
+import OrdersArchivePage from "./orders/orders-archive-page";
 import PenaltyResult from "./penalty-result/penalty-result";
 import PenaltyArchiveData from "./penalty/penalty-archive-data";
 import TipsArchiveData from "./tips/tips-archive-data";
@@ -62,6 +63,11 @@ export default function ArchivePage({
       key: "tips-add",
       visible: !isCucina && !isBar,
       render: () => <TipsArchiveData data={archiveData.tips} />,
+    },
+    {
+      key: "orders",
+      visible: true,
+      render: () => <OrdersArchivePage />,
     },
   ];
 

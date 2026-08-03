@@ -1,12 +1,15 @@
 import { getRequestConfig } from "next-intl/server";
 import { cookies } from "next/headers";
 
-export default getRequestConfig(async () => {
+const supportedLocales = ["ru", "ro"];
 
+export default getRequestConfig(async () => {
   const cookieStore = await cookies();
   const localeFromCookie = cookieStore.get("NEXT_LOCALE_BAR")?.value ?? "ru";
 
-  const locale = localeFromCookie;
+  const locale = supportedLocales.includes(localeFromCookie)
+    ? localeFromCookie
+    : "ru";
 
   return {
     locale,
