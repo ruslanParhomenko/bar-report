@@ -42,7 +42,7 @@ export default function OrdersTable({ orders, monthDays }: OrdersTableProps) {
   };
 
   return (
-    <Table>
+    <Table className="h-[80dvh]">
       <TableHeader>
         <TableRow>
           <TableHead className="bg-background sticky left-0 z-10"></TableHead>
@@ -58,13 +58,16 @@ export default function OrdersTable({ orders, monthDays }: OrdersTableProps) {
 
       <TableBody>
         {products.map((product) => (
-          <TableRow key={product}>
-            <TableCell className="bg-background sticky left-0 z-10 text-xs">
+          <TableRow key={product} className="group [&>td]:py-0.5">
+            <TableCell className="bg-background group-hover:bg-muted group-hover:text-rd sticky left-0 z-10 text-xs">
               {product}
             </TableCell>
 
             {monthDays.map(({ day }) => (
-              <TableCell key={day} className="text-center text-xs">
+              <TableCell
+                key={day}
+                className="group-hover:bg-muted group-hover:text-rd text-center text-xs"
+              >
                 {getValue(product, day)}
               </TableCell>
             ))}

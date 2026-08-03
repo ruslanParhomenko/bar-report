@@ -59,17 +59,14 @@ export default function NavTabs<T extends string>({
           <TabsTrigger
             key={`${item}-${index}`}
             value={item}
-            className={cn(
-              "hover:text-bl cursor-pointer",
-              tabsWidth,
-              classTrigger,
-            )}
+            className={cn("cursor-pointer", tabsWidth, classTrigger)}
             disabled={disabled}
           >
             <span
               className={cn(
-                "md:text-md text-bl block truncate text-xs md:min-w-22",
+                "md:text-md text-bl/80 hover:text-rd block truncate text-xs md:min-w-22",
                 itemsWidth,
+                item === activeTab ? "text-rd" : "",
               )}
             >
               {item}

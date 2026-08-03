@@ -43,15 +43,15 @@ export default function OrdersArchivePage() {
     load();
   }, [activeTab]);
 
-  console.log("orders", monthDays, orders);
-
   if (!monthDays.length) return null;
   return (
-    <div className="flex flex-col items-center justify-center gap-4">
+    <div className="flex flex-col items-center justify-center gap-4 overflow-auto">
       <NavTabs
         navItems={NAV_TABS}
         activeTab={activeTab}
         handleTabChange={setActiveTab}
+        classTrigger="text-xs h-5"
+        classTabs="text-xs h-6 bg-transparent"
       />
       {orders && <OrdersTable orders={orders} monthDays={monthDays} />}
     </div>
