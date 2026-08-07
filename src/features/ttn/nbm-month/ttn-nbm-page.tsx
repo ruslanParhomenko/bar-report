@@ -75,7 +75,7 @@ export default function TtnNbmMonthPage({
 
   return (
     <FormWrapper form={form} onSubmit={onSubmit} className="max-w-[90dvw]">
-      <Table className="my-4">
+      <Table className="my-4 md:table-fixed">
         <TtnNbmHeaderTable
           selectedDay={selectedDay}
           setSelectedDay={setSelectedDay}

@@ -13,7 +13,8 @@ export default function TtnNbmHeaderTable({
   return (
     <TableHeader className="bg-background sticky top-0 left-0 z-12">
       <TableRow>
-        <TableCell colSpan={2} className="text-center text-xs">
+        <TableCell className="w-15" />
+        <TableCell className="w-24 text-center text-xs">
           {month?.toUpperCase() || ""}
         </TableCell>
 
@@ -21,7 +22,7 @@ export default function TtnNbmHeaderTable({
           selectedDay={selectedDay}
           setSelectedDay={setSelectedDay}
           monthDays={monthDays}
-          className="min-w-6"
+          className="w-12.5 text-center text-xs"
         />
       </TableRow>
     </TableHeader>

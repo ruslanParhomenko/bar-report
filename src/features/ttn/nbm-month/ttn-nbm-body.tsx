@@ -35,7 +35,7 @@ export default function TtnNbmBodyTable({
 
         return (
           <TableRow key={row} className="group [&>td]:text-xs">
-            <TableCell className="w-18 border-r py-0 pr-1">
+            <TableCell className="border-r py-0 pr-1">
               <span
                 className={cn(
                   "text-rd",
@@ -46,7 +46,7 @@ export default function TtnNbmBodyTable({
               </span>
             </TableCell>
 
-            <TableCell className="bg-background sticky left-0 w-28 py-0 pl-1 text-start md:bg-transparent">
+            <TableCell className="bg-background sticky left-0 py-0 pl-1 text-start md:bg-transparent">
               <span
                 className={cn(
                   "hover-cell truncate font-semibold text-green-600",

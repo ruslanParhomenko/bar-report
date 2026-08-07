@@ -45,7 +45,7 @@ export default function NbmProductsYearPage({
             return (
               <TableRow
                 key={idx + product}
-                className="group hover:bg-accent [&>td]:py-px [&>td]:text-[0.7rem]"
+                className="group hover:bg-accent [&>td]:py-px [&>td]:text-[0.75rem]"
               >
                 <TableCell className="text-muted-foreground w-8">
                   {idx + 1}
