@@ -1,7 +1,7 @@
 "use server";
 
 import { CASH_ACTION_TAG } from "@/constants/action-tag";
-import { CashForm } from "@/features/cash/schema";
+import { CashForm } from "@/features/finance/cash/schema";
 import { getYearMonthCollection, getYearMonthDoc } from "@/lib/firebase-doc";
 import { unstable_cache, updateTag } from "next/cache";
 

@@ -1,6 +1,6 @@
 "use server";
 import { REPORT_BAR_ACTION_TAG } from "@/constants/action-tag";
-import { ReportBarForm } from "@/features/bar/report/schema";
+import { ReportBarForm } from "@/features/staff/bar/report/schema";
 import { getYearMonthDoc } from "@/lib/firebase-doc";
 import { unstable_cache, updateTag } from "next/cache";
 

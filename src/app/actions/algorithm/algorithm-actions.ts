@@ -1,7 +1,7 @@
 "use server";
 
 import { ALGORITHM_ACTION_TAG } from "@/constants/action-tag";
-import { AlgorithmData } from "@/features/algorithm/schema";
+import { AlgorithmData } from "@/features/staff/algorithm/schema";
 import { dbAdmin } from "@/lib/firebase-admin";
 import { unstable_cache, updateTag } from "next/cache";
 

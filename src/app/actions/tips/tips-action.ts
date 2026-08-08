@@ -1,8 +1,7 @@
 "use server";
 
-import { TipsForm } from "@/features/tips/schema";
-
 import { TIPS_ACTION_TAG } from "@/constants/action-tag";
+import { TipsForm } from "@/features/staff/tips/schema";
 import { getYearMonthCollection, getYearMonthDoc } from "@/lib/firebase-doc";
 import { unstable_cache, updateTag } from "next/cache";
 

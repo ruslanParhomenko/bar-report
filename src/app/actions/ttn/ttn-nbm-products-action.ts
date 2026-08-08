@@ -2,7 +2,7 @@
 
 import { NBM_PRODUCTS_ACTION_TAG } from "@/constants/action-tag";
 
-import { ProductsFormNBM } from "@/features/ttn/nbm-products/schema";
+import { ProductsFormNBM } from "@/features/finance/ttn/nbm-products/schema";
 import { getYearMonthCollection, getYearMonthDoc } from "@/lib/firebase-doc";
 import { unstable_cache, updateTag } from "next/cache";
 

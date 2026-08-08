@@ -1,7 +1,7 @@
 "use server";
 
 import { MENU_DAILY_ACTION_TAG } from "@/constants/action-tag";
-import { MenuDailyForm } from "@/features/menu/menu-daily/schema";
+import { MenuDailyForm } from "@/features/staff/menu/menu-daily/schema";
 import { dbAdmin } from "@/lib/firebase-admin";
 import { unstable_cache, updateTag } from "next/cache";
 import { invalidateEverywhere } from "../invalidateEverywhere/invalidate-everywhere";

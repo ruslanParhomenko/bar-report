@@ -1,7 +1,7 @@
 "use server";
 import { REPORT_CUCINA_ACTION_TAG } from "@/constants/action-tag";
 
-import { ReportKitchenForm } from "@/features/cucina/schema";
+import { ReportKitchenForm } from "@/features/staff/cucina/schema";
 import { getYearMonthDoc } from "@/lib/firebase-doc";
 import { unstable_cache, updateTag } from "next/cache";
 

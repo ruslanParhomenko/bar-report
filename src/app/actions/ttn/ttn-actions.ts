@@ -1,7 +1,7 @@
 "use server";
 
 import { TTN_ACTION_TAG } from "@/constants/action-tag";
-import { TTNForm } from "@/features/ttn/moda-month/schema";
+import { TTNForm } from "@/features/finance/ttn/moda-month/schema";
 import { getYearMonthCollection, getYearMonthDoc } from "@/lib/firebase-doc";
 import { unstable_cache, updateTag } from "next/cache";
 

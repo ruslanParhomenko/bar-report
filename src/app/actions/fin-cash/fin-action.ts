@@ -3,7 +3,7 @@ import {
   FIN_BAR_ACTION_TAG,
   FIN_CASH_ACTION_TAG,
 } from "@/constants/action-tag";
-import { FinForm } from "@/features/fin-cash/schema";
+import { FinForm } from "@/features/finance/fin-cash/schema";
 import { dbAdmin } from "@/lib/firebase-admin";
 import { unstable_cache, updateTag } from "next/cache";
 

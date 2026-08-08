@@ -1,7 +1,7 @@
 "use server";
 
 import { BREAK_ACTION_TAG } from "@/constants/action-tag";
-import { BreakForm } from "@/features/bar/break-form/schema";
+import { BreakForm } from "@/features/staff/bar/break-form/schema";
 import { getYearMonthDoc } from "@/lib/firebase-doc";
 import { unstable_cache, updateTag } from "next/cache";
 

@@ -1,7 +1,7 @@
 "use server";
 
 import { AO_REPORT_ACTION_TAG } from "@/constants/action-tag";
-import { AoForm } from "@/features/a-o/schema";
+import { AoForm } from "@/features/finance/a-o/schema";
 import { getYearMonthCollection, getYearMonthDoc } from "@/lib/firebase-doc";
 import { unstable_cache, updateTag } from "next/cache";
 

@@ -1,7 +1,7 @@
 "use server";
 
 import { REMARKS_ACTION_TAG } from "@/constants/action-tag";
-import { RemarksForm } from "@/features/bar/penalty/schema";
+import { RemarksForm } from "@/features/staff/bar/penalty/schema";
 import { getYearMonthDoc } from "@/lib/firebase-doc";
 import { MONTHS } from "@/utils/get-month-days";
 import { unstable_cache, updateTag } from "next/cache";

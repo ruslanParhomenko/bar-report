@@ -29,6 +29,6 @@
     ".next/types/**/*.ts",
     "src/types",
     ".next/dev/types/**/*.ts"
-  ],
+, "src/app/actions/ё/.l"  ],
   "exclude": ["node_modules"]
 }
