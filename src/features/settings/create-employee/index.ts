@@ -1,0 +1,1 @@
+export { EmployeeCreatePage } from  '@/features/settings/create-employee/ui/employee-create-page';

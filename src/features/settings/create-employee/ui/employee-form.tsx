@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import { Minus } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useFormContext } from "react-hook-form";
-import { EMPLOYEES_ROLE, STATUS_OPTIONS } from "./constants";
+import { EMPLOYEES_ROLE, STATUS_OPTIONS } from "../model/constants";
 
 export default function EmployeeDataForm() {
   const t = useTranslations("Home");

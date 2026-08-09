@@ -34,21 +34,20 @@ export  function SchedulePage({
 }: {
   schedules: GetScheduleData[] | null;
 }) {
-  const searchParams = useSearchParams();
 
+  const searchParams = useSearchParams();
   const tab = searchParams.get("tab");
 
   const schedule = schedules?.find((s) => s.id === tab) ?? null;
 
   const isMobile = useIsMobile();
 
-  // state
   const todayDay = new Date().getDate();
+
   const [selectedDay, setSelectedDay] = useState<number>(todayDay);
 
   const { isEdit, setIsEdit } = useEdit();
 
-  // set form
   const form = useForm<ScheduleType>({
     resolver: zodResolver(scheduleSchema),
     defaultValues: defaultSchedule,
@@ -58,19 +57,15 @@ export  function SchedulePage({
     name: "rowShifts",
   });
 
-  // set employees
   const selectedEmployees = useSelectedEmployeesByRole(
     tab as keyof typeof EMPLOYEE_ROLES_BY_DEPARTMENT,
   );
 
-  // set days
   const { daysCount, month, year } = useMonthDays();
 
   const rowShifts = isEdit ? form.watch("rowShifts") : schedule?.rowShifts;
-
   const shiftCounts = getShiftCounts(rowShifts ?? []);
 
-  // submit
   const onSubmit: SubmitHandler<ScheduleType> = async (data) => {
     const rowShiftsWithHours = data.rowShifts.map((row) => {
       if (!row.shifts) return row;

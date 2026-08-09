@@ -1,6 +1,7 @@
 import { MONTHS } from "@/utils/get-month-days";
 import { ScheduleType } from "../model/schema";
 import { SHIFT_HOURS_MAP_DAY, SHIFT_HOURS_MAP_NIGHT, SHIFT_OPTIONS } from "../model/constants";
+import { ShiftCounts } from "../model/type";
 
 
 export function getShiftCounts(
@@ -12,10 +13,10 @@ export function getShiftCounts(
 
   const result = Object.fromEntries(
     SHIFT_OPTIONS.map((s) => [s, Array(daysCount).fill(0)]),
-  ) as ShiftCounts;
+  );
 
   rowShifts.forEach((row) => {
-    row.shifts.forEach((shiftValue: string, dayIndex: number) => {
+    row.shifts.forEach((shiftValue, dayIndex) => {
       const parts = shiftValue.split(".");
       const matchedPart = parts.find((part) => SHIFT_OPTIONS.includes(part));
       if (matchedPart) {
@@ -31,7 +32,6 @@ export function getShiftCounts(
   return hasData ? result : null;
 }
 
-export type ShiftCounts = Record<string, number[]>;
 
 export function isCanEdit({ year, month }: { year: string; month: string }) {
   const monthIndex = MONTHS.indexOf(month);
@@ -53,9 +53,7 @@ export function calculateSalaryByHours(row: ScheduleType["rowShifts"][number]) {
   const safeNight = Number.isFinite(nightHours) ? nightHours : 0;
 
   const base = safeRate / 186;
-
   const dayHourPay = row.role === "mngr" ? base : base * 0.9;
-
   const nightHourPay = row.role === "mngr" ? base : base * 1.15;
 
   return dayHourPay * safeDay + nightHourPay * safeNight;
@@ -63,7 +61,7 @@ export function calculateSalaryByHours(row: ScheduleType["rowShifts"][number]) {
 
 
 
-export function calculateShiftTotals(shifts: string[] | undefined) {
+export function calculateShiftTotals(shifts: string[]) {
   const dayHours = (shifts || []).reduce(
     (sum, val) => sum + (SHIFT_HOURS_MAP_DAY[val] ?? 0),
     0,

@@ -7,11 +7,11 @@ import { TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 
-import { Employee } from "@/app/actions/employees/employee-action";
 import { useMonthDays } from "@/providers/month-days-provider";
 import { handleMultiTableNavigation } from "@/utils/handle-table-navigation";
 import {
   FieldArrayWithId,
+  useFieldArray,
   UseFieldArrayReturn,
   useFormContext,
   useWatch,
@@ -19,6 +19,7 @@ import {
 import { color, SHIFT_COLOR_MAP } from "../model/constants";
 import { ScheduleType } from "../model/schema";
 import { calculateSalaryByHours, calculateShiftTotals } from "../lib/utils";
+import { Employee } from "@/features/settings/create-employee/model/type";
 
 export default function ScheduleCreateTableBody({
   fields,
@@ -37,7 +38,8 @@ export default function ScheduleCreateTableBody({
   selectedDay: number;
   setSelectedDay: (day: number) => void;
 }) {
-  const form = useFormContext();
+  const form = useFormContext<ScheduleType>();
+  const { control, getValues } = form;
 
   const employeesLength = fields?.length || 0;
 
@@ -45,7 +47,7 @@ export default function ScheduleCreateTableBody({
   const isMobile = useIsMobile();
 
   const shifts = useWatch({
-    control: form.control,
+    control: control,
     name: "rowShifts",
   });
 
@@ -56,7 +58,7 @@ export default function ScheduleCreateTableBody({
     if (!employee) return;
 
     update(rowIndex, {
-      ...form.getValues(`rowShifts.${rowIndex}`),
+      ...getValues(`rowShifts.${rowIndex}`),
       employee: employee.name,
       role: employee.role,
       rate: employee.rate,
@@ -71,11 +73,11 @@ export default function ScheduleCreateTableBody({
           rowShifts.shifts,
         );
 
-        const rate = form.getValues(`rowShifts.${rowIndex}.rate`);
+        const rate = getValues(`rowShifts.${rowIndex}.rate`);
         const totalPay = calculateSalaryByHours({
           ...rowShifts,
-          dayHours: totalDay,
-          nightHours: totalNight,
+          dayHours: String(totalDay),
+          nightHours: String(totalNight),
         });
 
         const isSelected = !SHIFT_COLOR_MAP.includes(
@@ -107,7 +109,7 @@ export default function ScheduleCreateTableBody({
             </TableCell>
             <TableCell className="text-muted-foreground px-2! text-right">
               {row.role.charAt(0)}
-              {rate / 1000}
+              {Number(rate) / 1000}
             </TableCell>
             <TableCell className="bg-background sticky left-0 pl-2! md:bg-transparent">
               <SelectField

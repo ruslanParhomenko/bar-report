@@ -1,5 +1,4 @@
 "use client";
-import { deleteEmployee } from "@/app/actions/employees/employee-action";
 import DeleteButton from "@/components/buttons/delete-button";
 import LinkEditButton from "@/components/buttons/link-edit-button";
 import ViewButton from "@/components/buttons/view-button";
@@ -24,6 +23,7 @@ import { differenceInMonths } from "date-fns";
 import { CheckCircle, UserX, XCircle } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
+import { deleteEmployee } from "../../create-employee/actions/delete-employee";
 
 const NAV_ITEMS = ["active", "fired", "all"] as const;
 
@@ -40,20 +40,21 @@ export function EmployeesPage({ isAdmin }: { isAdmin: boolean }) {
   };
 
   return (
-    <>
-      <div className="flex items-center justify-center">
+    
+      <div className="flex flex-col items-center justify-center gap-4 mt-4">
         <NavTabs
           navItems={NAV_ITEMS}
           activeTab={employeesStatus}
           handleTabChange={handleTabChange}
+          classTabs="bg-transparent h-6"
+          classTrigger="h-5"
           withSelect
         />
-      </div>
       <Table className="md:table-fixed [&>tbody>tr]:text-xs">
         <TableHeader className="text-xs">
           <TableRow className="text-gr">
             <TableHead className="w-5" />
-            <TableHead className="w-15">employment</TableHead>
+            <TableHead className="w-15"/>
             <TableHead className="sticky left-0 md:w-25" />
             <TableHead className="w-15" />
             <TableHead className="w-20" />
@@ -168,6 +169,6 @@ export function EmployeesPage({ isAdmin }: { isAdmin: boolean }) {
             })}
         </TableBody>
       </Table>
-    </>
+      </div>
   );
 }

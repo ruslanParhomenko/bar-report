@@ -1,5 +1,5 @@
 "use client";
-import { Employee } from "@/app/actions/employees/employee-action";
+import { Employee } from "@/features/settings/create-employee/model/type";
 import { createContext, useContext } from "react";
 
 const EmployeesContext = createContext<Employee[]>([]);

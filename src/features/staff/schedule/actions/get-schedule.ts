@@ -2,7 +2,7 @@
 
 import { SCHEDULE_ACTION_TAG } from "@/constants/action-tag";
 import { dbAdmin } from "@/lib/firebase-admin";
-import { unstable_cache, updateTag } from "next/cache";
+import { unstable_cache } from "next/cache";
 import { GetScheduleData } from "../model/type";
 
 const actionTag = SCHEDULE_ACTION_TAG;

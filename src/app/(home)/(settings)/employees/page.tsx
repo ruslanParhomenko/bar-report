@@ -1,4 +1,4 @@
-import { EmployeesPage } from "@/features/settings/employees/employees-page";
+import { EmployeesPage } from "@/features/settings/employees";
 import { headers } from "next/headers";
 
 export default async function Page() {

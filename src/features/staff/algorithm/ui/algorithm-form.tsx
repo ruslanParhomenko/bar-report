@@ -6,7 +6,7 @@ import { PlusIcon, Trash2Icon } from "lucide-react";
 import { useTheme } from "next-themes";
 import { UseFieldArrayReturn, useFormContext } from "react-hook-form";
 import TextareaAutosize from "react-textarea-autosize";
-import { AlgorithmData, defaultValues } from "./schema";
+import { AlgorithmData, defaultValues } from "../model/schema";
 
 export default function AlgorithmForm({
   fieldForm,

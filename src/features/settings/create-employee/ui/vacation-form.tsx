@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Plus, Trash } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useFieldArray, useFormContext, useWatch } from "react-hook-form";
-import { defaultVacationForm } from "./schema";
+import { defaultVacationForm } from "../model/schema";
 
 export default function VacationForm() {
   const t = useTranslations("Home");

@@ -1,6 +1,5 @@
 "use client";
 
-import { saveStopList } from "@/app/actions/stop-list/stop-list-action";
 import { AddRemoveFieldsButton } from "@/components/buttons/action-fields";
 import SelectFieldWithSearch from "@/components/input-form/select-with-search";
 
@@ -24,11 +23,12 @@ import {
   defaultStopListSchema,
   stopListSchema,
   StopListSchemaType,
-} from "./schema";
+} from "../model/schema";
 import { useEdit } from "@/providers/edit-provider";
 
 import FormWrapper from "@/components/wrapper/form-wrapper";
 import { toast } from "sonner";
+import { createStopList } from "../actions/create-stop-list";
 
 export default function StopListPage({
   data,
@@ -61,7 +61,6 @@ export default function StopListPage({
 
    
 
-  // set form
   const form = useForm<StopListSchemaType>({
     resolver: zodResolver(stopListSchema),
     defaultValues: defaultStopListSchema,
@@ -81,14 +80,13 @@ export default function StopListPage({
   if (!canEdit) {
     return toast.error("You do not have permission to edit the stop list.");
   }
-    await saveStopList( data);
+    await createStopList( data);
 
     toast.success("Stop list saved successfully!");
 
     setIsEdit(false);
   };
   
-  // set form data on mount
   useEffect(() => {
     if (!data) return;
     form.reset(data);
@@ -98,26 +96,28 @@ export default function StopListPage({
     watchStopList?.forEach((item, idx) => {
       if (item?.product && !item.date) {
         const date = formatNowData();
-        const autor = isBar && "bar" || isCucina && "cucina" || isAdmin && "admin" || "";
+        const author= isBar && "bar" || isCucina && "cucina" || isAdmin && "admin" || "";
         stopListFieldArray.update(idx, {
           ...stopListFieldArray.fields[idx],
           ...item,
           date,
-          autor,
+          author: author,
         });
       }
     });
   }, [watchStopList]);
 
   return (
-    <FormWrapper form={form} onSubmit={onSubmit}>
+    <FormWrapper form={form} onSubmit={onSubmit} className="md:p-4">
       <Table className="table-fixed md:w-200 [&_td]:text-center [&_th]:text-center">
         <TableHeader>
           <TableRow>
             <TableHead className="w-32 md:w-90" />
             <TableHead className="w-16 md:w-50">date</TableHead>
               <TableHead className="w-16 md:w-50">editor</TableHead>
-            <TableHead className="w-12 text-left md:w-30">actions</TableHead>
+            {isEdit && (
+              <TableHead className="w-12 text-left md:w-30">actions</TableHead>
+            )}
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -131,7 +131,7 @@ export default function StopListPage({
                   className="h-9"
                 />
               : item.product && (
-                  <div className="text-rd text-center">{item.product}</div>
+                  <div className="text-rd h-9 text-start pl-2 font-bold">{item.product}</div>
                 )}
               </TableCell>
               <TableCell className="text-center">
@@ -141,17 +141,20 @@ export default function StopListPage({
               </TableCell>
                 <TableCell className="text-center">
                 {item.product && (
-                  <div className="text-rd text-center">{item.autor}</div>
+                  <div className="text-rd text-center">{item.author}</div>
                 )}
               </TableCell>
+                {isEdit && 
               <TableCell className="flex justify-center">
-                {isEdit && <AddRemoveFieldsButton
+                
+                <AddRemoveFieldsButton
                   formField={stopListFieldArray}
                   defaultValues={defaultStopList}
                   index={idx}
                   disabled={!canEdit}
-                />}
-              </TableCell>
+                  />
+                  </TableCell>
+                  }
             </TableRow>
           ))}
         </TableBody>

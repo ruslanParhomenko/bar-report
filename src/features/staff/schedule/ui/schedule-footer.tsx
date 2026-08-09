@@ -1,7 +1,7 @@
 import { TableCell, TableFooter, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import { COLOR_SHIFT, SHIFT_OPTIONS, SHIFTS, TIME_BY_SHIFT } from "../model/constants";
-import { ShiftCounts } from "../lib/utils";
+import { ShiftCounts } from "../model/type";
 
 export default function ScheduleTableFooter({
   shiftCounts,

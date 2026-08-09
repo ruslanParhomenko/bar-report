@@ -1,4 +1,4 @@
-import EmployeePage from "@/features/settings/employees/employee/create/employee-create-page";
+import { EmployeeCreatePage } from "@/features/settings/create-employee";
 
 export default async function Page({
   params,
@@ -9,5 +9,5 @@ export default async function Page({
 
   if (!id) return null;
 
-  return <EmployeePage id={id} />;
+  return <EmployeeCreatePage id={id} />;
 }

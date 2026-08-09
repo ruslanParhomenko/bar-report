@@ -1,9 +1,5 @@
 "use client";
 
-import {
-  createEmployee,
-  updateEmployee,
-} from "@/app/actions/employees/employee-action";
 import { sendNotificationEmail } from "@/app/actions/mail/email-action";
 import { useEmployees } from "@/providers/employees-provider";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -13,12 +9,14 @@ import { toast } from "sonner";
 import FormWrapper from "@/components/wrapper/form-wrapper";
 import { useEdit } from "@/providers/edit-provider";
 import { useEffect } from "react";
+import { defaultEmployeeForm, EmployeeForm, employeesSchema } from "../model/schema";
+import { updateEmployee } from "../actions/update-employee";
+import { createEmployee } from "../actions/create-employee";
 import EmployeeDataForm from "./employee-form";
-import { defaultEmployeeForm, EmployeeForm, employeesSchema } from "./schema";
-import SwitchForm from "./switch-form";
 import VacationForm from "./vacation-form";
+import SwitchForm from "./switch-form";
 
-export default function EmployeeCreatePage({ id }: { id?: string }) {
+export  function EmployeeCreatePage({ id }: { id?: string }) {
   const { setIsEdit, registerReset } = useEdit();
 
   const employees = useEmployees();

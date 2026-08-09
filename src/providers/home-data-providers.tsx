@@ -1,6 +1,6 @@
 import { getDataOrderProducts } from "@/app/actions/data-constants/data-order-products";
-import { getEmployees } from "@/app/actions/employees/employee-action";
 import { getUsers } from "@/app/actions/users/user-action";
+import { getEmployees } from "@/features/settings/create-employee/actions/get-employees";
 import { AbilityProvider } from "@/providers/ability-provider";
 import { EmployeesProvider } from "@/providers/employees-provider";
 import {

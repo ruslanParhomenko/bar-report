@@ -11,3 +11,7 @@ export type GetScheduleData = {
   id: string;
   rowShifts: ScheduleType["rowShifts"];
 };
+
+
+
+export type ShiftCounts = Record<string, number[]>;

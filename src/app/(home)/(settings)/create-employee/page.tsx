@@ -1,5 +1,5 @@
-import EmployeePage from "@/features/settings/employees/employee/create/employee-create-page";
+import { EmployeeCreatePage } from "@/features/settings/create-employee";
 
 export default function Page() {
-  return <EmployeePage />;
+  return <EmployeeCreatePage />;
 }
