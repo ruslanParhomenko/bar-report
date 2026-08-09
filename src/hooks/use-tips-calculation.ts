@@ -2,7 +2,7 @@ import {
   SHIFTS_DAY,
   SHIFTS_NIGHT,
 } from "@/features/staff/archive/tips/constants";
-import { TipsAddForm } from "@/features/staff/bar/tips-add/schema";
+import { TipsAddForm } from "@/features/staff/bar/tips-add/model/schema";
 
 type Amount = {
   time: string;

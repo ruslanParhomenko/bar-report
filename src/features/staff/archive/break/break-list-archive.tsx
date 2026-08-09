@@ -1,10 +1,9 @@
 "use client";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { useEffect, useState } from "react";
-
-import { GetBreakData } from "@/app/actions/break/break-action";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
-import { TIME_LABELS } from "../../bar/break-form/constant";
+import { TIME_LABELS } from "../../bar/break/model/constant";
+import { GetBreakData } from "../../bar/break/model/type";
 
 export function BreakListArchive({ data }: { data: GetBreakData[] | null }) {
   const [opened, setOpened] = useState<number[]>([]);

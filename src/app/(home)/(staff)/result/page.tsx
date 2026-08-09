@@ -1,6 +1,6 @@
-import { getRemarksByYearMonth } from "@/app/actions/remarks/remarks-action";
 import { getTipsByYearAndMonth } from "@/app/actions/tips/tips-action";
 import { remarksByUniqueEmployee } from "@/features/staff/archive/penalty/utils";
+import { getRemarksByYearMonth } from "@/features/staff/bar/penalty/actions/get-penalty";
 import { PageResult } from "@/features/staff/result/result-page";
 import { getScheduleByYearAndMonth } from "@/features/staff/schedule/actions/get-schedule";
 import { headers } from "next/headers";

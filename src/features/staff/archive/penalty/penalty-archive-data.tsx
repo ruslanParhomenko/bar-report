@@ -1,11 +1,11 @@
 "use client";
-import { GetRemarksData } from "@/app/actions/remarks/remarks-action";
 import LinkEditButton from "@/components/buttons/link-edit-button";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { PENALTY_UPDATE_MAIN_ROUTE } from "@/constants/route-tag";
 import { useMonthDays } from "@/providers/month-days-provider";
 import { useEffect, useState } from "react";
+import { GetRemarksData } from "../../bar/penalty/model/type";
 
 export default function PenaltyArchiveData({
   data,

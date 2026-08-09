@@ -1,4 +1,4 @@
-import { YearData } from "@/app/actions/remarks/remarks-action";
+import { YearData } from "@/features/staff/bar/penalty/model/type";
 
 export function getChartDataFromYear(data: YearData[]) {
   const map = new Map<

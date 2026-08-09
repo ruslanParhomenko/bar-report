@@ -7,7 +7,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { classNameHead, classNameRowBorder } from "./report-bar-archive";
-import { ProductTransferSchemaType } from "../../bar/report/schema";
+import { ProductTransferSchemaType } from "../../bar/report/model/schema";
 
 export default function ProductTransferTable({
   data,

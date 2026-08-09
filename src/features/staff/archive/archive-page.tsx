@@ -1,11 +1,6 @@
 "use client";
 
-import { GetBreakData } from "@/app/actions/break/break-action";
 
-import { GetRemarksData } from "@/app/actions/remarks/remarks-action";
-import { GetReportData } from "@/app/actions/report-bar/report-bar-action";
-import { GetKitchenData } from "@/app/actions/report-kitchen/kitchen-action";
-import { GetTipsAddData } from "@/app/actions/tips-add/tips-add-actions";
 import { useAbility } from "@/providers/ability-provider";
 import { useSearchParams } from "next/navigation";
 import ReportBarArchive from "./bar/report-bar-archive";
@@ -15,6 +10,11 @@ import OrdersArchivePage from "./orders/orders-archive-page";
 import PenaltyResult from "./penalty-result/penalty-result";
 import PenaltyArchiveData from "./penalty/penalty-archive-data";
 import TipsArchiveData from "./tips/tips-archive-data";
+import { GetReportData } from "../bar/report/model/type";
+import { GetBreakData } from "../bar/break/model/type";
+import { GetRemarksData } from "../bar/penalty/model/type";
+import { GetKitchenData } from "@/app/actions/report-kitchen/kitchen-action";
+import { GetTipsAddData } from "../bar/tips-add/model/type";
 
 export type ArchiveData = {
   bar: GetReportData[] | null;

@@ -7,7 +7,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { classNameHead, classNameRowBorder } from "./report-bar-archive";
-import { InventorySchemaType } from "../../bar/report/schema";
+import { InventorySchemaType } from "../../bar/report/model/schema";
 
 
 export default function InventoryTable({

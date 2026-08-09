@@ -1,11 +1,11 @@
-import { getBreakListByYearMonth } from "@/app/actions/break/break-action";
-import { getRemarksByYearMonth } from "@/app/actions/remarks/remarks-action";
-import { getReportBarByYearMonth } from "@/app/actions/report-bar/report-bar-action";
 import { getReportKitchenByYearMonth } from "@/app/actions/report-kitchen/kitchen-action";
-import { getTipsAddByYearMonth } from "@/app/actions/tips-add/tips-add-actions";
 import ArchivePage, {
   ArchiveData,
 } from "@/features/staff/archive/archive-page";
+import { getBreakListByYearMonth } from "@/features/staff/bar/break/actions/get-break";
+import { getRemarksByYearMonth } from "@/features/staff/bar/penalty/actions/get-penalty";
+import { getReportBarByYearMonth } from "@/features/staff/bar/report/actions/get-report-bar";
+import { getTipsAddByYearMonth } from "@/features/staff/bar/tips-add/actions/get-tips-add";
 
 export default async function Page({
   searchParams,

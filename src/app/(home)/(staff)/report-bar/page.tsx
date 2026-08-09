@@ -1,6 +1,6 @@
 import { getTodayUSDRateBNM } from "@/app/actions/currency/currency-actions";
 import { getDataBreakList } from "@/app/actions/data-constants/data-break-action";
-import BarPage from "@/features/staff/bar/bar-page";
+import { BarPage } from "@/features/staff/bar";
 
 export default async function Page() {
   const [dataBreakList, currencyUSD] = await Promise.all([

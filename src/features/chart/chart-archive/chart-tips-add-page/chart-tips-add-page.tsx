@@ -1,5 +1,4 @@
 "use client";
-import { GetTipsAddByYear } from "@/app/actions/tips-add/tips-add-actions";
 import CustomChart from "@/components/chart/custom-chart";
 import CustomLegend from "@/components/chart/custom-legend";
 import NameFilter from "@/components/chart/name-filter";
@@ -18,6 +17,7 @@ import {
   getChartDataTipsByDay,
   getChartDataTipsFromYear,
 } from "./utils";
+import { GetTipsAddByYear } from "@/features/staff/bar/tips-add/model/type";
 
 const ITEM_KEYS = ["mdl", "chips", "total", "result"] as const;
 type BarKey = BarConfig<(typeof ITEM_KEYS)[number]>;

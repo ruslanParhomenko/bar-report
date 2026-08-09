@@ -3,15 +3,14 @@
 import { useRouter } from "@/i18n/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
-
-import { createRemarks } from "@/app/actions/remarks/remarks-action";
 import FormWrapper from "@/components/wrapper/form-wrapper";
 import { useAbility } from "@/providers/ability-provider";
 import { useEdit } from "@/providers/edit-provider";
 import { zodResolver } from "@hookform/resolvers/zod";
 import z from "zod";
-import { remarkDefault, RemarksForm, remarksSchema } from "../bar/penalty/schema";
-import PenaltyTable from "../bar/penalty/penalty-table";
+import { remarkDefault, RemarksForm, remarksSchema } from "../bar/penalty/model/schema";
+import { PenaltyPage } from "../bar/penalty";
+import { createPenalty } from "../bar/penalty/actions/create-penalty";
 
 type PenaltyFormData = {
   penalty: RemarksForm;
@@ -57,7 +56,7 @@ export default function PenaltyUpdate({
       year,
       remarks: data.penalty,
     };
-    await createRemarks(formattedData);
+    await createPenalty(formattedData);
 
     toast.success("Журнал успешно обновлен!");
     setIsEdit(false);
@@ -66,7 +65,7 @@ export default function PenaltyUpdate({
 
   return (
     <FormWrapper form={form} onSubmit={onSubmit}>
-      <PenaltyTable isDisabled={isDisabled} day={day} />
+      <PenaltyPage isDisabled={isDisabled} day={day} />
     </FormWrapper>
   );
 }

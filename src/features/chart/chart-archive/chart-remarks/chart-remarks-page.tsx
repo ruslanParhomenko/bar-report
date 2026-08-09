@@ -1,5 +1,4 @@
 "use client";
-import { YearData } from "@/app/actions/remarks/remarks-action";
 import CustomChart from "@/components/chart/custom-chart";
 import CustomLegend from "@/components/chart/custom-legend";
 
@@ -12,6 +11,7 @@ import { filterByMonthRange } from "@/utils/filter-by-month-range";
 import { toggleBarVisibility } from "@/utils/toggle-bar-visibility";
 import { useMemo, useState } from "react";
 import { getChartDataFromYear } from "./utils";
+import { YearData } from "@/features/staff/bar/penalty/model/type";
 
 const ITEM_KEYS = ["reason", "bonus", "penalty", "hours"] as const;
 type BarKey = BarConfig<(typeof ITEM_KEYS)[number]>;
