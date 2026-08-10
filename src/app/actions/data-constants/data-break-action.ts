@@ -5,7 +5,9 @@ import { unstable_cache, updateTag } from "next/cache";
 
 //create
 
-export async function createDataBreakList(data: BreakForm) {
+export async function createDataBreakList<T extends Record<string, any>>(
+  data: T,
+) {
   const docRef = dbAdmin
     .collection(DATA_BREAK_ACTION_TAG)
     .doc(DATA_BREAK_ACTION_TAG);

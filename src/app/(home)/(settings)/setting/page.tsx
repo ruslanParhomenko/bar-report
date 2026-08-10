@@ -5,9 +5,9 @@ import { getDataOrderProducts } from "@/app/actions/data-constants/data-order-pr
 import { getDataPriceList } from "@/app/actions/data-constants/data-price-list";
 import { getDataProducts } from "@/app/actions/data-constants/data-products-action";
 import { getDataTTN } from "@/app/actions/data-constants/data-ttn-action";
-import SettingPage from "@/features/settings/setting/setting-page";
+import { SettingPage } from "@/features/settings/setting";
 
-export default async function SettingsPage() {
+export default async function Page() {
   const [
     dataProducts,
     dataBreakList,

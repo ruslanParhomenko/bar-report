@@ -3,7 +3,7 @@ import {
   getMenuCached,
   getStandardKitchenCached,
 } from "@/app/actions/google/google-action";
-import InfoPage from "@/features/staff/info/info-page";
+import { InfoPage } from "@/features/staff/info";
 
 export default async function Page() {
   const [standardKitchenRes, menuRes, priceList] = await Promise.allSettled([

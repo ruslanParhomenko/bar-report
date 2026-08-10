@@ -1,8 +1,9 @@
 "use client";
 
-import type { GetTipsData } from "@/app/actions/tips/tips-action";
 import { MonthPicker } from "@/components/input-controlled/month-range";
 import NavTabs from "@/components/nav-tabs/nav-tabs";
+import { GetScheduleData } from "@/features/staff/schedule/model/type";
+import { GetTipsData } from "@/features/staff/tips/model/type";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { ChartResultChart } from "./chart-result-chart";
@@ -10,7 +11,6 @@ import { ChartResultTable } from "./chart-result-table";
 import { NAV_TABS } from "./constants";
 import type { ChartResultFilter } from "./types";
 import { useChartResultData } from "./use-chart-result-data";
-import { GetScheduleData } from "@/features/staff/schedule/model/type";
 
 export default function ChartResultPage({
   dataSchedules,

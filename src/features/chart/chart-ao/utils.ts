@@ -1,4 +1,4 @@
-import { GetAoData } from "@/app/actions/a-o/ao-action";
+import { GetAoData } from "@/features/finance/a-o/model/type";
 import { MONTHS } from "@/utils/get-month-days";
 
 const sum = (values?: string[]) =>

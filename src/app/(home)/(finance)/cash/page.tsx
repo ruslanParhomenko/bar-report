@@ -1,6 +1,6 @@
-import { getAOByYearAndMonth } from "@/app/actions/a-o/ao-action";
-import { getCashByYear } from "@/app/actions/cash/cash-action";
-import CashPage from "@/features/finance/cash/cash-page";
+import { getAOByYearAndMonth } from "@/features/finance/a-o/actions/get-ao";
+import { CashPage } from "@/features/finance/cash";
+import { getCashByYear } from "@/features/finance/cash/actions/get-cash";
 
 export default async function Page({
   searchParams,

@@ -1,5 +1,5 @@
-import type { GetTipsData } from "@/app/actions/tips/tips-action";
 import { GetScheduleData } from "@/features/staff/schedule/model/type";
+import { GetTipsData } from "@/features/staff/tips/model/type";
 
 export type MonthData = {
   rate: number;

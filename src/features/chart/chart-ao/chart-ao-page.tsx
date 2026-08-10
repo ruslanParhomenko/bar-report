@@ -1,8 +1,9 @@
 "use client";
-import { GetAoData } from "@/app/actions/a-o/ao-action";
+
 import CustomChart from "@/components/chart/custom-chart";
 import CustomLegend from "@/components/chart/custom-legend";
 import { BarConfig } from "@/components/chart/types";
+import { GetAoData } from "@/features/finance/a-o/model/type";
 import { toggleBarVisibility } from "@/utils/toggle-bar-visibility";
 import { useState } from "react";
 import { getAoChartData } from "./utils";

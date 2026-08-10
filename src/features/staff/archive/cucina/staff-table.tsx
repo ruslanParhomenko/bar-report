@@ -6,7 +6,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { ProductPreparedType } from "@/features/staff/cucina/schema";
+import { ProductPreparedType } from "@/features/staff/cucina/model/schema";
 import { classNameRowBorder } from "../bar/report-bar-archive";
 
 export default function StaffTable({ data }: { data: ProductPreparedType[] }) {

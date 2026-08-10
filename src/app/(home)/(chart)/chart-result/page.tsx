@@ -1,6 +1,6 @@
-import { getTipsByYear } from "@/app/actions/tips/tips-action";
 import ChartResultPage from "@/features/chart/chart-result/chart-result-page";
 import { getScheduleByYear } from "@/features/staff/schedule/actions/get-schedule";
+import { getTipsByYear } from "@/features/staff/tips/actions/get-tips";
 
 export default async function Page({
   searchParams,

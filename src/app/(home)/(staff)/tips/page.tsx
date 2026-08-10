@@ -1,5 +1,5 @@
-import { getTipsByYear } from "@/app/actions/tips/tips-action";
-import TipsPage from "@/features/staff/tips/tips-page";
+import { TipsPage } from "@/features/staff/tips";
+import { getTipsByYear } from "@/features/staff/tips/actions/get-tips";
 
 export default async function Page({
   searchParams,

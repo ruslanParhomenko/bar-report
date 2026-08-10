@@ -6,7 +6,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { ReportShiftType } from "@/features/staff/cucina/schema";
+import { ReportShiftType } from "@/features/staff/cucina/model/schema";
 import { classNameRowBorder } from "../bar/report-bar-archive";
 import { classNameHeadCucina } from "./report-cucina-archive";
 

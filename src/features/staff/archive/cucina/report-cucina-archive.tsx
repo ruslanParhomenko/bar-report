@@ -1,8 +1,9 @@
 "use client";
 
-import { GetKitchenData } from "@/app/actions/report-kitchen/kitchen-action";
-import { Card, CardContent, CardFooter, CardTitle } from "@/components/ui/card";
 import { useEffect, useState } from "react";
+
+import { Card, CardContent, CardFooter, CardTitle } from "@/components/ui/card";
+import { GetKitchenData } from "../../cucina/model/type";
 import { classNameHead } from "../bar/report-bar-archive";
 import PreparedTable from "./prepared-table";
 import ShiftsTable from "./shifts-table";

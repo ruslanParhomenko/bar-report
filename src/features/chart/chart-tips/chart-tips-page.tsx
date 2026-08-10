@@ -1,5 +1,4 @@
 "use client";
-import { GetTipsData } from "@/app/actions/tips/tips-action";
 import CustomChart from "@/components/chart/custom-chart";
 import NameFilter from "@/components/chart/name-filter";
 import { BarConfig } from "@/components/chart/types";
@@ -7,6 +6,7 @@ import {
   MonthPicker,
   MonthRange,
 } from "@/components/input-controlled/month-range";
+import { GetTipsData } from "@/features/staff/tips/model/type";
 import { cn } from "@/lib/utils";
 import { filterByMonthRange } from "@/utils/filter-by-month-range";
 import { MONTHS } from "@/utils/get-month-days";

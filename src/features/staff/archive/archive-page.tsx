@@ -1,8 +1,10 @@
 "use client";
 
-
 import { useAbility } from "@/providers/ability-provider";
 import { useSearchParams } from "next/navigation";
+import { GetBreakData } from "../bar/break/model/type";
+import { GetRemarksData } from "../bar/penalty/model/type";
+import { GetReportData } from "../bar/report/model/type";
 import ReportBarArchive from "./bar/report-bar-archive";
 import { BreakListArchive } from "./break/break-list-archive";
 import ReportCucinaArchive from "./cucina/report-cucina-archive";
@@ -10,11 +12,9 @@ import OrdersArchivePage from "./orders/orders-archive-page";
 import PenaltyResult from "./penalty-result/penalty-result";
 import PenaltyArchiveData from "./penalty/penalty-archive-data";
 import TipsArchiveData from "./tips/tips-archive-data";
-import { GetReportData } from "../bar/report/model/type";
-import { GetBreakData } from "../bar/break/model/type";
-import { GetRemarksData } from "../bar/penalty/model/type";
-import { GetKitchenData } from "@/app/actions/report-kitchen/kitchen-action";
+
 import { GetTipsAddData } from "../bar/tips-add/model/type";
+import { GetKitchenData } from "../cucina/model/type";
 
 export type ArchiveData = {
   bar: GetReportData[] | null;

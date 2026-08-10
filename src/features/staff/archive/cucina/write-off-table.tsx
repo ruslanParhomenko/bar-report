@@ -6,7 +6,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { ReportWriteOffType } from "@/features/staff/cucina/schema";
+import { ReportWriteOffType } from "@/features/staff/cucina/model/schema";
 import { classNameRowBorder } from "../bar/report-bar-archive";
 
 export default function WriteOffTable({

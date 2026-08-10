@@ -1,8 +1,9 @@
+import { FinPage } from "@/features/finance/fin-cash";
 import {
   getFinBarByYear,
   getFinByYear,
-} from "@/app/actions/fin-cash/fin-action";
-import FinPage from "@/features/finance/fin-cash/fin-page";
+} from "@/features/finance/fin-cash/actions/get-fin-cash";
+
 export default async function Page({
   searchParams,
 }: {

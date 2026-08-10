@@ -1,8 +1,8 @@
-import type { GetTipsData } from "@/app/actions/tips/tips-action";
+import { GetScheduleData } from "@/features/staff/schedule/model/type";
+import { GetTipsData } from "@/features/staff/tips/model/type";
 import { MONTHS } from "@/utils/get-month-days";
 import { ROLE, ROLE_EMPLOYEES } from "./constants";
 import type { MonthData } from "./types";
-import { GetScheduleData } from "@/features/staff/schedule/model/type";
 
 export const round5 = (v: number) => Math.round(v / 5) * 5;
 

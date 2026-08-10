@@ -1,4 +1,3 @@
-import { getReportKitchenByYearMonth } from "@/app/actions/report-kitchen/kitchen-action";
 import ArchivePage, {
   ArchiveData,
 } from "@/features/staff/archive/archive-page";
@@ -6,6 +5,7 @@ import { getBreakListByYearMonth } from "@/features/staff/bar/break/actions/get-
 import { getRemarksByYearMonth } from "@/features/staff/bar/penalty/actions/get-penalty";
 import { getReportBarByYearMonth } from "@/features/staff/bar/report/actions/get-report-bar";
 import { getTipsAddByYearMonth } from "@/features/staff/bar/tips-add/actions/get-tips-add";
+import { getReportCucinaByYearMonth } from "@/features/staff/cucina/actions/get-report-cucina";
 
 export default async function Page({
   searchParams,
@@ -19,7 +19,7 @@ export default async function Page({
     await Promise.all([
       getReportBarByYearMonth(year, month),
       getBreakListByYearMonth(year, month),
-      getReportKitchenByYearMonth(year, month),
+      getReportCucinaByYearMonth(year, month),
       getRemarksByYearMonth(year, month),
       getTipsAddByYearMonth(year, month),
     ]);

@@ -1,5 +1,5 @@
-import { getAOByYear } from "@/app/actions/a-o/ao-action";
 import ChartAOPage from "@/features/chart/chart-ao/chart-ao-page";
+import { getAOByYear } from "@/features/finance/a-o/actions/get-ao";
 
 export default async function Page({
   searchParams,

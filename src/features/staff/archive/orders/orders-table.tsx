@@ -5,7 +5,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { GetOrdersData } from "@/features/staff/orders/actions/order-action";
+import { GetOrdersData } from "../../orders/model/type";
 
 type MonthDay = {
   day: number;

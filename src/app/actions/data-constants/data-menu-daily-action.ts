@@ -1,10 +1,9 @@
 import { DATA_MENU_DAILY_ACTION_TAG } from "@/constants/action-tag";
-import { MenuDailyForm } from "@/features/staff/menu/menu-daily/schema";
+import { MenuDailyDataForm } from "@/features/staff/menu/menu-daily/model/type";
 import { dbAdmin } from "@/lib/firebase-admin";
 import { unstable_cache, updateTag } from "next/cache";
 
 const actionTag = DATA_MENU_DAILY_ACTION_TAG;
-type MenuDailyDataForm = MenuDailyForm;
 
 // CREATE
 

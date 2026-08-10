@@ -1,6 +1,8 @@
 "use client";
-import type { GetTipsData } from "@/app/actions/tips/tips-action";
+
 import type { MonthRange } from "@/components/input-controlled/month-range";
+import { GetScheduleData } from "@/features/staff/schedule/model/type";
+import { GetTipsData } from "@/features/staff/tips/model/type";
 import { useEmployees } from "@/providers/employees-provider";
 import { MONTHS } from "@/utils/get-month-days";
 import { monthsSince } from "@/utils/month-since";
@@ -13,7 +15,6 @@ import {
 } from "./calculate-pay";
 import { ROLE, ROLE_EMPLOYEES } from "./constants";
 import type { ChartResultDataInput, EmployeeTableRow } from "./types";
-import { GetScheduleData } from "@/features/staff/schedule/model/type";
 
 export function useChartResultData({
   dataSchedules,
@@ -67,7 +68,6 @@ export function useChartResultData({
       ? MONTHS
       : MONTHS.slice(range.from, range.to + 1);
 
-  // строки помесячной таблицы
   const tableData: EmployeeTableRow[] = sortedEmployees.map((employee) => {
     const row: EmployeeTableRow = {
       employee:

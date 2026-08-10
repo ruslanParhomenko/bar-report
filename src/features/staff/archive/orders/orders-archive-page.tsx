@@ -1,13 +1,12 @@
 "use client";
 
 import NavTabs from "@/components/nav-tabs/nav-tabs";
-import {
-  getOrdersByYearMonth,
-  GetOrdersData,
-} from "@/features/staff/orders/actions/order-action";
+
 import { getMonthDays, MONTHS } from "@/utils/get-month-days";
 import { useSearchParams } from "next/navigation";
 import { startTransition, useEffect, useState } from "react";
+import { getOrdersByYearMonth } from "../../orders/actions/get-orders";
+import { GetOrdersData } from "../../orders/model/type";
 import OrdersTable from "./orders-table";
 
 const NAV_TABS = ["bar-zn", "cucina-zn", "bar-ttn", "cucina-ttn"];
