@@ -4,10 +4,7 @@ import { EMPLOYEES_ACTION_TAG } from "@/constants/action-tag";
 import { dbAdmin } from "@/lib/firebase-admin";
 import { redis } from "@/lib/redis";
 import { updateTag } from "next/cache";
-import { redirect } from "next/navigation";
 import { Employee } from "../model/type";
-
-
 
 export async function updateEmployee(id: string, data: Omit<Employee, "id">) {
   await dbAdmin
@@ -21,7 +18,6 @@ export async function updateEmployee(id: string, data: Omit<Employee, "id">) {
     });
   updateTag(EMPLOYEES_ACTION_TAG);
   await redis.del(EMPLOYEES_ACTION_TAG);
-  redirect("/employees");
+
+  return { success: true };
 }
-
-

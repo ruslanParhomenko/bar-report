@@ -1,4 +1,4 @@
-import UsersForm from "@/features/settings/users/create/users-create-page";
+import { UserFormPage } from "@/features/settings/users";
 
 export default async function Page({
   params,
@@ -9,5 +9,5 @@ export default async function Page({
 
   if (!id) return null;
 
-  return <UsersForm id={id} />;
+  return <UserFormPage id={id} />;
 }

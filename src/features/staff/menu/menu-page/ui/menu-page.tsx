@@ -1,13 +1,13 @@
 "use client";
-import { MenuDataType } from "@/app/actions/data-constants/data-menu-action";
 import { useSearchParams } from "next/navigation";
 import { MenuDailyPage } from "../../menu-daily";
 
+import { DataMenu } from "@/features/settings/setting/model/type";
 import { MenuDailyForm } from "../../menu-daily/model/schema";
 import { MenuVipPage } from "../../menu-vip";
 
 type Props = {
-  dataMenuVip: MenuDataType | null;
+  dataMenuVip: DataMenu | null;
   dataMenuDaily: MenuDailyForm | null;
   listMenuDaily: MenuDailyForm | null;
 };

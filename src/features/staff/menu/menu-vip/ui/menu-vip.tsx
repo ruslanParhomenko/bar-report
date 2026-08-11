@@ -1,17 +1,15 @@
 "use client";
 
-import {
-  MenuDataType,
-  MenuItem,
-} from "@/app/actions/data-constants/data-menu-action";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 
+import { DataMenu } from "@/features/settings/setting/model/type";
+import { ValueOf } from "next/dist/shared/lib/constants";
 import { LOCAL_TRANSLATIONS, PAGE_1, PAGE_2, PAGE_3 } from "../model/constants";
 import { LocalTranslateFn, MenuSection, PageStructure } from "../model/types";
 import { SinglePage } from "./menu-page";
 
-export function MenuVipPage({ data }: { data: MenuDataType | null }) {
+export function MenuVipPage({ data }: { data: DataMenu | null }) {
   const [currentLang, setCurrentLang] = useState<string>("ru");
 
   const globalT = useTranslations("Menu");
@@ -26,8 +24,8 @@ export function MenuVipPage({ data }: { data: MenuDataType | null }) {
         const hasLabels = items.some((item) => !!item.label);
 
         if (hasLabels) {
-          const subgroupsMap: Record<string, MenuItem[]> = {};
-          const directItems: MenuItem[] = [];
+          const subgroupsMap: DataMenu = {};
+          const directItems: ValueOf<DataMenu> = [];
 
           items.forEach((item) => {
             if (item.label) {

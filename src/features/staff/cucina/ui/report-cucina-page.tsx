@@ -16,10 +16,9 @@ import {
   writeOffDefault,
 } from "../model/schema";
 
-import { createDataProducts } from "@/app/actions/data-constants/data-products-action";
-
 import DatePickerInput from "@/components/input-form/date-input";
 import FormWrapper from "@/components/wrapper/form-wrapper";
+import { DataProducts } from "@/features/settings/setting/model/type";
 import { useLocalStorageForm } from "@/hooks/use-local-storage";
 import { useAbility } from "@/providers/ability-provider";
 import { useEmployees } from "@/providers/employees-provider";
@@ -35,7 +34,7 @@ const KEY_LOCALSTORAGE = "report-kitchen-form";
 export function ReportCucinaPage({
   dataProducts,
 }: {
-  dataProducts: createDataProducts;
+  dataProducts: DataProducts;
 }) {
   const { isCucina, isAdmin } = useAbility();
   const isDisabled = !(isAdmin || isCucina);

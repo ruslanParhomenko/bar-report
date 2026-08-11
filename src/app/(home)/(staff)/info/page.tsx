@@ -1,8 +1,8 @@
-import { getDataPriceList } from "@/app/actions/data-constants/data-price-list";
 import {
   getMenuCached,
   getStandardKitchenCached,
 } from "@/app/actions/google/google-action";
+import { getDataPriceList } from "@/features/settings/setting/actions/get-data-json";
 import { InfoPage } from "@/features/staff/info";
 
 export default async function Page() {

@@ -1,7 +1,7 @@
 "use client";
 
-import { PriceListType } from "@/app/actions/data-constants/data-price-list";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
+import { DataPriceList } from "@/features/settings/setting/model/type";
 import { useAbility } from "@/providers/ability-provider";
 
 const COLUMNS_1 = ["вермут", "настойка", "водка", "вино", "пиво"];
@@ -43,7 +43,7 @@ function CategoryBlock({
   currency,
 }: {
   category: string;
-  list: PriceListType["priceList"][string];
+  list: DataPriceList["priceList"][string];
   currency: number | undefined;
 }) {
   const { isAdmin } = useAbility();
@@ -89,7 +89,7 @@ function CategoryBlock({
   );
 }
 
-export function PriceListBarTable({ data }: { data: PriceListType | null }) {
+export function PriceListBarTable({ data }: { data: DataPriceList | null }) {
   const currency = data?.currency;
   const priceList = data?.priceList || {};
 
@@ -125,7 +125,7 @@ export function PriceListBarTable({ data }: { data: PriceListType | null }) {
   );
 }
 
-export function PriceListCucinaTable({ data }: { data: PriceListType | null }) {
+export function PriceListCucinaTable({ data }: { data: DataPriceList | null }) {
   const currency = data?.currency;
   const priceList = data?.priceList || {};
 
@@ -135,7 +135,7 @@ export function PriceListCucinaTable({ data }: { data: PriceListType | null }) {
         <div
           key={groupIndex}
           className={`min-w-0 ${
-            groupIndex !== COLUMN_GROUPS.length - 1
+            groupIndex !== COLUMN_GROUPS_CUCINA.length - 1
               ? "lg:border-r lg:pr-3 print:border-r"
               : ""
           }`}

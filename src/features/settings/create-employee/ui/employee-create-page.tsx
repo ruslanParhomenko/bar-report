@@ -1,6 +1,5 @@
 "use client";
 
-import { sendNotificationEmail } from "@/app/actions/mail/email-action";
 import { useEmployees } from "@/providers/employees-provider";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -9,14 +8,18 @@ import { toast } from "sonner";
 import FormWrapper from "@/components/wrapper/form-wrapper";
 import { useEdit } from "@/providers/edit-provider";
 import { useEffect } from "react";
-import { defaultEmployeeForm, EmployeeForm, employeesSchema } from "../model/schema";
-import { updateEmployee } from "../actions/update-employee";
 import { createEmployee } from "../actions/create-employee";
+import { updateEmployee } from "../actions/update-employee";
+import {
+  defaultEmployeeForm,
+  EmployeeForm,
+  employeesSchema,
+} from "../model/schema";
 import EmployeeDataForm from "./employee-form";
-import VacationForm from "./vacation-form";
 import SwitchForm from "./switch-form";
+import VacationForm from "./vacation-form";
 
-export  function EmployeeCreatePage({ id }: { id?: string }) {
+export function EmployeeCreatePage({ id }: { id?: string }) {
   const { setIsEdit, registerReset } = useEdit();
 
   const employees = useEmployees();
@@ -27,33 +30,40 @@ export  function EmployeeCreatePage({ id }: { id?: string }) {
     resolver: zodResolver(employeesSchema),
     defaultValues: employee || defaultEmployeeForm,
   });
-
   const onSubmit: SubmitHandler<EmployeeForm> = async (data) => {
-    const name = data.name.trim();
-    const role = data.role.trim();
-    const existsName = employees.find((e) => e.name.trim() === name);
-    if (id) {
-      await updateEmployee(id, data);
-      toast.success("Employee updated!");
+    try {
+      const name = data.name.trim();
+      const role = data.role.trim();
+      const existsName = employees.find((e) => e.name.trim() === name);
 
-      await sendNotificationEmail({
-        text: `updated employee:${data.name}`,
-      });
-    } else {
-      if (existsName && existsName.role === role) {
-        toast.error("Name is already exists");
-        return;
+      if (id) {
+        await updateEmployee(id, data);
+        toast.success("Employee updated!");
+
+        // await sendNotificationEmail({
+        //   text: `updated employee: ${data.name}`,
+        // });
+      } else {
+        if (existsName && existsName.role === role) {
+          toast.error("Name already exists");
+          return;
+        }
+
+        await createEmployee(data);
+        toast.success("Employee added!");
+
+        // await sendNotificationEmail({
+        //   text: `add new employee: ${data.name} - ${data.role} - ${data.rate}`,
+        // });
       }
-      await createEmployee(data);
-      toast.success("Employee added!");
-      await sendNotificationEmail({
-        text: `add new employee:${data.name}-${data.role}-${data.rate}`,
-      });
+
+      setIsEdit(false);
+
+      window.location.href = "/employees";
+    } catch (error) {
+      toast.error("An error occurred");
     }
-
-    setIsEdit(false);
   };
-
   const reset = () => {
     form.reset({});
     toast.success("Форма сброшена");

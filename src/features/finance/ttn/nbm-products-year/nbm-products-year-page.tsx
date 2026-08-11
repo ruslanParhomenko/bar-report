@@ -1,5 +1,3 @@
-"use client";
-import { GetNbmProductsData } from "@/app/actions/ttn/ttn-nbm-products-action";
 import {
   Table,
   TableBody,
@@ -8,6 +6,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { MONTHS } from "@/utils/get-month-days";
+import { GetNbmProductsData } from "../nbm-products/model/type";
 
 export default function NbmProductsYearPage({
   data,

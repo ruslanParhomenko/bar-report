@@ -1,7 +1,14 @@
-import { MenuItem } from "@/app/actions/data-constants/data-menu-action";
+import { DataMenu } from "@/features/settings/setting/model/type";
+import { ValueOf } from "next/dist/shared/lib/constants";
 import { LocalTranslateFn } from "../model/types";
 
-export function Row({ item, t }: { item: MenuItem; t: LocalTranslateFn }) {
+export function Row({
+  item,
+  t,
+}: {
+  item: ValueOf<DataMenu>[number];
+  t: LocalTranslateFn;
+}) {
   if (!item.name && item.price == null) return null;
 
   return (

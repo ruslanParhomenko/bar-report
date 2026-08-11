@@ -1,10 +1,11 @@
-import { MenuItem } from "@/app/actions/data-constants/data-menu-action";
+import { DataMenu } from "@/features/settings/setting/model/type";
+import { ValueOf } from "next/dist/shared/lib/constants";
 
 export interface MenuSection {
   id: string;
   title: string;
-  items?: MenuItem[];
-  subgroups?: { label: string; items: MenuItem[] }[];
+  items?: ValueOf<DataMenu>;
+  subgroups?: { label: string; items: ValueOf<DataMenu> }[];
 }
 
 export interface MenuColumn {

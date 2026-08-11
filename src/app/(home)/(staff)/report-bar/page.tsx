@@ -1,5 +1,5 @@
 import { getTodayUSDRateBNM } from "@/app/actions/currency/currency-actions";
-import { getDataBreakList } from "@/app/actions/data-constants/data-break-action";
+import { getDataBreakList } from "@/features/settings/setting/actions/get-data-json";
 import { BarPage } from "@/features/staff/bar";
 
 export default async function Page() {

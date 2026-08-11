@@ -1,20 +1,15 @@
 "use client";
 
-import { createDataOrderProducts } from "@/app/actions/data-constants/data-order-products";
-
+import { DataOrderProducts } from "@/features/settings/setting/model/type";
 import { createContext, useContext } from "react";
 
-export type OrderProductsContextValue = createDataOrderProducts;
-
-const OrderProductsContext = createContext<OrderProductsContextValue | null>(
-  null,
-);
+const OrderProductsContext = createContext<DataOrderProducts | null>(null);
 
 export function OrderProductsProvider({
   orderProducts,
   children,
 }: {
-  orderProducts: OrderProductsContextValue | null;
+  orderProducts: DataOrderProducts | null;
   children: React.ReactNode;
 }) {
   return (

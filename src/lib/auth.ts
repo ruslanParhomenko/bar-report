@@ -1,4 +1,4 @@
-import { getUsers } from "@/app/actions/users/user-action";
+import { getUsers } from "@/features/settings/users/actions/get-users";
 import type { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 

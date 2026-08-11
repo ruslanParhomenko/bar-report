@@ -1,12 +1,9 @@
-import { getDataOrderProducts } from "@/app/actions/data-constants/data-order-products";
-import { getUsers } from "@/app/actions/users/user-action";
 import { getEmployees } from "@/features/settings/create-employee/actions/get-employees";
+import { getDataOrderProducts } from "@/features/settings/setting/actions/get-data-json";
+import { getUsers } from "@/features/settings/users/actions/get-users";
 import { AbilityProvider } from "@/providers/ability-provider";
 import { EmployeesProvider } from "@/providers/employees-provider";
-import {
-  OrderProductsContextValue,
-  OrderProductsProvider,
-} from "@/providers/order-products-provider";
+import { OrderProductsProvider } from "@/providers/order-products-provider";
 
 export default async function HomeDataProviders({
   children,
@@ -22,9 +19,7 @@ export default async function HomeDataProviders({
   return (
     <AbilityProvider users={users}>
       <EmployeesProvider employees={employees}>
-        <OrderProductsProvider
-          orderProducts={ordersProducts as OrderProductsContextValue}
-        >
+        <OrderProductsProvider orderProducts={ordersProducts}>
           {children}
         </OrderProductsProvider>
       </EmployeesProvider>

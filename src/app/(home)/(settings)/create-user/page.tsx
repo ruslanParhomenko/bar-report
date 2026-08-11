@@ -1,5 +1,5 @@
-import UsersForm from "@/features/settings/users/create/users-create-page";
+import { UserFormPage } from "@/features/settings/users";
 
 export default function Page() {
-  return <UsersForm />;
+  return <UserFormPage />;
 }

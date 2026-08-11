@@ -1,4 +1,4 @@
-import { getDataProducts } from "@/app/actions/data-constants/data-products-action";
+import { getDataProducts } from "@/features/settings/setting/actions/get-data-json";
 import { ReportCucinaPage } from "@/features/staff/cucina/ui/report-cucina-page";
 
 export default async function Page() {

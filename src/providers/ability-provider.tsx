@@ -1,5 +1,6 @@
 "use client";
-import { GetUserData } from "@/app/actions/users/user-action";
+
+import { GetUserData } from "@/features/settings/users/actions/get-users";
 import { useSession } from "next-auth/react";
 import React, { createContext, useContext } from "react";
 

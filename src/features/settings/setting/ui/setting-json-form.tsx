@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 
 type Props = {
   data: string;
+  tag: string;
   type:
     | "products"
     | "breakList"
@@ -15,7 +16,7 @@ type Props = {
     | "menuDaily";
 };
 
-export default function SettingsJson({ data, type }: Props) {
+export default function SettingsJson({ data, type, tag }: Props) {
   const [value, setValue] = useState(data);
 
   useEffect(() => {
@@ -25,6 +26,7 @@ export default function SettingsJson({ data, type }: Props) {
   return (
     <>
       <input type="hidden" name="type" value={type} />
+      <input type="hidden" name="tag" value={tag} />
 
       <Textarea
         name="json"

@@ -1,8 +1,5 @@
 "use client";
-import { CreateDataTTN } from "@/app/actions/data-constants/data-ttn-action";
-import { GetTTNData } from "@/app/actions/ttn/ttn-actions";
-import { GetTtnNbmData } from "@/app/actions/ttn/ttn-nbm-action";
-import { GetNbmProductsData } from "@/app/actions/ttn/ttn-nbm-products-action";
+
 import CustomChart from "@/components/chart/custom-chart";
 import CustomLegend from "@/components/chart/custom-legend";
 import NameFilter from "@/components/chart/name-filter";
@@ -11,6 +8,10 @@ import {
   MonthPicker,
   MonthRange,
 } from "@/components/input-controlled/month-range";
+import { GetTTNData } from "@/features/finance/ttn/moda-month/model/type";
+import { GetTtnNbmData } from "@/features/finance/ttn/nbm-month/model/type";
+import { GetNbmProductsData } from "@/features/finance/ttn/nbm-products/model/type";
+import { DataTTN } from "@/features/settings/setting/model/type";
 import { useMonthDays } from "@/providers/month-days-provider";
 import { MONTHS } from "@/utils/get-month-days";
 import { toggleBarVisibility } from "@/utils/toggle-bar-visibility";
@@ -32,7 +33,7 @@ export default function ChartTTNPage({
   dataNbmTtn,
   dataProductsNbm,
 }: {
-  agentTTN: CreateDataTTN;
+  agentTTN: DataTTN | null;
   dataTTN: GetTTNData[] | null;
   dataNbmTtn: GetTtnNbmData[] | null;
   dataProductsNbm: GetNbmProductsData[] | null;
@@ -44,8 +45,8 @@ export default function ChartTTNPage({
   const [range, setRange] = useState<MonthRange>();
   const [barKeys, setBarKeys] = useState(BAR_KEYS);
 
-  const uniqueAgents = agentTTN.agent;
-  const uniqueAgentsNbm = agentTTN.agentNbm;
+  const uniqueAgents = agentTTN?.agent || [];
+  const uniqueAgentsNbm = agentTTN?.agentNbm || [];
 
   const uniqueProducts = [
     ...new Set(
@@ -99,7 +100,7 @@ export default function ChartTTNPage({
     let totalPayment = 0;
     let totalPurchase = 0;
 
-    agentTTN.agent.forEach((agent) => {
+    agentTTN?.agent.forEach((agent) => {
       const supplierData = dataTTNMonth?.ttnData?.rowSuppliers?.[agent];
       if (
         supplierData &&
@@ -140,7 +141,7 @@ export default function ChartTTNPage({
     };
   });
 
-  const chartDataAgentNbm = uniqueAgentsNbm.map((agent) => {
+  const chartDataAgentNbm = uniqueAgentsNbm?.map((agent) => {
     let purchase = 0;
 
     dataNbmTtnPrevMonth?.forEach((monthData) => {
@@ -161,7 +162,7 @@ export default function ChartTTNPage({
     };
   });
 
-  const chartDataAgent = agentTTN.agent.map((agent) => {
+  const chartDataAgent = agentTTN?.agent.map((agent) => {
     let payment = 0;
     let purchase = 0;
 
@@ -192,7 +193,7 @@ export default function ChartTTNPage({
     let totalPlus = 0;
     let totalMinus = 0;
 
-    agentTTN.agent.forEach((agent) => {
+    agentTTN?.agent.forEach((agent) => {
       const supplierData = monthData?.ttnData?.rowSuppliers?.[agent];
       if (supplierData) {
         totalPlus += (supplierData.plus ?? []).reduce(
@@ -308,16 +309,17 @@ export default function ChartTTNPage({
     "products-month": chartDataProductMonth,
     "moda-day": chartDataDay,
     "moda-year": chartDataYear,
-    "moda-agent": chartDataAgent.filter(
+    "moda-agent": chartDataAgent?.filter(
       (data) => data.payment > 0 || data.purchase > 0,
     ),
-    "nbm-agent": chartDataAgentNbm.filter(
+    "nbm-agent": chartDataAgentNbm?.filter(
       (data) => data.payment > 0 || data.purchase > 0,
     ),
     "nbm-products": chartDataProductNbm,
   };
 
-  const chartData = CHART_DATA_BY_TAB[tab as keyof typeof CHART_DATA_BY_TAB];
+  const chartData =
+    CHART_DATA_BY_TAB[tab as keyof typeof CHART_DATA_BY_TAB] || [];
 
   const totalPurchase = chartData
     ?.reduce((acc, item) => acc + item.purchase, 0)

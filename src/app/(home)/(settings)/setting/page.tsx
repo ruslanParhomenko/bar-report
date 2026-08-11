@@ -1,11 +1,13 @@
-import { getDataBreakList } from "@/app/actions/data-constants/data-break-action";
-import { getDataMenu } from "@/app/actions/data-constants/data-menu-action";
-import { getDataMenuDaily } from "@/app/actions/data-constants/data-menu-daily-action";
-import { getDataOrderProducts } from "@/app/actions/data-constants/data-order-products";
-import { getDataPriceList } from "@/app/actions/data-constants/data-price-list";
-import { getDataProducts } from "@/app/actions/data-constants/data-products-action";
-import { getDataTTN } from "@/app/actions/data-constants/data-ttn-action";
 import { SettingPage } from "@/features/settings/setting";
+import {
+  getDataBreakList,
+  getDataMenu,
+  getDataMenuDaily,
+  getDataOrderProducts,
+  getDataPriceList,
+  getDataProducts,
+  getDataTTN,
+} from "@/features/settings/setting/actions/get-data-json";
 
 export default async function Page() {
   const [

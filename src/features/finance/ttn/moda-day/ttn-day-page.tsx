@@ -1,6 +1,4 @@
 "use client";
-
-import { GetTTNData } from "@/app/actions/ttn/ttn-actions";
 import { useEffect, useState } from "react";
 
 import {
@@ -15,6 +13,7 @@ import {
 
 import SelectDay from "@/components/select/select-day";
 import { getMonthDays } from "@/utils/get-month-days";
+import { GetTTNData } from "../moda-month/model/type";
 
 type SupplierDayRow = {
   supplier: string;
@@ -85,7 +84,7 @@ export default function TTNDayPage({
 
         <TableBody>
           {firstTableData.map((row, index) => (
-            <TableRow key={row.supplier}>
+            <TableRow key={row.supplier} className="[&>td]:py-1.5">
               <TableCell>{index + 1}</TableCell>
               <TableCell>{row.supplier}</TableCell>
               <TableCell>{row.plus || "-"}</TableCell>
@@ -106,7 +105,7 @@ export default function TTNDayPage({
 
           <TableBody>
             {secondTableData.map((row) => (
-              <TableRow key={row.supplier}>
+              <TableRow key={row.supplier} className="[&>td]:py-1.5">
                 <TableCell>{row.supplier}</TableCell>
                 <TableCell>{row.plus || "-"}</TableCell>
                 <TableCell>{row.minus || "-"}</TableCell>

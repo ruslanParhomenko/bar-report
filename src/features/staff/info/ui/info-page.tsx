@@ -1,6 +1,6 @@
 "use client";
-import { PriceListType } from "@/app/actions/data-constants/data-price-list";
 import { Menu, StandardKitchen } from "@/app/actions/google/google-action";
+import { DataPriceList } from "@/features/settings/setting/model/type";
 import { useSearchParams } from "next/navigation";
 import StaffMenu from "./menu-staff";
 import StatusMenu from "./menu-status";
@@ -11,7 +11,7 @@ type InfoPageProps = {
   data: {
     standardKitchen: StandardKitchen[] | null;
     menu: Menu | null;
-    priceList: PriceListType | null;
+    priceList: DataPriceList | null;
   };
 };
 

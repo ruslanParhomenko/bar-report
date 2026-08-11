@@ -1,8 +1,8 @@
-import { getDataTTN } from "@/app/actions/data-constants/data-ttn-action";
-import { getTTNByYear } from "@/app/actions/ttn/ttn-actions";
-import { getTtnNbmByYear } from "@/app/actions/ttn/ttn-nbm-action";
-import { getProductsNbmByYear } from "@/app/actions/ttn/ttn-nbm-products-action";
+import { getTTNByYear } from "@/features/finance/ttn/moda-month/actions/get-ttn-mode";
+import { getTtnNbmByYear } from "@/features/finance/ttn/nbm-month/actions/get-nbm-ttn";
+import { getProductsNbmByYear } from "@/features/finance/ttn/nbm-products/actions/get-nbm-products";
 import TTNPage from "@/features/finance/ttn/ttn-page";
+import { getDataTTN } from "@/features/settings/setting/actions/get-data-json";
 
 export default async function Page({
   searchParams,

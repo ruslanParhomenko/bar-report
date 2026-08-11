@@ -1,4 +1,4 @@
-import { UsersPage } from "@/features/settings/users/users-page";
+import { UsersPage } from "@/features/settings/users";
 import { headers } from "next/headers";
 
 export default async function Page() {
