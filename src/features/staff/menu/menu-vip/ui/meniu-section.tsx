@@ -9,8 +9,8 @@ export function Section({
   t: LocalTranslateFn;
 }) {
   return (
-    <div className="my-1 print:my-3">
-      <h3 className="m-0 text-center text-xs font-bold tracking-widest text-[#1a1a1a] italic md:text-base print:mt-2">
+    <div className="my-2 print:my-3">
+      <h3 className="m-0 mt-2 text-center text-xs font-bold tracking-widest text-[#1a1a1a] italic md:text-base">
         · {t(section.title)} ·
       </h3>
 
@@ -19,7 +19,7 @@ export function Section({
       ))}
 
       {section.subgroups?.map((sg, i) => (
-        <div key={i} className="print:mt-1">
+        <div key={i} className="mt-1">
           <p
             className="mb-px text-center text-xs font-bold tracking-wider text-[#1a1a1a] uppercase md:text-base"
             style={{ fontSize: "0.55rem" }}
