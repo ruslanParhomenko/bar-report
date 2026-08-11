@@ -7,6 +7,7 @@ import {
   MonthPicker,
   MonthRange,
 } from "@/components/input-controlled/month-range";
+import { GetTipsAddByYear } from "@/features/staff/bar/tips-add/model/type";
 import { useAbility } from "@/providers/ability-provider";
 import { useMonthDays } from "@/providers/month-days-provider";
 import { filterByMonthRange } from "@/utils/filter-by-month-range";
@@ -17,7 +18,6 @@ import {
   getChartDataTipsByDay,
   getChartDataTipsFromYear,
 } from "./utils";
-import { GetTipsAddByYear } from "@/features/staff/bar/tips-add/model/type";
 
 const ITEM_KEYS = ["mdl", "chips", "total", "result"] as const;
 type BarKey = BarConfig<(typeof ITEM_KEYS)[number]>;
@@ -63,7 +63,7 @@ export default function ChartTipsAddPage({
   ];
 
   const chartDataByEmployee = getChartDataByEmployee(dataTipsAdd, activeName);
-  const chartDataTipsByDay = getChartDataTipsByDay(monthData);
+  const chartDataTipsByDay = getChartDataTipsByDay(monthData, activeName);
   const chartDataTipsFromYear = getChartDataTipsFromYear(dataTipsPrevMonth);
 
   const CHART_DATA_MAP = {
@@ -94,7 +94,9 @@ export default function ChartTipsAddPage({
         disableTooltip={!isAdmin}
         disableYAxis={!isAdmin}
         vertical={chartData.length > 25}
-        className={tab === "tips-employee" ? "h-[74dvh]" : ""}
+        className={
+          tab === "tips-employee" || tab === "tips-day" ? "h-[74dvh]" : ""
+        }
       />
 
       <CustomLegend items={barKeys} onToggle={toggleBar} />
@@ -102,7 +104,7 @@ export default function ChartTipsAddPage({
         names={uniqueEmployees}
         activeName={activeName}
         onChange={setActiveName}
-        isVisible={tab === "tips-employee"}
+        isVisible={tab === "tips-employee" || tab === "tips-day"}
       />
     </div>
   );

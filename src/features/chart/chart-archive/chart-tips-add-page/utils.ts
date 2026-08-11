@@ -59,7 +59,10 @@ export function getChartDataTipsFromYear(data: GetTipsAddByYear[]) {
   }));
 }
 
-export function getChartDataTipsByDay(data: GetTipsAddByYear | null) {
+export function getChartDataTipsByDay(
+  data: GetTipsAddByYear | null,
+  activeName: string | null,
+) {
   if (!data) return [];
   const tipsAdd = data.tipsAdd.sort((a, b) => parseInt(a.id) - parseInt(b.id));
 
@@ -68,19 +71,24 @@ export function getChartDataTipsByDay(data: GetTipsAddByYear | null) {
     let mdl = 0;
     let chips = 0;
     let result = 0;
-    day.tipsAdd.forEach((employee) => {
-      employee.amount.forEach((a) => {
-        const val = parseFloat(a.value);
-        if (a.typeAmount === "mdl") {
-          mdl += val;
-        } else if (a.typeAmount === "chips") {
-          chips += val * currency;
-        }
+    day.tipsAdd
+      .filter(
+        (employee) =>
+          !activeName || employee.employeeName.trim() === activeName,
+      )
+      .forEach((employee) => {
+        employee.amount.forEach((a) => {
+          const val = parseFloat(a.value);
+          if (a.typeAmount === "mdl") {
+            mdl += val;
+          } else if (a.typeAmount === "chips") {
+            chips += val * currency;
+          }
+        });
+        employee.resultAmount.forEach((r) => {
+          result += r.value;
+        });
       });
-      employee.resultAmount.forEach((r) => {
-        result += r.value;
-      });
-    });
 
     const tipsTotal = mdl + chips;
     return {
