@@ -2,7 +2,6 @@
 import { Menu, StandardKitchen } from "@/app/actions/google/google-action";
 import { DataPriceList } from "@/features/settings/setting/model/type";
 import { useSearchParams } from "next/navigation";
-import MenuDailyWeek from "./menu-daily-week";
 import StaffMenu from "./menu-staff";
 import StatusMenu from "./menu-status";
 import { PriceListBarTable, PriceListCucinaTable } from "./price-list-table";
@@ -31,7 +30,6 @@ export function InfoPage({ data }: InfoPageProps) {
       {tab === "price-list-cucina" && (
         <PriceListCucinaTable data={data.priceList} />
       )}
-      {tab === "menu-daily-week" && <MenuDailyWeek />}
     </>
   );
 }

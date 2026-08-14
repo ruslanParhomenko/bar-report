@@ -64,7 +64,7 @@ export const TABS_BY_ROUTE = {
   [REPORTS_BAR_ROUTE]: ["break", "report", "tips"],
 
   [REPORTS_CUCINA_ROUTE]: [],
-  [MENU_MAIN_ROUTE]: ["menu-daily", "menu-vip"],
+  [MENU_MAIN_ROUTE]: ["menu-daily", "menu-vip", "menu-week"],
 
   [ORDERS_MAIN_ROUTE]: [
     "bar-ttn",
@@ -80,7 +80,6 @@ export const TABS_BY_ROUTE = {
     "standardKitchen",
     "price-list-bar",
     "price-list-cucina",
-    "menu-daily-week",
   ],
 
   [ARCHIVE_MAIN_ROUTE]: [

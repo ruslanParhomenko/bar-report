@@ -36,3 +36,4 @@ export const DATA_MENU_DAILY_ACTION_TAG = "data-menu-daily";
 export const DATA_BUFFET_ACTION_TAG = "data-buffet";
 
 export const MENU_DAILY_ACTION_TAG = "menu-daily";
+export const MENU_WEEK_ACTION_TAG = "menu-week";
