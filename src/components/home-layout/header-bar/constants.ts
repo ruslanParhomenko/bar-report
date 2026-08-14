@@ -80,6 +80,7 @@ export const TABS_BY_ROUTE = {
     "standardKitchen",
     "price-list-bar",
     "price-list-cucina",
+    "menu-daily-week",
   ],
 
   [ARCHIVE_MAIN_ROUTE]: [

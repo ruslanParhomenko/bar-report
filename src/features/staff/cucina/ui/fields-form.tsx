@@ -1,6 +1,5 @@
 "use client";
 import {
-  ArrayPath,
   FieldPath,
   useFieldArray,
   UseFormReturn,
@@ -16,30 +15,11 @@ import { formatNow } from "@/utils/format-date";
 import { Separator } from "@radix-ui/react-separator";
 import { useTranslations } from "next-intl";
 import { useEffect } from "react";
-import {
-  ProductPreparedType,
-  ReportKitchenForm,
-  ReportShiftType,
-  ReportWriteOffType,
-} from "../model/schema";
+import { TablesConfigItem } from "../config/tables-config";
+import { ReportKitchenForm } from "../model/schema";
 
-type RenderEmployeesTableProps = {
-  name: ArrayPath<ReportKitchenForm>;
+type RenderEmployeesTableProps = TablesConfigItem & {
   form: UseFormReturn<ReportKitchenForm>;
-  placeHolder: {
-    fieldName: string;
-    weight?: string;
-    shift?: string;
-    over?: string;
-    time?: string;
-    reason?: string;
-  };
-  dataShifts?: string[] | null;
-  dataReasons?: string[] | null;
-
-  dataFieldArray?: string[] | null;
-
-  defaultValue: ReportShiftType | ProductPreparedType | ReportWriteOffType;
   isDisabled?: boolean;
 };
 
@@ -75,11 +55,23 @@ const RenderTableCucina = ({
   }, [fieldsValues, form]);
 
   return (
-    <div className="pb-4">
-      <Label className="text-bl mb-1">{t(name as string)} :</Label>
-      <Separator className="bg-bl/40 p-[0.5px]" />
+    <div className="w-full pb-4">
+      <Label className="text-bl/70 mb-1 px-2 text-xs">
+        {t(name as string)} :
+      </Label>
+      <Separator className="bg-bl/30 p-[0.5px]" />
 
       {fieldsArray.fields.map((field, index) => {
+        const currentValue = fieldsValues?.[index];
+        const existProduct =
+          !!currentValue && "product" in currentValue && currentValue.product;
+        const existEmployees =
+          !!currentValue &&
+          "employees" in currentValue &&
+          currentValue.employees;
+
+        const viewAction = existProduct || existEmployees;
+
         return (
           <div
             key={field.id}
@@ -90,15 +82,15 @@ const RenderTableCucina = ({
                 <SelectFieldWithSearch
                   fieldName={`${name}.${index}.${fieldName}`}
                   data={dataFieldArray || []}
-                  className="border-bl/40 h-7 w-40 cursor-pointer text-sm"
+                  className="border-bl/40 h-6 w-40 cursor-pointer text-sm"
                   disabled={isDisabled}
                 />
-                {":"}
+                {"-"}
                 {shift && dataShifts && (
                   <SelectField
                     fieldName={`${name}.${index}.${shift}`}
                     data={dataShifts}
-                    className="border-bl/40 h-7! w-15 justify-center md:w-25"
+                    className="border-bl/40 h-6! w-15 justify-center md:w-25"
                     disabled={isDisabled}
                   />
                 )}
@@ -106,7 +98,7 @@ const RenderTableCucina = ({
                 {(weight || over) && (
                   <NumericInput
                     fieldName={`${name}.${index}.${weight}`}
-                    className="border-bl/40 h-7 w-15 md:w-25"
+                    className="border-bl/40 h-6 w-15 font-medium md:w-25"
                     disabled={isDisabled}
                   />
                 )}
@@ -115,12 +107,12 @@ const RenderTableCucina = ({
                     fieldName={`${name}.${index}.${reason}`}
                     placeHolder="причина"
                     data={dataReasons}
-                    className="border-bl/40 h-7! w-15 justify-center md:w-25"
+                    className="border-bl/40 h-6! w-15 justify-center md:w-25"
                     disabled={isDisabled}
                   />
                 )}
               </div>
-              <div className="flex items-center justify-center px-4 text-sm text-red-600">
+              <div className="flex items-center justify-center px-4 text-xs text-red-600">
                 {time &&
                   fieldsValues?.[index] &&
                   "time" in fieldsValues[index] &&
@@ -128,12 +120,14 @@ const RenderTableCucina = ({
               </div>
             </div>
             <div className="md:px-4">
-              <AddRemoveFieldsButton
-                formField={fieldsArray}
-                defaultValues={defaultValue}
-                index={index}
-                disabled={isDisabled}
-              />
+              {viewAction && (
+                <AddRemoveFieldsButton
+                  formField={fieldsArray}
+                  defaultValues={defaultValue}
+                  index={index}
+                  disabled={isDisabled}
+                />
+              )}
             </div>
           </div>
         );

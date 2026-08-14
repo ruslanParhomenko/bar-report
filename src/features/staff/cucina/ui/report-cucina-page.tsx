@@ -1,19 +1,12 @@
 "use client";
 import { Textarea } from "@/components/ui/textarea";
-import { ArrayPath, SubmitHandler, useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
-import { REASON, SELECT_TIME } from "../model/constants";
 import {
   defaultReportCucina,
-  productPreparedDefault,
-  ProductPreparedType,
   ReportKitchenForm,
-  ReportShiftType,
-  ReportWriteOffType,
   schemaReportCucina,
-  shiftDefault,
-  writeOffDefault,
 } from "../model/schema";
 
 import DatePickerInput from "@/components/input-form/date-input";
@@ -25,6 +18,7 @@ import { useEmployees } from "@/providers/employees-provider";
 import { MONTHS } from "@/utils/get-month-days";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createReportCucina } from "../actions/create-report-cucina";
+import { getTablesConfig } from "../config/tables-config";
 import RenderTableCucina from "./fields-form";
 
 const CUCINA_EMPLOYEES = ["cook"];
@@ -76,132 +70,7 @@ export function ReportCucinaPage({
     }
   };
 
-  const tablesConfig = [
-    {
-      name: "shifts",
-      placeHolder: { fieldName: "employees", shift: "time", over: "over" },
-      dataShifts: SELECT_TIME,
-      dataFieldArray: employees,
-      defaultValue: shiftDefault,
-    },
-
-    {
-      name: "preparedSalads",
-      placeHolder: {
-        fieldName: "product",
-        weight: "weight",
-        time: "time",
-      },
-      dataFieldArray: dataProducts.salad,
-      defaultValue: productPreparedDefault,
-    },
-    {
-      name: "preparedFirst",
-      placeHolder: {
-        fieldName: "product",
-        weight: "weight",
-        time: "time",
-      },
-      dataFieldArray: dataProducts.soup,
-      defaultValue: productPreparedDefault,
-    },
-
-    {
-      name: "preparedGarnish",
-      placeHolder: {
-        fieldName: "product",
-        weight: "weight",
-        time: "time",
-      },
-      dataFieldArray: dataProducts.garnish,
-      defaultValue: productPreparedDefault,
-    },
-    {
-      name: "preparedSeconds",
-      placeHolder: {
-        fieldName: "product",
-        weight: "weight",
-        time: "time",
-      },
-      dataFieldArray: dataProducts.meat,
-      defaultValue: productPreparedDefault,
-    },
-    {
-      name: "preparedDesserts",
-      placeHolder: {
-        fieldName: "product",
-        weight: "weight",
-        time: "time",
-      },
-      dataFieldArray: dataProducts.dessert,
-      defaultValue: productPreparedDefault,
-    },
-    {
-      name: "cutting",
-      placeHolder: {
-        fieldName: "product",
-        weight: "weight",
-        time: "time",
-      },
-      dataFieldArray: [...dataProducts.semifinished, ...dataProducts.meat_fish],
-      defaultValue: productPreparedDefault,
-    },
-    {
-      name: "staff",
-      placeHolder: {
-        fieldName: "product",
-        weight: "weight",
-        time: "time",
-      },
-      dataFieldArray: dataProducts.staff,
-
-      defaultValue: productPreparedDefault,
-    },
-    {
-      name: "staffFurchet",
-      placeHolder: {
-        fieldName: "product",
-        weight: "weight",
-        time: "time",
-      },
-      dataFieldArray: [
-        ...dataProducts.garnish,
-        ...dataProducts.soup,
-        ...dataProducts.meat,
-      ],
-      defaultValue: productPreparedDefault,
-    },
-    {
-      name: "writeOff",
-      placeHolder: {
-        fieldName: "product",
-        weight: "weight",
-        reason: "reason",
-      },
-      dataReasons: REASON,
-      dataFieldArray: [
-        ...dataProducts.ingredients,
-        ...dataProducts.garnish,
-        ...dataProducts.soup,
-        ...dataProducts.meat,
-      ],
-      defaultValue: writeOffDefault,
-    },
-  ] satisfies Array<{
-    name: ArrayPath<ReportKitchenForm>;
-    placeHolder: {
-      fieldName: string;
-      weight?: string;
-      shift?: string;
-      over?: string;
-      time?: string;
-      reason?: string;
-    };
-    dataShifts?: string[];
-    dataReasons?: string[];
-    dataFieldArray: Array<string>;
-    defaultValue: ReportShiftType | ProductPreparedType | ReportWriteOffType;
-  }>;
+  const tablesConfig = getTablesConfig(dataProducts, employees);
 
   if (!isLoaded) return null;
 
@@ -210,10 +79,15 @@ export function ReportCucinaPage({
   };
 
   return (
-    <FormWrapper form={form} onSubmit={onSubmit} onError={onError}>
+    <FormWrapper
+      form={form}
+      onSubmit={onSubmit}
+      onError={onError}
+      className="flex flex-col items-center justify-center"
+    >
       <DatePickerInput
         fieldName="date"
-        className="text-rd h-6 text-sm"
+        className="text-rd h-4 text-xs"
         disabled
       />
 

@@ -67,4 +67,6 @@ export const ROUTES: Route[] = [
   CHART_CASH_ROUTE,
   CHART_TTN_ROUTE,
   CHART_AO_ROUTE,
+  "report-staff",
+  "tech-card",
 ] as const;

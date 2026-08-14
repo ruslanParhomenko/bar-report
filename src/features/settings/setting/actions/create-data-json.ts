@@ -54,6 +54,9 @@ export async function saveSettingsData(
 
   try {
     await createDataJson(parsed, tag);
+    if (tag === "products") {
+      await invalidateEverywhere("data-products");
+    }
     return { success: true };
   } catch (error) {
     console.error(error);

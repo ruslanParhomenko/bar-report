@@ -7,7 +7,10 @@ export type DataProducts = {
   dessert: string[];
   meat_fish: string[];
   semifinished: string[];
-  staff: string[];
+  staff_first: string[];
+  staff_garnish: string[];
+  staff_main: string[];
+  staff_snacks: string[];
 };
 
 export type DataOrderProducts = {

@@ -86,7 +86,7 @@ export default function TipsAddRow({
           <UserX className="text-rd h-3 w-3 md:h-4 md:w-4" />
         </button>
 
-        <div className="ms:w-10 w-6 text-xs md:px-2">
+        <div className="text-muted-foreground/20 w-6 text-[10px] md:w-10 md:px-2">
           {employeeTotal.toFixed(0)}
         </div>
       </div>
