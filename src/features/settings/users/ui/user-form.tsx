@@ -46,7 +46,7 @@ export function UserFormPage({ id }: { id?: string }) {
   const accessList = useWatch({ control: form.control, name: "accessList" });
 
   const handleRouteToggle = (route: string, checked: boolean) => {
-    const current = form.getValues("accessList");
+    const current = form.getValues("accessList") || [];
     const updated = checked
       ? [...current, route]
       : current.filter((r) => r !== route);

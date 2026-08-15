@@ -17,16 +17,15 @@ export default function DayCard({
   menuData,
   isDisabled,
 }: Props) {
-  console.log("menuData", menuData);
   return (
-    <div className="bg-card flex flex-col justify-between gap-8 rounded-xl border p-4">
-      <p className="text-sm font-medium">{dayLabel}</p>
+    <div className="bg-card flex w-full flex-col justify-between gap-1 rounded-xl border p-4 md:w-80">
+      <p className="text-bl text-xs font-medium print:text-lg">{dayLabel}</p>
       {SECTIONS.map((section) => (
-        <div key={section} className="flex flex-col gap-4">
+        <div key={section} className="flex flex-col gap-0.5">
           <span className="text-muted-foreground text-xs">
             {SECTION_LABELS[section]}
           </span>
-          <div className="flex flex-col gap-1.5">
+          <div className="flex flex-col">
             <MenuItemSelect
               fieldName={`${dayKey}.${section}.0`}
               options={menuData[section]}

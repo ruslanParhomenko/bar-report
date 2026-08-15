@@ -30,7 +30,6 @@ export default function MenuDailyWeek({ listMenuDaily, defaultValues }: Props) {
   });
 
   const onSubmit: SubmitHandler<MenuWeekForm> = async (formData) => {
-    console.log("formData", formData);
     await createMenuWeek(formData);
 
     setIsEdit(false);
@@ -44,7 +43,7 @@ export default function MenuDailyWeek({ listMenuDaily, defaultValues }: Props) {
     <FormWrapper
       form={form}
       onSubmit={onSubmit}
-      className="grid h-[80dvh] items-center justify-center gap-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-7"
+      className="flex flex-col items-center justify-center gap-6 py-1 md:flex-row md:flex-wrap print:mx-2 print:my-4 print:h-[90dvh] print:justify-around print:gap-1.5"
     >
       {DAYS.map((day) => (
         <DayCard

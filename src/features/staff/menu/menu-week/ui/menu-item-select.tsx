@@ -11,6 +11,14 @@ type Props = {
   isDisabled?: boolean;
 };
 
+const EMPTY_MENU_ITEM: MenuDailyItem = {
+  en: "-",
+  ru: "-",
+  ro: "-",
+  tr: "-",
+  he: "-",
+};
+
 export default function MenuItemSelect({
   fieldName,
   options,
@@ -20,12 +28,25 @@ export default function MenuItemSelect({
   const { watch, setValue } = useFormContext();
   const current: MenuDailyItem | undefined = watch(fieldName);
 
-  const selectOptions: OptionSelect[] = options.map((item) => ({
-    value: item.en,
-    label: item.ru,
-  }));
+  const selectOptions: OptionSelect[] = [
+    {
+      value: "-",
+      label: "-",
+    },
+    ...options.map((item) => ({
+      value: item.en,
+      label: item.ru,
+    })),
+  ];
 
   const handleChange = (en: string) => {
+    if (en === "-") {
+      setValue(fieldName, EMPTY_MENU_ITEM, {
+        shouldDirty: true,
+        shouldValidate: true,
+      });
+      return;
+    }
     const found = options.find((item) => item.en === en);
     if (found) {
       setValue(fieldName, found, { shouldDirty: true, shouldValidate: true });
@@ -40,6 +61,7 @@ export default function MenuItemSelect({
       onChange={handleChange}
       fieldName={fieldName}
       disabled={isDisabled}
+      className="print:text-bl! print:text-md! h-7! print:h-10"
     />
   );
 }
