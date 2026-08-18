@@ -6,18 +6,23 @@ import { Switch } from "@/components/ui/switch";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { CREATE_USER_MAIN_ROUTE } from "@/constants/route-tag";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { useAbility } from "@/providers/ability-provider";
 import { CheckCircle, UserX } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 
 import { useState } from "react";
 import { deleteUser } from "../actions/delete-user";
+import { GetUserData } from "../actions/get-users";
 import { updateUser } from "../actions/update-user";
 
-export function UsersPage({ isAdmin }: { isAdmin: boolean }) {
+export function UsersPage({
+  isAdmin,
+  users,
+}: {
+  isAdmin: boolean;
+  users: GetUserData[];
+}) {
   const filter = useSearchParams().get("tab");
 
-  const { users } = useAbility();
   const [localUsers, setLocalUsers] = useState(users);
 
   const isMobile = useIsMobile();
@@ -32,8 +37,6 @@ export function UsersPage({ isAdmin }: { isAdmin: boolean }) {
       if (!user) return;
       await updateUser(id, { ...user, status: newStatus });
     } catch (err) {
-      console.error("Ошибка при обновлении статуса:", err);
-
       setLocalUsers((prev) =>
         prev.map((u) => (u.id === id ? { ...u, status: !newStatus } : u)),
       );
@@ -59,6 +62,7 @@ export function UsersPage({ isAdmin }: { isAdmin: boolean }) {
                 <div className="flex justify-center gap-8 pr-4">
                   <LinkEditButton
                     url={`/${CREATE_USER_MAIN_ROUTE}/${user.id}`}
+                    disabled={!isAdmin}
                   />
                   <DeleteButton
                     dialogText="confirmDelete"

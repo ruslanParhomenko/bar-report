@@ -3,7 +3,6 @@
 import type { MonthRange } from "@/components/input-controlled/month-range";
 import { GetScheduleData } from "@/features/staff/schedule/model/type";
 import { GetTipsData } from "@/features/staff/tips/model/type";
-import { useEmployees } from "@/providers/employees-provider";
 import { MONTHS } from "@/utils/get-month-days";
 import { monthsSince } from "@/utils/month-since";
 import { useState } from "react";
@@ -19,10 +18,11 @@ import type { ChartResultDataInput, EmployeeTableRow } from "./types";
 export function useChartResultData({
   dataSchedules,
   tipsDataYear,
+  employees,
   year,
   role,
 }: ChartResultDataInput) {
-  const allEmployees = useEmployees();
+  const allEmployees = employees;
 
   const [range, setRange] = useState<MonthRange>();
   const [activeName, setActiveName] = useState<string>("");

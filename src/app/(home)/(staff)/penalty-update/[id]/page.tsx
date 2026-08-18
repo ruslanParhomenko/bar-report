@@ -1,3 +1,4 @@
+import { getEmployees } from "@/features/settings/create-employee/actions/get-employees";
 import { getRemarksByDay } from "@/features/staff/bar/penalty/actions/get-penalty";
 import PenaltyUpdate from "@/features/staff/penalty-update/penalty-update";
 
@@ -14,9 +15,20 @@ export default async function Page({
 
   const day = id;
 
-  const dataByDay = await getRemarksByDay(year, month, day);
+  const [dataPenaltyByDay, employees] = await Promise.all([
+    getRemarksByDay(year, month, day),
+    getEmployees(),
+  ]);
 
-  if (!dataByDay) return null;
+  if (!dataPenaltyByDay || !employees) return null;
 
-  return <PenaltyUpdate data={dataByDay} month={month} year={year} day={day} />;
+  return (
+    <PenaltyUpdate
+      dataPenaltyByDay={dataPenaltyByDay}
+      employees={employees}
+      month={month}
+      year={year}
+      day={day}
+    />
+  );
 }

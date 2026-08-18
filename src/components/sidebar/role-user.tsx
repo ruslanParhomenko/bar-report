@@ -2,21 +2,13 @@
 import { useSession } from "next-auth/react";
 
 export default function RoleUser() {
-  const session = useSession();
+  const { data } = useSession();
 
-  const role = session.data?.user.role;
+  const role = data?.user.role;
 
-  const ROLE_BY_ABILITY = {
-    ADMIN: "admin",
-    BAR: "bar",
-    CUCINA: "cucina",
-    USER: "user",
-    MNGR: "mngr",
-    CASH: "cash",
-    FIN: "fin",
-  };
-
-  const roleLabel = ROLE_BY_ABILITY[role as keyof typeof ROLE_BY_ABILITY];
-
-  return <div className="text-rd flex justify-center text-xs">{roleLabel}</div>;
+  return (
+    <div className="text-rd flex justify-center text-xs">
+      {role?.toLocaleLowerCase()}
+    </div>
+  );
 }

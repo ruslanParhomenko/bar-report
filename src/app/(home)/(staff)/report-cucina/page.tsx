@@ -1,10 +1,14 @@
+import { getEmployees } from "@/features/settings/create-employee/actions/get-employees";
 import { getDataProducts } from "@/features/settings/setting/actions/get-data-json";
 import { ReportCucinaPage } from "@/features/staff/cucina/ui/report-cucina-page";
 
 export default async function Page() {
-  const data = await getDataProducts();
+  const [dataProducts, employees] = await Promise.all([
+    getDataProducts(),
+    getEmployees(),
+  ]);
 
-  if (!data) return null;
+  if (!dataProducts || !employees) return null;
 
-  return <ReportCucinaPage dataProducts={data ?? []} />;
+  return <ReportCucinaPage dataProducts={dataProducts} employees={employees} />;
 }

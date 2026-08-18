@@ -26,7 +26,6 @@ import {
 
 import { useFormId } from "@/hooks/use-form-id";
 import { cn } from "@/lib/utils";
-import { useAbility } from "@/providers/ability-provider";
 import { useEdit } from "@/providers/edit-provider";
 import { FolderPlus, Menu, SaveAllIcon, SendIcon } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
@@ -55,7 +54,7 @@ const CHART_URL_BY_TAB = {
   [AO_REPORT_MAIN_ROUTE]: `/${CHART_AO_ROUTE}`,
 };
 
-export default function ActionBar() {
+export default function ActionBar({ isAdmin }: { isAdmin: boolean }) {
   const pathname = usePathname();
   const tab = useSearchParams().get("tab") || "";
   const mainRoute = pathname.split("/")[1] || "";
@@ -69,7 +68,6 @@ export default function ActionBar() {
 
   const has = (key: string) => actions.includes(key);
 
-  const { isAdmin } = useAbility();
   const { isEdit, setIsEdit, resetFn } = useEdit();
 
   const [isPending, startTransition] = useTransition();
@@ -79,7 +77,10 @@ export default function ActionBar() {
   const urlForCreate =
     URL_CREATE_BY_TAB[mainRoute as keyof typeof URL_CREATE_BY_TAB];
 
-  const isCanEdit = isAdmin || mainRoute === MENU_MAIN_ROUTE || mainRoute === STOP_LIST_MAIN_ROUTE;
+  const isCanEdit =
+    isAdmin ||
+    mainRoute === MENU_MAIN_ROUTE ||
+    mainRoute === STOP_LIST_MAIN_ROUTE;
 
   return (
     <ViewTransition>

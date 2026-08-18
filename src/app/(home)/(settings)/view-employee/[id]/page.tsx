@@ -1,3 +1,4 @@
+import { getEmployees } from "@/features/settings/create-employee/actions/get-employees";
 import EmployeePage from "@/features/settings/view-employee/employee-page";
 
 export default async function Page({
@@ -5,9 +6,11 @@ export default async function Page({
 }: {
   params: Promise<{ id: string }>;
 }) {
-  const { id } = await params;
+  const [{ id }, employee] = await Promise.all([params, getEmployees()]);
 
-  if (!id) return null;
+  const employeeFound = employee.find((emp) => emp.id === id);
 
-  return <EmployeePage id={id} />;
+  if (!employeeFound) return null;
+
+  return <EmployeePage employee={employeeFound} />;
 }

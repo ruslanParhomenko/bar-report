@@ -3,28 +3,38 @@ import HeaderBar from "@/components/home-layout/header-bar/header-bar";
 
 import ScreenshotWrapper from "@/components/wrapper/screenshot-wrapper";
 import SwipeWrapper from "@/components/wrapper/swipe-wrapper";
+import { getUsers } from "@/features/settings/users/actions/get-users";
 import SidebarNav from "@/features/sidebar/sidebar-nav";
-import HomeDataProviders from "@/providers/home-data-providers";
+import { AbilityProvider } from "@/providers/ability-provider";
 import HomeUIProviders from "@/providers/home-ui-providers";
 import MonthDaysProvider from "@/providers/month-days-provider";
+import { headers } from "next/headers";
+import { Suspense } from "react";
 
 export default async function HomeLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const [users, headerStore] = await Promise.all([getUsers(), headers()]);
+  if (!users || !headerStore) return null;
+  const isAdmin = headerStore.get("x-is-admin") === "true";
   return (
-    <HomeDataProviders>
+    <AbilityProvider users={users}>
       <HomeUIProviders>
         <SidebarNav />
         <SwipeWrapper>
-          <HeaderBar />
+          <Suspense fallback={null}>
+            <HeaderBar />
+          </Suspense>
           <ScreenshotWrapper>
             <MonthDaysProvider>{children}</MonthDaysProvider>
           </ScreenshotWrapper>
-          <ActionBar />
+          <Suspense fallback={null}>
+            <ActionBar isAdmin={isAdmin} />
+          </Suspense>
         </SwipeWrapper>
       </HomeUIProviders>
-    </HomeDataProviders>
+    </AbilityProvider>
   );
 }

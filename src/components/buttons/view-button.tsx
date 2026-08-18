@@ -1,6 +1,5 @@
 "use client";
 import { useRouter } from "@/i18n/navigation";
-import { useAbility } from "@/providers/ability-provider";
 import { ExternalLink } from "lucide-react";
 
 export default function ViewButton({
@@ -13,14 +12,13 @@ export default function ViewButton({
   size?: number;
 }) {
   const router = useRouter();
-  const { isAdmin } = useAbility();
 
   return (
     <button
       className="flex cursor-pointer flex-col items-center gap-0.5"
       type="button"
       onClick={() => router.push(url)}
-      disabled={disabled && !isAdmin}
+      disabled={disabled}
     >
       <ExternalLink size={size} className="hover:text-rd text-bl" />
     </button>

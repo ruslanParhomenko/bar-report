@@ -1,4 +1,5 @@
 import ChartResultPage from "@/features/chart/chart-result/chart-result-page";
+import { getEmployees } from "@/features/settings/create-employee/actions/get-employees";
 import { getScheduleByYear } from "@/features/staff/schedule/actions/get-schedule";
 import { getTipsByYear } from "@/features/staff/tips/actions/get-tips";
 
@@ -10,14 +11,16 @@ export default async function Page({
   const { year } = await searchParams;
   if (!year) return null;
 
-  const [schedules, tipsDataYear] = await Promise.all([
+  const [schedules, tipsDataYear, employees] = await Promise.all([
     getScheduleByYear(year),
     getTipsByYear(year),
+    getEmployees(),
   ]);
   return (
     <ChartResultPage
       dataSchedules={schedules}
       tipsDataYear={tipsDataYear}
+      employees={employees}
       year={year}
     />
   );

@@ -1,3 +1,4 @@
+import { getEmployees } from "@/features/settings/create-employee/actions/get-employees";
 import { TipsPage } from "@/features/staff/tips";
 import { getTipsByYear } from "@/features/staff/tips/actions/get-tips";
 
@@ -9,7 +10,10 @@ export default async function Page({
   const { year } = await searchParams;
   if (!year) return null;
 
-  const dataTipsYear = await getTipsByYear(year);
+  const [dataTipsYear, employees] = await Promise.all([
+    getTipsByYear(year),
+    getEmployees(),
+  ]);
 
-  return <TipsPage dataTipsYear={dataTipsYear} />;
+  return <TipsPage dataTipsYear={dataTipsYear} employees={employees} />;
 }

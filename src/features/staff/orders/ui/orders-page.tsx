@@ -1,16 +1,15 @@
 "use client";
 
-import { useOrderProducts } from "@/providers/order-products-provider";
+import { DataOrderProducts } from "@/features/settings/setting/model/type";
 import { useSearchParams } from "next/navigation";
 import { OrderForm } from "./order-form";
 
-export function OrdersPage() {
+export function OrdersPage({
+  orderProducts,
+}: {
+  orderProducts: DataOrderProducts;
+}) {
   const tab = useSearchParams().get("tab");
-  const orderProducts = useOrderProducts();
-
-  if (!orderProducts) {
-    return null;
-  }
 
   const DATA_COMPONENT_BY_TAB = {
     "bar-ttn": orderProducts.ttnBar || {},

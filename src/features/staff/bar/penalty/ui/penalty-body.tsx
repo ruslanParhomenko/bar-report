@@ -3,15 +3,21 @@ import NumericInput from "@/components/input-controlled/numeric-input";
 import SelectField from "@/components/input-controlled/select-field";
 import TextInput from "@/components/input-form/text-input";
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
+import { Employee } from "@/features/settings/create-employee/model/type";
 import { cn } from "@/lib/utils";
-import { useEmployees } from "@/providers/employees-provider";
 import { Plus, Trash2 } from "lucide-react";
 import { useFieldArray, useFormContext } from "react-hook-form";
 import { BarForm } from "../../bar-page/model/schema";
 import { remarkDefault } from "../model/schema";
 
-export function PenaltyTableBody({ isDisabled }: { isDisabled: boolean }) {
-  const selectedEmployees = [...new Set(useEmployees().map((e) => e.name))];
+export function PenaltyTableBody({
+  isDisabled,
+  employees,
+}: {
+  isDisabled: boolean;
+  employees: Employee[];
+}) {
+  const selectedEmployees = [...new Set(employees.map((e) => e.name))];
   const { control, setValue } = useFormContext<BarForm>();
 
   const {

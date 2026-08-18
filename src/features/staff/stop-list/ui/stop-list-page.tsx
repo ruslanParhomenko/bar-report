@@ -12,36 +12,23 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import { useAbility } from "@/providers/ability-provider";
-import { useOrderProducts } from "@/providers/order-products-provider";
-import { formatNowData } from "@/utils/format-date";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect } from "react";
-import { SubmitHandler, useFieldArray, useForm, useWatch } from "react-hook-form";
-import {
-  defaultStopList,
-  defaultStopListSchema,
-  stopListSchema,
-  StopListSchemaType,
-} from "../model/schema";
 import { useEdit } from "@/providers/edit-provider";
+import { defaultStopList, StopListSchemaType } from "../model/schema";
 
 import FormWrapper from "@/components/wrapper/form-wrapper";
-import { toast } from "sonner";
-import { createStopList } from "../actions/create-stop-list";
+import { DataOrderProducts } from "@/features/settings/setting/model/type";
+import { useStopListForm } from "../hooks/use-stop-list-form";
 
 export default function StopListPage({
   data,
+  orderProducts,
 }: {
   data: StopListSchemaType | null;
+  orderProducts: DataOrderProducts | null;
 }) {
-  const { isBar, isAdmin, isCucina } = useAbility();
+  const { isEdit } = useEdit();
 
-  const { isEdit, setIsEdit } = useEdit();
-
-  const canEdit = isBar || isAdmin || isCucina;
-
-  const orderProducts = useOrderProducts();
+  const { form, stopListFieldArray, onSubmit, canEdit } = useStopListForm(data);
 
   const PRODUCTS =
     orderProducts && orderProducts
@@ -58,55 +45,6 @@ export default function StopListPage({
         )
       : [];
 
-
-   
-
-  const form = useForm<StopListSchemaType>({
-    resolver: zodResolver(stopListSchema),
-    defaultValues: defaultStopListSchema,
-    mode: "onBlur",
-  });
-  const stopListFieldArray = useFieldArray({
-    control: form.control,
-    name: "stopList",
-  });
-
-  const watchStopList = useWatch({
-    control: form.control,
-    name: "stopList",
-  });
-
-  const onSubmit: SubmitHandler<StopListSchemaType> = async (data) => {
-  if (!canEdit) {
-    return toast.error("You do not have permission to edit the stop list.");
-  }
-    await createStopList( data);
-
-    toast.success("Stop list saved successfully!");
-
-    setIsEdit(false);
-  };
-  
-  useEffect(() => {
-    if (!data) return;
-    form.reset(data);
-  }, [data]);
-
-  useEffect(() => {
-    watchStopList?.forEach((item, idx) => {
-      if (item?.product && !item.date) {
-        const date = formatNowData();
-        const author= isBar && "bar" || isCucina && "cucina" || isAdmin && "admin" || "";
-        stopListFieldArray.update(idx, {
-          ...stopListFieldArray.fields[idx],
-          ...item,
-          date,
-          author: author,
-        });
-      }
-    });
-  }, [watchStopList]);
-
   return (
     <FormWrapper form={form} onSubmit={onSubmit} className="md:p-4">
       <Table className="table-fixed md:w-200 [&_td]:text-center [&_th]:text-center">
@@ -114,7 +52,7 @@ export default function StopListPage({
           <TableRow>
             <TableHead className="w-32 md:w-90" />
             <TableHead className="w-16 md:w-50">date</TableHead>
-              <TableHead className="w-16 md:w-50">editor</TableHead>
+            <TableHead className="w-16 md:w-50">editor</TableHead>
             {isEdit && (
               <TableHead className="w-12 text-left md:w-30">actions</TableHead>
             )}
@@ -124,14 +62,19 @@ export default function StopListPage({
           {stopListFieldArray.fields.map((item, idx) => (
             <TableRow key={item.id}>
               <TableCell>
-                {isEdit ? <SelectFieldWithSearch
-                  data={PRODUCTS ?? []}
-                  fieldName={`stopList.${idx}.product`}
-                  disabled={!canEdit}
-                  className="h-9"
-                />
-              : item.product && (
-                  <div className="text-rd h-9 text-start pl-2 font-bold">{item.product}</div>
+                {isEdit ? (
+                  <SelectFieldWithSearch
+                    data={PRODUCTS ?? []}
+                    fieldName={`stopList.${idx}.product`}
+                    disabled={!canEdit}
+                    className="h-9"
+                  />
+                ) : (
+                  item.product && (
+                    <div className="text-rd h-9 pl-2 text-start font-bold">
+                      {item.product}
+                    </div>
+                  )
                 )}
               </TableCell>
               <TableCell className="text-center">
@@ -139,22 +82,21 @@ export default function StopListPage({
                   <div className="text-rd text-center">{item.date}</div>
                 )}
               </TableCell>
-                <TableCell className="text-center">
+              <TableCell className="text-center">
                 {item.product && (
                   <div className="text-rd text-center">{item.author}</div>
                 )}
               </TableCell>
-                {isEdit && 
-              <TableCell className="flex justify-center">
-                
-                <AddRemoveFieldsButton
-                  formField={stopListFieldArray}
-                  defaultValues={defaultStopList}
-                  index={idx}
-                  disabled={!canEdit}
+              {isEdit && (
+                <TableCell className="flex justify-center">
+                  <AddRemoveFieldsButton
+                    formField={stopListFieldArray}
+                    defaultValues={defaultStopList}
+                    index={idx}
+                    disabled={!canEdit}
                   />
-                  </TableCell>
-                  }
+                </TableCell>
+              )}
             </TableRow>
           ))}
         </TableBody>

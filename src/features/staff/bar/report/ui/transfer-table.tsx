@@ -10,22 +10,22 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useOrderProducts } from "@/providers/order-products-provider";
+import { DataOrderProducts } from "@/features/settings/setting/model/type";
 import { formatNow } from "@/utils/format-date";
 import { Trash2Icon } from "lucide-react";
 import { useEffect } from "react";
 import { useFieldArray, useFormContext, useWatch } from "react-hook-form";
-import { WAREHOUSES } from "../model/constants";
 import { BarForm } from "../../bar-page/model/schema";
+import { WAREHOUSES } from "../model/constants";
 
 export default function TableProductsTransfer({
   disabled = false,
+  orderProducts,
 }: {
   disabled?: boolean;
+  orderProducts: DataOrderProducts | null;
 }) {
   const { control, setValue } = useFormContext<BarForm>();
-
-  const orderProducts = useOrderProducts();
 
   const PRODUCTS = orderProducts
     ? Array.from(
@@ -51,7 +51,7 @@ export default function TableProductsTransfer({
   const fieldsValues = useWatch({
     name: "report.productTransfer",
     control,
-  })
+  });
 
   useEffect(() => {
     fieldsValues?.forEach((item, idx) => {

@@ -16,7 +16,6 @@ import {
   VIEW_EMPLOYEE_MAIN_ROUTE,
 } from "@/constants/route-tag";
 import { cn } from "@/lib/utils";
-import { useEmployees } from "@/providers/employees-provider";
 import { formatShortDate } from "@/utils/format-date";
 import { handleCopy } from "@/utils/handler-copy-text";
 import { differenceInMonths } from "date-fns";
@@ -24,14 +23,21 @@ import { CheckCircle, UserX, XCircle } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { deleteEmployee } from "../../create-employee/actions/delete-employee";
+import { Employee } from "../../create-employee/model/type";
 
 const NAV_ITEMS = ["active", "fired", "all"] as const;
 
-export function EmployeesPage({ isAdmin }: { isAdmin: boolean }) {
+export function EmployeesPage({
+  isAdmin,
+  employees,
+}: {
+  isAdmin: boolean;
+  employees: Employee[];
+}) {
   const [employeesStatus, setEmployeesStatus] =
     useState<(typeof NAV_ITEMS)[number]>("active");
   const tab = useSearchParams().get("tab");
-  const employees = useEmployees().filter(
+  const employeesByStatus = employees.filter(
     (emp) => employeesStatus === "all" || emp.status === employeesStatus,
   );
 
@@ -40,21 +46,20 @@ export function EmployeesPage({ isAdmin }: { isAdmin: boolean }) {
   };
 
   return (
-    
-      <div className="flex flex-col items-center justify-center gap-4 mt-4">
-        <NavTabs
-          navItems={NAV_ITEMS}
-          activeTab={employeesStatus}
-          handleTabChange={handleTabChange}
-          classTabs="bg-transparent h-6"
-          classTrigger="h-5"
-          withSelect
-        />
+    <div className="mt-4 flex flex-col items-center justify-center gap-4">
+      <NavTabs
+        navItems={NAV_ITEMS}
+        activeTab={employeesStatus}
+        handleTabChange={handleTabChange}
+        classTabs="bg-transparent h-6"
+        classTrigger="h-5"
+        withSelect
+      />
       <Table className="md:table-fixed [&>tbody>tr]:text-xs">
         <TableHeader className="text-xs">
           <TableRow className="text-gr">
             <TableHead className="w-5" />
-            <TableHead className="w-15"/>
+            <TableHead className="w-15" />
             <TableHead className="sticky left-0 md:w-25" />
             <TableHead className="w-15" />
             <TableHead className="w-20" />
@@ -72,7 +77,7 @@ export function EmployeesPage({ isAdmin }: { isAdmin: boolean }) {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {employees
+          {employeesByStatus
             ?.filter((emp) => emp.role.toLowerCase().includes(tab ?? ""))
             .sort((a, b) => a.name.localeCompare(b.name))
             .map((emp, idx) => {
@@ -153,14 +158,17 @@ export function EmployeesPage({ isAdmin }: { isAdmin: boolean }) {
                     <div className="flex justify-center gap-8">
                       <ViewButton
                         url={`/${VIEW_EMPLOYEE_MAIN_ROUTE}/${emp.id}`}
+                        disabled={!isAdmin}
                       />
                       <LinkEditButton
                         url={`/${CREATE_EMPLOYEE_MAIN_ROUTE}/${emp.id}`}
+                        disabled={!isAdmin}
                       />
                       <DeleteButton
                         dialogText="confirmDelete"
                         descriptionText={emp.name}
                         onDelete={() => deleteEmployee(emp.id)}
+                        disabled={!isAdmin}
                       />
                     </div>
                   </TableCell>
@@ -169,6 +177,6 @@ export function EmployeesPage({ isAdmin }: { isAdmin: boolean }) {
             })}
         </TableBody>
       </Table>
-      </div>
+    </div>
   );
 }

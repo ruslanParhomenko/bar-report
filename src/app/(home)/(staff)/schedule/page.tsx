@@ -1,3 +1,4 @@
+import { getEmployees } from "@/features/settings/create-employee/actions/get-employees";
 import { SchedulePage } from "@/features/staff/schedule";
 import { getScheduleByYearAndMonth } from "@/features/staff/schedule/actions/get-schedule";
 
@@ -8,6 +9,9 @@ export default async function Page({
 }) {
   const { month, year } = await searchParams;
   if (!month || !year) return null;
-  const schedules = await getScheduleByYearAndMonth(year, month);
-  return <SchedulePage schedules={schedules} />;
+  const [schedules, employees] = await Promise.all([
+    getScheduleByYearAndMonth(year, month),
+    getEmployees(),
+  ]);
+  return <SchedulePage schedules={schedules} employees={employees} />;
 }

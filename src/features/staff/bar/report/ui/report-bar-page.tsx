@@ -4,6 +4,7 @@ import { useFormContext } from "react-hook-form";
 import TableCashVerify from "./cash-table";
 import TableTobacco from "./tobacco-table";
 
+import { DataOrderProducts } from "@/features/settings/setting/model/type";
 import { BarForm } from "../../bar-page/model/schema";
 import TableExpenses from "./expenses-table";
 import { TableInventory } from "./inventory-table";
@@ -11,8 +12,10 @@ import TableProductsTransfer from "./transfer-table";
 
 export function ReportBarPage({
   isDisabled,
+  orderProducts,
 }: {
   isDisabled: boolean;
+  orderProducts: DataOrderProducts | null;
 }) {
   const { register } = useFormContext<BarForm>();
 
@@ -22,7 +25,10 @@ export function ReportBarPage({
         <TableTobacco disabled={isDisabled} />
         <TableInventory disabled={isDisabled} />
         <TableExpenses disabled={isDisabled} />
-        <TableProductsTransfer disabled={isDisabled} />
+        <TableProductsTransfer
+          disabled={isDisabled}
+          orderProducts={orderProducts}
+        />
       </div>
       <TableCashVerify disabled={isDisabled} />
       <Textarea

@@ -1,6 +1,5 @@
 "use client";
 import ModalConfirm from "@/components/modal/modal-confirm";
-import { useAbility } from "@/providers/ability-provider";
 import { Trash2Icon } from "lucide-react";
 import { useState, useTransition } from "react";
 
@@ -15,7 +14,6 @@ export default function DeleteButton({
   descriptionText: string;
   onDelete: () => Promise<void> | void;
 }) {
-  const { isAdmin } = useAbility();
   const [open, setOpen] = useState(false);
   const [isPending, startTransition] = useTransition();
 
@@ -39,7 +37,7 @@ export default function DeleteButton({
         className="flex cursor-pointer flex-col items-center gap-0.5"
         type="button"
         onClick={() => setOpen(true)}
-        disabled={(disabled && !isAdmin) || isPending}
+        disabled={disabled || isPending}
       >
         <Trash2Icon size={14} className="text-rd hover:text-black" />
       </button>

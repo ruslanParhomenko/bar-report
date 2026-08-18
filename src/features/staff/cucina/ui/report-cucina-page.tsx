@@ -11,10 +11,10 @@ import {
 
 import DatePickerInput from "@/components/input-form/date-input";
 import FormWrapper from "@/components/wrapper/form-wrapper";
+import { Employee } from "@/features/settings/create-employee/model/type";
 import { DataProducts } from "@/features/settings/setting/model/type";
 import { useLocalStorageForm } from "@/hooks/use-local-storage";
 import { useAbility } from "@/providers/ability-provider";
-import { useEmployees } from "@/providers/employees-provider";
 import { MONTHS } from "@/utils/get-month-days";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createReportCucina } from "../actions/create-report-cucina";
@@ -27,13 +27,15 @@ const KEY_LOCALSTORAGE = "report-kitchen-form";
 
 export function ReportCucinaPage({
   dataProducts,
+  employees,
 }: {
   dataProducts: DataProducts;
+  employees: Employee[];
 }) {
   const { isCucina, isAdmin } = useAbility();
   const isDisabled = !(isAdmin || isCucina);
 
-  const employees = useEmployees()
+  const employeesCucina = employees
     .filter((emp) => CUCINA_EMPLOYEES.includes(emp.role))
     .map((emp) => emp.name);
 
@@ -70,7 +72,7 @@ export function ReportCucinaPage({
     }
   };
 
-  const tablesConfig = getTablesConfig(dataProducts, employees);
+  const tablesConfig = getTablesConfig(dataProducts, employeesCucina);
 
   if (!isLoaded) return null;
 

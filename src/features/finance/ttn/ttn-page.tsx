@@ -1,6 +1,9 @@
 "use client";
 
-import { DataTTN } from "@/features/settings/setting/model/type";
+import {
+  DataOrderProducts,
+  DataTTN,
+} from "@/features/settings/setting/model/type";
 import { MONTHS } from "@/utils/get-month-days";
 import { useSearchParams } from "next/navigation";
 import TTNDayPage from "./moda-day/ttn-day-page";
@@ -18,6 +21,7 @@ export default function TTNPage({
   dataTtnNbm,
   agentTTN,
   dataProductsNbm,
+  orderProducts,
   month,
   year,
 }: {
@@ -25,6 +29,7 @@ export default function TTNPage({
   dataTtnNbm: GetTtnNbmData[] | null;
   agentTTN: DataTTN | null;
   dataProductsNbm: GetNbmProductsData[] | null;
+  orderProducts: DataOrderProducts | null;
   month: string;
   year: string;
 }) {
@@ -63,7 +68,9 @@ export default function TTNPage({
       {tab === "nbm-month" && (
         <TtnNbmMonthPage dataTtnNBM={dataTtnNbm} agentTtnNbm={agentNbm} />
       )}
-      {tab === "nbm-products" && <NbmProductsPage data={dataProductsNbm} />}
+      {tab === "nbm-products" && (
+        <NbmProductsPage data={dataProductsNbm} orderProducts={orderProducts} />
+      )}
       {tab === "nbm-products-year" && (
         <NbmProductsYearPage data={dataProductsNbm} />
       )}

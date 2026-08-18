@@ -2,6 +2,7 @@
 
 import { MonthPicker } from "@/components/input-controlled/month-range";
 import NavTabs from "@/components/nav-tabs/nav-tabs";
+import { Employee } from "@/features/settings/create-employee/model/type";
 import { GetScheduleData } from "@/features/staff/schedule/model/type";
 import { GetTipsData } from "@/features/staff/tips/model/type";
 import { useSearchParams } from "next/navigation";
@@ -15,10 +16,12 @@ import { useChartResultData } from "./use-chart-result-data";
 export default function ChartResultPage({
   dataSchedules,
   tipsDataYear,
+  employees,
   year,
 }: {
   dataSchedules: { month: string; data: GetScheduleData[] }[] | null;
   tipsDataYear: GetTipsData[] | null;
+  employees: Employee[];
   year: string;
 }) {
   const role = useSearchParams().get("tab") || "barmen";
@@ -35,7 +38,13 @@ export default function ChartResultPage({
     tableData,
     chartDataByEmployee,
     chartDataByMonth,
-  } = useChartResultData({ dataSchedules, tipsDataYear, year, role });
+  } = useChartResultData({
+    dataSchedules,
+    tipsDataYear,
+    employees,
+    year,
+    role,
+  });
 
   const CHART_DATA_BY_TAB = {
     employees: chartDataByEmployee,

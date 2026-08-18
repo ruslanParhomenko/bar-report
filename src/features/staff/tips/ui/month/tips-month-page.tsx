@@ -4,7 +4,6 @@ import { Table } from "@/components/ui/table";
 import FormWrapper from "@/components/wrapper/form-wrapper";
 import { useAbility } from "@/providers/ability-provider";
 import { useEdit } from "@/providers/edit-provider";
-import { useEmployees } from "@/providers/employees-provider";
 import { useMonthDays } from "@/providers/month-days-provider";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
@@ -13,6 +12,7 @@ import { toast } from "sonner";
 
 import { defaultTipsForm, TipsForm, tipsSchema } from "../../model/schema";
 
+import { Employee } from "@/features/settings/create-employee/model/type";
 import { createTips } from "../../actions/create-tips";
 import { GetTipsData } from "../../model/type";
 import BidForm from "./bid-form";
@@ -24,8 +24,10 @@ const SELECTED_ROLE = ["waiters", "barmen"] as const;
 
 export default function TipsMonthPage({
   dataTipsYear,
+  employees,
 }: {
   dataTipsYear: GetTipsData[] | null;
+  employees: Employee[];
 }) {
   const { isAdmin } = useAbility();
 
@@ -36,7 +38,7 @@ export default function TipsMonthPage({
   const { monthDays, month, year } = useMonthDays();
   const dataTips = dataTipsYear?.find((data) => data.id === month) || null;
 
-  const employees = useEmployees()
+  const activeEmployees = employees
     .filter((e) => e.status === "active")
     .filter((e) =>
       SELECTED_ROLE.includes(e.role as (typeof SELECTED_ROLE)[number]),
@@ -94,7 +96,7 @@ export default function TipsMonthPage({
       return;
     }
 
-    const newRows = employees.map((employee, index) => ({
+    const newRows = activeEmployees.map((employee, index) => ({
       id: (index + 1).toString(),
       employee: employee.name ?? "",
       role: employee.role ?? "",
@@ -121,7 +123,7 @@ export default function TipsMonthPage({
         <TipsTableBody
           data={fields}
           remove={removeRow}
-          selectedEmployees={employees}
+          selectedEmployees={activeEmployees}
           selectedDay={selectedDay}
           monthDays={monthDays}
           isEdit={isEdit}

@@ -5,7 +5,6 @@ import SwitchInput from "@/components/input-form/switch-input";
 import TextInput from "@/components/input-form/text-input";
 import FormWrapper from "@/components/wrapper/form-wrapper";
 import { ROUTES } from "@/constants/routes";
-import { useAbility } from "@/providers/ability-provider";
 import { useEdit } from "@/providers/edit-provider";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
@@ -14,6 +13,7 @@ import { useEffect } from "react";
 import { SubmitHandler, useForm, useWatch } from "react-hook-form";
 import { toast } from "sonner";
 import { createUser } from "../actions/create-user";
+import { GetUserData } from "../actions/get-users";
 import { updateUser } from "../actions/update-user";
 import { defaultUser, UserForm, usersSchema } from "../model/schema";
 
@@ -31,11 +31,17 @@ const ROLES = [
 
 type FormData = UserForm;
 
-export function UserFormPage({ id }: { id?: string }) {
+export function UserFormPage({
+  id,
+  users,
+}: {
+  id?: string;
+  users: GetUserData[];
+}) {
   const { setIsEdit, registerReset } = useEdit();
   const router = useRouter();
   const t = useTranslations("Home");
-  const { users } = useAbility();
+
   const user = id ? users?.find((u) => u.id === id) : undefined;
 
   const form = useForm<FormData>({

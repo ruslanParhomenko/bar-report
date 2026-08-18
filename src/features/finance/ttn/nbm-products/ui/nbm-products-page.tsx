@@ -1,9 +1,9 @@
 "use client";
 import { Table } from "@/components/ui/table";
 import FormWrapper from "@/components/wrapper/form-wrapper";
+import { DataOrderProducts } from "@/features/settings/setting/model/type";
 import { useEdit } from "@/providers/edit-provider";
 import { useMonthDays } from "@/providers/month-days-provider";
-import { useOrderProducts } from "@/providers/order-products-provider";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -19,12 +19,14 @@ const schema = productsSchemaNBM;
 
 export default function NbmProductsPage({
   data,
+  orderProducts,
 }: {
   data: GetNbmProductsData[] | null;
+  orderProducts: DataOrderProducts | null;
 }) {
   const { monthDays, month, year } = useMonthDays();
-  const orderProducts = Object.values(
-    useOrderProducts()?.techTTN || {},
+  const orderProductsTechTtn = Object.values(
+    orderProducts?.techTTN || {},
   ).flatMap((p) => p);
 
   const todayDay = new Date().getDate();
@@ -59,17 +61,17 @@ export default function NbmProductsPage({
   };
 
   useEffect(() => {
-    if (dataByMont || !orderProducts?.length) return;
+    if (dataByMont || !orderProductsTechTtn?.length) return;
 
     const rows = Object.fromEntries(
-      orderProducts.map((s) => [
+      orderProductsTechTtn.map((s) => [
         s,
         { arrival: Array(monthDays.length).fill(""), remain: "" },
       ]),
     );
 
     form.setValue("rowProducts", rows);
-  }, [data, form, orderProducts, monthDays]);
+  }, [data, form, orderProductsTechTtn, monthDays]);
 
   useEffect(() => {
     if (!dataByMont) return;
@@ -85,7 +87,7 @@ export default function NbmProductsPage({
           setSelectedDay={setSelectedDay}
         />
         <BodyTable
-          arrayRows={orderProducts}
+          arrayRows={orderProductsTechTtn}
           disabled={!isEdit}
           setSelectedDay={setSelectedDay}
         />

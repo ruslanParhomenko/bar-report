@@ -8,12 +8,9 @@ import {
 } from "react-hook-form";
 import { toast } from "sonner";
 
-
-
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { useAbility } from "@/providers/ability-provider";
-import { useEmployees } from "@/providers/employees-provider";
 import { MONTHS } from "@/utils/get-month-days";
 
 import { BarForm, barPageDefault, barPageSchema } from "../model/schema";
@@ -27,24 +24,33 @@ import { remarksDefault } from "../../penalty/model/schema";
 import { BreakPage } from "@/features/staff/bar/break/ui/break-page";
 import { PenaltyPage } from "@/features/staff/bar/penalty/ui/penalty-page";
 
-import { BAR_EMPLOYEES, KEY_LOCALSTORAGE } from "../model/constants";
-import { createPenalty } from "../../penalty/actions/create-penalty";
-import { BreakForm, breakListDefault } from "../../break/model/schema";
-import { ReportBarPage } from "../../report";
-import { TipsAddPage } from "../../tips-add";
+import { Employee } from "@/features/settings/create-employee/model/type";
+import { DataOrderProducts } from "@/features/settings/setting/model/type";
 import { createBreakList } from "../../break/actions/create-break";
-import { cashVerifyDefault, expensesDefault, inventoryDefault, productTransferDefault } from "../../report/model/schema";
-import { createTipsAdd } from "../../tips-add/actions/create-tips-add";
+import { BreakForm, breakListDefault } from "../../break/model/schema";
+import { createPenalty } from "../../penalty/actions/create-penalty";
+import { ReportBarPage } from "../../report";
 import { createReportBar } from "../../report/actions/create-bar-report";
+import {
+  cashVerifyDefault,
+  expensesDefault,
+  inventoryDefault,
+  productTransferDefault,
+} from "../../report/model/schema";
+import { TipsAddPage } from "../../tips-add";
+import { createTipsAdd } from "../../tips-add/actions/create-tips-add";
+import { BAR_EMPLOYEES, KEY_LOCALSTORAGE } from "../model/constants";
 
-
-
-export  function BarPage({
+export function BarPage({
   dataBreakList,
   currencyUSD,
+  employees,
+  orderProducts,
 }: {
   dataBreakList: BreakForm | null;
   currencyUSD: number | null;
+  employees: Employee[];
+  orderProducts: DataOrderProducts | null;
 }) {
   const searchParams = useSearchParams();
 
@@ -53,7 +59,7 @@ export  function BarPage({
   const { isBar, isAdmin } = useAbility();
   const isDisabled = !(isAdmin || isBar);
 
-  const employeesName = useEmployees()
+  const employeesName = employees
     .filter((emp) => BAR_EMPLOYEES.includes(emp.role))
     .filter((emp) => emp.status === "active")
     .map((e) => ({
@@ -186,11 +192,13 @@ export  function BarPage({
       {tab === "break" && (
         <>
           <BreakPage isDisabled={isDisabled} employeesName={employeesName} />
-          <PenaltyPage isDisabled={isDisabled} />
+          <PenaltyPage isDisabled={isDisabled} employees={employees} />
         </>
       )}
 
-      {tab === "report" && <ReportBarPage isDisabled={isDisabled} />}
+      {tab === "report" && (
+        <ReportBarPage isDisabled={isDisabled} orderProducts={orderProducts} />
+      )}
 
       {tab === "tips" && (
         <TipsAddPage

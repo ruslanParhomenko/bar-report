@@ -1,6 +1,5 @@
 "use client";
 
-import { useEmployees } from "@/providers/employees-provider";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -15,15 +14,19 @@ import {
   EmployeeForm,
   employeesSchema,
 } from "../model/schema";
+import { Employee } from "../model/type";
 import EmployeeDataForm from "./employee-form";
 import SwitchForm from "./switch-form";
 import VacationForm from "./vacation-form";
 
-export function EmployeeCreatePage({ id }: { id?: string }) {
+export function EmployeeCreatePage({
+  id,
+  employees,
+}: {
+  id?: string;
+  employees: Employee[];
+}) {
   const { setIsEdit, registerReset } = useEdit();
-
-  const employees = useEmployees();
-
   const employee = id ? employees.find((e) => e.id === id) : undefined;
 
   const form = useForm<EmployeeForm>({

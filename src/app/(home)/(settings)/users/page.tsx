@@ -1,8 +1,11 @@
 import { UsersPage } from "@/features/settings/users";
+import { getUsers } from "@/features/settings/users/actions/get-users";
 import { headers } from "next/headers";
 
 export default async function Page() {
-  const headerStore = await headers();
+  const [headerStore, users] = await Promise.all([headers(), getUsers()]);
   const isAdmin = headerStore.get("x-is-admin") === "true";
-  return <UsersPage isAdmin={isAdmin} />;
+
+  if (!users || !isAdmin) return null;
+  return <UsersPage isAdmin={isAdmin} users={users} />;
 }

@@ -1,5 +1,8 @@
 import { UserFormPage } from "@/features/settings/users";
+import { getUsers } from "@/features/settings/users/actions/get-users";
 
-export default function Page() {
-  return <UserFormPage />;
+export default async function Page() {
+  const users = await getUsers();
+
+  return <UserFormPage users={users} />;
 }

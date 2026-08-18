@@ -2,7 +2,7 @@
 
 import { GetUserData } from "@/features/settings/users/actions/get-users";
 import { useSession } from "next-auth/react";
-import React, { createContext, useContext } from "react";
+import React, { createContext, useContext, useMemo } from "react";
 
 type Ability = {
   isAdmin: boolean;
@@ -18,27 +18,12 @@ type Ability = {
 
 type AbilityContextValue = {
   ability: Ability;
-  users: GetUserData[];
 };
 
 const AbilityContext = createContext<AbilityContextValue | null>(null);
 
-export function AbilityProvider({
-  children,
-  users,
-}: {
-  children: React.ReactNode;
-  users: GetUserData[];
-}) {
-  const { data: session, status } = useSession();
-
-  if (status === "loading") {
-    return null;
-  }
-
-  const role = (session?.user as any)?.role ?? "OBSERVER";
-
-  const ability: Ability = {
+function computeAbility(role: string): Ability {
+  return {
     isAdmin: role === "ADMIN",
     isBar: role === "BAR",
     isCucina: role === "CUCINA",
@@ -49,16 +34,31 @@ export function AbilityProvider({
     isSCR: role === "SCR",
     isTech: role === "TECH",
   };
+}
+
+export function AbilityProvider({
+  children,
+  users,
+}: {
+  children: React.ReactNode;
+  users: GetUserData[];
+}) {
+  const { data: session } = useSession();
+
+  const ability = useMemo(() => {
+    const role = (session?.user as any)?.role ?? "OBSERVER";
+    return computeAbility(role);
+  }, [session?.user]);
+
+  const value = useMemo(() => ({ ability }), [ability, users]);
 
   return (
-    <AbilityContext.Provider value={{ ability, users }}>
-      {children}
-    </AbilityContext.Provider>
+    <AbilityContext.Provider value={value}>{children}</AbilityContext.Provider>
   );
 }
 
 export function useAbility() {
   const ctx = useContext(AbilityContext);
   if (!ctx) throw new Error("useAbility must be used inside AbilityProvider");
-  return { ...ctx.ability, users: ctx.users };
+  return { ...ctx.ability };
 }

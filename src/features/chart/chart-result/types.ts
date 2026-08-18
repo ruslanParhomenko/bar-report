@@ -1,3 +1,4 @@
+import { Employee } from "@/features/settings/create-employee/model/type";
 import { GetScheduleData } from "@/features/staff/schedule/model/type";
 import { GetTipsData } from "@/features/staff/tips/model/type";
 
@@ -29,6 +30,7 @@ export type ChartResultFilter = "employees" | "month" | "table";
 export type ChartResultDataInput = {
   dataSchedules: { month: string; data: GetScheduleData[] }[] | null;
   tipsDataYear: GetTipsData[] | null;
+  employees: Employee[];
   year: string;
   role: string;
 };

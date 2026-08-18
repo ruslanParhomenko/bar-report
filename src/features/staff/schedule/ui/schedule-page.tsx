@@ -3,6 +3,7 @@
 import { Table } from "@/components/ui/table";
 import FormWrapper from "@/components/wrapper/form-wrapper";
 
+import { Employee } from "@/features/settings/create-employee/model/type";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useEdit } from "@/providers/edit-provider";
 import { useMonthDays } from "@/providers/month-days-provider";
@@ -17,24 +18,28 @@ import {
 } from "react";
 import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { createSchedule } from "../actions/create-schedule";
+import { useSelectedEmployeesByRole } from "../hooks/use-selected-employees-by-role";
+import {
+  calculateSalaryByHours,
+  calculateShiftTotals,
+  getShiftCounts,
+} from "../lib/utils";
 import { EMPLOYEE_ROLES_BY_DEPARTMENT } from "../model/constants";
+import { defaultSchedule, scheduleSchema, ScheduleType } from "../model/schema";
+import { GetScheduleData } from "../model/type";
 import ScheduleTableBody from "./schedule-body";
 import ScheduleCreateTableBody from "./schedule-create-body";
 import ScheduleTableFooter from "./schedule-footer";
 import ScheduleTableHeader from "./schedule-header";
-import { defaultSchedule, scheduleSchema, ScheduleType } from "../model/schema";
-import { useSelectedEmployeesByRole } from "../hooks/use-selected-employees-by-role";
-import { calculateSalaryByHours, calculateShiftTotals, getShiftCounts } from "../lib/utils";
-import { GetScheduleData } from "../model/type";
-import { createSchedule } from "../actions/create-schedule";
 
-
-export  function SchedulePage({
+export function SchedulePage({
   schedules,
+  employees,
 }: {
   schedules: GetScheduleData[] | null;
+  employees: Employee[];
 }) {
-
   const searchParams = useSearchParams();
   const tab = searchParams.get("tab");
 
@@ -59,6 +64,7 @@ export  function SchedulePage({
 
   const selectedEmployees = useSelectedEmployeesByRole(
     tab as keyof typeof EMPLOYEE_ROLES_BY_DEPARTMENT,
+    employees,
   );
 
   const { daysCount, month, year } = useMonthDays();
@@ -188,5 +194,3 @@ export  function SchedulePage({
     </FormWrapper>
   );
 }
-
-
