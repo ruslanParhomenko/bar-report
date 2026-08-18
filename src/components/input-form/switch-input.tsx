@@ -24,7 +24,7 @@ export default function SwitchInput({
   if (checked !== undefined && onCheckedChange !== undefined) {
     return (
       <FormItem
-        className={cn("mt-4 flex w-40 items-center justify-between", className)}
+        className={cn("mt-4 flex w-44 items-center justify-between", className)}
       >
         <FormControl>
           <Switch checked={checked} onCheckedChange={onCheckedChange} />
@@ -45,7 +45,7 @@ export default function SwitchInput({
       render={({ field }) => (
         <FormItem
           className={cn(
-            "mt-4 flex w-40 items-center justify-between",
+            "mt-4 flex w-44 items-center justify-between",
             className,
           )}
         >

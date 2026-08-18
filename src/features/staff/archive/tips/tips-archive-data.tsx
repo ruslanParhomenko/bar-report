@@ -5,6 +5,7 @@ import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 
 import { useTipsCalculation } from "@/hooks/use-tips-calculation";
 import { cn } from "@/lib/utils";
+import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { TipsAddForm } from "../../bar/tips-add/model/schema";
 import { GetTipsAddData } from "../../bar/tips-add/model/type";
@@ -15,6 +16,9 @@ export default function TipsArchiveData({
 }: {
   data: GetTipsAddData[] | null;
 }) {
+  const session = useSession();
+  const role = session.data?.user.role;
+  console.log("session", session);
   const [opened, setOpened] = useState<number[]>([]);
 
   const sorted = data

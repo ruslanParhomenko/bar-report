@@ -44,7 +44,7 @@ export default async function RootLayout({
   const locale = await getLocale();
 
   return (
-    <html lang={locale} suppressHydrationWarning>
+    <html lang={locale}>
       <body className={`${lora.variable} antialiased`}>
         <Toaster position="top-center" />
         <RootProviders>{children}</RootProviders>

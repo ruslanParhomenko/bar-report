@@ -1,6 +1,5 @@
 "use client";
 
-import { useAbility } from "@/providers/ability-provider";
 import { useSearchParams } from "next/navigation";
 import { GetBreakData } from "../bar/break/model/type";
 import { GetRemarksData } from "../bar/penalty/model/type";
@@ -26,52 +25,45 @@ export type ArchiveData = {
 
 export default function ArchivePage({
   archiveData,
+  isAdmin,
 }: {
   archiveData: ArchiveData;
+  isAdmin: boolean;
 }) {
-  const { isBar, isCucina } = useAbility();
-
   const tab = useSearchParams().get("tab");
 
   const TABS = [
     {
       key: "bar",
-      visible: !isCucina,
       render: () => <ReportBarArchive data={archiveData.bar} />,
     },
     {
       key: "cucina",
-      visible: !isBar,
       render: () => <ReportCucinaArchive data={archiveData.cucina} />,
     },
     {
       key: "breakList",
-      visible: !isCucina,
       render: () => <BreakListArchive data={archiveData.breakList} />,
     },
     {
       key: "penalty",
-      visible: !isCucina,
       render: () => <PenaltyArchiveData data={archiveData.penalty} />,
     },
     {
       key: "penalty-result",
-      visible: true,
       render: () => <PenaltyResult data={archiveData.penalty} />,
     },
     {
       key: "tips-add",
-      visible: !isCucina && !isBar,
       render: () => <TipsArchiveData data={archiveData.tips} />,
     },
     {
       key: "orders",
-      visible: true,
       render: () => <OrdersArchivePage />,
     },
   ];
 
-  const activeTab = TABS.find((t) => t.key === tab && t.visible);
+  const activeTab = TABS.find((t) => t.key === tab);
 
   return activeTab ? activeTab.render() : null;
 }

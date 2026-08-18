@@ -6,6 +6,7 @@ export const usersSchema = z.object({
   name: z.string(),
   status: z.boolean(),
   accessList: z.array(z.string()),
+  accessTabs: z.array(z.string()),
 });
 
 export type UserForm = z.infer<typeof usersSchema>;
@@ -16,4 +17,5 @@ export const defaultUser: UserForm = {
   name: "",
   status: false,
   accessList: [],
+  accessTabs: [],
 };
