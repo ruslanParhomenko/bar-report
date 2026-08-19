@@ -1,6 +1,6 @@
 import ChartResultPage from "@/features/chart/chart-result/chart-result-page";
 import { getEmployees } from "@/features/settings/create-employee/actions/get-employees";
-import { getScheduleByYear } from "@/features/staff/schedule/actions/get-schedule";
+import { getScheduleByYear } from "@/features/staff/schedule/schedule-edit/actions/get-schedule";
 import { getTipsByYear } from "@/features/staff/tips/actions/get-tips";
 
 export default async function Page({

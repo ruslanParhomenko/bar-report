@@ -1,0 +1,1 @@
+export {ScheduleEdit} from "@/features/staff/schedule/schedule-edit/ui/schedule-edit";

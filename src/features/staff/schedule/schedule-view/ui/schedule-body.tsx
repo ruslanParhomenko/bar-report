@@ -2,10 +2,11 @@
 import { MonthDaysCells } from "@/components/table/month-days-cells";
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
-import { calculateSalaryByHours } from "../lib/utils";
-import { color, SHIFT_COLOR_MAP } from "../model/constants";
-import { GetScheduleData } from "../model/type";
+
 import { useMonthDays } from "@/hooks/use-month-days";
+import { calculateSalaryByHours } from "../../schedule-edit/lib/utils";
+import { color, SHIFT_COLOR_MAP } from "../../schedule-edit/model/constants";
+import { GetScheduleData } from "../../schedule-edit/model/type";
 
 export default function ScheduleTableBody({
   schedule,

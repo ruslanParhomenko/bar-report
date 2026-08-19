@@ -28,13 +28,20 @@ import { deleteEmployee } from "../../create-employee/actions/delete-employee";
 const NAV_ITEMS = ["active", "fired", "all"] as const;
 
 export function EmployeesPage({ isAdmin }: { isAdmin: boolean }) {
-  const employees = useEmployees();
+  const tab = useSearchParams().get("tab");
+
   const [employeesStatus, setEmployeesStatus] =
     useState<(typeof NAV_ITEMS)[number]>("active");
-  const tab = useSearchParams().get("tab");
-  const employeesByStatus = employees.filter(
-    (emp) => employeesStatus === "all" || emp.status === employeesStatus,
-  );
+
+  if (!tab) return null;
+
+  const employees = useEmployees();
+
+  const employeesByStatus = employees
+    ?.filter(
+      (emp) => employeesStatus === "all" || emp.status === employeesStatus,
+    )
+    .filter((emp) => emp.role.toLowerCase().includes(tab));
 
   const handleTabChange = (tab: string) => {
     setEmployeesStatus(tab as (typeof NAV_ITEMS)[number]);
@@ -73,7 +80,6 @@ export function EmployeesPage({ isAdmin }: { isAdmin: boolean }) {
         </TableHeader>
         <TableBody>
           {employeesByStatus
-            ?.filter((emp) => emp.role.toLowerCase().includes(tab ?? ""))
             .sort((a, b) => a.name.localeCompare(b.name))
             .map((emp, idx) => {
               const monthsWorked = emp?.employmentDate

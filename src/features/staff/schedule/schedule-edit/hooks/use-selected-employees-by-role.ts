@@ -1,5 +1,4 @@
 import { Employee } from "@/features/settings/create-employee/model/type";
-
 import { EMPLOYEE_ROLES_BY_DEPARTMENT } from "../model/constants";
 
 export function useSelectedEmployeesByRole(

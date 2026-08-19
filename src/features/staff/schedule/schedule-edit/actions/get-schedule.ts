@@ -7,8 +7,6 @@ import { GetScheduleData } from "../model/type";
 
 const actionTag = SCHEDULE_ACTION_TAG;
 
-
-
 // get by month year
 export async function _getScheduleByYearAndMonth(
   year: string,

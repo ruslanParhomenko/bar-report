@@ -9,7 +9,7 @@ import NavTabs from "@/components/nav-tabs/nav-tabs";
 import { MONTHS } from "@/utils/get-month-days";
 import { toggleBarVisibility } from "@/utils/toggle-bar-visibility";
 import { useState } from "react";
-import { GetScheduleData } from "@/features/staff/schedule/model/type";
+import { GetScheduleData } from "@/features/staff/schedule/schedule-edit/model/type";
 
 const ITEM_KEYS = ["day", "night", "total"] as const;
 type BarKey = BarConfig<(typeof ITEM_KEYS)[number]>;

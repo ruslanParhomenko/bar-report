@@ -20,7 +20,7 @@ import { calculateSalaryByHours, calculateShiftTotals } from "../lib/utils";
 import { Employee } from "@/features/settings/create-employee/model/type";
 import { useMonthDays } from "@/hooks/use-month-days";
 
-export default function ScheduleCreateTableBody({
+export default function ScheduleBodyEdit({
   fields,
   selectedEmployees,
   remove,

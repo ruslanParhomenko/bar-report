@@ -2,7 +2,7 @@
 import { Table } from "@/components/ui/table";
 import { useSearchParams } from "next/navigation";
 import { remarksByUniqueEmployee } from "../../archive/penalty/utils";
-import { GetScheduleData } from "../../schedule/model/type";
+import { GetScheduleData } from "../../schedule/schedule-edit/model/type";
 import { GetTipsData } from "../../tips/model/type";
 import { extractUniqueEmployees, useResultCalculations } from "../lib/utils";
 import ResultTableBody from "./result-body-table";

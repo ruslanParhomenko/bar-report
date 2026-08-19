@@ -1,5 +1,5 @@
 import ChartSchedulePage from "@/features/chart/chart-schedule/chart-schedule-page";
-import { getScheduleByYear } from "@/features/staff/schedule/actions/get-schedule";
+import { getScheduleByYear } from "@/features/staff/schedule/schedule-edit/actions/get-schedule";
 
 export default async function Page({
   searchParams,

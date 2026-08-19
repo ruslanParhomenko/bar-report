@@ -1,5 +1,5 @@
 import { SchedulePage } from "@/features/staff/schedule";
-import { getScheduleByYearAndMonth } from "@/features/staff/schedule/actions/get-schedule";
+import { getScheduleByYearAndMonth } from "@/features/staff/schedule/schedule-edit/actions/get-schedule";
 import { headers } from "next/headers";
 
 export default async function Page({

@@ -1,5 +1,5 @@
 import { Employee } from "@/features/settings/create-employee/model/type";
-import { GetScheduleData } from "@/features/staff/schedule/model/type";
+import { GetScheduleData } from "@/features/staff/schedule/schedule-edit/model/type";
 import { GetTipsData } from "@/features/staff/tips/model/type";
 
 export type MonthData = {

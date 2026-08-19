@@ -1,0 +1,1 @@
+export {ScheduleView} from '@/features/staff/schedule/schedule-view/ui/schedule-view';

@@ -3,8 +3,8 @@
 import { invalidateEverywhere } from "@/app/actions/invalidateEverywhere/invalidate-everywhere";
 import { SCHEDULE_ACTION_TAG } from "@/constants/action-tag";
 import { getYearMonthDoc } from "@/lib/firebase-doc";
-import { ScheduleDataForm } from "../model/type";
 import { updateTag } from "next/cache";
+import { ScheduleDataForm } from "../model/type";
 
 const actionTag = SCHEDULE_ACTION_TAG;
 
@@ -21,8 +21,3 @@ export async function createSchedule(data: ScheduleDataForm) {
   await invalidateEverywhere(actionTag);
   return docRef.id;
 }
-
-
-
-
-

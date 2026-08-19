@@ -1,2 +1,2 @@
-// index.ts фичи
-export { SchedulePage } from "./ui/schedule-page";
+
+export { SchedulePage } from "./schedule-page";

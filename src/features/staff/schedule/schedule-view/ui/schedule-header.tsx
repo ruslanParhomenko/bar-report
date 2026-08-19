@@ -14,7 +14,7 @@ export default function ScheduleTableHeader({
   addNewRow: () => void;
   selectedDay: number;
   setSelectedDay: (day: number) => void;
-  isEdit: boolean;
+  isEdit?: boolean;
 }) {
   const { monthDays, month } = useMonthDays();
   return (
