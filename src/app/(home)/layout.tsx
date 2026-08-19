@@ -7,7 +7,6 @@ import SidebarNav from "@/features/sidebar/sidebar-nav";
 import { getUsers } from "@/features/users/actions/get-users";
 import { AbilityProvider } from "@/providers/ability-provider";
 import HomeUIProviders from "@/providers/home-ui-providers";
-import MonthDaysProvider from "@/providers/month-days-provider";
 import { headers } from "next/headers";
 
 export default async function HomeLayout({
@@ -24,11 +23,9 @@ export default async function HomeLayout({
         <SidebarNav />
         <SwipeWrapper>
           <HeaderBar />
-
           <ScreenshotWrapper>
-            <MonthDaysProvider>{children}</MonthDaysProvider>
+            {children}
           </ScreenshotWrapper>
-
           <ActionBar isAdmin={isAdmin} />
         </SwipeWrapper>
       </HomeUIProviders>

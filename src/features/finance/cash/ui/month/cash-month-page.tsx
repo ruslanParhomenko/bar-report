@@ -3,7 +3,6 @@
 import { Table } from "@/components/ui/table";
 import FormWrapper from "@/components/wrapper/form-wrapper";
 import { useEdit } from "@/providers/edit-provider";
-import { useMonthDays } from "@/providers/month-days-provider";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -18,6 +17,7 @@ import { CashMonthBodyTable } from "./cash-month-body";
 import { CashMonthFooterTable } from "./cash-month-footer";
 import CashMonthHeaderTable from "./cash-month-header";
 import CashInfo from "./cash-month-info";
+import { useMonthDays } from "@/hooks/use-month-days";
 
 export default function CashMonthPage({
   dataAo,

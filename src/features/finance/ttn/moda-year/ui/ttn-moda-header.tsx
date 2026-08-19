@@ -1,5 +1,5 @@
 import { TableCell, TableHeader, TableRow } from "@/components/ui/table";
-import { useMonthDays } from "@/providers/month-days-provider";
+import { useMonthDays } from "@/hooks/use-month-days";
 import { MONTHS } from "@/utils/get-month-days";
 
 export default function TtnModaHeaderTable() {

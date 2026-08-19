@@ -3,7 +3,7 @@ import CustomChart from "@/components/chart/custom-chart";
 import CustomLegend from "@/components/chart/custom-legend";
 import { BarConfig } from "@/components/chart/types";
 import { GetCashData } from "@/features/finance/cash/model/type";
-import { useMonthDays } from "@/providers/month-days-provider";
+import { useMonthDays } from "@/hooks/use-month-days";
 import { MONTHS } from "@/utils/get-month-days";
 import { toggleBarVisibility } from "@/utils/toggle-bar-visibility";
 import { useSearchParams } from "next/navigation";

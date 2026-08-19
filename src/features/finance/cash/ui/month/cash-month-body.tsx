@@ -1,10 +1,8 @@
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { useFormContext, useWatch } from "react-hook-form";
-
 import { cn } from "@/lib/utils";
-
-import { useMonthDays } from "@/providers/month-days-provider";
 import { handleMultiTableNavigation } from "@/utils/handle-table-navigation";
+import { useMonthDays } from "@/hooks/use-month-days";
 
 export function CashMonthBodyTable({
   data,

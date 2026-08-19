@@ -9,10 +9,10 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
-import { useMonthDays } from "@/providers/month-days-provider";
 import { MONTHS } from "@/utils/get-month-days";
 import { ROW_CASH_DATA } from "../../model/constants";
 import { GetCashData } from "../../model/type";
+import { useMonthDays } from "@/hooks/use-month-days";
 
 const INFO_KEYS = [
   { key: "start_241", label: "start 241", colorText: "text-foreground" },

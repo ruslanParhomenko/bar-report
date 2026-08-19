@@ -1,8 +1,8 @@
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
-import { useMonthDays } from "@/providers/month-days-provider";
 import { useFormContext } from "react-hook-form";
 import { CashForm } from "../../model/schema";
+import { useMonthDays } from "@/hooks/use-month-days";
 
 export function CashMonthFooterTable() {
   const { monthDays } = useMonthDays();

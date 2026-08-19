@@ -10,7 +10,6 @@ import {
 import { InsufficientRights } from "@/components/wrapper/insufficient-rights";
 import { GetTipsAddByYear } from "@/features/staff/bar/tips-add/model/type";
 import { useAccessCheck } from "@/hooks/use-tab-access";
-import { useMonthDays } from "@/providers/month-days-provider";
 import { filterByMonthRange } from "@/utils/filter-by-month-range";
 import { toggleBarVisibility } from "@/utils/toggle-bar-visibility";
 import { useMemo, useState } from "react";
@@ -19,6 +18,7 @@ import {
   getChartDataTipsByDay,
   getChartDataTipsFromYear,
 } from "./utils";
+import { useMonthDays } from "@/hooks/use-month-days";
 
 const ITEM_KEYS = ["mdl", "chips", "total", "result"] as const;
 type BarKey = BarConfig<(typeof ITEM_KEYS)[number]>;

@@ -2,7 +2,6 @@
 
 import FormWrapper from "@/components/wrapper/form-wrapper";
 import { useEdit } from "@/providers/edit-provider";
-import { useMonthDays } from "@/providers/month-days-provider";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -15,6 +14,7 @@ import { GetTTNData } from "../model/type";
 import TtnBodyTable from "./ttn-body";
 import TTNFooterTable from "./ttn-footer";
 import TtnHeaderTable from "./ttn-header";
+import { useMonthDays } from "@/hooks/use-month-days";
 
 export function TtnMonthPage({
   dataTtn,

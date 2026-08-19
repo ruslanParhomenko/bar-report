@@ -3,7 +3,6 @@
 import { Table } from "@/components/ui/table";
 import FormWrapper from "@/components/wrapper/form-wrapper";
 import { useEdit } from "@/providers/edit-provider";
-import { useMonthDays } from "@/providers/month-days-provider";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
@@ -18,6 +17,7 @@ import BidForm from "./bid-form";
 import { TipsTableBody } from "./tips-body";
 import { TipsTableFooter } from "./tips-footer";
 import TipsHeaderTable from "./tips-header";
+import { useMonthDays } from "@/hooks/use-month-days";
 
 const SELECTED_ROLE = ["waiters", "barmen"] as const;
 

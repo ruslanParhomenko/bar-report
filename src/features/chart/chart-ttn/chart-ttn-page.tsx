@@ -12,7 +12,7 @@ import { GetTTNData } from "@/features/finance/ttn/moda-month/model/type";
 import { GetTtnNbmData } from "@/features/finance/ttn/nbm-month/model/type";
 import { GetNbmProductsData } from "@/features/finance/ttn/nbm-products/model/type";
 import { DataTTN } from "@/features/settings/setting/model/type";
-import { useMonthDays } from "@/providers/month-days-provider";
+import { useMonthDays } from "@/hooks/use-month-days";
 import { MONTHS } from "@/utils/get-month-days";
 import { toggleBarVisibility } from "@/utils/toggle-bar-visibility";
 import { useSearchParams } from "next/navigation";

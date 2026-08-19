@@ -1,7 +1,6 @@
 "use client";
 import FormWrapper from "@/components/wrapper/form-wrapper";
 import { useEdit } from "@/providers/edit-provider";
-import { useMonthDays } from "@/providers/month-days-provider";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -14,6 +13,7 @@ import { suppliersSchemaNBM, TTNFormNBM } from "../model/schema";
 import { GetTtnNbmData } from "../model/type";
 import TtnNbmBodyTable from "./ttn-nbm-body";
 import TtnNbmHeaderTable from "./ttn-nbm-header";
+import { useMonthDays } from "@/hooks/use-month-days";
 
 export function TtnNbmMonthPage({
   dataTtnNBM,

@@ -2,8 +2,8 @@
 import AddRowButton from "@/components/buttons/add-row-button";
 import { MonthDaysCells } from "@/components/table/month-days-cells";
 import { TableCell, TableHeader, TableRow } from "@/components/ui/table";
+import { useMonthDays } from "@/hooks/use-month-days";
 import { cn } from "@/lib/utils";
-import { useMonthDays } from "@/providers/month-days-provider";
 
 export default function ScheduleTableHeader({
   addNewRow,

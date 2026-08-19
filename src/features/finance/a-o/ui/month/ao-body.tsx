@@ -1,7 +1,6 @@
 "use client";
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
-import { useMonthDays } from "@/providers/month-days-provider";
 import { handleMultiTableNavigation } from "@/utils/handle-table-navigation";
 import { useFormContext, useWatch } from "react-hook-form";
 import {
@@ -9,6 +8,7 @@ import {
   ROWS_PURCHASE_MODA,
   ROWS_PURCHASE_NMB,
 } from "../../model/constants";
+import { useMonthDays } from "@/hooks/use-month-days";
 
 type RowConfig =
   | (typeof ROWS_ADVANCE)[number]

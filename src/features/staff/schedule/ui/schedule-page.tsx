@@ -7,7 +7,6 @@ import { InsufficientRights } from "@/components/wrapper/insufficient-rights";
 import { useAccessCheck } from "@/hooks/use-tab-access";
 import { useEdit } from "@/providers/edit-provider";
 import { useEmployees } from "@/providers/employees-provider";
-import { useMonthDays } from "@/providers/month-days-provider";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useFieldArray } from "react-hook-form";
@@ -21,6 +20,7 @@ import ScheduleTableBody from "./schedule-body";
 import ScheduleCreateTableBody from "./schedule-create-body";
 import ScheduleTableFooter from "./schedule-footer";
 import ScheduleTableHeader from "./schedule-header";
+import { useMonthDays } from "@/hooks/use-month-days";
 
 type Props = {
   schedules: GetScheduleData[] | null;
@@ -48,6 +48,8 @@ export function SchedulePage({ schedules, isAdmin }: Props) {
     control: form.control,
     name: "rowShifts",
   });
+
+
 
   const selectedEmployees = useSelectedEmployeesByRole(
     tab as keyof typeof EMPLOYEE_ROLES_BY_DEPARTMENT,
@@ -78,13 +80,17 @@ export function SchedulePage({ schedules, isAdmin }: Props) {
   const refCell = useRef<HTMLTableElement>(null!);
   useMobileTableScroll(refCell, tab ?? "");
 
-  useEffect(() => {
-    if (schedule) {
+  useEffect(()=>{
+
+    if(schedule && isEdit){
       form.reset(schedule);
-    } else {
+    }
+
+    if(!schedule && !isEdit){
       replace(createEmptyRowShifts(selectedEmployees, daysCount));
     }
-  }, [schedule]);
+
+  },[isEdit,schedule])
 
   const BodyComponent = isEdit ? ScheduleCreateTableBody : ScheduleTableBody;
 

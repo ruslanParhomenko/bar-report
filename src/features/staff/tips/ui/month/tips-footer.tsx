@@ -1,9 +1,9 @@
 import { TableCell, TableFooter, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
-import { useMonthDays } from "@/providers/month-days-provider";
 import { handleMultiTableNavigation } from "@/utils/handle-table-navigation";
 import { useFormContext, useWatch } from "react-hook-form";
 import { calculateTipsTotal } from "../../lib/utils";
+import { useMonthDays } from "@/hooks/use-month-days";
 
 export function TipsTableFooter({ isEdit }: { isEdit: boolean }) {
   const { monthDays } = useMonthDays();

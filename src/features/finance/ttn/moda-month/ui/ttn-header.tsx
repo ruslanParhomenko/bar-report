@@ -1,6 +1,6 @@
 import { MonthDaysCells } from "@/components/table/month-days-cells";
 import { TableCell, TableHeader, TableRow } from "@/components/ui/table";
-import { useMonthDays } from "@/providers/month-days-provider";
+import { useMonthDays } from "@/hooks/use-month-days";
 
 export default function TtnHeaderTable({
   setItemSearch,

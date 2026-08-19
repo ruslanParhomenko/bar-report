@@ -7,11 +7,9 @@ import { TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 
-import { useMonthDays } from "@/providers/month-days-provider";
 import { handleMultiTableNavigation } from "@/utils/handle-table-navigation";
 import {
   FieldArrayWithId,
-  useFieldArray,
   UseFieldArrayReturn,
   useFormContext,
   useWatch,
@@ -20,6 +18,7 @@ import { color, SHIFT_COLOR_MAP } from "../model/constants";
 import { ScheduleType } from "../model/schema";
 import { calculateSalaryByHours, calculateShiftTotals } from "../lib/utils";
 import { Employee } from "@/features/settings/create-employee/model/type";
+import { useMonthDays } from "@/hooks/use-month-days";
 
 export default function ScheduleCreateTableBody({
   fields,
@@ -29,6 +28,7 @@ export default function ScheduleCreateTableBody({
   update,
   selectedDay,
   setSelectedDay,
+
 }: {
   fields: FieldArrayWithId<ScheduleType, "rowShifts", "id">[];
   selectedEmployees: Employee[];
@@ -65,6 +65,9 @@ export default function ScheduleCreateTableBody({
       employeeId: employee.id,
     });
   }
+
+
+   
   return (
     <TableBody>
       {fields.map((row, rowIndex) => {

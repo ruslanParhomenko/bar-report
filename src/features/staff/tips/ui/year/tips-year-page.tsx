@@ -9,10 +9,10 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
-import { useMonthDays } from "@/providers/month-days-provider";
 import { MONTHS } from "@/utils/get-month-days";
 import { calculateTipsTotal } from "../../lib/utils";
 import { GetTipsData } from "../../model/type";
+import { useMonthDays } from "@/hooks/use-month-days";
 function sumArray(arr: (string | undefined)[] = []) {
   return arr.reduce((acc, v) => acc + (Number(v) || 0), 0);
 }
@@ -28,7 +28,6 @@ export default function TipsYearPage({
     (dataTipsYear ?? []).map((d) => [d.id, d.tipsData]),
   );
 
-  // собираем всех уникальных сотрудников по имени
   const allEmployees = Array.from(
     new Map(
       (dataTipsYear ?? [])
