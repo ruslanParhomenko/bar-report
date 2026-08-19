@@ -13,17 +13,13 @@ import { useEffect } from "react";
 import { useFormContext, useWatch } from "react-hook-form";
 import { BarForm } from "../../bar-page/model/schema";
 
-export default function TableCashVerify({
-  disabled = false,
-}: {
-  disabled?: boolean;
-}) {
+export default function TableCashVerify() {
   const { control, setValue } = useFormContext<BarForm>();
 
   const fieldsValues = useWatch({
     name: "report.cashVerify",
     control,
-  })
+  });
 
   useEffect(() => {
     fieldsValues?.forEach((item, idx) => {
@@ -53,7 +49,6 @@ export default function TableCashVerify({
                 <NumericInput
                   fieldName={`report.cashVerify.${i}.value`}
                   className="h-8 text-center"
-                  disabled={disabled}
                 />
               </TableCell>
             );

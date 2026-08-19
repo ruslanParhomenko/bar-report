@@ -3,13 +3,12 @@ import HeaderBar from "@/components/home-layout/header-bar/header-bar";
 
 import ScreenshotWrapper from "@/components/wrapper/screenshot-wrapper";
 import SwipeWrapper from "@/components/wrapper/swipe-wrapper";
-import { getUsers } from "@/features/settings/users/actions/get-users";
 import SidebarNav from "@/features/sidebar/sidebar-nav";
+import { getUsers } from "@/features/users/actions/get-users";
 import { AbilityProvider } from "@/providers/ability-provider";
 import HomeUIProviders from "@/providers/home-ui-providers";
 import MonthDaysProvider from "@/providers/month-days-provider";
 import { headers } from "next/headers";
-import { Suspense } from "react";
 
 export default async function HomeLayout({
   children,
@@ -24,15 +23,13 @@ export default async function HomeLayout({
       <HomeUIProviders>
         <SidebarNav />
         <SwipeWrapper>
-          <Suspense fallback={null}>
-            <HeaderBar />
-          </Suspense>
+          <HeaderBar />
+
           <ScreenshotWrapper>
             <MonthDaysProvider>{children}</MonthDaysProvider>
           </ScreenshotWrapper>
-          <Suspense fallback={null}>
-            <ActionBar isAdmin={isAdmin} />
-          </Suspense>
+
+          <ActionBar isAdmin={isAdmin} />
         </SwipeWrapper>
       </HomeUIProviders>
     </AbilityProvider>

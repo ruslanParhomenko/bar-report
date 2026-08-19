@@ -93,10 +93,9 @@ export default function ActionBar({ isAdmin }: { isAdmin: boolean }) {
             className={iconCn}
           />
         )}
-        {has("save") && (
+        {has("save") && isEdit && (
           <SaveButton
             formId={formId}
-            isEdit={isEdit}
             disabled={!isCanEdit || isPending || !isEdit}
             className={iconCn}
           />

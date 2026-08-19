@@ -1,5 +1,4 @@
 import { getTodayUSDRateBNM } from "@/app/actions/currency/currency-actions";
-import { getEmployees } from "@/features/settings/create-employee/actions/get-employees";
 import {
   getDataBreakList,
   getDataOrderProducts,
@@ -7,20 +6,25 @@ import {
 import { BarPage } from "@/features/staff/bar";
 
 export default async function Page() {
-  const [dataBreakList, currencyUSD, employees, orderProducts] =
-    await Promise.all([
-      getDataBreakList(),
-      getTodayUSDRateBNM().catch(() => null),
-      getEmployees(),
-      getDataOrderProducts(),
-    ]);
+  const [dataBreakList, currencyUSD, orderProducts] = await Promise.allSettled([
+    getDataBreakList(),
+    getTodayUSDRateBNM().catch(() => null),
+    getDataOrderProducts(),
+  ]);
+  const breakListData =
+    dataBreakList.status === "fulfilled" ? dataBreakList.value : null;
+  const currencyUSDData =
+    currencyUSD.status === "fulfilled" ? currencyUSD.value : 0;
+  const orderProductsData =
+    orderProducts.status === "fulfilled" ? orderProducts.value : null;
+  const orderProductsBar =
+    orderProductsData?.ttnBar || ({} as Record<string, string[]>);
 
   return (
     <BarPage
-      dataBreakList={dataBreakList}
-      currencyUSD={currencyUSD ?? 0}
-      employees={employees}
-      orderProducts={orderProducts}
+      dataBreakList={breakListData}
+      currencyUSD={currencyUSDData}
+      orderProducts={orderProductsBar}
     />
   );
 }

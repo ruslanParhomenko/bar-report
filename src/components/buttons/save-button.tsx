@@ -4,13 +4,11 @@ import { SaveIcon } from "lucide-react";
 export default function SaveButton({
   formId,
   className,
-  isEdit,
   disabled = true,
   size = 18,
 }: {
   formId: string;
   className?: string;
-  isEdit: boolean;
   disabled?: boolean;
   size?: number;
 }) {
@@ -21,11 +19,7 @@ export default function SaveButton({
       disabled={disabled}
       className={cn(className, "cursor-pointer")}
     >
-      <SaveIcon
-        size={size}
-        className={cn("text-bl", isEdit ? "text-rd" : "opacity-50")}
-        strokeWidth={1.5}
-      />
+      <SaveIcon size={size} className="text-rd" strokeWidth={1.5} />
     </button>
   );
 }

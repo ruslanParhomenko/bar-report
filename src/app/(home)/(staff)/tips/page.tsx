@@ -1,6 +1,6 @@
-import { getEmployees } from "@/features/settings/create-employee/actions/get-employees";
 import { TipsPage } from "@/features/staff/tips";
 import { getTipsByYear } from "@/features/staff/tips/actions/get-tips";
+import { headers } from "next/headers";
 
 export default async function Page({
   searchParams,
@@ -10,10 +10,10 @@ export default async function Page({
   const { year } = await searchParams;
   if (!year) return null;
 
-  const [dataTipsYear, employees] = await Promise.all([
-    getTipsByYear(year),
-    getEmployees(),
-  ]);
+  const headerStore = await headers();
+  const isAdmin = headerStore.get("x-is-admin") === "true";
 
-  return <TipsPage dataTipsYear={dataTipsYear} employees={employees} />;
+  const dataTipsYear = await getTipsByYear(year);
+
+  return <TipsPage dataTipsYear={dataTipsYear} isAdmin={isAdmin} />;
 }

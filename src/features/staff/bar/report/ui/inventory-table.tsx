@@ -12,10 +12,10 @@ import { formatNow } from "@/utils/format-date";
 import { Trash2Icon } from "lucide-react";
 import { useEffect } from "react";
 import { useFormContext, useWatch } from "react-hook-form";
-import { INVENTORY_DATA } from "../model/constants";
 import { BarForm } from "../../bar-page/model/schema";
+import { INVENTORY_DATA } from "../model/constants";
 
-export function TableInventory({ disabled = false }: { disabled?: boolean }) {
+export function TableInventory() {
   const { control, setValue, register } = useFormContext<BarForm>();
 
   const reset = (idx: number) => {
@@ -32,7 +32,7 @@ export function TableInventory({ disabled = false }: { disabled?: boolean }) {
   const fieldsValues = useWatch({
     name: "report.inventory",
     control,
-  })
+  });
 
   useEffect(() => {
     fieldsValues?.forEach((item, idx) => {
@@ -67,19 +67,13 @@ export function TableInventory({ disabled = false }: { disabled?: boolean }) {
               />
             </TableCell>
             <TableCell>
-              <NumericInput
-                fieldName={`report.inventory.${idx}.quantity`}
-                disabled={disabled}
-              />
+              <NumericInput fieldName={`report.inventory.${idx}.quantity`} />
             </TableCell>
             <TableCell className="text-rd text-xs">
               {fieldsValues?.[idx]?.time}
             </TableCell>
 
-            <TableCell
-              onClick={() => !disabled && reset(idx)}
-              className="cursor-pointer"
-            >
+            <TableCell onClick={() => reset(idx)} className="cursor-pointer">
               {fieldsValues?.[idx]?.quantity && (
                 <Trash2Icon className="text-rd h-4 w-4" />
               )}

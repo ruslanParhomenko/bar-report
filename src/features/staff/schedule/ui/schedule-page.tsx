@@ -3,60 +3,47 @@
 import { Table } from "@/components/ui/table";
 import FormWrapper from "@/components/wrapper/form-wrapper";
 
-import { Employee } from "@/features/settings/create-employee/model/type";
-import { useIsMobile } from "@/hooks/use-mobile";
+import { InsufficientRights } from "@/components/wrapper/insufficient-rights";
+import { useAccessCheck } from "@/hooks/use-tab-access";
 import { useEdit } from "@/providers/edit-provider";
+import { useEmployees } from "@/providers/employees-provider";
 import { useMonthDays } from "@/providers/month-days-provider";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useSearchParams } from "next/navigation";
-import {
-  useEffect,
-  useEffectEvent,
-  useLayoutEffect,
-  useRef,
-  useState,
-} from "react";
-import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
-import { toast } from "sonner";
-import { createSchedule } from "../actions/create-schedule";
+import { useEffect, useRef, useState } from "react";
+import { useFieldArray } from "react-hook-form";
+import { useMobileTableScroll } from "../hooks/use-mobile-table-scroll";
+import { useScheduleForm } from "../hooks/use-schedule-form";
 import { useSelectedEmployeesByRole } from "../hooks/use-selected-employees-by-role";
-import {
-  calculateSalaryByHours,
-  calculateShiftTotals,
-  getShiftCounts,
-} from "../lib/utils";
+import { createEmptyRowShifts, getShiftCounts } from "../lib/utils";
 import { EMPLOYEE_ROLES_BY_DEPARTMENT } from "../model/constants";
-import { defaultSchedule, scheduleSchema, ScheduleType } from "../model/schema";
 import { GetScheduleData } from "../model/type";
 import ScheduleTableBody from "./schedule-body";
 import ScheduleCreateTableBody from "./schedule-create-body";
 import ScheduleTableFooter from "./schedule-footer";
 import ScheduleTableHeader from "./schedule-header";
 
-export function SchedulePage({
-  schedules,
-  employees,
-}: {
+type Props = {
   schedules: GetScheduleData[] | null;
-  employees: Employee[];
-}) {
+  isAdmin: boolean;
+};
+
+export function SchedulePage({ schedules, isAdmin }: Props) {
+  const hasAccess = useAccessCheck();
+  const { daysCount } = useMonthDays();
+  const { isEdit } = useEdit();
   const searchParams = useSearchParams();
+
+  const employees = useEmployees();
+
   const tab = searchParams.get("tab");
 
   const schedule = schedules?.find((s) => s.id === tab) ?? null;
 
-  const isMobile = useIsMobile();
-
   const todayDay = new Date().getDate();
-
   const [selectedDay, setSelectedDay] = useState<number>(todayDay);
 
-  const { isEdit, setIsEdit } = useEdit();
+  const { form, onSubmit } = useScheduleForm(tab);
 
-  const form = useForm<ScheduleType>({
-    resolver: zodResolver(scheduleSchema),
-    defaultValues: defaultSchedule,
-  });
   const { fields, remove, replace, move, update } = useFieldArray({
     control: form.control,
     name: "rowShifts",
@@ -67,43 +54,8 @@ export function SchedulePage({
     employees,
   );
 
-  const { daysCount, month, year } = useMonthDays();
-
   const rowShifts = isEdit ? form.watch("rowShifts") : schedule?.rowShifts;
   const shiftCounts = getShiftCounts(rowShifts ?? []);
-
-  const onSubmit: SubmitHandler<ScheduleType> = async (data) => {
-    const rowShiftsWithHours = data.rowShifts.map((row) => {
-      if (!row.shifts) return row;
-      const { totalDay, totalNight, total } = calculateShiftTotals(row.shifts);
-
-      const totalPay = calculateSalaryByHours({
-        ...row,
-        dayHours: totalDay.toString(),
-        nightHours: totalNight.toString(),
-        totalHours: total.toString(),
-      });
-
-      return {
-        ...row,
-        dayHours: totalDay.toString(),
-        nightHours: totalNight.toString(),
-        totalHours: total.toString(),
-        salary: totalPay.toFixed(0).toString(),
-      };
-    });
-    const formatData = {
-      year,
-      month,
-      role: tab as keyof typeof EMPLOYEE_ROLES_BY_DEPARTMENT,
-      rowShifts: rowShiftsWithHours,
-    };
-
-    await createSchedule(formatData);
-    toast.success("График успешно создан!");
-
-    setIsEdit(false);
-  };
 
   function addRow() {
     replace([
@@ -123,47 +75,20 @@ export function SchedulePage({
     ]);
   }
 
+  const refCell = useRef<HTMLTableElement>(null!);
+  useMobileTableScroll(refCell, tab ?? "");
+
   useEffect(() => {
     if (schedule) {
       form.reset(schedule);
-      return;
+    } else {
+      replace(createEmptyRowShifts(selectedEmployees, daysCount));
     }
+  }, [schedule]);
 
-    const newRows = selectedEmployees.map((employee, index) => ({
-      id: index.toString(),
-      dayHours: "",
-      nightHours: "",
-      totalHours: "",
-      salary: "",
-      employee: employee.name,
-      role: employee.role,
-      rate: employee.rate,
-      employeeId: employee.id,
-      shifts: Array(daysCount).fill(""),
-    }));
+  const BodyComponent = isEdit ? ScheduleCreateTableBody : ScheduleTableBody;
 
-    replace(newRows);
-  }, [schedule, tab, isEdit]);
-
-  const refCell = useRef<HTMLTableElement>(null);
-
-  const scrollTableToStart = useEffectEvent(() => {
-    if (!isMobile) return;
-
-    const scrollContainer = refCell.current?.closest<HTMLElement>(
-      '[data-slot="table-container"]',
-    );
-
-    if (!scrollContainer) return;
-
-    scrollContainer.scrollLeft = 140;
-  });
-
-  useLayoutEffect(() => {
-    requestAnimationFrame(() => {
-      scrollTableToStart();
-    });
-  }, [tab]);
+  if (!hasAccess) return <InsufficientRights />;
 
   return (
     <FormWrapper form={form} onSubmit={onSubmit}>
@@ -175,19 +100,18 @@ export function SchedulePage({
           isEdit={isEdit}
         />
 
-        {!isEdit ? (
-          <ScheduleTableBody schedule={schedule} selectedDay={selectedDay} />
-        ) : (
-          <ScheduleCreateTableBody
-            fields={fields}
-            selectedEmployees={selectedEmployees}
-            selectedDay={selectedDay}
-            setSelectedDay={setSelectedDay}
-            remove={remove}
-            move={move}
-            update={update}
-          />
-        )}
+        <BodyComponent
+          schedule={schedule}
+          selectedDay={selectedDay}
+
+          fields={fields}
+          selectedEmployees={selectedEmployees}
+          setSelectedDay={setSelectedDay}
+          remove={remove}
+          move={move}
+          update={update}
+          isAdmin={isAdmin}
+        />
 
         <ScheduleTableFooter shiftCounts={shiftCounts} role={tab as string} />
       </Table>

@@ -31,7 +31,6 @@ const RenderTableCucina = ({
   dataReasons,
   dataFieldArray,
   defaultValue,
-  isDisabled = false,
 }: RenderEmployeesTableProps) => {
   const t = useTranslations("ReportKitchen");
   const { fieldName, weight, time, shift, over, reason } = placeHolder;
@@ -83,7 +82,6 @@ const RenderTableCucina = ({
                   fieldName={`${name}.${index}.${fieldName}`}
                   data={dataFieldArray || []}
                   className="border-bl/40 h-6 w-40 cursor-pointer text-sm"
-                  disabled={isDisabled}
                 />
                 {"-"}
                 {shift && dataShifts && (
@@ -91,7 +89,6 @@ const RenderTableCucina = ({
                     fieldName={`${name}.${index}.${shift}`}
                     data={dataShifts}
                     className="border-bl/40 h-6! w-15 justify-center md:w-25"
-                    disabled={isDisabled}
                   />
                 )}
 
@@ -99,7 +96,6 @@ const RenderTableCucina = ({
                   <NumericInput
                     fieldName={`${name}.${index}.${weight}`}
                     className="border-bl/40 h-6 w-15 font-medium md:w-25"
-                    disabled={isDisabled}
                   />
                 )}
                 {reason && dataReasons && (
@@ -108,7 +104,6 @@ const RenderTableCucina = ({
                     placeHolder="причина"
                     data={dataReasons}
                     className="border-bl/40 h-6! w-15 justify-center md:w-25"
-                    disabled={isDisabled}
                   />
                 )}
               </div>
@@ -125,7 +120,6 @@ const RenderTableCucina = ({
                   formField={fieldsArray}
                   defaultValues={defaultValue}
                   index={index}
-                  disabled={isDisabled}
                 />
               )}
             </div>

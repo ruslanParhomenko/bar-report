@@ -46,7 +46,8 @@ function CategoryBlock({
   list: DataPriceList["priceList"][string];
   currency: number | undefined;
 }) {
-  const { isAdmin } = useAbility();
+  const { role } = useAbility();
+  const isAdmin = role === "ADMIN";
   return (
     <TableBody>
       <TableRow>

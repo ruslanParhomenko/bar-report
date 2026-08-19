@@ -1,4 +1,4 @@
-import { getUsers } from "@/features/settings/users/actions/get-users";
+import { getUsers } from "@/features/users/actions/get-users";
 import type { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 
@@ -39,10 +39,11 @@ export const authOptions: NextAuthOptions = {
               : (dbUser?.role ?? "OBSERVER");
 
           token.accessList = dbUser?.accessList ?? [];
+          token.accessTabs = dbUser?.accessTabs ?? [];
         } catch (e) {
-          console.error("JWT ERROR:", e);
           token.role = "OBSERVER";
           token.accessList = [];
+          token.accessTabs = [];
         }
       }
 
@@ -52,6 +53,7 @@ export const authOptions: NextAuthOptions = {
       if (session.user) {
         session.user.role = token.role ?? "OBSERVER";
         session.user.accessList = token.accessList ?? [];
+        session.user.accessTabs = token.accessTabs ?? [];
       }
       return session;
     },
@@ -67,7 +69,6 @@ export const authOptions: NextAuthOptions = {
 
         return true;
       } catch (e) {
-        console.error("SIGNIN ERROR:", e);
         return "/no-access";
       }
     },

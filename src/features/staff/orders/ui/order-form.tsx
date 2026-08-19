@@ -4,7 +4,6 @@ import { sendTelegramMessage } from "@/app/actions/telegram/telegram-action";
 
 import FormWrapper from "@/components/wrapper/form-wrapper";
 import { useLocalStorageForm } from "@/hooks/use-local-storage";
-import { useAbility } from "@/providers/ability-provider";
 import { useSession } from "next-auth/react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -19,8 +18,6 @@ export const OrderForm = ({
   tab: string;
 }) => {
   const allKeys = Object.keys(data || {});
-
-  const { isTech } = useAbility();
 
   const { data: session } = useSession();
   const name = session?.user?.name?.split(" ")[0];
@@ -72,7 +69,7 @@ export const OrderForm = ({
   };
 
   if (!isLoaded) return null;
-  if (isTech && tab !== "tech") return null;
+
   return (
     <FormWrapper form={form} onSubmit={onSubmit}>
       <div className="columns-1 md:columns-3 lg:columns-5 xl:columns-6">

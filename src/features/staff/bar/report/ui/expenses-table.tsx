@@ -14,14 +14,10 @@ import { formatNow } from "@/utils/format-date";
 import { Trash2Icon } from "lucide-react";
 import { useEffect } from "react";
 import { useFieldArray, useFormContext, useWatch } from "react-hook-form";
-import { RECIPIENTS } from "../model/constants";
 import { BarForm } from "../../bar-page/model/schema";
+import { RECIPIENTS } from "../model/constants";
 
-export default function TableExpenses({
-  disabled = false,
-}: {
-  disabled?: boolean;
-}) {
+export default function TableExpenses() {
   const { control, setValue } = useFormContext<BarForm>();
 
   const reset = (idx: number) => {
@@ -38,7 +34,7 @@ export default function TableExpenses({
   const fieldsValues = useWatch({
     name: "report.expenses",
     control,
-  })
+  });
 
   const { fields } = useFieldArray({
     control,
@@ -74,23 +70,18 @@ export default function TableExpenses({
                 fieldName={`report.expenses.${idx}.name`}
                 className="h-8! w-full border-0! text-sm! font-medium! shadow-none"
                 placeHolder="..."
-                disabled={disabled}
               />
             </TableCell>
             <TableCell>
               <NumericInput
                 fieldName={`report.expenses.${idx}.sum`}
                 className="w-14! text-center"
-                disabled={disabled}
               />
             </TableCell>
             <TableCell className="text-rd text-xs">
               {fieldsValues?.[idx]?.time}
             </TableCell>
-            <TableCell
-              onClick={() => !disabled && reset(idx)}
-              className="cursor-pointer"
-            >
+            <TableCell onClick={() => reset(idx)} className="cursor-pointer">
               {fieldsValues?.[idx]?.name && (
                 <Trash2Icon className="text-rd h-4 w-4" />
               )}

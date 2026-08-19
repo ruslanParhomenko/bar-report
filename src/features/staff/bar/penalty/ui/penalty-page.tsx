@@ -5,17 +5,15 @@ import { PenaltyTableHeader } from "./penalty-header";
 
 export function PenaltyPage({
   day,
-  isDisabled,
   employees,
 }: {
   day?: any;
-  isDisabled: boolean;
   employees: Employee[];
 }) {
   return (
     <Table className="table-fixed">
       <PenaltyTableHeader day={day} />
-      <PenaltyTableBody isDisabled={isDisabled} employees={employees} />
+      <PenaltyTableBody employees={employees} />
     </Table>
   );
 }

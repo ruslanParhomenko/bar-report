@@ -1,6 +1,7 @@
 "use client";
 
 import FormWrapper from "@/components/wrapper/form-wrapper";
+import { InsufficientRights } from "@/components/wrapper/insufficient-rights";
 import { Employee } from "@/features/settings/create-employee/model/type";
 import { useRouter } from "@/i18n/navigation";
 import { useAbility } from "@/providers/ability-provider";
@@ -38,8 +39,7 @@ export default function PenaltyUpdate({
   year: string;
   day: string;
 }) {
-  const { isAdmin, isBar, isManager } = useAbility();
-  const isDisabled = !isAdmin && !isBar && !isManager;
+  const { role } = useAbility();
 
   const { setIsEdit } = useEdit();
 
@@ -73,9 +73,11 @@ export default function PenaltyUpdate({
     router.push(`/archive?month=${month}&year=${year}#tab=penalty`);
   };
 
+  if (role !== "ADMIN") return <InsufficientRights />;
+
   return (
     <FormWrapper form={form} onSubmit={onSubmit}>
-      <PenaltyPage isDisabled={isDisabled} day={day} employees={employees} />
+      <PenaltyPage day={day} employees={employees} />
     </FormWrapper>
   );
 }

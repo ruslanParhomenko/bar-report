@@ -1,43 +1,52 @@
 "use client";
 
+import { useEdit } from "@/providers/edit-provider";
 import { MenuDailyItem } from "../../menu-daily/model/schema";
 import { SECTION_LABELS, SECTIONS } from "../config/constants";
+import { MenuWeekForm } from "../model/schema";
 import MenuItemSelect from "./menu-item-select";
+import MenuItemView from "./menu-item-view";
 
 type Props = {
   dayKey: string;
   dayLabel: string;
   menuData: Record<(typeof SECTIONS)[number], MenuDailyItem[]>;
-  isDisabled?: boolean;
+  defaultValuesByDay: MenuWeekForm[keyof MenuWeekForm] | undefined;
 };
 
 export default function DayCard({
   dayKey,
   dayLabel,
   menuData,
-  isDisabled,
+  defaultValuesByDay: defaultValues,
 }: Props) {
+  const { isEdit } = useEdit();
+
   return (
     <div className="bg-card flex w-full flex-col justify-between gap-1 rounded-xl border p-4 md:w-80">
       <p className="text-bl text-xs font-medium print:text-lg">{dayLabel}</p>
+
       {SECTIONS.map((section) => (
         <div key={section} className="flex flex-col gap-0.5">
           <span className="text-muted-foreground text-xs">
             {SECTION_LABELS[section]}
           </span>
+
           <div className="flex flex-col">
-            <MenuItemSelect
-              fieldName={`${dayKey}.${section}.0`}
-              options={menuData[section]}
-              key={`${dayKey}.${section}.0`}
-              isDisabled={isDisabled}
-            />
-            <MenuItemSelect
-              fieldName={`${dayKey}.${section}.1`}
-              options={menuData[section]}
-              key={`${dayKey}.${section}.1`}
-              isDisabled={isDisabled}
-            />
+            {[0, 1].map((index) =>
+              isEdit ? (
+                <MenuItemSelect
+                  key={index}
+                  fieldName={`${dayKey}.${section}.${index}`}
+                  options={menuData[section]}
+                />
+              ) : (
+                <MenuItemView
+                  key={index}
+                  item={defaultValues?.[section]?.[index]}
+                />
+              ),
+            )}
           </div>
         </div>
       ))}

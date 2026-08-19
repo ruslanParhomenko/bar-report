@@ -1,5 +1,5 @@
-import { UsersPage } from "@/features/settings/users";
-import { getUsers } from "@/features/settings/users/actions/get-users";
+import { UsersPage } from "@/features/users";
+import { getUsers } from "@/features/users/actions/get-users";
 import { headers } from "next/headers";
 
 export default async function Page() {

@@ -10,13 +10,7 @@ import { useFieldArray, useFormContext } from "react-hook-form";
 import { BarForm } from "../../bar-page/model/schema";
 import { remarkDefault } from "../model/schema";
 
-export function PenaltyTableBody({
-  isDisabled,
-  employees,
-}: {
-  isDisabled: boolean;
-  employees: Employee[];
-}) {
+export function PenaltyTableBody({ employees }: { employees: Employee[] }) {
   const selectedEmployees = [...new Set(employees.map((e) => e.name))];
   const { control, setValue } = useFormContext<BarForm>();
 
@@ -42,35 +36,30 @@ export function PenaltyTableBody({
               placeHolder="..."
               data={selectedEmployees}
               className="h-6 border-0 px-0 text-xs shadow-none md:px-1 md:text-sm"
-              disabled={isDisabled}
             />
           </TableCell>
           <TableCell>
             <NumericInput
               fieldName={`penalty.remarks.${idx}.dayHours`}
               className="justify-center text-xs md:text-sm"
-              disabled={isDisabled}
             />
           </TableCell>
           <TableCell>
             <NumericInput
               fieldName={`penalty.remarks.${idx}.nightHours`}
               className="justify-center text-xs md:text-sm"
-              disabled={isDisabled}
             />
           </TableCell>
           <TableCell>
             <NumericInput
               fieldName={`penalty.remarks.${idx}.penalty`}
               className="justify-center text-xs md:text-sm"
-              disabled={isDisabled}
             />
           </TableCell>
           <TableCell>
             <NumericInput
               fieldName={`penalty.remarks.${idx}.bonus`}
               className="justify-center text-xs md:text-sm"
-              disabled={isDisabled}
             />
           </TableCell>
           <TableCell>
@@ -78,23 +67,16 @@ export function PenaltyTableBody({
               fieldName={`penalty.remarks.${idx}.reason`}
               placeholder="...reason"
               className="mt-2 h-8 border-0 text-xs shadow-none md:text-sm"
-              disabled={isDisabled}
             />
           </TableCell>
           <TableCell
-            className={cn(
-              "cursor-pointer py-0 text-center",
-              isDisabled && "hidden",
-            )}
+            className={cn("cursor-pointer py-0 text-center")}
             onClick={() => append(remarkDefault)}
           >
             <Plus className="text-bl h-4 w-3 md:w-4" />
           </TableCell>
           <TableCell
-            className={cn(
-              "text-rd cursor-pointer py-0 text-center",
-              isDisabled && "hidden",
-            )}
+            className={cn("text-rd cursor-pointer py-0 text-center")}
             onClick={() => {
               if (idx === 0 && dataRemarks.length === 1) {
                 setValue(`penalty.remarks.${idx}`, remarkDefault);

@@ -24,8 +24,7 @@ import { remarksDefault } from "../../penalty/model/schema";
 import { BreakPage } from "@/features/staff/bar/break/ui/break-page";
 import { PenaltyPage } from "@/features/staff/bar/penalty/ui/penalty-page";
 
-import { Employee } from "@/features/settings/create-employee/model/type";
-import { DataOrderProducts } from "@/features/settings/setting/model/type";
+import { useEmployees } from "@/providers/employees-provider";
 import { createBreakList } from "../../break/actions/create-break";
 import { BreakForm, breakListDefault } from "../../break/model/schema";
 import { createPenalty } from "../../penalty/actions/create-penalty";
@@ -44,20 +43,20 @@ import { BAR_EMPLOYEES, KEY_LOCALSTORAGE } from "../model/constants";
 export function BarPage({
   dataBreakList,
   currencyUSD,
-  employees,
   orderProducts,
 }: {
   dataBreakList: BreakForm | null;
   currencyUSD: number | null;
-  employees: Employee[];
-  orderProducts: DataOrderProducts | null;
+  orderProducts: Record<string, string[]> | null;
 }) {
   const searchParams = useSearchParams();
 
-  const tab = searchParams.get("tab");
+  const employees = useEmployees();
 
-  const { isBar, isAdmin } = useAbility();
-  const isDisabled = !(isAdmin || isBar);
+  const { role } = useAbility();
+  const isAdmin = role === "ADMIN";
+
+  const tab = searchParams.get("tab");
 
   const employeesName = employees
     .filter((emp) => BAR_EMPLOYEES.includes(emp.role))
@@ -191,14 +190,12 @@ export function BarPage({
       />
       {tab === "break" && (
         <>
-          <BreakPage isDisabled={isDisabled} employeesName={employeesName} />
-          <PenaltyPage isDisabled={isDisabled} employees={employees} />
+          <BreakPage employeesName={employeesName} />
+          <PenaltyPage employees={employees} />
         </>
       )}
 
-      {tab === "report" && (
-        <ReportBarPage isDisabled={isDisabled} orderProducts={orderProducts} />
-      )}
+      {tab === "report" && <ReportBarPage orderProducts={orderProducts} />}
 
       {tab === "tips" && (
         <TipsAddPage

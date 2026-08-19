@@ -16,6 +16,7 @@ import {
   VIEW_EMPLOYEE_MAIN_ROUTE,
 } from "@/constants/route-tag";
 import { cn } from "@/lib/utils";
+import { useEmployees } from "@/providers/employees-provider";
 import { formatShortDate } from "@/utils/format-date";
 import { handleCopy } from "@/utils/handler-copy-text";
 import { differenceInMonths } from "date-fns";
@@ -23,17 +24,11 @@ import { CheckCircle, UserX, XCircle } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { deleteEmployee } from "../../create-employee/actions/delete-employee";
-import { Employee } from "../../create-employee/model/type";
 
 const NAV_ITEMS = ["active", "fired", "all"] as const;
 
-export function EmployeesPage({
-  isAdmin,
-  employees,
-}: {
-  isAdmin: boolean;
-  employees: Employee[];
-}) {
+export function EmployeesPage({ isAdmin }: { isAdmin: boolean }) {
+  const employees = useEmployees();
   const [employeesStatus, setEmployeesStatus] =
     useState<(typeof NAV_ITEMS)[number]>("active");
   const tab = useSearchParams().get("tab");

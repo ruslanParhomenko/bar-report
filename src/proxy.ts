@@ -21,7 +21,6 @@ export async function proxy(request: NextRequest) {
   const segment = url.pathname.split("/")[1];
 
   const allowedRoutes = token.accessList || [];
-
   const isAdmin = token.role === "ADMIN";
 
   const accessGranted =

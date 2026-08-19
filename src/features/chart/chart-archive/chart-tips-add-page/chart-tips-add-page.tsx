@@ -7,8 +7,9 @@ import {
   MonthPicker,
   MonthRange,
 } from "@/components/input-controlled/month-range";
+import { InsufficientRights } from "@/components/wrapper/insufficient-rights";
 import { GetTipsAddByYear } from "@/features/staff/bar/tips-add/model/type";
-import { useAbility } from "@/providers/ability-provider";
+import { useAccessCheck } from "@/hooks/use-tab-access";
 import { useMonthDays } from "@/providers/month-days-provider";
 import { filterByMonthRange } from "@/utils/filter-by-month-range";
 import { toggleBarVisibility } from "@/utils/toggle-bar-visibility";
@@ -36,8 +37,7 @@ export default function ChartTipsAddPage({
   dataTipsAdd: GetTipsAddByYear[];
   tab: string;
 }) {
-  const { isAdmin, isManager, isUser } = useAbility();
-  const canSeeAll = isAdmin || isManager || isUser;
+  const hasAccess = useAccessCheck();
 
   const { month } = useMonthDays();
 
@@ -77,13 +77,7 @@ export default function ChartTipsAddPage({
   const toggleBar = (key: BarKey["key"]) =>
     setBarKeys((prev) => toggleBarVisibility(prev, key));
 
-  if (!canSeeAll) {
-    return (
-      <div className="text-rd flex h-full items-center justify-center">
-        no permissions
-      </div>
-    );
-  }
+  if (!hasAccess) return <InsufficientRights />;
 
   return (
     <div className="flex flex-col items-center justify-between">
@@ -91,8 +85,6 @@ export default function ChartTipsAddPage({
       <CustomChart
         chartData={chartData}
         barItem={barKeys.filter(({ visible }) => visible)}
-        disableTooltip={!isAdmin}
-        disableYAxis={!isAdmin}
         vertical={chartData.length > 25}
         className={
           tab === "tips-employee" || tab === "tips-day" ? "h-[74dvh]" : ""

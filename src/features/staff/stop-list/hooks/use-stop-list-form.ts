@@ -19,11 +19,13 @@ import {
   StopListSchemaType,
 } from "../model/schema";
 
+const ROLE_LIST_ACCESS = ["BAR", "CUCINA", "ADMIN"];
+
 export function useStopListForm(data: StopListSchemaType | null) {
-  const { isBar, isAdmin, isCucina } = useAbility();
+  const { role } = useAbility();
   const { setIsEdit } = useEdit();
 
-  const canEdit = isBar || isAdmin || isCucina;
+  const canEdit = ROLE_LIST_ACCESS.includes(role);
 
   const form = useForm<StopListSchemaType>({
     resolver: zodResolver(stopListSchema),
@@ -45,11 +47,7 @@ export function useStopListForm(data: StopListSchemaType | null) {
     watchStopList?.forEach((item, idx) => {
       if (item?.product && !item.date) {
         const date = formatNowData();
-        const author =
-          (isBar && "bar") ||
-          (isCucina && "cucina") ||
-          (isAdmin && "admin") ||
-          "";
+        const author = role;
         stopListFieldArray.update(idx, {
           ...stopListFieldArray.fields[idx],
           ...item,
@@ -58,9 +56,8 @@ export function useStopListForm(data: StopListSchemaType | null) {
         });
       }
     });
-  }, [watchStopList, stopListFieldArray, isBar, isCucina, isAdmin]);
+  }, [watchStopList, stopListFieldArray, role]);
 
-  // Загрузка данных
   useEffect(() => {
     if (!data) return;
     form.reset(data);

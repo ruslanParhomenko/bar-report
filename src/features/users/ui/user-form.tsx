@@ -7,99 +7,36 @@ import { Separator } from "@/components/ui/separator";
 import FormWrapper from "@/components/wrapper/form-wrapper";
 import { ROUTES } from "@/constants/routes";
 import { TABS_KEY_ROUTE } from "@/constants/tabs";
-import { useEdit } from "@/providers/edit-provider";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
-import { useRouter } from "next/navigation";
-import { SubmitHandler, useForm, useWatch } from "react-hook-form";
-import { toast } from "sonner";
-import { createUser } from "../actions/create-user";
+import { useWatch } from "react-hook-form";
 import { GetUserData } from "../actions/get-users";
-import { updateUser } from "../actions/update-user";
-import { defaultUser, UserForm, usersSchema } from "../model/schema";
+import { useUsersForm } from "../hooks/use-users-form";
+import { ROLES } from "../model/constants";
 
-const ROLES = [
-  "ADMIN",
-  "BAR",
-  "CUCINA",
-  "USER",
-  "MNGR",
-  "CASH",
-  "FIN",
-  "SCR",
-  "TECH",
-];
-
-type FormData = UserForm;
-
-export function UserFormPage({
-  id,
-  users,
-}: {
-  id?: string;
-  users: GetUserData[];
-}) {
-  const { setIsEdit, registerReset } = useEdit();
-  const router = useRouter();
+export function UserFormPage({ user }: { user?: GetUserData | null }) {
   const t = useTranslations("Home");
 
-  const user = id ? users?.find((u) => u.id === id) : undefined;
-
-  const form = useForm<FormData>({
-    resolver: zodResolver(usersSchema),
-    defaultValues: user || defaultUser,
-  });
+  const { form, onSubmit } = useUsersForm(user);
 
   const accessList = useWatch({ control: form.control, name: "accessList" });
-
   const accessTabs = useWatch({ control: form.control, name: "accessTabs" });
 
-  const handleRouteToggle = (route: string, checked: boolean) => {
-    const current = form.getValues("accessList") || [];
+  const handleAccessChange = (
+    field: "accessList" | "accessTabs",
+    value: string,
+    checked: boolean,
+  ) => {
+    const current = form.getValues(field) || [];
     const updated = checked
-      ? [...current, route]
-      : current.filter((r) => r !== route);
-    form.setValue("accessList", updated, { shouldValidate: true });
+      ? [...current, value]
+      : current.filter((item) => item !== value);
+    form.setValue(field, updated, { shouldValidate: true, shouldDirty: true });
   };
-
-  const handleTabToggle = (tab: string, checked: boolean) => {
-    const current = form.getValues("accessTabs") || [];
-
-    const updated = checked
-      ? current.includes(tab)
-        ? current
-        : [...current, tab]
-      : current.filter((item) => item !== tab);
-
-    form.setValue("accessTabs", updated, {
-      shouldValidate: true,
-      shouldDirty: true,
-    });
-  };
-
-  const onSubmit: SubmitHandler<FormData> = async (data) => {
-    try {
-      if (id) {
-        await updateUser(id, data);
-        toast.success("User is updated !");
-      } else {
-        await createUser(data);
-        toast.success("User is added !");
-      }
-    } catch (e) {
-      toast.error("Error adding user");
-    }
-
-    setIsEdit(false);
-    router.back();
-  };
-
-  console.log(TABS_KEY_ROUTE);
 
   return (
     <FormWrapper form={form} onSubmit={onSubmit}>
       <div className="mt-6 flex flex-col gap-6 px-4">
-        <div className="flex flex-col items-center justify-center gap-12 md:flex-row">
+        <div className="flex flex-col items-center justify-around gap-12 md:flex-row">
           <TextInput
             fieldName="mail"
             fieldLabel={t("mail")}
@@ -129,7 +66,9 @@ export function UserFormPage({
               fieldName={route}
               fieldLabel={route}
               checked={accessList?.includes(route) ?? false}
-              onCheckedChange={(checked) => handleRouteToggle(route, checked)}
+              onCheckedChange={(checked) =>
+                handleAccessChange("accessList", route, checked)
+              }
             />
           ))}
         </div>
@@ -143,7 +82,9 @@ export function UserFormPage({
               fieldName={tab}
               fieldLabel={tab}
               checked={accessTabs?.includes(tab) ?? false}
-              onCheckedChange={(checked) => handleTabToggle(tab, checked)}
+              onCheckedChange={(checked) =>
+                handleAccessChange("accessTabs", tab, checked)
+              }
             />
           ))}
         </div>

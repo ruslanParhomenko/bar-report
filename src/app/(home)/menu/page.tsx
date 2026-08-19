@@ -9,7 +9,7 @@ import { getMenuWeekData } from "@/features/staff/menu/menu-week/actions/get-men
 
 export default async function Page() {
   const [dataMenuVip, dataMenuDaily, listMenuDaily, dataMenuWeek] =
-    await Promise.all([
+    await Promise.allSettled([
       getDataMenu(),
       getMenuDailyData(),
       getDataMenuDaily(),
@@ -18,10 +18,18 @@ export default async function Page() {
 
   return (
     <MenuPage
-      dataMenuVip={dataMenuVip}
-      dataMenuDaily={dataMenuDaily}
-      listMenuDaily={listMenuDaily}
-      dataMenuWeek={dataMenuWeek}
+      dataMenuVip={
+        dataMenuVip.status === "fulfilled" ? dataMenuVip.value : null
+      }
+      dataMenuDaily={
+        dataMenuDaily.status === "fulfilled" ? dataMenuDaily.value : null
+      }
+      listMenuDaily={
+        listMenuDaily.status === "fulfilled" ? listMenuDaily.value : null
+      }
+      dataMenuWeek={
+        dataMenuWeek.status === "fulfilled" ? dataMenuWeek.value : null
+      }
     />
   );
 }

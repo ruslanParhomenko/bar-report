@@ -10,7 +10,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { DataOrderProducts } from "@/features/settings/setting/model/type";
 import { formatNow } from "@/utils/format-date";
 import { Trash2Icon } from "lucide-react";
 import { useEffect } from "react";
@@ -19,11 +18,9 @@ import { BarForm } from "../../bar-page/model/schema";
 import { WAREHOUSES } from "../model/constants";
 
 export default function TableProductsTransfer({
-  disabled = false,
   orderProducts,
 }: {
-  disabled?: boolean;
-  orderProducts: DataOrderProducts | null;
+  orderProducts: Record<string, string[]> | null;
 }) {
   const { control, setValue } = useFormContext<BarForm>();
 
@@ -84,7 +81,6 @@ export default function TableProductsTransfer({
                 data={PRODUCTS}
                 fieldName={`report.productTransfer.${idx}.name`}
                 className="h-8 w-full border-0 text-center text-sm! shadow-none"
-                disabled={disabled}
                 placeHolder="...."
               />
             </TableCell>
@@ -93,7 +89,6 @@ export default function TableProductsTransfer({
                 fieldName={`report.productTransfer.${idx}.destination`}
                 data={WAREHOUSES}
                 className="h-7! w-full border-0 text-center text-xs font-medium! shadow-none"
-                disabled={disabled}
                 placeHolder="...."
               />
             </TableCell>
@@ -101,16 +96,12 @@ export default function TableProductsTransfer({
               <NumericInput
                 fieldName={`report.productTransfer.${idx}.quantity`}
                 className="w-8 text-center"
-                disabled={disabled}
               />
             </TableCell>
             <TableCell className="text-rd text-xs">
               {fieldsValues?.[idx]?.time}
             </TableCell>
-            <TableCell
-              onClick={() => !disabled && reset(idx)}
-              className="cursor-pointer"
-            >
+            <TableCell onClick={() => reset(idx)} className="cursor-pointer">
               {fieldsValues?.[idx]?.name && (
                 <Trash2Icon className="text-rd h-4 w-4" />
               )}

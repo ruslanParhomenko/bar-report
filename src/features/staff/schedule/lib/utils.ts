@@ -1,8 +1,12 @@
+import { Employee } from "@/features/settings/create-employee/model/type";
 import { MONTHS } from "@/utils/get-month-days";
+import {
+  SHIFT_HOURS_MAP_DAY,
+  SHIFT_HOURS_MAP_NIGHT,
+  SHIFT_OPTIONS,
+} from "../model/constants";
 import { ScheduleType } from "../model/schema";
-import { SHIFT_HOURS_MAP_DAY, SHIFT_HOURS_MAP_NIGHT, SHIFT_OPTIONS } from "../model/constants";
 import { ShiftCounts } from "../model/type";
-
 
 export function getShiftCounts(
   rowShifts: ScheduleType["rowShifts"],
@@ -32,7 +36,6 @@ export function getShiftCounts(
   return hasData ? result : null;
 }
 
-
 export function isCanEdit({ year, month }: { year: string; month: string }) {
   const monthIndex = MONTHS.indexOf(month);
   const editDate = new Date(parseInt(year), monthIndex, 1);
@@ -59,8 +62,6 @@ export function calculateSalaryByHours(row: ScheduleType["rowShifts"][number]) {
   return dayHourPay * safeDay + nightHourPay * safeNight;
 }
 
-
-
 export function calculateShiftTotals(shifts: string[]) {
   const dayHours = (shifts || []).reduce(
     (sum, val) => sum + (SHIFT_HOURS_MAP_DAY[val] ?? 0),
@@ -73,4 +74,19 @@ export function calculateShiftTotals(shifts: string[]) {
   const total = dayHours + nightHours;
 
   return { totalDay: dayHours, totalNight: nightHours, total };
+}
+
+export function createEmptyRowShifts(employees: Employee[], daysCount: number) {
+  return employees.map((emp, index) => ({
+    id: index.toString(),
+    dayHours: "",
+    nightHours: "",
+    totalHours: "",
+    salary: "",
+    employee: emp.name,
+    role: emp.role,
+    rate: emp.rate,
+    employeeId: emp.id,
+    shifts: Array(daysCount).fill(""),
+  }));
 }

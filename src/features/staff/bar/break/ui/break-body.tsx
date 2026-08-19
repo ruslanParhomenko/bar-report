@@ -4,16 +4,14 @@ import { cn } from "@/lib/utils";
 import { Minus, Plus, Trash2 } from "lucide-react";
 import { useFormContext, useWatch } from "react-hook-form";
 
-import { MINUTES_SELECT, TIME_LABELS } from "../model/constant";
-import { isCurrentCell } from "../lib/utils";
 import { BarForm } from "../../bar-page/model/schema";
+import { isCurrentCell } from "../lib/utils";
+import { MINUTES_SELECT, TIME_LABELS } from "../model/constant";
 
 export default function BreakTableBody({
   employeesName,
-  isDisabled,
 }: {
   employeesName: { name: string; id: string }[];
-  isDisabled: boolean;
 }) {
   const { control, setValue, getValues } = useFormContext<BarForm>();
 
@@ -45,7 +43,6 @@ export default function BreakTableBody({
               {row.isAdded ? (
                 <button
                   type="button"
-                  disabled={isDisabled}
                   className="hover:bg-muted mr-0.5 flex h-4 w-4 items-center justify-center rounded-sm border leading-none disabled:opacity-50"
                   onClick={() => {
                     const rows = getValues("breakForm.rows");
@@ -62,7 +59,6 @@ export default function BreakTableBody({
               ) : (
                 <button
                   type="button"
-                  disabled={isDisabled}
                   className="hover:bg-muted mr-0.5 flex h-4 w-4 cursor-pointer items-center justify-center border-0 text-xs leading-none disabled:opacity-50"
                   onClick={() => {
                     const rows = getValues("breakForm.rows");
@@ -102,7 +98,6 @@ export default function BreakTableBody({
                   "w-18 border-0 bg-transparent! px-0 text-xs shadow-none md:w-full md:px-1 md:text-sm",
                   rowHasTrue ? "text-rd!" : "",
                 )}
-                disabled={isDisabled}
               />
             </TableCell>
             <TableCell className="text-bl text-xs">
@@ -124,7 +119,6 @@ export default function BreakTableBody({
                         "h-6! w-6! justify-center border-0 px-0 text-xs shadow-none md:w-11 md:text-sm",
                         isTrue ? "text-rd! font-bold" : "",
                       )}
-                      disabled={isDisabled}
                     />
                   ) : (
                     <div
@@ -139,7 +133,6 @@ export default function BreakTableBody({
               <TableCell
                 className="cursor-pointer p-0"
                 onClick={() =>
-                  !isDisabled &&
                   setValue(`breakForm.rows.${rowIndex}.name`, "", {
                     shouldDirty: true,
                     shouldTouch: true,

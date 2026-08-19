@@ -28,7 +28,7 @@ export type TablesConfigItem = {
 };
 
 export function getTablesConfig(
-  dataProducts: DataProducts,
+  dataProducts: DataProducts | null,
   employees: string[],
 ): TablesConfigItem[] {
   return [
@@ -47,7 +47,7 @@ export function getTablesConfig(
         weight: "weight",
         time: "time",
       },
-      dataFieldArray: dataProducts.salad,
+      dataFieldArray: dataProducts?.salad || [],
       defaultValue: productPreparedDefault,
     },
     {
@@ -57,7 +57,7 @@ export function getTablesConfig(
         weight: "weight",
         time: "time",
       },
-      dataFieldArray: dataProducts.soup,
+      dataFieldArray: dataProducts?.soup || [],
       defaultValue: productPreparedDefault,
     },
 
@@ -68,7 +68,7 @@ export function getTablesConfig(
         weight: "weight",
         time: "time",
       },
-      dataFieldArray: dataProducts.garnish,
+      dataFieldArray: dataProducts?.garnish || [],
       defaultValue: productPreparedDefault,
     },
     {
@@ -78,7 +78,7 @@ export function getTablesConfig(
         weight: "weight",
         time: "time",
       },
-      dataFieldArray: dataProducts.meat,
+      dataFieldArray: dataProducts?.meat || [],
       defaultValue: productPreparedDefault,
     },
     {
@@ -88,7 +88,7 @@ export function getTablesConfig(
         weight: "weight",
         time: "time",
       },
-      dataFieldArray: dataProducts.dessert,
+      dataFieldArray: dataProducts?.dessert || [],
       defaultValue: productPreparedDefault,
     },
     {
@@ -98,7 +98,10 @@ export function getTablesConfig(
         weight: "weight",
         time: "time",
       },
-      dataFieldArray: [...dataProducts.semifinished, ...dataProducts.meat_fish],
+      dataFieldArray: [
+        ...(dataProducts?.semifinished || []),
+        ...(dataProducts?.meat_fish || []),
+      ],
       defaultValue: productPreparedDefault,
     },
     {
@@ -109,10 +112,10 @@ export function getTablesConfig(
         time: "time",
       },
       dataFieldArray: [
-        ...dataProducts.staff_first,
-        ...dataProducts.staff_main,
-        ...dataProducts.staff_garnish,
-        ...dataProducts.staff_snacks,
+        ...(dataProducts?.staff_first || []),
+        ...(dataProducts?.staff_main || []),
+        ...(dataProducts?.staff_garnish || []),
+        ...(dataProducts?.staff_snacks || []),
       ],
 
       defaultValue: productPreparedDefault,
@@ -125,9 +128,9 @@ export function getTablesConfig(
         time: "time",
       },
       dataFieldArray: [
-        ...dataProducts.garnish,
-        ...dataProducts.soup,
-        ...dataProducts.meat,
+        ...(dataProducts?.garnish || []),
+        ...(dataProducts?.soup || []),
+        ...(dataProducts?.meat || []),
       ],
       defaultValue: productPreparedDefault,
     },
@@ -140,10 +143,10 @@ export function getTablesConfig(
       },
       dataReasons: REASON,
       dataFieldArray: [
-        ...dataProducts.ingredients,
-        ...dataProducts.garnish,
-        ...dataProducts.soup,
-        ...dataProducts.meat,
+        ...(dataProducts?.ingredients || []),
+        ...(dataProducts?.garnish || []),
+        ...(dataProducts?.soup || []),
+        ...(dataProducts?.meat || []),
       ],
       defaultValue: writeOffDefault,
     },

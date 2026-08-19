@@ -11,12 +11,8 @@ import {
 import { useFieldArray, useFormContext, useWatch } from "react-hook-form";
 import { BarForm } from "../../bar-page/model/schema";
 
-export default function TableTobacco({
-  disabled = false,
-}: {
-  disabled?: boolean;
-}) {
-  const { control} = useFormContext<BarForm>();
+export default function TableTobacco() {
+  const { control } = useFormContext<BarForm>();
 
   const { fields } = useFieldArray({
     control,
@@ -25,7 +21,7 @@ export default function TableTobacco({
   const values = useWatch({
     control,
     name: "report.tobacco",
-  })
+  });
 
   return (
     <Table className="md:table-fixed">
@@ -50,16 +46,10 @@ export default function TableTobacco({
               />
             </TableCell>
             <TableCell>
-              <NumericInput
-                fieldName={`report.tobacco.${idx}.incoming`}
-                disabled={disabled}
-              />
+              <NumericInput fieldName={`report.tobacco.${idx}.incoming`} />
             </TableCell>
             <TableCell>
-              <NumericInput
-                fieldName={`report.tobacco.${idx}.outgoing`}
-                disabled={disabled}
-              />
+              <NumericInput fieldName={`report.tobacco.${idx}.outgoing`} />
             </TableCell>
             <TableCell className="text-center">
               {(

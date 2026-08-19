@@ -68,6 +68,7 @@ export function UsersPage({
                     dialogText="confirmDelete"
                     descriptionText={user.mail}
                     onDelete={() => deleteUser(user.id as string)}
+                    disabled={!isAdmin}
                   />
                 </div>
               </TableCell>
@@ -91,9 +92,18 @@ export function UsersPage({
               </TableCell>
               <TableCell>
                 <div className="flex w-[60dvw] items-center truncate">
+                  <span className="mr-2 text-[10px] text-red-600">page:</span>
                   {user.accessList?.map((route, idx) => (
-                    <span key={idx} className="mx-1">
-                      {route.toUpperCase()}
+                    <span key={idx} className="mr-2 text-xs">
+                      {route}
+                    </span>
+                  ))}
+                </div>
+                <div className="flex w-[60dvw] items-center truncate">
+                  <span className="mr-2 text-[10px] text-red-600">tabs:</span>
+                  {user.accessTabs?.map((route, idx) => (
+                    <span key={idx} className="mr-4 text-xs">
+                      {route}
                     </span>
                   ))}
                 </div>

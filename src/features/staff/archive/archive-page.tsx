@@ -12,6 +12,8 @@ import PenaltyResult from "./penalty-result/penalty-result";
 import PenaltyArchiveData from "./penalty/penalty-archive-data";
 import TipsArchiveData from "./tips/tips-archive-data";
 
+import { InsufficientRights } from "@/components/wrapper/insufficient-rights";
+import { useAccessCheck } from "@/hooks/use-tab-access";
 import { GetTipsAddData } from "../bar/tips-add/model/type";
 import { GetKitchenData } from "../cucina/model/type";
 
@@ -30,6 +32,7 @@ export default function ArchivePage({
   archiveData: ArchiveData;
   isAdmin: boolean;
 }) {
+  const hasAccess = useAccessCheck();
   const tab = useSearchParams().get("tab");
 
   const TABS = [
@@ -47,7 +50,9 @@ export default function ArchivePage({
     },
     {
       key: "penalty",
-      render: () => <PenaltyArchiveData data={archiveData.penalty} />,
+      render: () => (
+        <PenaltyArchiveData data={archiveData.penalty} isAdmin={isAdmin} />
+      ),
     },
     {
       key: "penalty-result",
@@ -64,6 +69,8 @@ export default function ArchivePage({
   ];
 
   const activeTab = TABS.find((t) => t.key === tab);
+
+  if (!hasAccess) return <InsufficientRights />;
 
   return activeTab ? activeTab.render() : null;
 }

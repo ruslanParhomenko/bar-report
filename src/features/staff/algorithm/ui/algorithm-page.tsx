@@ -1,32 +1,29 @@
 "use client";
 
-
 import FormWrapper from "@/components/wrapper/form-wrapper";
 import { useEdit } from "@/providers/edit-provider";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSearchParams } from "next/navigation";
-import { Activity, useEffect } from "react";
+import { Activity } from "react";
 import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
 import { toast } from "sonner";
-import AlgorithmForm from "./algorithm-form";
+import { createAlgorithmData } from "../actions/create-algorithm";
 import {
   AlgorithmData,
   algorithmSchema,
   defaultAlgorithm,
-  defaultValues,
   FIELD_CONFIG,
 } from "../model/schema";
-import { createAlgorithmData } from "../actions/create-algorithm";
-import { getAlgorithmData } from "../actions/get-algorithm";
+import AlgorithmForm from "./algorithm-form";
 
-export  function AlgorithmPage() {
+export function AlgorithmPage({ data }: { data: AlgorithmData | null }) {
   const tab = useSearchParams().get("tab");
 
   const { isEdit, setIsEdit } = useEdit();
-  
+
   const form = useForm<AlgorithmData>({
     resolver: zodResolver(algorithmSchema),
-    defaultValues: defaultAlgorithm,
+    defaultValues: data || defaultAlgorithm,
   });
 
   const fieldArrays = Object.fromEntries(
@@ -41,21 +38,6 @@ export  function AlgorithmPage() {
     toast.success("Алгоритм успешно сохранён!");
     setIsEdit(false);
   };
-
-  useEffect(() => {
-    const load = async () => {
-      const data = await getAlgorithmData();
-      if (!data) return;
-      const dataForm = {
-        ...Object.fromEntries(
-          FIELD_CONFIG.map((name) => [name, data[name] || [defaultValues]]),
-        ),
-      };
-      if (data) form.reset(dataForm);
-    };
-
-    load();
-  }, [form]);
 
   return (
     <FormWrapper form={form} onSubmit={onSubmit}>

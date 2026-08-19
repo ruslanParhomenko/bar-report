@@ -2,23 +2,21 @@
 import { MonthDaysCells } from "@/components/table/month-days-cells";
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
-import { useAbility } from "@/providers/ability-provider";
 import { useMonthDays } from "@/providers/month-days-provider";
-import { color, SHIFT_COLOR_MAP } from "../model/constants";
 import { calculateSalaryByHours } from "../lib/utils";
+import { color, SHIFT_COLOR_MAP } from "../model/constants";
 import { GetScheduleData } from "../model/type";
-
 
 export default function ScheduleTableBody({
   schedule,
   selectedDay,
+  isAdmin,
 }: {
   schedule: GetScheduleData | null;
   selectedDay: number;
+  isAdmin: boolean;
 }) {
   const { monthDays } = useMonthDays();
-
-  const { isAdmin } = useAbility();
 
   const employeesLength = schedule?.rowShifts.length || 0;
 

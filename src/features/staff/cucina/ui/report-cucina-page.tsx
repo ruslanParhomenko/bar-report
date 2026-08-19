@@ -11,10 +11,9 @@ import {
 
 import DatePickerInput from "@/components/input-form/date-input";
 import FormWrapper from "@/components/wrapper/form-wrapper";
-import { Employee } from "@/features/settings/create-employee/model/type";
 import { DataProducts } from "@/features/settings/setting/model/type";
 import { useLocalStorageForm } from "@/hooks/use-local-storage";
-import { useAbility } from "@/providers/ability-provider";
+import { useEmployees } from "@/providers/employees-provider";
 import { MONTHS } from "@/utils/get-month-days";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createReportCucina } from "../actions/create-report-cucina";
@@ -27,14 +26,10 @@ const KEY_LOCALSTORAGE = "report-kitchen-form";
 
 export function ReportCucinaPage({
   dataProducts,
-  employees,
 }: {
-  dataProducts: DataProducts;
-  employees: Employee[];
+  dataProducts: DataProducts | null;
 }) {
-  const { isCucina, isAdmin } = useAbility();
-  const isDisabled = !(isAdmin || isCucina);
-
+  const employees = useEmployees();
   const employeesCucina = employees
     .filter((emp) => CUCINA_EMPLOYEES.includes(emp.role))
     .map((emp) => emp.name);
@@ -48,8 +43,6 @@ export function ReportCucinaPage({
 
   const onSubmit: SubmitHandler<ReportKitchenForm> = async (data) => {
     const { date, ...rest } = data;
-
-    if (!isCucina) return;
 
     const dateObj = new Date(date);
 
@@ -111,14 +104,12 @@ export function ReportCucinaPage({
             dataReasons={dataReasons}
             dataFieldArray={dataFieldArray}
             defaultValue={defaultValue}
-            isDisabled={isDisabled}
           />
         ),
       )}
       <Textarea
         placeholder="notes ..."
         {...form.register("notes")}
-        disabled={isDisabled}
         className="border-bl/40"
       />
     </FormWrapper>

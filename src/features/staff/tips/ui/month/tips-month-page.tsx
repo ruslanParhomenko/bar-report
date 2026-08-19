@@ -2,7 +2,6 @@
 
 import { Table } from "@/components/ui/table";
 import FormWrapper from "@/components/wrapper/form-wrapper";
-import { useAbility } from "@/providers/ability-provider";
 import { useEdit } from "@/providers/edit-provider";
 import { useMonthDays } from "@/providers/month-days-provider";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -25,12 +24,12 @@ const SELECTED_ROLE = ["waiters", "barmen"] as const;
 export default function TipsMonthPage({
   dataTipsYear,
   employees,
+  isAdmin,
 }: {
   dataTipsYear: GetTipsData[] | null;
   employees: Employee[];
+  isAdmin: boolean;
 }) {
-  const { isAdmin } = useAbility();
-
   const todayDay = new Date().getDate();
   const [selectedDay, setSelectedDay] = useState<number>(todayDay);
 
@@ -59,6 +58,7 @@ export default function TipsMonthPage({
   });
 
   const onSubmit: SubmitHandler<TipsForm> = async (data) => {
+    if (!isAdmin) return;
     const formattedData = {
       tipsData: data,
       year,

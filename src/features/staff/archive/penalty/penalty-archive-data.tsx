@@ -9,8 +9,10 @@ import { GetRemarksData } from "../../bar/penalty/model/type";
 
 export default function PenaltyArchiveData({
   data,
+  isAdmin,
 }: {
   data: GetRemarksData[] | null;
+  isAdmin: boolean;
 }) {
   const { month, year } = useMonthDays();
   const [opened, setOpened] = useState<number[]>([]);
@@ -47,6 +49,7 @@ export default function PenaltyArchiveData({
                 <div onClick={(e) => e.stopPropagation()}>
                   <LinkEditButton
                     url={`/${PENALTY_UPDATE_MAIN_ROUTE}/${item.id}?month=${month}&year=${year}`}
+                    disabled={!isAdmin}
                   />
                 </div>
               </div>
