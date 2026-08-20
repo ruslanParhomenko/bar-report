@@ -38,15 +38,16 @@ export default function SidebarMenuButtons({
           <SidebarMenuButton
             key={item.title}
             asChild
-            className="rounded-none hover:bg-gray-200"
+            className={cn(
+              "rounded-none hover:bg-gray-200",
+              isActivePath &&
+                "text-rd [&>span]:text-rd [&>svg]:text-rd bg-white",
+            )}
           >
             <Link
               href={`/${item.url}`}
               onClick={handleMenuClick}
-              className={cn(
-                "flex w-full cursor-default items-center",
-                isActivePath && "text-rd [&>span]:text-rd [&>svg]:text-rd",
-              )}
+              className={cn("flex w-full cursor-default items-center")}
             >
               <Icon className="text-bl" />
               <span className="text-bl ml-1">{t(item.title)}</span>
