@@ -16,7 +16,7 @@ import { useEdit } from "@/providers/edit-provider";
 import { defaultStopList, StopListSchemaType } from "../model/schema";
 
 import FormWrapper from "@/components/wrapper/form-wrapper";
-import { DataOrderProducts } from "@/features/settings/setting/model/type";
+import { DataOrderProducts } from "@/features/setting/model/type";
 import { useStopListForm } from "../hooks/use-stop-list-form";
 
 export default function StopListPage({

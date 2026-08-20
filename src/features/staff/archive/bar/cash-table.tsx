@@ -1,4 +1,3 @@
-
 import {
   Table,
   TableBody,
@@ -7,8 +6,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { classNameHead, classNameRowBorder } from "./report-bar-archive";
-import { CashVerifySchemaType } from "../../bar/report/model/schema";
+import { CashVerifySchemaType } from "@/features/report-bar/model/schema";
+import {
+  classNameHead,
+  classNameRowBorder,
+} from "@/features/staff/archive/bar/report-bar-archive";
 
 export default function CashVerifyTable({
   data,

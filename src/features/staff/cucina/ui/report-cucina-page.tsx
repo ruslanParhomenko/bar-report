@@ -11,7 +11,7 @@ import {
 
 import DatePickerInput from "@/components/input-form/date-input";
 import FormWrapper from "@/components/wrapper/form-wrapper";
-import { DataProducts } from "@/features/settings/setting/model/type";
+import { DataProducts } from "@/features/setting/model/type";
 import { useLocalStorageForm } from "@/hooks/use-local-storage";
 import { useEmployees } from "@/providers/employees-provider";
 import { MONTHS } from "@/utils/get-month-days";

@@ -3,7 +3,7 @@
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 
-import { DataMenu } from "@/features/settings/setting/model/type";
+import { DataMenu } from "@/features/setting/model/type";
 import { ValueOf } from "next/dist/shared/lib/constants";
 import { LOCAL_TRANSLATIONS, PAGE_1, PAGE_2, PAGE_3 } from "../model/constants";
 import { LocalTranslateFn, MenuSection, PageStructure } from "../model/types";

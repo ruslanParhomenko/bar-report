@@ -1,4 +1,4 @@
-import { GetRemarksData } from "../../bar/penalty/model/type";
+import { GetRemarksData } from "@/features/penalty/model/type";
 
 type GroupedData = {
   dayHours: number;

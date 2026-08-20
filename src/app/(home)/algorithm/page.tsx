@@ -1,5 +1,5 @@
-import { AlgorithmPage } from "@/features/staff/algorithm";
-import { getAlgorithmData } from "@/features/staff/algorithm/actions/get-algorithm";
+import { AlgorithmPage } from "@/features/algorithm";
+import { getAlgorithmData } from "@/features/algorithm/actions/get-algorithm";
 
 export default async function Page() {
   const data = await getAlgorithmData();

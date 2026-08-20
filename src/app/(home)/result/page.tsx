@@ -1,5 +1,6 @@
+import { getRemarksByYearMonth } from "@/features/penalty/actions/get-penalty";
 import { remarksByUniqueEmployee } from "@/features/staff/archive/penalty/utils";
-import { getRemarksByYearMonth } from "@/features/staff/bar/penalty/actions/get-penalty";
+
 import { ResultPage } from "@/features/staff/result";
 import { getScheduleByYearAndMonth } from "@/features/staff/schedule/schedule-edit/actions/get-schedule";
 

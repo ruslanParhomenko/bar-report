@@ -1,7 +1,7 @@
 import {
   getDataMenu,
   getDataMenuDaily,
-} from "@/features/settings/setting/actions/get-data-json";
+} from "@/features/setting/actions/get-data-json";
 import { getMenuDailyData } from "@/features/staff/menu/menu-daily/actions/get-menu-daily";
 
 import { MenuPage } from "@/features/staff/menu/menu-page";

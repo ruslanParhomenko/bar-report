@@ -7,10 +7,15 @@ import {
 } from "@/components/ui/sidebar";
 import { Link, usePathname } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
-import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 
-export default function SidebarMenuButtons() {
+export default function SidebarMenuButtons({
+  isAdmin,
+  accessList,
+}: {
+  isAdmin: boolean;
+  accessList: string[];
+}) {
   const pathname = usePathname();
   const t = useTranslations("Sidebar");
   const { toggleSidebar, isMobile } = useSidebar();
@@ -21,17 +26,10 @@ export default function SidebarMenuButtons() {
     }
   };
 
-  const { data: session, status } = useSession();
-  if (status === "loading") {
-    return null;
-  }
-  const role = session?.user?.role ?? "OBSERVER";
-  const accessList = session?.user?.accessList ?? [];
-
   return (
     <SidebarMenu className="flex h-full flex-col gap-3 pt-2">
       {SIDEBAR_NAVIGATION.filter(
-        (item) => accessList.includes(item.url) || role === "ADMIN",
+        (item) => accessList.includes(item.url) || isAdmin,
       ).map((item) => {
         const isActivePath = pathname.split("/")[1] === item.url;
         const Icon = item.icon;

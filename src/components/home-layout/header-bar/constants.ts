@@ -74,13 +74,7 @@ export const TABS_BY_ROUTE = {
     "tech-ttn",
   ],
 
-  [INFO_MAIN_ROUTE]: [
-    "statusMenu",
-    "staffMenu",
-    "standardKitchen",
-    "price-list-bar",
-    "price-list-cucina",
-  ],
+  [INFO_MAIN_ROUTE]: ["statusMenu", "price-list-bar", "price-list-cucina"],
 
   [ARCHIVE_MAIN_ROUTE]: [
     "bar",
@@ -140,6 +134,7 @@ export const TABS_BY_ROUTE = {
     "price-list",
     "menu",
     "menu-daily",
+    "data-status-parameters",
   ],
 } as const;
 

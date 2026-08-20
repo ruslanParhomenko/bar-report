@@ -1,1 +1,0 @@
-export {TipsAddPage} from "@/features/staff/bar/tips-add/ui/tips-add-page";

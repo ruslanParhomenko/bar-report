@@ -2,12 +2,12 @@
 
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
+import { TipsAddForm } from "@/features/tips-add/model/schema";
+import { GetTipsAddData } from "@/features/tips-add/model/type";
 
 import { useTipsCalculation } from "@/hooks/use-tips-calculation";
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
-import { TipsAddForm } from "../../bar/tips-add/model/schema";
-import { GetTipsAddData } from "../../bar/tips-add/model/type";
 
 const HOURS_MS = 3600000;
 export default function TipsArchiveData({

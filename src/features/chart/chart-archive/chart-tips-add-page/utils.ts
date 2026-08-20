@@ -1,4 +1,4 @@
-import { GetTipsAddByYear } from "@/features/staff/bar/tips-add/model/type";
+import { GetTipsAddByYear } from "@/features/tips-add/model/type";
 import { MONTHS } from "@/utils/get-month-days";
 
 export function getChartDataTipsFromYear(data: GetTipsAddByYear[]) {

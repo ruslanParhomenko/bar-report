@@ -5,8 +5,10 @@ import ScreenshotWrapper from "@/components/wrapper/screenshot-wrapper";
 import SwipeWrapper from "@/components/wrapper/swipe-wrapper";
 import SidebarNav from "@/features/sidebar/sidebar-nav";
 import { getUsers } from "@/features/users/actions/get-users";
+import { authOptions } from "@/lib/auth";
 import { AbilityProvider } from "@/providers/ability-provider";
 import HomeUIProviders from "@/providers/home-ui-providers";
+import { getServerSession } from "next-auth";
 import { headers } from "next/headers";
 
 export default async function HomeLayout({
@@ -14,18 +16,20 @@ export default async function HomeLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const [users, headerStore] = await Promise.all([getUsers(), headers()]);
-  if (!users || !headerStore) return null;
+  const [users, headerStore, session] = await Promise.all([
+    getUsers(),
+    headers(),
+    getServerSession(authOptions),
+  ]);
+  if (!users) return null;
   const isAdmin = headerStore.get("x-is-admin") === "true";
   return (
     <AbilityProvider users={users}>
       <HomeUIProviders>
-        <SidebarNav />
+        <SidebarNav session={session} isAdmin={isAdmin} />
         <SwipeWrapper>
           <HeaderBar />
-          <ScreenshotWrapper>
-            {children}
-          </ScreenshotWrapper>
+          <ScreenshotWrapper>{children}</ScreenshotWrapper>
           <ActionBar isAdmin={isAdmin} />
         </SwipeWrapper>
       </HomeUIProviders>

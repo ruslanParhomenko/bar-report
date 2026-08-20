@@ -2,6 +2,14 @@
 
 import FormWrapper from "@/components/wrapper/form-wrapper";
 import { InsufficientRights } from "@/components/wrapper/insufficient-rights";
+import { PenaltyPage } from "@/features/penalty";
+import { createPenalty } from "@/features/penalty/actions/create-penalty";
+import {
+  remarkDefault,
+  RemarksForm,
+  remarksSchema,
+} from "@/features/penalty/model/schema";
+import { GetRemarksData } from "@/features/penalty/model/type";
 import { Employee } from "@/features/settings/create-employee/model/type";
 import { useRouter } from "@/i18n/navigation";
 import { useAbility } from "@/providers/ability-provider";
@@ -10,14 +18,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
-import { PenaltyPage } from "../bar/penalty";
-import { createPenalty } from "../bar/penalty/actions/create-penalty";
-import {
-  remarkDefault,
-  RemarksForm,
-  remarksSchema,
-} from "../bar/penalty/model/schema";
-import { GetRemarksData } from "../bar/penalty/model/type";
 
 type PenaltyFormData = {
   penalty: RemarksForm;

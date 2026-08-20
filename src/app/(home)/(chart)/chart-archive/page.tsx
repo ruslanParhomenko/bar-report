@@ -1,6 +1,6 @@
 import ChartArchivePage from "@/features/chart/chart-archive/chart-arhive-page";
-import { getRemarksByYear } from "@/features/staff/bar/penalty/actions/get-penalty";
-import { getTipsAddByYear } from "@/features/staff/bar/tips-add/actions/get-tips-add";
+import { getRemarksByYear } from "@/features/penalty/actions/get-penalty";
+import { getTipsAddByYear } from "@/features/tips-add/actions/get-tips-add";
 
 export default async function Page({
   searchParams,

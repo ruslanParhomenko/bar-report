@@ -1,4 +1,4 @@
-import { DataProducts } from "@/features/settings/setting/model/type";
+import { DataProducts } from "@/features/setting/model/type";
 import { ArrayPath } from "react-hook-form";
 import {
   productPreparedDefault,

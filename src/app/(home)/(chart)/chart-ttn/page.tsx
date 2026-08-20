@@ -2,7 +2,7 @@ import ChartTTNPage from "@/features/chart/chart-ttn/chart-ttn-page";
 import { getTTNByYear } from "@/features/finance/ttn/moda-month/actions/get-ttn-mode";
 import { getTtnNbmByYear } from "@/features/finance/ttn/nbm-month/actions/get-nbm-ttn";
 import { getProductsNbmByYear } from "@/features/finance/ttn/nbm-products/actions/get-nbm-products";
-import { getDataTTN } from "@/features/settings/setting/actions/get-data-json";
+import { getDataTTN } from "@/features/setting/actions/get-data-json";
 
 export default async function Page({
   searchParams,

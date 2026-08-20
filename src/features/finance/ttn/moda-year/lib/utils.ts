@@ -1,4 +1,4 @@
-import { DataTTN } from "@/features/settings/setting/model/type";
+import { DataTTN } from "@/features/setting/model/type";
 import { MONTHS } from "@/utils/get-month-days";
 import { GetTTNData } from "../../moda-month/model/type";
 

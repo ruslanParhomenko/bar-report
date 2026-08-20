@@ -7,11 +7,11 @@ import {
   MonthPicker,
   MonthRange,
 } from "@/components/input-controlled/month-range";
+import { getChartDataFromYear } from "@/features/chart/chart-archive/chart-remarks/utils";
+import { YearData } from "@/features/penalty/model/type";
 import { filterByMonthRange } from "@/utils/filter-by-month-range";
 import { toggleBarVisibility } from "@/utils/toggle-bar-visibility";
 import { useMemo, useState } from "react";
-import { getChartDataFromYear } from "./utils";
-import { YearData } from "@/features/staff/bar/penalty/model/type";
 
 const ITEM_KEYS = ["reason", "bonus", "penalty", "hours"] as const;
 type BarKey = BarConfig<(typeof ITEM_KEYS)[number]>;

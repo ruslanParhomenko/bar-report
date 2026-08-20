@@ -1,5 +1,6 @@
+import { getRemarksByDay } from "@/features/penalty/actions/get-penalty";
 import { getEmployees } from "@/features/settings/create-employee/actions/get-employees";
-import { getRemarksByDay } from "@/features/staff/bar/penalty/actions/get-penalty";
+
 import PenaltyUpdate from "@/features/staff/penalty-update/penalty-update";
 
 export default async function Page({

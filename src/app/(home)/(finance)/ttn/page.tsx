@@ -5,7 +5,7 @@ import TTNPage from "@/features/finance/ttn/ttn-page";
 import {
   getDataOrderProducts,
   getDataTTN,
-} from "@/features/settings/setting/actions/get-data-json";
+} from "@/features/setting/actions/get-data-json";
 
 export default async function Page({
   searchParams,

@@ -2,12 +2,13 @@
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
 
+  "js/ts.preferences.importModuleSpecifier": "non-relative",
+
   "prettier.requireConfig": true,
   "prettier.prettierPath": "./node_modules/prettier",
 
-  "eslint.format.enable": false,
-
   "cSpell.language": "en,ru,ro",
+
   "cSpell.words": [
     "cmdk",
     "Cucina",

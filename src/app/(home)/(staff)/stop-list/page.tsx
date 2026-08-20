@@ -1,4 +1,4 @@
-import { getDataOrderProducts } from "@/features/settings/setting/actions/get-data-json";
+import { getDataOrderProducts } from "@/features/setting/actions/get-data-json";
 import { getStopList } from "@/features/staff/stop-list/actions/get-stop-list";
 import StopListPage from "@/features/staff/stop-list/ui/stop-list-page";
 

@@ -1,4 +1,4 @@
-import { getDataOrderProducts } from "@/features/settings/setting/actions/get-data-json";
+import { getDataOrderProducts } from "@/features/setting/actions/get-data-json";
 import { OrdersPage } from "@/features/staff/orders";
 
 export default async function Page() {

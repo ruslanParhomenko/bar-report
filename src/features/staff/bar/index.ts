@@ -1,1 +1,0 @@
-export {BarPage} from "@/features/staff/bar/bar-page/ui/bar-page";

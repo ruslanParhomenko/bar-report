@@ -1,7 +1,7 @@
 "use client";
 
 import { Table } from "@/components/ui/table";
-import { DataTTN } from "@/features/settings/setting/model/type";
+import { DataTTN } from "@/features/setting/model/type";
 import { GetTTNData } from "../../moda-month/model/type";
 import { getAllAgentData } from "../lib/utils";
 import TtnModaBodyTable from "./ttn-moda-body";

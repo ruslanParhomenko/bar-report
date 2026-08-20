@@ -3,14 +3,14 @@ export const LABELS = [
   "Завтраки и десерты",
   "Салаты и закуски",
   "Вторые блюда",
-  "Снеки ",
+  "Снеки",
 ];
 
-export const columns = [
-  { key: "platinum", title: "Platinum" },
-  { key: "gold", title: "Gold" },
-  { key: "silver", title: "Silver" },
-  { key: "loyal", title: "Loyal" },
+export const COLUMNS_STATUS_PARAMETERS = [
+  "platinum",
+  "gold",
+  "silver",
+  "loyal",
 ] as const;
 
 export const menu = [

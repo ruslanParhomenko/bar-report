@@ -3,12 +3,12 @@
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { useEffect, useState } from "react";
 
+import { GetReportData } from "@/features/report-bar/model/type";
 import CashVerifyTable from "./cash-table";
 import ExpensesTable from "./expenses-table";
 import InventoryTable from "./inventory-table";
 import TobaccoTable from "./tobacco-table";
 import ProductTransferTable from "./transfer-table";
-import { GetReportData } from "../../bar/report/model/type";
 
 export const classNameHead = "text-shadow-muted-foreground font-bold";
 export const classNameRowBorder = "border-b-bl";

@@ -1,7 +1,8 @@
 "use client";
 import { Table } from "@/components/ui/table";
 import FormWrapper from "@/components/wrapper/form-wrapper";
-import { DataOrderProducts } from "@/features/settings/setting/model/type";
+import { DataOrderProducts } from "@/features/setting/model/type";
+import { useMonthDays } from "@/hooks/use-month-days";
 import { useEdit } from "@/providers/edit-provider";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
@@ -12,7 +13,6 @@ import { ProductsFormNBM, productsSchemaNBM } from "../model/schema";
 import { GetNbmProductsData } from "../model/type";
 import BodyTable from "./body-table";
 import HeaderTable from "./header-table";
-import { useMonthDays } from "@/hooks/use-month-days";
 
 type FormData = ProductsFormNBM;
 const schema = productsSchemaNBM;

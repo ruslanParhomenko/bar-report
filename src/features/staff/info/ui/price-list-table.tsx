@@ -1,7 +1,7 @@
 "use client";
 
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
-import { DataPriceList } from "@/features/settings/setting/model/type";
+import { DataPriceList } from "@/features/setting/model/type";
 import { useAbility } from "@/providers/ability-provider";
 
 const COLUMNS_1 = ["вермут", "настойка", "водка", "вино", "пиво"];

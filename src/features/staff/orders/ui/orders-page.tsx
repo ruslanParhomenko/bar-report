@@ -1,7 +1,7 @@
 "use client";
 
 import { InsufficientRights } from "@/components/wrapper/insufficient-rights";
-import { DataOrderProducts } from "@/features/settings/setting/model/type";
+import { DataOrderProducts } from "@/features/setting/model/type";
 import { useAccessCheck } from "@/hooks/use-tab-access";
 import { useSearchParams } from "next/navigation";
 import { OrderForm } from "./order-form";

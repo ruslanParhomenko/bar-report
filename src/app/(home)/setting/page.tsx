@@ -1,4 +1,4 @@
-import { SettingPage } from "@/features/settings/setting";
+import { SettingPage } from "@/features/setting";
 import {
   getDataBreakList,
   getDataMenu,
@@ -6,8 +6,9 @@ import {
   getDataOrderProducts,
   getDataPriceList,
   getDataProducts,
+  getDataStatusParameters,
   getDataTTN,
-} from "@/features/settings/setting/actions/get-data-json";
+} from "@/features/setting/actions/get-data-json";
 
 export default async function Page() {
   const [
@@ -18,6 +19,7 @@ export default async function Page() {
     dataPriceList,
     dataMenu,
     dataMenuDaily,
+    dataStatusParameters,
   ] = await Promise.all([
     getDataProducts(),
     getDataBreakList(),
@@ -26,16 +28,18 @@ export default async function Page() {
     getDataPriceList(),
     getDataMenu(),
     getDataMenuDaily(),
+    getDataStatusParameters(),
   ]);
 
   const data = {
-    productsData: JSON.stringify(dataProducts ?? [], null, 2),
-    breakListData: JSON.stringify(dataBreakList ?? [], null, 2),
-    orderProductsData: JSON.stringify(dataOrderProducts ?? [], null, 2),
-    ttnData: JSON.stringify(dataTTN ?? [], null, 2),
-    priceListData: JSON.stringify(dataPriceList ?? [], null, 2),
-    menuData: JSON.stringify(dataMenu ?? [], null, 2),
-    menuDailyData: JSON.stringify(dataMenuDaily ?? [], null, 2),
+    productsData: JSON.stringify(dataProducts, null, 2),
+    breakListData: JSON.stringify(dataBreakList, null, 2),
+    orderProductsData: JSON.stringify(dataOrderProducts, null, 2),
+    ttnData: JSON.stringify(dataTTN, null, 2),
+    priceListData: JSON.stringify(dataPriceList, null, 2),
+    menuData: JSON.stringify(dataMenu, null, 2),
+    menuDailyData: JSON.stringify(dataMenuDaily, null, 2),
+    statusParametersData: JSON.stringify(dataStatusParameters, null, 2),
   };
 
   return <SettingPage data={data} />;

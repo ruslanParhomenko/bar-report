@@ -1,21 +1,20 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
-import { GetBreakData } from "../bar/break/model/type";
-import { GetRemarksData } from "../bar/penalty/model/type";
-import { GetReportData } from "../bar/report/model/type";
-import ReportBarArchive from "./bar/report-bar-archive";
-import { BreakListArchive } from "./break/break-list-archive";
-import ReportCucinaArchive from "./cucina/report-cucina-archive";
-import OrdersArchivePage from "./orders/orders-archive-page";
-import PenaltyResult from "./penalty-result/penalty-result";
-import PenaltyArchiveData from "./penalty/penalty-archive-data";
-import TipsArchiveData from "./tips/tips-archive-data";
-
 import { InsufficientRights } from "@/components/wrapper/insufficient-rights";
+import { GetBreakData } from "@/features/break/model/type";
+import { GetRemarksData } from "@/features/penalty/model/type";
+import { GetReportData } from "@/features/report-bar/model/type";
+import ReportBarArchive from "@/features/staff/archive/bar/report-bar-archive";
+import { BreakListArchive } from "@/features/staff/archive/break/break-list-archive";
+import ReportCucinaArchive from "@/features/staff/archive/cucina/report-cucina-archive";
+import OrdersArchivePage from "@/features/staff/archive/orders/orders-archive-page";
+import PenaltyResult from "@/features/staff/archive/penalty-result/penalty-result";
+import PenaltyArchiveData from "@/features/staff/archive/penalty/penalty-archive-data";
+import TipsArchiveData from "@/features/staff/archive/tips/tips-archive-data";
+import { GetKitchenData } from "@/features/staff/cucina/model/type";
+import { GetTipsAddData } from "@/features/tips-add/model/type";
 import { useAccessCheck } from "@/hooks/use-tab-access";
-import { GetTipsAddData } from "../bar/tips-add/model/type";
-import { GetKitchenData } from "../cucina/model/type";
+import { useSearchParams } from "next/navigation";
 
 export type ArchiveData = {
   bar: GetReportData[] | null;

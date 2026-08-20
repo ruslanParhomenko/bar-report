@@ -2,7 +2,7 @@
 import { useSearchParams } from "next/navigation";
 import { MenuDailyPage } from "../../menu-daily";
 
-import { DataMenu } from "@/features/settings/setting/model/type";
+import { DataMenu } from "@/features/setting/model/type";
 
 import { MenuDailyForm } from "../../menu-daily/model/schema";
 import { MenuVipPage } from "../../menu-vip";

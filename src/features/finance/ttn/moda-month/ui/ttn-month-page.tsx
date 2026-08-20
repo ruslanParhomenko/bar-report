@@ -8,13 +8,13 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { suppliersSchema, TTNForm } from "../model/schema";
 
-import { DataTTN } from "@/features/settings/setting/model/type";
+import { DataTTN } from "@/features/setting/model/type";
+import { useMonthDays } from "@/hooks/use-month-days";
 import { createTTN } from "../actions/create-ttn-moda";
 import { GetTTNData } from "../model/type";
 import TtnBodyTable from "./ttn-body";
 import TTNFooterTable from "./ttn-footer";
 import TtnHeaderTable from "./ttn-header";
-import { useMonthDays } from "@/hooks/use-month-days";
 
 export function TtnMonthPage({
   dataTtn,

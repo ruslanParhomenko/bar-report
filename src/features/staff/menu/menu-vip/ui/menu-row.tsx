@@ -1,4 +1,4 @@
-import { DataMenu } from "@/features/settings/setting/model/type";
+import { DataMenu } from "@/features/setting/model/type";
 import { ValueOf } from "next/dist/shared/lib/constants";
 import { LocalTranslateFn } from "../model/types";
 

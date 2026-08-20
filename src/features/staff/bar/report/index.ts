@@ -1,1 +1,0 @@
-export {ReportBarPage} from "@/features/staff/bar/report/ui/report-bar-page";

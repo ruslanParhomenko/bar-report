@@ -1,10 +1,10 @@
 "use client";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
+import { GetRemarksData } from "@/features/penalty/model/type";
+import { remarksByUniqueEmployee } from "@/features/staff/archive/penalty/utils";
 
 import { cn } from "@/lib/utils";
 import React, { useState } from "react";
-import { remarksByUniqueEmployee } from "../penalty/utils";
-import { GetRemarksData } from "../../bar/penalty/model/type";
 
 export default function PenaltyResult({
   data,

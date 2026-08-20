@@ -6,9 +6,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { classNameHead, classNameRowBorder } from "./report-bar-archive";
-import { InventorySchemaType } from "../../bar/report/model/schema";
 
+import { InventorySchemaType } from "@/features/report-bar/model/schema";
+import { classNameHead, classNameRowBorder } from "./report-bar-archive";
 
 export default function InventoryTable({
   data,

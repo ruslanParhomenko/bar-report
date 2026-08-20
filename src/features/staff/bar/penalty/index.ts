@@ -1,1 +1,0 @@
-export { PenaltyPage } from "@/features/staff/bar/penalty/ui/penalty-page";

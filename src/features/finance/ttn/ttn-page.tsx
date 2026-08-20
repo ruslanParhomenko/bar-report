@@ -1,9 +1,6 @@
 "use client";
 
-import {
-  DataOrderProducts,
-  DataTTN,
-} from "@/features/settings/setting/model/type";
+import { DataOrderProducts, DataTTN } from "@/features/setting/model/type";
 import { MONTHS } from "@/utils/get-month-days";
 import { useSearchParams } from "next/navigation";
 import TTNDayPage from "./moda-day/ttn-day-page";

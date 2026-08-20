@@ -7,13 +7,13 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 import { Table } from "@/components/ui/table";
-import { DataTTN } from "@/features/settings/setting/model/type";
+import { DataTTN } from "@/features/setting/model/type";
+import { useMonthDays } from "@/hooks/use-month-days";
 import { createTtnNbm } from "../actions/create-nbm-ttn";
 import { suppliersSchemaNBM, TTNFormNBM } from "../model/schema";
 import { GetTtnNbmData } from "../model/type";
 import TtnNbmBodyTable from "./ttn-nbm-body";
 import TtnNbmHeaderTable from "./ttn-nbm-header";
-import { useMonthDays } from "@/hooks/use-month-days";
 
 export function TtnNbmMonthPage({
   dataTtnNBM,

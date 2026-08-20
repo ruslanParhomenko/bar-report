@@ -34,6 +34,7 @@ export const DATA_PRICE_LIST_ACTION_TAG = "data-price-list";
 export const DATA_MENU_ACTION_TAG = "data-menu";
 export const DATA_MENU_DAILY_ACTION_TAG = "data-menu-daily";
 export const DATA_BUFFET_ACTION_TAG = "data-buffet";
+export const DATA_STATUS_PARAMETERS_ACTION_TAG = "data-status-parameters";
 
 export const MENU_DAILY_ACTION_TAG = "menu-daily";
 export const MENU_WEEK_ACTION_TAG = "menu-week";

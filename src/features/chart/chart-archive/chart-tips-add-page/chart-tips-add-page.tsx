@@ -8,7 +8,9 @@ import {
   MonthRange,
 } from "@/components/input-controlled/month-range";
 import { InsufficientRights } from "@/components/wrapper/insufficient-rights";
-import { GetTipsAddByYear } from "@/features/staff/bar/tips-add/model/type";
+
+import { GetTipsAddByYear } from "@/features/tips-add/model/type";
+import { useMonthDays } from "@/hooks/use-month-days";
 import { useAccessCheck } from "@/hooks/use-tab-access";
 import { filterByMonthRange } from "@/utils/filter-by-month-range";
 import { toggleBarVisibility } from "@/utils/toggle-bar-visibility";
@@ -18,7 +20,6 @@ import {
   getChartDataTipsByDay,
   getChartDataTipsFromYear,
 } from "./utils";
-import { useMonthDays } from "@/hooks/use-month-days";
 
 const ITEM_KEYS = ["mdl", "chips", "total", "result"] as const;
 type BarKey = BarConfig<(typeof ITEM_KEYS)[number]>;

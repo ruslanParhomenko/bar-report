@@ -1,9 +1,9 @@
 import { getTodayUSDRateBNM } from "@/app/actions/currency/currency-actions";
+import { BarPage } from "@/features/bar";
 import {
   getDataBreakList,
   getDataOrderProducts,
-} from "@/features/settings/setting/actions/get-data-json";
-import { BarPage } from "@/features/staff/bar";
+} from "@/features/setting/actions/get-data-json";
 
 export default async function Page() {
   const [dataBreakList, currencyUSD, orderProducts] = await Promise.allSettled([
