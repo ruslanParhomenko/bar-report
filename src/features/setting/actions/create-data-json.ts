@@ -59,7 +59,6 @@ export async function saveSettingsData(
     }
     return { success: true };
   } catch (error) {
-    console.error(error);
     return { error: "Save failed" };
   }
 }

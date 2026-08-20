@@ -4,7 +4,6 @@ import { sendTelegramMessage } from "@/app/actions/telegram/telegram-action";
 
 import FormWrapper from "@/components/wrapper/form-wrapper";
 import { useLocalStorageForm } from "@/hooks/use-local-storage";
-import { useSession } from "next-auth/react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { createOrder } from "../actions/create-order";
@@ -18,10 +17,6 @@ export const OrderForm = ({
   tab: string;
 }) => {
   const allKeys = Object.keys(data || {});
-
-  const { data: session } = useSession();
-  const name = session?.user?.name?.split(" ")[0];
-
   const STORAGE_KEY = `order-new-${tab}`;
 
   const form = useForm({ defaultValues: {} });
@@ -53,7 +48,7 @@ export const OrderForm = ({
         return;
       }
 
-      await sendTelegramMessage(filtered, tab, name || "");
+      await sendTelegramMessage(filtered, tab);
 
       await createOrder({
         tab,

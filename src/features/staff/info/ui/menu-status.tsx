@@ -23,7 +23,7 @@ export default function StatusMenu({
             <ul className="space-y-1 text-sm">
               {LABELS.map((label, idx) => {
                 const item = dataCol?.[label];
-                console.log(item);
+
                 return (
                   <ul key={idx}>
                     <Label className="text-bl block py-2 text-center font-bold">

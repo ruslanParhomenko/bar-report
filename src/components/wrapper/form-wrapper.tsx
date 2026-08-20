@@ -22,8 +22,6 @@ export default function FormWrapper<T extends FieldValues>({
 }: FormWrapperProps<T>) {
   const formId = useFormId();
 
-  console.log("formId", formId);
-
   return (
     <Form {...form}>
       <form

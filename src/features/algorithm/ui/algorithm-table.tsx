@@ -7,7 +7,6 @@ export default function AlgorithmTable({
 }: {
   data: AlgorithmData[keyof AlgorithmData] | undefined;
 }) {
-  console.log(data);
   return (
     <Table className="mt-4">
       <TableBody>
