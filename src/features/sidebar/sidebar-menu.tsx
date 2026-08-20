@@ -35,19 +35,21 @@ export default function SidebarMenuButtons({
         const Icon = item.icon;
 
         return (
-          <SidebarMenuButton key={item.title} asChild>
+          <SidebarMenuButton
+            key={item.title}
+            asChild
+            className="rounded-none hover:bg-gray-200"
+          >
             <Link
               href={`/${item.url}`}
               onClick={handleMenuClick}
               className={cn(
-                "flex w-full items-center",
-                isActivePath && "bg-bl",
+                "flex w-full cursor-default items-center",
+                isActivePath && "text-rd [&>span]:text-rd [&>svg]:text-rd",
               )}
             >
-              <Icon className={isActivePath ? "" : "text-bl"} />
-              <span className={cn("ml-1", isActivePath ? "" : "text-bl")}>
-                {t(item.title)}
-              </span>
+              <Icon className="text-bl" />
+              <span className="text-bl ml-1">{t(item.title)}</span>
             </Link>
           </SidebarMenuButton>
         );
