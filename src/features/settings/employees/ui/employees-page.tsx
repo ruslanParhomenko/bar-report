@@ -33,9 +33,8 @@ export function EmployeesPage({ isAdmin }: { isAdmin: boolean }) {
   const [employeesStatus, setEmployeesStatus] =
     useState<(typeof NAV_ITEMS)[number]>("active");
 
-  if (!tab) return null;
-
   const employees = useEmployees();
+  if (!tab) return null;
 
   const employeesByStatus = employees
     ?.filter(

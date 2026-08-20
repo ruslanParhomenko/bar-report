@@ -61,7 +61,7 @@ export default function MenuItemSelect({
       onChange={handleChange}
       fieldName={fieldName}
       disabled={isDisabled}
-      className="print:text-bl! print:text-md! h-7! print:h-10"
+      className="print:text-bl! print:text-md! h-6! print:h-10"
     />
   );
 }

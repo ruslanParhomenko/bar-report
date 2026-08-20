@@ -23,17 +23,17 @@ export default function DayCard({
   const { isEdit } = useEdit();
 
   return (
-    <div className="bg-card flex w-full flex-col justify-between gap-1 rounded-xl border p-4 md:w-80">
+    <div className="bg-card flex w-full flex-col justify-between gap-0.5 rounded-xl border p-2 md:w-80">
       <p className="text-bl text-xs font-medium print:text-lg">{dayLabel}</p>
 
       {SECTIONS.map((section) => (
-        <div key={section} className="flex flex-col gap-0.5">
+        <div key={section} className="flex flex-col">
           <span className="text-muted-foreground text-xs">
             {SECTION_LABELS[section]}
           </span>
 
           <div className="flex flex-col">
-            {[0, 1].map((index) =>
+            {[0, 1, 2].map((index) =>
               isEdit ? (
                 <MenuItemSelect
                   key={index}

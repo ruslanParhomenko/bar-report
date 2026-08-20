@@ -19,7 +19,7 @@ export default function MenuDailyWeek({ listMenuDaily, defaultValues }: Props) {
     <FormWrapper
       form={form}
       onSubmit={onSubmit}
-      className="flex flex-col items-center justify-center gap-6 py-1 md:flex-row md:flex-wrap print:mx-2 print:my-4 print:h-[90dvh] print:justify-around print:gap-1.5"
+      className="flex flex-col items-center justify-center gap-4 py-1 md:flex-row md:flex-wrap print:mx-2 print:my-4 print:h-[90dvh] print:justify-around print:gap-1.5"
     >
       {DAYS.map((day) => (
         <DayCard
