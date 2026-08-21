@@ -84,7 +84,7 @@ export default function ActionBar({ isAdmin }: { isAdmin: boolean }) {
 
   return (
     <ViewTransition>
-      <div className="bg-background z-10 flex items-center justify-around gap-4 pt-1 pb-4 md:justify-start md:gap-6 md:px-10">
+      <div className="bg-background z-9 flex items-center justify-around gap-4 pt-1 pb-4 md:justify-start md:gap-6 md:px-10">
         {has("edit") && (
           <EditButton
             isEdit={isEdit}

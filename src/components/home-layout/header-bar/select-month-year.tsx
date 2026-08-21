@@ -1,7 +1,6 @@
 "use client";
 
 import SelectOptions from "@/components/select/select-options";
-import { useIsMobile } from "@/hooks/use-mobile";
 import { MONTHS, YEARS } from "@/utils/get-month-days";
 import { usePathname, useSearchParams } from "next/navigation";
 
@@ -12,13 +11,11 @@ export default function SelectMonthYear({
   urlMonth: string;
   urlYear: string;
 }) {
-  const isMobile = useIsMobile();
-
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
   const selectClassName =
-    "md:w-24 w-10 h-6! md:border-border/30 px-1 rounded-md md:text-md text-xs bg-border/30";
+    "w-24  md:h-7! h-6!  md:border-border/30 px-1 rounded-md md:text-md text-xs bg-border/30";
 
   const handleMonthChange = (value: string) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -37,11 +34,11 @@ export default function SelectMonthYear({
   };
 
   return (
-    <div className="flex justify-center gap-2 md:justify-end">
+    <div className="flex items-center justify-center gap-4">
       <SelectOptions
-        options={MONTHS.map((month, index) => ({
+        options={MONTHS.map((month) => ({
           value: month,
-          label: isMobile ? String(index + 1) : month,
+          label: month,
         }))}
         value={urlMonth}
         onChange={handleMonthChange}

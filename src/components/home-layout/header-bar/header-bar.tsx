@@ -15,13 +15,19 @@ export default function HeaderBar() {
   return (
     <div
       className={cn(
-        "bg-background sticky top-0 z-10 flex items-center justify-center gap-1 py-2 md:flex-row md:justify-between md:gap-2 md:px-4",
+        "bg-background sticky top-0 z-9 flex flex-col items-center justify-center gap-1 py-2 md:flex-row md:justify-between md:gap-2 md:px-4",
       )}
     >
-      {urlTab && <SelectTabs urlTab={urlTab} />}
+      {urlTab && (
+        <div className="order-2 md:order-1">
+          <SelectTabs urlTab={urlTab} />
+        </div>
+      )}
 
       {urlMonth && urlYear && (
-        <SelectMonthYear urlMonth={urlMonth} urlYear={urlYear} />
+        <div className="order-1 md:order-2">
+          <SelectMonthYear urlMonth={urlMonth} urlYear={urlYear} />
+        </div>
       )}
     </div>
   );

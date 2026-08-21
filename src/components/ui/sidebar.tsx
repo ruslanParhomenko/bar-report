@@ -27,8 +27,8 @@ import { cn } from "@/lib/utils";
 
 const SIDEBAR_COOKIE_NAME = "sidebar_state";
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;
-const SIDEBAR_WIDTH = "8rem";
-const SIDEBAR_WIDTH_MOBILE = "10rem";
+const SIDEBAR_WIDTH = "10rem";
+const SIDEBAR_WIDTH_MOBILE = "9rem";
 const SIDEBAR_WIDTH_ICON = "4rem";
 const SIDEBAR_KEYBOARD_SHORTCUT = "b";
 
@@ -163,9 +163,8 @@ function Sidebar({
   variant?: "sidebar" | "floating" | "inset";
   collapsible?: "offcanvas" | "icon" | "none";
 }) {
-  const { isMobile, state, openMobile, setOpenMobile } = useSidebar();
-
-  console.log(isMobile, state, openMobile);
+  const { isMobile, state, openMobile, setOpenMobile, toggleSidebar } =
+    useSidebar();
 
   if (collapsible === "none") {
     return (
@@ -201,7 +200,12 @@ function Sidebar({
             <SheetTitle>Sidebar</SheetTitle>
             <SheetDescription>Displays the mobile sidebar.</SheetDescription>
           </SheetHeader>
-          <div className="flex h-full w-full flex-col">{children}</div>
+          <div
+            className="flex h-full w-full flex-col"
+            onClick={() => toggleSidebar()}
+          >
+            {children}
+          </div>
         </SheetContent>
       </Sheet>
     );

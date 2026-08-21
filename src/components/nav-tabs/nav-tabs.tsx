@@ -7,7 +7,6 @@ export default function NavTabs<T extends string>({
   handleTabChange,
   classTrigger,
   disabled,
-  withSelect = false,
   classTabs,
 }: {
   navItems: readonly T[];
@@ -20,30 +19,7 @@ export default function NavTabs<T extends string>({
 }) {
   if (!navItems.length) return null;
 
-  const tabsWidth = `w-1/${navItems.length}`;
-  const length = navItems.length;
-
-  let itemsWidth = "w-4";
-
-  switch (true) {
-    case length >= 1 && length <= 2:
-      itemsWidth = withSelect ? "w-16" : "w-20";
-      break;
-    case length >= 3 && length <= 4:
-      itemsWidth = withSelect ? "w-12" : "w-16";
-      break;
-
-    case length >= 5 && length <= 6:
-      itemsWidth = withSelect ? "w-5.5" : "w-9";
-      break;
-
-    case length >= 7 && length < 8:
-      itemsWidth = withSelect ? "w-5.5" : "w-6";
-      break;
-
-    default:
-      itemsWidth = "w-3";
-  }
+  const tabsWidth = navItems.length < 6 ? `w-1/${navItems.length}` : "w-11";
 
   return (
     <Tabs
@@ -59,13 +35,12 @@ export default function NavTabs<T extends string>({
           <TabsTrigger
             key={`${item}-${index}`}
             value={item}
-            className={cn("cursor-pointer", tabsWidth, classTrigger)}
+            className={cn("cursor-pointer md:w-28", tabsWidth, classTrigger)}
             disabled={disabled}
           >
             <span
               className={cn(
-                "md:text-md text-bl/80 hover:text-rd block truncate text-xs md:min-w-22",
-                itemsWidth,
+                "md:text-md text-bl/80 hover:text-rd truncate text-xs",
                 item === activeTab ? "text-rd" : "",
               )}
             >
