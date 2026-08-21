@@ -100,7 +100,7 @@ export default function ChartTipsPage({
       <CustomChart
         chartData={chartData}
         barItem={BAR_KEYS}
-        vertical={chartData.length > 25}
+        vertical={chartData?.length > 25}
         className={cn(tab === "tips-year" ? "h-[80dvh]" : "h-[74dvh]")}
       />
       <NameFilter

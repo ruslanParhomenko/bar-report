@@ -1,3 +1,4 @@
+import { NAV_BY_PATCH } from "@/components/home-layout/header-bar/constants";
 import {
   ALGORITHM_MAIN_ROUTE,
   AO_REPORT_MAIN_ROUTE,
@@ -46,95 +47,112 @@ export const SIDEBAR_NAVIGATION = [
     title: SCHEDULE_MAIN_ROUTE,
     url: SCHEDULE_MAIN_ROUTE,
     icon: Calendar,
+    query: NAV_BY_PATCH[SCHEDULE_MAIN_ROUTE],
   },
   {
     title: EMPLOYEES_MAIN_ROUTE,
     url: EMPLOYEES_MAIN_ROUTE,
     icon: PersonStandingIcon,
-    setAccess: ["ADMIN", "USER"],
+    query: NAV_BY_PATCH[EMPLOYEES_MAIN_ROUTE],
   },
   {
     title: ALGORITHM_MAIN_ROUTE,
     url: ALGORITHM_MAIN_ROUTE,
     icon: CodeIcon,
+    query: NAV_BY_PATCH[ALGORITHM_MAIN_ROUTE],
   },
   {
     title: STOP_LIST_MAIN_ROUTE,
     url: STOP_LIST_MAIN_ROUTE,
     icon: MilkOff,
+    query: NAV_BY_PATCH[STOP_LIST_MAIN_ROUTE],
   },
   {
     title: REPORTS_BAR_ROUTE,
     url: REPORTS_BAR_ROUTE,
     icon: Martini,
+    query: NAV_BY_PATCH[REPORTS_BAR_ROUTE],
   },
   {
     title: REPORTS_CUCINA_ROUTE,
     url: REPORTS_CUCINA_ROUTE,
     icon: ChefHat,
+    query: NAV_BY_PATCH[REPORTS_CUCINA_ROUTE],
   },
 
   {
     title: MENU_MAIN_ROUTE,
     url: MENU_MAIN_ROUTE,
     icon: SquareMenu,
+    query: NAV_BY_PATCH[MENU_MAIN_ROUTE],
   },
 
   {
     title: ORDERS_MAIN_ROUTE,
     url: ORDERS_MAIN_ROUTE,
     icon: List,
+    query: NAV_BY_PATCH[ORDERS_MAIN_ROUTE],
   },
   {
     title: INFO_MAIN_ROUTE,
     url: INFO_MAIN_ROUTE,
     icon: Info,
+    query: NAV_BY_PATCH[INFO_MAIN_ROUTE],
   },
   {
     title: ARCHIVE_MAIN_ROUTE,
     url: ARCHIVE_MAIN_ROUTE,
     icon: Archive,
+    query: NAV_BY_PATCH[ARCHIVE_MAIN_ROUTE],
   },
 
   {
     title: TIPS_MAIN_ROUTE,
     url: TIPS_MAIN_ROUTE,
     icon: DollarSign,
+    query: NAV_BY_PATCH[TIPS_MAIN_ROUTE],
   },
   {
     title: CASH_MAIN_ROUTE,
     url: CASH_MAIN_ROUTE,
     icon: CreditCard,
+    query: NAV_BY_PATCH[CASH_MAIN_ROUTE],
   },
   {
     title: AO_REPORT_MAIN_ROUTE,
     url: AO_REPORT_MAIN_ROUTE,
     icon: CalculatorIcon,
+    query: NAV_BY_PATCH[AO_REPORT_MAIN_ROUTE],
   },
   {
     title: TTN_MAIN_ROUTE,
     url: TTN_MAIN_ROUTE,
     icon: FileTextIcon,
+    query: NAV_BY_PATCH[TTN_MAIN_ROUTE],
   },
   {
     title: FIN_CASH_MAIN_ROUTE,
     url: FIN_CASH_MAIN_ROUTE,
     icon: ClipboardIcon,
+    query: NAV_BY_PATCH[FIN_CASH_MAIN_ROUTE],
   },
   {
     title: RESULT_MAIN_ROUTE,
     url: RESULT_MAIN_ROUTE,
     icon: SigmaIcon,
+    query: NAV_BY_PATCH[RESULT_MAIN_ROUTE],
   },
   {
     title: SETTING_MAIN_ROUTE,
     url: SETTING_MAIN_ROUTE,
     icon: Settings,
+    query: NAV_BY_PATCH[SETTING_MAIN_ROUTE],
   },
   {
     title: USERS_MAIN_ROUTE,
     url: USERS_MAIN_ROUTE,
     icon: UserRoundCog,
+    query: NAV_BY_PATCH[USERS_MAIN_ROUTE],
   },
   {
     title: PARSER_1C_MAIN_ROUTE,

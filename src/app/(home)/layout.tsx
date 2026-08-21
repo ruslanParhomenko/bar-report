@@ -1,9 +1,10 @@
 import ActionBar from "@/components/home-layout/footer-bar/footer-bar";
 import HeaderBar from "@/components/home-layout/header-bar/header-bar";
+import SidebarNav from "@/components/home-layout/side-bar/sidebar-nav";
 
 import ScreenshotWrapper from "@/components/wrapper/screenshot-wrapper";
 import SwipeWrapper from "@/components/wrapper/swipe-wrapper";
-import SidebarNav from "@/features/sidebar/sidebar-nav";
+
 import { getUsers } from "@/features/users/actions/get-users";
 import { authOptions } from "@/lib/auth";
 import { AbilityProvider } from "@/providers/ability-provider";

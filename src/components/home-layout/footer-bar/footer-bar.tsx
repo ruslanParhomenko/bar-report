@@ -1,6 +1,14 @@
 "use client";
 
+import ChartButton from "@/components/buttons/chart-button";
+import EditButton from "@/components/buttons/edit-button";
+import ExitButton from "@/components/buttons/exit-button";
+import PrintButton from "@/components/buttons/print-button";
+import ResetButton from "@/components/buttons/reset-button";
+import SaveButton from "@/components/buttons/save-button";
+import SendScreenButton from "@/components/buttons/send-screen-button";
 import { ACTION_ITEM_BY_ROUTE } from "@/components/home-layout/footer-bar/constants";
+import { useSidebar } from "@/components/ui/sidebar";
 import {
   AO_REPORT_MAIN_ROUTE,
   ARCHIVE_MAIN_ROUTE,
@@ -30,14 +38,6 @@ import { useEdit } from "@/providers/edit-provider";
 import { FolderPlus, Menu, SaveAllIcon, SendIcon } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useTransition, ViewTransition } from "react";
-import ChartButton from "../../buttons/chart-button";
-import EditButton from "../../buttons/edit-button";
-import ExitButton from "../../buttons/exit-button";
-import PrintButton from "../../buttons/print-button";
-import ResetButton from "../../buttons/reset-button";
-import SaveButton from "../../buttons/save-button";
-import SendScreenButton from "../../buttons/send-screen-button";
-import { useSidebar } from "../../ui/sidebar";
 
 const URL_CREATE_BY_TAB = {
   [EMPLOYEES_MAIN_ROUTE]: `/${CREATE_EMPLOYEE_MAIN_ROUTE}`,
@@ -45,13 +45,13 @@ const URL_CREATE_BY_TAB = {
 };
 
 const CHART_URL_BY_TAB = {
-  [SCHEDULE_MAIN_ROUTE]: `/${CHART_SCHEDULE_ROUTE}`,
-  [TIPS_MAIN_ROUTE]: `/${CHART_TIPS_ROUTE}`,
-  [ARCHIVE_MAIN_ROUTE]: `/${CHART_ARCHIVE_ROUTE}`,
-  [RESULT_MAIN_ROUTE]: `/${CHART_RESULT_ROUTE}`,
-  [CASH_MAIN_ROUTE]: `/${CHART_CASH_ROUTE}`,
-  [TTN_MAIN_ROUTE]: `/${CHART_TTN_ROUTE}`,
-  [AO_REPORT_MAIN_ROUTE]: `/${CHART_AO_ROUTE}`,
+  [SCHEDULE_MAIN_ROUTE]: CHART_SCHEDULE_ROUTE,
+  [TIPS_MAIN_ROUTE]: CHART_TIPS_ROUTE,
+  [ARCHIVE_MAIN_ROUTE]: CHART_ARCHIVE_ROUTE,
+  [RESULT_MAIN_ROUTE]: CHART_RESULT_ROUTE,
+  [CASH_MAIN_ROUTE]: CHART_CASH_ROUTE,
+  [TTN_MAIN_ROUTE]: CHART_TTN_ROUTE,
+  [AO_REPORT_MAIN_ROUTE]: CHART_AO_ROUTE,
 };
 
 export default function ActionBar({ isAdmin }: { isAdmin: boolean }) {

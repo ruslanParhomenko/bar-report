@@ -1,6 +1,5 @@
 // header bar
 
-import { Route } from "next";
 import {
   ALGORITHM_MAIN_ROUTE,
   AO_REPORT_MAIN_ROUTE,
@@ -23,10 +22,12 @@ import {
   RESULT_MAIN_ROUTE,
   SCHEDULE_MAIN_ROUTE,
   SETTING_MAIN_ROUTE,
+  STOP_LIST_MAIN_ROUTE,
   TIPS_MAIN_ROUTE,
   TTN_MAIN_ROUTE,
   USERS_MAIN_ROUTE,
-} from "../../../constants/route-tag";
+} from "@/constants/route-tag";
+import { Route } from "next";
 
 export const TABS_BY_ROUTE = {
   [SCHEDULE_MAIN_ROUTE]: ["bar", "cucina", "dish"],
@@ -151,9 +152,17 @@ export const NAV_BY_PATCH = {
     tabs: TABS_BY_ROUTE[SCHEDULE_MAIN_ROUTE],
     selectDate: true,
   },
+  [EMPLOYEES_MAIN_ROUTE]: {
+    tabs: TABS_BY_ROUTE[EMPLOYEES_MAIN_ROUTE],
+    selectDate: false,
+  },
 
   [ALGORITHM_MAIN_ROUTE]: {
     tabs: TABS_BY_ROUTE[ALGORITHM_MAIN_ROUTE],
+    selectDate: false,
+  },
+  [STOP_LIST_MAIN_ROUTE]: {
+    tabs: [],
     selectDate: false,
   },
 
@@ -185,11 +194,6 @@ export const NAV_BY_PATCH = {
   [TTN_MAIN_ROUTE]: {
     tabs: TABS_BY_ROUTE[TTN_MAIN_ROUTE],
     selectDate: true,
-  },
-
-  [EMPLOYEES_MAIN_ROUTE]: {
-    tabs: TABS_BY_ROUTE[EMPLOYEES_MAIN_ROUTE],
-    selectDate: false,
   },
 
   [TIPS_MAIN_ROUTE]: {

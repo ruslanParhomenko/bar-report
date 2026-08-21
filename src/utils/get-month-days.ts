@@ -13,7 +13,7 @@ export const MONTHS = [
   "december",
 ];
 
-export const YEAR = ["2025", "2026", "2027", "2028", "2029", "2030"];
+export const YEARS = ["2025", "2026", "2027", "2028", "2029", "2030"];
 
 export type MonthDayType = {
   day: number;

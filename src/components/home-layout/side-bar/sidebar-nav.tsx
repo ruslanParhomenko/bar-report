@@ -1,11 +1,8 @@
-"use client";
 import { Session } from "next-auth";
 
-import SidebarFooterButtons from "./sidebar-footer";
-import SidebarMenuButtons from "./sidebar-menu";
-
-import RoleUser from "@/components/sidebar/role-user";
-import { Sidebar, SidebarContent, useSidebar } from "@/components/ui/sidebar";
+import SidebarFooterButtons from "@/components/home-layout/side-bar/sidebar-footer";
+import SidebarMenuButtons from "@/components/home-layout/side-bar/sidebar-menu";
+import { Sidebar, SidebarContent } from "@/components/ui/sidebar";
 
 const SidebarNav = ({
   session,
@@ -14,14 +11,15 @@ const SidebarNav = ({
   session: Session | null;
   isAdmin: boolean;
 }) => {
-  const { isMobile } = useSidebar();
-
   const accessList = session?.user?.accessList ?? [];
   const role = session?.user?.role;
+
   return (
-    <Sidebar side={isMobile ? "right" : "left"}>
+    <Sidebar>
       <SidebarContent>
-        <RoleUser role={role} />
+        <div className="text-rd flex justify-center text-xs">
+          {role?.toLocaleLowerCase()}
+        </div>
         <SidebarMenuButtons isAdmin={isAdmin} accessList={accessList} />
       </SidebarContent>
       <SidebarFooterButtons />

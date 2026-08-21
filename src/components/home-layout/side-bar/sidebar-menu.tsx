@@ -1,13 +1,15 @@
 "use client";
-import { SIDEBAR_NAVIGATION } from "@/components/sidebar/constants";
+import { SIDEBAR_NAVIGATION } from "@/components/home-layout/side-bar/constants";
 import {
   SidebarMenu,
   SidebarMenuButton,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { Link, usePathname } from "@/i18n/navigation";
+import { usePathname } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
+import { MONTHS } from "@/utils/get-month-days";
 import { useTranslations } from "next-intl";
+import Link from "next/link";
 
 export default function SidebarMenuButtons({
   isAdmin,
@@ -17,8 +19,13 @@ export default function SidebarMenuButtons({
   accessList: string[];
 }) {
   const pathname = usePathname();
+  const params = new URLSearchParams();
   const t = useTranslations("Sidebar");
   const { toggleSidebar, isMobile } = useSidebar();
+
+  const date = new Date();
+  const month = MONTHS[date.getMonth()];
+  const year = date.getFullYear().toString();
 
   const handleMenuClick = () => {
     if (isMobile) {
@@ -34,6 +41,25 @@ export default function SidebarMenuButtons({
         const isActivePath = pathname.split("/")[1] === item.url;
         const Icon = item.icon;
 
+        const queryTabs = item.query?.tabs[0];
+        const queryDate = item.query?.selectDate;
+
+        if (queryTabs) {
+          params.set("tab", queryTabs);
+        } else {
+          params.delete("tab");
+        }
+
+        if (queryDate) {
+          params.set("month", month);
+          params.set("year", year);
+        } else {
+          params.delete("month");
+          params.delete("year");
+        }
+
+        const href = `/${item.url}?${params.toString()}`;
+
         return (
           <SidebarMenuButton
             key={item.title}
@@ -45,7 +71,8 @@ export default function SidebarMenuButtons({
             )}
           >
             <Link
-              href={`/${item.url}`}
+              href={href}
+
               onClick={handleMenuClick}
               className={cn("flex w-full cursor-default items-center")}
             >

@@ -165,6 +165,8 @@ function Sidebar({
 }) {
   const { isMobile, state, openMobile, setOpenMobile } = useSidebar();
 
+  console.log(isMobile, state, openMobile);
+
   if (collapsible === "none") {
     return (
       <div
@@ -193,7 +195,7 @@ function Sidebar({
               "--sidebar-width": SIDEBAR_WIDTH_MOBILE,
             } as React.CSSProperties
           }
-          side={side}
+          side="right"
         >
           <SheetHeader className="sr-only">
             <SheetTitle>Sidebar</SheetTitle>
