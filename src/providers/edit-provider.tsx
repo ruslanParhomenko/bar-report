@@ -34,13 +34,12 @@ export default function EditProvider({
     setResetFn(() => fn);
   };
 
-const isTrueEdit = EDIT_PATHS.has(mainRoute);
+  const isTrueEdit = EDIT_PATHS.has(mainRoute);
 
-useEffect(() => {
-  setIsEdit(isTrueEdit);
-}, [isTrueEdit]);
+  useEffect(() => {
+    setIsEdit(isTrueEdit);
+  }, [pathname, isTrueEdit]);
 
-  
   return (
     <EditContext.Provider value={{ isEdit, setIsEdit, resetFn, registerReset }}>
       {children}
