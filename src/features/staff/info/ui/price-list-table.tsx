@@ -2,7 +2,6 @@
 
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { DataPriceList } from "@/features/setting/model/type";
-import { useAbility } from "@/providers/ability-provider";
 
 const COLUMNS_1 = ["вермут", "настойка", "водка", "вино", "пиво"];
 const COLUMNS_2 = ["виски", "коньяк", "коктейль", "джин", "ликер", "ром"];
@@ -41,13 +40,13 @@ function CategoryBlock({
   category,
   list,
   currency,
+  isAdmin,
 }: {
   category: string;
   list: DataPriceList["priceList"][string];
   currency: number | undefined;
+  isAdmin: boolean;
 }) {
-  const { role } = useAbility();
-  const isAdmin = role === "ADMIN";
   return (
     <TableBody>
       <TableRow>
@@ -90,7 +89,13 @@ function CategoryBlock({
   );
 }
 
-export function PriceListBarTable({ data }: { data: DataPriceList | null }) {
+export function PriceListBarTable({
+  data,
+  isAdmin,
+}: {
+  data: DataPriceList | null;
+  isAdmin: boolean;
+}) {
   const currency = data?.currency;
   const priceList = data?.priceList || {};
 
@@ -116,6 +121,7 @@ export function PriceListBarTable({ data }: { data: DataPriceList | null }) {
                   category={category}
                   list={list}
                   currency={currency}
+                  isAdmin={isAdmin}
                 />
               );
             })}
@@ -126,7 +132,13 @@ export function PriceListBarTable({ data }: { data: DataPriceList | null }) {
   );
 }
 
-export function PriceListCucinaTable({ data }: { data: DataPriceList | null }) {
+export function PriceListCucinaTable({
+  data,
+  isAdmin,
+}: {
+  data: DataPriceList | null;
+  isAdmin: boolean;
+}) {
   const currency = data?.currency;
   const priceList = data?.priceList || {};
 
@@ -152,6 +164,7 @@ export function PriceListCucinaTable({ data }: { data: DataPriceList | null }) {
                   category={category}
                   list={list}
                   currency={currency}
+                  isAdmin={isAdmin}
                 />
               );
             })}

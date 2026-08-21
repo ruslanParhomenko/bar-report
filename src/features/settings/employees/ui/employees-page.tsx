@@ -15,8 +15,8 @@ import {
   CREATE_EMPLOYEE_MAIN_ROUTE,
   VIEW_EMPLOYEE_MAIN_ROUTE,
 } from "@/constants/route-tag";
+import { Employee } from "@/features/settings/create-employee/model/type";
 import { cn } from "@/lib/utils";
-import { useEmployees } from "@/providers/employees-provider";
 import { formatShortDate } from "@/utils/format-date";
 import { handleCopy } from "@/utils/handler-copy-text";
 import { differenceInMonths } from "date-fns";
@@ -27,13 +27,18 @@ import { deleteEmployee } from "../../create-employee/actions/delete-employee";
 
 const NAV_ITEMS = ["active", "fired", "all"] as const;
 
-export function EmployeesPage({ isAdmin }: { isAdmin: boolean }) {
+export function EmployeesPage({
+  isAdmin,
+  employees,
+}: {
+  isAdmin: boolean;
+  employees: Employee[];
+}) {
   const tab = useSearchParams().get("tab");
 
   const [employeesStatus, setEmployeesStatus] =
     useState<(typeof NAV_ITEMS)[number]>("active");
 
-  const employees = useEmployees();
   if (!tab) return null;
 
   const employeesByStatus = employees

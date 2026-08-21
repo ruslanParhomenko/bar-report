@@ -1,8 +1,8 @@
 "use client";
 import { Table } from "@/components/ui/table";
 import FormWrapper from "@/components/wrapper/form-wrapper";
+import { Employee } from "@/features/settings/create-employee/model/type";
 import { useMonthDays } from "@/hooks/use-month-days";
-import { useEmployees } from "@/providers/employees-provider";
 import { useEffect, useState } from "react";
 import { useFieldArray } from "react-hook-form";
 import ScheduleTableFooter from "../../schedule-view/ui/schedule-footer";
@@ -15,9 +15,11 @@ import { GetScheduleData } from "../model/type";
 import ScheduleBodyEdit from "./schedule-body-edit";
 
 export function ScheduleEdit({
+  employees,
   schedule,
   tab,
 }: {
+  employees: Employee[];
   schedule: GetScheduleData | null;
   tab: string;
 }) {
@@ -28,7 +30,6 @@ export function ScheduleEdit({
   const [selectedDay, setSelectedDay] = useState<number>(todayDay);
 
   const { form, onSubmit } = useScheduleForm(tab);
-  const employees = useEmployees();
   const selectedEmployees = useSelectedEmployeesByRole(
     tab as keyof typeof EMPLOYEE_ROLES_BY_DEPARTMENT,
     employees,

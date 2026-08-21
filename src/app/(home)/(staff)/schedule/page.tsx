@@ -1,3 +1,4 @@
+import { getEmployees } from "@/features/settings/create-employee/actions/get-employees";
 import { SchedulePage } from "@/features/staff/schedule";
 import { getScheduleByYearAndMonth } from "@/features/staff/schedule/schedule-edit/actions/get-schedule";
 import { headers } from "next/headers";
@@ -15,6 +16,13 @@ export default async function Page({
   if (!month || !year) return null;
 
   const schedules = await getScheduleByYearAndMonth(year, month);
+  const employees = await getEmployees();
 
-  return <SchedulePage schedules={schedules} isAdmin={isAdmin} />;
+  return (
+    <SchedulePage
+      schedules={schedules}
+      isAdmin={isAdmin}
+      employees={employees}
+    />
+  );
 }

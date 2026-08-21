@@ -7,8 +7,8 @@ export function PenaltyPage({
   day,
   employees,
 }: {
-  day?: any;
-  employees: Employee[];
+  day?: string;
+  employees: Employee[] | null;
 }) {
   return (
     <Table className="table-fixed">

@@ -10,18 +10,14 @@ export default function SidebarMenuButtons({
   accessList: string[];
 }) {
   return (
-    <SidebarMenu className="flex h-full flex-col gap-2 pt-2 md:gap-3">
+    <SidebarMenu className="flex h-full flex-col pt-2 md:gap-1">
       {SIDEBAR_NAVIGATION.filter(
         (item) => accessList.includes(item.title) || isAdmin,
       ).map((item) => {
         const Icon = item.icon;
 
         return (
-          <SidebarMenuButton
-            key={item.title}
-            asChild
-            className="rounded-none hover:bg-gray-200"
-          >
+          <SidebarMenuButton key={item.title} asChild>
             <LinkNav title={item.title} query={item.query}>
               {Icon && <Icon size={18} className="text-bl" />}
             </LinkNav>

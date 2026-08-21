@@ -1,9 +1,9 @@
 "use client";
 
-import { useAbility } from "@/providers/ability-provider";
 import { useEdit } from "@/providers/edit-provider";
 import { formatNowData } from "@/utils/format-date";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useSession } from "next-auth/react";
 import { useEffect } from "react";
 import {
   SubmitHandler,
@@ -22,7 +22,9 @@ import {
 const ROLE_LIST_ACCESS = ["BAR", "CUCINA", "ADMIN"];
 
 export function useStopListForm(data: StopListSchemaType | null) {
-  const { role } = useAbility();
+  const session = useSession();
+
+  const role = session?.data?.user.role!;
   const { setIsEdit } = useEdit();
 
   const canEdit = ROLE_LIST_ACCESS.includes(role);

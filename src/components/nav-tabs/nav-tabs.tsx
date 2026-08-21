@@ -19,7 +19,7 @@ export default function NavTabs<T extends string>({
 }) {
   if (!navItems.length) return null;
 
-  const tabsWidth = navItems.length < 6 ? `w-1/${navItems.length}` : "w-11";
+  const tabsWidth = navItems.length < 6 ? `w-1/${navItems.length}` : "w-10";
 
   return (
     <Tabs

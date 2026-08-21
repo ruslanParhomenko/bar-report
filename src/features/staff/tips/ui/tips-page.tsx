@@ -1,21 +1,22 @@
 "use client";
 
-import { useEmployees } from "@/providers/employees-provider";
+import { Employee } from "@/features/settings/create-employee/model/type";
 import { useSearchParams } from "next/navigation";
 import { GetTipsData } from "../model/type";
 import TipsMonthPage from "./month/tips-month-page";
 import TipsYearPage from "./year/tips-year-page";
 
 export function TipsPage({
+  employees,
   dataTipsYear,
   isAdmin,
 }: {
+  employees: Employee[];
   dataTipsYear: GetTipsData[] | null;
   isAdmin: boolean;
 }) {
   const tab = useSearchParams().get("tab");
 
-  const employees = useEmployees();
   return (
     <>
       {tab === "tips-month" && (

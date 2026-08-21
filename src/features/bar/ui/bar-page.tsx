@@ -3,8 +3,6 @@
 import { useFieldArray, useWatch } from "react-hook-form";
 import { toast } from "sonner";
 
-import { useAbility } from "@/providers/ability-provider";
-
 import DatePickerInput from "@/components/input-form/date-input";
 import FormWrapper from "@/components/wrapper/form-wrapper";
 import { useLocalStorageForm } from "@/hooks/use-local-storage";
@@ -19,31 +17,32 @@ import { BreakPage } from "@/features/break";
 import { BreakForm } from "@/features/break/model/schema";
 import { PenaltyPage } from "@/features/penalty";
 import { ReportBarPage } from "@/features/report-bar";
+import { Employee } from "@/features/settings/create-employee/model/type";
 import { TipsAddPage } from "@/features/tips-add";
-import { useEmployees } from "@/providers/employees-provider";
 
 export function BarPage({
+  employees,
   dataBreakList,
   currencyUSD,
   orderProducts,
+  isAdmin,
 }: {
+  employees: Employee[];
   dataBreakList: BreakForm | null;
   currencyUSD: number | null;
   orderProducts: Record<string, string[]> | null;
+  isAdmin: boolean;
 }) {
   const searchParams = useSearchParams();
-  const employees = useEmployees();
-  const { role } = useAbility();
   const { form, onSubmit } = useBarForm({
     dataBreakList,
     currencyUSD,
   });
-  const isAdmin = role === "ADMIN";
 
   const tab = searchParams.get("tab");
 
   const employeesName = employees
-    .filter((emp) => BAR_EMPLOYEES.includes(emp.role))
+    ?.filter((emp) => BAR_EMPLOYEES.includes(emp.role))
     .filter((emp) => emp.status === "active")
     .map((e) => ({
       name: e.name,
@@ -76,7 +75,7 @@ export function BarPage({
   );
 
   const filteredEmployees = employeesName
-    .filter((emp) => selectedMap.has(emp.name.trim()))
+    ?.filter((emp) => selectedMap.has(emp.name.trim()))
     .map((emp) => ({
       ...emp,
       idShift: selectedMap.get(emp.name.trim()),

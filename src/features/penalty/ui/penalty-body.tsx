@@ -10,8 +10,12 @@ import { cn } from "@/lib/utils";
 import { Plus, Trash2 } from "lucide-react";
 import { useFieldArray, useFormContext } from "react-hook-form";
 
-export function PenaltyTableBody({ employees }: { employees: Employee[] }) {
-  const selectedEmployees = [...new Set(employees.map((e) => e.name))];
+export function PenaltyTableBody({
+  employees,
+}: {
+  employees: Employee[] | null;
+}) {
+  const selectedEmployees = [...new Set(employees?.map((e) => e.name))];
   const { control, setValue } = useFormContext<BarForm>();
 
   const {

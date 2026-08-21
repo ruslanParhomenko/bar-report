@@ -15,7 +15,7 @@ export default function HeaderBar() {
   return (
     <div
       className={cn(
-        "bg-background sticky top-0 z-9 flex flex-col items-center justify-center gap-1 py-2 md:flex-row md:justify-between md:gap-2 md:px-4",
+        "bg-background sticky top-0 z-9 flex flex-row items-center justify-center gap-1 py-2 md:justify-between md:gap-2 md:px-4",
       )}
     >
       {urlTab && (

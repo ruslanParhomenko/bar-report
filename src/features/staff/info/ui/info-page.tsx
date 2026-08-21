@@ -13,17 +13,20 @@ type InfoPageProps = {
     priceList: DataPriceList | null;
     dataStatusParameters: DataStatusParameters | null;
   };
+  isAdmin: boolean;
 };
 
-export function InfoPage({ data }: InfoPageProps) {
+export function InfoPage({ data, isAdmin }: InfoPageProps) {
   const tab = useSearchParams().get("tab");
   return (
     <>
       {tab === "statusMenu" && <StatusMenu data={data.dataStatusParameters} />}
 
-      {tab === "price-list-bar" && <PriceListBarTable data={data.priceList} />}
+      {tab === "price-list-bar" && (
+        <PriceListBarTable data={data.priceList} isAdmin={isAdmin} />
+      )}
       {tab === "price-list-cucina" && (
-        <PriceListCucinaTable data={data.priceList} />
+        <PriceListCucinaTable data={data.priceList} isAdmin={isAdmin} />
       )}
     </>
   );

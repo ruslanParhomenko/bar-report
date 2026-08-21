@@ -1,3 +1,4 @@
+import { getEmployees } from "@/features/settings/create-employee/actions/get-employees";
 import { TipsPage } from "@/features/staff/tips";
 import { getTipsByYear } from "@/features/staff/tips/actions/get-tips";
 import { headers } from "next/headers";
@@ -14,6 +15,13 @@ export default async function Page({
   const isAdmin = headerStore.get("x-is-admin") === "true";
 
   const dataTipsYear = await getTipsByYear(year);
+  const employees = await getEmployees();
 
-  return <TipsPage dataTipsYear={dataTipsYear} isAdmin={isAdmin} />;
+  return (
+    <TipsPage
+      dataTipsYear={dataTipsYear}
+      isAdmin={isAdmin}
+      employees={employees}
+    />
+  );
 }

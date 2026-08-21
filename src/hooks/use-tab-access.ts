@@ -1,4 +1,4 @@
-import { useAbility } from "@/providers/ability-provider";
+import { useSession } from "next-auth/react";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useMemo } from "react";
 
@@ -7,7 +7,10 @@ export function useAccessCheck(): boolean {
   const searchParams = useSearchParams();
   const tab = searchParams.get("tab");
 
-  const { accessTabs, role } = useAbility();
+  const session = useSession();
+
+  const role = session?.data?.user.role!;
+  const accessTabs = session?.data?.user.accessTabs || [];
 
   const hasAccess = useMemo(() => {
     const segmentPatchWithTabs = `${patchName}_${tab}`;
