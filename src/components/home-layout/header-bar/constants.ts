@@ -17,6 +17,7 @@ import {
   INFO_MAIN_ROUTE,
   MENU_MAIN_ROUTE,
   ORDERS_MAIN_ROUTE,
+  PARSER_1C_MAIN_ROUTE,
   REPORTS_BAR_ROUTE,
   REPORTS_CUCINA_ROUTE,
   RESULT_MAIN_ROUTE,
@@ -137,6 +138,7 @@ export const TABS_BY_ROUTE = {
     "menu-daily",
     "data-status-parameters",
   ],
+  [PARSER_1C_MAIN_ROUTE]: ["exp", "xls"],
 } as const;
 
 export type NAV_BY_PATCH_TYPE = Record<
@@ -267,6 +269,10 @@ export const NAV_BY_PATCH = {
   },
   [MENU_MAIN_ROUTE]: {
     tabs: TABS_BY_ROUTE[MENU_MAIN_ROUTE],
+    selectDate: false,
+  },
+  [PARSER_1C_MAIN_ROUTE]: {
+    tabs: TABS_BY_ROUTE[PARSER_1C_MAIN_ROUTE],
     selectDate: false,
   },
 } satisfies Partial<NAV_BY_PATCH_TYPE>;

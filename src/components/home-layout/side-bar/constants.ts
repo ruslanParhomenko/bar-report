@@ -139,5 +139,6 @@ export const SIDEBAR_NAVIGATION = [
   {
     title: PARSER_1C_MAIN_ROUTE,
     icon: ChartCandlestick,
+    query: NAV_BY_PATCH[PARSER_1C_MAIN_ROUTE],
   },
 ];
