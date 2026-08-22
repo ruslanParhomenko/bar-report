@@ -17,7 +17,7 @@ const SidebarNav = ({
   return (
     <Sidebar>
       <SidebarContent>
-        <div className="text-rd flex justify-center text-xs">
+        <div className="text-rd flex h-8 items-center justify-center text-xs">
           {role?.toLocaleLowerCase()}
         </div>
         <SidebarMenuButtons isAdmin={isAdmin} accessList={accessList} />

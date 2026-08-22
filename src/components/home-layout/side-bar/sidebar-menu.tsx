@@ -10,7 +10,7 @@ export default function SidebarMenuButtons({
   accessList: string[];
 }) {
   return (
-    <SidebarMenu className="flex h-full flex-col pt-2 md:gap-1">
+    <SidebarMenu className="flex h-full flex-col gap-1">
       {SIDEBAR_NAVIGATION.filter(
         (item) => accessList.includes(item.title) || isAdmin,
       ).map((item) => {
