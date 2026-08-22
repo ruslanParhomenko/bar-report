@@ -12,6 +12,11 @@ export interface HourBucket {
   value: number;
 }
 
+/**
+ * Извлекает товарные строки из одного .xls файла (буфер).
+ * Ищет строки, где столбец G (индекс 6) — дата вида "YYYYMMDD HH:MM:SS",
+ * а столбец F (индекс 5) — число ("Кол-во").
+ */
 export function extractRecords(
   buffer: ArrayBuffer | Uint8Array,
 ): OrderRecord[] {
@@ -53,7 +58,14 @@ export function extractRecords(
 
 /**
  * Строит метки часов и границы интервалов для суточной смены
- * 07:00 -> 07:00 следующего дня, основываясь на самой ранней записи.
+ * 07:00 текущей даты -> 07:00 следующего дня.
+ *
+ * Базовая дата смены определяется по ПЕРВОЙ записи с часом >= 07, а не по
+ * самой ранней записи вообще: отчёт нередко содержит "хвост" предыдущей
+ * смены (например, заказ в 05:23), который относится ещё к прошлому дню
+ * и не должен сдвигать всё окно назад. Записи вне итогового окна
+ * [07:00 baseDay; 07:00 baseDay+1) в summarize() просто не попадают ни в
+ * один интервал и отбрасываются.
  */
 function buildHourBuckets(records: OrderRecord[]): {
   labels: string[];
@@ -61,15 +73,14 @@ function buildHourBuckets(records: OrderRecord[]): {
 } {
   if (records.length === 0) return { labels: [], ranges: [] };
 
-  const earliest = records.reduce((a, b) => (a.dt < b.dt ? a : b)).dt;
+  const sorted = [...records].sort((a, b) => a.dt.getTime() - b.dt.getTime());
+  const shiftStart = sorted.find((r) => r.dt.getHours() >= 7) ?? sorted[0];
+
   const baseDay = new Date(
-    earliest.getFullYear(),
-    earliest.getMonth(),
-    earliest.getDate(),
+    shiftStart.dt.getFullYear(),
+    shiftStart.dt.getMonth(),
+    shiftStart.dt.getDate(),
   );
-  if (earliest.getHours() < 7) {
-    baseDay.setDate(baseDay.getDate() - 1);
-  }
   const nextDay = new Date(baseDay);
   nextDay.setDate(nextDay.getDate() + 1);
 
@@ -94,10 +105,13 @@ function buildHourBuckets(records: OrderRecord[]): {
 }
 
 /**
- * Суммирует "Кол-во" по часовым интервалам и возвращает массив
+ * Суммирует "Кол-во" по часовым интервалам ОДНОЙ смены (набора записей,
+ * относящихся к одному отчётному дню) и возвращает массив
  * {name, value} — метка часа и сумма количества заказов за этот час.
  */
-export function summarize(records: OrderRecord[]): HourBucket[] {
+function summarizeShift(records: OrderRecord[]): HourBucket[] {
+  if (records.length === 0) return [];
+
   const { labels, ranges } = buildHourBuckets(records);
   const sums = new Array(labels.length).fill(0);
 
@@ -115,11 +129,40 @@ export function summarize(records: OrderRecord[]): HourBucket[] {
 }
 
 /**
+ * То же самое, но для одного набора записей без привязки к файлам —
+ * оставлено для обратной совместимости и прямого использования.
+ */
+export function summarize(records: OrderRecord[]): HourBucket[] {
+  return summarizeShift(records);
+}
+
+/**
  * Полный пайплайн: несколько буферов .xls -> почасовой JSON.
+ *
+ * ВАЖНО: каждый буфер обрабатывается как ОТДЕЛЬНАЯ смена (07:00 -> 07:00
+ * следующего дня), со своим собственным базовым днём. Если объединить все
+ * записи из всех файлов в один список ДО построения окна (как было раньше),
+ * то при передаче файлов за несколько разных суток (например 17, 18, 19,
+ * 20, 21 числа) окно построится только по первому файлу, а записи из
+ * остальных дней попадут вне этого окна и будут молча отброшены — из 5
+ * дней данных реально посчитается меньше одного. Поэтому здесь для каждого
+ * файла строится собственное окно и своя почасовая сумма, а затем
+ * результаты складываются по совпадающим меткам часа — так каждый день
+ * учитывается полностью, а итог по каждому часу становится суммой по всем
+ * переданным дням.
  */
 export function parseOrdersToHourlyJson(
   buffers: (ArrayBuffer | Uint8Array)[],
 ): HourBucket[] {
-  const allRecords = buffers.flatMap((buf) => extractRecords(buf));
-  return summarize(allRecords);
+  const merged = new Map<string, number>();
+
+  for (const buf of buffers) {
+    const records = extractRecords(buf);
+    const shiftResult = summarizeShift(records);
+    for (const { name, value } of shiftResult) {
+      merged.set(name, (merged.get(name) ?? 0) + value);
+    }
+  }
+
+  return Array.from(merged, ([name, value]) => ({ name, value }));
 }

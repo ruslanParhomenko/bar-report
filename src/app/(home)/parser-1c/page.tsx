@@ -1,4 +1,4 @@
-import { ParserPage } from "@/features/finance/parser-1c";
+import { ParserPage } from "@/features/parser-1c";
 
 export default function Page() {
   return <ParserPage />;

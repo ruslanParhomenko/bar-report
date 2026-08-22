@@ -43,9 +43,9 @@ export default function OrdersByHourPage() {
 
   return (
     <div className="flex flex-col md:h-[90dvh]">
-      <div className="bg-background w-ful sticky top-0 z-10 flex items-center justify-between gap-3 pb-1 md:px-4 md:pb-2">
+      <div className="bg-background w-ful sticky top-0 z-10 flex items-center justify-between gap-3 pt-4 pb-1 md:px-4 md:pb-2">
         <div
-          className="flex w-80 cursor-pointer items-center justify-center pt-4"
+          className="flex w-1/2 cursor-pointer items-center justify-center"
           onClick={() => inputRef.current?.click()}
         >
           <Input

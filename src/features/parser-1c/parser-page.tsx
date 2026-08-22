@@ -1,7 +1,7 @@
 "use client";
 
-import ExpParserPage from "@/features/finance/parser-1c/exp-parser/exp-parser-page";
-import XlsParserPage from "@/features/finance/parser-1c/xls-parser/xls-parser-page";
+import ExpParserPage from "@/features/parser-1c/exp-parser/exp-parser-page";
+import XlsParserPage from "@/features/parser-1c/xls-parser/xls-parser-page";
 import { useSearchParams } from "next/navigation";
 
 export function ParserPage() {
