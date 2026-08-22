@@ -1,8 +1,8 @@
 import { getRemarksByYearMonth } from "@/features/penalty/actions/get-penalty";
 import { remarksByUniqueEmployee } from "@/features/staff/archive/penalty/utils";
 
+import { getScheduleByYearAndMonth } from "@/features/schedule/schedule-edit/actions/get-schedule";
 import { ResultPage } from "@/features/staff/result";
-import { getScheduleByYearAndMonth } from "@/features/staff/schedule/schedule-edit/actions/get-schedule";
 
 import { getTipsByYearAndMonth } from "@/features/staff/tips/actions/get-tips";
 import { headers } from "next/headers";

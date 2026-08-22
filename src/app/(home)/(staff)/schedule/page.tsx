@@ -1,6 +1,6 @@
+import { SchedulePage } from "@/features/schedule";
+import { getScheduleByYearAndMonth } from "@/features/schedule/schedule-edit/actions/get-schedule";
 import { getEmployees } from "@/features/settings/create-employee/actions/get-employees";
-import { SchedulePage } from "@/features/staff/schedule";
-import { getScheduleByYearAndMonth } from "@/features/staff/schedule/schedule-edit/actions/get-schedule";
 import { headers } from "next/headers";
 
 export default async function Page({

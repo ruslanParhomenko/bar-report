@@ -1,4 +1,4 @@
-import { GetScheduleData } from "@/features/staff/schedule/schedule-edit/model/type";
+import { GetScheduleData } from "@/features/schedule/schedule-edit/model/type";
 import { GetTipsData } from "@/features/staff/tips/model/type";
 import { MONTHS } from "@/utils/get-month-days";
 import { ROLE, ROLE_EMPLOYEES } from "./constants";

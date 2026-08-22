@@ -3,7 +3,7 @@
 import SelectOptions from "@/components/select/select-options";
 import { useSidebar } from "@/components/ui/sidebar";
 import { MONTHS, YEARS } from "@/utils/get-month-days";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 export default function SelectMonthYear({
   urlMonth,
@@ -12,6 +12,7 @@ export default function SelectMonthYear({
   urlMonth: string;
   urlYear: string;
 }) {
+  const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
@@ -25,7 +26,7 @@ export default function SelectMonthYear({
 
     params.set("month", value);
 
-    window.history.replaceState(null, "", `${pathname}?${params.toString()}`);
+    router.replace(`${pathname}?${params.toString()}`);
   };
 
   const handleYearChange = (value: string) => {
@@ -33,7 +34,7 @@ export default function SelectMonthYear({
 
     params.set("year", value);
 
-    window.history.replaceState(null, "", `${pathname}?${params.toString()}`);
+    router.replace(`${pathname}?${params.toString()}`);
   };
 
   return (

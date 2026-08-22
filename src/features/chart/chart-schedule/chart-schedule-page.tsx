@@ -6,10 +6,10 @@ import CustomLegend from "@/components/chart/custom-legend";
 import NameFilter from "@/components/chart/name-filter";
 import { BarConfig } from "@/components/chart/types";
 import NavTabs from "@/components/nav-tabs/nav-tabs";
+import { GetScheduleData } from "@/features/schedule/schedule-edit/model/type";
 import { MONTHS } from "@/utils/get-month-days";
 import { toggleBarVisibility } from "@/utils/toggle-bar-visibility";
 import { useState } from "react";
-import { GetScheduleData } from "@/features/staff/schedule/schedule-edit/model/type";
 
 const ITEM_KEYS = ["day", "night", "total"] as const;
 type BarKey = BarConfig<(typeof ITEM_KEYS)[number]>;

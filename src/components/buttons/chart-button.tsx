@@ -23,7 +23,6 @@ export default function ChartButton({
   const month = MONTHS[date.getMonth()];
   const year = date.getFullYear().toString();
 
-  console.log(tabs);
   return (
     <button
       onClick={() =>

@@ -15,7 +15,11 @@ export function PenaltyTableBody({
 }: {
   employees: Employee[] | null;
 }) {
-  const selectedEmployees = [...new Set(employees?.map((e) => e.name))];
+  const selectedEmployees = [
+    ...new Set(
+      employees?.filter((e) => e.status === "active").map((e) => e.name),
+    ),
+  ];
   const { control, setValue } = useFormContext<BarForm>();
 
   const {

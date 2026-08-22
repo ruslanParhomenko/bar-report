@@ -1,16 +1,18 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FieldValues, UseFormReturn } from "react-hook-form";
 
 export function useLocalStorageForm<T extends FieldValues>(
   form: UseFormReturn<T>,
   key: string,
+  debounceMs = 200,
 ) {
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    const savedData = localStorage.getItem(key);
+    if (typeof window === "undefined") return;
 
+    const savedData = localStorage.getItem(key);
     if (savedData) {
       try {
         form.reset(JSON.parse(savedData));
@@ -18,24 +20,34 @@ export function useLocalStorageForm<T extends FieldValues>(
         console.error("Error parsing saved data:", error);
       }
     }
-
     setIsLoaded(true);
   }, [form, key]);
 
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(
+    undefined,
+  );
+
   useEffect(() => {
+    if (!isLoaded) return;
+
     const subscription = form.watch((value) => {
-      if (isLoaded) {
-        localStorage.setItem(key, JSON.stringify(value));
-      }
+      if (typeof window === "undefined") return;
+
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = setTimeout(() => {
+        try {
+          localStorage.setItem(key, JSON.stringify(value));
+        } catch (error) {
+          console.error("Error saving form data:", error);
+        }
+      }, debounceMs);
     });
 
-    return () => subscription.unsubscribe();
-  }, [form, key, isLoaded]);
+    return () => {
+      subscription.unsubscribe();
+      clearTimeout(timeoutRef.current);
+    };
+  }, [form, key, isLoaded, debounceMs]);
 
-  const resetForm = (defaultValues: T) => {
-    form.reset(defaultValues);
-    localStorage.removeItem(key);
-  };
-
-  return { isLoaded, resetForm };
+  return { isLoaded };
 }

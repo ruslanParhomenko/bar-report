@@ -33,15 +33,12 @@ export const authOptions: NextAuthOptions = {
 
           const dbUser = users.find((u) => u.mail === profile.email);
 
-          token.role =
-            profile.email === ADMIN_EMAIL
-              ? "ADMIN"
-              : (dbUser?.role ?? "OBSERVER");
+          token.role = profile.email === ADMIN_EMAIL ? "ADMIN" : dbUser?.role;
 
           token.accessList = dbUser?.accessList ?? [];
           token.accessTabs = dbUser?.accessTabs ?? [];
         } catch (e) {
-          token.role = "OBSERVER";
+          token.role = "";
           token.accessList = [];
           token.accessTabs = [];
         }
@@ -51,9 +48,9 @@ export const authOptions: NextAuthOptions = {
     },
     async session({ session, token }) {
       if (session.user) {
-        session.user.role = token.role ?? "OBSERVER";
-        session.user.accessList = token.accessList ?? [];
-        session.user.accessTabs = token.accessTabs ?? [];
+        session.user.role = token.role;
+        session.user.accessList = token.accessList;
+        session.user.accessTabs = token.accessTabs;
       }
       return session;
     },

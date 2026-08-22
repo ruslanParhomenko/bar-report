@@ -2,8 +2,8 @@
 
 import { MonthPicker } from "@/components/input-controlled/month-range";
 import NavTabs from "@/components/nav-tabs/nav-tabs";
+import { GetScheduleData } from "@/features/schedule/schedule-edit/model/type";
 import { Employee } from "@/features/settings/create-employee/model/type";
-import { GetScheduleData } from "@/features/staff/schedule/schedule-edit/model/type";
 import { GetTipsData } from "@/features/staff/tips/model/type";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
