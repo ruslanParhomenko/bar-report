@@ -4,8 +4,7 @@ import { Input } from "@/components/ui/input";
 import { useRef, useState } from "react";
 
 import CustomChart from "@/components/chart/custom-chart";
-import { Label } from "@/components/ui/label";
-import { parseOrdersToHourlyJson, type HourBucket } from "@/lib/parse-xls";
+import { parseOrdersByHourOfDay, type HourBucket } from "@/lib/parse-xls";
 import { cn } from "@/lib/utils";
 
 type ChartDataItem = { name: string; value: number };
@@ -24,28 +23,30 @@ export default function OrdersByHourPage() {
   const handleFile = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
 
-    if (!files || files.length === 0) return;
+    if (!files?.length) return;
 
     const buffers = await Promise.all(
       Array.from(files).map((file) => file.arrayBuffer()),
     );
 
-    const data = parseOrdersToHourlyJson(buffers);
+    const data = parseOrdersByHourOfDay(buffers);
+
+    console.log(data);
 
     setResult(data);
 
     setFileName(
       Array.from(files)
-        .map((f) => f.name)
+        .map((file) => file.name)
         .join(" + "),
     );
   };
 
   return (
     <div className="flex flex-col md:h-[90dvh]">
-      <div className="bg-background w-ful sticky top-0 z-10 flex items-center justify-between gap-3 pt-4 pb-1 md:px-4 md:pb-2">
+      <div className="bg-background sticky top-0 z-9 flex w-full items-center justify-between py-4">
         <div
-          className="flex w-1/2 cursor-pointer items-center justify-center"
+          className="flex w-80 cursor-pointer items-center justify-center"
           onClick={() => inputRef.current?.click()}
         >
           <Input
@@ -60,9 +61,7 @@ export default function OrdersByHourPage() {
             {fileName.split("-")[0]}
           </span>
         </div>
-        <Label className="block w-full text-center text-xs">
-          Заказы по часам
-        </Label>
+        <div className="w-full text-center text-xs">Заказы по часам</div>
       </div>
 
       <CustomChart
