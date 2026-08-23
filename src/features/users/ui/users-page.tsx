@@ -5,7 +5,6 @@ import LinkEditButton from "@/components/buttons/link-edit-button";
 import { Switch } from "@/components/ui/switch";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { CREATE_USER_MAIN_ROUTE } from "@/constants/route-tag";
-import { useIsMobile } from "@/hooks/use-mobile";
 import { CheckCircle, UserX } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 
@@ -24,8 +23,6 @@ export function UsersPage({
   const filter = useSearchParams().get("tab");
 
   const [localUsers, setLocalUsers] = useState(users);
-
-  const isMobile = useIsMobile();
 
   const handleStatusChange = async (id: string, newStatus: boolean) => {
     setLocalUsers((prev) =>
@@ -54,9 +51,7 @@ export function UsersPage({
             <TableRow key={user.id}>
               <TableCell className="w-6">{idx + 1}</TableCell>
               <TableCell>{user.mail}</TableCell>
-              <TableCell className="text-center md:px-4">
-                {isMobile ? user.role[0] : user.role}
-              </TableCell>
+              <TableCell className="text-center md:px-4">{user.role}</TableCell>
               <TableCell>{user.name}</TableCell>
               <TableCell>
                 <div className="flex justify-center gap-8 pr-4">

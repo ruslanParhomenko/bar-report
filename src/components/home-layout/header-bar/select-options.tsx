@@ -5,7 +5,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../ui/select";
+} from "../../ui/select";
 
 export default function SelectOptions({
   options,
@@ -36,12 +36,18 @@ export default function SelectOptions({
       >
         <SelectValue placeholder={placeHolder ?? ""} />
       </SelectTrigger>
-      <SelectContent>
-        {options.map((item, idx) => (
-          <SelectItem key={`${item.value}-${idx}`} value={item.value}>
-            {item.label}
-          </SelectItem>
-        ))}
+      <SelectContent className="mt-4">
+        <div className="grid grid-cols-3 gap-3 p-2">
+          {options.map((item, idx) => (
+            <SelectItem
+              key={`${item.value}-${idx}`}
+              value={item.value}
+              className="border-border flex h-9 items-center justify-center border p-0 px-3 text-center [&>span:first-child]:hidden"
+            >
+              {item.label}
+            </SelectItem>
+          ))}
+        </div>
       </SelectContent>
     </Select>
   );

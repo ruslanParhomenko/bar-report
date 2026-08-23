@@ -1,6 +1,6 @@
 "use client";
 
-import SelectOptions from "@/components/select/select-options";
+import SelectOptions from "@/components/home-layout/header-bar/select-options";
 import { useSidebar } from "@/components/ui/sidebar";
 import { MONTHS, YEARS } from "@/utils/get-month-days";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
@@ -42,7 +42,7 @@ export default function SelectMonthYear({
       <SelectOptions
         options={MONTHS.map((month) => ({
           value: month,
-          label: isMobile ? month.slice(0, 3) : month,
+          label: month.slice(0, 3),
         }))}
         value={urlMonth}
         onChange={handleMonthChange}
