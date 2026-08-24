@@ -2,18 +2,18 @@
 
 import { MonthPicker } from "@/components/input-controlled/month-range";
 import NavTabs from "@/components/nav-tabs/nav-tabs";
+import { useChartResultData } from "@/features/chart/chart-result/hooks/use-chart-result-data";
+import { NAV_TABS } from "@/features/chart/chart-result/model/constants";
+import { ChartResultFilter } from "@/features/chart/chart-result/model/type";
+import { ChartResultChart } from "@/features/chart/chart-result/ui/chart-result-chart";
+import { ChartResultTable } from "@/features/chart/chart-result/ui/chart-result-table";
 import { GetScheduleData } from "@/features/schedule/schedule-edit/model/type";
 import { Employee } from "@/features/settings/create-employee/model/type";
 import { GetTipsData } from "@/features/staff/tips/model/type";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
-import { ChartResultChart } from "./chart-result-chart";
-import { ChartResultTable } from "./chart-result-table";
-import { NAV_TABS } from "./constants";
-import type { ChartResultFilter } from "./types";
-import { useChartResultData } from "./use-chart-result-data";
 
-export default function ChartResultPage({
+export function ChartResultPage({
   dataSchedules,
   tipsDataYear,
   employees,

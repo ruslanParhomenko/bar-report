@@ -89,6 +89,7 @@ export const TABS_BY_ROUTE = {
   ],
   [CHART_ARCHIVE_ROUTE]: [
     "penalty-year",
+    "penalty-employee",
     "tips-day",
     "tips-year",
     "tips-employee",

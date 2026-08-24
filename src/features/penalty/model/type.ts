@@ -12,7 +12,7 @@ export type GetRemarksData = {
   remarks: RemarksForm["remarks"];
 };
 
-export type YearData = {
+export type GetRemarksYearData = {
   id: string;
   remarks: GetRemarksData[];
 };

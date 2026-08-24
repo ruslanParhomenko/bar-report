@@ -2,7 +2,10 @@
 
 import { REMARKS_ACTION_TAG } from "@/constants/action-tag";
 import { RemarksForm } from "@/features/penalty/model/schema";
-import { GetRemarksData, YearData } from "@/features/penalty/model/type";
+import type {
+  GetRemarksData,
+  GetRemarksYearData,
+} from "@/features/penalty/model/type";
 import { getYearMonthDoc } from "@/lib/firebase-doc";
 import { MONTHS } from "@/utils/get-month-days";
 import { unstable_cache } from "next/cache";
@@ -60,7 +63,7 @@ export const getRemarksByDay = unstable_cache(_getRemarksByDay, [actionTag], {
 
 // get by year
 
-async function _getRemarksByYear(year: string): Promise<YearData[]> {
+async function _getRemarksByYear(year: string): Promise<GetRemarksYearData[]> {
   const docs = await Promise.all(
     MONTHS.map(async (month) => {
       const docRef = getYearMonthDoc(actionTag, year, month);
@@ -78,7 +81,7 @@ async function _getRemarksByYear(year: string): Promise<YearData[]> {
     }),
   );
 
-  return docs.filter((item): item is YearData => item !== null);
+  return docs.filter((item): item is GetRemarksYearData => item !== null);
 }
 
 export const getRemarksByYear = unstable_cache(_getRemarksByYear, [actionTag], {

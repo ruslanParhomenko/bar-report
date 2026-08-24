@@ -1,27 +1,36 @@
 "use client";
-import { YearData } from "@/features/penalty/model/type";
-import { GetTipsAddByYear } from "@/features/tips-add/model/type";
+import type { GetRemarksYearData } from "@/features/penalty/model/type";
+import type { GetTipsAddByYear } from "@/features/tips-add/model/type";
 import { useSearchParams } from "next/navigation";
 import ChartRemarksPage from "./chart-remarks/chart-remarks-page";
 import ChartTipsAddPage from "./chart-tips-add-page/chart-tips-add-page";
 
 const TIPS_TABS = ["tips-day", "tips-year", "tips-employee"] as const;
+const PENALTY_TABS = ["penalty-year", "penalty-employee"] as const;
 
 export default function ChartArchivePage({
   data,
 }: {
   data: {
-    dataRemarks: YearData[];
-    dataTips: GetTipsAddByYear[];
+    dataRemarks: GetRemarksYearData[] | null;
+    dataTips: GetTipsAddByYear[] | null;
   };
 }) {
   const tab = useSearchParams().get("tab");
 
-  if (tab === "penalty-year") {
-    return <ChartRemarksPage dataRemarks={data.dataRemarks} />;
+  if (
+    tab &&
+    PENALTY_TABS.includes(tab as (typeof PENALTY_TABS)[number]) &&
+    data.dataRemarks
+  ) {
+    return <ChartRemarksPage dataRemarks={data.dataRemarks} tab={tab} />;
   }
 
-  if (tab && TIPS_TABS.includes(tab as (typeof TIPS_TABS)[number])) {
+  if (
+    tab &&
+    data.dataTips &&
+    TIPS_TABS.includes(tab as (typeof TIPS_TABS)[number])
+  ) {
     return <ChartTipsAddPage dataTipsAdd={data.dataTips} tab={tab} />;
   }
 

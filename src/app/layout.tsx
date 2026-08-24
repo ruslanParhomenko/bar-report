@@ -45,7 +45,7 @@ export default async function RootLayout({
 
   return (
     <html lang={locale} suppressHydrationWarning>
-      <body className={`${lora.variable} antialiased`}>
+      <body className={`${lora.variable}antialiased `}>
         <Toaster position="top-center" />
         <RootProviders>{children}</RootProviders>
       </body>

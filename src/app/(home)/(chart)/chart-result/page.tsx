@@ -1,4 +1,4 @@
-import ChartResultPage from "@/features/chart/chart-result/chart-result-page";
+import { ChartResultPage } from "@/features/chart/chart-result";
 import { getScheduleByYear } from "@/features/schedule/schedule-edit/actions/get-schedule";
 import { getEmployees } from "@/features/settings/create-employee/actions/get-employees";
 import { getTipsByYear } from "@/features/staff/tips/actions/get-tips";

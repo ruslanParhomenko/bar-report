@@ -4,9 +4,12 @@ import CustomChart from "@/components/chart/custom-chart";
 import CustomLegend from "@/components/chart/custom-legend";
 import NameFilter from "@/components/chart/name-filter";
 import { BarConfig } from "@/components/chart/types";
+import {
+  ChartDataItem,
+  ChartResultFilter,
+} from "@/features/chart/chart-result/model/type";
 import { toggleBarVisibility } from "@/utils/toggle-bar-visibility";
 import { useState } from "react";
-import type { ChartDataItem, ChartResultFilter } from "./types";
 
 const ITEM_KEYS = [
   "salary",
@@ -14,6 +17,8 @@ const ITEM_KEYS = [
   "total",
   "hours",
   "rate",
+  "penalty",
+  "bonus",
   "workedMonths",
 ] as const;
 type BarKey = BarConfig<(typeof ITEM_KEYS)[number]>;
@@ -24,6 +29,8 @@ const BAR_KEYS: BarKey[] = [
   { key: "total", color: "var(--color-bl)", visible: false },
   { key: "hours", color: "var(--color-primary)", visible: false },
   { key: "rate", color: "var(--color-yl)", visible: false },
+  { key: "penalty", color: "var(--color-gr)", visible: false },
+  { key: "bonus", color: "var(--color-bl)", visible: false },
   { key: "workedMonths", color: "var(--color-yl)", visible: false },
 ];
 

@@ -19,6 +19,7 @@ import { PenaltyPage } from "@/features/penalty";
 import { ReportBarPage } from "@/features/report-bar";
 import { Employee } from "@/features/settings/create-employee/model/type";
 import { TipsAddPage } from "@/features/tips-add";
+import { useTabSwipeNavigation } from "@/hooks/use-tab-swipe-navigation";
 
 export function BarPage({
   employees,
@@ -85,33 +86,42 @@ export function BarPage({
     toast.error("Заполните обязательные красные поля");
   };
 
+  const { handlers } = useTabSwipeNavigation();
+
   if (!isLoaded) {
     return null;
   }
   return (
-    <FormWrapper form={form} onSubmit={onSubmit} onError={onError}>
+    <FormWrapper
+      form={form}
+      onSubmit={onSubmit}
+      onError={onError}
+      className="h-[80dvh]"
+    >
       <DatePickerInput
         fieldName="date"
         className="text-rd h-6 text-sm"
         disabled={!isAdmin}
       />
-      {tab === "break" && (
-        <>
-          <BreakPage employeesName={employeesName} />
-          <PenaltyPage employees={employees} />
-        </>
-      )}
+      <div {...handlers} className="h-full">
+        {tab === "break" && (
+          <>
+            <BreakPage employeesName={employeesName} />
+            <PenaltyPage employees={employees} />
+          </>
+        )}
 
-      {tab === "report" && <ReportBarPage orderProducts={orderProducts} />}
+        {tab === "report" && <ReportBarPage orderProducts={orderProducts} />}
 
-      {tab === "tips" && (
-        <TipsAddPage
-          tipsArrayByEmployee={tipsArrayByEmployee}
-          options={filteredEmployees}
-          disabled={!isAdmin}
-          currency={currencyUSD?.toFixed(2) ?? "0"}
-        />
-      )}
+        {tab === "tips" && (
+          <TipsAddPage
+            tipsArrayByEmployee={tipsArrayByEmployee}
+            options={filteredEmployees}
+            disabled={!isAdmin}
+            currency={currencyUSD?.toFixed(2) ?? "0"}
+          />
+        )}
+      </div>
     </FormWrapper>
   );
 }

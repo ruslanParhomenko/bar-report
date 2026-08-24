@@ -10,12 +10,15 @@ export default async function Page({
   const { month, year } = await searchParams;
   if (!month || !year) return null;
 
-  const dataRemarks = await getRemarksByYear(String(year));
-  const dataTips = await getTipsAddByYear(String(year));
+  const [dataRemarks, dataTips] = await Promise.allSettled([
+    getRemarksByYear(String(year)),
+    getTipsAddByYear(String(year)),
+  ]);
 
   const data = {
-    dataRemarks: dataRemarks,
-    dataTips: dataTips,
+    dataRemarks: dataRemarks.status === "fulfilled" ? dataRemarks.value : null,
+    dataTips: dataTips.status === "fulfilled" ? dataTips.value : null,
   };
+
   return <ChartArchivePage data={data} />;
 }

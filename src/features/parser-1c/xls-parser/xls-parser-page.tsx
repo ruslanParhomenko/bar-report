@@ -31,8 +31,6 @@ export default function OrdersByHourPage() {
 
     const data = parseOrdersByHourOfDay(buffers);
 
-    console.log(data);
-
     setResult(data);
 
     setFileName(

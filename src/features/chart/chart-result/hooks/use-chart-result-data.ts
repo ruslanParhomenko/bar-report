@@ -6,14 +6,21 @@ import { GetTipsData } from "@/features/staff/tips/model/type";
 import { MONTHS } from "@/utils/get-month-days";
 import { monthsSince } from "@/utils/month-since";
 import { useState } from "react";
+
 import {
   calculateBarmenNetTips,
   calculateWaitersNetTips,
   findScheduleRow,
   getEmployeeMonthData,
-} from "./calculate-pay";
-import { ROLE, ROLE_EMPLOYEES } from "./constants";
-import type { ChartResultDataInput, EmployeeTableRow } from "./types";
+} from "@/features/chart/chart-result/lib/calculate-pay";
+import {
+  ROLE,
+  ROLE_CHART_EMPLOYEES,
+} from "@/features/chart/chart-result/model/constants";
+import {
+  ChartResultDataInput,
+  EmployeeTableRow,
+} from "@/features/chart/chart-result/model/type";
 
 export function useChartResultData({
   dataSchedules,
@@ -28,7 +35,8 @@ export function useChartResultData({
   const [activeName, setActiveName] = useState<string>("");
 
   const roleKey = ROLE[role as keyof typeof ROLE];
-  const roleEmployees = ROLE_EMPLOYEES[role as keyof typeof ROLE_EMPLOYEES];
+  const roleEmployees =
+    ROLE_CHART_EMPLOYEES[role as keyof typeof ROLE_CHART_EMPLOYEES];
 
   const getMonthIndex = (id: string) => MONTHS.indexOf(id);
 

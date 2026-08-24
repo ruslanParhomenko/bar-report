@@ -62,7 +62,7 @@ export function EmployeeCreatePage({
 
       setIsEdit(false);
 
-      window.location.href = "/employees";
+      window.location.href = `/employees?tab=${role}`;
     } catch (error) {
       toast.error("An error occurred");
     }

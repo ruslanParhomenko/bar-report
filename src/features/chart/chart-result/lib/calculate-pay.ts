@@ -1,8 +1,11 @@
-import { GetScheduleData } from "@/features/schedule/schedule-edit/model/type";
+import {
+  ROLE,
+  ROLE_CHART_EMPLOYEES,
+} from "@/features/chart/chart-result/model/constants";
+import type { MonthData } from "@/features/chart/chart-result/model/type";
+import type { GetScheduleData } from "@/features/schedule/schedule-edit/model/type";
 import { GetTipsData } from "@/features/staff/tips/model/type";
 import { MONTHS } from "@/utils/get-month-days";
-import { ROLE, ROLE_EMPLOYEES } from "./constants";
-import type { MonthData } from "./types";
 
 export const round5 = (v: number) => Math.round(v / 5) * 5;
 
@@ -164,7 +167,8 @@ export function getEmployeeMonthData({
   tipsDataYearFull: GetTipsData[] | null;
 }): MonthData {
   const roleKey = ROLE[role as keyof typeof ROLE];
-  const roleEmployees = ROLE_EMPLOYEES[role as keyof typeof ROLE_EMPLOYEES];
+  const roleEmployees =
+    ROLE_CHART_EMPLOYEES[role as keyof typeof ROLE_CHART_EMPLOYEES];
 
   const scheduleRow = findScheduleRow(
     dataSchedulesRange,

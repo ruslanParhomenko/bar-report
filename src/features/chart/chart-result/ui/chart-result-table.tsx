@@ -8,11 +8,15 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { SUB_HEADERS } from "@/features/chart/chart-result/model/constants";
+import {
+  ChartDataItem,
+  EmployeeTableRow,
+  MonthData,
+} from "@/features/chart/chart-result/model/type";
 import { cn } from "@/lib/utils";
 import { MONTHS } from "@/utils/get-month-days";
 import { useState } from "react";
-import { SUB_HEADERS } from "./constants";
-import type { ChartDataItem, EmployeeTableRow, MonthData } from "./types";
 
 export function ChartResultTable({
   tableData,

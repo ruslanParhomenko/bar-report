@@ -1,4 +1,7 @@
-import type { ChartResultFilter, MonthData } from "./types";
+import {
+  ChartResultFilter,
+  MonthData,
+} from "@/features/chart/chart-result/model/type";
 
 export const ROLE: Record<string, string> = {
   barmen: "bar",
@@ -7,7 +10,7 @@ export const ROLE: Record<string, string> = {
   cucina: "cucina",
 };
 
-export const ROLE_EMPLOYEES: Record<string, string> = {
+export const ROLE_CHART_EMPLOYEES: Record<string, string> = {
   barmen: "barmen",
   waiters: "waiters",
   dish: "dish",

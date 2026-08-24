@@ -1,6 +1,7 @@
-import { YearData } from "@/features/penalty/model/type";
+import { GetRemarksYearData } from "@/features/penalty/model/type";
+import { MONTHS } from "@/utils/get-month-days";
 
-export function getChartDataFromYear(data: YearData[]) {
+export function getChartDataFromYear(data: GetRemarksYearData[]) {
   const map = new Map<
     string,
     {
@@ -39,4 +40,39 @@ export function getChartDataFromYear(data: YearData[]) {
     }
   }
   return Array.from(map.values());
+}
+
+export function getChartDataPenaltyByEmployee(
+  dataRemarks: GetRemarksYearData[],
+  activeName: string | null,
+) {
+  if (!activeName) return [];
+
+  return MONTHS.map((monthId) => {
+    const monthData = dataRemarks.find((m) => m.id === monthId);
+
+    let reason = 0;
+    let bonus = 0;
+    let penalty = 0;
+    let hours = 0;
+
+    (monthData?.remarks ?? []).forEach((day) => {
+      day.remarks
+        .filter((employee) => employee.name.trim() === activeName)
+        .forEach((employee) => {
+          reason += employee.reason ? 1 : 0;
+          bonus += Number(employee.bonus) || 0;
+          penalty += Number(employee.penalty) || 0;
+          hours += Number(employee.dayHours) || 0;
+        });
+    });
+
+    return {
+      name: monthId,
+      reason,
+      bonus,
+      penalty,
+      hours,
+    };
+  });
 }
