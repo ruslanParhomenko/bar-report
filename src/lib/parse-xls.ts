@@ -17,6 +17,9 @@ export function parseOrdersByHourOfDay(
 ): HourBucket[] {
   const sums = new Map(HOURS.map((hour) => [hour, 0]));
 
+  let minDate: Date | null = null;
+  let maxDate: Date | null = null;
+
   for (const buffer of buffers) {
     const workbook = XLSX.read(buffer, {
       type: "array",
@@ -46,6 +49,20 @@ export function parseOrdersByHourOfDay(
 
       if (Number.isNaN(qty)) continue;
 
+      const year = Number(dt.slice(0, 4));
+      const month = Number(dt.slice(4, 6)) - 1;
+      const day = Number(dt.slice(6, 8));
+
+      const date = new Date(year, month, day);
+
+      if (!minDate || date < minDate) {
+        minDate = date;
+      }
+
+      if (!maxDate || date > maxDate) {
+        maxDate = date;
+      }
+
       const hour = Number(dt.slice(9, 11));
 
       if (!sums.has(hour)) continue;
@@ -54,8 +71,20 @@ export function parseOrdersByHourOfDay(
     }
   }
 
+  const days =
+    minDate && maxDate
+      ? Math.floor((maxDate.getTime() - minDate.getTime()) / 86_400_000) + 1
+      : 0;
+
+  if (days === 0) {
+    return HOURS.map((hour) => ({
+      name: hour === 0 ? "24" : String(hour).padStart(2, "0"),
+      value: 0,
+    }));
+  }
+
   return HOURS.map((hour) => ({
     name: hour === 0 ? "24" : String(hour).padStart(2, "0"),
-    value: sums.get(hour)!,
+    value: Number((sums.get(hour)! / days).toFixed(0)),
   }));
 }
