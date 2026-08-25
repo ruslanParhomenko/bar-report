@@ -33,7 +33,10 @@ export function ScheduleView({ schedule, tab, isAdmin }: Props) {
 
   if (!schedule) {
     return (
-      <div className="mt-4">
+      <div
+        {...handlers}
+        className="mt-4 flex h-[90dvh] items-center justify-center"
+      >
         <p className="text-center">No schedule found</p>
       </div>
     );
@@ -48,6 +51,7 @@ export function ScheduleView({ schedule, tab, isAdmin }: Props) {
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 0.2, ease: "easeInOut" }}
+        className="h-full"
       >
         <Table ref={refCell} className="mt-4 table-fixed">
           <ScheduleTableHeader

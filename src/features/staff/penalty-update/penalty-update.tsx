@@ -65,7 +65,7 @@ export default function PenaltyUpdate({
 
     toast.success("Журнал успешно обновлен!");
     setIsEdit(false);
-    router.push(`/archive?month=${month}&year=${year}#tab=penalty`);
+    router.push(`/archive?month=${month}&year=${year}&tab=penalty`);
   };
 
   return (
