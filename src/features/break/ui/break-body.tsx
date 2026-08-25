@@ -21,6 +21,8 @@ export default function BreakTableBody({
     defaultValue: [],
   });
 
+  console.log("values", values);
+
   return (
     <TableBody>
       {values?.map((row, rowIndex) => {
@@ -36,6 +38,8 @@ export default function BreakTableBody({
             const time = TIME_LABELS[index];
             return isCurrentCell(time, value);
           });
+
+        const startTime = +row.id.split("-")[0];
 
         return (
           <TableRow key={`${row.id ?? "row"}-${rowIndex}-${row.name}`}>
@@ -95,7 +99,7 @@ export default function BreakTableBody({
                 data={employeesName.map((e) => e.name)}
                 placeHolder="..."
                 className={cn(
-                  "w-18 border-0 bg-transparent! px-0 text-xs shadow-none md:w-full md:px-1 md:text-sm",
+                  "text-md w-18 border-0 bg-transparent! px-0 shadow-none md:w-full md:px-1",
                   rowHasTrue ? "text-rd!" : "",
                 )}
               />
@@ -107,23 +111,31 @@ export default function BreakTableBody({
             {TIME_LABELS.map((_time, timeIndex) => {
               const value = row.hours[timeIndex];
               const isTrue = isCurrentCell(TIME_LABELS[timeIndex], value);
-              const isView = value !== "X";
+
+              const startIndex = TIME_LABELS.findIndex(
+                (t) => t === startTime.toString(),
+              );
+
+              const isView =
+                timeIndex > startIndex - 1 && timeIndex < startIndex + 12;
 
               return (
-                <TableCell key={timeIndex} className="p-0">
+                <TableCell key={timeIndex} className="p-0 px-1">
                   {isView ? (
-                    <SelectField
-                      fieldName={`breakForm.rows.${rowIndex}.hours.${timeIndex}`}
-                      data={MINUTES_SELECT}
-                      className={cn(
-                        "h-6! w-6! justify-center border-0 px-0 text-xs shadow-none md:w-11 md:text-sm",
-                        isTrue ? "text-rd! font-bold" : "",
-                      )}
-                    />
+                    <div className="flex items-center justify-center">
+                      <SelectField
+                        fieldName={`breakForm.rows.${rowIndex}.hours.${timeIndex}`}
+                        data={MINUTES_SELECT}
+                        className={cn(
+                          "text-muted-foreground h-6! w-11! items-center justify-center px-0 shadow-none",
+                          isTrue ? "text-rd! font-bold" : "",
+                        )}
+                      />
+                    </div>
                   ) : (
                     <div
-                      className={cn("bg-gr h-6 w-6 rounded-md md:w-11")}
-                    ></div>
+                      className={cn("bg-gr/40 h-6 w-6 rounded-md md:w-full")}
+                    />
                   )}
                 </TableCell>
               );
@@ -140,7 +152,7 @@ export default function BreakTableBody({
                   })
                 }
               >
-                <Trash2 className="text-rd h-3 w-3" />
+                <Trash2 className="text-rd h-3" />
               </TableCell>
             )}
           </TableRow>

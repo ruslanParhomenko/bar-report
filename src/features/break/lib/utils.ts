@@ -1,4 +1,9 @@
-import { INTERVAL_00, INTERVAL_20, INTERVAL_40 } from "../model/constant";
+import {
+  INTERVAL_00,
+  INTERVAL_20,
+  INTERVAL_30,
+  INTERVAL_40,
+} from "@/features/break/model/constant";
 
 export const isCurrentCell = (time: string, value: string | string[]) => {
   const currentHour = new Date().getHours();
@@ -9,6 +14,7 @@ export const isCurrentCell = (time: string, value: string | string[]) => {
   const isMinuteMatch =
     (INTERVAL_00.includes(minuteStr) && selectedValue === "00") ||
     (INTERVAL_20.includes(minuteStr) && selectedValue === "20") ||
+    (INTERVAL_30.includes(minuteStr) && selectedValue === "30") ||
     (INTERVAL_40.includes(minuteStr) && selectedValue === "40");
 
   return Number(time === "24" ? "0" : time) === currentHour && isMinuteMatch;

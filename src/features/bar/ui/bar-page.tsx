@@ -66,6 +66,8 @@ export function BarPage({
     name: "breakForm.rows",
   });
 
+  console.log(breakListValues);
+
   const selectedMap = new Map(
     breakListValues
       .flatMap((item) =>
