@@ -11,7 +11,7 @@ export const barPageSchema = z.object({
   date: z.string(),
   report: reportBarSchema,
   penalty: remarksSchema,
-  breakForm: breakSchema.optional(),
+  breakForm: breakSchema,
   tipsAdd: z.array(tipsAddSchema),
 });
 
