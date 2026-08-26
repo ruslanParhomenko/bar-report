@@ -48,7 +48,7 @@ export default function BreakTableBody({
                   className="hover:bg-muted mr-0.5 flex h-4 w-4 items-center justify-center rounded-sm border leading-none disabled:opacity-50"
                   onClick={() => {
                     const rows = getValues("breakForm.rows");
-                    const updatedRows = rows.filter((_, i) => i !== rowIndex);
+                    const updatedRows = rows?.filter((_, i) => i !== rowIndex);
                     setValue("breakForm.rows", updatedRows, {
                       shouldDirty: true,
                       shouldTouch: true,
@@ -64,7 +64,9 @@ export default function BreakTableBody({
                   className="hover:bg-muted mr-0.5 flex h-4 w-4 cursor-pointer items-center justify-center border-0 text-xs leading-none disabled:opacity-50"
                   onClick={() => {
                     const rows = getValues("breakForm.rows");
-                    const currentRow = rows[rowIndex];
+                    const currentRow = rows?.[rowIndex];
+                    if (!currentRow) return;
+
                     const newRow = {
                       ...currentRow,
                       isAdded: true,
@@ -72,9 +74,9 @@ export default function BreakTableBody({
                       hours: currentRow.hours.map(() => "" as const),
                     };
                     const updatedRows = [
-                      ...rows.slice(0, rowIndex + 1),
+                      ...(rows?.slice(0, rowIndex + 1) ?? []),
                       newRow,
-                      ...rows.slice(rowIndex + 1),
+                      ...(rows?.slice(rowIndex + 1) ?? []),
                     ];
                     setValue("breakForm.rows", updatedRows, {
                       shouldDirty: true,

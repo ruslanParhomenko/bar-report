@@ -66,9 +66,10 @@ export function useBarForm({
 
     await createTipsAdd({ day, month, year, tipsAdd, currency });
     await createReportBar(formateReportData);
-    await createBreakList({ day, month, year, rows: breakForm.rows });
     await createPenalty({ day, month, year, remarks: penalty });
-
+    if (breakForm?.rows?.length) {
+      await createBreakList({ day, month, year, rows: breakForm?.rows });
+    }
     const updatedTobacco = report.tobacco?.map((item) => {
       const finalStock =
         item.stock + Number(item.incoming || 0) - Number(item.outgoing || 0);
