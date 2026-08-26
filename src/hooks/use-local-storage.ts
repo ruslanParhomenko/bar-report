@@ -15,7 +15,7 @@ export function useLocalStorageForm<T extends FieldValues>(
     const savedData = localStorage.getItem(key);
     if (savedData) {
       try {
-        form.reset(JSON.parse(savedData));
+        form.reset(JSON?.parse(savedData));
       } catch (error) {
         console.error("Error parsing saved data:", error);
       }

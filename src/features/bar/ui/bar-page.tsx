@@ -68,7 +68,7 @@ export function BarPage({
 
   const selectedMap = new Map(
     breakListValues
-      .flatMap((item) =>
+      ?.flatMap((item) =>
         item.name ? [{ name: item.name.trim(), idShift: item.id }] : [],
       )
       .filter((item) => item.name !== "")
