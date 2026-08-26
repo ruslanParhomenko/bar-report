@@ -82,10 +82,6 @@ export function BarPage({
       idShift: selectedMap.get(emp.name.trim()),
     }));
 
-  const error = form.formState.errors;
-
-  console.log(error);
-
   const onError = () => {
     toast.error("Заполните обязательные красные поля");
   };
