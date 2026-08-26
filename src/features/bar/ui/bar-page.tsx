@@ -66,8 +66,6 @@ export function BarPage({
     name: "breakForm.rows",
   });
 
-  console.log(breakListValues);
-
   const selectedMap = new Map(
     breakListValues
       .flatMap((item) =>
@@ -83,6 +81,10 @@ export function BarPage({
       ...emp,
       idShift: selectedMap.get(emp.name.trim()),
     }));
+
+  const error = form.formState.errors;
+
+  console.log(error);
 
   const onError = () => {
     toast.error("Заполните обязательные красные поля");

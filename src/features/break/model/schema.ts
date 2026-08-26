@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { TIME_LABELS } from "./constant";
 
-const hourValueSchema = z.enum(["-", "", "00", "20", "40"]);
+const hourValueSchema = z.enum(["-", "", "00", "20", "40", "X"]);
 
 const hoursSchema = z.array(hourValueSchema).length(TIME_LABELS.length);
 
