@@ -1,10 +1,12 @@
 "use client";
 
+import { TtnEditMonthPage } from "@/features/finance/ttn/moda-month/ui/ttn-edit-month-page";
+import { TtnViewMonthPage } from "@/features/finance/ttn/moda-month/ui/ttn-view-month-page";
 import { DataOrderProducts, DataTTN } from "@/features/setting/model/type";
+import { useEdit } from "@/providers/edit-provider";
 import { MONTHS } from "@/utils/get-month-days";
 import { useSearchParams } from "next/navigation";
 import TTNDayPage from "./moda-day/ttn-day-page";
-import { TtnMonthPage } from "./moda-month";
 import { GetTTNData } from "./moda-month/model/type";
 import { TtnYearPage } from "./moda-year";
 import { TtnNbmMonthPage } from "./nbm-month";
@@ -31,46 +33,37 @@ export default function TTNPage({
   year: string;
 }) {
   const tab = useSearchParams().get("tab");
+  const { isEdit } = useEdit();
 
   const indexOfCurrentMonth = MONTHS.findIndex((m) => m === month);
   const prevMonth = month === "january" ? "" : MONTHS[indexOfCurrentMonth - 1];
 
-  const dataTtn = dataTTN?.find((data) => data.id === month) || null;
-  const dataTtnPrev = dataTTN?.find((data) => data.id === prevMonth) || null;
+  const dataTtn = dataTTN?.find((d) => d.id === month) ?? null;
+  const dataTtnPrev = dataTTN?.find((d) => d.id === prevMonth) ?? null;
 
-  const agentModa = agentTTN?.agent || [];
-  const agentNbm = agentTTN?.agentNbm || [];
+  const agentModa = agentTTN?.agent ?? [];
+  const agentNbm = agentTTN?.agentNbm ?? [];
 
-  return (
-    <>
-      {tab === "moda-day" && (
-        <TTNDayPage
-          dataTtn={dataTtn}
-          month={month as string}
-          year={year as string}
-        />
-      )}
+  const TABS: Record<string, React.ReactNode> = {
+    "moda-day": <TTNDayPage dataTtn={dataTtn} month={month} year={year} />,
+    "moda-month": isEdit ? (
+      <TtnEditMonthPage
+        dataTtn={dataTtn}
+        dataTtnPrev={dataTtnPrev}
+        agentTTN={agentModa}
+      />
+    ) : (
+      <TtnViewMonthPage dataTtn={dataTtn} />
+    ),
+    "moda-year": <TtnYearPage data={dataTTN} agentTTN={agentModa} />,
+    "nbm-month": (
+      <TtnNbmMonthPage dataTtnNBM={dataTtnNbm} agentTtnNbm={agentNbm} />
+    ),
+    "nbm-products": (
+      <NbmProductsPage data={dataProductsNbm} orderProducts={orderProducts} />
+    ),
+    "nbm-products-year": <NbmProductsYearPage data={dataProductsNbm} />,
+  };
 
-      {tab === "moda-month" && (
-        <TtnMonthPage
-          dataTtn={dataTtn}
-          dataTtnPrev={dataTtnPrev}
-          agentTTN={agentModa}
-        />
-      )}
-
-      {tab === "moda-year" && (
-        <TtnYearPage data={dataTTN} agentTTN={agentModa} />
-      )}
-      {tab === "nbm-month" && (
-        <TtnNbmMonthPage dataTtnNBM={dataTtnNbm} agentTtnNbm={agentNbm} />
-      )}
-      {tab === "nbm-products" && (
-        <NbmProductsPage data={dataProductsNbm} orderProducts={orderProducts} />
-      )}
-      {tab === "nbm-products-year" && (
-        <NbmProductsYearPage data={dataProductsNbm} />
-      )}
-    </>
-  );
+  return <>{tab ? (TABS[tab] ?? null) : null}</>;
 }

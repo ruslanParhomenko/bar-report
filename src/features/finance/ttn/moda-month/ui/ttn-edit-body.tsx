@@ -1,13 +1,13 @@
 "use client";
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
+import { useMonthDays } from "@/hooks/use-month-days";
 import { cn } from "@/lib/utils";
 import { handleMultiTableNavigation } from "@/utils/handle-table-navigation";
 import { useEffect, useEffectEvent } from "react";
 import { useFormContext, useWatch } from "react-hook-form";
 import { TTNForm } from "../model/schema";
-import { useMonthDays } from "@/hooks/use-month-days";
 
-export default function TtnBodyTable({
+export default function TtnEditBodyTable({
   arrayRows,
   disabled,
   normalizedSearch,
@@ -61,7 +61,8 @@ export default function TtnBodyTable({
 
           const isRowByCurrentDay = value?.[row]?.plus?.[currentDay - 1];
 
-          const classNameInput = "h-3.5 w-full text-end text-xs border-0 px-1";
+          const classNameInput =
+            "h-3 w-full text-end text-[11px] border-0 px-1";
 
           return (
             <TableRow key={row} className="group [&>td]:text-xs">
@@ -86,7 +87,7 @@ export default function TtnBodyTable({
                 </div>
               </TableCell>
               <TableCell className="w-18 border-r p-0">
-                <div className="flex items-center">
+                <div className="flex w-16 items-center">
                   <input
                     {...register(`rowSuppliers.${row}.final` as const)}
                     className={cn(classNameInput, "text-gn hover-cell")}
@@ -108,13 +109,13 @@ export default function TtnBodyTable({
               <TableCell className="border-l p-0 pr-0">
                 <input
                   {...register(`rowSuppliers.${row}.start` as const)}
-                  className={cn(classNameInput, "hover-cell")}
+                  className={cn(classNameInput, "hover-cell text-[11px]")}
                   disabled={disabled}
                 />
               </TableCell>
               {monthDays.map((_, dayIndex) => (
                 <TableCell key={dayIndex} className="border-x p-0">
-                  <div className="flex h-7 w-full flex-col px-0">
+                  <div className="flex h-6 w-full flex-col px-0">
                     <input
                       {...register(
                         `rowSuppliers.${row}.minus.${dayIndex}` as const,
@@ -122,7 +123,7 @@ export default function TtnBodyTable({
                       data-row={rowIndex * 2}
                       data-col={dayIndex}
                       className={cn(
-                        "h-3.5 w-full border-0 text-center text-[11px]",
+                        "h-3 w-full border-0 text-center text-[11px]",
                         "text-rd",
                       )}
                       onKeyDown={handleMultiTableNavigation}
@@ -136,7 +137,7 @@ export default function TtnBodyTable({
                       data-row={rowIndex * 2 + 1}
                       data-col={dayIndex}
                       className={cn(
-                        "h-3.5 w-full border-0 text-center text-[11px]",
+                        "h-3 w-full border-0 text-center text-[11px]",
                         "text-bl",
                       )}
                       onKeyDown={handleMultiTableNavigation}

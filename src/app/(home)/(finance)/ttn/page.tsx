@@ -16,7 +16,7 @@ export default async function Page({
   if (!month || !year) return null;
 
   const [agentTTN, dataTTN, dataTtnNbm, dataProductsNbm, orderProducts] =
-    await Promise.all([
+    await Promise.allSettled([
       await getDataTTN(),
       await getTTNByYear(year),
       await getTtnNbmByYear(year),
@@ -25,11 +25,15 @@ export default async function Page({
     ]);
   return (
     <TTNPage
-      orderProducts={orderProducts}
-      dataTTN={dataTTN}
-      dataTtnNbm={dataTtnNbm}
-      agentTTN={agentTTN}
-      dataProductsNbm={dataProductsNbm}
+      orderProducts={
+        orderProducts.status === "fulfilled" ? orderProducts.value : null
+      }
+      dataTTN={dataTTN.status === "fulfilled" ? dataTTN.value : null}
+      dataTtnNbm={dataTtnNbm.status === "fulfilled" ? dataTtnNbm.value : null}
+      agentTTN={agentTTN.status === "fulfilled" ? agentTTN.value : null}
+      dataProductsNbm={
+        dataProductsNbm.status === "fulfilled" ? dataProductsNbm.value : null
+      }
       month={month}
       year={year}
     />

@@ -12,11 +12,11 @@ import { DataTTN } from "@/features/setting/model/type";
 import { useMonthDays } from "@/hooks/use-month-days";
 import { createTTN } from "../actions/create-ttn-moda";
 import { GetTTNData } from "../model/type";
-import TtnBodyTable from "./ttn-body";
+import TtnEditBodyTable from "./ttn-edit-body";
 import TTNFooterTable from "./ttn-footer";
 import TtnHeaderTable from "./ttn-header";
 
-export function TtnMonthPage({
+export function TtnEditMonthPage({
   dataTtn,
   dataTtnPrev,
   agentTTN,
@@ -26,6 +26,8 @@ export function TtnMonthPage({
   agentTTN: DataTTN["agent"];
 }) {
   const { monthDays, month, year } = useMonthDays();
+
+  console.log(dataTtn);
 
   const todayDay = new Date().getDate();
   const [selectedDay, setSelectedDay] = useState<number>(todayDay);
@@ -96,7 +98,7 @@ export function TtnMonthPage({
           selectedDay={selectedDay}
           setSelectedDay={setSelectedDay}
         />
-        <TtnBodyTable
+        <TtnEditBodyTable
           arrayRows={[...agentTTN]}
           normalizedSearch={normalizedSearch}
           disabled={!isEdit}
