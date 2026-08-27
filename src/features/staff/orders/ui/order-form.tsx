@@ -1,12 +1,8 @@
 "use client";
 
-import { sendTelegramMessage } from "@/app/actions/telegram/telegram-action";
-
 import FormWrapper from "@/components/wrapper/form-wrapper";
+import useFormOrders from "@/features/staff/orders/use-form-orders";
 import { useLocalStorageForm } from "@/hooks/use-local-storage";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import { createOrder } from "../actions/create-order";
 import OrderCardWrapper from "./order-card-wrapper";
 
 export const OrderForm = ({
@@ -19,49 +15,9 @@ export const OrderForm = ({
   const allKeys = Object.keys(data || {});
   const STORAGE_KEY = `order-new-${tab}`;
 
-  const form = useForm({ defaultValues: {} });
+  const { form, onSubmit } = useFormOrders(tab);
 
   const { isLoaded } = useLocalStorageForm(form, STORAGE_KEY);
-
-  const onSubmit = async (formData: any) => {
-    try {
-      const filtered = Object.fromEntries(
-        Object.entries(formData)
-          .map(([category, items]) => [
-            category,
-            Object.fromEntries(
-              Object.entries((items as Record<string, string>) ?? {}).filter(
-                ([key, value]) =>
-                  !key.startsWith("__name_") &&
-                  !key.endsWith("__day") &&
-                  value !== "" &&
-                  value !== null &&
-                  value !== undefined,
-              ),
-            ),
-          ])
-          .filter(([_, items]) => Object.keys(items as object).length > 0),
-      ) as Record<string, Record<string, string>>;
-
-      if (Object.keys(filtered).length === 0) {
-        toast.error("Нет данных для отправки");
-        return;
-      }
-
-      await sendTelegramMessage(filtered, tab);
-
-      await createOrder({
-        tab,
-        year: new Date().getFullYear().toString(),
-        month: (new Date().getMonth() + 1).toString(),
-        day: new Date().getDate().toString(),
-        orders: filtered,
-      });
-      toast.success("Заказ отправлен в Telegram!");
-    } catch {
-      toast.error("Ошибка отправки");
-    }
-  };
 
   if (!isLoaded) return null;
 

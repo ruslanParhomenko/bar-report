@@ -7,6 +7,8 @@ import { TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 
+import { Employee } from "@/features/settings/create-employee/model/type";
+import { useMonthDays } from "@/hooks/use-month-days";
 import { handleMultiTableNavigation } from "@/utils/handle-table-navigation";
 import {
   FieldArrayWithId,
@@ -14,11 +16,9 @@ import {
   useFormContext,
   useWatch,
 } from "react-hook-form";
+import { calculateSalaryByHours, calculateShiftTotals } from "../lib/utils";
 import { color, SHIFT_COLOR_MAP } from "../model/constants";
 import { ScheduleType } from "../model/schema";
-import { calculateSalaryByHours, calculateShiftTotals } from "../lib/utils";
-import { Employee } from "@/features/settings/create-employee/model/type";
-import { useMonthDays } from "@/hooks/use-month-days";
 
 export default function ScheduleBodyEdit({
   fields,
@@ -28,7 +28,6 @@ export default function ScheduleBodyEdit({
   update,
   selectedDay,
   setSelectedDay,
-
 }: {
   fields: FieldArrayWithId<ScheduleType, "rowShifts", "id">[];
   selectedEmployees: Employee[];
@@ -66,8 +65,6 @@ export default function ScheduleBodyEdit({
     });
   }
 
-
-   
   return (
     <TableBody>
       {fields.map((row, rowIndex) => {

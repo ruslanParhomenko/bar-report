@@ -51,7 +51,7 @@ export default function LinkNav({ title, query, children }: LinkNavProps) {
       )}
     >
       {children}
-      <span className="text-bl ml-2">{t(title)}</span>
+      <span className="text-bl ml-3">{t(title)}</span>
     </Link>
   );
 }

@@ -1,12 +1,16 @@
 "use client";
+
 import { Table } from "@/components/ui/table";
+import { GetScheduleData } from "@/features/schedule/schedule-edit/model/type";
+import { remarksByUniqueEmployee } from "@/features/staff/archive/penalty/utils";
+import {
+  extractUniqueEmployees,
+  useResultCalculations,
+} from "@/features/staff/result/lib/utils";
+import ResultTableBody from "@/features/staff/result/ui/result-body-table";
+import ResultTableHeader from "@/features/staff/result/ui/result-header-table";
+import { GetTipsData } from "@/features/staff/tips/model/type";
 import { useSearchParams } from "next/navigation";
-import { GetScheduleData } from "../../../schedule/schedule-edit/model/type";
-import { remarksByUniqueEmployee } from "../../archive/penalty/utils";
-import { GetTipsData } from "../../tips/model/type";
-import { extractUniqueEmployees, useResultCalculations } from "../lib/utils";
-import ResultTableBody from "./result-body-table";
-import ResultTableHeader from "./result-header-table";
 
 const ROLE = {
   barmen: "bar",

@@ -10,3 +10,5 @@ export type GetOrdersData = {
   id: string;
   orders: Record<string, Record<string, string>>;
 };
+
+export type FormDataOrders = Record<string, Record<string, string>>;

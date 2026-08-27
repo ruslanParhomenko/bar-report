@@ -20,6 +20,8 @@ import { ReportBarPage } from "@/features/report-bar";
 import { Employee } from "@/features/settings/create-employee/model/type";
 import { TipsAddPage } from "@/features/tips-add";
 import { useTabSwipeNavigation } from "@/hooks/use-tab-swipe-navigation";
+import { AnimatePresence, motion } from "motion/react";
+import { Fragment } from "react/jsx-runtime";
 
 export function BarPage({
   employees,
@@ -66,7 +68,6 @@ export function BarPage({
     name: "breakForm.rows",
   });
 
-  console.log(breakListValues);
   const selectedMap = new Map(
     (Array.isArray(breakListValues) ? breakListValues : [])
       ?.flatMap((item) =>
@@ -104,25 +105,38 @@ export function BarPage({
         className="text-rd h-6 text-sm"
         disabled={!isAdmin}
       />
-      <div {...handlers} className="h-full">
-        {tab === "break" && (
-          <>
-            <BreakPage employeesName={employeesName} />
-            <PenaltyPage employees={employees} />
-          </>
-        )}
+      <AnimatePresence mode="wait" initial={false}>
+        <motion.div
+          {...handlers}
+          key={tab}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{
+            duration: 0.15,
+            ease: "easeInOut",
+          }}
+          className="h-full"
+        >
+          {tab === "break" && (
+            <Fragment key="break">
+              <BreakPage employeesName={employeesName} />
+              <PenaltyPage employees={employees} />
+            </Fragment>
+          )}
 
-        {tab === "report" && <ReportBarPage orderProducts={orderProducts} />}
+          {tab === "report" && <ReportBarPage orderProducts={orderProducts} />}
 
-        {tab === "tips" && (
-          <TipsAddPage
-            tipsArrayByEmployee={tipsArrayByEmployee}
-            options={filteredEmployees}
-            disabled={!isAdmin}
-            currency={currencyUSD?.toFixed(2) ?? "0"}
-          />
-        )}
-      </div>
+          {tab === "tips" && (
+            <TipsAddPage
+              tipsArrayByEmployee={tipsArrayByEmployee}
+              options={filteredEmployees}
+              disabled={!isAdmin}
+              currency={currencyUSD?.toFixed(2) ?? "0"}
+            />
+          )}
+        </motion.div>
+      </AnimatePresence>
     </FormWrapper>
   );
 }

@@ -15,13 +15,13 @@ export function CashPage({
 }) {
   const tab = useSearchParams().get("tab");
 
-  return (
-    <>
-      {tab === "cash-month" && (
-        <CashMonthPage dataAo={dataAo} dataCashYear={dataCashYear} />
-      )}
+  if (tab === "cash-month") {
+    return <CashMonthPage dataAo={dataAo} dataCashYear={dataCashYear} />;
+  }
 
-      {tab === "cash-year" && <CashYearPage data={dataCashYear} />}
-    </>
-  );
+  if (tab === "cash-year") {
+    return <CashYearPage data={dataCashYear} />;
+  }
+
+  return null;
 }

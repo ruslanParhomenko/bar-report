@@ -1,11 +1,12 @@
+"use client";
 import { TableCell, TableFooter, TableRow } from "@/components/ui/table";
+import { useMonthDays } from "@/hooks/use-month-days";
 import { cn } from "@/lib/utils";
 import { handleMultiTableNavigation } from "@/utils/handle-table-navigation";
 import { useFormContext, useWatch } from "react-hook-form";
 import { calculateTipsTotal } from "../../lib/utils";
-import { useMonthDays } from "@/hooks/use-month-days";
 
-export function TipsTableFooter({ isEdit }: { isEdit: boolean }) {
+export function TipsEditTableFooter() {
   const { monthDays } = useMonthDays();
   if (!monthDays) return null;
 
@@ -32,8 +33,8 @@ export function TipsTableFooter({ isEdit }: { isEdit: boolean }) {
     <TableFooter>
       <TableRow className="h-4 border-b-0" />
       <TableRow>
-        <TableCell colSpan={2} className="sticky left-0 p-1">
-          {isEdit ? "Cash" : ""}
+        <TableCell colSpan={2} className="sticky left-0 p-1 text-center">
+          cash
         </TableCell>
 
         <TableCell className="p-1">
@@ -63,12 +64,8 @@ export function TipsTableFooter({ isEdit }: { isEdit: boolean }) {
                   type="text"
                   data-col={dayIndex}
                   {...register(`rowCashTips.${dayIndex}`)}
-                  className={cn(
-                    "w-full text-center text-xs",
-                    isEdit ? "bg-border border" : "border-0",
-                  )}
+                  className={cn("bg-border w-full border text-center text-xs")}
                   onKeyDown={handleMultiTableNavigation}
-                  disabled={!isEdit}
                 />
                 <div
                   className={cn(

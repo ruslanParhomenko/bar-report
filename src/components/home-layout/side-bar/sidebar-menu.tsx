@@ -19,7 +19,7 @@ export default function SidebarMenuButtons({
         return (
           <SidebarMenuButton key={item.title} asChild>
             <LinkNav title={item.title} query={item.query}>
-              {Icon && <Icon size={18} className="text-bl" />}
+              {Icon && <Icon size={16} className="text-bl" />}
             </LinkNav>
           </SidebarMenuButton>
         );

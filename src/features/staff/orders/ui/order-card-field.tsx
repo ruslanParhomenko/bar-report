@@ -22,18 +22,18 @@ export default function OrderCardField({
 
   return (
     <div>
-      <div className="grid grid-cols-[72%_26%]">
+      <div className="grid grid-cols-[78%_22%]">
         <Label
           className={cn(
             "text-muted-foreground cursor-pointer pl-1",
 
-            value ? "text-rd text-sm" : "",
+            value ? "text-rd" : "",
           )}
           onClick={() => setValue(fieldName, "")}
         >
           {item}
         </Label>
-        <div className="flex items-center justify-end pr-2">
+        <div className="flex items-center justify-end pr-1">
           <NumericInput fieldName={fieldName} className="flex h-6! w-9! p-0!" />
         </div>
       </div>

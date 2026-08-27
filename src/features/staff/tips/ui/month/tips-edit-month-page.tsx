@@ -2,39 +2,33 @@
 
 import { Table } from "@/components/ui/table";
 import FormWrapper from "@/components/wrapper/form-wrapper";
-import { useEdit } from "@/providers/edit-provider";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
-import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
-import { toast } from "sonner";
+import { useFieldArray } from "react-hook-form";
 
-import { defaultTipsForm, TipsForm, tipsSchema } from "../../model/schema";
+import { TipsForm } from "../../model/schema";
 
 import { Employee } from "@/features/settings/create-employee/model/type";
-import { createTips } from "../../actions/create-tips";
-import { GetTipsData } from "../../model/type";
-import BidForm from "./bid-form";
-import { TipsTableBody } from "./tips-body";
-import { TipsTableFooter } from "./tips-footer";
-import TipsHeaderTable from "./tips-header";
+import useFormTips from "@/features/staff/tips/hooks/use-form-tips";
+import { TipsEditTableFooter } from "@/features/staff/tips/ui/month/tips-edit-footer";
 import { useMonthDays } from "@/hooks/use-month-days";
+import { GetTipsData } from "../../model/type";
+import BidEdit from "./bid-edit";
+import { TipsEditTableBody } from "./tips-edit-body";
+import TipsHeaderTable from "./tips-header";
 
 const SELECTED_ROLE = ["waiters", "barmen"] as const;
 
-export default function TipsMonthPage({
+export default function TipsEditMonthPage({
   dataTipsYear,
   employees,
-  isAdmin,
 }: {
   dataTipsYear: GetTipsData[] | null;
   employees: Employee[];
-  isAdmin: boolean;
 }) {
   const todayDay = new Date().getDate();
   const [selectedDay, setSelectedDay] = useState<number>(todayDay);
-
-  const { isEdit, setIsEdit } = useEdit();
   const { monthDays, month, year } = useMonthDays();
+
   const dataTips = dataTipsYear?.find((data) => data.id === month) || null;
 
   const activeEmployees = employees
@@ -43,37 +37,12 @@ export default function TipsMonthPage({
       SELECTED_ROLE.includes(e.role as (typeof SELECTED_ROLE)[number]),
     );
 
-  // form
-  const form = useForm<TipsForm>({
-    resolver: zodResolver(tipsSchema),
-    defaultValues: defaultTipsForm,
-    mode: "onChange",
-    reValidateMode: "onChange",
-  });
+  const { form, onSubmit } = useFormTips();
 
-  // fields
   const { fields, remove, append } = useFieldArray<TipsForm>({
     control: form.control,
     name: "rowEmployeesTips",
   });
-
-  const onSubmit: SubmitHandler<TipsForm> = async (data) => {
-    if (!isAdmin) return;
-    const formattedData = {
-      tipsData: data,
-      year,
-      month,
-    };
-    try {
-      await createTips(formattedData);
-
-      toast.success("Форма сохранена успешно!");
-    } catch (error) {
-      toast.error("Произошла ошибка при сохранении формы");
-    }
-
-    setIsEdit(false);
-  };
 
   const addNewRow = () => {
     append({
@@ -85,7 +54,6 @@ export default function TipsMonthPage({
   };
 
   const removeRow = (index: number) => {
-    if (!isAdmin) return;
     remove(index);
   };
 
@@ -110,26 +78,25 @@ export default function TipsMonthPage({
 
   return (
     <FormWrapper form={form} onSubmit={onSubmit}>
-      <BidForm disabled={!isAdmin} />
+      <BidEdit />
 
       <Table className="table-fixed">
         <TipsHeaderTable
           selectedDay={selectedDay}
           setSelectedDay={setSelectedDay}
           addNewRow={addNewRow}
-          isEdit={isEdit}
+          isEdit={true}
         />
 
-        <TipsTableBody
+        <TipsEditTableBody
           data={fields}
           remove={removeRow}
           selectedEmployees={activeEmployees}
           selectedDay={selectedDay}
           monthDays={monthDays}
-          isEdit={isEdit}
         />
 
-        <TipsTableFooter isEdit={isEdit} />
+        <TipsEditTableFooter />
       </Table>
     </FormWrapper>
   );

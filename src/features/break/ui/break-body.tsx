@@ -21,8 +21,6 @@ export default function BreakTableBody({
     defaultValue: [],
   });
 
-  console.log(values);
-
   return (
     <TableBody>
       {values?.map((row, rowIndex) => {

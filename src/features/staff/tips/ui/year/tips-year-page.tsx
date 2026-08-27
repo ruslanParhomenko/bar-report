@@ -1,5 +1,3 @@
-"use client";
-
 import {
   Table,
   TableBody,
@@ -8,11 +6,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { useMonthDays } from "@/hooks/use-month-days";
 import { cn } from "@/lib/utils";
 import { MONTHS } from "@/utils/get-month-days";
 import { calculateTipsTotal } from "../../lib/utils";
 import { GetTipsData } from "../../model/type";
-import { useMonthDays } from "@/hooks/use-month-days";
 function sumArray(arr: (string | undefined)[] = []) {
   return arr.reduce((acc, v) => acc + (Number(v) || 0), 0);
 }
@@ -66,19 +64,19 @@ export default function TipsYearPage({
   const labelCell =
     "bg-background sticky left-0 p-0 px-2 text-left font-medium md:bg-transparent text-xs";
   const dataCell = "border-x p-0 text-center text-xs";
-  const rowCn = "[&>td]:py-0.5 [&>td]:text-xs";
+  const rowCn = "[&>td]:py-0.25 [&>td]:text-xs";
 
   return (
     <Table className="md:table-fixed">
-      <TableHeader className="bg-background sticky top-0 z-10">
+      <TableHeader className="bg-background text-gn sticky top-0 z-10">
         <TableRow className={cn(rowCn, "[&>td]:border-0")}>
           <TableCell className={cn(totalCell, "w-20")}>{year}</TableCell>
-          <TableCell className={cn(labelCell, "w-40")}>employee</TableCell>
+          <TableCell className={cn(labelCell, "w-40")} />
           <TableCell className={cn(dataCell, "w-18 text-xs")} />
 
           {MONTHS.map((month) => (
             <TableCell key={month} className={cn(dataCell, "h-6 px-2")}>
-              {month.slice(0, 3).toUpperCase()}
+              {month.slice(0, 3)}
             </TableCell>
           ))}
         </TableRow>
@@ -115,9 +113,6 @@ export default function TipsYearPage({
           );
         })}
 
-        <TableRow className="h-4" />
-
-        {/* строка кассовых чаевых */}
         <TableRow className={cn(rowCn, "border-b!")}>
           <TableCell className={cn(totalCell, "text-rd")}>
             {MONTHS.reduce((acc, m) => acc + getMonthCashTotal(m), 0).toFixed(
@@ -130,7 +125,7 @@ export default function TipsYearPage({
             const total = getMonthCashTotal(month);
             return (
               <TableCell key={month} className={cn(dataCell, "text-rd")}>
-                <div className="flex h-7 items-center justify-center">
+                <div className="flex h-7 items-center justify-center text-xs">
                   {total ? total.toFixed(0) : ""}
                 </div>
               </TableCell>
