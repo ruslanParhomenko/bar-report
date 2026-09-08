@@ -4,7 +4,7 @@ import { useMemo } from "react";
 import { useFormContext, useWatch } from "react-hook-form";
 import { TTNForm } from "../model/schema";
 
-export default function TTNFooterTable({
+export default function TtnEditFooter({
   arrayRows,
   monthDays,
 }: {

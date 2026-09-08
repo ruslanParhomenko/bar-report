@@ -42,7 +42,10 @@ export default function SelectOptions({
             <SelectItem
               key={`${item.value}-${idx}`}
               value={item.value}
-              className="border-border flex h-9 items-center justify-center border p-0 px-3 text-center [&>span:first-child]:hidden"
+              className={cn(
+                "border-border flex h-9 items-center justify-center border p-0 px-3 text-center [&>span:first-child]:hidden",
+                value === item.value && "bg-red-600 text-white",
+              )}
             >
               {item.label}
             </SelectItem>

@@ -11,8 +11,11 @@ export default function TtnModaBodyTable({
     <TableBody>
       {data.map(
         ({ agent, agentMonthData, totalMinus, totalPlus, finalBalance }) => (
-          <TableRow key={agent} className="group hover:bg-gray-300 [&>td]:py-0">
-            <TableCell className="px-1 group-hover:font-bold">
+          <TableRow
+            key={agent}
+            className="group hover:border-b hover:border-t-black hover:bg-gray-100 [&>td]:py-0 hover:[&>td]:py-1"
+          >
+            <TableCell className="px-1">
               <div className="flex items-center justify-between gap-1 text-[11px]">
                 <span
                   className={cn(
@@ -35,26 +38,14 @@ export default function TtnModaBodyTable({
 
             <TableCell
               className={cn(
-                "bg-background sticky left-0 border-x text-[11.5px] font-medium group-hover:font-bold group-hover:text-green-600 md:bg-transparent",
+                "bg-background sticky left-0 border-x text-[11.5px] font-medium group-hover:text-green-600 md:bg-transparent",
               )}
             >
               {agent}
             </TableCell>
 
-            <TableCell
-              className={cn(
-                finalBalance < 0 ? "text-rd" : "text-bl",
-                "w-16 border-x text-right text-[11px] font-bold",
-              )}
-            >
-              {finalBalance?.toFixed(2)}
-            </TableCell>
-
             {agentMonthData?.map(({ month, minus, plus }) => (
-              <TableCell
-                key={month}
-                className="w-24 border-l group-hover:font-bold"
-              >
+              <TableCell key={month} className="border-l">
                 <div className="flex items-center justify-between gap-1">
                   <span
                     className={cn(

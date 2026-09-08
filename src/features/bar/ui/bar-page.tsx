@@ -125,15 +125,21 @@ export function BarPage({
             </Fragment>
           )}
 
-          {tab === "report" && <ReportBarPage orderProducts={orderProducts} />}
+          {tab === "report" && (
+            <Fragment key="report">
+              <ReportBarPage orderProducts={orderProducts} />
+            </Fragment>
+          )}
 
           {tab === "tips" && (
-            <TipsAddPage
-              tipsArrayByEmployee={tipsArrayByEmployee}
-              options={filteredEmployees}
-              disabled={!isAdmin}
-              currency={currencyUSD?.toFixed(2) ?? "0"}
-            />
+            <Fragment key="tips">
+              <TipsAddPage
+                tipsArrayByEmployee={tipsArrayByEmployee}
+                options={filteredEmployees}
+                disabled={!isAdmin}
+                currency={currencyUSD?.toFixed(2) ?? "0"}
+              />
+            </Fragment>
           )}
         </motion.div>
       </AnimatePresence>

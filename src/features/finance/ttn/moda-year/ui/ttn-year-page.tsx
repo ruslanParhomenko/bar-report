@@ -17,7 +17,7 @@ export function TtnYearPage({
 }) {
   const allAgentData = getAllAgentData(data, agentTTN);
   return (
-    <Table className="table-fixed">
+    <Table className="w-[90dvw] table-auto">
       <TtnModaHeaderTable />
 
       <TtnModaBodyTable data={allAgentData} />

@@ -38,17 +38,17 @@ export default function TipsAddRow({
   const numericValue = tip?.draftValue ?? "";
   const typeAmount = tip?.typeAmount;
 
-  const employeeTotal = (tip?.resultAmount || []).reduce(
-    (s: number, v: any) => s + Number(v.value),
-    0,
-  );
+  // const employeeTotal = (tip?.resultAmount || []).reduce(
+  //   (s: number, v: any) => s + Number(v.value),
+  //   0,
+  // );
 
   const endTime = new Date(tip?.endDate + (tip?.over || 0)).toLocaleTimeString(
     "ru-RU",
     { hour: "2-digit", minute: "2-digit" },
   );
 
-  const isFinished = tip?.endDate < currentTime;
+  const isFinished = tip?.endDate + (tip?.over || 0) < currentTime;
 
   return (
     <div
@@ -58,7 +58,7 @@ export default function TipsAddRow({
         tip?.isClosed && "line-through opacity-40",
       )}
     >
-      <div className="flex items-center gap-1 md:gap-4">
+      <div className="flex items-center gap-1 md:gap-6">
         <div className="w-3 md:w-6">
           {isFinished && <Home className="text-rd h-3 w-3 md:h-4 md:w-4" />}
         </div>
@@ -87,49 +87,57 @@ export default function TipsAddRow({
         </button>
 
         <div className="text-muted-foreground/20 w-6 text-[10px] md:w-10 md:px-2">
-          {employeeTotal.toFixed(0)}
+          {/* {employeeTotal.toFixed(0)} */}
         </div>
       </div>
 
       <div className="flex items-center justify-center gap-1 md:gap-6">
-        <SelectInput
-          fieldName={`tipsAdd.${index}.typeAmount`}
-          options={TYPE_AMOUNT}
-          className="h-6! w-9 md:h-8! md:w-14"
-        />
+        {isFinished || tip?.isClosed ? (
+          <div className="h-6"></div>
+        ) : (
+          <>
+            <SelectInput
+              fieldName={`tipsAdd.${index}.typeAmount`}
+              options={TYPE_AMOUNT}
+              className="h-6! w-9 md:h-8! md:w-14"
+            />
 
-        <NumericInput
-          fieldName={`tipsAdd.${index}.draftValue`}
-          className={cn("h-5 w-6 md:h-8 md:w-14", !numericValue && "bg-bl")}
-          disabled={isPending || tip?.isClosed}
-        />
+            <NumericInput
+              fieldName={`tipsAdd.${index}.draftValue`}
+              className={cn("h-5 w-6 md:h-8 md:w-14", !numericValue && "bg-bl")}
+              disabled={isPending || tip?.isClosed}
+            />
 
-        <Button
-          type="button"
-          variant="ghost"
-          onClick={() => onAdd(index)}
-          disabled={!numericValue || !typeAmount || isPending || tip?.isClosed}
-          className={cn(
-            "h-6 w-6 cursor-pointer md:h-8 md:w-10",
-            numericValue && "bg-red-600 text-white",
-          )}
-        >
-          <PlusIcon className="h-4 w-4" />
-        </Button>
+            <Button
+              type="button"
+              variant="ghost"
+              onClick={() => onAdd(index)}
+              disabled={
+                !numericValue || !typeAmount || isPending || tip?.isClosed
+              }
+              className={cn(
+                "h-6 w-6 cursor-pointer md:h-8 md:w-10",
+                numericValue && "bg-red-600 text-white",
+              )}
+            >
+              <PlusIcon className="h-4 w-4" />
+            </Button>
+          </>
+        )}
       </div>
 
       <div className="flex items-center justify-center">
-        <div className="text-bl w-18 truncate text-xs font-bold md:w-40 md:text-sm">
+        <div className="text-bl w-18 truncate text-xs font-bold md:w-44 md:text-sm">
           {tip?.employeeName}
         </div>
 
-        <div className="w-9 text-xs font-bold md:w-12 md:text-sm">
+        <div className="w-9 text-xs font-bold md:w-14 md:text-sm">
           {endTime}
         </div>
 
         <button
           type="button"
-          className="flex w-8 cursor-pointer items-center justify-center md:w-12"
+          className="flex w-8 cursor-pointer items-center justify-center md:w-16"
           onClick={() => onOver(index)}
         >
           <ClockPlusIcon className="h-4 w-4 text-red-600" />

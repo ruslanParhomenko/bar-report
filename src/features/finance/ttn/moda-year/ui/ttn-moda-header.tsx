@@ -7,11 +7,10 @@ export default function TtnModaHeaderTable() {
   return (
     <TableHeader>
       <TableRow className="[&>td]:py-0.5 [&>td]:text-xs">
-        <TableCell className="w-34" />
+        <TableCell className="w-32" />
         <TableCell className="w-22 text-start">{year || ""}</TableCell>
-        <TableCell className="w-18" />
         {MONTHS.map((month) => (
-          <TableCell key={month} className="w-30 text-center">
+          <TableCell key={month} className="text-center">
             {month.slice(0, 3)}
           </TableCell>
         ))}

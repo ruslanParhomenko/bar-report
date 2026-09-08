@@ -37,7 +37,7 @@ export default function TtnViewBodyTable({
               key={row}
               className="group [&>td]:px-1 [&>td]:py-0 [&>td]:text-[11px]"
             >
-              <TableCell className="w-18 border-r">
+              <TableCell className="w-16 border-r">
                 <div className="flex h-full flex-col items-end">
                   <span
                     className={cn(
@@ -57,14 +57,14 @@ export default function TtnViewBodyTable({
                   </span>
                 </div>
               </TableCell>
-              <TableCell className="w-18 border-r">
+              <TableCell className="border-r">
                 <div className="flex w-16 items-center">{rowData?.final}</div>
               </TableCell>
 
               <TableCell className="bg-background sticky left-0 text-start md:bg-transparent">
                 <span
                   className={cn(
-                    "hover-cell w-11 truncate font-semibold text-green-600",
+                    "hover-cell w-12 truncate font-semibold text-green-600",
                     isRowByCurrentDay && "text-rd",
                   )}
                 >

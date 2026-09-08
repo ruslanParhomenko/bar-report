@@ -1,14 +1,11 @@
 "use client";
 
-import CustomChart from "@/components/chart/custom-chart";
-import CustomLegend from "@/components/chart/custom-legend";
 import { BarConfig } from "@/components/chart/types";
 import ModalConfirm from "@/components/modal/modal-confirm";
 import { BarForm } from "@/features/bar/model/schema";
 import { SHIFTS } from "@/features/tips-add/model/constants";
 import { createDefaultTipsAdd } from "@/features/tips-add/model/schema";
 import TipsAddRow from "@/features/tips-add/ui/tips-add-row";
-import { toggleBarVisibility } from "@/utils/toggle-bar-visibility";
 import { useEffect, useState, useTransition } from "react";
 import { UseFieldArrayReturn, useFormContext, useWatch } from "react-hook-form";
 
@@ -43,7 +40,7 @@ export function TipsAddPage({
   const [confirmIndex, setConfirmIndex] = useState<number | null>(null);
   const [confirmOverIndex, setConfirmOverIndex] = useState<number | null>(null);
   const [isPending, startTransition] = useTransition();
-  const [barKeys, setBarKeys] = useState(BAR_KEYS);
+  // const [barKeys, setBarKeys] = useState(BAR_KEYS);
 
   const tipsValues = useWatch<BarForm, "tipsAdd">({ name: "tipsAdd" }) ?? [];
 
@@ -92,7 +89,7 @@ export function TipsAddPage({
     const typeAmount = getValues(`tipsAdd.${index}.typeAmount`);
     if (!value) return;
 
-    const tip = getValues(`tipsAdd.${index}`); // getValues вместо tipsValues[index]
+    const tip = getValues(`tipsAdd.${index}`);
     const currentAmount = tip?.amount || [];
 
     const time = new Date().toLocaleTimeString("ru-RU", {
@@ -163,28 +160,29 @@ export function TipsAddPage({
         value: a.value,
         typeAmount: a.typeAmount,
         time: a.time,
+        createdAt: Number(a.uniqueId),
       })),
     )
     .reverse();
 
-  const chartData = tipsValues.map((emp) => ({
-    name: emp.employeeName.split(" ")[0],
-    result: Math.round(
-      emp.resultAmount.reduce((acc, cur) => acc + +cur.value, 0),
-    ),
-    personal: Math.round(
-      emp.amount.reduce(
-        (acc, cur) =>
-          cur.typeAmount === "mdl"
-            ? acc + Number(cur.value)
-            : acc + Number(cur.value) * Number(currency),
-        0,
-      ),
-    ),
-  }));
+  // const chartData = tipsValues.map((emp) => ({
+  //   name: emp.employeeName.split(" ")[0],
+  //   result: Math.round(
+  //     emp.resultAmount.reduce((acc, cur) => acc + +cur.value, 0),
+  //   ),
+  //   personal: Math.round(
+  //     emp.amount.reduce(
+  //       (acc, cur) =>
+  //         cur.typeAmount === "mdl"
+  //           ? acc + Number(cur.value)
+  //           : acc + Number(cur.value) * Number(currency),
+  //       0,
+  //     ),
+  //   ),
+  // }));
 
-  const toggleBar = (key: BarKey["key"]) =>
-    setBarKeys((prev) => toggleBarVisibility(prev, key));
+  // const toggleBar = (key: BarKey["key"]) =>
+  //   setBarKeys((prev) => toggleBarVisibility(prev, key));
 
   return (
     <div className="flex h-[80dvh] w-full flex-col gap-1 md:px-2">
@@ -239,8 +237,8 @@ export function TipsAddPage({
         {currency}
       </div>
 
-      <div className="grid h-[50dvh] gap-4 md:grid-cols-[2fr_1fr]">
-        <div className="flex flex-col gap-3.5 overflow-auto">
+      <div className="grid h-full items-center justify-center gap-4 md:grid-cols-[3fr_1fr]">
+        <div className="flex flex-col gap-10 overflow-auto">
           {tipsArrayByEmployee.fields.map((field, index) => (
             <TipsAddRow
               key={field.fieldId}
@@ -255,26 +253,27 @@ export function TipsAddPage({
           ))}
         </div>
 
-        <div className="flex flex-col gap-1 overflow-auto">
-          {allAmounts.map((item: any, i: number) => (
-            <div
-              key={i}
-              className="[&>span]:text-muted-foreground grid w-full grid-cols-5 text-xs [&>span]:p-0.5 [&>span]:text-center"
-            >
-              <span className="text-start!">
-                {item.employeeName.split(" ")[1]}{" "}
-                {item.employeeName.split(" ")[0].slice(0, 1)}
-              </span>
-              <span>{item.shift}</span>
-              <span>{disabled ? "***" : item.value}</span>
-              <span>{disabled ? "***" : item.typeAmount}</span>
-              <span>{item.time}</span>
-            </div>
-          ))}
+        <div className="flex flex-col gap-6 overflow-auto">
+          {allAmounts
+            .filter((item: any) => item.createdAt != null)
+            .sort((a: any, b: any) => b.createdAt - a.createdAt)
+            .slice(0, 10)
+            .map((item: any) => (
+              <div
+                key={item.createdAt}
+                className="[&>span]:text-muted-foreground grid w-full grid-cols-2 text-xs [&>span]:p-0.5 [&>span]:text-center"
+              >
+                <span className="text-start!">
+                  {item.employeeName.split(" ")[1]}{" "}
+                  {item.employeeName.split(" ")[0].slice(0, 1)}
+                </span>
+                <span>{item.time}</span>
+              </div>
+            ))}
         </div>
       </div>
 
-      <div className="flex h-1/3 flex-col">
+      {/* <div className="flex h-1/3 flex-col">
         <CustomChart
           chartData={chartData}
           barItem={barKeys.filter(({ visible }) => visible)}
@@ -283,7 +282,7 @@ export function TipsAddPage({
           withLabelLIst={false}
         />
         <CustomLegend items={barKeys} onToggle={toggleBar} />
-      </div>
+      </div> */}
     </div>
   );
 }
