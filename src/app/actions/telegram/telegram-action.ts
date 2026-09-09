@@ -6,6 +6,7 @@ export async function sendToTelegram(formData: FormData, patch: string) {
     bar: process.env.TELEGRAM_CHAT_BAR,
     zn: process.env.TELEGRAM_CHAT_ID,
   };
+
   try {
     const file = formData.get("file") as File | null;
     const caption = formData.get("caption")?.toString() || "";
@@ -16,18 +17,26 @@ export async function sendToTelegram(formData: FormData, patch: string) {
 
     const token = process.env.TELEGRAM_BOT_TOKEN;
     const chatId = ID_BY_PATCH[patch as keyof typeof ID_BY_PATCH];
+
     if (!token || !chatId) {
       return {
-        error: "Missing TELEGRAM_BOT_TOKEN or TELEGRAM_CHAT_CUCINA",
+        error: "Missing TELEGRAM_BOT_TOKEN or chat ID",
       };
     }
 
     const tgForm = new FormData();
+
     tgForm.append("chat_id", chatId);
     tgForm.append("caption", caption);
+
+    // Защита контента
+    tgForm.append("protect_content", "true");
+
     tgForm.append(
       "photo",
-      new Blob([await file.arrayBuffer()], { type: file.type }),
+      new Blob([await file.arrayBuffer()], {
+        type: file.type,
+      }),
       "screenshot.png",
     );
 
@@ -48,14 +57,48 @@ export async function sendToTelegram(formData: FormData, patch: string) {
       };
     }
 
-    return { success: true };
+    const messageId = data.result.message_id;
+
+    // Удалить screenshot через 5 минут
+    setTimeout(
+      async () => {
+        try {
+          const deleteResponse = await fetch(
+            `https://api.telegram.org/bot${token}/deleteMessage`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                chat_id: chatId,
+                message_id: messageId,
+              }),
+            },
+          );
+
+          const deleteData = await deleteResponse.json();
+
+          if (!deleteData.ok) {
+            console.error("Failed to delete Telegram screenshot:", deleteData);
+          }
+        } catch (error) {
+          console.error("Failed to delete Telegram screenshot:", error);
+        }
+      },
+      2 * 60 * 1000,
+    );
+
+    return {
+      success: true,
+      messageId,
+    };
   } catch (error) {
     return {
       error: error instanceof Error ? error.message : "Unknown error",
     };
   }
 }
-
 const formatOrderText = (
   data: Record<string, Record<string, string>>,
 ): string => {
