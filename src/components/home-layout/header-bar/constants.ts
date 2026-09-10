@@ -63,7 +63,7 @@ export const TABS_BY_ROUTE = {
     "admin",
   ],
 
-  [REPORTS_BAR_ROUTE]: ["break", "report", "tips"],
+  [REPORTS_BAR_ROUTE]: ["break", "report", "time"],
 
   [REPORTS_CUCINA_ROUTE]: [],
   [MENU_MAIN_ROUTE]: ["menu-daily", "menu-vip", "menu-week"],

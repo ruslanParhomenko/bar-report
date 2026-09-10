@@ -26,7 +26,7 @@ export default async function HomeLayout({
       <EditProvider>
         <ClientRefProvider>
           <SidebarNav session={session} isAdmin={isAdmin} />
-          <div className="flex h-dvh w-dvw flex-col px-1 pt-[env(safe-area-inset-top)] md:h-screen md:pt-0 md:pb-0">
+          <div className="flex h-dvh w-dvw flex-col px-1">
             <HeaderBar />
             <ScreenshotWrapper>{children}</ScreenshotWrapper>
             <ActionBar isAdmin={isAdmin} />

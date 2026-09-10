@@ -131,8 +131,8 @@ export function BarPage({
             </Fragment>
           )}
 
-          {tab === "tips" && (
-            <Fragment key="tips">
+          {tab === "time" && (
+            <Fragment key="time">
               <TipsAddPage
                 tipsArrayByEmployee={tipsArrayByEmployee}
                 options={filteredEmployees}

@@ -1,7 +1,5 @@
 "use client";
 
-import { NAV_BY_PATCH } from "@/components/home-layout/header-bar/constants";
-import { SCHEDULE_MAIN_ROUTE } from "@/constants/route-tag";
 import { MONTHS } from "@/utils/get-month-days";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -16,9 +14,9 @@ const SignInRedirect = ({ children }: { children: React.ReactNode }) => {
   const month = MONTHS[date.getMonth()];
   const year = date.getFullYear().toString();
 
-  const tab = NAV_BY_PATCH[SCHEDULE_MAIN_ROUTE].tabs[0];
+  // const tab = NAV_BY_PATCH[SCHEDULE_MAIN_ROUTE].tabs[0];
 
-  const startUrl = `/${SCHEDULE_MAIN_ROUTE}?tab=${tab}&month=${month}&year=${year}`;
+  const startUrl = "/home";
 
   useEffect(() => {
     if (status === "loading") return;
