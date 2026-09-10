@@ -224,7 +224,7 @@ export function TipsAddPage({
         {currency}
       </div>
 
-      <div className="flex h-full flex-col items-center justify-center">
+      <div className="flex h-full flex-col items-center justify-center gap-4 md:gap-10">
         {tipsArrayByEmployee.fields.map((field, index) => (
           <TipsAddRow
             key={field.fieldId}
