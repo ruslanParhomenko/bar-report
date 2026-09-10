@@ -1,21 +1,21 @@
 "use client";
 
-import { BarConfig } from "@/components/chart/types";
 import ModalConfirm from "@/components/modal/modal-confirm";
 import { BarForm } from "@/features/bar/model/schema";
 import { SHIFTS } from "@/features/tips-add/model/constants";
 import { createDefaultTipsAdd } from "@/features/tips-add/model/schema";
+import { LatestAmount } from "@/features/tips-add/ui/latest-amounts-row";
 import TipsAddRow from "@/features/tips-add/ui/tips-add-row";
 import { useEffect, useState, useTransition } from "react";
 import { UseFieldArrayReturn, useFormContext, useWatch } from "react-hook-form";
 
-const ITEM_KEYS = ["personal", "result"] as const;
-type BarKey = BarConfig<(typeof ITEM_KEYS)[number]>;
+// const ITEM_KEYS = ["personal", "result"] as const;
+// type BarKey = BarConfig<(typeof ITEM_KEYS)[number]>;
 
-const BAR_KEYS: BarKey[] = [
-  { key: "personal", color: "var(--color-bl)", visible: true },
-  { key: "result", color: "var(--color-gn)", visible: false },
-];
+// const BAR_KEYS: BarKey[] = [
+//   { key: "personal", color: "var(--color-bl)", visible: true },
+//   { key: "result", color: "var(--color-gn)", visible: false },
+// ];
 
 export function TipsAddPage({
   tipsArrayByEmployee,
@@ -152,19 +152,6 @@ export function TipsAddPage({
     setValue(`tipsAdd.${index}.draftValue`, "", { shouldDirty: true });
   };
 
-  const allAmounts = tipsValues
-    .flatMap((emp: any) =>
-      (emp.amount || []).map((a: any) => ({
-        employeeName: emp.employeeName,
-        shift: emp.shift,
-        value: a.value,
-        typeAmount: a.typeAmount,
-        time: a.time,
-        createdAt: Number(a.uniqueId),
-      })),
-    )
-    .reverse();
-
   // const chartData = tipsValues.map((emp) => ({
   //   name: emp.employeeName.split(" ")[0],
   //   result: Math.round(
@@ -237,52 +224,23 @@ export function TipsAddPage({
         {currency}
       </div>
 
-      <div className="grid h-full items-center justify-center gap-4 md:grid-cols-[3fr_1fr]">
-        <div className="flex flex-col gap-10 overflow-auto">
-          {tipsArrayByEmployee.fields.map((field, index) => (
-            <TipsAddRow
-              key={field.fieldId}
-              index={index}
-              fieldId={field.fieldId}
-              isPending={isPending}
-              currentTime={currentTime}
-              onConfirm={(i) => startTransition(() => setConfirmIndex(i))}
-              onOver={(i) => startTransition(() => setConfirmOverIndex(i))}
-              onAdd={handleAddAmount}
-            />
-          ))}
-        </div>
-
-        <div className="flex flex-col gap-6 overflow-auto">
-          {allAmounts
-            .filter((item: any) => item.createdAt != null)
-            .sort((a: any, b: any) => b.createdAt - a.createdAt)
-            .slice(0, 10)
-            .map((item: any) => (
-              <div
-                key={item.createdAt}
-                className="[&>span]:text-muted-foreground grid w-full grid-cols-2 text-xs [&>span]:p-0.5 [&>span]:text-center"
-              >
-                <span className="text-start!">
-                  {item.employeeName.split(" ")[1]}{" "}
-                  {item.employeeName.split(" ")[0].slice(0, 1)}
-                </span>
-                <span>{item.time}</span>
-              </div>
-            ))}
-        </div>
+      <div className="flex h-full flex-col items-center justify-center">
+        {tipsArrayByEmployee.fields.map((field, index) => (
+          <TipsAddRow
+            key={field.fieldId}
+            index={index}
+            fieldId={field.fieldId}
+            isPending={isPending}
+            currentTime={currentTime}
+            onConfirm={(i) => startTransition(() => setConfirmIndex(i))}
+            onOver={(i) => startTransition(() => setConfirmOverIndex(i))}
+            onAdd={handleAddAmount}
+          />
+        ))}
       </div>
-
-      {/* <div className="flex h-1/3 flex-col">
-        <CustomChart
-          chartData={chartData}
-          barItem={barKeys.filter(({ visible }) => visible)}
-          className="m-0 h-full p-0"
-          disableYAxis={disabled}
-          withLabelLIst={false}
-        />
-        <CustomLegend items={barKeys} onToggle={toggleBar} />
-      </div> */}
+      <div className="flex w-[20dvw] items-center justify-between">
+        <LatestAmount tipsValues={tipsValues} />
+      </div>
     </div>
   );
 }

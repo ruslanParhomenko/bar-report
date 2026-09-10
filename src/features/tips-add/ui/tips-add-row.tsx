@@ -54,12 +54,12 @@ export default function TipsAddRow({
     <div
       key={fieldId}
       className={cn(
-        "flex items-center justify-between md:grid md:grid-cols-3",
+        "flex items-center justify-between md:grid md:grid-cols-3 md:gap-8",
         tip?.isClosed && "line-through opacity-40",
       )}
     >
       <div className="flex items-center gap-1 md:gap-6">
-        <div className="w-3 md:w-6">
+        <div className="w-3 md:w-12">
           {isFinished && <Home className="text-rd h-3 w-3 md:h-4 md:w-4" />}
         </div>
 
@@ -83,12 +83,8 @@ export default function TipsAddRow({
           className="cursor-pointer px-2"
           disabled={isPending || tip?.isClosed}
         >
-          <UserX className="text-rd h-3 w-3 md:h-4 md:w-4" />
+          <UserX className="text-rd h-3 w-3 md:h-4 md:w-6" />
         </button>
-
-        <div className="text-muted-foreground/20 w-6 text-[10px] md:w-10 md:px-2">
-          {/* {employeeTotal.toFixed(0)} */}
-        </div>
       </div>
 
       <div className="flex items-center justify-center gap-1 md:gap-6">
