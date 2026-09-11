@@ -6,6 +6,7 @@ import { GetRemarksData } from "@/features/penalty/model/type";
 import { GetReportData } from "@/features/report-bar/model/type";
 import ReportBarArchive from "@/features/staff/archive/bar/report-bar-archive";
 import { BreakListArchive } from "@/features/staff/archive/break/break-list-archive";
+import CompareScheduleTipsPage from "@/features/staff/archive/compare-schedule-tips/compare-schedule-tips";
 import ReportCucinaArchive from "@/features/staff/archive/cucina/report-cucina-archive";
 import OrdersArchivePage from "@/features/staff/archive/orders/orders-archive-page";
 import PenaltyResult from "@/features/staff/archive/penalty-result/penalty-result";
@@ -26,9 +27,13 @@ export type ArchiveData = {
 
 export default function ArchivePage({
   archiveData,
+  month,
+  year,
   isAdmin,
 }: {
   archiveData: ArchiveData;
+  month: string;
+  year: string;
   isAdmin: boolean;
 }) {
   const hasAccess = useAccessCheck();
@@ -64,6 +69,16 @@ export default function ArchivePage({
     {
       key: "orders",
       render: () => <OrdersArchivePage />,
+    },
+    {
+      key: "schedule-tips",
+      render: () => (
+        <CompareScheduleTipsPage
+          dataTips={archiveData.tips}
+          month={month}
+          year={year}
+        />
+      ),
     },
   ];
 

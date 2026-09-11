@@ -14,7 +14,9 @@ export default async function Page({
 }: {
   searchParams: Promise<{ [key: string]: string | undefined }>;
 }) {
-  const { month, year } = await searchParams;
+  const params = await searchParams;
+
+  const { month, year } = params;
   const headerStore = await headers();
   const isAdmin = headerStore.get("x-is-admin") === "true";
   if (!month || !year) return null;
@@ -44,6 +46,8 @@ export default async function Page({
         } as ArchiveData
       }
       isAdmin={isAdmin}
+      month={month}
+      year={year}
     />
   );
 }
