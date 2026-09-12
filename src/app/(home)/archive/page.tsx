@@ -1,6 +1,7 @@
 import { getBreakListByYearMonth } from "@/features/break/actions/get-break";
 import { getRemarksByYearMonth } from "@/features/penalty/actions/get-penalty";
 import { getReportBarByYearMonth } from "@/features/report-bar/actions/get-report-bar";
+import { getScheduleByYearAndMonth } from "@/features/schedule/schedule-edit/actions/get-schedule";
 import ArchivePage, {
   ArchiveData,
 } from "@/features/staff/archive/archive-page";
@@ -21,14 +22,21 @@ export default async function Page({
   const isAdmin = headerStore.get("x-is-admin") === "true";
   if (!month || !year) return null;
 
-  const [dataReportBar, dataBreak, dataReportCucina, dataRemarks, tipsAdd] =
-    await Promise.allSettled([
-      getReportBarByYearMonth(year, month),
-      getBreakListByYearMonth(year, month),
-      getReportCucinaByYearMonth(year, month),
-      getRemarksByYearMonth(year, month),
-      getTipsAddByYearMonth(year, month),
-    ]);
+  const [
+    dataReportBar,
+    dataBreak,
+    dataReportCucina,
+    dataRemarks,
+    tipsAdd,
+    dataScheduleBarByMonth,
+  ] = await Promise.allSettled([
+    getReportBarByYearMonth(year, month),
+    getBreakListByYearMonth(year, month),
+    getReportCucinaByYearMonth(year, month),
+    getRemarksByYearMonth(year, month),
+    getTipsAddByYearMonth(year, month),
+    getScheduleByYearAndMonth(year, month),
+  ]);
   return (
     <ArchivePage
       archiveData={
@@ -43,11 +51,15 @@ export default async function Page({
           penalty:
             dataRemarks.status === "fulfilled" ? dataRemarks.value : null,
           tips: tipsAdd.status === "fulfilled" ? tipsAdd.value : null,
+          schedule:
+            dataScheduleBarByMonth.status === "fulfilled"
+              ? dataScheduleBarByMonth.value?.filter(
+                  (item) => item.id === "bar",
+                )?.[0]
+              : null,
         } as ArchiveData
       }
       isAdmin={isAdmin}
-      month={month}
-      year={year}
     />
   );
 }

@@ -1,5 +1,3 @@
-"use client";
-
 import {
   Table,
   TableBody,
@@ -8,42 +6,22 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { getScheduleByYearAndMonth } from "@/features/schedule/schedule-edit/actions/get-schedule";
 import { GetScheduleData } from "@/features/schedule/schedule-edit/model/type";
 import { GetTipsAddData } from "@/features/tips-add/model/type";
 import { cn } from "@/lib/utils";
-import { startTransition, useEffect, useMemo, useState } from "react";
 
 const EMPTY_SHIFT_CODES = ["v", "s", "x", "u", "/"];
 
 export default function CompareScheduleTipsPage({
   dataTips,
-  month,
-  year,
+  dataSchedule,
 }: {
   dataTips: GetTipsAddData[] | null;
-  month: string;
-  year: string;
+  dataSchedule: GetScheduleData | null;
 }) {
-  const [schedule, setSchedule] = useState<GetScheduleData | null>(null);
-
-  useEffect(() => {
-    async function load() {
-      const data = await getScheduleByYearAndMonth(year, month);
-      const dataBar = data?.filter((d) => d.id === "bar") ?? null;
-
-      startTransition(() => {
-        setSchedule(dataBar?.[0] ?? null);
-      });
-    }
-
-    load();
-  }, [year, month]);
-
-  const days = useMemo(() => {
-    if (!dataTips) return [];
-    return [...dataTips].sort((a, b) => Number(a.id) - Number(b.id));
-  }, [dataTips]);
+  const days = dataTips
+    ? [...dataTips].sort((a, b) => Number(a.id) - Number(b.id))
+    : [];
 
   function normalizeScheduleValue(value: string | undefined | null): string {
     if (!value) return "";
@@ -74,7 +52,7 @@ export default function CompareScheduleTipsPage({
     );
   }
 
-  if (!schedule) {
+  if (!dataSchedule) {
     return (
       <div className="text-muted-foreground p-4 text-sm">
         Загрузка графика...
@@ -86,9 +64,8 @@ export default function CompareScheduleTipsPage({
     <Table className="mt-4">
       <TableHeader>
         <TableRow>
-          <TableHead className="bg-background sticky left-0 z-10 w-30 truncate pr-1 pl-2">
-            Имя
-          </TableHead>
+          <TableHead className="bg-background sticky left-0 z-10 w-30 truncate pr-1 pl-2" />
+
           {days.map((day) => (
             <TableHead
               key={day.id}
@@ -100,14 +77,18 @@ export default function CompareScheduleTipsPage({
         </TableRow>
       </TableHeader>
       <TableBody>
-        {schedule.rowShifts.map((row) => (
+        {dataSchedule.rowShifts.map((row) => (
           <TableRow key={row.id} className="[&>td]:text-xs">
             <TableCell className="bg-background text-muted-foreground sticky left-0 truncate pr-1 pl-2 md:bg-transparent">
               {row.employee}
             </TableCell>
             {days.map((day) => {
               const dayIndex = Number(day.id) - 1;
-              const rawScheduleValue = row.shifts[dayIndex] ?? "";
+              const rawScheduleValue = EMPTY_SHIFT_CODES.includes(
+                row.shifts[dayIndex],
+              )
+                ? ""
+                : (row.shifts[dayIndex] ?? "");
               const scheduleValue = normalizeScheduleValue(rawScheduleValue);
               const scheduleStart = getScheduleStart(scheduleValue);
               const tipShift = getTipShift(day.id, row.employeeId);
@@ -117,7 +98,7 @@ export default function CompareScheduleTipsPage({
               const hasTip = tipShift !== null;
 
               let statusClass = "";
-              let content: React.ReactNode = rawScheduleValue || "-";
+              let content: React.ReactNode = rawScheduleValue || "";
 
               if (hasSchedule && hasTip) {
                 if (tipStart === scheduleStart) {
@@ -127,7 +108,10 @@ export default function CompareScheduleTipsPage({
                   content = (
                     <>
                       {rawScheduleValue}
-                      <span className="text-rd"> ({tipShift})</span>
+                      <span className="text-rd">
+                        {" "}
+                        (t:{tipShift.split("-")[0]})
+                      </span>
                     </>
                   );
                 }
@@ -141,7 +125,11 @@ export default function CompareScheduleTipsPage({
                 );
               } else if (!hasSchedule && hasTip) {
                 statusClass = "bg-blue-500/20";
-                content = <span className="text-blue-600">({tipShift})</span>;
+                content = (
+                  <span className="text-blue-600">
+                    (t:{tipShift.split("-")[0]})
+                  </span>
+                );
               }
               return (
                 <TableCell

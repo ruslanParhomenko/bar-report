@@ -4,6 +4,7 @@ import { InsufficientRights } from "@/components/wrapper/insufficient-rights";
 import { GetBreakData } from "@/features/break/model/type";
 import { GetRemarksData } from "@/features/penalty/model/type";
 import { GetReportData } from "@/features/report-bar/model/type";
+import { GetScheduleData } from "@/features/schedule/schedule-edit/model/type";
 import ReportBarArchive from "@/features/staff/archive/bar/report-bar-archive";
 import { BreakListArchive } from "@/features/staff/archive/break/break-list-archive";
 import CompareScheduleTipsPage from "@/features/staff/archive/compare-schedule-tips/compare-schedule-tips";
@@ -23,17 +24,14 @@ export type ArchiveData = {
   breakList: GetBreakData[] | null;
   penalty: GetRemarksData[] | null;
   tips: GetTipsAddData[] | null;
+  schedule: GetScheduleData | null;
 };
 
 export default function ArchivePage({
   archiveData,
-  month,
-  year,
   isAdmin,
 }: {
   archiveData: ArchiveData;
-  month: string;
-  year: string;
   isAdmin: boolean;
 }) {
   const hasAccess = useAccessCheck();
@@ -75,8 +73,7 @@ export default function ArchivePage({
       render: () => (
         <CompareScheduleTipsPage
           dataTips={archiveData.tips}
-          month={month}
-          year={year}
+          dataSchedule={archiveData.schedule}
         />
       ),
     },

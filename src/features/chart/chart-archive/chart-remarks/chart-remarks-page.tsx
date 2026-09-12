@@ -72,7 +72,9 @@ export default function ChartRemarksPage({
 
   return (
     <div className="flex flex-col items-center justify-between">
-      <MonthPicker value={range} onChange={setRange} />
+      {tab === "penalty-year" && (
+        <MonthPicker value={range} onChange={setRange} />
+      )}
 
       <CustomChart
         chartData={chartData}

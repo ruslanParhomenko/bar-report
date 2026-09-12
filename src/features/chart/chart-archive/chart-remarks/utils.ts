@@ -63,7 +63,9 @@ export function getChartDataPenaltyByEmployee(
           reason += employee.reason ? 1 : 0;
           bonus += Number(employee.bonus) || 0;
           penalty += Number(employee.penalty) || 0;
-          hours += Number(employee.dayHours) || 0;
+          hours +=
+            (Number(employee.dayHours) || 0) +
+            (Number(employee.nightHours) || 0);
         });
     });
 
