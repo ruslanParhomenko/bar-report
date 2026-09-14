@@ -10,18 +10,22 @@ export default function ScheduleTableHeader({
   selectedDay,
   setSelectedDay,
   isEdit,
+  isAdmin,
 }: {
   addNewRow: () => void;
   selectedDay: number;
   setSelectedDay: (day: number) => void;
   isEdit?: boolean;
+  isAdmin: boolean;
 }) {
   const { monthDays, month } = useMonthDays();
   return (
     <TableHeader>
       <TableRow>
         <TableCell className="w-6 p-0">
-          {isEdit && <AddRowButton isEdit={isEdit} addNewRow={addNewRow} />}
+          {isEdit && isAdmin && (
+            <AddRowButton isEdit={isEdit} addNewRow={addNewRow} />
+          )}
         </TableCell>
         <TableCell
           colSpan={5}

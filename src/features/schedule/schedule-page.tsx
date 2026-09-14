@@ -2,11 +2,11 @@
 
 import { InsufficientRights } from "@/components/wrapper/insufficient-rights";
 import { useAccessCheck } from "@/hooks/use-tab-access";
-import { useEdit } from "@/providers/edit-provider";
 import { useSearchParams } from "next/navigation";
 
 import { Employee } from "@/features/settings/create-employee/model/type";
 import { useTabSwipeNavigation } from "@/hooks/use-tab-swipe-navigation";
+import { useEdit } from "@/providers/edit-provider";
 import { AnimatePresence, motion } from "motion/react";
 import { ScheduleEdit } from "./schedule-edit";
 import { GetScheduleData } from "./schedule-edit/model/type";
@@ -21,6 +21,7 @@ type Props = {
 export function SchedulePage({ schedules, employees, isAdmin }: Props) {
   const hasAccess = useAccessCheck();
   const { isEdit } = useEdit();
+
   const searchParams = useSearchParams();
 
   const tab = searchParams.get("tab")!;
@@ -46,8 +47,13 @@ export function SchedulePage({ schedules, employees, isAdmin }: Props) {
         }}
         className="h-full"
       >
-        {isEdit ? (
-          <ScheduleEdit schedule={schedule} tab={tab} employees={employees} />
+        {isEdit && isAdmin ? (
+          <ScheduleEdit
+            schedule={schedule}
+            tab={tab}
+            employees={employees}
+            isAdmin={isAdmin}
+          />
         ) : schedule ? (
           <ScheduleView schedule={schedule} tab={tab} isAdmin={isAdmin} />
         ) : (

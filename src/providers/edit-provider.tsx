@@ -1,11 +1,12 @@
 "use client";
+
 import {
   CREATE_EMPLOYEE_MAIN_ROUTE,
   CREATE_USER_MAIN_ROUTE,
   PENALTY_UPDATE_MAIN_ROUTE,
 } from "@/constants/route-tag";
 import { usePathname } from "next/navigation";
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useState } from "react";
 
 type EditContextType = {
   isEdit: boolean;
@@ -19,7 +20,9 @@ const EDIT_PATHS = new Set([
   CREATE_USER_MAIN_ROUTE,
   PENALTY_UPDATE_MAIN_ROUTE,
 ]);
+
 const EditContext = createContext<EditContextType | null>(null);
+
 export default function EditProvider({
   children,
 }: {
@@ -27,21 +30,43 @@ export default function EditProvider({
 }) {
   const pathname = usePathname();
   const mainRoute = pathname.split("/")[1] || "";
-  const [isEdit, setIsEdit] = useState(false);
+  const isEditRoute = EDIT_PATHS.has(mainRoute);
+
+  const [state, setState] = useState({
+    pathname,
+    isEdit: isEditRoute,
+  });
+
   const [resetFn, setResetFn] = useState<(() => void) | null>(null);
+
+  // При смене маршрута старое состояние isEdit не переносим.
+  if (state.pathname !== pathname) {
+    setState({
+      pathname,
+      isEdit: isEditRoute,
+    });
+  }
+
+  const setIsEdit = (value: boolean) => {
+    setState({
+      pathname,
+      isEdit: value,
+    });
+  };
 
   const registerReset = (fn: () => void) => {
     setResetFn(() => fn);
   };
 
-  const isTrueEdit = EDIT_PATHS.has(mainRoute);
-
-  useEffect(() => {
-    setIsEdit(isTrueEdit);
-  }, [pathname, isTrueEdit]);
-
   return (
-    <EditContext.Provider value={{ isEdit, setIsEdit, resetFn, registerReset }}>
+    <EditContext.Provider
+      value={{
+        isEdit: state.isEdit,
+        setIsEdit,
+        resetFn,
+        registerReset,
+      }}
+    >
       {children}
     </EditContext.Provider>
   );
@@ -49,6 +74,10 @@ export default function EditProvider({
 
 export function useEdit() {
   const ctx = useContext(EditContext);
-  if (!ctx) throw new Error("useEdit must be used inside EditProvider");
+
+  if (!ctx) {
+    throw new Error("useEdit must be used inside EditProvider");
+  }
+
   return ctx;
 }

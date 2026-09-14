@@ -18,10 +18,12 @@ export function ScheduleEdit({
   employees,
   schedule,
   tab,
+  isAdmin,
 }: {
   employees: Employee[];
   schedule: GetScheduleData | null;
   tab: string;
+  isAdmin: boolean;
 }) {
   const { daysCount } = useMonthDays();
 
@@ -77,6 +79,7 @@ export function ScheduleEdit({
           selectedDay={selectedDay}
           setSelectedDay={setSelectedDay}
           isEdit={true}
+          isAdmin={isAdmin}
         />
 
         <ScheduleBodyEdit
@@ -88,6 +91,7 @@ export function ScheduleEdit({
           remove={remove}
           move={move}
           update={update}
+          isAdmin={isAdmin}
         />
 
         <ScheduleTableFooter shiftCounts={shiftCounts} role={tab as string} />

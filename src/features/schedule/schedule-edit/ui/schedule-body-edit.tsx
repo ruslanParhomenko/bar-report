@@ -28,6 +28,7 @@ export default function ScheduleBodyEdit({
   update,
   selectedDay,
   setSelectedDay,
+  isAdmin,
 }: {
   fields: FieldArrayWithId<ScheduleType, "rowShifts", "id">[];
   selectedEmployees: Employee[];
@@ -36,6 +37,7 @@ export default function ScheduleBodyEdit({
   update: UseFieldArrayReturn<ScheduleType, "rowShifts", "id">["update"];
   selectedDay: number;
   setSelectedDay: (day: number) => void;
+  isAdmin: boolean;
 }) {
   const form = useFormContext<ScheduleType>();
   const { control, getValues } = form;
@@ -105,11 +107,11 @@ export default function ScheduleBodyEdit({
             <TableCell className="px-0">{total || 0}</TableCell>
 
             <TableCell className="px-2">
-              {totalPay && totalPay.toFixed()}
+              {totalPay && isAdmin && totalPay.toFixed()}
             </TableCell>
             <TableCell className="text-muted-foreground px-2! text-right">
               {row.role.charAt(0)}
-              {Number(rate) / 1000}
+              {isAdmin && Number(rate) / 1000}
             </TableCell>
             <TableCell className="bg-background sticky left-0 pl-2! md:bg-transparent">
               <SelectField
