@@ -33,6 +33,8 @@ export function ScheduleView({ schedule, tab, isAdmin }: Props) {
         addNewRow={() => {}}
         selectedDay={selectedDay}
         setSelectedDay={setSelectedDay}
+        isEdit
+        isAdmin={isAdmin}
       />
       <ScheduleTableBody
         schedule={schedule}

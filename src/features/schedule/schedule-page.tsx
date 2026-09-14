@@ -28,6 +28,8 @@ export function SchedulePage({ schedules, employees, isAdmin }: Props) {
 
   const schedule = schedules?.find((s) => s.id === tab) ?? null;
 
+  console.log("schedule", schedule);
+
   const { handlers } = useTabSwipeNavigation();
 
   if (!hasAccess) {

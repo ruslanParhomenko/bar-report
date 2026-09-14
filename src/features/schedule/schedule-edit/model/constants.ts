@@ -563,5 +563,5 @@ export const color = {
   s: "bg-yl text-yl border-0",
   x: "text-rd bg-rd/20 border-0",
   u: "text-gn bg-gn border-0",
-  "/": "text-gr bg-gr border-0",
+  "/": "text-transparent bg-gr/25 border-0",
 } as const;

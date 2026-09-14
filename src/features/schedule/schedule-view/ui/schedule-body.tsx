@@ -4,6 +4,7 @@ import { TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 
 import { useMonthDays } from "@/hooks/use-month-days";
+import { getInvalidConsecutiveShiftIndexes } from "@/utils/invalid-shifts";
 import { calculateSalaryByHours } from "../../schedule-edit/lib/utils";
 import { color, SHIFT_COLOR_MAP } from "../../schedule-edit/model/constants";
 import { GetScheduleData } from "../../schedule-edit/model/type";
@@ -30,6 +31,9 @@ export default function ScheduleTableBody({
         const totalPay = isAdmin
           ? calculateSalaryByHours(row).toFixed(0).toString()
           : "0";
+
+        const invalidConsecutiveShiftIndexes =
+          getInvalidConsecutiveShiftIndexes(row.shifts);
         return (
           <TableRow
             key={row.id}
@@ -62,6 +66,8 @@ export default function ScheduleTableBody({
 
             {row.shifts.map((day, dayIndex) => {
               const isSelected = dayIndex === selectedDay - 1;
+              const isInvalidConsecutiveShift =
+                invalidConsecutiveShiftIndexes.has(dayIndex);
 
               return (
                 <TableCell
@@ -70,6 +76,7 @@ export default function ScheduleTableBody({
                     "border-x p-0 text-center text-xs",
                     color[day as keyof typeof color],
                     isSelected && "text-rd font-bold",
+                    isInvalidConsecutiveShift && "bg-rd/80",
                   )}
                 >
                   {SHIFT_COLOR_MAP.includes(day) ? null : day}
