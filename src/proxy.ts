@@ -22,6 +22,7 @@ export async function proxy(request: NextRequest) {
 
   const allowedRoutes = token.accessList || [];
   const isAdmin = token.role === "ADMIN";
+  const isCCTV = token.role === "USER";
 
   const accessGranted =
     token.role === "ADMIN" ||
@@ -34,6 +35,7 @@ export async function proxy(request: NextRequest) {
 
   const requestHeaders = new Headers(request.headers);
   requestHeaders.set("x-is-admin", isAdmin ? "true" : "false");
+  requestHeaders.set("x-is-cctv", isCCTV ? "true" : "false");
   return NextResponse.next({
     request: {
       headers: requestHeaders,

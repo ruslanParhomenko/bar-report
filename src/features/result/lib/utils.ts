@@ -1,5 +1,5 @@
+import { TipsForm } from "@/features/staff/tips/model/schema";
 import { MONTHS } from "@/utils/get-month-days";
-import { TipsForm } from "../../tips/model/schema";
 
 export type ResultUniqueEmployeeType = {
   employee: string;

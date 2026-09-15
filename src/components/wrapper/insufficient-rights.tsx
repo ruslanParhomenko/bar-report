@@ -13,7 +13,7 @@ export const InsufficientRights = ({
   return (
     <div className="flex flex-col items-center justify-center gap-4 py-20">
       <Label className="text-center text-2xl text-red-600">
-        {t("insufficientRights")}
+        {t("notData")}
       </Label>
       {exitButton && (
         <Button

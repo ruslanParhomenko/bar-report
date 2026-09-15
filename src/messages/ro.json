@@ -42,6 +42,7 @@
     "closeEmployee": "inchide angajat"
   },
   "Home": {
+    "notData": "nu sunt date",
     "employeesKey": "cheie",
     "employeesWorkForm": "forma",
     "tabs": "tabel",

@@ -64,7 +64,7 @@ export default function TipsYearPage({
   const labelCell =
     "bg-background sticky left-0 p-0 px-2 text-left font-medium md:bg-transparent text-xs";
   const dataCell = "border-x p-0 text-center text-xs";
-  const rowCn = "[&>td]:py-0.25 [&>td]:text-xs";
+  const rowCn = "[&>td]:py-0.5 [&>td]:text-[11px]";
 
   return (
     <Table className="md:table-fixed">
@@ -90,21 +90,33 @@ export default function TipsYearPage({
           return (
             <TableRow
               key={`${emp.id}-${emp.employee}`}
-              className={cn(rowCn, "border-b!")}
+              className={cn(rowCn, "group hover:bg-gr/50 border-b!")}
             >
-              <TableCell className={cn(totalCell, colorText)}>
+              <TableCell
+                className={cn(totalCell, colorText, "group-hover:text-rd")}
+              >
                 {yearTotal ? yearTotal.toFixed(0) : ""}
               </TableCell>
-              <TableCell className={cn(labelCell, colorText)}>
+              <TableCell
+                className={cn(labelCell, colorText, "group-hover:text-rd")}
+              >
                 {emp.employee.trim()}
               </TableCell>
-              <TableCell className={cn(dataCell, "text-muted-foreground px-1")}>
+              <TableCell
+                className={cn(
+                  dataCell,
+                  "text-muted-foreground group-hover:text-rd px-1",
+                )}
+              >
                 {emp.role.slice(0, 1).toUpperCase()}
               </TableCell>
               {MONTHS.map((month) => {
                 const total = getEmployeeMonthTotal(emp.employee, month);
                 return (
-                  <TableCell key={month} className={cn(dataCell, colorText)}>
+                  <TableCell
+                    key={month}
+                    className={cn(dataCell, colorText, "group-hover:text-rd")}
+                  >
                     {total ? total.toFixed(0) : ""}
                   </TableCell>
                 );

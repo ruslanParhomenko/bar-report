@@ -1,3 +1,4 @@
+import { InsufficientRights } from "@/components/wrapper/insufficient-rights";
 import { getBreakListByYearMonth } from "@/features/break/actions/get-break";
 import { getRemarksByYearMonth } from "@/features/penalty/actions/get-penalty";
 import { getReportBarByYearMonth } from "@/features/report-bar/actions/get-report-bar";
@@ -8,6 +9,7 @@ import ArchivePage, {
 
 import { getReportCucinaByYearMonth } from "@/features/staff/cucina/actions/get-report-cucina";
 import { getTipsAddByYearMonth } from "@/features/tips-add/actions/get-tips-add";
+import { MONTHS } from "@/utils/get-month-days";
 import { headers } from "next/headers";
 
 export default async function Page({
@@ -20,7 +22,25 @@ export default async function Page({
   const { month, year } = params;
   const headerStore = await headers();
   const isAdmin = headerStore.get("x-is-admin") === "true";
+  const isUser = headerStore.get("x-is-user") === "true";
   if (!month || !year) return null;
+
+  if (!isAdmin && !isUser) {
+    const now = new Date();
+    const currentYear = now.getFullYear();
+    const currentMonth = now.getMonth() + 1;
+
+    const requestedYear = parseInt(year);
+    const requestedMonth = MONTHS.indexOf(month) + 1;
+
+    const isCurrentYearOrNext =
+      requestedYear === currentYear &&
+      (requestedMonth === currentMonth || requestedMonth === currentMonth + 1);
+
+    if (!isCurrentYearOrNext) {
+      return <InsufficientRights />;
+    }
+  }
 
   const [
     dataReportBar,

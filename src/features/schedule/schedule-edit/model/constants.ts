@@ -30,7 +30,7 @@ export const COLOR_SHIFT = {
   3: "text-yl",
   4: "text-rd",
 };
-export const SHIFT_COLOR_MAP = ["v", "s", "x", "u", ""];
+export const SHIFT_COLOR_MAP = ["v", "s", "x", "u", "", "/"];
 export const WAITER_EMPLOYEES = ["waiters"];
 export const SHIFT_OPTIONS = [
   "7",
@@ -562,6 +562,6 @@ export const color = {
   v: "text-bl bg-bl border-0",
   s: "bg-yl text-yl border-0",
   x: "text-rd bg-rd/20 border-0",
-  u: "text-gn bg-gn border-0",
+  u: "text-gn bg-gn/60 border-0",
   "/": "text-transparent bg-gr/25 border-0",
 } as const;

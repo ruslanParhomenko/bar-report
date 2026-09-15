@@ -24,9 +24,9 @@ export default function TtnModaFooterTable({
   });
   return (
     <TableFooter>
-      <TableRow className="[&>td]:p-1 [&>td]:px-2">
+      <TableRow className="[&>td]:px-1 [&>td]:py-0.5">
         <TableCell>
-          <div className="flex flex-col items-center justify-between text-[11px] font-bold">
+          <div className="flex items-center justify-between text-[10px] font-bold">
             <span className="text-rd">{footerTotalMinus.toFixed(2)}</span>
             <span className="text-bl">{footerTotalPlus.toFixed(2)}</span>
           </div>
@@ -36,7 +36,7 @@ export default function TtnModaFooterTable({
 
         {footerMonthTotals.map(({ month, minus, plus }) => (
           <TableCell key={month} className="border-x">
-            <div className="flex flex-col items-center justify-between text-[11px] font-bold">
+            <div className="flex items-center justify-between text-[11px] font-bold">
               <span className={cn("text-rd", minus === 0 && "opacity-0")}>
                 {minus !== 0 ? minus.toFixed(2) : ""}
               </span>

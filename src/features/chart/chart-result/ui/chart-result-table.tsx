@@ -55,15 +55,15 @@ export function ChartResultTable({
               <TableHead
                 key={month}
                 colSpan={subHeadersByFilter.length}
-                className={cn("border-l p-0 text-center text-xs")}
+                className={cn("border-x p-0 text-center text-xs")}
               >
                 {month.slice(0, 3)}
               </TableHead>
             ))}
           </TableRow>
           <TableRow className="[&>th]:h-6! [&>th]:p-0!">
-            <TableHead className="bg-background sticky left-0 z-10" />
             <TableHead className="text-bl p-0 text-center text-xs">w</TableHead>
+            <TableHead className="bg-background sticky left-0 z-10" />
             {monthsToDisplay.map((month) => {
               const hasData = hasScheduleData(month);
               if (!hasData) return null;
@@ -92,15 +92,17 @@ export function ChartResultTable({
               <TableRow
                 key={idx}
                 className={cn(
-                  "[&>td]:py-1.25 [&>td]:text-xs print:[&>td]:py-3",
+                  "[&>td]:py-1.25 [&>td]:text-[11px] print:[&>td]:py-3",
                   idx % 2 === 0 && "bg-gray-100",
                   tableData.length < 16 && "[&>td]:py-3",
                 )}
               >
+                <TableCell className="p-0 text-center">
+                  {workedMonths || ""}
+                </TableCell>
                 <TableCell className="bg-background sticky left-0 z-10 md:bg-transparent print:text-sm!">
                   {row.employee}
                 </TableCell>
-                <TableCell>{workedMonths || ""}</TableCell>
                 {monthsToDisplay.map((month, monthIdx) => {
                   const monthData = row[month] as MonthData | undefined;
                   const hasData = hasScheduleData(month);
@@ -119,9 +121,9 @@ export function ChartResultTable({
                           monthData?.total === 0 && "border-l-0!",
                           isLastSubHeader &&
                             !isLastMonth &&
-                            "border-r-2 border-r-slate-400",
+                            "border-r border-r-slate-400",
                           (subHeader === "total" || subHeader === "rate") &&
-                            "font-semibold",
+                            "text-rd",
                         )}
                       >
                         {monthData && monthData[subHeader]

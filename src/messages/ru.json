@@ -42,6 +42,7 @@
     "closeEmployee": "удалить из списка сотрудника"
   },
   "Home": {
+    "notData": "нет данных",
     "employeesKey": "ключ",
     "employeesWorkForm": "форма",
     "tabs": "таблицы",

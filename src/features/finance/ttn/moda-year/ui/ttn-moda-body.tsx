@@ -13,7 +13,7 @@ export default function TtnModaBodyTable({
         ({ agent, agentMonthData, totalMinus, totalPlus, finalBalance }) => (
           <TableRow
             key={agent}
-            className="group hover:border-b hover:border-t-black hover:bg-gray-100 [&>td]:py-0 hover:[&>td]:py-1"
+            className="group hover:border-b hover:border-t-black hover:bg-gray-100 [&>td]:py-0 hover:[&>td]:py-px"
           >
             <TableCell className="px-1">
               <div className="flex items-center justify-between gap-1 text-[11px]">

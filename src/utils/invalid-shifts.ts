@@ -1,14 +1,16 @@
 import { SHIFT_COLOR_MAP } from "@/features/schedule/schedule-edit/model/constants";
 
-export function getInvalidConsecutiveShiftIndexes(
-  shifts: string[],
-): Set<number> {
-  const invalidIndexes = new Set<number>();
+export function getInvalidConsecutiveShiftIndexes(shifts: string[]): {
+  invalidIndex: Set<number>;
+  invalidRest: Set<number>;
+} {
+  const invalidIndex = new Set<number>();
+  const invalidRest = new Set<number>();
 
   let consecutive = 0;
 
   shifts.forEach((shift, index) => {
-    const isWorkShift = ![...SHIFT_COLOR_MAP, "/"].includes(shift);
+    const isWorkShift = !SHIFT_COLOR_MAP.includes(shift);
 
     if (!isWorkShift) {
       consecutive = 0;
@@ -18,9 +20,33 @@ export function getInvalidConsecutiveShiftIndexes(
     consecutive += 1;
 
     if (consecutive > 3) {
-      invalidIndexes.add(index);
+      invalidIndex.add(index);
     }
   });
 
-  return invalidIndexes;
+  shifts.forEach((shift, index) => {
+    if (!shift) return;
+
+    const parts = shift.split(".");
+    const hasReturnShift = parts.some((part) => part === "20" || part === "18");
+
+    if (hasReturnShift) {
+      const nextShift = shifts[index + 1];
+      const shiftAfterNext = shifts[index + 2];
+
+      if (nextShift === "") {
+        if (
+          shiftAfterNext !== undefined &&
+          shiftAfterNext !== "" &&
+          shiftAfterNext !== "20" &&
+          shiftAfterNext !== "18" &&
+          !SHIFT_COLOR_MAP.includes(shiftAfterNext)
+        ) {
+          invalidRest.add(index + 1);
+        }
+      }
+    }
+  });
+
+  return { invalidIndex, invalidRest };
 }
