@@ -1,9 +1,7 @@
 "use client";
 
 import { Table } from "@/components/ui/table";
-
 import { useRef, useState } from "react";
-
 import { useMobileTableScroll } from "../../schedule-edit/hooks/use-mobile-table-scroll";
 import { getShiftCounts } from "../../schedule-edit/lib/utils";
 import { GetScheduleData } from "../../schedule-edit/model/type";

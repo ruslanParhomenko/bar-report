@@ -1,11 +1,11 @@
+import { getMenuDailyData } from "@/features/menu/menu-daily/actions/get-menu-daily";
 import {
   getDataMenu,
   getDataMenuDaily,
 } from "@/features/setting/actions/get-data-json";
-import { getMenuDailyData } from "@/features/staff/menu/menu-daily/actions/get-menu-daily";
 
-import { MenuPage } from "@/features/staff/menu/menu-page";
-import { getMenuWeekData } from "@/features/staff/menu/menu-week/actions/get-menu-week";
+import { MenuPage } from "@/features/menu/menu-page";
+import { getMenuWeekData } from "@/features/menu/menu-week/actions/get-menu-week";
 
 export default async function Page() {
   const [dataMenuVip, dataMenuDaily, listMenuDaily, dataMenuWeek] =

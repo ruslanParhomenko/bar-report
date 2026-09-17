@@ -19,7 +19,19 @@ export default function NavTabs<T extends string>({
 }) {
   if (!navItems.length) return null;
 
-  const tabsWidth = navItems.length < 6 ? `w-1/${navItems.length}` : "w-10";
+  const tabsWidthByLength = {
+    1: "w-full",
+    2: "w-24",
+    3: "w-24",
+    4: "w-20",
+    5: "w-18",
+    6: "w-18",
+    7: "w-16",
+    8: "w-12",
+  };
+
+  const tabsWidth =
+    tabsWidthByLength[navItems.length as keyof typeof tabsWidthByLength];
 
   return (
     <Tabs
@@ -29,7 +41,7 @@ export default function NavTabs<T extends string>({
       }}
     >
       <TabsList
-        className={cn("order-1 flex h-7 md:order-0 md:gap-4", classTabs)}
+        className={cn("order-1 flex h-8 md:order-0 md:gap-4", classTabs)}
       >
         {navItems.map((item, index) => (
           <TabsTrigger

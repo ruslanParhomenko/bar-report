@@ -33,13 +33,14 @@ export function getInvalidConsecutiveShiftIndexes(shifts: string[]): {
     if (hasReturnShift) {
       const nextShift = shifts[index + 1];
       const shiftAfterNext = shifts[index + 2];
+      const shiftAfterNextSplit = shiftAfterNext?.split(".");
 
       if (nextShift === "") {
         if (
           shiftAfterNext !== undefined &&
-          shiftAfterNext !== "" &&
-          shiftAfterNext !== "20" &&
-          shiftAfterNext !== "18" &&
+          !shiftAfterNextSplit.includes("") &&
+          !shiftAfterNextSplit.includes("20") &&
+          !shiftAfterNextSplit.includes("18") &&
           !SHIFT_COLOR_MAP.includes(shiftAfterNext)
         ) {
           invalidRest.add(index + 1);

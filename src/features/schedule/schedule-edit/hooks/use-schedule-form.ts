@@ -1,5 +1,4 @@
 "use client";
-import { syncScheduleToTelegram } from "@/app/actions/telegram/sync-to-telegram";
 import { useMonthDays } from "@/hooks/use-month-days";
 import { useEdit } from "@/providers/edit-provider";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -20,21 +19,6 @@ export function useScheduleForm(tab: string | null) {
   });
 
   const onSubmit: SubmitHandler<ScheduleType> = async (data) => {
-    const formattedDataToSend = {
-      tab: tab as keyof typeof EMPLOYEE_ROLES_BY_DEPARTMENT,
-      rowShifts: data.rowShifts.map((row) => {
-        return {
-          employee: row.employee,
-          employeeId: row.employeeId,
-          shifts: row.shifts,
-        };
-      }),
-    };
-    try {
-      await syncScheduleToTelegram(formattedDataToSend);
-    } catch (error) {
-      toast.error("Произошла ошибка при отправке графика в Telegram");
-    }
     const rowShiftsWithHours = data.rowShifts.map((row) => {
       if (!row.shifts) return row;
       const { totalDay, totalNight, total } = calculateShiftTotals(row.shifts);

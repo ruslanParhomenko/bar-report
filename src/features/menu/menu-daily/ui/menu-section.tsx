@@ -1,3 +1,4 @@
+import { QrCode } from "@/components/qr-code/gr-code";
 import SelectInput, { OptionSelect } from "@/components/select/select-input";
 import { useFormContext } from "react-hook-form";
 import { SECTIONS } from "../model/constants";
@@ -111,7 +112,7 @@ export default function MenuSection({
         !isEdit &&
         qrUrl && (
           <div className="flex items-center justify-center">
-            <img
+            {/* <img
               src={`https://api.qrserver.com/v1/create-qr-code/?size=90x90&data=${encodeURIComponent(
                 qrUrl,
               )}&color=180-180-180&bgcolor=255-255-255`}
@@ -125,7 +126,8 @@ export default function MenuSection({
               onError={(e) => {
                 e.currentTarget.style.display = "none";
               }}
-            />
+            /> */}
+            <QrCode value={qrUrl} />
           </div>
         )}
       {items?.map((item, idx) =>

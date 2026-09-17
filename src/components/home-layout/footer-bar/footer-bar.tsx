@@ -1,149 +1,28 @@
 "use client";
 
-import ChartButton from "@/components/buttons/chart-button";
-import EditButton from "@/components/buttons/edit-button";
-import ExitButton from "@/components/buttons/exit-button";
-import PrintButton from "@/components/buttons/print-button";
-import ResetButton from "@/components/buttons/reset-button";
-import SaveButton from "@/components/buttons/save-button";
-import SendScreenButton from "@/components/buttons/send-screen-button";
-import { ACTION_ITEM_BY_ROUTE } from "@/components/home-layout/footer-bar/constants";
-import { useSidebar } from "@/components/ui/sidebar";
-import {
-  AO_REPORT_MAIN_ROUTE,
-  ARCHIVE_MAIN_ROUTE,
-  CASH_MAIN_ROUTE,
-  CHART_AO_ROUTE,
-  CHART_ARCHIVE_ROUTE,
-  CHART_CASH_ROUTE,
-  CHART_RESULT_ROUTE,
-  CHART_SCHEDULE_ROUTE,
-  CHART_TIPS_ROUTE,
-  CHART_TTN_ROUTE,
-  CREATE_EMPLOYEE_MAIN_ROUTE,
-  CREATE_USER_MAIN_ROUTE,
-  EMPLOYEES_MAIN_ROUTE,
-  MENU_MAIN_ROUTE,
-  RESULT_MAIN_ROUTE,
-  SCHEDULE_MAIN_ROUTE,
-  STOP_LIST_MAIN_ROUTE,
-  TIPS_MAIN_ROUTE,
-  TTN_MAIN_ROUTE,
-  USERS_MAIN_ROUTE,
-} from "@/constants/route-tag";
+import ActionButtons from "@/components/home-layout/footer-bar/action-buttons";
+import SelectTabs from "@/components/home-layout/header-bar/select-tabs";
 
-import { useFormId } from "@/hooks/use-form-id";
-import { cn } from "@/lib/utils";
-import { useEdit } from "@/providers/edit-provider";
-import { FolderPlus, Menu, SaveAllIcon, SendIcon } from "lucide-react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useTransition, ViewTransition } from "react";
-
-const URL_CREATE_BY_TAB = {
-  [EMPLOYEES_MAIN_ROUTE]: `/${CREATE_EMPLOYEE_MAIN_ROUTE}`,
-  [USERS_MAIN_ROUTE]: `/${CREATE_USER_MAIN_ROUTE}`,
-};
-
-const CHART_URL_BY_TAB = {
-  [SCHEDULE_MAIN_ROUTE]: CHART_SCHEDULE_ROUTE,
-  [TIPS_MAIN_ROUTE]: CHART_TIPS_ROUTE,
-  [ARCHIVE_MAIN_ROUTE]: CHART_ARCHIVE_ROUTE,
-  [RESULT_MAIN_ROUTE]: CHART_RESULT_ROUTE,
-  [CASH_MAIN_ROUTE]: CHART_CASH_ROUTE,
-  [TTN_MAIN_ROUTE]: CHART_TTN_ROUTE,
-  [AO_REPORT_MAIN_ROUTE]: CHART_AO_ROUTE,
-};
+import { useIsMobile } from "@/hooks/use-mobile";
+import { useTabSwipeNavigation } from "@/hooks/use-tab-swipe-navigation";
+import { useSearchParams } from "next/navigation";
 
 export default function ActionBar({ isAdmin }: { isAdmin: boolean }) {
-  const pathname = usePathname();
   const tab = useSearchParams().get("tab") || "";
-  const mainRoute = pathname.split("/")[1] || "";
+  const isMobile = useIsMobile();
+  const { handlers } = useTabSwipeNavigation();
 
-  const formId = useFormId();
-  const { toggleSidebar } = useSidebar();
+  if (!isMobile) {
+    return <ActionButtons isAdmin={isAdmin} tab={tab} />;
+  }
 
-  const actions = (ACTION_ITEM_BY_ROUTE[
-    mainRoute as keyof typeof ACTION_ITEM_BY_ROUTE
-  ] ?? []) as readonly string[];
-
-  const has = (key: string) => actions.includes(key);
-
-  const { isEdit, setIsEdit, resetFn } = useEdit();
-
-  const [isPending, startTransition] = useTransition();
-  const router = useRouter();
-
-  const iconCn = "bg-border rounded-md border px-3 py-1 cursor-pointer";
-  const urlForCreate =
-    URL_CREATE_BY_TAB[mainRoute as keyof typeof URL_CREATE_BY_TAB];
-
-  const isCanEdit =
-    isAdmin ||
-    mainRoute === MENU_MAIN_ROUTE ||
-    mainRoute === STOP_LIST_MAIN_ROUTE;
+  if (!tab) {
+    return null;
+  }
 
   return (
-    <ViewTransition>
-      <div className="bg-background z-9 flex items-center justify-around gap-4 pt-1 pb-4 md:justify-start md:gap-6 md:px-10">
-        {has("edit") && (
-          <EditButton
-            isEdit={isEdit}
-            setIsEdit={setIsEdit}
-            disabled={!isCanEdit || isPending}
-            className={iconCn}
-          />
-        )}
-        {has("save") && isEdit && (
-          <SaveButton
-            formId={formId}
-            disabled={!isCanEdit || isPending || !isEdit}
-            className={iconCn}
-          />
-        )}
-        {has("save-all") && (
-          <button type="submit" className={iconCn} form={formId}>
-            <SaveAllIcon size={18} strokeWidth={1.5} className="text-bl" />
-          </button>
-        )}
-        {has("print") && <PrintButton className={iconCn} />}
-        {has("mail") && tab && (
-          <SendScreenButton patch={tab} className={iconCn} />
-        )}
-        {has("create") && (
-          <button
-            type="button"
-            className={iconCn}
-            onClick={() => startTransition(() => router.push(urlForCreate))}
-            disabled={isPending || !isAdmin}
-          >
-            <FolderPlus size={20} strokeWidth={1.5} />
-          </button>
-        )}
-        {has("exit") && <ExitButton className={iconCn} disabled={isPending} />}
-        {has("send") && (
-          <button type="submit" form={formId} className={iconCn}>
-            <SendIcon size={18} strokeWidth={1.5} />
-          </button>
-        )}
-        {has("reset") && (
-          <ResetButton
-            className={iconCn}
-            reset={() => startTransition(() => resetFn?.())}
-          />
-        )}
-        {has("chart") && (
-          <ChartButton
-            className={iconCn}
-            url={CHART_URL_BY_TAB[mainRoute as keyof typeof CHART_URL_BY_TAB]}
-          />
-        )}
-        <button
-          className={cn("md:hidden", iconCn)}
-          onClick={() => toggleSidebar()}
-        >
-          <Menu size={18} strokeWidth={1.5} className="text-bl" />
-        </button>
-      </div>
-    </ViewTransition>
+    <div className="py-2" {...handlers}>
+      <SelectTabs urlTab={tab} />
+    </div>
   );
 }

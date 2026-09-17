@@ -10,7 +10,7 @@ import {
 } from "@/constants/action-tag";
 
 import { BreakForm } from "@/features/break/model/schema";
-import { MenuDailyDataForm } from "@/features/staff/menu/menu-daily/model/type";
+import { MenuDailyDataForm } from "@/features/menu/menu-daily/model/type";
 
 import { dbAdmin } from "@/lib/firebase-admin";
 import { unstable_cache } from "next/cache";

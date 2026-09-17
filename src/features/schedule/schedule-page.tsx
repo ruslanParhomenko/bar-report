@@ -5,6 +5,7 @@ import { useAccessCheck } from "@/hooks/use-tab-access";
 import { useSearchParams } from "next/navigation";
 
 import { Employee } from "@/features/settings/create-employee/model/type";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { useTabSwipeNavigation } from "@/hooks/use-tab-swipe-navigation";
 import { useEdit } from "@/providers/edit-provider";
 import { AnimatePresence, motion } from "motion/react";
@@ -22,6 +23,8 @@ export function SchedulePage({ schedules, employees, isAdmin }: Props) {
   const hasAccess = useAccessCheck();
   const { isEdit } = useEdit();
 
+  const isMobile = useIsMobile();
+
   const searchParams = useSearchParams();
 
   const tab = searchParams.get("tab")!;
@@ -36,13 +39,13 @@ export function SchedulePage({ schedules, employees, isAdmin }: Props) {
   return (
     <AnimatePresence mode="wait" initial={false}>
       <motion.div
-        {...handlers}
+        {...(!isMobile ? handlers : {})}
         key={`${tab}-${isEdit ? "edit" : "view"}`}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         transition={{
-          duration: 0.2,
+          duration: 0.1,
           ease: "easeInOut",
         }}
         className="h-full"

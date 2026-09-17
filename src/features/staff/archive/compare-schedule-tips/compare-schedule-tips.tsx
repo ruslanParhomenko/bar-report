@@ -80,7 +80,7 @@ export default function CompareScheduleTipsPage({
         {dataSchedule.rowShifts.map((row) => (
           <TableRow key={row.id} className="[&>td]:text-xs">
             <TableCell className="bg-background text-muted-foreground sticky left-0 truncate pr-1 pl-2 md:bg-transparent">
-              {row.employee}
+              {row.employee.split(" ")[0] + " " + row.employee.split(" ")[1][0]}
             </TableCell>
             {days.map((day) => {
               const dayIndex = Number(day.id) - 1;
@@ -127,7 +127,7 @@ export default function CompareScheduleTipsPage({
                 statusClass = "bg-blue-500/20";
                 content = (
                   <span className="text-blue-600">
-                    (t:{tipShift.split("-")[0]})
+                    (?) (t:{tipShift.split("-")[0]})
                   </span>
                 );
               }

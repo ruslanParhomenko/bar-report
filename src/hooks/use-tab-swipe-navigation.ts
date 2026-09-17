@@ -1,13 +1,10 @@
-// hooks/use-tab-swipe-navigation.ts
 "use client";
 
 import { TABS_BY_ROUTE } from "@/components/home-layout/header-bar/constants";
-import { useIsMobile } from "@/hooks/use-mobile";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useSwipeable } from "react-swipeable";
 
 export function useTabSwipeNavigation() {
-  const isMobile = useIsMobile();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
@@ -35,7 +32,7 @@ export function useTabSwipeNavigation() {
     handleTabChange(TABS[nextIndex]);
   };
 
-  const delta = isMobile ? 300 : 50;
+  const delta = 50;
 
   const handlers = useSwipeable({
     delta,
