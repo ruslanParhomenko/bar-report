@@ -73,7 +73,7 @@ export function TtnNbmMonthPage({
   }, [dataTtnNbmByMont, form]);
 
   return (
-    <FormWrapper form={form} onSubmit={onSubmit} className="max-w-[90dvw]">
+    <FormWrapper form={form} onSubmit={onSubmit}>
       <Table className="mt-6">
         <TtnNbmHeaderTable
           selectedDay={selectedDay}

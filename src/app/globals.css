@@ -51,14 +51,16 @@
   --color-gr: var(--gr);
   --color-gn: var(--gn);
   --color-yl: var(--yl);
+  --color-br: var(--br);
 }
 
 :root {
   --bl: #1da1f2;
   --rd: #72092a;
-  --gr: #6b7280;
-  --gn: #4b5320;
-  --yl: #bb9a19;
+  --br: #a85340;
+  --gr: #4a5a6f;
+  --gn: #5a9b2e;
+  --yl: #f7c80d;
 
   --radius: 0.625rem;
 
@@ -111,6 +113,7 @@
   --gr: #d1d5db;
   --gn: #1aa150;
   --yl: #d6ae0b;
+  --br: #f87171;
 
   --background: #18181b;
   --foreground: #f9fafb;

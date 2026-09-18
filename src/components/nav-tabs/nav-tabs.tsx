@@ -25,7 +25,7 @@ export default function NavTabs<T extends string>({
     3: "w-24",
     4: "w-20",
     5: "w-18",
-    6: "w-18",
+    6: "w-16",
     7: "w-16",
     8: "w-12",
   };

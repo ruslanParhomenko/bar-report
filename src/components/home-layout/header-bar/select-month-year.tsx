@@ -35,7 +35,7 @@ export default function SelectMonthYear({
   };
 
   return (
-    <div className="order-1 flex items-center justify-center gap-4 md:order-2">
+    <div className="order-1 flex items-center justify-center gap-3 md:order-2">
       <SelectOptions
         options={MONTHS.map((month) => ({
           value: month,

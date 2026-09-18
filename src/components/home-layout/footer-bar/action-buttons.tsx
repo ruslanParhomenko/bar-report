@@ -84,7 +84,7 @@ export default function ActionButtons({
     mainRoute === MENU_MAIN_ROUTE ||
     mainRoute === STOP_LIST_MAIN_ROUTE;
   return (
-    <div className="bg-background z-9 order-2 flex items-center justify-around gap-4 py-1 md:order-1 md:justify-start md:gap-10 md:px-6 md:py-2">
+    <div className="bg-background z-9 order-2 flex items-center justify-around gap-3 py-1 md:order-1 md:justify-start md:gap-10 md:px-6 md:py-2">
       {has("edit") && (
         <EditButton
           isEdit={isEdit}
@@ -125,7 +125,9 @@ export default function ActionButtons({
           <FolderPlus size={size ?? 20} strokeWidth={1.5} />
         </button>
       )}
-      {has("exit") && <ExitButton className={iconCn} disabled={isPending} />}
+      {has("exit") && (
+        <ExitButton className={iconCn} disabled={isPending} size={size} />
+      )}
       {has("send") && (
         <button type="submit" form={formId} className={iconCn}>
           <SendIcon size={size ?? 18} strokeWidth={1.5} />

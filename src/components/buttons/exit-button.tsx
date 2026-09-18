@@ -8,10 +8,12 @@ export default function ExitButton({
   className,
   disabled = false,
   url,
+  size = 18,
 }: {
   className?: string;
   disabled?: boolean;
   url?: string;
+  size?: number;
 }) {
   const router = useRouter();
   return (
@@ -23,7 +25,7 @@ export default function ExitButton({
       disabled={disabled}
       className={cn("cursor-pointer", className, disabled && "opacity-50")}
     >
-      <LogOutIcon size={18} strokeWidth={1.5} className="text-rd" />
+      <LogOutIcon size={size} strokeWidth={1.5} className="text-rd" />
     </button>
   );
 }

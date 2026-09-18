@@ -17,7 +17,7 @@ export function TtnViewMonthPage({ dataTtn }: { dataTtn: GetTTNData | null }) {
   const normalizedSearch = itemSearch.trim().toLowerCase();
 
   return (
-    <table className="max-w-[90dvw]">
+    <table>
       <TtnHeaderTable
         setItemSearch={setItemSearch}
         selectedDay={selectedDay}

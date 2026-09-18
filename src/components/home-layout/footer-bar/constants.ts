@@ -60,11 +60,11 @@ export const ACTION_ITEM_BY_ROUTE = {
 
   [VIEW_EMPLOYEE_MAIN_ROUTE]: ["print", "exit"],
 
-  [CHART_SCHEDULE_ROUTE]: ["print", "exit"],
-  [CHART_TIPS_ROUTE]: ["print", "exit"],
-  [CHART_ARCHIVE_ROUTE]: ["print", "exit"],
-  [CHART_RESULT_ROUTE]: ["print", "exit"],
-  [CHART_CASH_ROUTE]: ["print", "exit"],
-  [CHART_TTN_ROUTE]: ["print", "exit"],
-  [CHART_AO_ROUTE]: ["print", "exit"],
+  [CHART_SCHEDULE_ROUTE]: ["print"],
+  [CHART_TIPS_ROUTE]: ["print"],
+  [CHART_ARCHIVE_ROUTE]: ["print"],
+  [CHART_RESULT_ROUTE]: ["print"],
+  [CHART_CASH_ROUTE]: ["print"],
+  [CHART_TTN_ROUTE]: ["print"],
+  [CHART_AO_ROUTE]: ["print"],
 } as const;

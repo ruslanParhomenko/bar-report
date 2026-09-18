@@ -35,10 +35,10 @@ export default function TtnViewBodyTable({
           return (
             <TableRow
               key={row}
-              className="group [&>td]:px-1 [&>td]:py-0 [&>td]:text-[11px]"
+              className="group [&>td]:px-0.5 [&>td]:py-0 [&>td]:text-[11px]"
             >
               <TableCell className="w-16 border-r">
-                <div className="flex h-full flex-col items-end">
+                <div className="flex h-full flex-col items-end pr-0.5">
                   <span
                     className={cn(
                       "text-rd",
@@ -57,21 +57,21 @@ export default function TtnViewBodyTable({
                   </span>
                 </div>
               </TableCell>
-              <TableCell className="border-r">
-                <div className="flex w-16 items-center">{rowData?.final}</div>
+              <TableCell className="border-r text-center">
+                {rowData?.final}
               </TableCell>
 
               <TableCell className="bg-background sticky left-0 text-start md:bg-transparent">
                 <span
                   className={cn(
-                    "hover-cell w-12 truncate font-semibold text-green-600",
+                    "hover-cell w-12 truncate pl-0.5 font-semibold text-green-600",
                     isRowByCurrentDay && "text-rd",
                   )}
                 >
                   {row}
                 </span>
               </TableCell>
-              <TableCell className="border-l px-0.5 py-0 text-right text-[10px]">
+              <TableCell className="text-gn border-l text-center text-[10px]">
                 {rowData?.start}
               </TableCell>
               {monthDays.map((_, dayIndex) => {

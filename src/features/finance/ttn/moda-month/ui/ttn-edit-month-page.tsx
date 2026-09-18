@@ -88,7 +88,7 @@ export function TtnEditMonthPage({
   }, [dataTtnPrev, month, year, form, agentTTN]);
 
   return (
-    <FormWrapper form={form} onSubmit={onSubmit} className="max-w-[90dvw]">
+    <FormWrapper form={form} onSubmit={onSubmit}>
       <table>
         <TtnHeaderTable
           setItemSearch={setItemSearch}

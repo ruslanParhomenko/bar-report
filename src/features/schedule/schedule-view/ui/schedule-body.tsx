@@ -32,9 +32,8 @@ export default function ScheduleTableBody({
           ? calculateSalaryByHours(row).toFixed(0).toString()
           : "0";
 
-        const { invalidIndex, invalidRest } = getInvalidConsecutiveShiftIndexes(
-          row.shifts,
-        );
+        const { invalidIndex, invalidRest, overRest } =
+          getInvalidConsecutiveShiftIndexes(row.shifts);
 
         return (
           <TableRow
@@ -70,6 +69,7 @@ export default function ScheduleTableBody({
               const isSelected = dayIndex === selectedDay - 1;
               const isInvalidConsecutive = invalidIndex.has(dayIndex);
               const isInvalidRest = invalidRest.has(dayIndex);
+              const isOverRest = overRest.has(dayIndex);
 
               return (
                 <TableCell
@@ -78,8 +78,9 @@ export default function ScheduleTableBody({
                     "border-x p-0 text-center text-xs",
                     color[day as keyof typeof color],
                     isSelected && "text-rd font-bold",
-                    isInvalidConsecutive && "bg-yl/50",
-                    isInvalidRest && "bg-yl/50",
+                    isInvalidConsecutive && "bg-br/70",
+                    isInvalidRest && "bg-br/70",
+                    isOverRest && "bg-gr/30 border-0",
                   )}
                 >
                   {SHIFT_COLOR_MAP.includes(day) ? null : day}

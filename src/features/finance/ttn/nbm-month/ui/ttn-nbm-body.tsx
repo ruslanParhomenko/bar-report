@@ -1,10 +1,10 @@
 "use client";
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
+import { useMonthDays } from "@/hooks/use-month-days";
 import { cn } from "@/lib/utils";
 import { handleMultiTableNavigation } from "@/utils/handle-table-navigation";
 import { useFormContext, useWatch } from "react-hook-form";
 import { TTNFormNBM } from "../model/schema";
-import { useMonthDays } from "@/hooks/use-month-days";
 
 export default function TtnNbmBodyTable({
   arrayRows,
@@ -35,7 +35,7 @@ export default function TtnNbmBodyTable({
 
         return (
           <TableRow key={row} className="group [&>td]:text-xs">
-            <TableCell className="border-r py-0 pr-1">
+            <TableCell className="pч-1 border-r">
               <span
                 className={cn(
                   "text-rd",
@@ -46,7 +46,7 @@ export default function TtnNbmBodyTable({
               </span>
             </TableCell>
 
-            <TableCell className="bg-background sticky left-0 py-0 pl-1 text-start md:bg-transparent">
+            <TableCell className="bg-background pч-1 sticky left-0 text-start md:bg-transparent">
               <span
                 className={cn(
                   "hover-cell truncate font-semibold text-green-600",
@@ -57,7 +57,7 @@ export default function TtnNbmBodyTable({
             </TableCell>
 
             {monthDays.map((_, dayIndex) => (
-              <TableCell key={dayIndex} className="border-x p-0">
+              <TableCell key={dayIndex} className="border-x px-0 py-1.5">
                 <input
                   {...register(
                     `rowSuppliers.${row}.minus.${dayIndex}` as const,
@@ -65,8 +65,8 @@ export default function TtnNbmBodyTable({
                   data-row={rowIndex * 2}
                   data-col={dayIndex}
                   className={cn(
-                    "h-9 w-full border-0 text-center text-xs",
-                    "text-rd",
+                    "h-9 w-full min-w-12 border-0 text-center text-xs",
+                    "text-rd focus:bg-blue-50",
                   )}
                   onKeyDown={handleMultiTableNavigation}
                   disabled={disabled}
