@@ -10,6 +10,7 @@ import { BreakListArchive } from "@/features/staff/archive/break/break-list-arch
 import CompareScheduleTipsPage from "@/features/staff/archive/compare-schedule-tips/compare-schedule-tips";
 import ReportCucinaArchive from "@/features/staff/archive/cucina/report-cucina-archive";
 import OrdersArchivePage from "@/features/staff/archive/orders/orders-archive-page";
+import OverHoursPage from "@/features/staff/archive/over-hours/over-hours-page";
 import PenaltyResult from "@/features/staff/archive/penalty-result/penalty-result";
 import PenaltyArchiveData from "@/features/staff/archive/penalty/penalty-archive-data";
 import TipsArchiveData from "@/features/staff/archive/tips/tips-archive-data";
@@ -73,6 +74,15 @@ export default function ArchivePage({
       render: () => (
         <CompareScheduleTipsPage
           dataTips={archiveData.tips}
+          dataSchedule={archiveData.schedule}
+        />
+      ),
+    },
+    {
+      key: "over-hours",
+      render: () => (
+        <OverHoursPage
+          dataPenalty={archiveData.penalty}
           dataSchedule={archiveData.schedule}
         />
       ),

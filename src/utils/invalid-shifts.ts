@@ -59,7 +59,9 @@ export function getInvalidConsecutiveShiftIndexes(shifts: string[]): {
     if (!shift) return;
 
     const parts = shift.split(".");
-    const hasReturnShift = parts.some((part) => part === "20" || part === "18");
+    const hasReturnShift = parts.some(
+      (part) => part === "20" || part === "18" || part === "19",
+    );
 
     if (hasReturnShift) {
       const nextShift = shifts[index + 1];
@@ -72,6 +74,7 @@ export function getInvalidConsecutiveShiftIndexes(shifts: string[]): {
           !shiftAfterNextSplit.includes("") &&
           !shiftAfterNextSplit.includes("20") &&
           !shiftAfterNextSplit.includes("18") &&
+          !shiftAfterNextSplit.includes("19") &&
           !SHIFT_COLOR_MAP.includes(shiftAfterNext)
         ) {
           invalidRest.add(index + 1);

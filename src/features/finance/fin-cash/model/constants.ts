@@ -14,6 +14,7 @@ export const FIN_CASH_ITEMS_LIST = [
   "534.2-12%",
   "533.2-9%",
   "533.1-24%",
+  "512",
 ];
 
 export const FIN_BAR_ITEMS_LIST = [

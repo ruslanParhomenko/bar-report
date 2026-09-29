@@ -1,7 +1,6 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-
 import { GetFinData } from "../model/type";
 import FinBar from "./fin-bar/fin-bar";
 import FinNori from "./fin-nori/fin-nori";

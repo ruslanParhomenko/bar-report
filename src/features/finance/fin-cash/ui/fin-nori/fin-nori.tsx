@@ -55,7 +55,21 @@ export default function FinNori({
 
   useEffect(() => {
     if (finCashData) {
-      form.reset(finCashData.finData);
+      const finCashMonth = Object.fromEntries(
+        MONTHS.map((month) => [
+          month,
+          FIN_CASH_ITEMS_LIST.map((item) => ({
+            name: item,
+            value: finCashData.finData.rowFinCashMonth[month].find(
+              (i) => i.name === item,
+            )?.value,
+          })),
+        ]),
+      );
+      form.reset({
+        ...defaultFinCashForm,
+        rowFinCashMonth: finCashMonth,
+      });
     } else {
       const newRowFinCash = Object.fromEntries(
         MONTHS.map((month) => [
@@ -72,7 +86,6 @@ export default function FinNori({
   }, [finCashData]);
 
   const values = form.watch("rowFinCashMonth");
-
   const getNumber = (val: any) => {
     const num = parseFloat(val);
     return isNaN(num) ? 0 : num;
