@@ -1,5 +1,5 @@
+import ReportBarArchiveItem from "@/features/archive/bar/report-bar-archive-item";
 import { GetReportData } from "@/features/report-bar/model/type";
-import ReportBarArchiveItem from "@/features/staff/archive/bar/report-bar-archive-item";
 
 export const classNameHead = "text-shadow-muted-foreground font-bold";
 export const classNameRowBorder = "border-b-bl";

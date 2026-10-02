@@ -1,9 +1,7 @@
 import { InsufficientRights } from "@/components/wrapper/insufficient-rights";
-import ArchivePage from "@/features/archive/archive-page";
-import { getBreakListByYearMonth } from "@/features/break/actions/get-break";
-import { getReportCucinaByYearMonth } from "@/features/cucina/actions/get-report-cucina";
+import { DiffPage } from "@/features/diff";
 import { getRemarksByYearMonth } from "@/features/penalty/actions/get-penalty";
-import { getReportBarByYearMonth } from "@/features/report-bar/actions/get-report-bar";
+import { getScheduleByYearAndMonth } from "@/features/schedule/schedule-edit/actions/get-schedule";
 import { getTipsAddByYearMonth } from "@/features/tips-add/actions/get-tips-add";
 import { MONTHS } from "@/utils/get-month-days";
 import { headers } from "next/headers";
@@ -38,27 +36,24 @@ export default async function Page({
     }
   }
 
-  const [dataReportBar, dataBreak, dataReportCucina, dataRemarks, tipsAdd] =
+  const [dataRemarks, tipsAdd, dataScheduleBarByMonth] =
     await Promise.allSettled([
-      getReportBarByYearMonth(year, month),
-      getBreakListByYearMonth(year, month),
-      getReportCucinaByYearMonth(year, month),
       getRemarksByYearMonth(year, month),
       getTipsAddByYearMonth(year, month),
+      getScheduleByYearAndMonth(year, month),
     ]);
   return (
-    <ArchivePage
+    <DiffPage
       archiveData={{
-        bar: dataReportBar.status === "fulfilled" ? dataReportBar.value : null,
-        breakList: dataBreak.status === "fulfilled" ? dataBreak.value : null,
-        cucina:
-          dataReportCucina.status === "fulfilled"
-            ? dataReportCucina.value
-            : null,
         penalty: dataRemarks.status === "fulfilled" ? dataRemarks.value : null,
         tips: tipsAdd.status === "fulfilled" ? tipsAdd.value : null,
+        schedule:
+          dataScheduleBarByMonth.status === "fulfilled"
+            ? (dataScheduleBarByMonth.value?.find(
+                (item) => item.id === "bar",
+              ) ?? null)
+            : null,
       }}
-      isAdmin={isAdmin}
     />
   );
 }

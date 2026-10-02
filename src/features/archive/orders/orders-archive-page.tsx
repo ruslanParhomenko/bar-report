@@ -5,8 +5,8 @@ import NavTabs from "@/components/nav-tabs/nav-tabs";
 import { getMonthDays, MONTHS } from "@/utils/get-month-days";
 import { useSearchParams } from "next/navigation";
 import { startTransition, useEffect, useState } from "react";
-import { getOrdersByYearMonth } from "../../orders/actions/get-orders";
-import { GetOrdersData } from "../../orders/model/type";
+import { getOrdersByYearMonth } from "../../staff/orders/actions/get-orders";
+import { GetOrdersData } from "../../staff/orders/model/type";
 import OrdersTable from "./orders-table";
 
 const NAV_TABS = ["bar-zn", "cucina-zn", "bar-ttn", "cucina-ttn"];

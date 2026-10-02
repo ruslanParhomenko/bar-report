@@ -6,30 +6,27 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { ReportWriteOffType } from "@/features/staff/cucina/model/schema";
+import { ProductPreparedType } from "@/features/cucina/model/schema";
 import { classNameRowBorder } from "../bar/report-bar-archive";
 
-export default function WriteOffTable({
-  data,
-}: {
-  data: ReportWriteOffType[];
-}) {
+export default function StaffTable({ data }: { data: ProductPreparedType[] }) {
   return (
     data && (
       <Table>
         <TableHeader>
           <TableRow className={classNameRowBorder}>
-            <TableHead>Write-off</TableHead>
+            <TableHead>Staff</TableHead>
             <TableHead>w</TableHead>
-            <TableHead>reason</TableHead>
+            <TableHead>time</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {data?.map((item, idx) => (
-            <TableRow key={idx} className="text-rd">
-              <TableCell>{item.product}</TableCell>
-              <TableCell>{item.weight}</TableCell>
-              <TableCell>{item.reason}</TableCell>
+            <TableRow key={idx}>
+              <TableCell className="truncate">{item.product}</TableCell>
+
+              <TableCell>{item.weight || "-"}</TableCell>
+              <TableCell>{item?.time || "-"}</TableCell>
             </TableRow>
           ))}
         </TableBody>

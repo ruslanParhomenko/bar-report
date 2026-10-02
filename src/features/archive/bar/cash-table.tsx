@@ -6,11 +6,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { CashVerifySchemaType } from "@/features/report-bar/model/schema";
 import {
   classNameHead,
   classNameRowBorder,
-} from "@/features/staff/archive/bar/report-bar-archive";
+} from "@/features/archive/bar/report-bar-archive";
+import { CashVerifySchemaType } from "@/features/report-bar/model/schema";
 
 export default function CashVerifyTable({
   data,

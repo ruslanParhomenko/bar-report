@@ -2,12 +2,20 @@ import { TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 
-export default function ResultTableHeader() {
+export default function ResultTableHeader({ month }: { month: string }) {
   const classNameRow = "text-center text-gr md:w-10 w-7";
 
   const isMobile = useIsMobile();
   return (
     <TableHeader>
+      <TableRow className="border-0!">
+        <TableHead
+          colSpan={10}
+          className="text-rd text-center font-bold tracking-wider"
+        >
+          {month}
+        </TableHead>
+      </TableRow>
       <TableRow>
         <TableHead className="w-18 md:w-26" />
         <TableHead className={cn(classNameRow)} />

@@ -29,7 +29,7 @@ export default function ResultTableBody({
               className="bg-background sticky left-0 cursor-copy px-0 text-start! md:bg-transparent md:pl-4"
               onClick={() => handleCopy(e.employee)}
             >
-              <p className="truncate">{e.employee}</p>
+              <p className="truncate text-xs">{e.employee}</p>
             </TableCell>
             <TableCell className="border-r px-1">
               {isMobile ? rate / 1000 : rate}
@@ -69,7 +69,7 @@ export default function ResultTableBody({
             </TableCell>
             {!isMobile && (
               <TableCell
-                className="border-r"
+                className="border-r text-xs!"
                 onClick={() => handleCopy(e.employee)}
               >
                 {e.employee}

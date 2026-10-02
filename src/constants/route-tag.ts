@@ -1,4 +1,5 @@
 export const SCHEDULE_MAIN_ROUTE = "schedule";
+export const DIFF_MAIN_ROUTE = "diff";
 export const ALGORITHM_MAIN_ROUTE = "algorithm";
 export const EMPLOYEES_MAIN_ROUTE = "employees";
 export const REPORTS_BAR_ROUTE = "report-bar";

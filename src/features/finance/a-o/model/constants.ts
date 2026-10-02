@@ -17,6 +17,12 @@ export const ROWS_ADVANCE = [
     colorText: "text-bl",
     type: "input",
   },
+  {
+    key: "advanceBNAlc",
+    label: "advance-bn-bar",
+    colorText: "text-bl",
+    type: "input",
+  },
 ];
 export const ROWS_PURCHASE_MODA = [
   {

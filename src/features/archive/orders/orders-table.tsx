@@ -5,7 +5,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { GetOrdersData } from "../../orders/model/type";
+import { GetOrdersData } from "../../staff/orders/model/type";
 
 type MonthDay = {
   day: number;
@@ -18,6 +18,7 @@ type OrdersTableProps = {
 };
 
 export default function OrdersTable({ orders, monthDays }: OrdersTableProps) {
+  console.log("orders", orders);
   const products = Array.from(
     new Set(
       orders.flatMap((day) =>

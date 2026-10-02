@@ -1,7 +1,7 @@
 "use client";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
+import { remarksByUniqueEmployee } from "@/features/archive/penalty/utils";
 import { GetRemarksData } from "@/features/penalty/model/type";
-import { remarksByUniqueEmployee } from "@/features/staff/archive/penalty/utils";
 
 import { cn } from "@/lib/utils";
 import React, { useState } from "react";

@@ -4,7 +4,7 @@ import { unstable_cache } from "next/cache";
 import { getYearMonthDoc } from "@/lib/firebase-doc";
 
 import { REPORT_CUCINA_ACTION_TAG } from "@/constants/action-tag";
-import { ReportKitchenForm } from "@/features/staff/cucina/model/schema";
+import { ReportKitchenForm } from "@/features/cucina/model/schema";
 import { GetKitchenData } from "../model/type";
 
 const actionTag = REPORT_CUCINA_ACTION_TAG;

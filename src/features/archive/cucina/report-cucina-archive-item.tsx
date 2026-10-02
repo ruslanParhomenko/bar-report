@@ -4,12 +4,12 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
-import { classNameHead } from "@/features/staff/archive/bar/report-bar-archive-item";
-import PreparedTable from "@/features/staff/archive/cucina/prepared-table";
-import ShiftsTable from "@/features/staff/archive/cucina/shifts-table";
-import StaffTable from "@/features/staff/archive/cucina/staff-table";
-import WriteOffTable from "@/features/staff/archive/cucina/write-off-table";
-import { GetKitchenData } from "@/features/staff/cucina/model/type";
+import { classNameHead } from "@/features/archive/bar/report-bar-archive-item";
+import PreparedTable from "@/features/archive/cucina/prepared-table";
+import ShiftsTable from "@/features/archive/cucina/shifts-table";
+import StaffTable from "@/features/archive/cucina/staff-table";
+import WriteOffTable from "@/features/archive/cucina/write-off-table";
+import { GetKitchenData } from "@/features/cucina/model/type";
 
 export const classNameHeadCucina = "text-shadow-muted-foreground font-bold";
 

@@ -4,6 +4,7 @@ import {
   AO_REPORT_MAIN_ROUTE,
   ARCHIVE_MAIN_ROUTE,
   CASH_MAIN_ROUTE,
+  DIFF_MAIN_ROUTE,
   EMPLOYEES_MAIN_ROUTE,
   FIN_CASH_MAIN_ROUTE,
   INFO_MAIN_ROUTE,
@@ -47,6 +48,11 @@ export const SIDEBAR_NAVIGATION = [
     title: SCHEDULE_MAIN_ROUTE,
     icon: Calendar,
     query: NAV_BY_PATCH[SCHEDULE_MAIN_ROUTE],
+  },
+  {
+    title: DIFF_MAIN_ROUTE,
+    icon: CalculatorIcon,
+    query: NAV_BY_PATCH[DIFF_MAIN_ROUTE],
   },
   {
     title: EMPLOYEES_MAIN_ROUTE,

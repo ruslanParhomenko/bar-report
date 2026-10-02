@@ -12,6 +12,7 @@ import {
   CHART_SCHEDULE_ROUTE,
   CHART_TIPS_ROUTE,
   CHART_TTN_ROUTE,
+  DIFF_MAIN_ROUTE,
   EMPLOYEES_MAIN_ROUTE,
   FIN_CASH_MAIN_ROUTE,
   INFO_MAIN_ROUTE,
@@ -83,11 +84,9 @@ export const TABS_BY_ROUTE = {
     "cucina",
     "breakList",
     "penalty",
-    "over-hours",
     "penalty-result",
     "tips-add",
     "orders",
-    "schedule-tips",
   ],
   [CHART_ARCHIVE_ROUTE]: [
     "penalty-year",
@@ -142,6 +141,7 @@ export const TABS_BY_ROUTE = {
     "data-status-parameters",
   ],
   [PARSER_1C_MAIN_ROUTE]: ["exp", "xls"],
+  [DIFF_MAIN_ROUTE]: ["over-hours", "schedule-tips"],
 } as const;
 
 export type NAV_BY_PATCH_TYPE = Record<
@@ -155,6 +155,10 @@ export type NAV_BY_PATCH_TYPE = Record<
 export const NAV_BY_PATCH = {
   [SCHEDULE_MAIN_ROUTE]: {
     tabs: TABS_BY_ROUTE[SCHEDULE_MAIN_ROUTE],
+    selectDate: true,
+  },
+  [DIFF_MAIN_ROUTE]: {
+    tabs: TABS_BY_ROUTE[DIFF_MAIN_ROUTE],
     selectDate: true,
   },
   [EMPLOYEES_MAIN_ROUTE]: {

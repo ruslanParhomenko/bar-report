@@ -1,40 +1,38 @@
 "use client";
 
 import { InsufficientRights } from "@/components/wrapper/insufficient-rights";
+import ReportBarArchive from "@/features/archive/bar/report-bar-archive";
+import { BreakListArchive } from "@/features/archive/break/break-list-archive";
+import ReportCucinaArchive from "@/features/archive/cucina/report-cucina-archive";
+import OrdersArchivePage from "@/features/archive/orders/orders-archive-page";
+import PenaltyResult from "@/features/archive/penalty-result/penalty-result";
+import PenaltyArchiveData from "@/features/archive/penalty/penalty-archive-data";
+import TipsArchiveData from "@/features/archive/tips/tips-archive-data";
 import { GetBreakData } from "@/features/break/model/type";
+import { GetKitchenData } from "@/features/cucina/model/type";
 import { GetRemarksData } from "@/features/penalty/model/type";
 import { GetReportData } from "@/features/report-bar/model/type";
-import { GetScheduleData } from "@/features/schedule/schedule-edit/model/type";
-import ReportBarArchive from "@/features/staff/archive/bar/report-bar-archive";
-import { BreakListArchive } from "@/features/staff/archive/break/break-list-archive";
-import CompareScheduleTipsPage from "@/features/staff/archive/compare-schedule-tips/compare-schedule-tips";
-import ReportCucinaArchive from "@/features/staff/archive/cucina/report-cucina-archive";
-import OrdersArchivePage from "@/features/staff/archive/orders/orders-archive-page";
-import OverHoursPage from "@/features/staff/archive/over-hours/over-hours-page";
-import PenaltyResult from "@/features/staff/archive/penalty-result/penalty-result";
-import PenaltyArchiveData from "@/features/staff/archive/penalty/penalty-archive-data";
-import TipsArchiveData from "@/features/staff/archive/tips/tips-archive-data";
-import { GetKitchenData } from "@/features/staff/cucina/model/type";
 import { GetTipsAddData } from "@/features/tips-add/model/type";
 import { useAccessCheck } from "@/hooks/use-tab-access";
 import { useSearchParams } from "next/navigation";
 
-export type ArchiveData = {
+interface ArchiveData {
   bar: GetReportData[] | null;
   cucina: GetKitchenData[] | null;
   breakList: GetBreakData[] | null;
   penalty: GetRemarksData[] | null;
   tips: GetTipsAddData[] | null;
-  schedule: GetScheduleData | null;
-};
+}
+
+interface ArchivePageProps {
+  archiveData: ArchiveData;
+  isAdmin: boolean;
+}
 
 export default function ArchivePage({
   archiveData,
   isAdmin,
-}: {
-  archiveData: ArchiveData;
-  isAdmin: boolean;
-}) {
+}: ArchivePageProps) {
   const hasAccess = useAccessCheck();
   const tab = useSearchParams().get("tab");
 
@@ -68,24 +66,6 @@ export default function ArchivePage({
     {
       key: "orders",
       render: () => <OrdersArchivePage />,
-    },
-    {
-      key: "schedule-tips",
-      render: () => (
-        <CompareScheduleTipsPage
-          dataTips={archiveData.tips}
-          dataSchedule={archiveData.schedule}
-        />
-      ),
-    },
-    {
-      key: "over-hours",
-      render: () => (
-        <OverHoursPage
-          dataPenalty={archiveData.penalty}
-          dataSchedule={archiveData.schedule}
-        />
-      ),
     },
   ];
 

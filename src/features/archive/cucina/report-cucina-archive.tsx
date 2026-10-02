@@ -1,7 +1,7 @@
 "use client";
 
-import ReportCucinaArchiveItem from "@/features/staff/archive/cucina/report-cucina-archive-item";
-import { GetKitchenData } from "@/features/staff/cucina/model/type";
+import ReportCucinaArchiveItem from "@/features/archive/cucina/report-cucina-archive-item";
+import { GetKitchenData } from "@/features/cucina/model/type";
 
 export default function ReportCucinaArchive({
   data,

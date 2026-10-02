@@ -6,32 +6,31 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { ProductTransferSchemaType } from "@/features/report-bar/model/schema";
 import {
   classNameHead,
   classNameRowBorder,
-} from "@/features/staff/archive/bar/report-bar-archive";
+} from "@/features/archive/bar/report-bar-archive";
+import { ExpensesSchemaType } from "@/features/report-bar/model/schema";
 
-export default function ProductTransferTable({
+export default function ExpensesTable({
   data,
 }: {
-  data: ProductTransferSchemaType[] | null;
+  data: ExpensesSchemaType[] | null;
 }) {
   return data ? (
     <Table>
       <TableHeader>
         <TableRow className={classNameRowBorder}>
-          <TableHead className={classNameHead}>transfer</TableHead>
+          <TableHead className={classNameHead ?? ""}>expenses</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
         {data
           ?.filter((e) => e.name !== "")
-          .map((e, idx: number) => (
+          .map((e, idx) => (
             <TableRow key={idx}>
               <TableCell>{e.name || "—"} -</TableCell>
-              <TableCell>{e.destination || "-"}</TableCell>
-              <TableCell>{e.quantity || "0"}</TableCell>
+              <TableCell>{e.sum || "0"}</TableCell>
               <TableCell className="text-rd text-xs">{e.time || ""}</TableCell>
             </TableRow>
           ))}

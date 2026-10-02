@@ -1,5 +1,6 @@
 "use client";
 import { Table } from "@/components/ui/table";
+import { remarksByUniqueEmployee } from "@/features/archive/penalty/utils";
 import {
   extractUniqueEmployees,
   useResultCalculations,
@@ -7,7 +8,6 @@ import {
 import ResultTableBody from "@/features/result/ui/result-body-table";
 import ResultTableHeader from "@/features/result/ui/result-header-table";
 import { GetScheduleData } from "@/features/schedule/schedule-edit/model/type";
-import { remarksByUniqueEmployee } from "@/features/staff/archive/penalty/utils";
 import { GetTipsData } from "@/features/staff/tips/model/type";
 import { useSearchParams } from "next/navigation";
 
@@ -63,7 +63,7 @@ export function ResultPage({
     );
   return (
     <Table className="table-fixed">
-      <ResultTableHeader />
+      <ResultTableHeader month={month} />
       <ResultTableBody rows={rows} totals={totals} isAdmin={isAdmin} />
     </Table>
   );
