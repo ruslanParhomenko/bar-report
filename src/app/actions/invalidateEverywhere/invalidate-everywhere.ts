@@ -2,8 +2,9 @@
 
 export async function invalidateEverywhere(tag: string) {
   const urls = [
-    "https://schedule-nuovo.vercel.app/api/revalidate",
+    "https://swap-2106.vercel.app//api/revalidate",
     "https://menu-vip.vercel.app/api/revalidate",
+    "https://swap-2012.netlify.app/api/revalidate",
   ];
 
   await Promise.all(
