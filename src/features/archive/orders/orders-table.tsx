@@ -18,7 +18,6 @@ type OrdersTableProps = {
 };
 
 export default function OrdersTable({ orders, monthDays }: OrdersTableProps) {
-  console.log("orders", orders);
   const products = Array.from(
     new Set(
       orders.flatMap((day) =>

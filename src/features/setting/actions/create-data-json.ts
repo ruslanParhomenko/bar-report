@@ -1,6 +1,9 @@
 "use server";
 import { invalidateEverywhere } from "@/app/actions/invalidateEverywhere/invalidate-everywhere";
-import { DATA_MENU_ACTION_TAG } from "@/constants/action-tag";
+import {
+  DATA_MENU_ACTION_TAG,
+  DATA_PRODUCTS_ACTION_TAG,
+} from "@/constants/action-tag";
 import { dbAdmin } from "@/lib/firebase-admin";
 import { updateTag } from "next/cache";
 
@@ -54,8 +57,9 @@ export async function saveSettingsData(
 
   try {
     await createDataJson(parsed, tag);
-    if (tag === "products") {
-      await invalidateEverywhere("data-products");
+
+    if (tag === DATA_PRODUCTS_ACTION_TAG) {
+      await invalidateEverywhere(DATA_PRODUCTS_ACTION_TAG);
     }
 
     return { success: true };
