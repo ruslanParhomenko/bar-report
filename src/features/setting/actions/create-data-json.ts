@@ -57,6 +57,7 @@ export async function saveSettingsData(
     if (tag === "products") {
       await invalidateEverywhere("data-products");
     }
+
     return { success: true };
   } catch (error) {
     return { error: "Save failed" };
