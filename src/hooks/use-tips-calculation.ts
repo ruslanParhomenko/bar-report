@@ -1,4 +1,7 @@
-import { SHIFTS_DAY, SHIFTS_NIGHT } from "@/features/archive/tips/constants";
+import {
+  SHIFTS_DAY,
+  SHIFTS_NIGHT,
+} from "@/features/archive/tips-archive/model/constants";
 import { TipsAddForm } from "@/features/tips-add/model/schema";
 
 type Amount = {

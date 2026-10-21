@@ -49,8 +49,8 @@ export default function OrdersArchivePage() {
         navItems={NAV_TABS}
         activeTab={activeTab}
         handleTabChange={setActiveTab}
-        classTrigger="text-xs h-5"
-        classTabs="text-xs h-6 bg-transparent"
+        classTrigger="text-xs h-5 shadow-none!"
+        classTabs="text-xs h-6 bg-transparent tracking-wider"
       />
       {orders && <OrdersTable orders={orders} monthDays={monthDays} />}
     </div>

@@ -32,7 +32,7 @@ export function BreakListArchive({ data }: { data: GetBreakData[] | null }) {
                         return (
                           <TableRow
                             key={row.id + rowIndex}
-                            className="hover:text-rd cursor-pointer"
+                            className="hover:text-rd cursor-pointer [&>td]:text-xs"
                           >
                             <TableCell className="bg-background sticky left-0 py-1 md:w-30">
                               {row.name ?? "-"}

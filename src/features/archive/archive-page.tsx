@@ -7,7 +7,7 @@ import ReportCucinaArchive from "@/features/archive/cucina/report-cucina-archive
 import OrdersArchivePage from "@/features/archive/orders/orders-archive-page";
 import PenaltyResult from "@/features/archive/penalty-result/penalty-result";
 import PenaltyArchiveData from "@/features/archive/penalty/penalty-archive-data";
-import TipsArchiveData from "@/features/archive/tips/tips-archive-data";
+import { TipsArchivePage } from "@/features/archive/tips-archive";
 import { GetBreakData } from "@/features/break/model/type";
 import { GetKitchenData } from "@/features/cucina/model/type";
 import { GetRemarksData } from "@/features/penalty/model/type";
@@ -61,7 +61,7 @@ export default function ArchivePage({
     },
     {
       key: "tips-add",
-      render: () => <TipsArchiveData data={archiveData.tips} />,
+      render: () => <TipsArchivePage data={archiveData.tips} />,
     },
     {
       key: "orders",

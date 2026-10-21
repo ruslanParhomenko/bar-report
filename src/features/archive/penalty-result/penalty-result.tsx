@@ -39,8 +39,11 @@ export default function PenaltyResult({
       <TableBody>
         {formattedData.map((row, index) => (
           <React.Fragment key={index}>
-            <TableRow key={index} className={cn("hover:text-rd")}>
-              <TableCell className="w-4 px-0 text-xs md:w-8 md:px-1">
+            <TableRow
+              key={index}
+              className={cn("hover:text-rd [&>td]:text-xs")}
+            >
+              <TableCell className="w-4 px-0 md:w-8 md:px-1">
                 {index + 1}
               </TableCell>
               <TableCell

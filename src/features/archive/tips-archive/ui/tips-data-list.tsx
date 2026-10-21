@@ -1,31 +1,28 @@
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
+import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
+import { TipsAddForm } from "@/features/tips-add/model/schema";
+import type { GetTipsAddData } from "@/features/tips-add/model/type";
+import { useTipsCalculation } from "@/hooks/use-tips-calculation";
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "@/components/ui/collapsible";
-import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
-import { TipsAddForm } from "@/features/tips-add/model/schema";
-import { GetTipsAddData } from "@/features/tips-add/model/type";
-
-import { useTipsCalculation } from "@/hooks/use-tips-calculation";
-import { cn } from "@/lib/utils";
+} from "@radix-ui/react-collapsible";
+import { cn } from "cn";
 
 const HOURS_MS = 3600000;
-export default function TipsArchiveData({
+
+export default function TipsArchiveDataList({
   data,
 }: {
-  data: GetTipsAddData[] | null;
+  data: GetTipsAddData[];
 }) {
-  if (!data) return null;
-
   const sortedData = [...data].sort((a, b) => Number(b.id) - Number(a.id));
 
   const formatTime = (ms: number) => {
     const date = new Date(ms);
     return `${date.getHours()}:${String(date.getMinutes()).padStart(2, "0")}`;
   };
-
   return (
     <>
       {sortedData.map((dayItem, index) => {
