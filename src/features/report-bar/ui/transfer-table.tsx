@@ -66,7 +66,10 @@ export default function TableProductsTransfer({
     <Table className="md:table-fixed">
       <TableHeader>
         <TableRow>
-          <TableHead className="text-bl w-28 font-bold"> Transfer</TableHead>
+          <TableHead className="text-bl w-28 pl-8 font-bold">
+            {" "}
+            Transfer
+          </TableHead>
           <TableHead className="w-18" />
           <TableHead className="w-10" />
           <TableHead className="w-10"></TableHead>

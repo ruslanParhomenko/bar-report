@@ -55,7 +55,9 @@ export default function TableExpenses() {
     <Table className="md:table-fixed">
       <TableHeader>
         <TableRow>
-          <TableHead className="text-bl w-16 font-bold">Expenses</TableHead>
+          <TableHead className="text-bl w-16 pl-8 font-bold">
+            Expenses
+          </TableHead>
           <TableHead className="w-11" />
           <TableHead className="w-11" />
           <TableHead className="w-8" />

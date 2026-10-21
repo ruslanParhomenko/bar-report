@@ -26,20 +26,22 @@ export function ScheduleView({ schedule, tab, isAdmin }: Props) {
   useMobileTableScroll(refCell, tab ?? "");
 
   return (
-    <Table ref={refCell} className="mt-4 table-fixed">
-      <ScheduleTableHeader
-        addNewRow={() => {}}
-        selectedDay={selectedDay}
-        setSelectedDay={setSelectedDay}
-        isAdmin={isAdmin}
-      />
-      <ScheduleTableBody
-        schedule={schedule}
-        selectedDay={selectedDay}
-        isAdmin={isAdmin}
-      />
+    <div className="md:px-4">
+      <Table ref={refCell} className="mt-4 table-fixed">
+        <ScheduleTableHeader
+          addNewRow={() => {}}
+          selectedDay={selectedDay}
+          setSelectedDay={setSelectedDay}
+          isAdmin={isAdmin}
+        />
+        <ScheduleTableBody
+          schedule={schedule}
+          selectedDay={selectedDay}
+          isAdmin={isAdmin}
+        />
 
-      <ScheduleTableFooter shiftCounts={shiftCounts} role={tab as string} />
-    </Table>
+        <ScheduleTableFooter shiftCounts={shiftCounts} role={tab as string} />
+      </Table>
+    </div>
   );
 }

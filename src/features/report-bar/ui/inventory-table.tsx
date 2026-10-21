@@ -47,9 +47,9 @@ export function TableInventory() {
     <Table className="md:table-fixed">
       <TableHeader>
         <TableRow>
-          <TableHead className="text-bl font-bold md:w-30">
+          <TableHead className="text-bl pl-8 font-bold md:w-30">
             Inventory
-            <span className="text-xs text-red-600">(к концу дня)</span>
+            <span className="px-2 text-xs text-red-600">(к концу дня)</span>
           </TableHead>
           <TableHead className="w-10" />
           <TableHead className="w-11" />

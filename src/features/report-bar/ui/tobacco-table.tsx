@@ -27,7 +27,9 @@ export default function TableTobacco() {
     <Table className="md:table-fixed">
       <TableHeader>
         <TableRow>
-          <TableHead className="text-bl font-bold md:w-26">Tobacco</TableHead>
+          <TableHead className="text-bl pl-8 font-bold md:w-26">
+            Tobacco
+          </TableHead>
           <TableHead className="w-11" />
           <TableHead className="w-11 text-center">+</TableHead>
           <TableHead className="w-11 text-center">-</TableHead>

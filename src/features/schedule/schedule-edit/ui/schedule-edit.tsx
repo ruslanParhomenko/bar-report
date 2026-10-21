@@ -72,7 +72,7 @@ export function ScheduleEdit({
     replace(createEmptyRowShifts(selectedEmployees, daysCount));
   }, [schedule]);
   return (
-    <FormWrapper form={form} onSubmit={onSubmit}>
+    <FormWrapper form={form} onSubmit={onSubmit} className="md:px-4">
       <Table className="mt-4 table-fixed">
         <ScheduleTableHeader
           addNewRow={addRow}

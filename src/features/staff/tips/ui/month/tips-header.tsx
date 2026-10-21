@@ -20,7 +20,7 @@ export default function TipsHeaderTable({
     <TableHeader>
       <TableRow>
         <TableCell className="w-6 p-0">
-          {isEdit && <AddRowButton isEdit={isEdit} addNewRow={addNewRow} />}
+          {isEdit && <AddRowButton addNewRow={addNewRow} />}
         </TableCell>
 
         <TableCell className="w-28 pl-4">

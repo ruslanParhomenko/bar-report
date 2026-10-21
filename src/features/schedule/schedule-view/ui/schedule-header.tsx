@@ -3,7 +3,6 @@ import AddRowButton from "@/components/buttons/add-row-button";
 import { MonthDaysCells } from "@/components/table/month-days-cells";
 import { TableCell, TableHeader, TableRow } from "@/components/ui/table";
 import { useMonthDays } from "@/hooks/use-month-days";
-import { cn } from "@/lib/utils";
 
 export default function ScheduleTableHeader({
   addNewRow,
@@ -22,18 +21,16 @@ export default function ScheduleTableHeader({
   return (
     <TableHeader>
       <TableRow>
-        <TableCell className="w-6 p-0">
-          {isEdit && isAdmin && (
-            <AddRowButton isEdit={isEdit} addNewRow={addNewRow} />
-          )}
+        <TableCell className="w-5" />
+        <TableCell className="w-8 py-1">
+          {isEdit && isAdmin && <AddRowButton addNewRow={addNewRow} />}
         </TableCell>
-        <TableCell
-          colSpan={5}
-          className={cn(isEdit ? "w-34" : "w-30 print:w-28")}
-        ></TableCell>
-        <TableCell className="w-24 pl-2">
+        <TableCell className="w-8" />
+        <TableCell className="w-16" />
+        <TableCell className="text-bl w-28 pl-2 tracking-wider">
           {month?.toUpperCase() || ""}
         </TableCell>
+        <TableCell className="w-5 p-0" />
 
         <MonthDaysCells
           monthDays={monthDays}
@@ -42,8 +39,6 @@ export default function ScheduleTableHeader({
           orientation="top"
           className="w-8.5 print:w-7.5"
         />
-
-        <TableCell className="w-4 p-0" />
       </TableRow>
     </TableHeader>
   );

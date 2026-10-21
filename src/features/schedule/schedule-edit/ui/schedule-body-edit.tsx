@@ -1,5 +1,4 @@
 "use client";
-import MoveButton from "@/components/buttons/move-button";
 import NumericInput from "@/components/input-controlled/numeric-input";
 import SelectField from "@/components/input-controlled/select-field";
 import { MonthDaysCells } from "@/components/table/month-days-cells";
@@ -7,9 +6,26 @@ import { TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 
+import { SortableRow } from "@/components/table/sortable-row";
+import AppTooltip from "@/components/ui/app-tooltip";
 import { Employee } from "@/features/settings/create-employee/model/type";
 import { useMonthDays } from "@/hooks/use-month-days";
 import { handleMultiTableNavigation } from "@/utils/handle-table-navigation";
+import {
+  closestCenter,
+  DndContext,
+  DragEndEvent,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
+import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
+import {
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
 import {
   FieldArrayWithId,
   UseFieldArrayReturn,
@@ -67,114 +83,160 @@ export default function ScheduleBodyEdit({
     });
   }
 
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    }),
+  );
+
+  function handleDragEnd({ active, over }: DragEndEvent) {
+    if (!over || active.id === over.id) return;
+    const from = fields.findIndex((f) => f.id === active.id);
+    const to = fields.findIndex((f) => f.id === over.id);
+    if (from !== -1 && to !== -1) move(from, to);
+  }
+
   return (
     <TableBody>
-      {fields.map((row, rowIndex) => {
-        const rowShifts = shifts[rowIndex] || [];
-        const { totalDay, totalNight, total } = calculateShiftTotals(
-          rowShifts.shifts,
-        );
+      <DndContext
+        id="schedule-dnd"
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        modifiers={[restrictToVerticalAxis]}
+        onDragEnd={handleDragEnd}
+        accessibility={{
+          container:
+            typeof document !== "undefined" ? document.body : undefined,
+        }}
+      >
+        <SortableContext
+          items={fields.map((f) => f.id)}
+          strategy={verticalListSortingStrategy}
+        >
+          {fields.map((row, rowIndex) => {
+            const rowShifts = shifts[rowIndex] || [];
+            const { totalDay, totalNight, total } = calculateShiftTotals(
+              rowShifts.shifts,
+            );
 
-        const rate = getValues(`rowShifts.${rowIndex}.rate`);
-        const totalPay = calculateSalaryByHours({
-          ...rowShifts,
-          dayHours: String(totalDay),
-          nightHours: String(totalNight),
-        });
+            const totalPay = calculateSalaryByHours({
+              ...rowShifts,
+              dayHours: String(totalDay),
+              nightHours: String(totalNight),
+            });
 
-        const isSelected = !SHIFT_COLOR_MAP.includes(
-          row.shifts?.[Number(selectedDay) - 1],
-        );
-        return (
-          <TableRow
-            key={row.id}
-            className="group hover:text-green-600! [&>td]:p-0 [&>td]:text-xs"
-          >
-            <TableCell
-              className="text-rd cursor-pointer px-1"
-              onClick={() => remove(rowIndex)}
-            >
-              {rowIndex + 1}
-            </TableCell>
+            const isSelected = !SHIFT_COLOR_MAP.includes(
+              row.shifts?.[Number(selectedDay) - 1],
+            );
+            return (
+              <SortableRow
+                id={row.id}
+                key={row.id}
+                className="group hover:text-green-600! [&>td]:p-0 [&>td]:text-xs"
+              >
+                {(handle) => (
+                  <>
+                    <TableCell
+                      className="text-rd cursor-pointer px-1 py-0 text-xs"
+                      onClick={() => remove(rowIndex)}
+                    >
+                      <AppTooltip content="удалить">
+                        <span>{rowIndex + 1}</span>
+                      </AppTooltip>
+                    </TableCell>
 
-            <TableCell className="text-bl hover-cell px-0">
-              {totalDay || 0}
-            </TableCell>
-            <TableCell className="text-bl hover-cell px-0">
-              {totalNight || 0}
-            </TableCell>
+                    <TableCell className="hover-cell text-bl">
+                      <div className="flex flex-col items-center justify-center leading-tight">
+                        <span className="text-[11px]">{totalDay || 0}</span>
+                        <span className="text-muted-foreground w-full border-t text-center text-[11px]">
+                          {totalNight || 0}
+                        </span>
+                      </div>
+                    </TableCell>
 
-            <TableCell className="px-0">{total || 0}</TableCell>
+                    <TableCell className="text-gn px-0 text-center text-xs">
+                      {total || 0}
+                    </TableCell>
 
-            <TableCell className="px-2">
-              {totalPay && isAdmin && totalPay.toFixed()}
-            </TableCell>
-            <TableCell className="text-muted-foreground px-2! text-right">
-              {row.role.charAt(0)}
-              {isAdmin && Number(rate) / 1000}
-            </TableCell>
-            <TableCell className="bg-background sticky left-0 pl-2! md:bg-transparent">
-              <SelectField
-                fieldName={`rowShifts.${rowIndex}.employee`}
-                data={selectedEmployees.map((e) => e.name)}
-                className={cn(
-                  "hover-cell truncate p-0 text-xs",
-                  isSelected && "text-rd font-bold",
-                  employeesLength < 18 ? "h-9" : "h-7!",
+                    <TableCell className="text-muted-foreground text-center">
+                      {row.role.charAt(0).toLocaleLowerCase()}-
+                      {isAdmin && Number(row.rate) / 1000} :{" "}
+                      <span className={cn("text-bl px-1")}>
+                        {isAdmin && totalPay && totalPay.toFixed()}
+                      </span>
+                    </TableCell>
+                    <TableCell className="bg-background sticky left-0 pl-2! md:bg-transparent">
+                      <SelectField
+                        fieldName={`rowShifts.${rowIndex}.employee`}
+                        data={selectedEmployees.map((e) => e.name)}
+                        className={cn(
+                          "hover-cell truncate p-0 text-xs",
+                          isSelected && "text-rd font-bold",
+                          employeesLength < 18 ? "h-9" : "h-7!",
+                        )}
+                        onChange={(name) =>
+                          handleEmployeeChange(name, rowIndex)
+                        }
+                      />
+                    </TableCell>
+
+                    <TableCell className="p-0 text-center">
+                      <AppTooltip content="переместить">{handle}</AppTooltip>
+                    </TableCell>
+
+                    {row.shifts.map((shiftValue, dayIndex) => {
+                      const isSelected = dayIndex === selectedDay - 1;
+                      return (
+                        <TableCell
+                          key={dayIndex}
+                          className={cn(
+                            "border-x",
+                            isSelected && "text-rd font-bold",
+                          )}
+                        >
+                          {!isMobile ? (
+                            <input
+                              {...form.register(
+                                `rowShifts.${rowIndex}.shifts.${dayIndex}`,
+                              )}
+                              data-row={rowIndex}
+                              data-col={dayIndex}
+                              onKeyDown={handleMultiTableNavigation}
+                              className={cn(
+                                "hover-cell h-full w-full text-center text-sm",
+                                shiftValue === "" ? "bg-border/20" : "",
+                                color[shiftValue as keyof typeof color],
+                                employeesLength < 18 ? "h-9" : "h-8!",
+                              )}
+                              onFocus={() => setSelectedDay(dayIndex + 1)}
+                            />
+                          ) : (
+                            <NumericInput
+                              fieldName={`rowShifts.${rowIndex}.shifts.${dayIndex}`}
+                              className={cn(
+                                "hover-cell h-9 w-full rounded-none! border-0 p-0 text-center text-xs shadow-none",
+                                shiftValue === "" ? "bg-border/20" : "",
+                                color[shiftValue as keyof typeof color],
+                              )}
+                            />
+                          )}
+                        </TableCell>
+                      );
+                    })}
+                  </>
                 )}
-                onChange={(name) => handleEmployeeChange(name, rowIndex)}
-              />
-            </TableCell>
-
-            {row.shifts.map((shiftValue, dayIndex) => {
-              const isSelected = dayIndex === selectedDay - 1;
-              return (
-                <TableCell
-                  key={dayIndex}
-                  className={cn("border-x", isSelected && "text-rd font-bold")}
-                >
-                  {!isMobile ? (
-                    <input
-                      {...form.register(
-                        `rowShifts.${rowIndex}.shifts.${dayIndex}`,
-                      )}
-                      data-row={rowIndex}
-                      data-col={dayIndex}
-                      onKeyDown={handleMultiTableNavigation}
-                      className={cn(
-                        "hover-cell h-full w-full text-center text-sm",
-                        shiftValue === "" ? "bg-border/20" : "",
-                        color[shiftValue as keyof typeof color],
-                        employeesLength < 18 ? "h-9" : "h-8!",
-                      )}
-                      onFocus={() => setSelectedDay(dayIndex + 1)}
-                    />
-                  ) : (
-                    <NumericInput
-                      fieldName={`rowShifts.${rowIndex}.shifts.${dayIndex}`}
-                      className={cn(
-                        "hover-cell h-9 w-full rounded-none! border-0 p-0 text-center text-xs shadow-none",
-                        shiftValue === "" ? "bg-border/20" : "",
-                        color[shiftValue as keyof typeof color],
-                      )}
-                    />
-                  )}
-                </TableCell>
-              );
-            })}
-
-            <TableCell>
-              <MoveButton rowIndex={rowIndex} fields={fields} move={move} />
-            </TableCell>
-          </TableRow>
-        );
-      })}
+              </SortableRow>
+            );
+          })}
+        </SortableContext>
+      </DndContext>
       <TableRow>
         <MonthDaysCells
           monthDays={monthDays}
           selectedDay={selectedDay}
           orientation="bottom"
-          colSpan={7}
+          colSpan={6}
           className="h-10"
         />
       </TableRow>
