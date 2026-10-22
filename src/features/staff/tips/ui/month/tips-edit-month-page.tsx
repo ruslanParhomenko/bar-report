@@ -2,15 +2,14 @@
 
 import { Table } from "@/components/ui/table";
 import FormWrapper from "@/components/wrapper/form-wrapper";
-import { useEffect, useState } from "react";
-import { useFieldArray } from "react-hook-form";
-
-import { TipsForm } from "../../model/schema";
-
 import { Employee } from "@/features/settings/create-employee/model/type";
 import useFormTips from "@/features/staff/tips/hooks/use-form-tips";
 import { TipsEditTableFooter } from "@/features/staff/tips/ui/month/tips-edit-footer";
+import { GetTipsAddData } from "@/features/tips-add/model/type";
 import { useMonthDays } from "@/hooks/use-month-days";
+import { useEffect, useState } from "react";
+import { useFieldArray } from "react-hook-form";
+import { TipsForm } from "../../model/schema";
 import { GetTipsData } from "../../model/type";
 import BidEdit from "./bid-edit";
 import { TipsEditTableBody } from "./tips-edit-body";
@@ -21,21 +20,32 @@ const SELECTED_ROLE = ["waiters", "barmen"] as const;
 export default function TipsEditMonthPage({
   dataTipsYear,
   employees,
+  dataTipsAdd,
 }: {
   dataTipsYear: GetTipsData[] | null;
-  employees: Employee[];
+  employees: Employee[] | null;
+  dataTipsAdd: GetTipsAddData[] | null;
 }) {
   const todayDay = new Date().getDate();
   const [selectedDay, setSelectedDay] = useState<number>(todayDay);
   const { monthDays, month, year } = useMonthDays();
 
-  const dataTips = dataTipsYear?.find((data) => data.id === month) || null;
+  const [selectedDayTips, setSelectedDayTips] = useState<string | null>(null);
 
-  const activeEmployees = employees
-    .filter((e) => e.status === "active")
-    .filter((e) =>
-      SELECTED_ROLE.includes(e.role as (typeof SELECTED_ROLE)[number]),
-    );
+  const dataTips =
+    dataTipsYear?.find((data) => data.id === month)?.tipsData || null;
+
+  const sortedDataTips = [...(dataTips?.rowEmployeesTips ?? [])].sort(
+    (a, b) =>
+      a.role.localeCompare(b.role) || a.employee.localeCompare(b.employee),
+  );
+
+  const activeEmployees =
+    employees
+      ?.filter((e) => e.status === "active")
+      .filter((e) =>
+        SELECTED_ROLE.includes(e.role as (typeof SELECTED_ROLE)[number]),
+      ) || null;
 
   const { form, onSubmit } = useFormTips();
 
@@ -59,12 +69,15 @@ export default function TipsEditMonthPage({
 
   useEffect(() => {
     if (dataTips) {
-      form.reset(dataTips.tipsData);
+      form.reset({
+        ...dataTips,
+        rowEmployeesTips: sortedDataTips,
+      });
 
       return;
     }
 
-    const newRows = activeEmployees.map((employee, index) => ({
+    const newRows = activeEmployees?.map((employee, index) => ({
       id: (index + 1).toString(),
       employee: employee.name ?? "",
       role: employee.role ?? "",
@@ -72,10 +85,38 @@ export default function TipsEditMonthPage({
     }));
     const mewRowsCashTips = Array(monthDays.length).fill("");
 
-    form.setValue("rowEmployeesTips", newRows);
+    if (newRows) {
+      form.setValue("rowEmployeesTips", newRows);
+    }
+
     form.setValue("rowCashTips", mewRowsCashTips);
   }, [dataTips, month, year, form, monthDays.length]);
 
+  useEffect(() => {
+    if (!dataTipsAdd || !selectedDayTips) return;
+
+    const dayDoc = dataTipsAdd.find((d) => d.id === selectedDayTips);
+    if (!dayDoc) return;
+
+    const rows = form.getValues("rowEmployeesTips");
+    const dayIndex = +selectedDayTips - 1;
+
+    dayDoc.tipsAdd.forEach((tip) => {
+      if (!tip.resultAmount.length) return; // не затираем барменов
+
+      const rowIndex = rows.findIndex((r) => r.employee === tip.employeeName);
+      if (rowIndex === -1) return;
+
+      const sum = tip.resultAmount
+        .reduce((acc, c) => acc + Number(c.value), 0)
+        .toFixed(0)
+        .toString();
+
+      form.setValue(`rowEmployeesTips.${rowIndex}.tipsByDay.${dayIndex}`, sum, {
+        shouldDirty: true,
+      });
+    });
+  }, [selectedDayTips]);
   return (
     <FormWrapper form={form} onSubmit={onSubmit}>
       <BidEdit />
@@ -86,6 +127,8 @@ export default function TipsEditMonthPage({
           setSelectedDay={setSelectedDay}
           addNewRow={addNewRow}
           isEdit={true}
+          selectedDayTips={selectedDayTips}
+          setSelectedDayTips={setSelectedDayTips}
         />
 
         <TipsEditTableBody

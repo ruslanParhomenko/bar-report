@@ -47,7 +47,7 @@ export function ReportBarPage({
             {order.map((id) => (
               <SortableItem key={id} value={id} asChild>
                 <div className="relative">
-                  <SortableItemHandle className="text-rd absolute top-3 left-1 z-10 cursor-grab">
+                  <SortableItemHandle className="text-rd absolute top-3 left-1 z-10 cursor-grab touch-none">
                     <AppTooltip content="Перетащить">
                       <GripVertical className="size-4" />
                     </AppTooltip>

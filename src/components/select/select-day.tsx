@@ -1,8 +1,10 @@
 "use client";
 
+import AppTooltip from "@/components/ui/app-tooltip";
 import { cn } from "@/lib/utils";
+import { CalendarPlus2 } from "lucide-react";
 import { useState } from "react";
-import { Select, SelectContent, SelectTrigger } from "../ui/select";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 
 export default function SelectDay({
   value,
@@ -16,46 +18,42 @@ export default function SelectDay({
   className?: string;
 }) {
   const [open, setOpen] = useState(false);
+
   return (
-    <Select open={open} onOpenChange={setOpen}>
-      <SelectTrigger
-        className={cn(
-          "bg-background! h-6! w-full justify-center border-0 text-xs shadow-none [&>svg]:hidden",
-          className,
-        )}
-      >
-        {value}
-      </SelectTrigger>
+    <Popover open={open} onOpenChange={setOpen}>
+      <AppTooltip content="выберите день">
+        <PopoverTrigger
+          className={cn(
+            "bg-background flex h-6 w-18 items-center justify-center text-xs",
+            className,
+          )}
+        >
+          {value ? value : <CalendarPlus2 className="text-rd size-3.5" />}
+        </PopoverTrigger>
+      </AppTooltip>
 
-      <SelectContent position="popper" className="p-1">
+      <PopoverContent className="w-auto p-2">
         <div className="grid grid-cols-6 gap-2">
-          {Array.from({ length: monthDays.length + 1 }, (_, i) => {
-            const day = i;
-            const isSelected = day === Number(value);
-
-            return (
-              <button
-                key={day}
-                onClick={() => {
-                  onChange(day.toString());
-                  setOpen(false);
-                }}
-                type="button"
-                value={String(day)}
-                className={cn(
-                  "h-6 w-6 rounded-md text-sm transition",
-
-                  isSelected
-                    ? "bg-primary text-primary-foreground"
-                    : "bg-muted",
-                )}
-              >
-                {day}
-              </button>
-            );
-          })}
+          {monthDays.map(({ day }) => (
+            <button
+              key={day}
+              type="button"
+              onClick={() => {
+                onChange(String(day));
+                setOpen(false);
+              }}
+              className={cn(
+                "h-6 w-6 rounded-md text-sm transition",
+                day === Number(value)
+                  ? "bg-primary text-primary-foreground"
+                  : "bg-muted",
+              )}
+            >
+              {day}
+            </button>
+          ))}
         </div>
-      </SelectContent>
-    </Select>
+      </PopoverContent>
+    </Popover>
   );
 }

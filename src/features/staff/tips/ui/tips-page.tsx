@@ -2,6 +2,7 @@
 
 import { Employee } from "@/features/settings/create-employee/model/type";
 import TipsViewMonthPage from "@/features/staff/tips/ui/month/tips-view-month-page";
+import { GetTipsAddData } from "@/features/tips-add/model/type";
 import { useEdit } from "@/providers/edit-provider";
 import { useSearchParams } from "next/navigation";
 import { GetTipsData } from "../model/type";
@@ -11,9 +12,11 @@ import TipsYearPage from "./year/tips-year-page";
 export function TipsPage({
   employees,
   dataTipsYear,
+  dataTipsAdd,
 }: {
-  employees: Employee[];
+  employees: Employee[] | null;
   dataTipsYear: GetTipsData[] | null;
+  dataTipsAdd: GetTipsAddData[] | null;
 }) {
   const tab = useSearchParams().get("tab");
   const { isEdit } = useEdit();
@@ -21,7 +24,11 @@ export function TipsPage({
   if (tab === "tips-month") {
     if (isEdit) {
       return (
-        <TipsEditMonthPage dataTipsYear={dataTipsYear} employees={employees} />
+        <TipsEditMonthPage
+          dataTipsYear={dataTipsYear}
+          employees={employees}
+          dataTipsAdd={dataTipsAdd}
+        />
       );
     }
     if (!dataTipsYear) {

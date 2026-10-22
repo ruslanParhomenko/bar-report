@@ -1,17 +1,31 @@
 import { getEmployees } from "@/features/settings/create-employee/actions/get-employees";
 import { TipsPage } from "@/features/staff/tips";
 import { getTipsByYear } from "@/features/staff/tips/actions/get-tips";
+import { getTipsAddByYearMonth } from "@/features/tips-add/actions/get-tips-add";
 
 export default async function Page({
   searchParams,
 }: {
-  searchParams: Promise<{ [key: string]: string | undefined }>;
+  searchParams: Promise<{ [key: string]: string }>;
 }) {
-  const { year } = await searchParams;
-  if (!year) return null;
+  const { year, month } = await searchParams;
+  if (!year || !month) return null;
 
-  const dataTipsYear = await getTipsByYear(year);
-  const employees = await getEmployees();
+  const [dataTipsYear, employees, dataTipsAdd] = await Promise.allSettled([
+    getTipsByYear(year),
+    getEmployees(),
+    getTipsAddByYearMonth(year, month),
+  ]);
 
-  return <TipsPage dataTipsYear={dataTipsYear} employees={employees} />;
+  return (
+    <TipsPage
+      dataTipsAdd={
+        dataTipsAdd.status === "fulfilled" ? dataTipsAdd.value : null
+      }
+      dataTipsYear={
+        dataTipsYear.status === "fulfilled" ? dataTipsYear.value : null
+      }
+      employees={employees.status === "fulfilled" ? employees.value : null}
+    />
+  );
 }

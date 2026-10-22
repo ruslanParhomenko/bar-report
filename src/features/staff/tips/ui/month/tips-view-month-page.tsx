@@ -20,6 +20,11 @@ export default function TipsViewMonthPage({
 
   const dataTips = dataTipsYear?.find((data) => data.id === month) || null;
 
+  const sortedDataTips = [...(dataTips?.tipsData.rowEmployeesTips ?? [])].sort(
+    (a, b) =>
+      a.role.localeCompare(b.role) || a.employee.localeCompare(b.employee),
+  );
+
   if (!dataTips) {
     return (
       <div className="flex h-full items-center justify-center">
@@ -36,11 +41,13 @@ export default function TipsViewMonthPage({
           selectedDay={todayDay}
           setSelectedDay={() => {}}
           addNewRow={() => {}}
+          selectedDayTips={null}
+          setSelectedDayTips={() => null}
           isEdit={false}
         />
 
         <TipsViewTableBody
-          data={dataTips?.tipsData.rowEmployeesTips || []}
+          data={sortedDataTips || [{}]}
           selectedDay={todayDay}
           monthDays={monthDays}
         />

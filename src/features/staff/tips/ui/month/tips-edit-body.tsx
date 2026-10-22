@@ -19,7 +19,7 @@ export function TipsEditTableBody({
   data: FieldArrayWithId<TipsForm, "rowEmployeesTips", "id">[];
   monthDays: { day: number; weekday: string }[];
   remove: (index: number) => void;
-  selectedEmployees: { id: string; name: string; role: string }[];
+  selectedEmployees: { id: string; name: string; role: string }[] | null;
   selectedDay: number;
 }) {
   const { control, setValue, register } = useFormContext();
@@ -30,6 +30,8 @@ export function TipsEditTableBody({
   });
 
   const { perEmployee } = calculateTipsTotal(value);
+
+  if (!selectedEmployees) return;
 
   return (
     <TableBody>
