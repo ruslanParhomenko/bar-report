@@ -2,7 +2,6 @@
 
 import { cn } from "@/lib/utils";
 import { Ban } from "lucide-react";
-import { useTheme } from "next-themes";
 
 export default function ShowButton({
   className,
@@ -17,17 +16,10 @@ export default function ShowButton({
   setIsShow: (isShow: boolean, theme?: string) => void;
   size?: number;
 }) {
-  const { setTheme } = useTheme();
-
   return (
     <button
       type="button"
-      onClick={() => {
-        setIsShow(!isShow);
-        setTheme((theme) =>
-          theme === "dark" ? (isShow ? "light" : "dark") : "dark",
-        );
-      }}
+      onClick={() => setIsShow(!isShow)}
       className={cn(
         className,
         "h-7 w-10.5 cursor-pointer hover:text-black",

@@ -12,14 +12,13 @@ type Flake = {
   drift: number;
   opacity: number;
   blur: number;
+  zIndex: number;
 };
 
 export default function PumpkinSnow({ count = 30 }: { count?: number }) {
   const [flakes, setFlakes] = useState<Flake[]>([]);
 
   const { isShow } = useShowAnimation();
-
-  console.log(isShow);
 
   useEffect(() => {
     setFlakes(
@@ -32,6 +31,7 @@ export default function PumpkinSnow({ count = 30 }: { count?: number }) {
         drift: (Math.random() - 0.5) * 80,
         opacity: Math.random() * 0.65,
         blur: Math.random() * 0.5,
+        zIndex: Math.random() > 0.5 ? -10 : 100,
       })),
     );
   }, [count]);
@@ -41,7 +41,7 @@ export default function PumpkinSnow({ count = 30 }: { count?: number }) {
   }
 
   return (
-    <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
+    <div className={`pointer-events-none fixed inset-0 overflow-hidden`}>
       {flakes.map((f) => (
         <span
           key={f.id}
@@ -51,6 +51,7 @@ export default function PumpkinSnow({ count = 30 }: { count?: number }) {
             fontSize: `${f.size}px`,
             animationDuration: `${f.duration}s`,
             animationDelay: `${f.delay}s`,
+            zIndex: f.zIndex,
             ["--drift" as string]: `${f.drift}px`,
           }}
         >
