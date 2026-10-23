@@ -1,3 +1,4 @@
+import PumpkinSnow from "@/components/decor/pumpin-snow";
 import ActionBar from "@/components/home-layout/footer-bar/footer-bar";
 import HeaderBar from "@/components/home-layout/header-bar/header-bar";
 import SidebarNav from "@/components/home-layout/side-bar/sidebar-nav";
@@ -29,7 +30,10 @@ export default async function HomeLayout({
             <div className="flex h-dvh w-dvw flex-col px-1">
               <HeaderBar isAdmin={isAdmin} />
 
-              <ScreenshotWrapper>{children}</ScreenshotWrapper>
+              <ScreenshotWrapper>
+                <PumpkinSnow count={25} />
+                {children}
+              </ScreenshotWrapper>
 
               <ActionBar isAdmin={isAdmin} />
             </div>

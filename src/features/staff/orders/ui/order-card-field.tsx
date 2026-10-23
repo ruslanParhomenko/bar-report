@@ -25,7 +25,7 @@ export default function OrderCardField({
       <div className="grid grid-cols-[78%_22%]">
         <Label
           className={cn(
-            "text-muted-foreground cursor-pointer pl-1",
+            "text-gr cursor-pointer pl-1 text-xs",
 
             value ? "text-rd" : "",
           )}

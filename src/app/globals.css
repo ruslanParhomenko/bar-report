@@ -204,3 +204,31 @@ body::-webkit-scrollbar {
   @apply font-bold text-red-700;
   transition: all 0.2s ease-in-out;
 }
+
+@keyframes pumpkin-fall {
+  0% {
+    transform: translate3d(0, -10vh, 0) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(var(--drift), 110vh, 0) rotate(360deg);
+    opacity: 1;
+  }
+}
+
+.pumpkin-flake {
+  animation-name: pumpkin-fall;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pumpkin-flake {
+    animation: none;
+    display: none;
+  }
+}
