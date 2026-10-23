@@ -1,5 +1,6 @@
 "use client";
 
+import { useShowAnimation } from "@/providers/show-animation";
 import { useEffect, useState } from "react";
 
 type Flake = {
@@ -16,6 +17,10 @@ type Flake = {
 export default function PumpkinSnow({ count = 30 }: { count?: number }) {
   const [flakes, setFlakes] = useState<Flake[]>([]);
 
+  const { isShow } = useShowAnimation();
+
+  console.log(isShow);
+
   useEffect(() => {
     setFlakes(
       Array.from({ length: count }, (_, i) => ({
@@ -30,6 +35,10 @@ export default function PumpkinSnow({ count = 30 }: { count?: number }) {
       })),
     );
   }, [count]);
+
+  if (!isShow) {
+    return null;
+  }
 
   return (
     <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">

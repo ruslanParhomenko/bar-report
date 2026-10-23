@@ -6,6 +6,7 @@ import PrintButton from "@/components/buttons/print-button";
 import ResetButton from "@/components/buttons/reset-button";
 import SaveButton from "@/components/buttons/save-button";
 import SendScreenButton from "@/components/buttons/send-screen-button";
+import ShowButton from "@/components/buttons/show-button";
 import { ACTION_ITEM_BY_ROUTE } from "@/components/home-layout/footer-bar/constants";
 import {
   AO_REPORT_MAIN_ROUTE,
@@ -31,6 +32,7 @@ import {
 } from "@/constants/route-tag";
 import { useFormId } from "@/hooks/use-form-id";
 import { useEdit } from "@/providers/edit-provider";
+import { useShowAnimation } from "@/providers/show-animation";
 import { FolderPlus, SaveAllIcon, SendIcon } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { useTransition } from "react";
@@ -71,6 +73,7 @@ export default function ActionButtons({
   const has = (key: string) => actions.includes(key);
 
   const { isEdit, setIsEdit, resetFn } = useEdit();
+  const { isShow, setIsShow } = useShowAnimation();
 
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
@@ -147,6 +150,13 @@ export default function ActionButtons({
           size={size}
         />
       )}
+      <ShowButton
+        className={iconCn}
+        isShow={isShow}
+        setIsShow={setIsShow}
+        size={size}
+        disabled={false}
+      />
     </div>
   );
 }

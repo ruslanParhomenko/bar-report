@@ -1,5 +1,6 @@
 "use client";
 
+import HeaderEyes from "@/components/decor/eyes";
 import ActionButtons from "@/components/home-layout/footer-bar/action-buttons";
 import SelectMonthYear from "@/components/home-layout/header-bar/select-month-year";
 import SelectTabs from "@/components/home-layout/header-bar/select-tabs";
@@ -24,6 +25,7 @@ export default function HeaderBar({ isAdmin }: { isAdmin: boolean }) {
         "bg-background sticky top-0 z-9 flex flex-row items-center justify-between gap-1 py-1 md:gap-2 md:px-4",
       )}
     >
+      <HeaderEyes />
       {isMobile && <ActionButtons isAdmin={isAdmin} tab={urlTab!} size={14} />}
       {showTabs && <SelectTabs urlTab={urlTab} />}
       {showMonthYear && (

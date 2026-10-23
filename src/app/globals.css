@@ -232,3 +232,91 @@ body::-webkit-scrollbar {
     display: none;
   }
 }
+
+.header-eyes {
+  color: var(--foreground);
+}
+
+.header-eyes__svg {
+  width: 50px;
+  height: 20px;
+  overflow: visible;
+}
+
+.eyes-pupil {
+  animation: eyes-look 7s ease-in-out infinite;
+}
+
+.eyes-pupil--right {
+  animation-delay: -0.08s;
+}
+
+@keyframes eyes-look {
+  0%,
+  12% {
+    transform: translateX(0);
+  }
+
+  20%,
+  32% {
+    transform: translateX(-7px);
+  }
+
+  40%,
+  54% {
+    transform: translateX(7px);
+  }
+
+  62%,
+  76% {
+    transform: translateX(0);
+  }
+
+  82%,
+  90% {
+    transform: translateX(4px);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.eyes-brow {
+  transform-box: view-box;
+  transform-origin: center;
+  animation: eyes-brows 7s ease-in-out infinite;
+}
+
+@keyframes eyes-brows {
+  0%,
+  12%,
+  40%,
+  76%,
+  100% {
+    transform: translateY(0);
+  }
+
+  20%,
+  32% {
+    transform: translateY(-3px);
+  }
+
+  50%,
+  60% {
+    transform: translateY(-2px);
+  }
+
+  82%,
+  90% {
+    transform: translateY(2px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .eyes-pupil,
+  .eyes-brow,
+  .eyes-blink {
+    animation: none;
+  }
+}

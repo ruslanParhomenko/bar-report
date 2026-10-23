@@ -39,7 +39,6 @@ export default function EditProvider({
 
   const [resetFn, setResetFn] = useState<(() => void) | null>(null);
 
-  // При смене маршрута старое состояние isEdit не переносим.
   if (state.pathname !== pathname) {
     setState({
       pathname,
