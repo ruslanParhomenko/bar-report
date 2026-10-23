@@ -2,6 +2,7 @@
 
 import { cn } from "@/lib/utils";
 import { Ban } from "lucide-react";
+import { useTheme } from "next-themes";
 
 export default function ShowButton({
   className,
@@ -13,13 +14,20 @@ export default function ShowButton({
   className?: string;
   disabled?: boolean;
   isShow: boolean;
-  setIsShow: (isShow: boolean) => void;
+  setIsShow: (isShow: boolean, theme?: string) => void;
   size?: number;
 }) {
+  const { setTheme } = useTheme();
+
   return (
     <button
       type="button"
-      onClick={() => setIsShow(!isShow)}
+      onClick={() => {
+        setIsShow(!isShow);
+        setTheme((theme) =>
+          theme === "dark" ? (isShow ? "light" : "dark") : "dark",
+        );
+      }}
       className={cn(
         className,
         "h-7 w-10.5 cursor-pointer hover:text-black",
