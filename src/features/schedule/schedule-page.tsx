@@ -60,7 +60,7 @@ export function SchedulePage({ schedules, employees, isAdmin }: Props) {
         ) : schedule ? (
           <ScheduleView schedule={schedule} tab={tab} isAdmin={isAdmin} />
         ) : (
-          <div className="mt-4 flex h-[90dvh] items-center justify-center">
+          <div className="flex h-[70dvh] items-center justify-center">
             <p className="text-center">No schedule found</p>
           </div>
         )}

@@ -52,7 +52,7 @@ export default function ScheduleTableFooter({
           const className = getShiftIcon(item).className;
           return (
             <TableRow key={i} className="border-0">
-              <TableCell colSpan={6} className="py-0.5 pr-10 text-end text-xs">
+              <TableCell colSpan={7} className="py-0.5 pr-10 text-end text-xs">
                 <span className="text-muted-foreground inline-flex items-center justify-center gap-3">
                   <Icon
                     className={cn("size-3 shrink-0", className)}

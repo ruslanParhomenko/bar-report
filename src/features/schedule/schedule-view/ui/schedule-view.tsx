@@ -26,7 +26,7 @@ export function ScheduleView({ schedule, tab, isAdmin }: Props) {
   useMobileTableScroll(refCell, tab ?? "");
 
   return (
-    <div className="md:px-4">
+    <div className="md:px-1">
       <Table ref={refCell} className="mt-4 table-fixed">
         <ScheduleTableHeader
           addNewRow={() => {}}

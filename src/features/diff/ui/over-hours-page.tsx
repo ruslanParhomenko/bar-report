@@ -13,6 +13,7 @@ import {
   SHIFTS,
 } from "@/features/schedule/schedule-edit/model/constants";
 import { GetScheduleData } from "@/features/schedule/schedule-edit/model/type";
+import { useMonthDays } from "@/hooks/use-month-days";
 import { cn } from "@/lib/utils";
 import { useMemo, useState } from "react";
 
@@ -24,6 +25,7 @@ export default function OverHoursPage({
   dataSchedule: GetScheduleData | null;
 }) {
   const [selectedName, setSelectedName] = useState<string | null>(null);
+  const { monthDays, month } = useMonthDays();
 
   const names = useMemo(
     () => [
@@ -36,13 +38,7 @@ export default function OverHoursPage({
     [dataSchedule],
   );
 
-  const days = useMemo(
-    () =>
-      [...new Set(dataPenalty?.map((r) => Number(r.id)) ?? [])].sort(
-        (a, b) => a - b,
-      ),
-    [dataPenalty],
-  );
+  const days = monthDays.map((d) => d.day);
 
   const hoursMap = useMemo(() => {
     const map = new Map<string, number>();
@@ -76,13 +72,16 @@ export default function OverHoursPage({
   };
 
   return (
-    <Table className="mt-4">
+    <Table className="mt-8 table-auto">
       <TableHeader>
         <TableRow>
           <TableHead />
           <TableHead />
           {days.map((d) => (
-            <TableHead key={d} className="border-x py-1.5 text-center text-xs">
+            <TableHead
+              key={d}
+              className="text-bl border-x border-x-0 py-1 text-center text-xs"
+            >
               {d}
             </TableHead>
           ))}
@@ -96,13 +95,13 @@ export default function OverHoursPage({
               key={n}
               className={cn(
                 "group cursor-pointer",
-                "[&>td]:py-1.5 [&>td]:text-xs [&>td]:transition-colors",
+                "[&>td]:px-1 [&>td]:py-1.5 [&>td]:text-xs [&>td]:transition-colors",
                 "hover:[&>td]:bg-muted",
                 isSelected && "[&>td]:bg-border",
               )}
               onClick={() => setSelectedName((prev) => (prev === n ? null : n))}
             >
-              <TableCell className={cn(isSelected && "text-rd")}>
+              <TableCell className={cn(isSelected && "text-rd text-[11px]!")}>
                 {i + 1}
               </TableCell>
               <TableCell className={cn(isSelected && "text-rd")}>{n}</TableCell>
@@ -120,7 +119,7 @@ export default function OverHoursPage({
                     )}
                   >
                     {hours || ""}
-                    {extra && ` (${extra})`}
+                    {extra && `:${extra}`}
                   </TableCell>
                 );
               })}

@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/table";
 import { GetScheduleData } from "@/features/schedule/schedule-edit/model/type";
 import { GetTipsAddData } from "@/features/tips-add/model/type";
+import { useMonthDays } from "@/hooks/use-month-days";
 import { cn } from "@/lib/utils";
 
 const EMPTY_SHIFT_CODES = ["v", "s", "x", "u", "/"];
@@ -19,6 +20,8 @@ export default function CompareScheduleTipsPage({
   dataTips: GetTipsAddData[] | null;
   dataSchedule: GetScheduleData | null;
 }) {
+  const { monthDays, month } = useMonthDays();
+
   const days = dataTips
     ? [...dataTips].sort((a, b) => Number(a.id) - Number(b.id))
     : [];

@@ -1,7 +1,6 @@
 "use client";
 
 import { InsufficientRights } from "@/components/wrapper/insufficient-rights";
-
 import CompareScheduleTipsPage from "@/features/diff/ui/compare-schedule-tips";
 import OverHoursPage from "@/features/diff/ui/over-hours-page";
 import { GetRemarksData } from "@/features/penalty/model/type";

@@ -148,8 +148,8 @@ export default function ScheduleBodyEdit({
 
                     <TableCell className="hover-cell text-bl">
                       <div className="flex flex-col items-center justify-center leading-tight">
-                        <span className="text-[11px]">{totalDay || 0}</span>
-                        <span className="text-muted-foreground w-full border-t text-center text-[11px]">
+                        <span className="text-[11px]!">{totalDay || 0}</span>
+                        <span className="text-muted-foreground w-full border-t text-center text-[11px]!">
                           {totalNight || 0}
                         </span>
                       </div>
@@ -160,11 +160,11 @@ export default function ScheduleBodyEdit({
                     </TableCell>
 
                     <TableCell className="text-muted-foreground text-center">
-                      {row.role.charAt(0).toLocaleLowerCase()}-
-                      {isAdmin && Number(row.rate) / 1000} :{" "}
-                      <span className={cn("text-bl px-1")}>
-                        {isAdmin && totalPay && totalPay.toFixed()}
-                      </span>
+                      {row.role.charAt(0).toLocaleLowerCase()}:
+                      {isAdmin && Number(row.rate) / 1000}
+                    </TableCell>
+                    <TableCell className="text-bl text-[11px]!">
+                      {isAdmin && totalPay && totalPay.toFixed()}
                     </TableCell>
                     <TableCell className="bg-background sticky left-0 pl-2! md:bg-transparent">
                       <SelectField
@@ -182,7 +182,11 @@ export default function ScheduleBodyEdit({
                     </TableCell>
 
                     <TableCell className="p-0 text-center">
-                      <AppTooltip content="переместить">{handle}</AppTooltip>
+                      <AppTooltip content="переместить">
+                        <div className="flex justify-center print:hidden">
+                          {handle}
+                        </div>
+                      </AppTooltip>{" "}
                     </TableCell>
 
                     {row.shifts.map((shiftValue, dayIndex) => {
@@ -204,7 +208,7 @@ export default function ScheduleBodyEdit({
                               data-col={dayIndex}
                               onKeyDown={handleMultiTableNavigation}
                               className={cn(
-                                "hover-cell h-full w-full text-center text-sm",
+                                "hover-cell h-full w-full text-center",
                                 shiftValue === "" ? "bg-border/20" : "",
                                 color[shiftValue as keyof typeof color],
                                 employeesLength < 18 ? "h-9" : "h-8!",
@@ -236,7 +240,7 @@ export default function ScheduleBodyEdit({
           monthDays={monthDays}
           selectedDay={selectedDay}
           orientation="bottom"
-          colSpan={6}
+          colSpan={7}
           className="h-10"
         />
       </TableRow>

@@ -100,7 +100,7 @@ export default function ScheduleTableBody({
               >
                 {(handle) => (
                   <>
-                    <TableCell className="px-1 text-xs print:px-0">
+                    <TableCell className="px-0.5 text-xs print:px-0">
                       {rowIndex + 1}
                     </TableCell>
                     <TableCell className="hover-cell text-bl">
@@ -115,11 +115,11 @@ export default function ScheduleTableBody({
                       {row.totalHours}
                     </TableCell>
                     <TableCell className="text-muted-foreground text-center text-xs">
-                      {row.role.charAt(0).toLocaleLowerCase()}-
-                      {isAdmin && Number(row.rate) / 1000} :{" "}
-                      <span className={cn("text-bl px-1")}>
-                        {isAdmin && totalPay && totalPay}
-                      </span>
+                      {row.role.charAt(0).toLocaleLowerCase()}:
+                      {isAdmin && Number(row.rate) / 1000}
+                    </TableCell>
+                    <TableCell className="text-[11px]">
+                      {isAdmin && totalPay && totalPay}
                     </TableCell>
                     <TableCell
                       className={cn(
@@ -174,7 +174,7 @@ export default function ScheduleTableBody({
           monthDays={monthDays}
           selectedDay={selectedDay}
           orientation="bottom"
-          colSpan={6}
+          colSpan={7}
           className="h-10"
         />
       </TableRow>

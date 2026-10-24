@@ -21,16 +21,18 @@ export default function ScheduleTableHeader({
   return (
     <TableHeader>
       <TableRow>
-        <TableCell className="w-5" />
+        <TableCell className="w-4" />
         <TableCell className="w-8 py-1">
           {isEdit && isAdmin && <AddRowButton addNewRow={addNewRow} />}
         </TableCell>
+        <TableCell className="w-7" />
         <TableCell className="w-8" />
-        <TableCell className="w-16" />
+        <TableCell className="w-8" />
+
         <TableCell className="text-bl w-28 pl-2 tracking-wider">
           {month?.toUpperCase() || ""}
         </TableCell>
-        <TableCell className="w-5 p-0" />
+        <TableCell className="w-4 p-0" />
 
         <MonthDaysCells
           monthDays={monthDays}
