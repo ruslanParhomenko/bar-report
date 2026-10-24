@@ -125,8 +125,14 @@ export default function ExpParserPage() {
     setFileName(file.name);
   };
 
+  console.log("chartData", chartData);
+
+  const totalValue = chartData
+    .reduce((acc, item) => acc + item.value, 0)
+    .toFixed(0);
+
   return (
-    <div className="flex flex-col md:h-[90dvh]">
+    <div className="mt-2 flex flex-col md:h-[90dvh]">
       <div className="bg-background w-ful sticky top-0 z-10 grid grid-cols-1 gap-3 pb-1 md:grid-cols-[15%_auto] md:px-4 md:pb-2 print:hidden">
         <div className="flex w-full items-center justify-between gap-2">
           <div
@@ -173,7 +179,7 @@ export default function ExpParserPage() {
                 key={tab}
                 value={tab}
                 variant="outline"
-                className="data-[state=on]:bg-primary data-[state=on]:text-primary-foreground h-6 rounded-full p-1 text-xs md:h-7 md:px-2"
+                className="data-[state=on]:text-rd h-6 border-0! p-1 text-xs shadow-none md:px-2"
               >
                 {isMobile ? tab.slice(0, 6) : tab}
               </ToggleGroupItem>
@@ -181,7 +187,10 @@ export default function ExpParserPage() {
           </ToggleGroup>
         </div>
       </div>
-      <Label className="block w-full text-center text-xs">{activeItem}</Label>
+      <Label className="block w-full pt-2 text-center text-xs">
+        <span>{activeItem}</span> :
+        <span className="text-rd px-2">{totalValue}</span>
+      </Label>
 
       <CustomChart
         chartData={chartData}
@@ -204,7 +213,7 @@ export default function ExpParserPage() {
                 key={name}
                 onClick={() => setActiveItem(name)}
                 className={cn(
-                  "cursor-pointer rounded-full px-1 text-xs transition-opacity md:px-3 md:py-1",
+                  "cursor-pointer rounded-full px-1 text-xs leading-3 transition-opacity md:px-3 md:py-1",
                   activeItem !== name && "opacity-35",
                 )}
               >

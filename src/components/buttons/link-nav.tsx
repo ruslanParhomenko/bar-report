@@ -47,7 +47,7 @@ export default function LinkNav({ title, query, children }: LinkNavProps) {
       href={href}
       className={cn(
         "hover:[&>span]:text-rd hover:[&>svg]:text-rd flex h-8 w-full cursor-default items-center pl-3 text-sm hover:bg-white md:h-9",
-        isActivePath && "text-rd [&>span]:text-rd [&>svg]:text-rd bg-white",
+        isActivePath && "text-rd [&>span]:text-rd [&>svg]:text-rd font-bold",
       )}
     >
       {children}

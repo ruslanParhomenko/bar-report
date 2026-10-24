@@ -16,7 +16,7 @@ export default function SelectMonthYear({
   const searchParams = useSearchParams();
 
   const selectClassName =
-    "md:w-24 w-14  md:h-7! h-6!  md:border-border/30 px-1 rounded-md md:text-md text-xs bg-border/30";
+    "md:w-24 w-14  md:h-7! h-6!  md:border-border/30 px-1 rounded-md md:text-md text-xs bg-gr/10";
 
   const handleMonthChange = (value: string) => {
     const params = new URLSearchParams(searchParams.toString());

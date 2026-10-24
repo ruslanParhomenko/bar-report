@@ -152,8 +152,8 @@ export default function ScheduleTableBody({
                             "border-x p-0 text-center text-xs",
                             color[day as keyof typeof color],
                             isSelected && "text-rd font-bold",
-                            isInvalidConsecutive && "bg-br/70",
-                            isInvalidRest && "bg-br/70",
+                            isInvalidConsecutive && "bg-br/40",
+                            isInvalidRest && "bg-br/40",
                             isOverRest && "bg-gr/30 border-0",
                           )}
                         >
