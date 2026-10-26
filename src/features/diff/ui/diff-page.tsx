@@ -1,8 +1,8 @@
 "use client";
 
 import { InsufficientRights } from "@/components/wrapper/insufficient-rights";
-import CompareScheduleTipsPage from "@/features/diff/ui/compare-schedule-tips";
-import OverHoursPage from "@/features/diff/ui/over-hours-page";
+import DiffSchedulePenalty from "@/features/diff/ui/diff-schedule-penalty";
+import DiffScheduleTips from "@/features/diff/ui/diff-schedule-tips";
 import { GetRemarksData } from "@/features/penalty/model/type";
 import { GetScheduleData } from "@/features/schedule/schedule-edit/model/type";
 import { GetTipsAddData } from "@/features/tips-add/model/type";
@@ -26,16 +26,16 @@ export function DiffPage({ archiveData }: DiffPageProps) {
     {
       key: "schedule-tips",
       render: () => (
-        <CompareScheduleTipsPage
+        <DiffScheduleTips
           dataTips={archiveData.tips}
           dataSchedule={archiveData.schedule}
         />
       ),
     },
     {
-      key: "over-hours",
+      key: "schedule-penalty",
       render: () => (
-        <OverHoursPage
+        <DiffSchedulePenalty
           dataPenalty={archiveData.penalty}
           dataSchedule={archiveData.schedule}
         />

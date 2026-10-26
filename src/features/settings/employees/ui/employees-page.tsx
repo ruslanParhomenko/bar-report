@@ -17,6 +17,7 @@ import {
   VIEW_EMPLOYEE_MAIN_ROUTE,
 } from "@/constants/route-tag";
 import { Employee } from "@/features/settings/create-employee/model/type";
+import { useAccessCheck } from "@/hooks/use-tab-access";
 import { cn } from "@/lib/utils";
 import { formatShortDate } from "@/utils/format-date";
 import { handleCopy } from "@/utils/handler-copy-text";
@@ -30,6 +31,7 @@ import { deleteEmployee } from "../../create-employee/actions/delete-employee";
 const NAV_ITEMS = ["active", "fired", "all"] as const;
 
 export function EmployeesPage({ employees }: { employees: Employee[] }) {
+  const hasAccess = useAccessCheck();
   const tab = useSearchParams().get("tab");
 
   const session = useSession();

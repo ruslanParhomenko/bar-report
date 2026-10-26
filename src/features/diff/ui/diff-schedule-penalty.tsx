@@ -17,7 +17,7 @@ import { useMonthDays } from "@/hooks/use-month-days";
 import { cn } from "@/lib/utils";
 import { useMemo, useState } from "react";
 
-export default function OverHoursPage({
+export default function DiffSchedulePenalty({
   dataPenalty,
   dataSchedule,
 }: {
@@ -27,16 +27,8 @@ export default function OverHoursPage({
   const [selectedName, setSelectedName] = useState<string | null>(null);
   const { monthDays } = useMonthDays();
 
-  const names = useMemo(
-    () => [
-      ...new Set(
-        dataSchedule?.rowShifts
-          ?.map((r) => r.employee?.trim())
-          .filter((n): n is string => !!n) ?? [],
-      ),
-    ],
-    [dataSchedule],
-  );
+  const names =
+    dataSchedule?.rowShifts?.map((r) => r.employee?.trim()).sort() || [];
 
   const days = monthDays.map((d) => d.day);
 
@@ -76,7 +68,9 @@ export default function OverHoursPage({
       <TableHeader>
         <TableRow>
           <TableHead />
-          <TableHead>schedule - penalty</TableHead>
+          <TableHead className="bg-background sticky left-0 z-10 w-30 truncate pr-1 pl-2 text-xs">
+            schedule - penalty
+          </TableHead>
           {days.map((d) => (
             <TableHead
               key={d}
@@ -108,8 +102,6 @@ export default function OverHoursPage({
               {days.map((d) => {
                 const hours = hoursMap.get(`${d}|${n}`) ?? 0;
                 const extra = getScheduleExtra(n, d);
-
-                console.log({ hours, extra });
                 const isEqual = hours === Number(extra);
                 return (
                   <TableCell
