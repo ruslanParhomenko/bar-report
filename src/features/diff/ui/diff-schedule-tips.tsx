@@ -83,7 +83,7 @@ export default function DiffScheduleTips({
           {days.map((day) => (
             <TableHead
               key={day}
-              className="w-8.5 border-x p-0 text-center text-xs"
+              className="text-bl w-8.5 border-0 p-0 text-center text-xs"
             >
               {day}
             </TableHead>
