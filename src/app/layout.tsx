@@ -1,53 +1,32 @@
-import type { Metadata, Viewport } from "next";
-
 import { getLocale } from "next-intl/server";
-
-import { Lora } from "next/font/google";
-import "./globals.css";
-
-import RootProviders from "@/providers/root-providers";
 import { Toaster } from "sonner";
 
-const lora = Lora({
-  variable: "--font-lora",
-  subsets: ["latin"],
-  weight: ["500", "700"],
-  style: ["normal", "italic"],
-  display: "swap",
-});
+import { lora, metadata, viewport } from "./layout-config";
 
-export const metadata: Metadata = {
-  title: "Bar App",
-  description: "Report schedule and orders",
-  applicationName: "Bar App",
+import { SessionProviders } from "@/providers/session-providers";
+import ThemeProviderClient from "@/providers/theme-provider-client";
+import { NextIntlClientProvider } from "next-intl";
+import "./globals.css";
 
-  appleWebApp: {
-    capable: true,
-    statusBarStyle: "black-translucent",
-    title: "Bar App",
-  },
-};
-
-export const viewport: Viewport = {
-  themeColor: "#000000",
-  viewportFit: "cover",
-  width: "device-width",
-  initialScale: 1,
-  maximumScale: 1,
-};
+export { metadata, viewport };
 
 export default async function RootLayout({
   children,
-}: {
+}: Readonly<{
   children: React.ReactNode;
-}) {
+}>) {
   const locale = await getLocale();
 
   return (
     <html lang={locale} suppressHydrationWarning>
-      <body className={`${lora.variable}antialiased `}>
+      <body className={`${lora.variable} antialiased`}>
+        <ThemeProviderClient>
+          <SessionProviders>
+            <NextIntlClientProvider>{children}</NextIntlClientProvider>
+          </SessionProviders>
+        </ThemeProviderClient>
+
         <Toaster position="top-center" />
-        <RootProviders>{children}</RootProviders>
       </body>
     </html>
   );

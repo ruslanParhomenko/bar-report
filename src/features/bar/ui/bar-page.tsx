@@ -28,13 +28,11 @@ export function BarPage({
   dataBreakList,
   currencyUSD,
   orderProducts,
-  isAdmin,
 }: {
   employees: Employee[];
   dataBreakList: BreakForm | null;
   currencyUSD: number | null;
   orderProducts: Record<string, string[]> | null;
-  isAdmin: boolean;
 }) {
   const searchParams = useSearchParams();
   const { form, onSubmit } = useBarForm({
@@ -100,11 +98,7 @@ export function BarPage({
       onError={onError}
       className="h-[80dvh]"
     >
-      <DatePickerInput
-        fieldName="date"
-        className="text-rd h-6 text-sm"
-        disabled={!isAdmin}
-      />
+      <DatePickerInput fieldName="date" className="text-rd h-6 text-sm" />
       <AnimatePresence mode="wait" initial={false}>
         <motion.div
           {...handlers}
@@ -136,7 +130,6 @@ export function BarPage({
               <TipsAddPage
                 tipsArrayByEmployee={tipsArrayByEmployee}
                 options={filteredEmployees}
-                disabled={!isAdmin}
                 currency={currencyUSD?.toFixed(2) ?? "0"}
               />
             </Fragment>

@@ -1,11 +1,16 @@
+import { ADMIN } from "@/constants/roles";
 import { UsersPage } from "@/features/users";
 import { getUsers } from "@/features/users/actions/get-users";
-import { headers } from "next/headers";
+import { authOptions } from "@/lib/auth";
+import { getServerSession } from "next-auth";
 
 export default async function Page() {
-  const [headerStore, users] = await Promise.all([headers(), getUsers()]);
-  const isAdmin = headerStore.get("x-is-admin") === "true";
+  const session = await getServerSession(authOptions);
+  const isAdmin = session?.user?.role === ADMIN;
 
-  if (!users || !isAdmin) return null;
+  if (!isAdmin) return null;
+
+  const users = await getUsers();
+
   return <UsersPage isAdmin={isAdmin} users={users} />;
 }

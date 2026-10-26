@@ -7,13 +7,13 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { useTabSwipeNavigation } from "@/hooks/use-tab-swipe-navigation";
 import { useSearchParams } from "next/navigation";
 
-export default function ActionBar({ isAdmin }: { isAdmin: boolean }) {
+export default function ActionBar() {
   const tab = useSearchParams().get("tab") || "";
   const isMobile = useIsMobile();
   const { handlers } = useTabSwipeNavigation();
 
   if (!isMobile) {
-    return <ActionButtons isAdmin={isAdmin} tab={tab} />;
+    return <ActionButtons tab={tab} />;
   }
 
   if (!tab) {

@@ -11,6 +11,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { ADMIN } from "@/constants/roles";
 import {
   CREATE_EMPLOYEE_MAIN_ROUTE,
   VIEW_EMPLOYEE_MAIN_ROUTE,
@@ -21,20 +22,20 @@ import { formatShortDate } from "@/utils/format-date";
 import { handleCopy } from "@/utils/handler-copy-text";
 import { differenceInMonths } from "date-fns";
 import { CheckCircle, UserX, XCircle } from "lucide-react";
+import { useSession } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { deleteEmployee } from "../../create-employee/actions/delete-employee";
 
 const NAV_ITEMS = ["active", "fired", "all"] as const;
 
-export function EmployeesPage({
-  isAdmin,
-  employees,
-}: {
-  isAdmin: boolean;
-  employees: Employee[];
-}) {
+export function EmployeesPage({ employees }: { employees: Employee[] }) {
   const tab = useSearchParams().get("tab");
+
+  const session = useSession();
+
+  const isAdmin =
+    session.status === "authenticated" && session.data?.user?.role === ADMIN;
 
   const [employeesStatus, setEmployeesStatus] =
     useState<(typeof NAV_ITEMS)[number]>("active");
@@ -53,14 +54,16 @@ export function EmployeesPage({
 
   return (
     <div className="mt-4 flex flex-col items-center justify-center gap-4">
-      <NavTabs
-        navItems={NAV_ITEMS}
-        activeTab={employeesStatus}
-        handleTabChange={handleTabChange}
-        classTabs="bg-transparent h-6"
-        classTrigger="h-5"
-        withSelect
-      />
+      {isAdmin && (
+        <NavTabs
+          navItems={NAV_ITEMS}
+          activeTab={employeesStatus}
+          handleTabChange={handleTabChange}
+          classTabs="bg-transparent h-6"
+          classTrigger="h-5"
+          withSelect
+        />
+      )}
       <Table className="md:table-fixed [&>tbody>tr]:text-xs">
         <TableHeader className="text-xs">
           <TableRow className="text-gr">
@@ -134,9 +137,11 @@ export function EmployeesPage({
                   >
                     {emp?.tel || "-"}
                   </TableCell>
-                  <TableCell>{vacationDays}</TableCell>
+                  <TableCell>{isAdmin ? vacationDays : "..."}</TableCell>
                   <TableCell>{usedVacationDays}</TableCell>
-                  <TableCell>{vacationDays - usedVacationDays}</TableCell>
+                  <TableCell>
+                    {isAdmin ? vacationDays - usedVacationDays : "-"}
+                  </TableCell>
 
                   <TableCell>
                     {emp.status && emp.status === "fired" ? (

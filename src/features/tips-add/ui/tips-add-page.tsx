@@ -9,18 +9,9 @@ import TipsAddRow from "@/features/tips-add/ui/tips-add-row";
 import { useEffect, useState, useTransition } from "react";
 import { UseFieldArrayReturn, useFormContext, useWatch } from "react-hook-form";
 
-// const ITEM_KEYS = ["personal", "result"] as const;
-// type BarKey = BarConfig<(typeof ITEM_KEYS)[number]>;
-
-// const BAR_KEYS: BarKey[] = [
-//   { key: "personal", color: "var(--color-bl)", visible: true },
-//   { key: "result", color: "var(--color-gn)", visible: false },
-// ];
-
 export function TipsAddPage({
   tipsArrayByEmployee,
   options,
-  disabled,
   currency,
 }: {
   tipsArrayByEmployee: UseFieldArrayReturn<BarForm, "tipsAdd", "fieldId">;
@@ -30,7 +21,6 @@ export function TipsAddPage({
     role: string;
     idShift: string | undefined;
   }[];
-  disabled: boolean;
   currency: string;
 }) {
   const { getValues, setValue } = useFormContext();
@@ -40,7 +30,6 @@ export function TipsAddPage({
   const [confirmIndex, setConfirmIndex] = useState<number | null>(null);
   const [confirmOverIndex, setConfirmOverIndex] = useState<number | null>(null);
   const [isPending, startTransition] = useTransition();
-  // const [barKeys, setBarKeys] = useState(BAR_KEYS);
 
   const tipsValues = useWatch<BarForm, "tipsAdd">({ name: "tipsAdd" }) ?? [];
 
@@ -151,25 +140,6 @@ export function TipsAddPage({
 
     setValue(`tipsAdd.${index}.draftValue`, "", { shouldDirty: true });
   };
-
-  // const chartData = tipsValues.map((emp) => ({
-  //   name: emp.employeeName.split(" ")[0],
-  //   result: Math.round(
-  //     emp.resultAmount.reduce((acc, cur) => acc + +cur.value, 0),
-  //   ),
-  //   personal: Math.round(
-  //     emp.amount.reduce(
-  //       (acc, cur) =>
-  //         cur.typeAmount === "mdl"
-  //           ? acc + Number(cur.value)
-  //           : acc + Number(cur.value) * Number(currency),
-  //       0,
-  //     ),
-  //   ),
-  // }));
-
-  // const toggleBar = (key: BarKey["key"]) =>
-  //   setBarKeys((prev) => toggleBarVisibility(prev, key));
 
   return (
     <div className="flex h-[80dvh] w-full flex-col gap-1 md:px-2">

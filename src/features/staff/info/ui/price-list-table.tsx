@@ -1,7 +1,9 @@
 "use client";
 
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
+import { ADMIN } from "@/constants/roles";
 import { DataPriceList } from "@/features/setting/model/type";
+import { useSession } from "next-auth/react";
 
 const COLUMNS_1 = ["вермут", "настойка", "водка", "вино", "пиво"];
 const COLUMNS_2 = ["виски", "коньяк", "коктейль", "джин", "ликер", "ром"];
@@ -40,13 +42,14 @@ function CategoryBlock({
   category,
   list,
   currency,
-  isAdmin,
 }: {
   category: string;
   list: DataPriceList["priceList"][string];
   currency: number | undefined;
-  isAdmin: boolean;
 }) {
+  const session = useSession();
+  const isAdmin =
+    session.status === "authenticated" && session.data?.user?.role === ADMIN;
   return (
     <TableBody>
       <TableRow>
@@ -89,13 +92,7 @@ function CategoryBlock({
   );
 }
 
-export function PriceListBarTable({
-  data,
-  isAdmin,
-}: {
-  data: DataPriceList | null;
-  isAdmin: boolean;
-}) {
+export function PriceListBarTable({ data }: { data: DataPriceList | null }) {
   const currency = data?.currency;
   const priceList = data?.priceList || {};
 
@@ -121,7 +118,6 @@ export function PriceListBarTable({
                   category={category}
                   list={list}
                   currency={currency}
-                  isAdmin={isAdmin}
                 />
               );
             })}
@@ -132,13 +128,7 @@ export function PriceListBarTable({
   );
 }
 
-export function PriceListCucinaTable({
-  data,
-  isAdmin,
-}: {
-  data: DataPriceList | null;
-  isAdmin: boolean;
-}) {
+export function PriceListCucinaTable({ data }: { data: DataPriceList | null }) {
   const currency = data?.currency;
   const priceList = data?.priceList || {};
 
@@ -164,7 +154,6 @@ export function PriceListCucinaTable({
                   category={category}
                   list={list}
                   currency={currency}
-                  isAdmin={isAdmin}
                 />
               );
             })}

@@ -8,7 +8,7 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 import { useSearchParams } from "next/navigation";
 
-export default function HeaderBar({ isAdmin }: { isAdmin: boolean }) {
+export default function HeaderBar() {
   const searchParams = useSearchParams();
   const isMobile = useIsMobile();
 
@@ -26,7 +26,7 @@ export default function HeaderBar({ isAdmin }: { isAdmin: boolean }) {
       )}
     >
       <HeaderEyes />
-      {isMobile && <ActionButtons isAdmin={isAdmin} tab={urlTab!} size={14} />}
+      {isMobile && <ActionButtons tab={urlTab!} size={14} />}
       {showTabs && <SelectTabs urlTab={urlTab} />}
       {showMonthYear && (
         <SelectMonthYear urlMonth={urlMonth} urlYear={urlYear} />

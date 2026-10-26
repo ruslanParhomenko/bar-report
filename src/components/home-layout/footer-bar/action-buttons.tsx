@@ -8,6 +8,7 @@ import SaveButton from "@/components/buttons/save-button";
 import SendScreenButton from "@/components/buttons/send-screen-button";
 import ShowButton from "@/components/buttons/show-button";
 import { ACTION_ITEM_BY_ROUTE } from "@/components/home-layout/footer-bar/constants";
+import { ADMIN } from "@/constants/roles";
 import {
   AO_REPORT_MAIN_ROUTE,
   ARCHIVE_MAIN_ROUTE,
@@ -34,6 +35,7 @@ import { useFormId } from "@/hooks/use-form-id";
 import { useEdit } from "@/providers/edit-provider";
 import { useShowAnimation } from "@/providers/show-animation";
 import { FolderPlus, SaveAllIcon, SendIcon } from "lucide-react";
+import { useSession } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
 import { useTransition } from "react";
 
@@ -53,16 +55,18 @@ const CHART_URL_BY_TAB = {
 };
 
 export default function ActionButtons({
-  isAdmin,
   tab,
   size,
 }: {
-  isAdmin: boolean;
   tab: string;
   size?: number;
 }) {
   const pathname = usePathname();
   const mainRoute = pathname.split("/")[1] || "";
+
+  const session = useSession();
+  const isAdmin =
+    session.status === "authenticated" && session.data?.user?.role === ADMIN;
 
   const formId = useFormId();
 

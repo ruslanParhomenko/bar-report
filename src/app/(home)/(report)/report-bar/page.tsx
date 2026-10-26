@@ -5,12 +5,8 @@ import {
   getDataOrderProducts,
 } from "@/features/setting/actions/get-data-json";
 import { getEmployees } from "@/features/settings/create-employee/actions/get-employees";
-import { headers } from "next/headers";
 
 export default async function Page() {
-  const headerStore = await headers();
-  const isAdmin = headerStore.get("x-is-admin") === "true";
-
   const [dataBreakList, currencyUSD, orderProducts, employees] =
     await Promise.allSettled([
       getDataBreakList(),
@@ -38,7 +34,6 @@ export default async function Page() {
       currencyUSD={currencyUSDData}
       orderProducts={orderProductsBar}
       employees={employeesBar}
-      isAdmin={isAdmin}
     />
   );
 }

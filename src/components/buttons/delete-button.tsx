@@ -1,5 +1,6 @@
 "use client";
 import ModalConfirm from "@/components/modal/modal-confirm";
+import { cn } from "@/lib/utils";
 import { Trash2Icon } from "lucide-react";
 import { useState, useTransition } from "react";
 
@@ -34,7 +35,10 @@ export default function DeleteButton({
         descriptionText={descriptionText}
       />
       <button
-        className="flex cursor-pointer flex-col items-center gap-0.5"
+        className={cn(
+          "flex cursor-pointer flex-col items-center gap-0.5",
+          disabled && "cursor-not-allowed opacity-30",
+        )}
         type="button"
         onClick={() => setOpen(true)}
         disabled={disabled || isPending}

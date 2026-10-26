@@ -1,5 +1,6 @@
 "use client";
 import { useRouter } from "@/i18n/navigation";
+import { cn } from "@/lib/utils";
 import { FolderEdit } from "lucide-react";
 
 export default function LinkEditButton({
@@ -15,7 +16,10 @@ export default function LinkEditButton({
 
   return (
     <button
-      className="flex cursor-pointer flex-col items-center gap-0.5"
+      className={cn(
+        "flex cursor-pointer flex-col items-center gap-0.5",
+        disabled && "cursor-not-allowed opacity-30",
+      )}
       type="button"
       onClick={() => router.push(url)}
       disabled={disabled}

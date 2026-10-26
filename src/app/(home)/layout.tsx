@@ -4,40 +4,32 @@ import HeaderBar from "@/components/home-layout/header-bar/header-bar";
 import SidebarNav from "@/components/home-layout/side-bar/sidebar-nav";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import ScreenshotWrapper from "@/components/wrapper/screenshot-wrapper";
-import { authOptions } from "@/lib/auth";
 import ClientRefProvider from "@/providers/client-ref-provider";
 import EditProvider from "@/providers/edit-provider";
 import MobileSidebarSwipe from "@/providers/mobile-sidebar-provider";
 import ShowAnimationProvider from "@/providers/show-animation";
-import { getServerSession } from "next-auth";
-import { headers } from "next/headers";
 
 export default async function HomeLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const [headerStore, session] = await Promise.all([
-    headers(),
-    getServerSession(authOptions),
-  ]);
-  const isAdmin = headerStore.get("x-is-admin") === "true";
   return (
     <SidebarProvider>
       <EditProvider>
         <ShowAnimationProvider>
           <ClientRefProvider>
-            <SidebarNav session={session} isAdmin={isAdmin} />
+            <SidebarNav />
             <MobileSidebarSwipe>
               <div className="flex h-dvh w-dvw flex-col px-1">
-                <HeaderBar isAdmin={isAdmin} />
+                <HeaderBar />
 
                 <ScreenshotWrapper>
                   <PumpkinSnow count={25} />
                   {children}
                 </ScreenshotWrapper>
 
-                <ActionBar isAdmin={isAdmin} />
+                <ActionBar />
               </div>
             </MobileSidebarSwipe>
           </ClientRefProvider>

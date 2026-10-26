@@ -1,9 +1,11 @@
 import { InsufficientRights } from "@/components/wrapper/insufficient-rights";
+import { ADMIN } from "@/constants/roles";
 import { SchedulePage } from "@/features/schedule";
 import { getScheduleByYearAndMonth } from "@/features/schedule/schedule-edit/actions/get-schedule";
 import { getEmployees } from "@/features/settings/create-employee/actions/get-employees";
+import { authOptions } from "@/lib/auth";
 import { MONTHS } from "@/utils/get-month-days";
-import { headers } from "next/headers";
+import { getServerSession } from "next-auth";
 
 export default async function Page({
   searchParams,
@@ -11,11 +13,10 @@ export default async function Page({
   searchParams: Promise<{ [key: string]: string }>;
 }) {
   const { month, year } = await searchParams;
-
-  const headerStore = await headers();
-  const isAdmin = headerStore.get("x-is-admin") === "true";
-
   if (!month || !year) return null;
+
+  const session = await getServerSession(authOptions);
+  const isAdmin = session?.user?.role === ADMIN;
 
   if (!isAdmin) {
     const now = new Date();
@@ -34,14 +35,16 @@ export default async function Page({
     }
   }
 
-  const schedules = await getScheduleByYearAndMonth(year, month);
-  const employees = await getEmployees();
+  const [schedules, employees] = await Promise.allSettled([
+    getScheduleByYearAndMonth(year, month),
+    getEmployees(),
+  ]);
 
   return (
     <SchedulePage
-      schedules={schedules}
+      schedules={schedules.status === "fulfilled" ? schedules.value : null}
       isAdmin={isAdmin}
-      employees={employees}
+      employees={employees.status === "fulfilled" ? employees.value : []}
     />
   );
 }

@@ -25,7 +25,7 @@ export default function OverHoursPage({
   dataSchedule: GetScheduleData | null;
 }) {
   const [selectedName, setSelectedName] = useState<string | null>(null);
-  const { monthDays, month } = useMonthDays();
+  const { monthDays } = useMonthDays();
 
   const names = useMemo(
     () => [
@@ -76,11 +76,11 @@ export default function OverHoursPage({
       <TableHeader>
         <TableRow>
           <TableHead />
-          <TableHead />
+          <TableHead>schedule - penalty</TableHead>
           {days.map((d) => (
             <TableHead
               key={d}
-              className="text-bl border-x border-x-0 py-1 text-center text-xs"
+              className="text-bl border-x-0 py-1 text-center text-xs"
             >
               {d}
             </TableHead>
@@ -108,6 +108,8 @@ export default function OverHoursPage({
               {days.map((d) => {
                 const hours = hoursMap.get(`${d}|${n}`) ?? 0;
                 const extra = getScheduleExtra(n, d);
+
+                console.log({ hours, extra });
                 const isEqual = hours === Number(extra);
                 return (
                   <TableCell
@@ -118,8 +120,8 @@ export default function OverHoursPage({
                       !isEqual && "bg-gr/20!",
                     )}
                   >
-                    {hours || ""}
-                    {extra && `:${extra}`}
+                    {extra && extra}
+                    {hours !== 0 && `:${hours}`}
                   </TableCell>
                 );
               })}
