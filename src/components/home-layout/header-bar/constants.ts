@@ -17,6 +17,7 @@ import {
   FIN_CASH_MAIN_ROUTE,
   INFO_MAIN_ROUTE,
   MENU_MAIN_ROUTE,
+  NEWS_MAIN_ROUTE,
   ORDERS_MAIN_ROUTE,
   PARSER_1C_MAIN_ROUTE,
   REPORTS_BAR_ROUTE,
@@ -32,6 +33,7 @@ import {
 import { Route } from "next";
 
 export const TABS_BY_ROUTE = {
+  [NEWS_MAIN_ROUTE]: [],
   [SCHEDULE_MAIN_ROUTE]: ["bar", "cucina", "dish"],
   [CHART_SCHEDULE_ROUTE]: ["bar", "cucina", "dish"],
 
@@ -152,7 +154,11 @@ export type NAV_BY_PATCH_TYPE = Record<
   }
 >;
 
-export const NAV_BY_PATCH = {
+export const NAV_BY_PATCH: NAV_BY_PATCH_TYPE = {
+  [NEWS_MAIN_ROUTE]: {
+    tabs: TABS_BY_ROUTE[NEWS_MAIN_ROUTE],
+    selectDate: false,
+  },
   [SCHEDULE_MAIN_ROUTE]: {
     tabs: TABS_BY_ROUTE[SCHEDULE_MAIN_ROUTE],
     selectDate: true,

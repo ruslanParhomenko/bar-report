@@ -33,3 +33,5 @@ export const CHART_RESULT_ROUTE = "chart-result";
 export const CHART_CASH_ROUTE = "chart-cash";
 export const CHART_TTN_ROUTE = "chart-ttn";
 export const CHART_AO_ROUTE = "chart-ao";
+
+export const NEWS_MAIN_ROUTE = "news";

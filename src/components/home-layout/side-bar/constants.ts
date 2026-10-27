@@ -9,6 +9,7 @@ import {
   FIN_CASH_MAIN_ROUTE,
   INFO_MAIN_ROUTE,
   MENU_MAIN_ROUTE,
+  NEWS_MAIN_ROUTE,
   ORDERS_MAIN_ROUTE,
   PARSER_1C_MAIN_ROUTE,
   REPORTS_BAR_ROUTE,
@@ -37,6 +38,7 @@ import {
   Martini,
   MilkOff,
   PersonStandingIcon,
+  Rss,
   Settings,
   SigmaIcon,
   SquareMenu,
@@ -44,6 +46,11 @@ import {
 } from "lucide-react";
 
 export const SIDEBAR_NAVIGATION = [
+  {
+    title: NEWS_MAIN_ROUTE,
+    icon: Rss,
+    query: NAV_BY_PATCH[NEWS_MAIN_ROUTE],
+  },
   {
     title: SCHEDULE_MAIN_ROUTE,
     icon: Calendar,

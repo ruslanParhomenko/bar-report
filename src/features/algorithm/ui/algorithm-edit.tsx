@@ -1,7 +1,7 @@
 import FormWrapper from "@/components/wrapper/form-wrapper";
 import { Activity } from "react";
 import { useFieldArray } from "react-hook-form";
-import { useAlgoritmForm } from "../hooks/use-algorithm-form";
+import { useAlgorithmForm } from "../hooks/use-algorithm-form";
 import { AlgorithmData, FIELD_CONFIG } from "../model/schema";
 import AlgorithmForm from "./algorithm-form";
 
@@ -12,7 +12,7 @@ export default function AlgorithmEdit({
   data: AlgorithmData | null;
   tab: string;
 }) {
-  const { form, onSubmit } = useAlgoritmForm({ data });
+  const { form, onSubmit } = useAlgorithmForm({ data });
   const fieldArrays = Object.fromEntries(
     FIELD_CONFIG.map((name) => [
       name,

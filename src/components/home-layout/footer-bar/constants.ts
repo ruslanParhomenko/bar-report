@@ -18,6 +18,7 @@ import {
   FIN_CASH_MAIN_ROUTE,
   INFO_MAIN_ROUTE,
   MENU_MAIN_ROUTE,
+  NEWS_MAIN_ROUTE,
   ORDERS_MAIN_ROUTE,
   PARSER_1C_MAIN_ROUTE,
   PENALTY_UPDATE_MAIN_ROUTE,
@@ -34,6 +35,7 @@ import {
 } from "../../../constants/route-tag";
 
 export const ACTION_ITEM_BY_ROUTE = {
+  [NEWS_MAIN_ROUTE]: ["edit", "save", "print"],
   [SCHEDULE_MAIN_ROUTE]: ["edit", "save", "print", "mail", "chart"],
   [ALGORITHM_MAIN_ROUTE]: ["edit", "save", "print"],
   [STOP_LIST_MAIN_ROUTE]: ["edit", "save", "print"],

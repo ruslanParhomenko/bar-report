@@ -38,3 +38,5 @@ export const DATA_STATUS_PARAMETERS_ACTION_TAG = "data-status-parameters";
 
 export const MENU_DAILY_ACTION_TAG = "menu-daily";
 export const MENU_WEEK_ACTION_TAG = "menu-week";
+
+export const NEWS_ACTION_TAG = "news";

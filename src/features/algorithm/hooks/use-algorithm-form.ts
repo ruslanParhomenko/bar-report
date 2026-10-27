@@ -9,7 +9,7 @@ import {
   defaultAlgorithm,
 } from "../model/schema";
 
-export function useAlgoritmForm({ data }: { data: AlgorithmData | null }) {
+export function useAlgorithmForm({ data }: { data: AlgorithmData | null }) {
   const { setIsEdit } = useEdit();
 
   const form = useForm<AlgorithmData>({
