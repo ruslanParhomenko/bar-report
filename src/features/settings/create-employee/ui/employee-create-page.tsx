@@ -78,7 +78,7 @@ export function EmployeeCreatePage({
 
   return (
     <FormWrapper form={form} onSubmit={onSubmit}>
-      <div className="mt-4 grid grid-cols-1 md:grid-cols-3 md:gap-8">
+      <div className="mt-4 grid grid-cols-1 md:grid-cols-3 md:gap-8 md:px-2">
         <EmployeeDataForm />
         <VacationForm />
         <SwitchForm />

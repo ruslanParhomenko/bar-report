@@ -1,5 +1,6 @@
 "use client";
 import NumericInput from "@/components/input-controlled/numeric-input";
+import AppTooltip from "@/components/ui/app-tooltip";
 import {
   Table,
   TableBody,
@@ -57,7 +58,7 @@ export function TableInventory() {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {fieldsValues?.map((_, idx) => (
+        {fieldsValues?.map((item, idx) => (
           <TableRow key={idx}>
             <TableCell className="font-medium">
               <input
@@ -67,7 +68,11 @@ export function TableInventory() {
               />
             </TableCell>
             <TableCell>
-              <NumericInput fieldName={`report.inventory.${idx}.quantity`} />
+              <AppTooltip
+                content={`запись в ${item?.name.split(",")[1] || ""}`}
+              >
+                <NumericInput fieldName={`report.inventory.${idx}.quantity`} />
+              </AppTooltip>
             </TableCell>
             <TableCell className="text-rd text-xs">
               {fieldsValues?.[idx]?.time}

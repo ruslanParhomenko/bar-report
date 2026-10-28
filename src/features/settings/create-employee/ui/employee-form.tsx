@@ -22,6 +22,12 @@ export default function EmployeeDataForm() {
         type="text"
         className={fieldClassName}
       />
+      <TextInput
+        fieldName="nbmId"
+        fieldLabel="nbmId"
+        type="text"
+        className={fieldClassName}
+      />
       <SelectField
         data={EMPLOYEES_ROLE.map((r) => r.value)}
         fieldName="role"

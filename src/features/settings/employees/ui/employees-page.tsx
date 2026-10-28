@@ -54,6 +54,8 @@ export function EmployeesPage({ employees }: { employees: Employee[] }) {
     setEmployeesStatus(tab as (typeof NAV_ITEMS)[number]);
   };
 
+  if (!hasAccess) return null;
+
   return (
     <div className="mt-4 flex flex-col items-center justify-center gap-4">
       {isAdmin && (
@@ -61,8 +63,8 @@ export function EmployeesPage({ employees }: { employees: Employee[] }) {
           navItems={NAV_ITEMS}
           activeTab={employeesStatus}
           handleTabChange={handleTabChange}
-          classTabs="bg-transparent h-6"
-          classTrigger="h-5"
+          classTabs="bg-transparent h-5"
+          classTrigger="h-5 border-0 shadow-none!"
           withSelect
         />
       )}
@@ -84,6 +86,7 @@ export function EmployeesPage({ employees }: { employees: Employee[] }) {
             <TableHead className="w-15">status</TableHead>
             <TableHead className="w-15 print:w-5">form</TableHead>
             <TableHead className="w-15">key</TableHead>
+            <TableHead className="w-15">id</TableHead>
             <TableHead className="w-30 text-center" />
           </TableRow>
         </TableHeader>
@@ -166,6 +169,7 @@ export function EmployeesPage({ employees }: { employees: Employee[] }) {
                       <XCircle size={14} className="text-rd" />
                     )}
                   </TableCell>
+                  <TableCell>{emp.nbmId || "-"}</TableCell>
                   <TableCell className="print:hidden">
                     <div className="flex justify-center gap-8">
                       <ViewButton

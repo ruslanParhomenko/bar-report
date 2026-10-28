@@ -28,12 +28,12 @@ export const RECIPIENTS = [
 
 export const INVENTORY_DATA = [
   "Виски Macallan, л",
-  "Foss Marai",
-  "Moet and Shandon",
-  "молоко стафф",
-  "Гильотина",
-  "Буковина 0,5",
-  "Om 0.5",
+  "Foss Marai, шт",
+  "Moet and Shandon, шт",
+  "Водка Grey Goose, л",
+  "Гильотина, шт",
+  "Прачка (при выдачи), кг",
+  "Прачка (при получении), кг",
 ];
 
 // tobacco data
