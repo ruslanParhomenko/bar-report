@@ -1,7 +1,7 @@
 "use client";
 
 import { InsufficientRights } from "@/components/wrapper/insufficient-rights";
-import ReportBarArchive from "@/features/archive/bar/report-bar-archive";
+import { ReportBarArchivePage } from "@/features/archive/bar";
 import { BreakListArchive } from "@/features/archive/break/break-list-archive";
 import ReportCucinaArchive from "@/features/archive/cucina/report-cucina-archive";
 import OrdersArchivePage from "@/features/archive/orders/orders-archive-page";
@@ -39,7 +39,7 @@ export default function ArchivePage({
   const TABS = [
     {
       key: "bar",
-      render: () => <ReportBarArchive data={archiveData.bar} />,
+      render: () => <ReportBarArchivePage data={archiveData.bar} />,
     },
     {
       key: "cucina",

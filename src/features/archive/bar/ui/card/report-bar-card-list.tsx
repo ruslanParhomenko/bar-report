@@ -1,10 +1,10 @@
-import ReportBarArchiveItem from "@/features/archive/bar/report-bar-archive-item";
+import ReportBarArchiveItem from "@/features/archive/bar/ui/card/ui/report-bar-archive-item";
 import { GetReportData } from "@/features/report-bar/model/type";
 
 export const classNameHead = "text-shadow-muted-foreground font-bold";
 export const classNameRowBorder = "border-b-bl";
 
-export default function ReportBarArchive({
+export default function ReportBarCardList({
   data,
 }: {
   data: GetReportData[] | null;

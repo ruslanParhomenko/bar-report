@@ -8,7 +8,9 @@ import {
 } from "@/components/ui/table";
 
 import { InventorySchemaType } from "@/features/report-bar/model/schema";
-import { classNameHead, classNameRowBorder } from "./report-bar-archive";
+
+const classNameHead = "text-shadow-muted-foreground font-bold";
+const classNameRowBorder = "border-b-bl";
 
 export default function InventoryTable({
   data,

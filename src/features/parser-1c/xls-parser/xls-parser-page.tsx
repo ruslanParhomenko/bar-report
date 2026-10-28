@@ -89,8 +89,6 @@ export default function OrdersByHourPage() {
     );
   };
 
-  console.log(salesResult);
-
   const handleTabChange = (tab: string) => {
     setSelectedTab(tab as (typeof NAV_ITEMS)[number]);
   };

@@ -6,8 +6,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { classNameRowBorder } from "@/features/archive/bar/ui/card/report-bar-card-list";
 import { ProductPreparedType } from "@/features/cucina/model/schema";
-import { classNameRowBorder } from "../bar/report-bar-archive";
 
 export default function PreparedTable({
   data,

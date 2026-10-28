@@ -125,8 +125,6 @@ export default function ExpParserPage() {
     setFileName(file.name);
   };
 
-  console.log("chartData", chartData);
-
   const totalValue = chartData
     .reduce((acc, item) => acc + item.value, 0)
     .toFixed(0);

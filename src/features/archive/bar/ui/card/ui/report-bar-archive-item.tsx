@@ -6,13 +6,12 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
-
-import { GetReportData } from "@/features/report-bar/model/type";
-import CashVerifyTable from "./cash-table";
-import ExpensesTable from "./expenses-table";
-import InventoryTable from "./inventory-table";
-import TobaccoTable from "./tobacco-table";
-import ProductTransferTable from "./transfer-table";
+import CashVerifyTable from "@/features/archive/bar/ui/card/ui/cash-table";
+import ExpensesTable from "@/features/archive/bar/ui/card/ui/expenses-table";
+import InventoryTable from "@/features/archive/bar/ui/card/ui/inventory-table";
+import TobaccoTable from "@/features/archive/bar/ui/card/ui/tobacco-table";
+import ProductTransferTable from "@/features/archive/bar/ui/card/ui/transfer-table";
+import type { GetReportData } from "@/features/report-bar/model/type";
 
 export const classNameHead = "text-shadow-muted-foreground font-bold";
 

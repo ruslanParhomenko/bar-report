@@ -4,7 +4,6 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
-import { classNameHead } from "@/features/archive/bar/report-bar-archive-item";
 import PreparedTable from "@/features/archive/cucina/prepared-table";
 import ShiftsTable from "@/features/archive/cucina/shifts-table";
 import StaffTable from "@/features/archive/cucina/staff-table";
@@ -14,6 +13,7 @@ import { GetKitchenData } from "@/features/cucina/model/type";
 export const classNameHeadCucina = "text-shadow-muted-foreground font-bold";
 
 export const classNameRowBorderCucina = "border-b-bl";
+const classNameHead = "text-shadow-muted-foreground font-bold";
 
 export default function ReportCucinaArchiveItem({
   data,
