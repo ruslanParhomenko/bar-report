@@ -114,11 +114,11 @@ export default function ScheduleTableBody({
                     <TableCell className="text-gn px-0 text-center text-xs">
                       {row.totalHours}
                     </TableCell>
-                    <TableCell className="text-muted-foreground text-center text-xs">
+                    <TableCell className="text-muted-foreground text-center text-xs print:hidden">
                       {row.role.charAt(0).toLocaleLowerCase()}:
                       {isAdmin && Number(row.rate) / 1000}
                     </TableCell>
-                    <TableCell className="text-[11px]">
+                    <TableCell className="text-[11px] print:hidden">
                       {isAdmin && totalPay && totalPay}
                     </TableCell>
                     <TableCell
@@ -170,11 +170,13 @@ export default function ScheduleTableBody({
       </DndContext>
 
       <TableRow>
+        <TableCell className="w-8 print:hidden" />
+        <TableCell className="w-8 print:hidden" />
         <MonthDaysCells
           monthDays={monthDays}
           selectedDay={selectedDay}
           orientation="bottom"
-          colSpan={7}
+          colSpan={5}
           className="h-10"
         />
       </TableRow>

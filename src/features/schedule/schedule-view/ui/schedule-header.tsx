@@ -26,8 +26,8 @@ export default function ScheduleTableHeader({
           {isEdit && isAdmin && <AddRowButton addNewRow={addNewRow} />}
         </TableCell>
         <TableCell className="w-7" />
-        <TableCell className="w-8" />
-        <TableCell className="w-8" />
+        <TableCell className="w-8 print:hidden" />
+        <TableCell className="w-8 print:hidden" />
 
         <TableCell className="text-bl w-28 pl-2 tracking-wider">
           {month?.toUpperCase() || ""}

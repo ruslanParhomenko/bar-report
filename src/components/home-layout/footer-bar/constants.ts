@@ -36,7 +36,7 @@ import {
 
 export const ACTION_ITEM_BY_ROUTE = {
   [NEWS_MAIN_ROUTE]: ["edit", "save", "print"],
-  [SCHEDULE_MAIN_ROUTE]: ["edit", "save", "print", "mail", "chart"],
+  [SCHEDULE_MAIN_ROUTE]: ["edit", "save", "print", "chart"],
   [ALGORITHM_MAIN_ROUTE]: ["edit", "save", "print"],
   [STOP_LIST_MAIN_ROUTE]: ["edit", "save", "print"],
   [EMPLOYEES_MAIN_ROUTE]: ["print", "create"],

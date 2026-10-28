@@ -23,6 +23,7 @@ export function MonthDaysCells({
   return (
     <>
       {colSpan > 0 && <TableCell className="p-0" colSpan={colSpan} />}
+
       {monthDays.map((item) => {
         const isSelected = item.day === day;
 
