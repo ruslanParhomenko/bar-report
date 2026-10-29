@@ -16,6 +16,8 @@ export default function OrdersArchivePage() {
 
   const [orders, setOrders] = useState<GetOrdersData[] | null>(null);
 
+  console.log("orders", orders);
+
   const searchParams = useSearchParams();
 
   const month =

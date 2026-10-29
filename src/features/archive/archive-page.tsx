@@ -2,11 +2,10 @@
 
 import { InsufficientRights } from "@/components/wrapper/insufficient-rights";
 import { ReportBarArchivePage } from "@/features/archive/bar";
-import { BreakListArchive } from "@/features/archive/break/break-list-archive";
+import { BreakArchivePage } from "@/features/archive/break-archive";
 import ReportCucinaArchive from "@/features/archive/cucina/report-cucina-archive";
 import OrdersArchivePage from "@/features/archive/orders/orders-archive-page";
-import PenaltyResult from "@/features/archive/penalty-result/penalty-result";
-import PenaltyArchiveData from "@/features/archive/penalty/penalty-archive-data";
+import { PenaltyArchivePage } from "@/features/archive/penalty-archive";
 import { TipsArchivePage } from "@/features/archive/tips-archive";
 import { GetBreakData } from "@/features/break/model/type";
 import { GetKitchenData } from "@/features/cucina/model/type";
@@ -47,17 +46,13 @@ export default function ArchivePage({
     },
     {
       key: "breakList",
-      render: () => <BreakListArchive data={archiveData.breakList} />,
+      render: () => <BreakArchivePage data={archiveData.breakList} />,
     },
     {
       key: "penalty",
       render: () => (
-        <PenaltyArchiveData data={archiveData.penalty} isAdmin={isAdmin} />
+        <PenaltyArchivePage data={archiveData.penalty} isAdmin={isAdmin} />
       ),
-    },
-    {
-      key: "penalty-result",
-      render: () => <PenaltyResult data={archiveData.penalty} />,
     },
     {
       key: "tips-add",

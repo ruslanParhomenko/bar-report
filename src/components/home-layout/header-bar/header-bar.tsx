@@ -22,7 +22,7 @@ export default function HeaderBar() {
   return (
     <div
       className={cn(
-        "bg-background sticky top-0 z-9 flex flex-row items-center justify-between gap-1 py-1 md:gap-2 md:px-4",
+        "bg-background sticky top-0 z-9 flex flex-row items-center justify-between gap-1 pt-1 pb-0.5 md:gap-2 md:px-4",
       )}
     >
       <HeaderEyes />

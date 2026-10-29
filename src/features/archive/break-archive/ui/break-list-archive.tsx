@@ -5,11 +5,11 @@ import {
 } from "@/components/ui/collapsible";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { TIME_LABELS } from "@/features/break/model/constant";
-import { GetBreakData } from "@/features/break/model/type";
+import type { GetBreakData } from "@/features/break/model/type";
+import { cn } from "@/lib/utils";
 import { Collapsible } from "@radix-ui/react-collapsible";
 
-export function BreakListArchive({ data }: { data: GetBreakData[] | null }) {
-  if (!data) return null;
+export function BreakListArchive({ data }: { data: GetBreakData[] }) {
   const sortedData = [...data].sort((a, b) => Number(b.id) - Number(a.id));
 
   return (
@@ -29,6 +29,9 @@ export function BreakListArchive({ data }: { data: GetBreakData[] | null }) {
                   <Table>
                     <TableBody>
                       {item.rows.map((row, rowIndex) => {
+                        const quantityOfBreaks = row.hours.filter((hour) =>
+                          ["00", "20", "40"].includes(hour),
+                        ).length;
                         return (
                           <TableRow
                             key={row.id + rowIndex}
@@ -39,6 +42,15 @@ export function BreakListArchive({ data }: { data: GetBreakData[] | null }) {
                             </TableCell>
                             <TableCell className="text-gr text-center text-xs">
                               {row.id}
+                            </TableCell>
+                            <TableCell
+                              className={cn(
+                                "text-center text-xs",
+                                quantityOfBreaks > 5 ? "text-rd" : "text-bl",
+                                quantityOfBreaks === 0 && "text-gr",
+                              )}
+                            >
+                              {quantityOfBreaks}
                             </TableCell>
 
                             {TIME_LABELS.map((hour, indexHour) => {

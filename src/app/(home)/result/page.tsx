@@ -1,6 +1,6 @@
 import { InsufficientRights } from "@/components/wrapper/insufficient-rights";
 import { ADMIN } from "@/constants/roles";
-import { remarksByUniqueEmployee } from "@/features/archive/penalty/utils";
+import { remarksByUniqueEmployee } from "@/features/archive/penalty-archive/utils";
 import { getRemarksByYearMonth } from "@/features/penalty/actions/get-penalty";
 import { ResultPage } from "@/features/result";
 import { getScheduleByYearAndMonth } from "@/features/schedule/schedule-edit/actions/get-schedule";

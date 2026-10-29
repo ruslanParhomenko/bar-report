@@ -11,16 +11,14 @@ import { PENALTY_UPDATE_MAIN_ROUTE } from "@/constants/route-tag";
 import { GetRemarksData } from "@/features/penalty/model/type";
 import { useMonthDays } from "@/hooks/use-month-days";
 
-export default function PenaltyArchiveData({
+export default function PenaltyArchiveListCard({
   data,
   isAdmin,
 }: {
-  data: GetRemarksData[] | null;
+  data: GetRemarksData[];
   isAdmin: boolean;
 }) {
   const { month, year } = useMonthDays();
-
-  if (!data) return null;
 
   const sortedData = [...data].sort((a, b) => Number(b.id) - Number(a.id));
   return (

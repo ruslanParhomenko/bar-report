@@ -1,6 +1,6 @@
 "use client";
 import { Table } from "@/components/ui/table";
-import { remarksByUniqueEmployee } from "@/features/archive/penalty/utils";
+import { remarksByUniqueEmployee } from "@/features/archive/penalty-archive/utils";
 import {
   extractUniqueEmployees,
   useResultCalculations,

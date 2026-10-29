@@ -3,12 +3,12 @@ import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { TipsAddForm } from "@/features/tips-add/model/schema";
 import type { GetTipsAddData } from "@/features/tips-add/model/type";
 import { useTipsCalculation } from "@/hooks/use-tips-calculation";
+import { cn } from "@/lib/utils";
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@radix-ui/react-collapsible";
-import { cn } from "cn";
 
 const HOURS_MS = 3600000;
 

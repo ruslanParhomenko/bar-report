@@ -86,7 +86,6 @@ export const TABS_BY_ROUTE = {
     "cucina",
     "breakList",
     "penalty",
-    "penalty-result",
     "tips-add",
     "orders",
   ],

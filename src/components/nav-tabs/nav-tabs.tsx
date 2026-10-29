@@ -41,7 +41,7 @@ export default function NavTabs<T extends string>({
       }}
     >
       <TabsList
-        className={cn("order-1 flex h-8 md:order-0 md:gap-4", classTabs)}
+        className={cn("order-1 flex h-7 md:order-0 md:gap-4", classTabs)}
       >
         {navItems.map((item, index) => (
           <TabsTrigger
