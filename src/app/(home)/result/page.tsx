@@ -30,7 +30,9 @@ export default async function Page({
 
     const isCurrentYearOrNext =
       requestedYear === currentYear &&
-      (requestedMonth === currentMonth || requestedMonth === currentMonth + 1);
+      (requestedMonth === currentMonth ||
+        requestedMonth === currentMonth + 1 ||
+        requestedMonth === currentMonth - 1);
 
     if (!isCurrentYearOrNext) {
       return <InsufficientRights />;
