@@ -10,7 +10,7 @@ export async function POST(req: Request) {
     const { tag } = await req.json();
     if (!tag) return new Response("Missing tag", { status: 400 });
 
-    revalidateTag(tag, "max");
+    revalidateTag(tag, { expire: 0 });
 
     return new Response(JSON.stringify({ ok: true, tag }), {
       headers: { "Content-Type": "application/json" },
