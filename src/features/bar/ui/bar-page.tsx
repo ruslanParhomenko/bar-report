@@ -98,7 +98,13 @@ export function BarPage({
       onError={onError}
       className="h-[80dvh]"
     >
-      <DatePickerInput fieldName="date" className="text-rd h-6 text-sm" />
+      <div className="flex items-center justify-center">
+        <DatePickerInput
+          fieldName="date"
+          className="text-rd h-6 w-40 text-xs"
+          disabled
+        />
+      </div>
       <AnimatePresence mode="wait" initial={false}>
         <motion.div
           {...handlers}
