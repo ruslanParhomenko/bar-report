@@ -19,7 +19,7 @@ export function TipsViewTableBody({
       {data.map((item, index) => {
         const employeeTotal = perEmployee[index]?.total ?? 0;
         return (
-          <TableRow key={item.id} className="group">
+          <TableRow key={`${item.id}-${index}`} className="group">
             <TableCell className="text-rd cursor-pointer p-0.5 text-xs">
               {index + 1}
             </TableCell>

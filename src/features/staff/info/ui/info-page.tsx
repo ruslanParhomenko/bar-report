@@ -1,9 +1,11 @@
 "use client";
 
+import { InsufficientRights } from "@/components/wrapper/insufficient-rights";
 import {
   DataPriceList,
   DataStatusParameters,
 } from "@/features/setting/model/type";
+import { useAccessCheck } from "@/hooks/use-tab-access";
 import { useSearchParams } from "next/navigation";
 import StatusMenu from "./menu-status";
 import { PriceListBarTable, PriceListCucinaTable } from "./price-list-table";
@@ -17,6 +19,12 @@ type InfoPageProps = {
 
 export function InfoPage({ data }: InfoPageProps) {
   const tab = useSearchParams().get("tab");
+  const hasAccess = useAccessCheck();
+
+  if (!hasAccess) {
+    return <InsufficientRights />;
+  }
+
   return (
     <>
       {tab === "statusMenu" && <StatusMenu data={data.dataStatusParameters} />}

@@ -1,8 +1,10 @@
 "use client";
 
+import { InsufficientRights } from "@/components/wrapper/insufficient-rights";
 import { Employee } from "@/features/settings/create-employee/model/type";
 import TipsViewMonthPage from "@/features/staff/tips/ui/month/tips-view-month-page";
 import { GetTipsAddData } from "@/features/tips-add/model/type";
+import { useAccessCheck } from "@/hooks/use-tab-access";
 import { useEdit } from "@/providers/edit-provider";
 import { useSearchParams } from "next/navigation";
 import { GetTipsData } from "../model/type";
@@ -18,8 +20,13 @@ export function TipsPage({
   dataTipsYear: GetTipsData[] | null;
   dataTipsAdd: GetTipsAddData[] | null;
 }) {
+  const hasAccess = useAccessCheck();
   const tab = useSearchParams().get("tab");
   const { isEdit } = useEdit();
+
+  if (!hasAccess) {
+    return <InsufficientRights />;
+  }
 
   if (tab === "tips-month") {
     if (isEdit) {

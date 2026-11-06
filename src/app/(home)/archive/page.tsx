@@ -24,7 +24,7 @@ export default async function Page({
   const isAdmin = session?.user?.role === ADMIN;
   const isCCTV = session?.user?.role === USER;
 
-  if (!isAdmin && !isCCTV) {
+  if (!isAdmin) {
     const now = new Date();
     const currentYear = now.getFullYear();
     const currentMonth = now.getMonth() + 1;
@@ -34,7 +34,9 @@ export default async function Page({
 
     const isCurrentYearOrNext =
       requestedYear === currentYear &&
-      (requestedMonth === currentMonth || requestedMonth === currentMonth + 1);
+      (requestedMonth === currentMonth ||
+        requestedMonth === currentMonth + 1 ||
+        (isCCTV && requestedMonth === currentMonth - 1));
 
     if (!isCurrentYearOrNext) {
       return <InsufficientRights />;
