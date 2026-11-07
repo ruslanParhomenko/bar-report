@@ -4,6 +4,7 @@ import { MenuDailyPage } from "../../menu-daily";
 
 import { DataMenu } from "@/features/setting/model/type";
 
+import { InfoBuffetPage } from "@/features/menu/info-buffet/ui/info-buffet-page";
 import { MenuDailyForm } from "../../menu-daily/model/schema";
 import { MenuVipPage } from "../../menu-vip";
 import { MenuWeekForm } from "../../menu-week/model/schema";
@@ -41,6 +42,16 @@ export function MenuPage({
       <MenuDailyWeek
         listMenuDaily={listMenuDaily}
         defaultValues={dataMenuWeek}
+      />
+    );
+  }
+
+  if (tab === "info-buffet") {
+    return (
+      <InfoBuffetPage
+        menuDaily={dataMenuDaily}
+
+        qrUrl={dataMenuVip?.cover[0]?.qrUrl}
       />
     );
   }
