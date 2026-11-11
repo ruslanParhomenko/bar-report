@@ -35,14 +35,24 @@ export default function NewsForm({
 
               <TableCell className="p-1">
                 <div className="grid grid-cols-[80%_10%_10%] items-center gap-2">
-                  <TextareaAutosize
-                    {...register(`news.${idx}.value` as const)}
-                    placeholder="Новость"
-                    className={cn(
-                      "border-input placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 dark:bg-input/30 flex w-full rounded-md border bg-transparent p-1 shadow-xs outline-none focus-visible:ring-[3px]",
-                      "bg-background! min-h-1 resize-none border-0 text-xs! shadow-none",
-                    )}
-                  />
+                  <div>
+                    <TextareaAutosize
+                      {...register(`news.${idx}.value` as const)}
+                      placeholder="Новость"
+                      className={cn(
+                        "border-input placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 dark:bg-input/30 flex w-full rounded-md border bg-transparent p-1 shadow-xs outline-none focus-visible:ring-[3px]",
+                        "bg-background! min-h-1 resize-none border-0 text-xs! shadow-none",
+                      )}
+                    />
+                    <TextareaAutosize
+                      {...register(`news.${idx}.valueRo` as const)}
+                      placeholder="RO:"
+                      className={cn(
+                        "border-input placeholder:text-rd focus-visible:border-ring focus-visible:ring-ring/50 dark:bg-input/30 flex w-full rounded-md border bg-transparent p-1 shadow-xs outline-none focus-visible:ring-[3px]",
+                        "bg-background! text-gr min-h-1 resize-none border-0 text-xs! shadow-none",
+                      )}
+                    />
+                  </div>
 
                   <Input
                     {...register(`news.${idx}.createdAt` as const)}

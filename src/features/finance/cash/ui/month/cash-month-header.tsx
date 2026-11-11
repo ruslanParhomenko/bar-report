@@ -16,13 +16,13 @@ export default function CashMonthHeaderTable({
       <TableRow>
         <TableCell className="bg-background sticky left-0 w-16 md:bg-transparent"></TableCell>
 
-        <TableCell className="w-24">{month?.toUpperCase()}</TableCell>
+        <TableCell className="w-36">{month?.toUpperCase()}</TableCell>
 
         <MonthDaysCells
           selectedDay={selectedDay}
           setSelectedDay={setSelectedDay}
           monthDays={monthDays}
-          className="w-10"
+          className="w-auto min-w-6"
         />
       </TableRow>
     </TableHeader>

@@ -1,5 +1,6 @@
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
+import { useLocale } from "next-intl";
 import { AlgorithmData } from "../model/schema";
 
 export default function AlgorithmTable({
@@ -7,6 +8,7 @@ export default function AlgorithmTable({
 }: {
   data: AlgorithmData[keyof AlgorithmData] | undefined;
 }) {
+  const locale = useLocale();
   return (
     <Table className="mt-4">
       <TableBody>
@@ -24,7 +26,7 @@ export default function AlgorithmTable({
                     "leading-5",
                   )}
                 >
-                  {item.value}
+                  {locale === "ro" ? item?.valueRo : item?.value}
                 </span>
               </TableCell>
             </TableRow>

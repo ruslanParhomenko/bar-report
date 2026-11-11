@@ -6,10 +6,12 @@ export const FIELD_CONFIG = TABS_BY_ROUTE[ALGORITHM_MAIN_ROUTE];
 
 export const valueSchema = z.object({
   value: z.string(),
+  valueRo: z.string().optional(),
 });
 
 export const defaultValues: z.infer<typeof valueSchema> = {
   value: "",
+  valueRo: "",
 };
 
 export const algorithmSchema = z.object({

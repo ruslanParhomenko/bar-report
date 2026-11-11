@@ -2,11 +2,13 @@ import z from "zod";
 
 export const newsValueSchema = z.object({
   value: z.string(),
+  valueRo: z.string(),
   createdAt: z.string(),
   expiresAt: z.string(),
 });
 export const defaultValuesNews: z.infer<typeof newsValueSchema> = {
   value: "",
+  valueRo: "",
   createdAt: "",
   expiresAt: "",
 };

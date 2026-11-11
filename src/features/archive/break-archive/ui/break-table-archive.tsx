@@ -12,8 +12,6 @@ import { cn } from "@/lib/utils";
 import { useState } from "react";
 
 export function BreakTableArchive({ data }: { data: GetBreakData[] }) {
-  console.log(data);
-
   const uniqName = [
     ...new Set(
       data?.flatMap((item) =>
@@ -22,7 +20,6 @@ export function BreakTableArchive({ data }: { data: GetBreakData[] }) {
     ),
   ].sort((a, b) => a.localeCompare(b, "ru"));
 
-  console.log("uniqName", uniqName);
   const [selectedProduct, setSelectedProduct] = useState<string | null>(null);
 
   const { monthDays } = useMonthDays();

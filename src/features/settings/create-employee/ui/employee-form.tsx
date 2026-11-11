@@ -6,7 +6,11 @@ import { cn } from "@/lib/utils";
 import { Minus } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useFormContext } from "react-hook-form";
-import { EMPLOYEES_ROLE, STATUS_OPTIONS } from "../model/constants";
+import {
+  EMPLOYEES_ROLE,
+  REGISTERED_COMPANY_OPTIONS,
+  STATUS_OPTIONS,
+} from "../model/constants";
 
 export default function EmployeeDataForm() {
   const t = useTranslations("Home");
@@ -55,6 +59,12 @@ export default function EmployeeDataForm() {
         data={STATUS_OPTIONS}
         fieldName="status"
         fieldLabel={t("status")}
+        className={fieldClassName}
+      />
+      <SelectField
+        data={REGISTERED_COMPANY_OPTIONS}
+        fieldName="registeredCompany"
+        fieldLabel="registeredCompany"
         className={fieldClassName}
       />
       <div className="flex w-full items-end justify-between gap-2 md:pr-10">

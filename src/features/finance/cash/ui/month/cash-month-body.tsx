@@ -1,8 +1,8 @@
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
-import { useFormContext, useWatch } from "react-hook-form";
+import { useMonthDays } from "@/hooks/use-month-days";
 import { cn } from "@/lib/utils";
 import { handleMultiTableNavigation } from "@/utils/handle-table-navigation";
-import { useMonthDays } from "@/hooks/use-month-days";
+import { useFormContext, useWatch } from "react-hook-form";
 
 export function CashMonthBodyTable({
   data,
@@ -63,7 +63,7 @@ export function CashMonthBodyTable({
                     data-col={dayIndex}
                     {...register(`rowCashData.${String(row.key)}.${dayIndex}`)}
                     className={cn(
-                      "h-7 w-full border-0 text-center text-xs",
+                      "h-7 w-full min-w-0 border-0 text-center text-xs",
                       row.colorText,
                       isSelected && "text-rd font-bold",
                     )}

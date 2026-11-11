@@ -1,9 +1,11 @@
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { NewsData } from "@/features/news/news-edit/model/schema";
+import { useLocale } from "next-intl";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
 export function NewsView({ data }: { data: NewsData | null }) {
+  const locale = useLocale();
   return (
     <Table className="mt-4">
       <TableBody>
@@ -35,7 +37,7 @@ export function NewsView({ data }: { data: NewsData | null }) {
                       ),
                     }}
                   >
-                    {item.value}
+                    {locale === "ro" ? item.valueRo : item.value}
                   </ReactMarkdown>
                 </span>
 

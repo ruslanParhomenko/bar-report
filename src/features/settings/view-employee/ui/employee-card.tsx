@@ -1,6 +1,7 @@
 "use client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
+  Building2,
   CalendarCheck,
   CalendarDays,
   Mail,
@@ -53,7 +54,7 @@ export default function EmployeeCard({
         </div>
       </CardHeader>
 
-      <CardContent className="flex min-h-0 flex-1 flex-col gap-7 overflow-y-auto md:p-5">
+      <CardContent className="flex min-h-0 flex-1 flex-col gap-6 overflow-y-auto md:p-5">
         <EmployeeDataCard
           icon={User}
           textCard={"role"}
@@ -91,6 +92,11 @@ export default function EmployeeCard({
           icon={PlaneTakeoff}
           textCard={"used vacations"}
           value={usedVacationDays ? usedVacationDays.toString() : "—"}
+        />
+        <EmployeeDataCard
+          icon={Building2}
+          textCard={"registered company"}
+          value={employee.registeredCompany ?? "—"}
         />
       </CardContent>
     </Card>

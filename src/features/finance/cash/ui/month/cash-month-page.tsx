@@ -9,6 +9,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 import { GetAoData } from "@/features/finance/a-o/model/type";
+import { useMonthDays } from "@/hooks/use-month-days";
 import { createCash } from "../../actions/create-cash";
 import { ROW_CASH_DATA } from "../../model/constants";
 import { CashForm, cashFormSchema, defaultCashForm } from "../../model/schema";
@@ -17,7 +18,6 @@ import { CashMonthBodyTable } from "./cash-month-body";
 import { CashMonthFooterTable } from "./cash-month-footer";
 import CashMonthHeaderTable from "./cash-month-header";
 import CashInfo from "./cash-month-info";
-import { useMonthDays } from "@/hooks/use-month-days";
 
 export default function CashMonthPage({
   dataAo,
@@ -89,7 +89,7 @@ export default function CashMonthPage({
 
   return (
     <FormWrapper form={form} onSubmit={onSubmit}>
-      <Table className="mt-4 table-fixed">
+      <Table className="mt-4 table-auto">
         <CashMonthHeaderTable
           selectedDay={selectedDay}
           setSelectedDay={setSelectedDay}

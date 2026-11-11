@@ -9,3 +9,4 @@ export const EMPLOYEES_ROLE = [
 ];
 
 export const STATUS_OPTIONS = ["active", "fired"];
+export const REGISTERED_COMPANY_OPTIONS = ["nbm", "moda"];

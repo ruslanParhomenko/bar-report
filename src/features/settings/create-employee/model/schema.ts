@@ -23,6 +23,7 @@ export const employeesSchema = z.object({
   employeesKey: z.boolean().optional(),
   vacationPay: z.array(vacationSchema).optional(),
   nbmId: z.string().optional(),
+  registeredCompany: z.string().optional(),
 });
 
 export type EmployeeForm = z.infer<typeof employeesSchema>;
@@ -39,4 +40,5 @@ export const defaultEmployeeForm: Partial<EmployeeForm> = {
   employeesKey: false,
   vacationPay: [defaultVacationForm],
   nbmId: "",
+  registeredCompany: "",
 };

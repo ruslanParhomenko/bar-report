@@ -1,8 +1,8 @@
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
+import { useMonthDays } from "@/hooks/use-month-days";
 import { cn } from "@/lib/utils";
 import { useFormContext } from "react-hook-form";
 import { CashForm } from "../../model/schema";
-import { useMonthDays } from "@/hooks/use-month-days";
 
 export function CashMonthFooterTable() {
   const { monthDays } = useMonthDays();
@@ -14,8 +14,22 @@ export function CashMonthFooterTable() {
         .reduce((acc, val) => acc + Number(val || 0), 0)
         .toFixed(2)
     : 0;
+
+  const totalCashBuffet = value?.cashBuffet
+    ? Object.values(value.cashBuffet)
+        .reduce((acc, val) => acc + Number(val || 0), 0)
+        .toFixed(2)
+    : 0;
+
+  const total = Number(totalCash) + Number(totalCashBuffet);
+
   const totalCashBar = value?.cashBarByDay
     ? Object.values(value.cashBarByDay)
+        .reduce((acc, val) => acc + Number(val || 0), 0)
+        .toFixed(2)
+    : 0;
+  const totalCashBarBuffet = value?.cashBarByDayBuffet
+    ? Object.values(value.cashBarByDayBuffet)
         .reduce((acc, val) => acc + Number(val || 0), 0)
         .toFixed(2)
     : 0;
@@ -24,8 +38,17 @@ export function CashMonthFooterTable() {
         .reduce((acc, val) => acc + Number(val || 0), 0)
         .toFixed(2)
     : 0;
+  const totalVisaBarBuffet = value?.visaBarByDayBuffet
+    ? Object.values(value.visaBarByDayBuffet)
+        .reduce((acc, val) => acc + Number(val || 0), 0)
+        .toFixed(2)
+    : 0;
   const difference =
-    Number(totalCashBar) + Number(totalVisaBar) - Number(totalCash);
+    Number(totalCashBar) +
+    Number(totalCashBarBuffet) +
+    Number(totalVisaBar) +
+    Number(totalVisaBarBuffet) -
+    Number(total);
   const isNegative = difference < 0;
   return (
     <TableBody>
@@ -33,7 +56,7 @@ export function CashMonthFooterTable() {
       <TableRow>
         <TableCell className="border-r">
           <div className="flex flex-col items-center gap-1 p-0">
-            <div className="p-0 text-center text-xs">{Number(totalCash)}</div>
+            <div className="p-0 text-center text-xs">{Number(total)}</div>
 
             <div
               className={cn(
@@ -52,24 +75,43 @@ export function CashMonthFooterTable() {
             ? Number(value.cashBarByDay[dayIndex] ?? 0)
             : 0;
 
+          const cashBarBuffetByDay = Array.isArray(value?.cashBarByDayBuffet)
+            ? Number(value.cashBarByDayBuffet[dayIndex] ?? 0)
+            : 0;
+
           const visaBarByDay = Array.isArray(value?.visaBarByDay)
             ? Number(value.visaBarByDay[dayIndex] ?? 0)
+            : 0;
+
+          const visaBarBuffetByDay = Array.isArray(value?.visaBarByDayBuffet)
+            ? Number(value.visaBarByDayBuffet[dayIndex] ?? 0)
             : 0;
 
           const cashByDay = Array.isArray(value?.cash)
             ? Number(value.cash[dayIndex] ?? 0)
             : 0;
 
-          const sumCashBarByDay = cashBarByDay + visaBarByDay;
+          const cashBuffetByDay = Array.isArray(value?.cashBuffet)
+            ? Number(value.cashBuffet[dayIndex] ?? 0)
+            : 0;
 
-          const sumBarByDay = sumCashBarByDay.toFixed(0);
+          const totalCashFiscal = cashByDay + cashBuffetByDay;
 
-          const difference = cashByDay - sumCashBarByDay;
+          const totalCash1c = Number(
+            (
+              cashBarByDay +
+              visaBarByDay +
+              cashBarBuffetByDay +
+              visaBarBuffetByDay
+            ).toFixed(0),
+          );
+
+          const difference = totalCashFiscal - totalCash1c;
 
           return (
             <TableCell key={dayIndex} className="p-0">
               <div className="flex flex-col items-center gap-1 p-0">
-                <div className="p-0 text-center text-xs">{sumBarByDay}</div>
+                <div className="p-0 text-center text-xs">{totalCashFiscal}</div>
 
                 <div
                   className={cn(

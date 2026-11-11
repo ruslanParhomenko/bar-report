@@ -11,7 +11,7 @@ export default async function SidebarMenuButtons() {
   const accessList = session?.user.accessList || [];
 
   return (
-    <SidebarMenu className="flex h-full flex-col gap-1">
+    <SidebarMenu className="flex h-full flex-col gap-0.5">
       {SIDEBAR_NAVIGATION.filter(
         (item) => accessList.includes(item.title) || isAdmin,
       ).map((item) => {

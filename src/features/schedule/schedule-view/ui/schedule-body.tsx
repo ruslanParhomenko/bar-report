@@ -154,7 +154,8 @@ export default function ScheduleTableBody({
                             isSelected && "text-rd font-bold",
                             isInvalidConsecutive && "bg-br/40",
                             isInvalidRest && "bg-br/40",
-                            isOverRest && "bg-gr/30 border-0",
+                            isOverRest &&
+                              "bg-gr/30 border-0 print:border-x! print:bg-transparent!",
                           )}
                         >
                           {SHIFT_COLOR_MAP.includes(day) ? null : day}

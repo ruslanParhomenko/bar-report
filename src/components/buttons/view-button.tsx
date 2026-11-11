@@ -24,7 +24,7 @@ export default function ViewButton({
       onClick={() => router.push(url)}
       disabled={disabled}
     >
-      <ExternalLink size={size} className="hover:text-rd text-bl" />
+      <ExternalLink size={size} className="hover:text-rd text-gn" />
     </button>
   );
 }

@@ -74,6 +74,7 @@ export function EmployeesPage({ employees }: { employees: Employee[] }) {
             <TableHead className="w-5" />
             <TableHead className="w-15" />
             <TableHead className="sticky left-0 md:w-25" />
+            <TableHead className="w-15">reg-id</TableHead>
             <TableHead className="w-15" />
             <TableHead className="w-20" />
 
@@ -128,6 +129,7 @@ export function EmployeesPage({ employees }: { employees: Employee[] }) {
                   >
                     {emp.name}
                   </TableCell>
+                  <TableCell>{emp?.registeredCompany}</TableCell>
                   <TableCell>{isAdmin ? Number(emp.rate) : "-"}</TableCell>
                   <TableCell>{emp.role}</TableCell>
                   <TableCell
