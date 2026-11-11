@@ -3,6 +3,7 @@
 import { InsufficientRights } from "@/components/wrapper/insufficient-rights";
 import DiffSchedulePenalty from "@/features/diff/ui/diff-schedule-penalty";
 import DiffScheduleTips from "@/features/diff/ui/diff-schedule-tips";
+import DiffTipsOver from "@/features/diff/ui/duff-tips-over";
 import { GetRemarksData } from "@/features/penalty/model/type";
 import { GetScheduleData } from "@/features/schedule/schedule-edit/model/type";
 import { GetTipsAddData } from "@/features/tips-add/model/type";
@@ -37,6 +38,15 @@ export function DiffPage({ archiveData }: DiffPageProps) {
       render: () => (
         <DiffSchedulePenalty
           dataPenalty={archiveData.penalty}
+          dataSchedule={archiveData.schedule}
+        />
+      ),
+    },
+    {
+      key: "tips-over",
+      render: () => (
+        <DiffTipsOver
+          dataTips={archiveData.tips}
           dataSchedule={archiveData.schedule}
         />
       ),

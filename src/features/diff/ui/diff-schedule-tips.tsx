@@ -11,8 +11,6 @@ import { GetTipsAddData } from "@/features/tips-add/model/type";
 import { useMonthDays } from "@/hooks/use-month-days";
 import { cn } from "@/lib/utils";
 
-const EMPTY_SHIFT_CODES = ["v", "s", "x", "u", "/"];
-
 export default function DiffScheduleTips({
   dataTips,
   dataSchedule,
