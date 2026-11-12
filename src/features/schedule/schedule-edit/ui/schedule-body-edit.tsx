@@ -228,6 +228,10 @@ export default function ScheduleBodyEdit({
                         </TableCell>
                       );
                     })}
+                    <TableCell className="text-gn px-0 text-center text-[10px]!">
+                      {row.shifts?.filter((s) => !SHIFT_COLOR_MAP.includes(s))
+                        .length || 0}
+                    </TableCell>
                   </>
                 )}
               </SortableRow>

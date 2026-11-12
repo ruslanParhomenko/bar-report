@@ -69,6 +69,21 @@ export const ROWS_PURCHASE_MODA = [
   },
 ];
 
+export const ROWS_ADVANCE_CASH = [
+  {
+    key: "advanceCashAo",
+    label: "advance-cash-ao",
+    colorText: "text-bl",
+    type: "input",
+  },
+  {
+    key: "advanceCashSalary",
+    label: "advance-cash-salary",
+    colorText: "text-muted-foreground text-xs",
+    type: "input",
+  },
+];
+
 export const ROWS_PURCHASE_NMB = [
   {
     key: "fuelNBMByDay",

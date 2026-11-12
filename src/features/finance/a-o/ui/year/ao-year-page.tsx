@@ -6,18 +6,24 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
+import { useMonthDays } from "@/hooks/use-month-days";
 import { cn } from "@/lib/utils";
 import { MONTHS } from "@/utils/get-month-days";
 import React from "react";
 import {
   ROWS_ADVANCE,
+  ROWS_ADVANCE_CASH,
   ROWS_PURCHASE_MODA,
   ROWS_PURCHASE_NMB,
 } from "../../model/constants";
 import { GetAoData } from "../../model/type";
-import { useMonthDays } from "@/hooks/use-month-days";
 
-const ALL_ROWS = [...ROWS_ADVANCE, ...ROWS_PURCHASE_MODA, ...ROWS_PURCHASE_NMB];
+const ALL_ROWS = [
+  ...ROWS_ADVANCE,
+  ...ROWS_ADVANCE_CASH,
+  ...ROWS_PURCHASE_MODA,
+  ...ROWS_PURCHASE_NMB,
+];
 
 function sumArray(arr: (string | undefined)[] = []) {
   return arr.reduce((acc, v) => acc + (Number(v) || 0), 0);

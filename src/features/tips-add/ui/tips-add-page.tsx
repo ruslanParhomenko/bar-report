@@ -9,6 +9,8 @@ import TipsAddRow from "@/features/tips-add/ui/tips-add-row";
 import { useEffect, useState, useTransition } from "react";
 import { UseFieldArrayReturn, useFormContext, useWatch } from "react-hook-form";
 
+const SHIFT_DURATION_MS = 12 * 60 * 60 * 1000;
+
 export function TipsAddPage({
   tipsArrayByEmployee,
   options,
@@ -41,7 +43,7 @@ export function TipsAddPage({
     if (!date) return;
 
     const existingIds = new Set(current.map((e: any) => e.idEmployee));
-    const SHIFT_DURATION_MS = 12 * 60 * 60 * 1000;
+
     const newEmployees = options.filter((emp: any) => !existingIds.has(emp.id));
 
     if (newEmployees.length > 0) {

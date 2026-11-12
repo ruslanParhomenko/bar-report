@@ -1,5 +1,6 @@
 "use client";
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
+import { useMonthDays } from "@/hooks/use-month-days";
 import { cn } from "@/lib/utils";
 import { handleMultiTableNavigation } from "@/utils/handle-table-navigation";
 import { useFormContext, useWatch } from "react-hook-form";
@@ -8,7 +9,6 @@ import {
   ROWS_PURCHASE_MODA,
   ROWS_PURCHASE_NMB,
 } from "../../model/constants";
-import { useMonthDays } from "@/hooks/use-month-days";
 
 type RowConfig =
   | (typeof ROWS_ADVANCE)[number]
@@ -47,7 +47,6 @@ export default function AoBodyTable({
 
   return (
     <TableBody>
-      <TableRow className="h-6" />
       {data.map((row, rowIndex) => {
         const rowValues = value?.[row.key] as unknown as string[] | undefined;
 
@@ -59,7 +58,7 @@ export default function AoBodyTable({
             : undefined;
 
         return (
-          <TableRow key={String(row.key)} className="border-b!">
+          <TableRow key={String(row.key)} className="border-y">
             <TableCell
               className={cn("border-r pr-2 text-right text-xs", row.colorText)}
             >

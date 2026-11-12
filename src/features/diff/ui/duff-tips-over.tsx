@@ -42,9 +42,6 @@ const formatDiff = (min: number): string => {
   return `${sign}${h}ч ${String(m).padStart(2, "0")}м`;
 };
 
-const diffColor = (min: number) =>
-  min < 0 ? "text-red-500" : "text-green-600";
-
 export default function DiffTipsOver({
   dataTips,
   dataSchedule,
@@ -53,7 +50,7 @@ export default function DiffTipsOver({
   dataSchedule: GetScheduleData | null;
 }) {
   const { monthDays, year, month } = useMonthDays();
-  const monthIndex = MONTHS.indexOf(month); // 0-based, "november" -> 10
+  const monthIndex = MONTHS.indexOf(month);
 
   const days = monthDays.map((d) => d.day);
 
@@ -188,22 +185,12 @@ export default function DiffTipsOver({
                   <div className="flex flex-row items-center justify-center gap-1">
                     <span className="text-gn text-[11px]">{extra}</span>
 
-                    {(diff || diffEnd) && (
-                      <div className="divide-border flex flex-col divide-y text-[10px]">
-                        <div
-                          className={cn(
-                            "min-h-3.5 px-0.5 leading-3.5 whitespace-nowrap",
-                            diff ? diffColor(diff) : "",
-                          )}
-                        >
+                    {(!!diff || !!diffEnd) && (
+                      <div className="divide-border flex flex-col divide-y text-[11px]">
+                        <div className="text-muted-foreground min-h-3 px-0.5 leading-3.5 whitespace-nowrap">
                           {diff ? formatDiff(diff) : ""}
                         </div>
-                        <div
-                          className={cn(
-                            "min-h-3.5 px-0.5 leading-3.5 whitespace-nowrap",
-                            diffEnd ? diffColor(diffEnd) : "",
-                          )}
-                        >
+                        <div className="text-gn min-h-3 px-0.5 leading-3.5 whitespace-nowrap">
                           {diffEnd ? formatDiff(diffEnd) : ""}
                         </div>
                       </div>

@@ -1,6 +1,7 @@
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
-import { cn } from "@/lib/utils";
 import { useLocale } from "next-intl";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import { AlgorithmData } from "../model/schema";
 
 export default function AlgorithmTable({
@@ -18,15 +19,27 @@ export default function AlgorithmTable({
               <TableCell className="w-6 p-1.5">{idx + 1}</TableCell>
 
               <TableCell className="p-1">
-                <span
-                  className={cn(
-                    "border-input placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 dark:bg-input/30 flex w-full max-w-dvw rounded-md border bg-transparent p-1 shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50",
-                    "bg-background! min-h-1 resize-none border-0 text-xs! shadow-none",
-                    "wrap-break-word whitespace-normal",
-                    "leading-5",
-                  )}
-                >
-                  {locale === "ro" ? item?.valueRo : item?.value}
+                <span className="text-gr min-w-0 text-xs wrap-break-word whitespace-normal">
+                  <ReactMarkdown
+                    remarkPlugins={[remarkGfm]}
+                    components={{
+                      p: ({ children }) => (
+                        <p className="mb-2 last:mb-0">{children}</p>
+                      ),
+                      ul: ({ children }) => (
+                        <ul className="mb-2 list-disc pl-5 text-left">
+                          {children}
+                        </ul>
+                      ),
+                      ol: ({ children }) => (
+                        <ol className="mb-2 list-decimal pl-5 text-left">
+                          {children}
+                        </ol>
+                      ),
+                    }}
+                  >
+                    {locale === "ro" ? item.valueRo : item.value}
+                  </ReactMarkdown>
                 </span>
               </TableCell>
             </TableRow>

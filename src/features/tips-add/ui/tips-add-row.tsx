@@ -131,7 +131,7 @@ export default function TipsAddRow({
           type="button"
           onClick={() => onConfirm(index)}
           className="cursor-pointer px-2"
-          disabled={isPending || tip?.isClosed}
+          disabled={isPending || tip?.isClosed || isFinished}
         >
           <UserX className="text-rd h-3 w-3 md:h-4 md:w-6" />
         </button>

@@ -82,6 +82,10 @@ export default function ScheduleTableBody({
           strategy={verticalListSortingStrategy}
         >
           {rows.map((row, rowIndex) => {
+            const totalShifts =
+              row.shifts?.filter((s) => !SHIFT_COLOR_MAP.includes(s)).length ||
+              0;
+
             const isSelected = !SHIFT_COLOR_MAP.includes(
               row.shifts?.[Number(selectedDay) - 1],
             );
@@ -162,6 +166,9 @@ export default function ScheduleTableBody({
                         </TableCell>
                       );
                     })}
+                    <TableCell className="text-gn px-0 text-center text-[10px]">
+                      {totalShifts}
+                    </TableCell>
                   </>
                 )}
               </SortableRow>

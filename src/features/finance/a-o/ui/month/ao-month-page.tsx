@@ -1,16 +1,18 @@
 "use client";
 
 import { Table } from "@/components/ui/table";
-import { SubmitHandler, useForm, useWatch } from "react-hook-form";
 import FormWrapper from "@/components/wrapper/form-wrapper";
+import { useMonthDays } from "@/hooks/use-month-days";
 import { useEdit } from "@/providers/edit-provider";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useMemo, useState } from "react";
+import { SubmitHandler, useForm, useWatch } from "react-hook-form";
 import { toast } from "sonner";
 import { createAO } from "../../actions/create-ao";
 import { calculateRowAOTotals } from "../../lib/utils";
 import {
   ROWS_ADVANCE,
+  ROWS_ADVANCE_CASH,
   ROWS_PURCHASE_MODA,
   ROWS_PURCHASE_NMB,
 } from "../../model/constants";
@@ -19,7 +21,6 @@ import { GetAoData } from "../../model/type";
 import AoBodyTable from "./ao-body";
 import AoFooterTable from "./ao-footer";
 import AoHeaderTable from "./ao-header";
-import { useMonthDays } from "@/hooks/use-month-days";
 
 export default function AoMonthPage({
   dataAoYear,
@@ -89,17 +90,17 @@ export default function AoMonthPage({
     n(totals.purchaseBarByDay) -
     n(totals.purchaseModaByDay) -
     n(totals.purchaseCookByDay) -
-    n(totals.ttnBarByDay) -
+    n(totals.ttnBarByDay) +
+    n(totals.advanceCashAo) -
     n(totals.ttnModaByDay)
   ).toFixed(2);
 
-  const nori = (n(totals.purchaseModaByDay) + n(totals.ttnModaByDay)).toFixed(
-    2,
-  );
+  const nori = n(totals.purchaseModaByDay).toFixed(2);
+  const noriAo = n(totals.ttnModaByDay).toFixed(2);
+  const barAo = n(totals.ttnBarByDay).toFixed(2);
+  const cashAo = n(totals.advanceCashAo).toFixed(2);
   const bar = (
-    n(totals.purchaseBarByDay) +
-    n(totals.ttnBarByDay) +
-    n(totals.purchaseCookByDay)
+    n(totals.purchaseBarByDay) + n(totals.purchaseCookByDay)
   ).toFixed(2);
 
   const differenceNBM = (
@@ -123,6 +124,12 @@ export default function AoMonthPage({
           fieldName="rowAOData"
         />
         <AoBodyTable
+          data={ROWS_ADVANCE_CASH}
+          selectedDay={selectedDay}
+          isEdit={isEdit}
+          fieldName="rowAOData"
+        />
+        <AoBodyTable
           data={ROWS_PURCHASE_MODA}
           selectedDay={selectedDay}
           isEdit={isEdit}
@@ -138,7 +145,10 @@ export default function AoMonthPage({
           moda={differenceModa}
           nbm={differenceNBM}
           nori={nori}
+          noriAo={noriAo}
           bar={bar}
+          barAo={barAo}
+          cashAo={cashAo}
         />
       </Table>
     </FormWrapper>

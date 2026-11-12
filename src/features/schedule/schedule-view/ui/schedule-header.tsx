@@ -41,6 +41,7 @@ export default function ScheduleTableHeader({
           orientation="top"
           className="w-8.5 print:w-7.5"
         />
+        <TableCell className="w-4" />
       </TableRow>
     </TableHeader>
   );

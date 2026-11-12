@@ -6,11 +6,17 @@ export default function AoFooterTable({
   nbm,
   nori,
   bar,
+  noriAo,
+  barAo,
+  cashAo,
 }: {
   moda: string;
   nbm: string;
   nori: string;
   bar: string;
+  noriAo: string;
+  barAo: string;
+  cashAo: string;
 }) {
   return (
     <TableFooter>
@@ -59,6 +65,30 @@ export default function AoFooterTable({
             {bar}
           </span>
         </TableCell>
+
+        <TableCell colSpan={4}>
+          nori-ao:
+          <span
+            className={cn(
+              "pl-2 text-xs font-bold",
+              Number(noriAo) < 0 ? "text-red-600" : "text-green-600",
+            )}
+          >
+            {noriAo}
+          </span>
+        </TableCell>
+        <TableCell colSpan={4}>
+          bar-ao:
+          <span
+            className={cn(
+              "pl-2 text-xs font-bold",
+              Number(barAo) < 0 ? "text-red-600" : "text-green-600",
+            )}
+          >
+            {barAo}
+          </span>
+        </TableCell>
+
         <TableCell colSpan={4}>
           total:
           <span
@@ -67,7 +97,7 @@ export default function AoFooterTable({
               Number(bar) < 0 ? "text-red-600" : "text-bl",
             )}
           >
-            {+bar + +nori}
+            {+bar + +nori + +noriAo + +barAo - +cashAo}
           </span>
         </TableCell>
       </TableRow>
