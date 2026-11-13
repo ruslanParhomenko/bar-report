@@ -28,6 +28,7 @@ import {
   SCHEDULE_MAIN_ROUTE,
   SETTING_MAIN_ROUTE,
   STOP_LIST_MAIN_ROUTE,
+  TIPS_ADD_TREE_MAIN_ROUTE,
   TIPS_MAIN_ROUTE,
   TTN_MAIN_ROUTE,
   USERS_MAIN_ROUTE,
@@ -69,4 +70,5 @@ export const ACTION_ITEM_BY_ROUTE = {
   [CHART_CASH_ROUTE]: ["print"],
   [CHART_TTN_ROUTE]: ["print"],
   [CHART_AO_ROUTE]: ["print"],
+  [TIPS_ADD_TREE_MAIN_ROUTE]: ["print", "exit"],
 } as const;

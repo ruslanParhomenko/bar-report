@@ -4,6 +4,7 @@ import HeaderEyes from "@/components/decor/eyes";
 import ActionButtons from "@/components/home-layout/footer-bar/action-buttons";
 import SelectMonthYear from "@/components/home-layout/header-bar/select-month-year";
 import SelectTabs from "@/components/home-layout/header-bar/select-tabs";
+import SelectedDay from "@/components/home-layout/header-bar/selected-day";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 import { useSearchParams } from "next/navigation";
@@ -15,6 +16,7 @@ export default function HeaderBar() {
   const urlMonth = searchParams.get("month");
   const urlYear = searchParams.get("year");
   const urlTab = searchParams.get("tab");
+  const urlDay = searchParams.get("day");
 
   const showTabs = urlTab && !isMobile;
   const showMonthYear = urlMonth && urlYear;
@@ -31,6 +33,7 @@ export default function HeaderBar() {
       {showMonthYear && (
         <SelectMonthYear urlMonth={urlMonth} urlYear={urlYear} />
       )}
+      {urlDay && <SelectedDay urlDay={urlDay} />}
     </div>
   );
 }

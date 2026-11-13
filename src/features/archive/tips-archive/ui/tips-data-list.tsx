@@ -1,9 +1,13 @@
+import LinkEditButton from "@/components/buttons/link-edit-button";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
+import { TIPS_ADD_TREE_MAIN_ROUTE } from "@/constants/route-tag";
 import { TipsAddForm } from "@/features/tips-add/model/schema";
 import type { GetTipsAddData } from "@/features/tips-add/model/type";
+import { useMonthDays } from "@/hooks/use-month-days";
 import { useTipsCalculation } from "@/hooks/use-tips-calculation";
 import { cn } from "@/lib/utils";
+
 import {
   Collapsible,
   CollapsibleContent,
@@ -14,10 +18,14 @@ const HOURS_MS = 3600000;
 
 export default function TipsArchiveDataList({
   data,
+  isAdmin,
 }: {
   data: GetTipsAddData[];
+  isAdmin: boolean;
 }) {
   const sortedData = [...data].sort((a, b) => Number(b.id) - Number(a.id));
+
+  const { month, year } = useMonthDays();
 
   const formatTime = (ms: number) => {
     const date = new Date(ms);
@@ -57,20 +65,28 @@ export default function TipsArchiveDataList({
               className="bg-background! my-2 cursor-pointer shadow-none md:m-2"
             >
               <CollapsibleTrigger asChild>
-                <CardTitle className="p-4 text-xs">
-                  <span className="pr-4">day: {dayItem.id} :</span>
-                  <span className="text-bl px-2">
-                    tips: {totalTips.toFixed(0)}
-                  </span>
-                  <span className="px-2 text-green-600">
-                    _mdl: {totalMdl.toFixed(0)}
-                  </span>
-                  <span className="px-2 text-blue-600">
-                    _chips: {totalChips.toFixed(0)}
-                  </span>
-                  <span className="text-bl px-2">
-                    _$: {dayItem.currency.slice(0, 5)}
-                  </span>
+                <CardTitle className="flex items-center justify-between p-4 text-xs">
+                  <div>
+                    <span className="pr-4">day: {dayItem.id} :</span>
+                    <span className="text-bl px-2">
+                      tips: {totalTips.toFixed(0)}
+                    </span>
+                    <span className="px-2 text-green-600">
+                      _mdl: {totalMdl.toFixed(0)}
+                    </span>
+                    <span className="px-2 text-blue-600">
+                      _chips: {totalChips.toFixed(0)}
+                    </span>
+                    <span className="text-bl px-2">
+                      _$: {dayItem.currency.slice(0, 5)}
+                    </span>
+                  </div>
+                  <div onClick={(e) => e.stopPropagation()}>
+                    <LinkEditButton
+                      url={`/${TIPS_ADD_TREE_MAIN_ROUTE}?month=${month}&year=${year}&day=${dayItem.id}`}
+                      disabled={!isAdmin}
+                    />
+                  </div>
                 </CardTitle>
               </CollapsibleTrigger>
 

@@ -1,13 +1,7 @@
 "use client";
 
-import { useFieldArray, useWatch } from "react-hook-form";
-import { toast } from "sonner";
-
 import DatePickerInput from "@/components/input-form/date-input";
 import FormWrapper from "@/components/wrapper/form-wrapper";
-import { useLocalStorageForm } from "@/hooks/use-local-storage";
-import { useSearchParams } from "next/navigation";
-
 import { useBarForm } from "@/features/bar/hooks/use-bar-form";
 import {
   BAR_EMPLOYEES,
@@ -19,9 +13,13 @@ import { PenaltyPage } from "@/features/penalty";
 import { ReportBarPage } from "@/features/report-bar";
 import { Employee } from "@/features/settings/create-employee/model/type";
 import { TipsAddPage } from "@/features/tips-add";
+import { useLocalStorageForm } from "@/hooks/use-local-storage";
 import { useTabSwipeNavigation } from "@/hooks/use-tab-swipe-navigation";
 import { AnimatePresence, motion } from "motion/react";
+import { useSearchParams } from "next/navigation";
+import { useFieldArray, useWatch } from "react-hook-form";
 import { Fragment } from "react/jsx-runtime";
+import { toast } from "sonner";
 
 export function BarPage({
   employees,

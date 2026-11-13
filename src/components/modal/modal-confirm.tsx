@@ -29,7 +29,9 @@ export default function ModalConfirm({
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{t(dialogText)}</DialogTitle>
+          <DialogTitle>
+            {t.has(dialogText) ? t(dialogText) : dialogText}
+          </DialogTitle>
           <DialogDescription>{descriptionText}</DialogDescription>
         </DialogHeader>
         <DialogFooter>

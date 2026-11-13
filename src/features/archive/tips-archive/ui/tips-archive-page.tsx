@@ -6,7 +6,13 @@ import { GetTipsAddData } from "@/features/tips-add/model/type";
 import { useState } from "react";
 
 const NAV_TABS = ["list", "table"];
-export function TipsArchivePage({ data }: { data: GetTipsAddData[] | null }) {
+export function TipsArchivePage({
+  data,
+  isAdmin,
+}: {
+  data: GetTipsAddData[] | null;
+  isAdmin: boolean;
+}) {
   if (!data) return null;
 
   const [activeTab, setActiveTab] = useState(NAV_TABS[0]);
@@ -23,7 +29,9 @@ export function TipsArchivePage({ data }: { data: GetTipsAddData[] | null }) {
         />
       </div>
 
-      {activeTab === "list" && <TipsArchiveDataList data={data} />}
+      {activeTab === "list" && (
+        <TipsArchiveDataList data={data} isAdmin={isAdmin} />
+      )}
       {activeTab === "table" && <TipsArchiveDataTable data={data} />}
     </div>
   );

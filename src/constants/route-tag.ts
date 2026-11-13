@@ -18,6 +18,8 @@ export const SETTING_MAIN_ROUTE = "setting";
 export const USERS_MAIN_ROUTE = "users";
 export const PARSER_1C_MAIN_ROUTE = "parser-1c";
 
+export const TIPS_ADD_TREE_MAIN_ROUTE = "tips-add-tree";
+
 export const PENALTY_UPDATE_MAIN_ROUTE = "penalty-update";
 export const CREATE_EMPLOYEE_MAIN_ROUTE = "create-employee";
 export const CREATE_USER_MAIN_ROUTE = "create-user";

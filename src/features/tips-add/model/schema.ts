@@ -5,10 +5,13 @@ export const amountSchema = z.object({
   time: z.string(),
   typeAmount: z.enum(["mdl", "chips"]),
   uniqueId: z.string(),
+  isDeleted: z.boolean().optional(),
 });
+
 const resultAmountSchema = z.object({
   value: z.number(),
   uniqueId: z.string(),
+  isDeleted: z.boolean().optional(),
 });
 
 export type Amount = z.infer<typeof amountSchema>;
@@ -18,6 +21,7 @@ export const createDefaultAmount = (): Amount => ({
   time: "",
   typeAmount: "mdl",
   uniqueId: "",
+  isDeleted: false,
 });
 
 export const tipsAddSchema = z.object({

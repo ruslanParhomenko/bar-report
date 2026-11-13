@@ -1,5 +1,6 @@
 "use client";
 
+import { useMonthDays } from "@/hooks/use-month-days";
 import { cn } from "@/lib/utils";
 import { LogOutIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -16,11 +17,14 @@ export default function ExitButton({
   size?: number;
 }) {
   const router = useRouter();
+  const { month, year } = useMonthDays();
   return (
     <button
       type="button"
       onClick={() => {
-        url ? router.replace(url) : router.back();
+        url
+          ? router.replace(`${url}&month=${month}&year=${year}`)
+          : router.back();
       }}
       disabled={disabled}
       className={cn("cursor-pointer", className, disabled && "opacity-50")}

@@ -27,6 +27,7 @@ import {
   RESULT_MAIN_ROUTE,
   SCHEDULE_MAIN_ROUTE,
   STOP_LIST_MAIN_ROUTE,
+  TIPS_ADD_TREE_MAIN_ROUTE,
   TIPS_MAIN_ROUTE,
   TTN_MAIN_ROUTE,
   USERS_MAIN_ROUTE,
@@ -42,6 +43,10 @@ import { useTransition } from "react";
 const URL_CREATE_BY_TAB = {
   [EMPLOYEES_MAIN_ROUTE]: `/${CREATE_EMPLOYEE_MAIN_ROUTE}`,
   [USERS_MAIN_ROUTE]: `/${CREATE_USER_MAIN_ROUTE}`,
+};
+
+const URL_EXIT_BY_TAB = {
+  [TIPS_ADD_TREE_MAIN_ROUTE]: "/archive?tab=tips-add",
 };
 
 const CHART_URL_BY_TAB = {
@@ -85,6 +90,8 @@ export default function ActionButtons({
   const iconCn = "bg-border rounded-md border px-3 py-1 cursor-pointer";
   const urlForCreate =
     URL_CREATE_BY_TAB[mainRoute as keyof typeof URL_CREATE_BY_TAB];
+
+  const urlForExit = URL_EXIT_BY_TAB[mainRoute as keyof typeof URL_EXIT_BY_TAB];
 
   const isCanEdit =
     isAdmin ||
@@ -133,7 +140,12 @@ export default function ActionButtons({
         </button>
       )}
       {has("exit") && (
-        <ExitButton className={iconCn} disabled={isPending} size={size} />
+        <ExitButton
+          className={iconCn}
+          disabled={isPending}
+          size={size}
+          url={urlForExit}
+        />
       )}
       {has("send") && (
         <button type="submit" form={formId} className={iconCn}>

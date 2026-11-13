@@ -56,7 +56,9 @@ export default function ArchivePage({
     },
     {
       key: "tips-add",
-      render: () => <TipsArchivePage data={archiveData.tips} />,
+      render: () => (
+        <TipsArchivePage data={archiveData.tips} isAdmin={isAdmin} />
+      ),
     },
     {
       key: "orders",
