@@ -67,7 +67,7 @@ export function ReportBarPage({
       <Textarea
         placeholder="notes ..."
         {...register("report.notes")}
-        className="my-4 resize-none"
+        className="my-6 resize-none"
       />
     </>
   );

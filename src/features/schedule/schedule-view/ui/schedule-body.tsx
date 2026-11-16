@@ -100,7 +100,7 @@ export default function ScheduleTableBody({
               <SortableRow
                 key={row.id}
                 id={row.id}
-                className="print:[&>td]:text-md! print:h-12 [&>td]:py-0.5"
+                className="print:[&>td]:text-md! group print:h-12 [&>td]:py-0.5"
               >
                 {(handle) => (
                   <>
@@ -118,21 +118,32 @@ export default function ScheduleTableBody({
                     <TableCell className="text-gn px-0 text-center text-xs">
                       {row.totalHours}
                     </TableCell>
-                    <TableCell className="text-muted-foreground text-center text-xs print:hidden">
-                      {row.role.charAt(0).toLocaleLowerCase()}:
-                      {isAdmin && Number(row.rate) / 1000}
-                    </TableCell>
+
                     <TableCell className="text-[11px] print:hidden">
-                      {isAdmin && totalPay && totalPay}
+                      {isAdmin && (
+                        <div className="flex items-center justify-between leading-tight group-hover:*:text-red-500!">
+                          <span className="w-4 border-r pr-0.5 text-[11px]">
+                            {Number(row.rate) / 1000}
+                          </span>
+                          <span className="text-muted-foreground w-7 pl-0.5 text-center text-[11px]">
+                            {totalPay && totalPay}
+                          </span>
+                        </div>
+                      )}
                     </TableCell>
                     <TableCell
                       className={cn(
-                        "bg-background text-muted-foreground sticky left-0 truncate pr-1 pl-3 text-xs md:bg-transparent",
+                        "bg-background text-muted-foreground sticky left-0 truncate pr-1 pl-2 text-xs md:bg-transparent",
                         isSelected && "text-rd font-bold",
                         employeesLength < 18 && "h-9",
                       )}
                     >
-                      {row.employee}
+                      <div className="flex items-center justify-between">
+                        <span>{row.employee}</span>
+                        <span className="text-[10px]">
+                          {row.role.charAt(0).toLocaleLowerCase()}
+                        </span>
+                      </div>
                     </TableCell>
 
                     <TableCell className="px-0">

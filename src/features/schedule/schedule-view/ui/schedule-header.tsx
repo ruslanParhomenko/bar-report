@@ -22,12 +22,11 @@ export default function ScheduleTableHeader({
     <TableHeader>
       <TableRow>
         <TableCell className="w-4" />
-        <TableCell className="w-8 py-1">
+        <TableCell className="w-7 py-1">
           {isEdit && isAdmin && <AddRowButton addNewRow={addNewRow} />}
         </TableCell>
         <TableCell className="w-7" />
-        <TableCell className="w-8 print:hidden" />
-        <TableCell className="w-8 print:hidden" />
+        <TableCell className="w-11 print:hidden" />
 
         <TableCell className="text-bl w-28 pl-2 tracking-wider">
           {month?.toUpperCase() || ""}

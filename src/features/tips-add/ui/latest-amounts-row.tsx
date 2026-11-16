@@ -33,12 +33,12 @@ export function LatestAmount({
   const [firstName, lastName] = latestAmount.employeeName.split(" ");
   return (
     <div
-      className={`[&>span]:text-muted-foreground grid w-full grid-cols-4 p-2 text-xs [&>span]:text-center ${isNew ? "bg-bl [&>span]:text-white" : ""}`}
+      className={`[&>span]:text-rd flex w-full gap-12 p-2 text-xs [&>span]:text-center ${isNew ? "bg-bl/50 rounded-md shadow-2xl [&>span]:text-white!" : ""}`}
     >
       {" "}
       <span>
         {" "}
-        {lastName} {firstName?.slice(0, 1)}{" "}
+        {firstName} {lastName}
       </span>{" "}
       <span>{latestAmount.time}</span>{" "}
       <span>{latestAmount.typeAmount.slice(0, 1)}</span>{" "}

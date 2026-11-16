@@ -21,6 +21,11 @@ export default function TableCashVerify() {
     control,
   });
 
+  const fieldsValuesBuffet = useWatch({
+    name: "report.cashVerifyBuffet",
+    control,
+  });
+
   useEffect(() => {
     fieldsValues?.forEach((item, idx) => {
       if (item?.value && !item?.hours) {
@@ -31,6 +36,16 @@ export default function TableCashVerify() {
     });
   }, [fieldsValues, setValue]);
 
+  useEffect(() => {
+    fieldsValuesBuffet?.forEach((item, idx) => {
+      if (item?.value && !item?.hours) {
+        setValue(`report.cashVerifyBuffet.${idx}.hours`, formatNow(), {
+          shouldDirty: true,
+        });
+      }
+    });
+  }, [fieldsValuesBuffet, setValue]);
+
   return (
     <Table className="my-4 md:table-fixed">
       <TableHeader>
@@ -40,6 +55,11 @@ export default function TableCashVerify() {
       </TableHeader>
       <TableBody>
         <TableRow>
+          <TableCell className="h-6 p-0 text-xs">
+            <span className="flex h-full items-end justify-center pb-4">
+              BAR
+            </span>
+          </TableCell>
           {fieldsValues.map((item, i) => {
             return (
               <TableCell key={i}>
@@ -48,6 +68,26 @@ export default function TableCashVerify() {
                 </span>
                 <NumericInput
                   fieldName={`report.cashVerify.${i}.value`}
+                  className="h-8 text-center"
+                />
+              </TableCell>
+            );
+          })}
+        </TableRow>
+        <TableRow className="border-b!">
+          <TableCell className="h-6 p-0 text-xs">
+            <span className="flex h-full items-end justify-center pb-4">
+              Buffet
+            </span>
+          </TableCell>
+          {fieldsValuesBuffet?.map((item, i) => {
+            return (
+              <TableCell key={i}>
+                <span className="text-rd flex h-6 min-w-full items-center justify-center text-xs">
+                  {item?.hours}
+                </span>
+                <NumericInput
+                  fieldName={`report.cashVerifyBuffet.${i}.value`}
                   className="h-8 text-center"
                 />
               </TableCell>

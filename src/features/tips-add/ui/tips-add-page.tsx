@@ -196,7 +196,7 @@ export function TipsAddPage({
         {currency}
       </div>
 
-      <div className="flex h-full flex-col items-center justify-center gap-4 md:gap-10">
+      <div className="flex h-full flex-col items-center justify-center gap-4 md:gap-8">
         {tipsArrayByEmployee.fields.map((field, index) => (
           <TipsAddRow
             key={field.fieldId}
@@ -210,7 +210,7 @@ export function TipsAddPage({
           />
         ))}
       </div>
-      <div className="flex w-[20dvw] items-center justify-between">
+      <div className="flex items-center">
         <LatestAmount tipsValues={tipsValues} />
       </div>
     </div>

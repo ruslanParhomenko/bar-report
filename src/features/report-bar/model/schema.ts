@@ -73,7 +73,7 @@ export const cashVerifySchema = z.object({
 });
 
 export type CashVerifySchemaType = z.infer<typeof cashVerifySchema>;
-export const cashVerifyDefault = Array.from({ length: 12 }, () => ({
+export const cashVerifyDefault = Array.from({ length: 13 }, () => ({
   hours: "",
   value: "",
 }));
@@ -83,6 +83,7 @@ export const reportBarSchema = z.object({
   expenses: z.array(expenseSchema),
   tobacco: z.array(tobaccoSchema),
   cashVerify: z.array(cashVerifySchema),
+  cashVerifyBuffet: z.array(cashVerifySchema),
   productTransfer: z.array(productTransferSchema),
   inventory: z.array(inventorySchema),
   notes: z.string(),
@@ -94,6 +95,7 @@ export const reportBarDefault = {
   expenses: expensesDefault,
   tobacco: tobaccoDefault,
   cashVerify: cashVerifyDefault,
+  cashVerifyBuffet: cashVerifyDefault,
   productTransfer: productTransferDefault,
   inventory: inventoryDefault,
   notes: "",

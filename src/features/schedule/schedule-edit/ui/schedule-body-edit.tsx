@@ -138,7 +138,7 @@ export default function ScheduleBodyEdit({
                 {(handle) => (
                   <>
                     <TableCell
-                      className="text-rd cursor-pointer px-1 py-0 text-xs"
+                      className="text-rd cursor-pointer py-0 text-xs"
                       onClick={() => remove(rowIndex)}
                     >
                       <AppTooltip content="удалить">
@@ -159,26 +159,34 @@ export default function ScheduleBodyEdit({
                       {total || 0}
                     </TableCell>
 
-                    <TableCell className="text-muted-foreground text-center">
-                      {row.role.charAt(0).toLocaleLowerCase()}:
-                      {isAdmin && Number(row.rate) / 1000}
-                    </TableCell>
                     <TableCell className="text-bl text-[11px]!">
-                      {isAdmin && totalPay && totalPay.toFixed()}
+                      <div className="flex items-center justify-around leading-tight group-hover:*:text-red-500!">
+                        <span className="w-4 border-r pr-0.5 text-[11px]">
+                          {Number(row.rate) / 1000}
+                        </span>
+                        <span className="text-muted-foreground w-7 text-center text-[11px]">
+                          {totalPay && totalPay.toFixed(0)}
+                        </span>
+                      </div>
                     </TableCell>
                     <TableCell className="bg-background sticky left-0 pl-2! md:bg-transparent">
-                      <SelectField
-                        fieldName={`rowShifts.${rowIndex}.employee`}
-                        data={selectedEmployees.map((e) => e.name)}
-                        className={cn(
-                          "hover-cell truncate p-0 text-xs",
-                          isSelected && "text-rd font-bold",
-                          employeesLength < 18 ? "h-9" : "h-7!",
-                        )}
-                        onChange={(name) =>
-                          handleEmployeeChange(name, rowIndex)
-                        }
-                      />
+                      <div className="flex items-center justify-between">
+                        <SelectField
+                          fieldName={`rowShifts.${rowIndex}.employee`}
+                          data={selectedEmployees.map((e) => e.name)}
+                          className={cn(
+                            "hover-cell truncate p-0 text-xs",
+                            isSelected && "text-rd font-bold",
+                            employeesLength < 18 ? "h-9" : "h-7!",
+                          )}
+                          onChange={(name) =>
+                            handleEmployeeChange(name, rowIndex)
+                          }
+                        />
+                        <span className="text-[10px]">
+                          {row.role.charAt(0).toLocaleLowerCase()}
+                        </span>
+                      </div>
                     </TableCell>
 
                     <TableCell className="p-0 text-center">

@@ -57,6 +57,7 @@ export function useBarForm({
           finalStock: item.stock + +item.incoming - +item.outgoing,
         })),
         cashVerify: report.cashVerify?.filter((item) => item.value),
+        cashVerifyBuffet: report.cashVerifyBuffet?.filter((item) => item.value),
         expenses: report.expenses?.filter((item) => item.name),
         productTransfer: report.productTransfer?.filter((item) => item.name),
         inventory: report.inventory?.filter((item) => item.quantity),
@@ -85,6 +86,7 @@ export function useBarForm({
     const updatedData = {
       tobacco: updatedTobacco,
       cashVerify: cashVerifyDefault,
+      cashVerifyBuffet: cashVerifyDefault,
       expenses: expensesDefault,
       productTransfer: productTransferDefault,
       inventory: inventoryDefault,
