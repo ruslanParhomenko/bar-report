@@ -95,6 +95,15 @@ export default function TipsEditMonthPage({
   useEffect(() => {
     if (!dataTipsAdd || !selectedDayTips) return;
 
+    const deletedIds = dataTipsAdd.reduce((ids, d) => {
+      for (const emp of d.tipsAdd ?? []) {
+        for (const amount of emp.amount ?? []) {
+          if (amount.isDeleted) ids.add(amount.uniqueId);
+        }
+      }
+      return ids;
+    }, new Set<string>());
+
     const dayDoc = dataTipsAdd.find((d) => d.id === selectedDayTips);
     if (!dayDoc) return;
 
@@ -102,13 +111,16 @@ export default function TipsEditMonthPage({
     const dayIndex = +selectedDayTips - 1;
 
     dayDoc.tipsAdd.forEach((tip) => {
-      if (!tip.resultAmount.length) return; // не затираем барменов
+      if (!tip.resultAmount.length) return;
 
       const rowIndex = rows.findIndex((r) => r.employee === tip.employeeName);
       if (rowIndex === -1) return;
 
       const sum = tip.resultAmount
-        .reduce((acc, c) => acc + Number(c.value), 0)
+        .reduce(
+          (acc, c) => acc + (deletedIds.has(c.uniqueId) ? 0 : Number(c.value)),
+          0,
+        )
         .toFixed(0)
         .toString();
 

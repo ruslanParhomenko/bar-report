@@ -252,7 +252,7 @@ export default function ScheduleBodyEdit({
           monthDays={monthDays}
           selectedDay={selectedDay}
           orientation="bottom"
-          colSpan={7}
+          colSpan={6}
           className="h-10"
         />
       </TableRow>

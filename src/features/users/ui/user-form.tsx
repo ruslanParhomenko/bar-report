@@ -35,31 +35,28 @@ export function UserFormPage({ user }: { user?: GetUserData | null }) {
 
   return (
     <FormWrapper form={form} onSubmit={onSubmit}>
-      <div className="mt-6 flex flex-col gap-6 px-4">
+      <div className="mt-1.5 flex flex-col gap-3 px-4">
         <div className="flex flex-col items-center justify-around gap-12 md:flex-row">
           <TextInput
             fieldName="mail"
-            fieldLabel={t("mail")}
             type="mail"
-            className="h-10 w-full md:w-80"
+            className="h-8 w-full md:w-80"
           />
           <SelectField
-            fieldLabel={t("role")}
             data={ROLES}
             fieldName="role"
-            className="border-border! h-10! w-full truncate border! md:w-80"
+            className="border-border! h-8! w-full truncate border! md:w-80"
           />
           <TextInput
             fieldName="name"
-            fieldLabel={t("name")}
             type="text"
-            className="h-10 w-full md:w-80"
+            className="h-8 w-full md:w-80"
           />
           <SwitchInput fieldName="status" fieldLabel={t("status")} />
         </div>
-        <Separator className="my-1" />
+        <Separator className="my-0.5" />
 
-        <div className="grid w-full grid-cols-2 justify-between gap-1 md:h-1/5 md:grid-cols-6 md:gap-4">
+        <div className="grid w-full grid-cols-2 justify-between gap-1 md:grid-cols-6 md:gap-3">
           {ROUTES.map((route) => (
             <SwitchInput
               key={route}
@@ -73,7 +70,7 @@ export function UserFormPage({ user }: { user?: GetUserData | null }) {
           ))}
         </div>
         <Separator className="my-1" />
-        <div className="grid w-full grid-cols-2 justify-between gap-1 md:h-1/5 md:grid-cols-6 md:gap-4">
+        <div className="grid w-full grid-cols-2 justify-between gap-1 md:grid-cols-6 md:gap-3">
           {TABS_KEY_ROUTE.filter((tab) =>
             accessList?.includes(tab.split("_")[0]),
           ).map((tab) => (

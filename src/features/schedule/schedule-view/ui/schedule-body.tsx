@@ -195,7 +195,7 @@ export default function ScheduleTableBody({
           monthDays={monthDays}
           selectedDay={selectedDay}
           orientation="bottom"
-          colSpan={5}
+          colSpan={4}
           className="h-10"
         />
       </TableRow>

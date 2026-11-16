@@ -2,13 +2,7 @@ import {
   SHIFTS_DAY,
   SHIFTS_NIGHT,
 } from "@/features/archive/tips-archive/model/constants";
-import { TipsAddForm } from "@/features/tips-add/model/schema";
-
-type Amount = {
-  time: string;
-  typeAmount: string;
-  value: string;
-};
+import { Amount, TipsAddForm } from "@/features/tips-add/model/schema";
 
 export function useTipsCalculation(
   employees: TipsAddForm[],
@@ -16,6 +10,7 @@ export function useTipsCalculation(
 ) {
   const calcEmployeeTotal = (amounts: Amount[]) => {
     return (amounts || []).reduce((sum, a) => {
+      if (a.isDeleted) return sum;
       if (a.typeAmount === "mdl") return sum + Number(a.value);
       if (a.typeAmount === "chips") return sum + Number(a.value) * currencyDay;
       return sum;

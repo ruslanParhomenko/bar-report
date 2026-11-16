@@ -13,6 +13,7 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@radix-ui/react-collapsible";
+import { X } from "lucide-react";
 
 const HOURS_MS = 3600000;
 
@@ -24,6 +25,15 @@ export default function TipsArchiveDataList({
   isAdmin: boolean;
 }) {
   const sortedData = [...data].sort((a, b) => Number(b.id) - Number(a.id));
+
+  const deletedIds = sortedData.reduce((ids, d) => {
+    for (const emp of d.tipsAdd ?? []) {
+      for (const amount of emp.amount ?? []) {
+        if (amount.isDeleted) ids.add(amount.uniqueId);
+      }
+    }
+    return ids;
+  }, new Set<string>());
 
   const { month, year } = useMonthDays();
 
@@ -45,7 +55,10 @@ export default function TipsArchiveDataList({
             sum +
             +emp.amount
               .filter((a) => a.typeAmount === "mdl")
-              .reduce((s, a) => s + +a.value, 0),
+              .reduce(
+                (s, a) => s + (deletedIds.has(a.uniqueId) ? 0 : +a.value),
+                0,
+              ),
           0,
         );
 
@@ -54,7 +67,10 @@ export default function TipsArchiveDataList({
             sum +
             +emp.amount
               .filter((a) => a.typeAmount === "chips")
-              .reduce((s, a) => s + +a.value, 0),
+              .reduce(
+                (s, a) => s + (deletedIds.has(a.uniqueId) ? 0 : +a.value),
+                0,
+              ),
           0,
         );
 
@@ -98,7 +114,14 @@ export default function TipsArchiveDataList({
                         const personalTotal = calcEmployeeTotal(emp.amount);
 
                         const personalResultAmount = emp.resultAmount
-                          ?.reduce((acc, amount) => acc + amount.value, 0)
+                          ?.reduce(
+                            (acc, amount) =>
+                              acc +
+                              (deletedIds.has(amount.uniqueId)
+                                ? 0
+                                : Number(amount.value)),
+                            0,
+                          )
                           .toFixed(0);
                         return (
                           <TableRow
@@ -150,7 +173,16 @@ export default function TipsArchiveDataList({
                             <TableCell className="min-w-0">
                               <div className="flex gap-1 md:flex-wrap">
                                 {emp.amount.map((a, i) => (
-                                  <div key={i} className="group w-12 shrink-0">
+                                  <div
+                                    key={i}
+                                    className="group relative w-12 shrink-0"
+                                  >
+                                    {a.isDeleted === true && (
+                                      <X
+                                        className="text-rd pointer-events-none absolute inset-0 m-auto h-full w-full bg-transparent"
+                                        strokeWidth={1.5}
+                                      />
+                                    )}
                                     <div className="text-muted-foreground text-center text-xs group-hover:text-red-600">
                                       {a.time}
                                     </div>

@@ -23,14 +23,16 @@ export default function SwitchInput({
 
   if (checked !== undefined && onCheckedChange !== undefined) {
     return (
-      <FormItem
-        className={cn("mt-4 flex w-44 items-center justify-between", className)}
-      >
+      <FormItem className={cn("my-1.5 flex items-center gap-3", className)}>
         <FormControl>
           <Switch checked={checked} onCheckedChange={onCheckedChange} />
         </FormControl>
         {fieldLabel && (
-          <FormLabel className={cn(checked && "text-bl font-bold")}>
+          <FormLabel
+            className={cn(
+              checked ? "text-bl font-bold" : "text-muted-foreground",
+            )}
+          >
             {fieldLabel}
           </FormLabel>
         )}

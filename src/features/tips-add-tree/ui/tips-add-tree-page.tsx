@@ -1,4 +1,5 @@
 "use client";
+
 import ModalConfirm from "@/components/modal/modal-confirm";
 import { makeDeleteTips } from "@/features/tips-add-tree/actions/make-delete-tips";
 import { Amount } from "@/features/tips-add/model/schema";
@@ -6,10 +7,11 @@ import { GetTipsAddData } from "@/features/tips-add/model/type";
 import { cn } from "@/lib/utils";
 import { X } from "lucide-react";
 import { useSearchParams } from "next/navigation";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useTransition } from "react";
 import { toast } from "sonner";
 
 type Result = { value: number; uniqueId: string };
+
 type Entry = {
   employeeName: string;
   idEmployee: string;
@@ -18,7 +20,16 @@ type Entry = {
   amount?: Amount[];
   resultAmount?: Result[];
 };
+
 type Recipient = { name: string; value: number };
+
+type SelectedTip = {
+  uniqueId: string;
+  idEmployee: string;
+  employeeName: string;
+  descriptionText: string;
+  isDeleted: boolean;
+};
 
 const short = (n: string) => {
   const [a, b] = n.split(" ");
@@ -43,13 +54,12 @@ export function TipsAddTreePage({
   const dayUrl = searchParams.get("day");
 
   const [open, setOpen] = useState(false);
-  const [selectedEmployee, setSelectedEmployee] = useState<string>("");
-  const [descriptionText, setDescriptionText] = useState<string>("");
-  const [uniqueId, setUniqueId] = useState<string>("");
-  const [idEmployee, setIdEmployee] = useState<string>("");
+  const [selectedTip, setSelectedTip] = useState<SelectedTip | null>(null);
+  const [isPending, startTransition] = useTransition();
 
   const recipientsById = useMemo(() => {
     const map = new Map<string, Recipient[]>();
+
     for (const e of entries) {
       for (const r of e.resultAmount ?? []) {
         const list = map.get(r.uniqueId) ?? [];
@@ -57,6 +67,7 @@ export function TipsAddTreePage({
         map.set(r.uniqueId, list);
       }
     }
+
     return map;
   }, [entries]);
 
@@ -71,25 +82,28 @@ export function TipsAddTreePage({
   const participants = entries.filter((e) => (e.amount?.length ?? 0) > 0);
 
   const handleConfirm = async () => {
-    if (!dayUrl || !monthUrl || !yearUrl) {
+    if (!dayUrl || !monthUrl || !yearUrl || !selectedTip) {
       return console.error("Missing date parameters");
     }
-    const result = await makeDeleteTips(
-      uniqueId,
-      idEmployee,
-      dayUrl,
-      monthUrl,
-      yearUrl,
-    );
 
-    setSelectedEmployee("");
-    setDescriptionText("");
-    setUniqueId("");
-    setIdEmployee("");
-    setOpen(false);
-    toast.success("Чаевые удалены");
+    try {
+      await makeDeleteTips(
+        selectedTip.uniqueId,
+        selectedTip.idEmployee,
+        dayUrl,
+        monthUrl,
+        yearUrl,
+      );
+
+      toast.success(
+        selectedTip.isDeleted ? "Чаевые восстановлены" : "Чаевые удалены",
+      );
+
+      setOpen(false);
+    } catch {
+      toast.error("Ошибка при изменении чаевых");
+    }
   };
-
   if (!participants.length) {
     return (
       <div className="text-muted-foreground flex h-full items-center justify-center">
@@ -104,9 +118,10 @@ export function TipsAddTreePage({
         open={open}
         setOpen={setOpen}
         handleConfirm={handleConfirm}
-        dialogText={"Удалить чаевые?" + " " + selectedEmployee}
-        descriptionText={descriptionText}
+        dialogText={`${selectedTip?.isDeleted ? "Восстановить" : "Удалить"} чаевые? ${selectedTip?.employeeName ?? ""}`}
+        descriptionText={selectedTip?.descriptionText ?? ""}
       />
+
       <div className="flex h-full min-h-0 w-full flex-col overflow-hidden p-2">
         <h1 className="mb-2 shrink-0 text-center text-xs font-semibold">
           currency: {data.currency}
@@ -123,7 +138,7 @@ export function TipsAddTreePage({
                 key={i}
                 className={cn(
                   "flex min-w-0 flex-col gap-2 overflow-hidden rounded-md border p-2",
-                  participants?.length < 7 ? "max-h-[86dvh]" : "max-h-[43dvh]",
+                  participants.length < 7 ? "max-h-[86dvh]" : "max-h-[43dvh]",
                 )}
               >
                 <div className="text-bl border-b px-1 pb-1 text-center text-sm font-semibold">
@@ -142,20 +157,19 @@ export function TipsAddTreePage({
                         <div
                           key={a.uniqueId}
                           className="group flex min-w-0 cursor-pointer items-center"
-                          onClick={() =>
-                            isAdmin &&
-                            (setUniqueId(a.uniqueId),
-                            setIdEmployee(p.idEmployee),
-                            setSelectedEmployee(p.employeeName),
-                            setDescriptionText(
-                              a.time +
-                                " " +
-                                a.value.toString() +
-                                " " +
-                                a.typeAmount,
-                            ),
-                            setOpen(true))
-                          }
+                          onClick={() => {
+                            if (!isAdmin) return;
+
+                            setSelectedTip({
+                              uniqueId: a.uniqueId,
+                              idEmployee: p.idEmployee,
+                              employeeName: p.employeeName,
+                              descriptionText: `${a.time} ${a.value} ${a.typeAmount}`,
+                              isDeleted: !!a.isDeleted,
+                            });
+
+                            startTransition(() => setOpen(true));
+                          }}
                         >
                           <div
                             className={cn(
@@ -193,6 +207,7 @@ export function TipsAddTreePage({
                             {recs.length === 0 && (
                               <span className="text-muted-foreground">—</span>
                             )}
+
                             {recs.map((r, k) => (
                               <div
                                 key={k}

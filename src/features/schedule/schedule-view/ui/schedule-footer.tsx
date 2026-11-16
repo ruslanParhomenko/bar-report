@@ -53,7 +53,7 @@ export default function ScheduleTableFooter({
           return (
             <TableRow key={i} className="border-0">
               <TableCell className="w-8 print:hidden" />
-              <TableCell className="w-8 print:hidden" />
+
               <TableCell colSpan={5} className="py-0.5 pr-10 text-end text-xs">
                 <span className="text-muted-foreground inline-flex items-center justify-center gap-3">
                   <Icon
