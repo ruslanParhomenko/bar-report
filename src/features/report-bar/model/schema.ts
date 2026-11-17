@@ -83,7 +83,7 @@ export const reportBarSchema = z.object({
   expenses: z.array(expenseSchema),
   tobacco: z.array(tobaccoSchema),
   cashVerify: z.array(cashVerifySchema),
-  cashVerifyBuffet: z.array(cashVerifySchema),
+  cashVerifyBuffet: z.array(cashVerifySchema).optional(),
   productTransfer: z.array(productTransferSchema),
   inventory: z.array(inventorySchema),
   notes: z.string(),

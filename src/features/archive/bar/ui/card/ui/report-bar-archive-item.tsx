@@ -44,6 +44,7 @@ export default function ReportBarArchiveItem({
 
             <div>
               <CashVerifyTable data={reportData?.cashVerify} />
+              <CashVerifyTable data={reportData?.cashVerifyBuffet || []} />
               <div className={classNameHead}>
                 notes:{" "}
                 <span className="text-rd px-4 text-xs">
