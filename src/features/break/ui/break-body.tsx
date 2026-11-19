@@ -37,7 +37,7 @@ export default function BreakTableBody({
             return isCurrentCell(time, value);
           });
 
-        const startTime = +row.id.split("-")[0];
+        const startTime = +row.id?.split("-")[0];
 
         return (
           <TableRow key={`${row.id ?? "row"}-${rowIndex}-${row.name}`}>
@@ -109,7 +109,7 @@ export default function BreakTableBody({
             </TableCell>
 
             {TIME_LABELS.map((_time, timeIndex) => {
-              const value = row.hours[timeIndex];
+              const value = row.hours?.[timeIndex];
               const isTrue = isCurrentCell(TIME_LABELS[timeIndex], value);
 
               const startIndex = TIME_LABELS.findIndex(

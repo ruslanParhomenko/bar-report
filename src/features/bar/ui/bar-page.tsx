@@ -2,6 +2,7 @@
 
 import DatePickerInput from "@/components/input-form/date-input";
 import FormWrapper from "@/components/wrapper/form-wrapper";
+import { ADMIN } from "@/constants/roles";
 import { useBarForm } from "@/features/bar/hooks/use-bar-form";
 import {
   BAR_EMPLOYEES,
@@ -16,6 +17,7 @@ import { TipsAddPage } from "@/features/tips-add";
 import { useLocalStorageForm } from "@/hooks/use-local-storage";
 import { useTabSwipeNavigation } from "@/hooks/use-tab-swipe-navigation";
 import { AnimatePresence, motion } from "motion/react";
+import { useSession } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
 import { useFieldArray, useWatch } from "react-hook-form";
 import { Fragment } from "react/jsx-runtime";
@@ -24,21 +26,27 @@ import { toast } from "sonner";
 export function BarPage({
   employees,
   dataBreakList,
+  dataReportBar,
   currencyUSD,
   orderProducts,
 }: {
   employees: Employee[];
   dataBreakList: BreakForm | null;
+  dataReportBar: Record<string, string[]> | null;
   currencyUSD: number | null;
   orderProducts: Record<string, string[]> | null;
 }) {
   const searchParams = useSearchParams();
   const { form, onSubmit } = useBarForm({
     dataBreakList,
+    dataReportBar,
     currencyUSD,
   });
 
   const tab = searchParams.get("tab");
+
+  const { data } = useSession();
+  const isAdmin = data?.user?.role === ADMIN;
 
   const employeesName = employees
     ?.filter((emp) => BAR_EMPLOYEES.includes(emp.role))
@@ -51,7 +59,7 @@ export function BarPage({
 
   const { control } = form;
 
-  const { isLoaded } = useLocalStorageForm(form, KEY_LOCALSTORAGE);
+  const { isLoaded, deleteKey } = useLocalStorageForm(form, KEY_LOCALSTORAGE);
 
   const tipsArrayByEmployee = useFieldArray({
     control,
@@ -100,8 +108,19 @@ export function BarPage({
         <DatePickerInput
           fieldName="date"
           className="text-rd h-6 w-40 text-xs"
-          disabled
+          disabled={!isAdmin}
         />
+        {isAdmin && (
+          <button
+            type="button"
+            onClick={() => {
+              deleteKey();
+            }}
+            className="text-rd h-6 w-40 text-xs"
+          >
+            Clear
+          </button>
+        )}
       </div>
       <AnimatePresence mode="wait" initial={false}>
         <motion.div
@@ -125,7 +144,7 @@ export function BarPage({
 
           {tab === "report" && (
             <Fragment key="report">
-              <ReportBarPage orderProducts={orderProducts} />
+              <ReportBarPage dataReportBar={dataReportBar} />
             </Fragment>
           )}
 

@@ -9,19 +9,44 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { BarForm } from "@/features/bar/model/schema";
+import { useEffect } from "react";
 import { useFieldArray, useFormContext, useWatch } from "react-hook-form";
 
-export default function TableTobacco() {
-  const { control } = useFormContext<BarForm>();
+export default function TableTobacco({
+  tobaccoList,
+}: {
+  tobaccoList: string[];
+}) {
+  const { control, getValues } = useFormContext<BarForm>();
 
-  const { fields } = useFieldArray({
+  const { fields, replace } = useFieldArray({
     control,
     name: "report.tobacco",
   });
+
   const values = useWatch({
     control,
     name: "report.tobacco",
   });
+
+  const listKey = tobaccoList.join("|");
+
+  useEffect(() => {
+    const current = getValues("report.tobacco") ?? [];
+
+    replace(
+      tobaccoList.map((name) => {
+        const prev = current.find((t) => t?.name === name);
+        return {
+          name,
+          stock: prev?.stock ?? 0,
+          incoming: prev?.incoming ?? "",
+          outgoing: prev?.outgoing ?? "",
+          finalStock: prev?.finalStock ?? 0,
+        };
+      }),
+    );
+  }, [listKey]);
 
   return (
     <Table className="md:table-fixed">
@@ -37,9 +62,9 @@ export default function TableTobacco() {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {fields?.map((item, idx) => (
+        {fields.map((item, idx) => (
           <TableRow key={item.id}>
-            <TableCell className="font-medium">{values?.[idx].name}</TableCell>
+            <TableCell className="font-medium">{values?.[idx]?.name}</TableCell>
             <TableCell>
               <NumericInput
                 fieldName={`report.tobacco.${idx}.stock`}
@@ -55,9 +80,9 @@ export default function TableTobacco() {
             </TableCell>
             <TableCell className="text-center">
               {(
-                Number(values[idx].stock ?? 0) +
-                Number(values[idx].incoming ?? 0) -
-                Number(values[idx].outgoing ?? 0)
+                Number(values?.[idx]?.stock ?? 0) +
+                Number(values?.[idx]?.incoming ?? 0) -
+                Number(values?.[idx]?.outgoing ?? 0)
               ).toString()}
             </TableCell>
           </TableRow>

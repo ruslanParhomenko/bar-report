@@ -11,13 +11,17 @@ import {
 import NumericInput from "@/components/input-controlled/numeric-input";
 import SelectField from "@/components/input-controlled/select-field";
 import { BarForm } from "@/features/bar/model/schema";
-import { RECIPIENTS } from "@/features/report-bar/model/constants";
+
 import { formatNow } from "@/utils/format-date";
 import { Trash2Icon } from "lucide-react";
 import { useEffect } from "react";
 import { useFieldArray, useFormContext, useWatch } from "react-hook-form";
 
-export default function TableExpenses() {
+export default function TableExpenses({
+  expensesList,
+}: {
+  expensesList: string[];
+}) {
   const { control, setValue } = useFormContext<BarForm>();
 
   const reset = (idx: number) => {
@@ -68,7 +72,7 @@ export default function TableExpenses() {
           <TableRow key={item.id}>
             <TableCell>
               <SelectField
-                data={RECIPIENTS}
+                data={expensesList}
                 fieldName={`report.expenses.${idx}.name`}
                 className="h-8! w-full border-0! text-sm! font-medium! shadow-none"
                 placeHolder="..."

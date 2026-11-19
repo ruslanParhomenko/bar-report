@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { INVENTORY_DATA, LIST_TOBACCO } from "./constants";
 
 // products transfer
 export const productTransferSchema = z.object({
@@ -27,12 +26,6 @@ export const inventorySchema = z.object({
 
 export type InventorySchemaType = z.infer<typeof inventorySchema>;
 
-export const inventoryDefault = INVENTORY_DATA.map((item) => ({
-  name: item,
-  quantity: "",
-  time: "",
-}));
-
 // expenses
 export const expenseSchema = z.object({
   name: z.string(),
@@ -50,7 +43,7 @@ export const expensesDefault = Array.from({ length: 7 }, () => ({
 
 // tobacco
 export const tobaccoSchema = z.object({
-  name: z.enum(LIST_TOBACCO),
+  name: z.string(),
   stock: z.number(),
   incoming: z.string(),
   outgoing: z.string(),
@@ -59,14 +52,6 @@ export const tobaccoSchema = z.object({
 
 export type TobaccoSchemaType = z.infer<typeof tobaccoSchema>;
 
-export const tobaccoDefault = LIST_TOBACCO.map((name) => ({
-  name,
-  stock: 0,
-  incoming: "",
-  outgoing: "",
-  finalStock: 0,
-}));
-// cash verify
 export const cashVerifySchema = z.object({
   hours: z.string(),
   value: z.string(),
@@ -81,7 +66,7 @@ export const cashVerifyDefault = Array.from({ length: 13 }, () => ({
 // report bar
 export const reportBarSchema = z.object({
   expenses: z.array(expenseSchema),
-  tobacco: z.array(tobaccoSchema),
+  tobacco: z.array(tobaccoSchema).optional(),
   cashVerify: z.array(cashVerifySchema),
   cashVerifyBuffet: z.array(cashVerifySchema).optional(),
   productTransfer: z.array(productTransferSchema),
@@ -93,10 +78,10 @@ export type ReportBarForm = z.infer<typeof reportBarSchema>;
 
 export const reportBarDefault = {
   expenses: expensesDefault,
-  tobacco: tobaccoDefault,
+  tobacco: [],
   cashVerify: cashVerifyDefault,
   cashVerifyBuffet: cashVerifyDefault,
   productTransfer: productTransferDefault,
-  inventory: inventoryDefault,
+  inventory: [],
   notes: "",
 };

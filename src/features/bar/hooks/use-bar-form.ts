@@ -3,18 +3,13 @@ import {
   barPageDefault,
   barPageSchema,
 } from "@/features/bar/model/schema";
-import { createBreakList } from "@/features/break/actions/create-break";
 import { BreakForm, breakListDefault } from "@/features/break/model/schema";
-import { createPenalty } from "@/features/penalty/actions/create-penalty";
 import { remarksDefault } from "@/features/penalty/model/schema";
-import { createReportBar } from "@/features/report-bar/actions/create-bar-report";
 import {
   cashVerifyDefault,
   expensesDefault,
-  inventoryDefault,
   productTransferDefault,
 } from "@/features/report-bar/model/schema";
-import { createTipsAdd } from "@/features/tips-add/actions/create-tips-add";
 import { MONTHS } from "@/utils/get-month-days";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -22,15 +17,36 @@ import { toast } from "sonner";
 
 export function useBarForm({
   dataBreakList,
+  dataReportBar,
   currencyUSD,
 }: {
   dataBreakList: BreakForm | null;
+  dataReportBar: Record<string, string[]> | null;
   currencyUSD: number | null;
 }) {
+  const tobaccoDefault = (dataReportBar?.tobacco ?? []).map((name) => ({
+    name,
+    stock: 0,
+    incoming: "",
+    outgoing: "",
+    finalStock: 0,
+  }));
+
+  const inventoryDefault = (dataReportBar?.inventory ?? []).map((name) => ({
+    name,
+    quantity: "",
+    time: "",
+  }));
+
   const form = useForm<BarForm>({
     defaultValues: {
       ...barPageDefault,
       breakForm: breakListDefault(dataBreakList?.rows ?? []),
+      report: {
+        ...barPageDefault.report,
+        tobacco: tobaccoDefault,
+        inventory: inventoryDefault,
+      },
     },
     resolver: zodResolver(barPageSchema),
   });
@@ -65,26 +81,32 @@ export function useBarForm({
       },
     };
 
-    await createTipsAdd({ day, month, year, tipsAdd, currency });
-    await createReportBar(formateReportData);
-    await createPenalty({ day, month, year, remarks: penalty });
-    if (breakForm?.rows?.length) {
-      await createBreakList({ day, month, year, rows: breakForm?.rows });
-    }
-    const updatedTobacco = report.tobacco?.map((item) => {
-      const finalStock =
-        item.stock + Number(item.incoming || 0) - Number(item.outgoing || 0);
-
+    // await createTipsAdd({ day, month, year, tipsAdd, currency });
+    // await createReportBar(formateReportData);
+    // await createPenalty({ day, month, year, remarks: penalty });
+    // if (breakForm?.rows?.length) {
+    //   await createBreakList({ day, month, year, rows: breakForm?.rows });
+    // }
+    const updatedTobacco = report.tobacco?.map((item) => ({
+      ...item,
+      stock:
+        item.stock + Number(item.incoming || 0) - Number(item.outgoing || 0),
+      incoming: "",
+      outgoing: "",
+    }));
+    const tobaccoNext = (dataReportBar?.tobacco ?? []).map((name) => {
+      const prev = updatedTobacco?.find((t) => t.name === name);
       return {
-        ...item,
-        stock: finalStock,
+        name,
+        stock: prev?.stock ?? 0,
         incoming: "",
         outgoing: "",
+        finalStock: 0,
       };
     });
 
     const updatedData = {
-      tobacco: updatedTobacco,
+      tobacco: tobaccoNext,
       cashVerify: cashVerifyDefault,
       cashVerifyBuffet: cashVerifyDefault,
       expenses: expensesDefault,
@@ -105,6 +127,7 @@ export function useBarForm({
 
     toast.success("Бар отчет успешно сохранён !");
   };
+
   return {
     form,
     onSubmit,

@@ -14,7 +14,8 @@ type Props = {
     | "priceList"
     | "menu"
     | "menuDaily"
-    | "statusParameters";
+    | "statusParameters"
+    | "reportBar";
 };
 
 export default function SettingsJson({ data, type, tag }: Props) {

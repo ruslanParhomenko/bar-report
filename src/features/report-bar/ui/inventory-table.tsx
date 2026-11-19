@@ -10,20 +10,20 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { BarForm } from "@/features/bar/model/schema";
-import { INVENTORY_DATA } from "@/features/report-bar/model/constants";
+
 import { formatNow } from "@/utils/format-date";
 import { Trash2Icon } from "lucide-react";
 import { useEffect } from "react";
-import { useFormContext, useWatch } from "react-hook-form";
+import { useFieldArray, useFormContext, useWatch } from "react-hook-form";
 
-export function TableInventory() {
-  const { control, setValue, register } = useFormContext<BarForm>();
+export function TableInventory({ inventoryList }: { inventoryList: string[] }) {
+  const { control, setValue, register, getValues } = useFormContext<BarForm>();
 
   const reset = (idx: number) => {
     setValue(
       `report.inventory.${idx}`,
       {
-        name: INVENTORY_DATA[idx],
+        name: inventoryList[idx],
         quantity: "",
         time: "",
       },
@@ -34,6 +34,28 @@ export function TableInventory() {
     name: "report.inventory",
     control,
   });
+
+  const { fields, replace } = useFieldArray({
+    control,
+    name: "report.inventory",
+  });
+
+  const listKey = inventoryList.join("|");
+
+  useEffect(() => {
+    const current = getValues("report.inventory") ?? [];
+
+    replace(
+      inventoryList.map((name) => {
+        const prev = current.find((t) => t?.name === name);
+        return {
+          name,
+          quantity: prev?.quantity ?? "",
+          time: prev?.time ?? "",
+        };
+      }),
+    );
+  }, [listKey]);
 
   useEffect(() => {
     fieldsValues?.forEach((item, idx) => {

@@ -22,9 +22,9 @@ import TableTobacco from "./tobacco-table";
 const DEFAULT_ORDER = ["tobacco", "inventory", "expenses", "transfer"];
 
 export function ReportBarPage({
-  orderProducts,
+  dataReportBar,
 }: {
-  orderProducts: Record<string, string[]> | null;
+  dataReportBar: Record<string, string[]> | null;
 }) {
   const { register } = useFormContext<BarForm>();
   const [order, setOrder] = usePersistentOrder(
@@ -33,10 +33,17 @@ export function ReportBarPage({
   );
 
   const blocks: Record<string, React.ReactNode> = {
-    tobacco: <TableTobacco />,
-    inventory: <TableInventory />,
-    expenses: <TableExpenses />,
-    transfer: <TableProductsTransfer orderProducts={orderProducts} />,
+    tobacco: <TableTobacco tobaccoList={dataReportBar?.tobacco ?? []} />,
+    inventory: (
+      <TableInventory inventoryList={dataReportBar?.inventory ?? []} />
+    ),
+    expenses: <TableExpenses expensesList={dataReportBar?.expenses ?? []} />,
+    transfer: (
+      <TableProductsTransfer
+        orderProducts={dataReportBar?.transfer ?? []}
+        transferTo={dataReportBar?.transferTo ?? []}
+      />
+    ),
   };
 
   return (

@@ -6,6 +6,7 @@ import {
   DATA_ORDER_PRODUCTS_ACTION_TAG,
   DATA_PRICE_LIST_ACTION_TAG,
   DATA_PRODUCTS_ACTION_TAG,
+  DATA_REPORT_BAR_ACTION_TAG,
   DATA_STATUS_PARAMETERS_ACTION_TAG,
   DATA_TTN_ACTION_TAG,
 } from "@/constants/action-tag";
@@ -28,6 +29,7 @@ export function SettingPage({
     menuData: string;
     menuDailyData: string;
     statusParametersData: string;
+    reportBarData: string;
   };
 }) {
   const tab = useSearchParams().get("tab");
@@ -81,6 +83,11 @@ export function SettingPage({
       data: data.statusParametersData,
       type: "statusParameters",
       tag: DATA_STATUS_PARAMETERS_ACTION_TAG,
+    },
+    "report-bar": {
+      data: data.reportBarData,
+      type: "reportBar",
+      tag: DATA_REPORT_BAR_ACTION_TAG,
     },
   } as const;
 

@@ -5,6 +5,7 @@ import {
   DATA_ORDER_PRODUCTS_ACTION_TAG,
   DATA_PRICE_LIST_ACTION_TAG,
   DATA_PRODUCTS_ACTION_TAG,
+  DATA_REPORT_BAR_ACTION_TAG,
   DATA_STATUS_PARAMETERS_ACTION_TAG,
   DATA_TTN_ACTION_TAG,
 } from "@/constants/action-tag";
@@ -64,4 +65,8 @@ export const getDataMenuDaily = getCachedData<MenuDailyDataForm>(
 
 export const getDataStatusParameters = getCachedData<DataStatusParameters>(
   DATA_STATUS_PARAMETERS_ACTION_TAG,
+);
+
+export const getDataReportBar = getCachedData<Record<string, string[]>>(
+  DATA_REPORT_BAR_ACTION_TAG,
 );

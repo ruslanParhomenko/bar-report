@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { FieldValues, UseFormReturn } from "react-hook-form";
 
 export function useLocalStorageForm<T extends FieldValues>(
@@ -49,5 +49,16 @@ export function useLocalStorageForm<T extends FieldValues>(
     };
   }, [form, key, isLoaded, debounceMs]);
 
-  return { isLoaded };
+  const deleteKey = useCallback(() => {
+    if (typeof window === "undefined") return;
+
+    clearTimeout(timeoutRef.current);
+    try {
+      localStorage.removeItem(key);
+    } catch (error) {
+      console.error("Error deleting form data:", error);
+    }
+  }, [key]);
+
+  return { isLoaded, deleteKey };
 }

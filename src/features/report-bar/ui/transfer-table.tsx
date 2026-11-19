@@ -11,7 +11,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { BarForm } from "@/features/bar/model/schema";
-import { WAREHOUSES } from "@/features/report-bar/model/constants";
 import { formatNow } from "@/utils/format-date";
 import { Trash2Icon } from "lucide-react";
 import { useEffect } from "react";
@@ -19,20 +18,16 @@ import { useFieldArray, useFormContext, useWatch } from "react-hook-form";
 
 export default function TableProductsTransfer({
   orderProducts,
+  transferTo,
 }: {
-  orderProducts: Record<string, string[]> | null;
+  orderProducts: string[] | null;
+  transferTo: string[] | null;
 }) {
   const { control, setValue } = useFormContext<BarForm>();
 
-  const PRODUCTS = orderProducts
-    ? Array.from(
-        new Set(
-          Object.values(orderProducts).flatMap((category) =>
-            Object.values(category).flat(),
-          ),
-        ),
-      )
-    : [];
+  const PRODUCTS = orderProducts || [];
+  const TRANSFER_TO = transferTo || [];
+
   const reset = (idx: number) => {
     setValue(
       `report.productTransfer.${idx}`,
@@ -90,7 +85,7 @@ export default function TableProductsTransfer({
             <TableCell>
               <SelectField
                 fieldName={`report.productTransfer.${idx}.destination`}
-                data={WAREHOUSES}
+                data={TRANSFER_TO}
                 className="h-7! w-full border-0 text-center text-xs font-medium! shadow-none"
                 placeHolder="...."
               />

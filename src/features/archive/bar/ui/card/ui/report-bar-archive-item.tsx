@@ -24,6 +24,8 @@ export default function ReportBarArchiveItem({
 }) {
   const reportData = item.report;
 
+  console.log("reportData", reportData);
+
   return (
     <Collapsible defaultOpen={defaultOpen}>
       <Card className="bg-background! my-2 shadow-none md:m-2">
@@ -36,10 +38,10 @@ export default function ReportBarArchiveItem({
         <CollapsibleContent>
           <CardContent className="flex flex-col gap-4 pb-4">
             <div className="grid grid-cols-1 gap-4 xl:grid-cols-4">
-              <TobaccoTable data={reportData?.tobacco} />
-              <ExpensesTable data={reportData?.expenses} />
-              <ProductTransferTable data={reportData?.productTransfer} />
-              <InventoryTable data={reportData?.inventory} />
+              <TobaccoTable data={reportData?.tobacco || []} />
+              <ExpensesTable data={reportData?.expenses || []} />
+              <ProductTransferTable data={reportData?.productTransfer || []} />
+              <InventoryTable data={reportData?.inventory || []} />
             </div>
 
             <div>

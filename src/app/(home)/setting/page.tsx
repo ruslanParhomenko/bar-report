@@ -6,6 +6,7 @@ import {
   getDataOrderProducts,
   getDataPriceList,
   getDataProducts,
+  getDataReportBar,
   getDataStatusParameters,
   getDataTTN,
 } from "@/features/setting/actions/get-data-json";
@@ -20,7 +21,8 @@ export default async function Page() {
     dataMenu,
     dataMenuDaily,
     dataStatusParameters,
-  ] = await Promise.all([
+    dataReportBar,
+  ] = await Promise.allSettled([
     getDataProducts(),
     getDataBreakList(),
     getDataOrderProducts(),
@@ -29,17 +31,59 @@ export default async function Page() {
     getDataMenu(),
     getDataMenuDaily(),
     getDataStatusParameters(),
+    getDataReportBar(),
   ]);
 
   const data = {
-    productsData: JSON.stringify(dataProducts, null, 2),
-    breakListData: JSON.stringify(dataBreakList, null, 2),
-    orderProductsData: JSON.stringify(dataOrderProducts, null, 2),
-    ttnData: JSON.stringify(dataTTN, null, 2),
-    priceListData: JSON.stringify(dataPriceList, null, 2),
-    menuData: JSON.stringify(dataMenu, null, 2),
-    menuDailyData: JSON.stringify(dataMenuDaily, null, 2),
-    statusParametersData: JSON.stringify(dataStatusParameters, null, 2),
+    productsData: JSON.stringify(
+      dataProducts.status === "fulfilled" ? dataProducts.value || [] : [],
+      null,
+      2,
+    ),
+    breakListData: JSON.stringify(
+      dataBreakList.status === "fulfilled" ? dataBreakList.value || [] : [],
+      null,
+      2,
+    ),
+    orderProductsData: JSON.stringify(
+      dataOrderProducts.status === "fulfilled"
+        ? dataOrderProducts.value || []
+        : [],
+      null,
+      2,
+    ),
+    ttnData: JSON.stringify(
+      dataTTN.status === "fulfilled" ? dataTTN.value || [] : [],
+      null,
+      2,
+    ),
+    priceListData: JSON.stringify(
+      dataPriceList.status === "fulfilled" ? dataPriceList.value || [] : [],
+      null,
+      2,
+    ),
+    menuData: JSON.stringify(
+      dataMenu.status === "fulfilled" ? dataMenu.value || [] : [],
+      null,
+      2,
+    ),
+    menuDailyData: JSON.stringify(
+      dataMenuDaily.status === "fulfilled" ? dataMenuDaily.value || [] : [],
+      null,
+      2,
+    ),
+    statusParametersData: JSON.stringify(
+      dataStatusParameters.status === "fulfilled"
+        ? dataStatusParameters.value || []
+        : [],
+      null,
+      2,
+    ),
+    reportBarData: JSON.stringify(
+      dataReportBar.status === "fulfilled" ? dataReportBar.value || [] : [],
+      null,
+      2,
+    ),
   };
 
   return <SettingPage data={data} />;

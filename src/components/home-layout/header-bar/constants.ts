@@ -140,6 +140,7 @@ export const TABS_BY_ROUTE = {
     "menu",
     "menu-daily",
     "data-status-parameters",
+    "report-bar",
   ],
   [PARSER_1C_MAIN_ROUTE]: ["exp", "xls"],
   [DIFF_MAIN_ROUTE]: ["schedule-penalty", "schedule-tips", "tips-over"],
