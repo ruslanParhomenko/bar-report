@@ -3,13 +3,17 @@ import {
   barPageDefault,
   barPageSchema,
 } from "@/features/bar/model/schema";
+import { createBreakList } from "@/features/break/actions/create-break";
 import { BreakForm, breakListDefault } from "@/features/break/model/schema";
+import { createPenalty } from "@/features/penalty/actions/create-penalty";
 import { remarksDefault } from "@/features/penalty/model/schema";
+import { createReportBar } from "@/features/report-bar/actions/create-bar-report";
 import {
   cashVerifyDefault,
   expensesDefault,
   productTransferDefault,
 } from "@/features/report-bar/model/schema";
+import { createTipsAdd } from "@/features/tips-add/actions/create-tips-add";
 import { MONTHS } from "@/utils/get-month-days";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -81,12 +85,12 @@ export function useBarForm({
       },
     };
 
-    // await createTipsAdd({ day, month, year, tipsAdd, currency });
-    // await createReportBar(formateReportData);
-    // await createPenalty({ day, month, year, remarks: penalty });
-    // if (breakForm?.rows?.length) {
-    //   await createBreakList({ day, month, year, rows: breakForm?.rows });
-    // }
+    await createTipsAdd({ day, month, year, tipsAdd, currency });
+    await createReportBar(formateReportData);
+    await createPenalty({ day, month, year, remarks: penalty });
+    if (breakForm?.rows?.length) {
+      await createBreakList({ day, month, year, rows: breakForm?.rows });
+    }
     const updatedTobacco = report.tobacco?.map((item) => ({
       ...item,
       stock:
