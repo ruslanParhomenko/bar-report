@@ -2,23 +2,14 @@ export const ROW_CASH_DATA = [
   {
     key: "cashBarByDay",
     label: "cash-1c",
-    colorText: " text-gn",
+    colorText: " text-gr/50",
   },
   {
     key: "cashBarByDayBuffet",
     label: "cash-1c-buffet",
-    colorText: " text-gn",
+    colorText: " text-gr/50",
   },
-  {
-    key: "visaBarByDay",
-    label: "visa",
-    colorText: " text-yl",
-  },
-  {
-    key: "visaBarByDayBuffet",
-    label: "visa-buffet",
-    colorText: " text-yl",
-  },
+
   {
     key: "banquetBarByDay",
     label: "banquet",
@@ -35,19 +26,29 @@ export const ROW_CASH_DATA = [
     colorText: " text-gn",
   },
   {
-    key: "cashBuffet",
-    label: "cash-buffet",
+    key: "visaBarByDay",
+    label: "visa",
     colorText: " text-gn",
   },
   {
     key: "visaTerminalByDay",
     label: "visa-terminal",
+    colorText: " text-gn",
+  },
+  {
+    key: "cashBuffet",
+    label: "cash-buffet",
+    colorText: " text-yl",
+  },
+  {
+    key: "visaBarByDayBuffet",
+    label: "visa-buffet",
     colorText: " text-yl",
   },
   {
     key: "visaTerminalByDayBuffet",
     label: "visa-terminal-buffet",
-    colorText: " text-yl/60",
+    colorText: " text-yl",
   },
   {
     key: "nbmPayByDay",

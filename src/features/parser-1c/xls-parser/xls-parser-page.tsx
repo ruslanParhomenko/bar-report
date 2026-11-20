@@ -7,11 +7,14 @@ import CustomChart from "@/components/chart/custom-chart";
 import NavTabs from "@/components/nav-tabs/nav-tabs";
 import { Button } from "@/components/ui/button";
 import { DailyIssueChart } from "@/features/parser-1c/xls-parser/daily-issue-chart";
+import { DiffTable } from "@/features/parser-1c/xls-parser/diff-table";
 import {
   parseOrdersByHourOfDay,
   parseSales,
   SaleRow,
+  salesByMonth,
   type HourBucket,
+  type SalesByMonth,
 } from "@/lib/parse-xls";
 import { cn } from "@/lib/utils";
 import { Trash } from "lucide-react";
@@ -23,7 +26,11 @@ type BarItem = { key: BarKey; color: string; visible: boolean };
 const BAR_KEYS: BarItem[] = [
   { key: "value", color: "var(--color-gn)", visible: true },
 ];
-const NAV_ITEMS = ["peak order hours", "product issue time"] as const;
+const NAV_ITEMS = [
+  "peak order hours",
+  "product issue time",
+  "difference",
+] as const;
 
 export type SaleByDay = {
   name: string;
@@ -60,34 +67,42 @@ export default function OrdersByHourPage() {
   const [salesUniqNames, setSalesUniqNames] = useState<string[]>([]);
   const [activeItem, setActiveItem] = useState<string>("");
 
+  const [difference, setDifference] = useState<SalesByMonth>({});
+
   const [searchInput, setSearchInput] = useState<string>("");
 
   const [fileName, setFileName] = useState("Выберите файлы");
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleFile = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const files = event.target.files;
+    const files = event.target.files ? Array.from(event.target.files) : [];
+    if (!files.length) return;
 
-    if (!files?.length) return;
+    console.log("files", files);
 
-    const buffers = await Promise.all(
-      Array.from(files).map((file) => file.arrayBuffer()),
-    );
+    const buffers = await Promise.all(files.map((file) => file.arrayBuffer()));
+
+    setFileName(files.map((file) => file.name).join(" + "));
+
+    if (selectedTab === "difference") {
+      setDifference(
+        salesByMonth(
+          files.map((file, i) => ({ name: file.name, buffer: buffers[i] })),
+        ),
+      );
+      event.target.value = ""; // чтобы можно было выбрать те же файлы повторно
+      return;
+    }
 
     const data = parseOrdersByHourOfDay(buffers);
-
     const salesData = parseSales(buffers);
 
     setResult(data);
     setSalesResult(salesData.result);
     setSalesUniqNames(salesData.uniqName);
-
-    setFileName(
-      Array.from(files)
-        .map((file) => file.name)
-        .join(" + "),
-    );
+    event.target.value = "";
   };
+  console.log("difference", difference);
 
   const handleTabChange = (tab: string) => {
     setSelectedTab(tab as (typeof NAV_ITEMS)[number]);
@@ -98,6 +113,7 @@ export default function OrdersByHourPage() {
     "product issue time": salesResult.filter(
       (item) => activeItem === "all" || item.name === activeItem,
     ),
+    difference: [],
   };
 
   const chartDataByTab = chartData[selectedTab];
@@ -108,7 +124,7 @@ export default function OrdersByHourPage() {
 
   return (
     <div className="flex flex-col md:h-[90dvh]">
-      <div className="bg-background sticky top-0 z-9 grid grid-cols-[40%_60%] py-4">
+      <div className="bg-background sticky top-0 z-9 grid grid-cols-[40%_60%] pt-1">
         <div
           className="flex w-80 cursor-pointer items-center justify-center"
           onClick={() => inputRef.current?.click()}
@@ -137,57 +153,64 @@ export default function OrdersByHourPage() {
         </div>
       </div>
 
-      {selectedTab === "peak order hours" ? (
+      {selectedTab === "peak order hours" && (
         <CustomChart
           chartData={result as ChartDataItem[]}
           barItem={BAR_KEYS}
           className={cn("w-full! md:min-h-0 md:flex-1")}
         />
-      ) : (
-        <div className="min-h-64 w-full flex-1 md:min-h-0">
-          <DailyIssueChart data={dailySalesData} />
-        </div>
-      )}
-      {selectedTab === "product issue time" && (
-        <div className="flex flex-wrap justify-start gap-1 pb-2 md:px-4 print:hidden">
-          {salesUniqNames
-            .filter((name) =>
-              name
-                .toLocaleLowerCase()
-                .trim()
-                .includes(searchInput.toLocaleLowerCase().trim()),
-            )
-            .map((name) => (
-              <span
-                key={name}
-                onClick={() => setActiveItem(name)}
-                className={cn(
-                  "cursor-pointer rounded-full px-1 text-xs leading-3 transition-opacity md:px-3 md:py-1",
-                  activeItem !== name && "opacity-35",
-                )}
-              >
-                {name.slice(0, 14)}
-              </span>
-            ))}
-        </div>
       )}
 
       {selectedTab === "product issue time" && (
-        <div className="flex items-center justify-center gap-2 px-4 pb-2 print:hidden">
-          <Input
-            className="h-6 w-40 text-xs md:h-7 md:text-sm"
-            onChange={(e) => setSearchInput(e.target.value)}
-            placeholder="Search..."
-          />
-          {searchInput && (
-            <Button
-              onClick={() => setSearchInput("")}
-              variant="destructive"
-              className="h-6"
-            >
-              <Trash className="h-2 w-2 text-white" />
-            </Button>
-          )}
+        <>
+          <div className="min-h-64 w-full flex-1 md:min-h-0">
+            <DailyIssueChart data={dailySalesData} />
+          </div>
+
+          <div className="flex flex-wrap justify-start gap-1 pb-2 md:px-4 print:hidden">
+            {salesUniqNames
+              .filter((name) =>
+                name
+                  .toLocaleLowerCase()
+                  .trim()
+                  .includes(searchInput.toLocaleLowerCase().trim()),
+              )
+              .map((name) => (
+                <span
+                  key={name}
+                  onClick={() => setActiveItem(name)}
+                  className={cn(
+                    "cursor-pointer rounded-full px-1 text-xs leading-3 transition-opacity md:px-3 md:py-1",
+                    activeItem !== name && "opacity-35",
+                  )}
+                >
+                  {name.slice(0, 14)}
+                </span>
+              ))}
+          </div>
+
+          <div className="flex items-center justify-center gap-2 px-4 pb-2 print:hidden">
+            <Input
+              className="h-6 w-40 text-xs md:h-7 md:text-sm"
+              onChange={(e) => setSearchInput(e.target.value)}
+              placeholder="Search..."
+            />
+            {searchInput && (
+              <Button
+                onClick={() => setSearchInput("")}
+                variant="destructive"
+                className="h-6"
+              >
+                <Trash className="h-2 w-2 text-white" />
+              </Button>
+            )}
+          </div>
+        </>
+      )}
+
+      {selectedTab === "difference" && (
+        <div className="min-h-64 w-full flex-1 md:min-h-0">
+          <DiffTable data={difference} />
         </div>
       )}
     </div>

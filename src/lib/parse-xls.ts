@@ -179,3 +179,109 @@ export function parseSales(buffers: (ArrayBuffer | Uint8Array)[]): ParsedSales {
     uniqName: [...names].sort((a, b) => a.localeCompare(b, "ru")),
   };
 }
+
+export type MonthRow = {
+  name: string;
+  warehouse: string;
+  startSum: number;
+  startQty: number;
+  boughtSum: number; // 521
+  boughtQty: number;
+  soldSum: number; // 811
+  soldQty: number;
+  endSum: number;
+  endQty: number;
+};
+
+export type SalesFile = { name: string; buffer: ArrayBuffer | Uint8Array };
+export type SalesByMonth = Record<string, MonthRow[]>;
+
+const QTY = "Кол-во";
+const TOTAL = "Итоги";
+
+const num = (v: unknown) => (typeof v === "number" ? v : 0);
+const cell = (v: unknown) => fixCp1251(String(v ?? "").trim());
+
+// "bar_10.xls" -> "bar", "nori_10.xls" -> "nori"
+const fileKey = (fileName: string) =>
+  fileName
+    .replace(/\.[^.]+$/, "")
+    .replace(/[_\-\s]*\d+$/, "")
+    .toLowerCase();
+
+export function salesByMonth(files: SalesFile[]): SalesByMonth {
+  const out: SalesByMonth = {};
+
+  for (const { name: fileName, buffer } of files) {
+    const workbook = XLSX.read(buffer, { type: "array", codepage: 1251 });
+    const sheet = workbook.Sheets[workbook.SheetNames[0]];
+    const rows: unknown[][] = XLSX.utils.sheet_to_json(sheet, {
+      header: 1,
+      raw: true,
+      defval: "",
+    });
+
+    // колонки определяем по шапке: у bar есть лишняя 826, у nori 713 вместо 714
+    const h = rows.findIndex(
+      (r) =>
+        r.some((c) => String(c).trim() === "521") &&
+        r.some((c) => String(c).trim() === "811"),
+    );
+    if (h < 0) continue;
+
+    const head = rows[h].map((c) => String(c).trim());
+    const iStart = head.findIndex((c, i) => i > 1 && c); // Нач. остаток
+    const iBought = head.indexOf("521");
+    const iSold = head.indexOf("811");
+    const iEnd = head.length - 1 - [...head].reverse().findIndex(Boolean); // Кон. остаток
+
+    const pick = (r: unknown[]) =>
+      [r[iStart], r[iBought], r[iSold], r[iEnd]].map(num);
+
+    const list: MonthRow[] = [];
+    let name = "";
+    let warehouse: string | null = null;
+    let sums: number[] | null = null;
+
+    for (let i = h + 2; i < rows.length; i++) {
+      const r = rows[i];
+      const c1 = cell(r[1]);
+      const c2 = cell(r[2]);
+
+      if (c1 === TOTAL) break;
+      if (c1) {
+        if (c1 !== QTY) name = c1; // строка материала; её "Кол-во" пропускаем
+        continue;
+      }
+      if (!c2) continue;
+
+      if (c2 === QTY) {
+        if (warehouse && sums) {
+          const q = pick(r);
+          list.push({
+            name,
+            warehouse,
+            startSum: sums[0],
+            startQty: q[0],
+            boughtSum: sums[1],
+            boughtQty: q[1],
+            soldSum: sums[2],
+            soldQty: q[2],
+            endSum: sums[3],
+            endQty: q[3],
+          });
+        }
+        warehouse = null;
+        sums = null;
+        continue;
+      }
+
+      warehouse = c2;
+      sums = pick(r);
+    }
+
+    out[fileKey(fileName)] = list;
+  }
+
+  return out;
+}

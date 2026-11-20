@@ -320,3 +320,73 @@ body::-webkit-scrollbar {
     animation: none;
   }
 }
+
+.santa-sleigh {
+  position: absolute;
+  width: 80px;
+  height: auto;
+  top: 5px;
+  bottom: 5px;
+  left: 0;
+  animation: santa-fly 14s linear infinite;
+}
+@keyframes santa-fly {
+  from {
+    transform: translateX(100vw);
+  }
+  to {
+    transform: translateX(-330px);
+  }
+}
+
+.reindeer {
+  animation: reindeer-run 0.35s ease-in-out infinite alternate;
+  transform-origin: center;
+}
+
+.reindeer--second {
+  animation-delay: 0.15s;
+}
+
+@keyframes reindeer-run {
+  from {
+    transform: translateY(-1px);
+  }
+  to {
+    transform: translateY(-14px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .santa-sleigh,
+  .reindeer {
+    animation: none;
+  }
+}
+
+.santa-body {
+  transform-box: fill-box;
+  transform-origin: center bottom;
+  animation: sleigh-bumpy 0.45s ease-in-out infinite;
+}
+
+@keyframes sleigh-bumpy {
+  0% {
+    transform: translateY(0) rotate(0deg);
+  }
+  20% {
+    transform: translateY(-2px) rotate(-0.5deg);
+  }
+  40% {
+    transform: translateY(1px) rotate(0.3deg);
+  }
+  60% {
+    transform: translateY(-3px) rotate(-0.6deg);
+  }
+  80% {
+    transform: translateY(1px) rotate(0.4deg);
+  }
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+}

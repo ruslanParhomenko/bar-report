@@ -56,7 +56,7 @@ export default function PumpkinSnow({ count = 30 }: { count?: number }) {
           }}
         >
           <img
-            src="/pumpkin.svg"
+            src="/snow_2.png"
             width={f.size}
             alt=""
             style={{ opacity: f.opacity, filter: `blur(${f.blur}px)` }}

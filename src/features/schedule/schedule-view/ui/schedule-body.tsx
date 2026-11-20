@@ -190,7 +190,7 @@ export default function ScheduleTableBody({
 
       <TableRow>
         <TableCell className="w-8 print:hidden" />
-        <TableCell className="w-8 print:hidden" />
+        <TableCell className="w-8" />
         <MonthDaysCells
           monthDays={monthDays}
           selectedDay={selectedDay}

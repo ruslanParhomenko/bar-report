@@ -7,6 +7,7 @@ import ResetButton from "@/components/buttons/reset-button";
 import SaveButton from "@/components/buttons/save-button";
 import SendScreenButton from "@/components/buttons/send-screen-button";
 import ShowButton from "@/components/buttons/show-button";
+import SantaSleigh from "@/components/decor/santa";
 import { ACTION_ITEM_BY_ROUTE } from "@/components/home-layout/footer-bar/constants";
 import { ADMIN } from "@/constants/roles";
 import {
@@ -98,7 +99,7 @@ export default function ActionButtons({
     mainRoute === MENU_MAIN_ROUTE ||
     mainRoute === STOP_LIST_MAIN_ROUTE;
   return (
-    <div className="bg-background z-9 order-2 flex items-center justify-around gap-3 py-1 md:order-1 md:justify-start md:gap-10 md:px-6 md:py-2">
+    <div className="bg-background relative z-9 order-2 flex items-center justify-around gap-3 py-1 md:order-1 md:justify-start md:gap-10 md:px-6 md:py-2">
       {has("edit") && (
         <EditButton
           isEdit={isEdit}
@@ -173,6 +174,7 @@ export default function ActionButtons({
         size={size}
         disabled={false}
       />
+      <SantaSleigh />
     </div>
   );
 }

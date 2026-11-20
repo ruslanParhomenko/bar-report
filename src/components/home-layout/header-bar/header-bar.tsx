@@ -28,6 +28,7 @@ export default function HeaderBar() {
       )}
     >
       <HeaderEyes />
+
       {isMobile && <ActionButtons tab={urlTab!} size={14} />}
       {showTabs && <SelectTabs urlTab={urlTab} />}
       {showMonthYear && (
