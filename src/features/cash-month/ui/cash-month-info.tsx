@@ -4,7 +4,7 @@ import { useMonthDays } from "@/hooks/use-month-days";
 import { cn } from "@/lib/utils";
 import { useFormContext, useWatch } from "react-hook-form";
 
-export default function CashInfo({ isEdit }: { isEdit?: boolean }) {
+export default function CashInfo() {
   const { monthDays } = useMonthDays();
   const { register, control } = useFormContext<CashForm>();
   const value = useWatch({ control, name: "rowCashData" });
@@ -147,11 +147,10 @@ export default function CashInfo({ isEdit }: { isEdit?: boolean }) {
               <span className="font-bold">start-241:</span>
               <input
                 type="text"
-                disabled={!isEdit}
+
                 {...register("start_241")}
                 className={cn(
                   "ml-4 h-7 w-24 border-0 p-0 text-center text-xs shadow-none",
-                  isEdit && "bg-accent",
                 )}
               />
             </div>
@@ -165,11 +164,9 @@ export default function CashInfo({ isEdit }: { isEdit?: boolean }) {
               <span className="font-bold">z-531:</span>
               <input
                 type="text"
-                disabled={!isEdit}
                 {...register("z_531")}
                 className={cn(
                   "ml-4 h-7 w-24 border-0 p-0 text-center text-xs shadow-none",
-                  isEdit && "bg-accent",
                 )}
               />
             </div>
@@ -177,11 +174,9 @@ export default function CashInfo({ isEdit }: { isEdit?: boolean }) {
               <span className="font-bold">ao-532:</span>
               <input
                 type="text"
-                disabled={!isEdit}
                 {...register("ao_532")}
                 className={cn(
                   "ml-4 h-7 w-24 border-0 p-0 text-center text-xs shadow-none",
-                  isEdit && "bg-accent",
                 )}
               />
             </div>

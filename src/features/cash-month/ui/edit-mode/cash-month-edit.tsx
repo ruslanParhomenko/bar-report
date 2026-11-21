@@ -28,13 +28,9 @@ export default function CashMonthEdit({
       <Table className="mt-4 table-auto">
         <CashMonthHeader />
 
-        <CashMonthBodyTable
-          data={ROW_CASH_DATA}
-
-          isEdit={isEdit}
-        />
+        <CashMonthBodyTable data={ROW_CASH_DATA} isEdit={isEdit} />
         <CashMonthFooterTable />
-        <CashInfo isEdit={isEdit} />
+        <CashInfo />
       </Table>
     </FormWrapper>
   );

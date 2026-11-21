@@ -7,6 +7,7 @@ import {
   getCashByYearAndMonth,
 } from "@/features/finance/cash/actions/get-cash";
 import CashYearPage from "@/features/finance/cash/ui/year/cash-year-page";
+import { getPrevUniqueKey } from "@/utils/get-month-days";
 
 type CashTabValue = (typeof TABS_BY_ROUTE)[typeof CASH_MAIN_ROUTE][number];
 const CashTab = {
@@ -30,7 +31,11 @@ export default async function Page({
   }
 
   if (tab === CashTab.MONTH) {
+    const { prevMonth, prevYear } = getPrevUniqueKey(year, month);
     const dataAoByMonth = await getAOByYearAndMonth(year, month);
+    const startCash = await getCashByYearAndMonth(prevYear, prevMonth);
+
+    console.log(startCash);
     const dataCashByMonth = await getCashByYearAndMonth(year, month);
     return (
       <CashMonthPage dataAo={dataAoByMonth} dataCashByMonth={dataCashByMonth} />

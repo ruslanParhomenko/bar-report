@@ -104,7 +104,7 @@ export default function CashMonthView({
           isEdit={isEdit}
         />
         <CashMonthFooterTable />
-        <CashInfo isEdit={isEdit} />
+        <CashInfo />
       </Table>
     </FormWrapper>
   );
