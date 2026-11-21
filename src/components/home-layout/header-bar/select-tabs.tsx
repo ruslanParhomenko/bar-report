@@ -2,12 +2,13 @@
 
 import { NAV_BY_PATCH } from "@/components/home-layout/header-bar/constants";
 import NavTabs from "@/components/nav-tabs/nav-tabs";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useTransition } from "react";
 
 export default function SelectTabs({ urlTab }: { urlTab: string }) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const router = useRouter();
 
   const [isPending, startTransition] = useTransition();
 
@@ -31,9 +32,10 @@ export default function SelectTabs({ urlTab }: { urlTab: string }) {
     params.set("tab", saved);
 
     startTransition(() => {
-      window.history.replaceState(null, "", `${pathname}?${params.toString()}`);
+      // window.history.replaceState(null, "", `${pathname}?${params.toString()}`);
+      router.replace(`${pathname}?${params.toString()}`);
     });
-  }, [pathname, storageKey, urlTab]);
+  }, [pathname, router, searchParams, storageKey, urlTab]);
 
   const handleTabChange = (value: string) => {
     localStorage.setItem(storageKey, value);
@@ -41,7 +43,8 @@ export default function SelectTabs({ urlTab }: { urlTab: string }) {
     const params = new URLSearchParams(searchParams.toString());
     params.set("tab", value);
 
-    window.history.replaceState(null, "", `${pathname}?${params.toString()}`);
+    // window.history.replaceState(null, "", `${pathname}?${params.toString()}`);
+    router.replace(`${pathname}?${params.toString()}`);
   };
 
   if (!urlTab) return null;

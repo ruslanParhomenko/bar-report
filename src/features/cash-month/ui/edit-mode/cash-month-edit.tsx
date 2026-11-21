@@ -2,29 +2,32 @@
 
 import { Table } from "@/components/ui/table";
 import FormWrapper from "@/components/wrapper/form-wrapper";
+import { CashMonthBodyTable } from "@/features/cash-month/ui/cash-month-body";
+import { CashMonthFooterTable } from "@/features/cash-month/ui/cash-month-footer";
+import CashMonthHeaderTable from "@/features/cash-month/ui/cash-month-header";
+import CashInfo from "@/features/cash-month/ui/cash-month-info";
+import { GetAoData } from "@/features/finance/a-o/model/type";
+import { createCash } from "@/features/finance/cash/actions/create-cash";
+import { ROW_CASH_DATA } from "@/features/finance/cash/model/constants";
+import {
+  CashForm,
+  cashFormSchema,
+  defaultCashForm,
+} from "@/features/finance/cash/model/schema";
+import type { GetCashData } from "@/features/finance/cash/model/type";
+import { useMonthDays } from "@/hooks/use-month-days";
 import { useEdit } from "@/providers/edit-provider";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
-import { GetAoData } from "@/features/finance/a-o/model/type";
-import { useMonthDays } from "@/hooks/use-month-days";
-import { createCash } from "../../actions/create-cash";
-import { ROW_CASH_DATA } from "../../model/constants";
-import { CashForm, cashFormSchema, defaultCashForm } from "../../model/schema";
-import { GetCashData } from "../../model/type";
-import { CashMonthBodyTable } from "./cash-month-body";
-import { CashMonthFooterTable } from "./cash-month-footer";
-import CashMonthHeaderTable from "./cash-month-header";
-import CashInfo from "./cash-month-info";
-
-export default function CashMonthPage({
-  dataAo,
-  dataCashYear,
+export default function CashMonthEdit({
+  dataAoByMonth,
+  dataCashByMonth,
 }: {
-  dataAo: GetAoData | null;
-  dataCashYear: GetCashData[] | null;
+  dataAoByMonth: GetAoData | null;
+  dataCashByMonth: GetCashData | null;
 }) {
   const todayDay = new Date().getDate();
 
@@ -33,7 +36,7 @@ export default function CashMonthPage({
 
   const { monthDays, month, year } = useMonthDays();
 
-  const dataCash = dataCashYear?.find((cash) => cash.id === month)?.cashData;
+  const dataCash = dataCashByMonth?.cashData;
 
   const form = useForm<CashForm>({
     resolver: zodResolver(cashFormSchema),
@@ -74,18 +77,18 @@ export default function CashMonthPage({
         z_531: "",
       });
     }
-    if (dataAo) {
+    if (dataAoByMonth) {
       const sumArray = (arr: string[] = []) =>
         arr.reduce((acc, num) => acc + Number(num || 0), 0);
       const totalTTNModa = sumArray(
-        dataAo.aoData.rowAOData.ttnModaByDay as string[],
+        dataAoByMonth.aoData.rowAOData.ttnModaByDay as string[],
       );
       const totalTTNBar = sumArray(
-        dataAo.aoData.rowAOData.ttnBarByDay as string[],
+        dataAoByMonth.aoData.rowAOData.ttnBarByDay as string[],
       );
       form.setValue("ao_532", (totalTTNModa + totalTTNBar).toFixed(2));
     }
-  }, [dataCash, dataAo, month, year]);
+  }, [dataCash, dataAoByMonth, month, year]);
 
   return (
     <FormWrapper form={form} onSubmit={onSubmit}>

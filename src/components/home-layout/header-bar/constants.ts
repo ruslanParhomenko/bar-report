@@ -144,7 +144,7 @@ export const TABS_BY_ROUTE = {
   ],
   [PARSER_1C_MAIN_ROUTE]: ["exp", "xls"],
   [DIFF_MAIN_ROUTE]: ["schedule-penalty", "schedule-tips", "tips-over"],
-} as const;
+} as const satisfies Record<Route, readonly string[]>;
 
 export type NAV_BY_PATCH_TYPE = Record<
   Route,
