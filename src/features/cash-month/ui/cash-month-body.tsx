@@ -14,7 +14,7 @@ export function CashMonthBodyTable({
     label: string;
     colorText: string;
   }[];
-  selectedDay: number;
+  selectedDay?: number;
   isEdit: boolean;
 }) {
   const { control, register } = useFormContext();
@@ -53,7 +53,7 @@ export function CashMonthBodyTable({
             </TableCell>
 
             {monthDays.map((_, dayIndex) => {
-              const isSelected = dayIndex + 1 === selectedDay;
+              const isSelected = selectedDay && dayIndex + 1 === selectedDay;
               return (
                 <TableCell key={dayIndex} className="border-x p-0 text-center">
                   <input

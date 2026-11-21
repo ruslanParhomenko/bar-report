@@ -4,8 +4,8 @@ import { Table } from "@/components/ui/table";
 import FormWrapper from "@/components/wrapper/form-wrapper";
 import { CashMonthBodyTable } from "@/features/cash-month/ui/cash-month-body";
 import { CashMonthFooterTable } from "@/features/cash-month/ui/cash-month-footer";
-import CashMonthHeaderTable from "@/features/cash-month/ui/cash-month-header";
 import CashInfo from "@/features/cash-month/ui/cash-month-info";
+import CashMonthHeader from "@/features/cash-month/ui/shared/cash-month-header";
 import { GetAoData } from "@/features/finance/a-o/model/type";
 import { createCash } from "@/features/finance/cash/actions/create-cash";
 import { ROW_CASH_DATA } from "@/features/finance/cash/model/constants";
@@ -93,7 +93,7 @@ export default function CashMonthView({
   return (
     <FormWrapper form={form} onSubmit={onSubmit}>
       <Table className="mt-4 table-auto">
-        <CashMonthHeaderTable
+        <CashMonthHeader
           selectedDay={selectedDay}
           setSelectedDay={setSelectedDay}
         />

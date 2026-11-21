@@ -2,13 +2,15 @@ import { MonthDaysCells } from "@/components/table/month-days-cells";
 import { TableCell, TableHeader, TableRow } from "@/components/ui/table";
 import { useMonthDays } from "@/hooks/use-month-days";
 
-export default function CashMonthHeaderTable({
+type Props = {
+  selectedDay?: number;
+  setSelectedDay?: (day: number) => void;
+};
+
+export default function CashMonthHeader({
   selectedDay,
   setSelectedDay,
-}: {
-  selectedDay: number;
-  setSelectedDay: (day: number) => void;
-}) {
+}: Props) {
   const { monthDays, month } = useMonthDays();
 
   return (
