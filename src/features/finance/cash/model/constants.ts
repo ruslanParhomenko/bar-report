@@ -41,7 +41,7 @@ export const ROW_CASH_DATA = [
   {
     key: "visaTerminalByDay",
     label: "visa-terminal",
-    colorText: " text-gr",
+    colorText: " text-gr/50",
     section: "visa-terminal",
   },
   {
@@ -59,13 +59,13 @@ export const ROW_CASH_DATA = [
   {
     key: "visaTerminalByDayBuffet",
     label: "visa-terminal-buffet",
-    colorText: " text-gr",
+    colorText: " text-gr/50",
     section: "visa-terminal",
   },
   {
     key: "nbmPayByDay",
     label: "nbm-pay",
-    colorText: " text-black",
+    colorText: " text-gr/50",
     section: "nbm",
   },
   {
@@ -75,8 +75,21 @@ export const ROW_CASH_DATA = [
     section: "coll",
   },
   {
+    key: "bankCollectionByDayBuffet",
+    label: "bank-coll-buffet",
+    colorText: " text-bl",
+    section: "coll",
+  },
+
+  {
     key: "nbmCollectionByDay",
     label: "nbm-coll",
+    colorText: " text-bl",
+    section: "coll",
+  },
+  {
+    key: "nbmCollectionByDayBuffet",
+    label: "nbm-coll-buffet",
     colorText: " text-bl",
     section: "coll",
   },

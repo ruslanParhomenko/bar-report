@@ -41,8 +41,6 @@ export default function CashRowView({
       0,
     );
 
-  console.log("diffSectionTotal", diffSectionTotal);
-
   const sectionTotal =
     rowsBySection?.reduce(
       (acc, row) =>
@@ -55,8 +53,6 @@ export default function CashRowView({
     ) ?? 0;
 
   const diff = diffRowSection ? sectionTotal - (diffSectionTotal ?? 0) : null;
-
-  console.log("rowsBySection", diff);
 
   if (!rowsBySection) {
     return null;
@@ -111,7 +107,7 @@ export default function CashRowView({
       })}
 
       <TableRow className="h-8 border-0 [&>td]:py-0 [&>td]:text-xs">
-        <TableCell className="text-bl pr-2 text-right text-xs">
+        <TableCell className="text-bl pr-2 text-right text-xs font-bold">
           {withTotal && sectionTotal.toFixed(2)}
           {diffRowSection &&
             !withTotal &&
