@@ -2,10 +2,9 @@
 
 import { Table } from "@/components/ui/table";
 import FormWrapper from "@/components/wrapper/form-wrapper";
-import { CashMonthBodyTable } from "@/features/cash-month/ui/cash-month-body";
-import { CashMonthFooterTable } from "@/features/cash-month/ui/cash-month-footer";
 import CashInfo from "@/features/cash-month/ui/cash-month-info";
 import CashMonthHeader from "@/features/cash-month/ui/shared/cash-month-header";
+import { CashMonthBodyView } from "@/features/cash-month/ui/view-mode/cash-body-view";
 import { GetAoData } from "@/features/finance/a-o/model/type";
 import { createCash } from "@/features/finance/cash/actions/create-cash";
 import { ROW_CASH_DATA } from "@/features/finance/cash/model/constants";
@@ -32,7 +31,7 @@ export default function CashMonthView({
   const todayDay = new Date().getDate();
 
   const [selectedDay, setSelectedDay] = useState<number>(todayDay);
-  const { isEdit, setIsEdit } = useEdit();
+  const { setIsEdit } = useEdit();
 
   const { monthDays, month, year } = useMonthDays();
 
@@ -98,12 +97,12 @@ export default function CashMonthView({
           setSelectedDay={setSelectedDay}
         />
 
-        <CashMonthBodyTable
+        <CashMonthBodyView
+          dataCashByMonth={dataCashByMonth}
           data={ROW_CASH_DATA}
           selectedDay={selectedDay}
-          isEdit={isEdit}
         />
-        <CashMonthFooterTable />
+
         <CashInfo />
       </Table>
     </FormWrapper>
