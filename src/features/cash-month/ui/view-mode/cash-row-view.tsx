@@ -1,9 +1,12 @@
-import { TableCell, TableRow } from "@/components/ui/table";
+import { TableBody, TableCell, TableRow } from "@/components/ui/table";
+import { ROW_CASH_DATA } from "@/features/cash-month/model/constants";
+import { GetCashData } from "@/features/cash-month/model/type";
 import { CashSection } from "@/features/cash-month/ui/view-mode/cash-body-view";
-import { ROW_CASH_DATA } from "@/features/finance/cash/model/constants";
-import { GetCashData } from "@/features/finance/cash/model/type";
 import { useMonthDays } from "@/hooks/use-month-days";
 import { cn } from "@/lib/utils";
+import { formatNumber } from "@/utils/format-number";
+
+const ROW_GROUP_BY_SECTIONS = Object.groupBy(ROW_CASH_DATA, (i) => i.section);
 
 export default function CashRowView({
   rowsSection,
@@ -22,19 +25,20 @@ export default function CashRowView({
 }) {
   const { monthDays } = useMonthDays();
 
-  const rowsBySection =
-    Object.groupBy(ROW_CASH_DATA, (item) => item.section)?.[rowsSection] || [];
+  const rowCashData = dataCash?.rowCashData;
+  const rowsBySection = ROW_GROUP_BY_SECTIONS?.[rowsSection];
 
   const diffRowBySection =
-    diffRowSection &&
-    Object.groupBy(ROW_CASH_DATA, (item) => item.section)?.[diffRowSection];
+    diffRowSection && ROW_GROUP_BY_SECTIONS?.[diffRowSection];
+
+  if (!rowsBySection) return null;
 
   const diffSectionTotal =
     diffRowBySection &&
     diffRowBySection?.reduce(
       (acc, row) =>
         acc +
-        (dataCash?.rowCashData?.[row.key]?.reduce(
+        (rowCashData?.[row.key]?.reduce(
           (sum, val) => sum + Number(val || 0),
           0,
         ) ?? 0),
@@ -45,7 +49,7 @@ export default function CashRowView({
     rowsBySection?.reduce(
       (acc, row) =>
         acc +
-        (dataCash?.rowCashData?.[row.key]?.reduce(
+        (rowCashData?.[row.key]?.reduce(
           (sum, val) => sum + Number(val || 0),
           0,
         ) ?? 0),
@@ -54,18 +58,14 @@ export default function CashRowView({
 
   const diff = diffRowSection ? sectionTotal - (diffSectionTotal ?? 0) : null;
 
-  if (!rowsBySection) {
-    return null;
-  }
-
   return (
-    <>
+    <TableBody className="hover:[&_tr]:border-foreground/30 [&_tr]:transition-colors">
       {rowsBySection.map((row: any) => {
-        const rowValues = dataCash?.rowCashData?.[row.key];
+        const rowValues = rowCashData?.[row.key];
 
-        const total = (
-          rowValues?.reduce((acc, val) => acc + Number(val || 0), 0) ?? 0
-        ).toFixed(2);
+        const total = rowValues
+          ?.reduce((acc, val) => acc + Number(val || 0), 0)
+          .toFixed(2);
 
         return (
           <TableRow
@@ -88,6 +88,7 @@ export default function CashRowView({
 
             {monthDays.map((_, dayIndex) => {
               const isSelected = selectedDay === dayIndex + 1;
+              const valueByDay = rowValues?.[dayIndex];
 
               return (
                 <TableCell
@@ -98,7 +99,7 @@ export default function CashRowView({
                     isSelected && "text-rd font-bold",
                   )}
                 >
-                  {rowValues?.[dayIndex] === "0" ? "" : rowValues?.[dayIndex]}
+                  {formatNumber(valueByDay)}
                 </TableCell>
               );
             })}
@@ -106,62 +107,45 @@ export default function CashRowView({
         );
       })}
 
-      <TableRow className="h-8 border-0 [&>td]:py-0 [&>td]:text-xs">
+      <TableRow className="h-10 border-0 [&>td]:py-0.5 [&>td]:align-top">
         <TableCell className="text-bl pr-2 text-right text-xs font-bold">
-          {withTotal && sectionTotal.toFixed(2)}
-          {diffRowSection &&
-            !withTotal &&
-            diff !== null &&
-            diff !== 0 &&
-            diff.toFixed(2)}
+          {withTotal && formatNumber(sectionTotal)}
+          {diffRowSection && !withTotal && formatNumber(diff)}
         </TableCell>
 
-        <TableCell className="bg-background sticky left-0 text-left font-bold md:bg-transparent"></TableCell>
+        <TableCell className="bg-background sticky left-0 text-left font-bold md:bg-transparent" />
 
         {monthDays.map((_, dayIndex) => {
           const dayTotal = rowsBySection.reduce(
-            (sum, row) =>
-              sum + Number(dataCash?.rowCashData?.[row.key]?.[dayIndex] || 0),
+            (sum, row) => sum + Number(rowCashData?.[row.key]?.[dayIndex] || 0),
             0,
           );
 
           const dayTotalByDiffSection = diffRowBySection?.reduce(
-            (sum, row) =>
-              sum + Number(dataCash?.rowCashData?.[row.key]?.[dayIndex] || 0),
+            (sum, row) => sum + Number(rowCashData?.[row.key]?.[dayIndex] || 0),
             0,
           );
 
           const diffByDay = dayTotalByDiffSection
             ? dayTotal - dayTotalByDiffSection
             : "";
-
-          console.log("diffByDay", diffByDay);
-
           const isSelected = selectedDay === dayIndex + 1;
 
           return (
             <TableCell
               key={dayIndex}
               className={cn(
-                "text-center",
-                rowsBySection[0]?.colorText,
+                "text-bl w-12.5 px-0.5 text-center text-[11px]",
                 diffRowSection && "text-rd",
                 isSelected && "text-rd",
               )}
             >
-              {withTotalByDay && (dayTotal === 0 ? "" : dayTotal)}
-              {diffRowSection &&
-                !withTotalByDay &&
-                diffByDay !== 0 &&
-                diffByDay !== 0.0 &&
-                Number(diffByDay).toFixed(2) !== "0.00" &&
-                Number(diffByDay).toFixed(2)}
+              {withTotalByDay && formatNumber(dayTotal)}
+              {diffRowSection && !withTotalByDay && formatNumber(diffByDay)}
             </TableCell>
           );
         })}
       </TableRow>
-
-      <TableRow className="h-3 border-0" />
-    </>
+    </TableBody>
   );
 }

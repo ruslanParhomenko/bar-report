@@ -1,9 +1,9 @@
 "use server";
 
 import { CASH_ACTION_TAG } from "@/constants/action-tag";
+import type { GetCashData } from "@/features/cash-month/model/type";
 import { getYearMonthCollection, getYearMonthDoc } from "@/lib/firebase-doc";
 import { unstable_cache } from "next/cache";
-import { GetCashData } from "../model/type";
 
 const actionTag = CASH_ACTION_TAG;
 

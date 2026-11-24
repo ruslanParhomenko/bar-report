@@ -2,7 +2,6 @@
 
 import { InsufficientRights } from "@/components/wrapper/insufficient-rights";
 import { useAccessCheck } from "@/hooks/use-tab-access";
-import { useSearchParams } from "next/navigation";
 
 import { Employee } from "@/features/settings/create-employee/model/type";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -14,22 +13,16 @@ import { GetScheduleData } from "./schedule-edit/model/type";
 import { ScheduleView } from "./schedule-view";
 
 type Props = {
-  schedules: GetScheduleData[] | null;
+  schedule: GetScheduleData;
   employees: Employee[];
   isAdmin: boolean;
 };
 
-export function SchedulePage({ schedules, employees, isAdmin }: Props) {
+export function SchedulePage({ schedule, employees, isAdmin }: Props) {
   const hasAccess = useAccessCheck();
   const { isEdit } = useEdit();
 
   const isMobile = useIsMobile();
-
-  const searchParams = useSearchParams();
-
-  const tab = searchParams.get("tab")!;
-
-  const schedule = schedules?.find((s) => s.id === tab) ?? null;
 
   const { handlers } = useTabSwipeNavigation();
 
@@ -40,7 +33,7 @@ export function SchedulePage({ schedules, employees, isAdmin }: Props) {
     <AnimatePresence mode="wait" initial={false}>
       <motion.div
         {...(!isMobile ? handlers : {})}
-        key={`${tab}-${isEdit ? "edit" : "view"}`}
+        key={`${schedule.id}-${isEdit ? "edit" : "view"}`}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
@@ -53,12 +46,16 @@ export function SchedulePage({ schedules, employees, isAdmin }: Props) {
         {isEdit && isAdmin ? (
           <ScheduleEdit
             schedule={schedule}
-            tab={tab}
+            tab={schedule.id}
             employees={employees}
             isAdmin={isAdmin}
           />
         ) : schedule ? (
-          <ScheduleView schedule={schedule} tab={tab} isAdmin={isAdmin} />
+          <ScheduleView
+            schedule={schedule}
+            tab={schedule.id}
+            isAdmin={isAdmin}
+          />
         ) : (
           <div className="flex h-[70dvh] items-center justify-center">
             <p className="text-center">No schedule found</p>

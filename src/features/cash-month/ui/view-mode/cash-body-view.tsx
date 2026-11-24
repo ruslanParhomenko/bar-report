@@ -1,7 +1,5 @@
-import { TableBody } from "@/components/ui/table";
+import type { GetCashData } from "@/features/cash-month/model/type";
 import CashRowView from "@/features/cash-month/ui/view-mode/cash-row-view";
-import type { GetCashData } from "@/features/finance/cash/model/type";
-import { useMonthDays } from "@/hooks/use-month-days";
 
 export type CashSection =
   "1c" | "cash" | "visa" | "visa-terminal" | "nbm" | "coll";
@@ -14,19 +12,15 @@ export type CashItem = {
 
 export function CashMonthBodyView({
   dataCashByMonth,
-  data,
   selectedDay,
 }: {
   dataCashByMonth: GetCashData | null;
-  data: CashItem[];
   selectedDay?: number;
 }) {
-  const { monthDays } = useMonthDays();
-
   const dataCash = dataCashByMonth?.cashData;
 
   return (
-    <TableBody>
+    <>
       <CashRowView
         rowsSection={"1c"}
         dataCash={dataCash}
@@ -57,7 +51,6 @@ export function CashMonthBodyView({
         rowsSection={"coll"}
         dataCash={dataCash}
         selectedDay={selectedDay}
-
         withTotalByDay={false}
       />
       <CashRowView
@@ -67,6 +60,6 @@ export function CashMonthBodyView({
         withTotal={false}
         withTotalByDay={false}
       />
-    </TableBody>
+    </>
   );
 }

@@ -1,13 +1,13 @@
 "use client";
-import type { GetAoData } from "@/features/finance/a-o/model/type";
-import { createCash } from "@/features/finance/cash/actions/create-cash";
-import { ROW_CASH_DATA } from "@/features/finance/cash/model/constants";
+import { createCash } from "@/features/cash-month/actions/create-cash";
+import { ROW_CASH_DATA } from "@/features/cash-month/model/constants";
 import {
   CashForm,
   cashFormSchema,
   defaultCashForm,
-} from "@/features/finance/cash/model/schema";
-import type { GetCashData } from "@/features/finance/cash/model/type";
+} from "@/features/cash-month/model/schema";
+import type { GetCashData } from "@/features/cash-month/model/type";
+import type { GetAoData } from "@/features/finance/a-o/model/type";
 import { useMonthDays } from "@/hooks/use-month-days";
 import { useEdit } from "@/providers/edit-provider";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -32,15 +32,16 @@ export function useCashForm({
   dataCashByMonth: GetCashData | null;
   dataAoByMonth: GetAoData | null;
 }) {
+  const dataCash = dataCashByMonth?.cashData;
+
+  const initialValues = dataCash ? (dataCash as CashForm) : defaultCashForm;
   const { setIsEdit } = useEdit();
   const { monthDays, month, year } = useMonthDays();
 
   const form = useForm<CashForm>({
     resolver: zodResolver(cashFormSchema),
-    defaultValues: defaultCashForm,
+    defaultValues: initialValues,
   });
-
-  const dataCash = dataCashByMonth?.cashData;
 
   useEffect(() => {
     const values: CashForm = dataCash
@@ -60,7 +61,7 @@ export function useCashForm({
     form.reset(
       dataAoByMonth ? { ...values, ao_532: getAo532(dataAoByMonth) } : values,
     );
-  }, [dataCash, dataAoByMonth, month, year, monthDays.length, form]);
+  }, [dataCash, dataAoByMonth]);
 
   const onSubmit: SubmitHandler<CashForm> = async (data) => {
     try {

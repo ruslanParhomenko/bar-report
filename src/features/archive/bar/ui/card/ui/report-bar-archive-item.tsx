@@ -24,8 +24,6 @@ export default function ReportBarArchiveItem({
 }) {
   const reportData = item.report;
 
-  console.log("reportData", reportData);
-
   return (
     <Collapsible defaultOpen={defaultOpen}>
       <Card className="bg-background! my-2 shadow-none md:m-2">

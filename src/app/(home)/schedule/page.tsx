@@ -12,8 +12,8 @@ export default async function Page({
 }: {
   searchParams: Promise<{ [key: string]: string }>;
 }) {
-  const { month, year } = await searchParams;
-  if (!month || !year) return null;
+  const { month, year, tab } = await searchParams;
+  if (!month || !year || !tab) return null;
 
   const session = await getServerSession(authOptions);
   const isAdmin = session?.user?.role === ADMIN;
@@ -27,9 +27,16 @@ export default async function Page({
     getEmployees(),
   ]);
 
+  const schedulesData =
+    schedules.status === "fulfilled" ? schedules.value : null;
+
+  const scheduleData = schedulesData?.find((s) => s.id === tab) ?? null;
+
+  if (!scheduleData) return null;
+
   return (
     <SchedulePage
-      schedules={schedules.status === "fulfilled" ? schedules.value : null}
+      schedule={scheduleData}
       isAdmin={isAdmin}
       employees={employees.status === "fulfilled" ? employees.value : []}
     />

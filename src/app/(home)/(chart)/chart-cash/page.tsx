@@ -1,5 +1,5 @@
+import { getCashByYear } from "@/features/cash-month/actions/get-cash";
 import ChartCashPage from "@/features/chart/chart-cash/chart-cash-page";
-import { getCashByYear } from "@/features/finance/cash/actions/get-cash";
 
 export default async function Page({
   searchParams,

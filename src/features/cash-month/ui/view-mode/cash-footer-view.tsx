@@ -1,6 +1,21 @@
 import { TableCell, TableFooter, TableRow } from "@/components/ui/table";
-import { GetCashData } from "@/features/finance/cash/model/type";
+import { GetCashData } from "@/features/cash-month/model/type";
 import { useMonthDays } from "@/hooks/use-month-days";
+
+type Values = (string | number | null | undefined)[] | undefined;
+
+const round2 = (n: number) => Math.round(n * 100) / 100;
+const sum = (values?: Values) =>
+  round2(values?.reduce<number>((acc, v) => acc + Number(v || 0), 0) ?? 0);
+
+function Item({ label, value }: { label: string; value: string | number }) {
+  return (
+    <div>
+      <span className="font-bold">{label}:</span>
+      <span className="ml-4 h-7 px-2 py-1.5 text-xs">{value}</span>
+    </div>
+  );
+}
 
 export default function CashFooterViews({
   data,
@@ -8,78 +23,26 @@ export default function CashFooterViews({
   data: GetCashData | null;
 }) {
   const { monthDays } = useMonthDays();
-  const value = data?.cashData.rowCashData;
+  const rows = data?.cashData.rowCashData;
 
-  const start_241 = data?.cashData.start_241 || 0;
-  const z_531 = Number(data?.cashData.z_531 || 0).toFixed(2);
-  const ao_532 = Number(data?.cashData.ao_532 || 0).toFixed(2);
+  const start241 = Number(data?.cashData.start_241 || 0);
+  const z531 = Number(data?.cashData.z_531 || 0);
+  const ao532 = Number(data?.cashData.ao_532 || 0);
 
-  const totalCashBar = value?.cash
-    ? Object.values(value.cash)
-        .reduce((acc, val) => acc + Number(val || 0), 0)
-        .toFixed(2)
-    : 0;
+  const cash = sum(rows?.cash);
+  const cashBuffet = sum(rows?.cashBuffet);
+  const visa = sum(rows?.visaBarByDay);
+  const visaBuffet = sum(rows?.visaBarByDayBuffet);
+  const bank = sum(rows?.bankCollectionByDay);
+  const bankBuffet = sum(rows?.bankCollectionByDayBuffet);
+  const nbm = sum(rows?.nbmCollectionByDay);
+  const nbmBuffet = sum(rows?.nbmCollectionByDayBuffet);
 
-  const totalCashBarBuffet = value?.cashBuffet
-    ? Object.values(value.cashBuffet)
-        .reduce((acc, val) => acc + Number(val || 0), 0)
-        .toFixed(2)
-    : 0;
+  const totalNbm = nbm + nbmBuffet;
 
-  const totalVisaBar = value?.visaBarByDay
-    ? Object.values(value.visaBarByDay)
-        .reduce((acc, val) => acc + Number(val || 0), 0)
-        .toFixed(2)
-    : 0;
-
-  const totalVisaBarBuffet = value?.visaBarByDayBuffet
-    ? Object.values(value.visaBarByDayBuffet)
-        .reduce((acc, val) => acc + Number(val || 0), 0)
-        .toFixed(2)
-    : 0;
-
-  const totalBank = value?.bankCollectionByDay
-    ? Object.values(value.bankCollectionByDay)
-        .reduce((acc, val) => acc + Number(val || 0), 0)
-        .toFixed(2)
-    : 0;
-  const totalBankBuffet = value?.bankCollectionByDayBuffet
-    ? Object.values(value.bankCollectionByDayBuffet)
-        .reduce((acc, val) => acc + Number(val || 0), 0)
-        .toFixed(2)
-    : 0;
-  const totalNbmCollection = value?.nbmCollectionByDay
-    ? Object.values(value.nbmCollectionByDay)
-        .reduce((acc, val) => acc + Number(val || 0), 0)
-        .toFixed(2)
-    : 0;
-
-  const totalNbmCollectionBuffet = value?.nbmCollectionByDayBuffet
-    ? Object.values(value.nbmCollectionByDayBuffet)
-        .reduce((acc, val) => acc + Number(val || 0), 0)
-        .toFixed(2)
-    : 0;
-
-  const totalNbmColl =
-    Number(totalNbmCollection) + Number(totalNbmCollectionBuffet);
-
-  const remainingCash =
-    Number(totalCashBar) -
-    Number(totalVisaBar) -
-    Number(totalBank) -
-    Number(totalNbmCollection);
-
-  const remainingCashBuffet =
-    Number(totalCashBarBuffet) -
-    Number(totalVisaBarBuffet) -
-    Number(totalBankBuffet) -
-    Number(totalNbmCollectionBuffet);
-
-  const finalCash =
-    Number(start_241) +
-    Number(totalNbmCollection ?? 0) -
-    Number(z_531) -
-    Number(ao_532);
+  const remainingCash = cash - visa - bank - nbm;
+  const remainingCashBuffet = cashBuffet - visaBuffet - bankBuffet - nbmBuffet;
+  const finalCash = start241 + totalNbm - z531 - ao532;
 
   return (
     <TableFooter>
@@ -89,48 +52,22 @@ export default function CashFooterViews({
           colSpan={monthDays.length}
         >
           <div className="text-gn flex items-center justify-center gap-4">
-            <div>
-              <span className="font-bold">remaining cash:</span>
-              <span className="ml-4 h-7 px-2 py-1.5 text-xs">
-                {remainingCash.toFixed(2)}
-              </span>
-            </div>
-            <div>
-              <span className="font-bold">remaining cash buffet:</span>
-              <span className="ml-4 h-7 px-2 py-1.5 text-xs">
-                {remainingCashBuffet.toFixed(2)}
-              </span>
-            </div>
+            <Item label="remaining cash" value={remainingCash.toFixed(2)} />
+            <Item
+              label="remaining cash buffet"
+              value={remainingCashBuffet.toFixed(2)}
+            />
           </div>
         </TableCell>
       </TableRow>
       <TableRow>
         <TableCell colSpan={monthDays.length}>
           <div className="text-gn flex items-center justify-center gap-4">
-            <div>
-              <span className="font-bold">start-241:</span>
-              <span className="ml-4 h-7 px-2 py-1.5 text-xs">{start_241}</span>
-            </div>
-            <div>
-              <span className="font-bold">832:</span>
-              <span className="ml-4 h-7 px-2 py-1.5 text-xs">
-                {totalNbmColl ?? 0}
-              </span>
-            </div>
-            <div>
-              <span className="font-bold">z-531:</span>
-              <span className="ml-4 h-7 px-2 py-1.5 text-xs">{z_531}</span>
-            </div>
-            <div>
-              <span className="font-bold">ao-532:</span>
-              <span className="ml-4 h-7 px-2 py-1.5 text-xs">{ao_532}</span>
-            </div>
-            <div>
-              <span className="font-bold">final_241:</span>
-              <span className="ml-4 h-7 px-2 py-1.5 text-xs">
-                {finalCash.toFixed(2)}
-              </span>
-            </div>
+            <Item label="start-241" value={start241} />
+            <Item label="832" value={totalNbm} />
+            <Item label="z-531" value={z531.toFixed(2)} />
+            <Item label="ao-532" value={ao532.toFixed(2)} />
+            <Item label="final_241" value={finalCash.toFixed(2)} />
           </div>
         </TableCell>
       </TableRow>

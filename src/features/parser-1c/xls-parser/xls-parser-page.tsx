@@ -78,8 +78,6 @@ export default function OrdersByHourPage() {
     const files = event.target.files ? Array.from(event.target.files) : [];
     if (!files.length) return;
 
-    console.log("files", files);
-
     const buffers = await Promise.all(files.map((file) => file.arrayBuffer()));
 
     setFileName(files.map((file) => file.name).join(" + "));
@@ -90,7 +88,7 @@ export default function OrdersByHourPage() {
           files.map((file, i) => ({ name: file.name, buffer: buffers[i] })),
         ),
       );
-      event.target.value = ""; // чтобы можно было выбрать те же файлы повторно
+      event.target.value = "";
       return;
     }
 
@@ -102,7 +100,6 @@ export default function OrdersByHourPage() {
     setSalesUniqNames(salesData.uniqName);
     event.target.value = "";
   };
-  console.log("difference", difference);
 
   const handleTabChange = (tab: string) => {
     setSelectedTab(tab as (typeof NAV_ITEMS)[number]);
@@ -115,8 +112,6 @@ export default function OrdersByHourPage() {
     ),
     difference: [],
   };
-
-  const chartDataByTab = chartData[selectedTab];
 
   const filteredSales = salesResult.filter((item) => item.name === activeItem);
 

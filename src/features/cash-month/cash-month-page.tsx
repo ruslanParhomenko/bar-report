@@ -1,11 +1,9 @@
 "use client";
 
+import type { GetCashData } from "@/features/cash-month/model/type";
 import CashMonthEdit from "@/features/cash-month/ui/edit-mode/cash-month-edit";
 import CashMonthView from "@/features/cash-month/ui/view-mode/cash-month-view";
-
 import type { GetAoData } from "@/features/finance/a-o/model/type";
-import type { GetCashData } from "@/features/finance/cash/model/type";
-
 import { useEdit } from "@/providers/edit-provider";
 
 export default function CashMonthPage({
@@ -23,7 +21,5 @@ export default function CashMonthPage({
     );
   }
 
-  return (
-    <CashMonthView dataAoByMonth={dataAo} dataCashByMonth={dataCashByMonth} />
-  );
+  return <CashMonthView dataCashByMonth={dataCashByMonth} />;
 }
