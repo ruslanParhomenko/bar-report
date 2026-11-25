@@ -14,9 +14,15 @@ interface LinkNavProps {
     selectDate?: boolean;
   };
   children?: ReactNode;
+  defaultTab?: string;
 }
 
-export default function LinkNav({ title, query, children }: LinkNavProps) {
+export default function LinkNav({
+  title,
+  query,
+  children,
+  defaultTab,
+}: LinkNavProps) {
   const t = useTranslations("Sidebar");
   const pathname = usePathname();
   const params = new URLSearchParams();
@@ -27,7 +33,7 @@ export default function LinkNav({ title, query, children }: LinkNavProps) {
 
   const isActivePath = pathname.split("/")[1] === title;
 
-  const queryTabs = query?.tabs?.[0];
+  const queryTabs = defaultTab || query?.tabs?.[0];
   const queryDate = query?.selectDate;
 
   if (queryTabs) {

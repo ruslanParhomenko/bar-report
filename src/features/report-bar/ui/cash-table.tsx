@@ -47,7 +47,7 @@ export default function TableCashVerify() {
   }, [fieldsValuesBuffet, setValue]);
 
   return (
-    <Table className="my-4 md:table-fixed">
+    <Table className="my-2 md:table-fixed">
       <TableHeader>
         <TableRow>
           <TableHead className="text-bl font-bold">CashVerify</TableHead>

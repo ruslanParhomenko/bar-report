@@ -55,6 +55,8 @@ export default function TableExpenses({
     });
   }, [fieldsValues]);
 
+  return null;
+
   return (
     <Table className="md:table-fixed">
       <TableHeader>

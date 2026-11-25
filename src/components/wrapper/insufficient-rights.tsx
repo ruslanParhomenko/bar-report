@@ -11,7 +11,7 @@ export const InsufficientRights = ({
 }) => {
   const t = useTranslations("Home");
   return (
-    <div className="flex flex-col items-center justify-center gap-4">
+    <div className="flex h-dvh flex-col items-center justify-center gap-4">
       <Label className="text-center text-2xl text-red-600">
         {t("notData")}
       </Label>

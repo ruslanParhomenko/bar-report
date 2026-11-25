@@ -62,7 +62,6 @@ export default function TableProductsTransfer({
       <TableHeader>
         <TableRow>
           <TableHead className="text-bl w-28 pl-8 font-bold">
-            {" "}
             Transfer
           </TableHead>
           <TableHead className="w-18" />

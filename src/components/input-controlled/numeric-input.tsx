@@ -22,6 +22,7 @@ type NumericInputProps = {
 
   value?: string;
   onChange?: (val: string) => void;
+  onValueChange?: (val: string) => void;
 };
 
 function NumericInput({
@@ -33,6 +34,7 @@ function NumericInput({
   onBlur,
   value: externalValue,
   onChange: externalOnChange,
+  onValueChange,
 }: NumericInputProps) {
   const { control } = useFormContext();
   const [open, setOpen] = useState(false);
@@ -143,7 +145,12 @@ function NumericInput({
     <FormField
       control={control}
       name={fieldName}
-      render={({ field }) => renderInput(field.value, field.onChange)}
+      render={({ field }) =>
+        renderInput(field.value, (value) => {
+          field.onChange(value);
+          onValueChange?.(value);
+        })
+      }
     />
   );
 }

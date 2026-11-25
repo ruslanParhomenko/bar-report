@@ -1,11 +1,11 @@
 import { InsufficientRights } from "@/components/wrapper/insufficient-rights";
 import { ADMIN } from "@/constants/roles";
+import { SCHEDULE_MAIN_ROUTE } from "@/constants/route-tag";
 import { SchedulePage } from "@/features/schedule";
 import { getScheduleByYearAndMonth } from "@/features/schedule/schedule-edit/actions/get-schedule";
 import { getEmployees } from "@/features/settings/create-employee/actions/get-employees";
-import { authOptions } from "@/lib/auth";
+import { requireTabAccess } from "@/lib/access";
 import { canViewSchedule } from "@/utils/can-access-period";
-import { getServerSession } from "next-auth";
 
 export default async function Page({
   searchParams,
@@ -15,8 +15,13 @@ export default async function Page({
   const { month, year, tab } = await searchParams;
   if (!month || !year || !tab) return null;
 
-  const session = await getServerSession(authOptions);
-  const isAdmin = session?.user?.role === ADMIN;
+  const { user } = await requireTabAccess(SCHEDULE_MAIN_ROUTE, tab);
+
+  if (!user) {
+    return <InsufficientRights />;
+  }
+
+  const isAdmin = user?.role === ADMIN;
 
   if (!canViewSchedule(year, month, 0, 1) && !isAdmin) {
     return <InsufficientRights />;

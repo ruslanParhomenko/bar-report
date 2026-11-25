@@ -1,12 +1,12 @@
 import { InsufficientRights } from "@/components/wrapper/insufficient-rights";
 import { ADMIN, USER } from "@/constants/roles";
+import { DIFF_MAIN_ROUTE } from "@/constants/route-tag";
 import { DiffPage } from "@/features/diff";
 import { getRemarksByYearMonth } from "@/features/penalty/actions/get-penalty";
 import { getScheduleByYearAndMonth } from "@/features/schedule/schedule-edit/actions/get-schedule";
 import { getTipsAddByYearMonth } from "@/features/tips-add/actions/get-tips-add";
-import { authOptions } from "@/lib/auth";
+import { requireTabAccess } from "@/lib/access";
 import { MONTHS } from "@/utils/get-month-days";
-import { getServerSession } from "next-auth";
 
 export default async function Page({
   searchParams,
@@ -15,12 +15,17 @@ export default async function Page({
 }) {
   const params = await searchParams;
 
-  const { month, year } = params;
-  if (!month || !year) return null;
+  const { month, year, tab } = params;
+  if (!month || !year || !tab) return null;
 
-  const session = await getServerSession(authOptions);
-  const isAdmin = session?.user?.role === ADMIN;
-  const isCCTV = session?.user?.role === USER;
+  const { user } = await requireTabAccess(DIFF_MAIN_ROUTE, tab);
+
+  if (!user) {
+    return <InsufficientRights />;
+  }
+
+  const isAdmin = user?.role === ADMIN;
+  const isCCTV = user?.role === USER;
 
   if (!isAdmin && !isCCTV) {
     const now = new Date();
@@ -56,6 +61,7 @@ export default async function Page({
                 (item) => item.id === "bar",
               ) ?? null)
             : null,
+        tab,
       }}
     />
   );

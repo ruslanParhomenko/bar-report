@@ -9,44 +9,15 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { BarForm } from "@/features/bar/model/schema";
-import { useEffect } from "react";
-import { useFieldArray, useFormContext, useWatch } from "react-hook-form";
+import { useFormContext, useWatch } from "react-hook-form";
 
-export default function TableTobacco({
-  tobaccoList,
-}: {
-  tobaccoList: string[];
-}) {
-  const { control, getValues } = useFormContext<BarForm>();
-
-  const { fields, replace } = useFieldArray({
-    control,
-    name: "report.tobacco",
-  });
+export default function TableTobacco() {
+  const { control } = useFormContext<BarForm>();
 
   const values = useWatch({
     control,
     name: "report.tobacco",
   });
-
-  const listKey = tobaccoList.join("|");
-
-  useEffect(() => {
-    const current = getValues("report.tobacco") ?? [];
-
-    replace(
-      tobaccoList.map((name) => {
-        const prev = current.find((t) => t?.name === name);
-        return {
-          name,
-          stock: prev?.stock ?? 0,
-          incoming: prev?.incoming ?? "",
-          outgoing: prev?.outgoing ?? "",
-          finalStock: prev?.finalStock ?? 0,
-        };
-      }),
-    );
-  }, [listKey]);
 
   return (
     <Table className="md:table-fixed">
@@ -62,27 +33,25 @@ export default function TableTobacco({
         </TableRow>
       </TableHeader>
       <TableBody>
-        {fields.map((item, idx) => (
-          <TableRow key={item.id}>
-            <TableCell className="font-medium">{values?.[idx]?.name}</TableCell>
-            <TableCell>
-              <NumericInput
-                fieldName={`report.tobacco.${idx}.stock`}
-                className="w-12 border-0! bg-transparent! shadow-none"
-                disabled
-              />
+        {values?.map((item, idx) => (
+          <TableRow key={item.name} className="[&>td]:py-2">
+            <TableCell className="text-gr pl-4 tracking-wider">
+              {item.name}
             </TableCell>
-            <TableCell>
+            <TableCell className="text-muted-foreground text-center">
+              {Number(item.stock ?? 0)}
+            </TableCell>
+            <TableCell className="text-bl text-center">
               <NumericInput fieldName={`report.tobacco.${idx}.incoming`} />
             </TableCell>
-            <TableCell>
+            <TableCell className="text-rd text-center">
               <NumericInput fieldName={`report.tobacco.${idx}.outgoing`} />
             </TableCell>
-            <TableCell className="text-center">
+            <TableCell className="text-muted-foreground text-center">
               {(
-                Number(values?.[idx]?.stock ?? 0) +
-                Number(values?.[idx]?.incoming ?? 0) -
-                Number(values?.[idx]?.outgoing ?? 0)
+                Number(item.stock ?? 0) +
+                Number(item.incoming ?? 0) -
+                Number(item.outgoing ?? 0)
               ).toString()}
             </TableCell>
           </TableRow>

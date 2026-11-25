@@ -28,15 +28,14 @@ export function BarPage({
   dataBreakList,
   dataReportBar,
   currencyUSD,
-  orderProducts,
 }: {
   employees: Employee[];
   dataBreakList: BreakForm | null;
   dataReportBar: Record<string, string[]> | null;
   currencyUSD: number | null;
-  orderProducts: Record<string, string[]> | null;
 }) {
   const searchParams = useSearchParams();
+
   const { form, onSubmit } = useBarForm({
     dataBreakList,
     dataReportBar,
@@ -122,6 +121,7 @@ export function BarPage({
           </button>
         )}
       </div>
+
       <AnimatePresence mode="wait" initial={false}>
         <motion.div
           {...handlers}

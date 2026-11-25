@@ -15,6 +15,7 @@ import {
 import { useEdit } from "@/providers/edit-provider";
 import { defaultStopList, StopListSchemaType } from "../model/schema";
 
+import { Card } from "@/components/ui/card";
 import FormWrapper from "@/components/wrapper/form-wrapper";
 import { DataOrderProducts } from "@/features/setting/model/type";
 import { useStopListForm } from "../hooks/use-stop-list-form";
@@ -46,61 +47,69 @@ export default function StopListPage({
       : [];
 
   return (
-    <FormWrapper form={form} onSubmit={onSubmit} className="md:p-4">
-      <Table className="table-fixed md:w-200 [&_td]:text-center [&_th]:text-center">
-        <TableHeader>
-          <TableRow>
-            <TableHead className="w-32 md:w-90" />
-            <TableHead className="w-16 md:w-50">date</TableHead>
-            <TableHead className="w-16 md:w-50">editor</TableHead>
-            {isEdit && (
-              <TableHead className="w-12 text-left md:w-30">actions</TableHead>
-            )}
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {stopListFieldArray.fields.map((item, idx) => (
-            <TableRow key={item.id}>
-              <TableCell>
-                {isEdit ? (
-                  <SelectFieldWithSearch
-                    data={PRODUCTS ?? []}
-                    fieldName={`stopList.${idx}.product`}
-                    disabled={!canEdit}
-                    className="h-9"
-                  />
-                ) : (
-                  item.product && (
-                    <div className="text-rd h-9 pl-2 text-start font-bold">
-                      {item.product}
-                    </div>
-                  )
-                )}
-              </TableCell>
-              <TableCell className="text-center">
-                {item.product && (
-                  <div className="text-rd text-center">{item.date}</div>
-                )}
-              </TableCell>
-              <TableCell className="text-center">
-                {item.product && (
-                  <div className="text-rd text-center">{item.author}</div>
-                )}
-              </TableCell>
+    <FormWrapper
+      form={form}
+      onSubmit={onSubmit}
+      className="flex h-full w-full items-center justify-center"
+    >
+      <Card className="p-6">
+        <Table className="table-fixed md:w-180 [&_td]:text-center [&_th]:text-center">
+          <TableHeader>
+            <TableRow>
+              <TableHead className="w-32 md:w-90" />
+              <TableHead className="w-16 md:w-40">date</TableHead>
+              <TableHead className="w-16 md:w-40">editor</TableHead>
               {isEdit && (
-                <TableCell className="flex justify-center">
-                  <AddRemoveFieldsButton
-                    formField={stopListFieldArray}
-                    defaultValues={defaultStopList}
-                    index={idx}
-                    disabled={!canEdit}
-                  />
-                </TableCell>
+                <TableHead className="w-12 text-left md:w-30">
+                  actions
+                </TableHead>
               )}
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </TableHeader>
+          <TableBody>
+            {stopListFieldArray.fields.map((item, idx) => (
+              <TableRow key={item.id}>
+                <TableCell>
+                  {isEdit ? (
+                    <SelectFieldWithSearch
+                      data={PRODUCTS ?? []}
+                      fieldName={`stopList.${idx}.product`}
+                      disabled={!canEdit}
+                      className="h-9"
+                    />
+                  ) : (
+                    item.product && (
+                      <div className="text-rd h-9 pl-2 text-start font-bold">
+                        {item.product}
+                      </div>
+                    )
+                  )}
+                </TableCell>
+                <TableCell className="text-center">
+                  {item.product && (
+                    <div className="text-rd text-center">{item.date}</div>
+                  )}
+                </TableCell>
+                <TableCell className="text-center">
+                  {item.product && (
+                    <div className="text-rd text-center">{item.author}</div>
+                  )}
+                </TableCell>
+                {isEdit && (
+                  <TableCell className="flex justify-center">
+                    <AddRemoveFieldsButton
+                      formField={stopListFieldArray}
+                      defaultValues={defaultStopList}
+                      index={idx}
+                      disabled={!canEdit}
+                    />
+                  </TableCell>
+                )}
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </Card>
     </FormWrapper>
   );
 }

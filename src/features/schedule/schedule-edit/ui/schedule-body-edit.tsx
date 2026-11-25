@@ -175,9 +175,9 @@ export default function ScheduleBodyEdit({
                           fieldName={`rowShifts.${rowIndex}.employee`}
                           data={selectedEmployees.map((e) => e.name)}
                           className={cn(
-                            "hover-cell truncate p-0 text-xs",
+                            "hover-cell min-w-16 truncate p-0 text-xs",
                             isSelected && "text-rd font-bold",
-                            employeesLength < 18 ? "h-9" : "h-7!",
+                            employeesLength < 18 ? "h-9!" : "h-7!",
                           )}
                           onChange={(name) =>
                             handleEmployeeChange(name, rowIndex)

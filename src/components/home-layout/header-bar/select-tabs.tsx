@@ -1,9 +1,10 @@
 "use client";
 
+import { saveTab } from "@/app/actions/save-tab";
 import { NAV_BY_PATCH } from "@/components/home-layout/header-bar/constants";
 import NavTabs from "@/components/nav-tabs/nav-tabs";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useTransition } from "react";
+import { useTransition } from "react";
 
 export default function SelectTabs({ urlTab }: { urlTab: string }) {
   const pathname = usePathname();
@@ -19,32 +20,35 @@ export default function SelectTabs({ urlTab }: { urlTab: string }) {
 
   const storageKey = `nav-tab-${pathname}`;
 
-  useEffect(() => {
-    if (!urlTab) return;
+  // useEffect(() => {
+  //   if (!urlTab) return;
 
-    const saved = localStorage.getItem(storageKey);
+  //   const saved = localStorage.getItem(storageKey);
 
-    if (!saved) return;
+  //   if (!saved) return;
 
-    if (urlTab === saved) return;
+  //   if (urlTab === saved) return;
 
-    const params = new URLSearchParams(searchParams.toString());
-    params.set("tab", saved);
+  //   const params = new URLSearchParams(searchParams.toString());
+  //   params.set("tab", saved);
 
-    startTransition(() => {
-      // window.history.replaceState(null, "", `${pathname}?${params.toString()}`);
-      router.replace(`${pathname}?${params.toString()}`);
-    });
-  }, [pathname, router, searchParams, storageKey, urlTab]);
+  //   startTransition(() => {
+  //     // window.history.replaceState(null, "", `${pathname}?${params.toString()}`);
+  //     router.replace(`${pathname}?${params.toString()}`);
+  //   });
+  // }, [pathname, router, searchParams, storageKey, urlTab]);
 
   const handleTabChange = (value: string) => {
-    localStorage.setItem(storageKey, value);
+    // localStorage.setItem(storageKey, value);
 
     const params = new URLSearchParams(searchParams.toString());
     params.set("tab", value);
 
     // window.history.replaceState(null, "", `${pathname}?${params.toString()}`);
-    router.replace(`${pathname}?${params.toString()}`);
+    startTransition(async () => {
+      await saveTab(mainRoute, value);
+      router.replace(`${pathname}?${params.toString()}`);
+    });
   };
 
   if (!urlTab) return null;

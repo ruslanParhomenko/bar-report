@@ -4,7 +4,6 @@ import { NextResponse } from "next/server";
 
 export async function proxy(request: NextRequest) {
   const url = request.nextUrl.clone();
-
   if (url.pathname === "/no-access") {
     return NextResponse.next();
   }
@@ -29,6 +28,17 @@ export async function proxy(request: NextRequest) {
 
   if (!accessGranted) {
     return NextResponse.redirect(new URL("/no-access", request.url));
+  }
+  const nameTabStore = `nav-tab-${segment}`;
+  const store = await request.cookies;
+
+  const tabsStore = store.get(nameTabStore)?.value;
+
+  if (tabsStore && url.searchParams.get("tab") !== tabsStore) {
+    const params = new URLSearchParams(url.searchParams.toString());
+    params.set("tab", tabsStore);
+    url.search = params.toString();
+    return NextResponse.redirect(url);
   }
 
   return NextResponse.next();

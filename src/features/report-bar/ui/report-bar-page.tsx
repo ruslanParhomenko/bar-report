@@ -33,10 +33,8 @@ export function ReportBarPage({
   );
 
   const blocks: Record<string, React.ReactNode> = {
-    tobacco: <TableTobacco tobaccoList={dataReportBar?.tobacco ?? []} />,
-    inventory: (
-      <TableInventory inventoryList={dataReportBar?.inventory ?? []} />
-    ),
+    tobacco: <TableTobacco />,
+    inventory: <TableInventory />,
     expenses: <TableExpenses expensesList={dataReportBar?.expenses ?? []} />,
     transfer: (
       <TableProductsTransfer
@@ -50,7 +48,7 @@ export function ReportBarPage({
     <>
       <Sortable value={order} onValueChange={setOrder} orientation="mixed">
         <SortableContent asChild>
-          <div className="my-4 grid grid-cols-1 gap-2 md:grid-cols-4">
+          <div className="my-4 grid grid-cols-1 gap-4 px-2 md:grid-cols-4">
             {order.map((id) => (
               <SortableItem key={id} value={id} asChild>
                 <div className="relative">

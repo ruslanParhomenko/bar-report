@@ -11,50 +11,38 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { ADMIN } from "@/constants/roles";
 import {
   CREATE_EMPLOYEE_MAIN_ROUTE,
   VIEW_EMPLOYEE_MAIN_ROUTE,
 } from "@/constants/route-tag";
 import { Employee } from "@/features/settings/create-employee/model/type";
-import { useAccessCheck } from "@/hooks/use-tab-access";
 import { cn } from "@/lib/utils";
 import { formatShortDate } from "@/utils/format-date";
 import { handleCopy } from "@/utils/handler-copy-text";
 import { differenceInMonths } from "date-fns";
 import { CheckCircle, UserX, XCircle } from "lucide-react";
-import { useSession } from "next-auth/react";
-import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { deleteEmployee } from "../../create-employee/actions/delete-employee";
 
 const NAV_ITEMS = ["active", "fired", "all"] as const;
 
-export function EmployeesPage({ employees }: { employees: Employee[] }) {
-  const hasAccess = useAccessCheck();
-  const tab = useSearchParams().get("tab");
-
-  const session = useSession();
-
-  const isAdmin =
-    session.status === "authenticated" && session.data?.user?.role === ADMIN;
-
+export function EmployeesPage({
+  employees,
+  isAdmin,
+}: {
+  employees: Employee[];
+  isAdmin: boolean;
+}) {
   const [employeesStatus, setEmployeesStatus] =
     useState<(typeof NAV_ITEMS)[number]>("active");
 
-  if (!tab) return null;
-
-  const employeesByStatus = employees
-    ?.filter(
-      (emp) => employeesStatus === "all" || emp.status === employeesStatus,
-    )
-    .filter((emp) => emp.role.toLowerCase().includes(tab));
+  const employeesByStatus = employees?.filter(
+    (emp) => employeesStatus === "all" || emp.status === employeesStatus,
+  );
 
   const handleTabChange = (tab: string) => {
     setEmployeesStatus(tab as (typeof NAV_ITEMS)[number]);
   };
-
-  if (!hasAccess) return null;
 
   return (
     <div className="mt-4 flex flex-col items-center justify-center gap-4">
@@ -176,7 +164,7 @@ export function EmployeesPage({ employees }: { employees: Employee[] }) {
                     <div className="flex justify-center gap-8">
                       <ViewButton
                         url={`/${VIEW_EMPLOYEE_MAIN_ROUTE}/${emp.id}`}
-                        disabled={!isAdmin}
+                        disabled={false}
                       />
                       <LinkEditButton
                         url={`/${CREATE_EMPLOYEE_MAIN_ROUTE}/${emp.id}`}

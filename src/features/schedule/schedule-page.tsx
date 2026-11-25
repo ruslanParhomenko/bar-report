@@ -1,8 +1,5 @@
 "use client";
 
-import { InsufficientRights } from "@/components/wrapper/insufficient-rights";
-import { useAccessCheck } from "@/hooks/use-tab-access";
-
 import { Employee } from "@/features/settings/create-employee/model/type";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useTabSwipeNavigation } from "@/hooks/use-tab-swipe-navigation";
@@ -19,16 +16,10 @@ type Props = {
 };
 
 export function SchedulePage({ schedule, employees, isAdmin }: Props) {
-  const hasAccess = useAccessCheck();
   const { isEdit } = useEdit();
-
   const isMobile = useIsMobile();
-
   const { handlers } = useTabSwipeNavigation();
 
-  if (!hasAccess) {
-    return <InsufficientRights />;
-  }
   return (
     <AnimatePresence mode="wait" initial={false}>
       <motion.div

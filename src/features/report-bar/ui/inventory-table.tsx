@@ -1,6 +1,5 @@
 "use client";
 import NumericInput from "@/components/input-controlled/numeric-input";
-import AppTooltip from "@/components/ui/app-tooltip";
 import {
   Table,
   TableBody,
@@ -12,60 +11,16 @@ import {
 import { BarForm } from "@/features/bar/model/schema";
 
 import { formatNow } from "@/utils/format-date";
-import { Trash2Icon } from "lucide-react";
-import { useEffect } from "react";
-import { useFieldArray, useFormContext, useWatch } from "react-hook-form";
+import { useFormContext, useWatch } from "react-hook-form";
 
-export function TableInventory({ inventoryList }: { inventoryList: string[] }) {
-  const { control, setValue, register, getValues } = useFormContext<BarForm>();
+export function TableInventory() {
+  const { control, setValue } = useFormContext<BarForm>();
 
-  const reset = (idx: number) => {
-    setValue(
-      `report.inventory.${idx}`,
-      {
-        name: inventoryList[idx],
-        quantity: "",
-        time: "",
-      },
-      { shouldDirty: true, shouldTouch: true },
-    );
-  };
   const fieldsValues = useWatch({
     name: "report.inventory",
     control,
   });
 
-  const { fields, replace } = useFieldArray({
-    control,
-    name: "report.inventory",
-  });
-
-  const listKey = inventoryList.join("|");
-
-  useEffect(() => {
-    const current = getValues("report.inventory") ?? [];
-
-    replace(
-      inventoryList.map((name) => {
-        const prev = current.find((t) => t?.name === name);
-        return {
-          name,
-          quantity: prev?.quantity ?? "",
-          time: prev?.time ?? "",
-        };
-      }),
-    );
-  }, [listKey]);
-
-  useEffect(() => {
-    fieldsValues?.forEach((item, idx) => {
-      if (item?.quantity && !item?.time) {
-        setValue(`report.inventory.${idx}.time`, formatNow(), {
-          shouldDirty: true,
-        });
-      }
-    });
-  }, [fieldsValues]);
   return (
     <Table className="md:table-fixed">
       <TableHeader>
@@ -76,34 +31,26 @@ export function TableInventory({ inventoryList }: { inventoryList: string[] }) {
           </TableHead>
           <TableHead className="w-10" />
           <TableHead className="w-11" />
-          <TableHead className="w-8" />
         </TableRow>
       </TableHeader>
       <TableBody>
         {fieldsValues?.map((item, idx) => (
-          <TableRow key={idx}>
-            <TableCell className="font-medium">
-              <input
-                {...register(`report.inventory.${idx}.name`)}
-                disabled
-                className="w-full"
+          <TableRow key={idx} className="[&>td]:py-1.5">
+            <TableCell className="text-gr pl-4 tracking-wider">
+              {item?.name}
+            </TableCell>
+            <TableCell className="text-bl text-center">
+              <NumericInput
+                fieldName={`report.inventory.${idx}.quantity`}
+                onValueChange={() =>
+                  setValue(`report.inventory.${idx}.time`, formatNow(), {
+                    shouldDirty: true,
+                  })
+                }
               />
             </TableCell>
-            <TableCell>
-              <AppTooltip
-                content={`запись в ${item?.name.split(",")[1] || ""}`}
-              >
-                <NumericInput fieldName={`report.inventory.${idx}.quantity`} />
-              </AppTooltip>
-            </TableCell>
-            <TableCell className="text-rd text-xs">
+            <TableCell className="text-rd text-center text-xs">
               {fieldsValues?.[idx]?.time}
-            </TableCell>
-
-            <TableCell onClick={() => reset(idx)} className="cursor-pointer">
-              {fieldsValues?.[idx]?.quantity && (
-                <Trash2Icon className="text-rd h-4 w-4" />
-              )}
             </TableCell>
           </TableRow>
         ))}
