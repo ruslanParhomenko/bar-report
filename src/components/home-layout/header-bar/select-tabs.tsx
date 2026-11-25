@@ -18,7 +18,7 @@ export default function SelectTabs({ urlTab }: { urlTab: string }) {
   const config = NAV_BY_PATCH[mainRoute as keyof typeof NAV_BY_PATCH];
   const navItems = config?.tabs ?? [];
 
-  const storageKey = `nav-tab-${pathname}`;
+  // const storageKey = `nav-tab-${pathname}`;
 
   // useEffect(() => {
   //   if (!urlTab) return;

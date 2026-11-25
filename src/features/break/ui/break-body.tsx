@@ -3,8 +3,7 @@ import { TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import { Minus, Plus, Trash2 } from "lucide-react";
 import { useFormContext, useWatch } from "react-hook-form";
-
-import { BarForm } from "../../bar/model/schema";
+import type { BarForm } from "../../bar/model/schema";
 import { isCurrentCell } from "../lib/utils";
 import { MINUTES_SELECT, TIME_LABELS } from "../model/constant";
 
@@ -18,7 +17,6 @@ export default function BreakTableBody({
   const values = useWatch({
     control,
     name: "breakForm.rows",
-    defaultValue: [],
   });
 
   return (
@@ -133,9 +131,7 @@ export default function BreakTableBody({
                       />
                     </div>
                   ) : (
-                    <div
-                      className={cn("bg-gr/40 h-6 w-6 rounded-md md:w-full")}
-                    />
+                    <div className="bg-gr/40 h-6 w-6 rounded-md md:w-full" />
                   )}
                 </TableCell>
               );

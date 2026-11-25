@@ -3,6 +3,7 @@
 import { cn } from "@/lib/utils";
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
 
 export default function ChangeThemeButton({
   className,
@@ -13,20 +14,27 @@ export default function ChangeThemeButton({
   disabled?: boolean;
   size?: number;
 }) {
-  const { theme, setTheme } = useTheme();
+  const { resolvedTheme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const onChangeTheme = () => {
-    setTheme(theme === "dark" ? "light" : "dark");
+    setTheme(resolvedTheme === "dark" ? "light" : "dark");
   };
-  const ThemeIcon = theme === "dark" ? Sun : Moon;
+
+  const ThemeIcon = resolvedTheme === "dark" ? Sun : Moon;
+
   return (
     <button
       type="button"
-      disabled={disabled}
+      disabled={disabled || !mounted}
       className={cn(className, "cursor-pointer")}
-      onClick={() => onChangeTheme()}
+      onClick={onChangeTheme}
     >
-      <ThemeIcon size={size} className="text-bl" />
+      {mounted && <ThemeIcon size={size} className="text-bl" />}
     </button>
   );
 }

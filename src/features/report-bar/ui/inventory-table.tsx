@@ -25,22 +25,23 @@ export function TableInventory() {
     <Table className="md:table-fixed">
       <TableHeader>
         <TableRow>
-          <TableHead className="text-bl pl-8 font-bold md:w-30">
+          <TableHead className="text-bl pl-8 font-bold md:w-32">
             Inventory
             <span className="px-2 text-xs text-red-600">(к концу дня)</span>
           </TableHead>
-          <TableHead className="w-10" />
-          <TableHead className="w-11" />
+          <TableHead className="w-12" />
+          <TableHead className="w-7" />
         </TableRow>
       </TableHeader>
       <TableBody>
         {fieldsValues?.map((item, idx) => (
-          <TableRow key={idx} className="[&>td]:py-1.5">
-            <TableCell className="text-gr pl-4 tracking-wider">
+          <TableRow key={idx} className="[&>td]:py-2">
+            <TableCell className="text-gr pl-2 tracking-wider">
               {item?.name}
             </TableCell>
             <TableCell className="text-bl text-center">
               <NumericInput
+                className="w-12 text-center"
                 fieldName={`report.inventory.${idx}.quantity`}
                 onValueChange={() =>
                   setValue(`report.inventory.${idx}.time`, formatNow(), {

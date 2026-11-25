@@ -15,11 +15,10 @@ export function PenaltyTableBody({
 }: {
   employees: Employee[] | null;
 }) {
-  const selectedEmployees = [
-    ...new Set(
-      employees?.filter((e) => e.status === "active").map((e) => e.name),
-    ),
-  ];
+  const selectedEmployees = employees
+    ?.filter((e) => e.status === "active")
+    .map((e) => e.name);
+
   const { control, setValue } = useFormContext<BarForm>();
 
   const {
@@ -42,7 +41,7 @@ export function PenaltyTableBody({
             <SelectField
               fieldName={`penalty.remarks.${idx}.name`}
               placeHolder="..."
-              data={selectedEmployees}
+              data={selectedEmployees ?? ["-"]}
               className="h-6 border-0 px-0 text-xs shadow-none md:px-1 md:text-sm"
             />
           </TableCell>

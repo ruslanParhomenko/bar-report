@@ -13,9 +13,7 @@ import SelectField from "@/components/input-controlled/select-field";
 import { BarForm } from "@/features/bar/model/schema";
 
 import { formatNow } from "@/utils/format-date";
-import { Trash2Icon } from "lucide-react";
-import { useEffect } from "react";
-import { useFieldArray, useFormContext, useWatch } from "react-hook-form";
+import { useFormContext, useWatch } from "react-hook-form";
 
 export default function TableExpenses({
   expensesList,
@@ -24,38 +22,10 @@ export default function TableExpenses({
 }) {
   const { control, setValue } = useFormContext<BarForm>();
 
-  const reset = (idx: number) => {
-    setValue(
-      `report.expenses.${idx}`,
-      {
-        name: "",
-        sum: "",
-        time: "",
-      },
-      { shouldDirty: true, shouldTouch: true },
-    );
-  };
   const fieldsValues = useWatch({
     name: "report.expenses",
     control,
   });
-
-  const { fields } = useFieldArray({
-    control,
-    name: "report.expenses",
-  });
-
-  useEffect(() => {
-    fieldsValues?.forEach((item, idx) => {
-      if (item?.sum && item?.name && !item?.time) {
-        setValue(`report.expenses.${idx}.time`, formatNow(), {
-          shouldDirty: true,
-        });
-      }
-    });
-  }, [fieldsValues]);
-
-  return null;
 
   return (
     <Table className="md:table-fixed">
@@ -64,17 +34,16 @@ export default function TableExpenses({
           <TableHead className="text-bl w-16 pl-8 font-bold">
             Expenses
           </TableHead>
-          <TableHead className="w-11" />
-          <TableHead className="w-11" />
+          <TableHead className="w-14" />
           <TableHead className="w-8" />
         </TableRow>
       </TableHeader>
       <TableBody>
-        {fields?.map((item, idx: number) => (
-          <TableRow key={item.id}>
+        {fieldsValues?.map((item, idx) => (
+          <TableRow key={`${item}-${idx}`}>
             <TableCell>
               <SelectField
-                data={expensesList}
+                data={[...expensesList, "-"]}
                 fieldName={`report.expenses.${idx}.name`}
                 className="h-8! w-full border-0! text-sm! font-medium! shadow-none"
                 placeHolder="..."
@@ -83,16 +52,16 @@ export default function TableExpenses({
             <TableCell>
               <NumericInput
                 fieldName={`report.expenses.${idx}.sum`}
-                className="w-14! text-center"
+                className="w-14 text-center"
+                onValueChange={() => {
+                  setValue(`report.expenses.${idx}.time`, formatNow(), {
+                    shouldDirty: true,
+                  });
+                }}
               />
             </TableCell>
             <TableCell className="text-rd text-xs">
               {fieldsValues?.[idx]?.time}
-            </TableCell>
-            <TableCell onClick={() => reset(idx)} className="cursor-pointer">
-              {fieldsValues?.[idx]?.name && (
-                <Trash2Icon className="text-rd h-4 w-4" />
-              )}
             </TableCell>
           </TableRow>
         ))}

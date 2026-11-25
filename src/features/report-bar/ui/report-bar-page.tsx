@@ -19,7 +19,7 @@ import { useFormContext } from "react-hook-form";
 import TableCashVerify from "./cash-table";
 import TableTobacco from "./tobacco-table";
 
-const DEFAULT_ORDER = ["tobacco", "inventory", "expenses", "transfer"];
+const DEFAULT_ORDER = ["tobacco", "transfer", "expenses", "inventory"];
 
 export function ReportBarPage({
   dataReportBar,
@@ -48,7 +48,7 @@ export function ReportBarPage({
     <>
       <Sortable value={order} onValueChange={setOrder} orientation="mixed">
         <SortableContent asChild>
-          <div className="my-4 grid grid-cols-1 gap-4 px-2 md:grid-cols-4">
+          <div className="my-2 grid grid-cols-1 gap-2 px-1 md:grid-cols-4">
             {order.map((id) => (
               <SortableItem key={id} value={id} asChild>
                 <div className="relative">
@@ -72,7 +72,7 @@ export function ReportBarPage({
       <Textarea
         placeholder="notes ..."
         {...register("report.notes")}
-        className="my-6 resize-none"
+        className="my-4 resize-none"
       />
     </>
   );

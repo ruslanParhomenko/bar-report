@@ -12,50 +12,24 @@ import {
 } from "@/components/ui/table";
 import { BarForm } from "@/features/bar/model/schema";
 import { formatNow } from "@/utils/format-date";
-import { Trash2Icon } from "lucide-react";
-import { useEffect } from "react";
-import { useFieldArray, useFormContext, useWatch } from "react-hook-form";
+import { useFormContext, useWatch } from "react-hook-form";
 
 export default function TableProductsTransfer({
   orderProducts,
   transferTo,
 }: {
-  orderProducts: string[] | null;
-  transferTo: string[] | null;
+  orderProducts: string[];
+  transferTo: string[];
 }) {
   const { control, setValue } = useFormContext<BarForm>();
 
-  const PRODUCTS = orderProducts || [];
-  const TRANSFER_TO = transferTo || [];
+  const PRODUCTS = [...orderProducts, "-"];
+  const TRANSFER_TO = [...transferTo, "-"];
 
-  const reset = (idx: number) => {
-    setValue(
-      `report.productTransfer.${idx}`,
-      {
-        name: "",
-        destination: "",
-        quantity: "",
-        time: "",
-      },
-      { shouldDirty: true, shouldTouch: true },
-    );
-  };
   const fieldsValues = useWatch({
     name: "report.productTransfer",
     control,
   });
-
-  useEffect(() => {
-    fieldsValues?.forEach((item, idx) => {
-      if (item?.quantity && item?.destination && item?.name && !item?.time) {
-        setValue(`report.productTransfer.${idx}.time`, formatNow(), {
-          shouldDirty: true,
-        });
-      }
-    });
-  }, [fieldsValues]);
-
-  const { fields } = useFieldArray({ control, name: "report.productTransfer" });
 
   return (
     <Table className="md:table-fixed">
@@ -64,15 +38,14 @@ export default function TableProductsTransfer({
           <TableHead className="text-bl w-28 pl-8 font-bold">
             Transfer
           </TableHead>
-          <TableHead className="w-18" />
-          <TableHead className="w-10" />
-          <TableHead className="w-10"></TableHead>
-          <TableHead className="w-6"></TableHead>
+          <TableHead className="w-14" />
+          <TableHead className="w-14" />
+          <TableHead className="w-8" />
         </TableRow>
       </TableHeader>
       <TableBody>
-        {fields?.map((item, idx) => (
-          <TableRow key={item.id}>
+        {fieldsValues?.map((item, idx) => (
+          <TableRow key={`${item}-${idx}`}>
             <TableCell>
               <SelectFieldWithSearch
                 data={PRODUCTS}
@@ -92,16 +65,16 @@ export default function TableProductsTransfer({
             <TableCell>
               <NumericInput
                 fieldName={`report.productTransfer.${idx}.quantity`}
-                className="w-8 text-center"
+                className="w-14 text-center"
+                onValueChange={() => {
+                  setValue(`report.productTransfer.${idx}.time`, formatNow(), {
+                    shouldDirty: true,
+                  });
+                }}
               />
             </TableCell>
             <TableCell className="text-rd text-xs">
               {fieldsValues?.[idx]?.time}
-            </TableCell>
-            <TableCell onClick={() => reset(idx)} className="cursor-pointer">
-              {fieldsValues?.[idx]?.name && (
-                <Trash2Icon className="text-rd h-4 w-4" />
-              )}
             </TableCell>
           </TableRow>
         ))}

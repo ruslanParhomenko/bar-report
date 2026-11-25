@@ -72,11 +72,18 @@ export default function SelectField({
             </FormControl>
 
             <SelectContent>
-              {data.map((item, index) => (
-                <SelectItem key={`${item}-${index}`} value={item}>
-                  {item}
-                </SelectItem>
-              ))}
+              <div
+                className="grid grid-flow-col gap-x-2"
+                style={{
+                  gridTemplateRows: `repeat(${Math.min(data.length, 15)}, minmax(0, auto))`,
+                }}
+              >
+                {data.map((item, index) => (
+                  <SelectItem key={`${item}-${index}`} value={item}>
+                    {item}
+                  </SelectItem>
+                ))}
+              </div>
             </SelectContent>
           </Select>
 

@@ -1,16 +1,8 @@
 "use client";
 import NumericInput from "@/components/input-controlled/numeric-input";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { BarForm } from "@/features/bar/model/schema";
 import { formatNow } from "@/utils/format-date";
-import { useEffect } from "react";
 import { useFormContext, useWatch } from "react-hook-form";
 
 export default function TableCashVerify() {
@@ -26,70 +18,55 @@ export default function TableCashVerify() {
     control,
   });
 
-  useEffect(() => {
-    fieldsValues?.forEach((item, idx) => {
-      if (item?.value && !item?.hours) {
-        setValue(`report.cashVerify.${idx}.hours`, formatNow(), {
-          shouldDirty: true,
-        });
-      }
-    });
-  }, [fieldsValues, setValue]);
-
-  useEffect(() => {
-    fieldsValuesBuffet?.forEach((item, idx) => {
-      if (item?.value && !item?.hours) {
-        setValue(`report.cashVerifyBuffet.${idx}.hours`, formatNow(), {
-          shouldDirty: true,
-        });
-      }
-    });
-  }, [fieldsValuesBuffet, setValue]);
-
   return (
-    <Table className="my-2 md:table-fixed">
-      <TableHeader>
-        <TableRow>
-          <TableHead className="text-bl font-bold">CashVerify</TableHead>
+    <Table className="md:table-fixed">
+      <TableBody className="[&>tr]:border-0">
+        <TableRow className="p-0">
+          <TableCell className="text-bl font-bold">CashVerify BAR</TableCell>
         </TableRow>
-      </TableHeader>
-      <TableBody>
-        <TableRow>
-          <TableCell className="h-6 p-0 text-xs">
-            <span className="flex h-full items-end justify-center pb-4">
-              BAR
-            </span>
-          </TableCell>
+        <TableRow className="border-b! p-0">
           {fieldsValues.map((item, i) => {
             return (
               <TableCell key={i}>
-                <span className="text-rd flex h-6 min-w-full items-center justify-center text-xs">
-                  {item?.hours}
-                </span>
                 <NumericInput
                   fieldName={`report.cashVerify.${i}.value`}
                   className="h-8 text-center"
+                  onValueChange={() => {
+                    setValue(`report.cashVerify.${i}.hours`, formatNow(), {
+                      shouldDirty: true,
+                    });
+                  }}
                 />
+                <span className="text-rd flex h-6 min-w-full items-center justify-center text-xs">
+                  {item?.hours}
+                </span>
               </TableCell>
             );
           })}
         </TableRow>
-        <TableRow className="border-b!">
-          <TableCell className="h-6 p-0 text-xs">
-            <span className="flex h-full items-end justify-center pb-4">
-              Buffet
-            </span>
-          </TableCell>
+        <TableRow className="p-0">
+          <TableCell className="text-bl font-bold">CashVerify BUFFET</TableCell>
+        </TableRow>
+        <TableRow className="border-b! p-0">
           {fieldsValuesBuffet?.map((item, i) => {
             return (
               <TableCell key={i}>
-                <span className="text-rd flex h-6 min-w-full items-center justify-center text-xs">
-                  {item?.hours}
-                </span>
                 <NumericInput
                   fieldName={`report.cashVerifyBuffet.${i}.value`}
                   className="h-8 text-center"
+                  onValueChange={() => {
+                    setValue(
+                      `report.cashVerifyBuffet.${i}.hours`,
+                      formatNow(),
+                      {
+                        shouldDirty: true,
+                      },
+                    );
+                  }}
                 />
+                <span className="text-rd flex h-6 min-w-full items-center justify-center text-xs">
+                  {item?.hours}
+                </span>
               </TableCell>
             );
           })}
