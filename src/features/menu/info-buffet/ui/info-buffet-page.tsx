@@ -8,7 +8,7 @@ import { PrinterIcon } from "lucide-react";
 import { useRef } from "react";
 import { useReactToPrint } from "react-to-print";
 
-export function InfoBuffetPage({
+export default function InfoBuffetPage({
   menuDaily,
   qrUrl,
 }: {

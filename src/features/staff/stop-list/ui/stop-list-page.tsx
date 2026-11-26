@@ -17,7 +17,7 @@ import { defaultStopList, StopListSchemaType } from "../model/schema";
 
 import { Card } from "@/components/ui/card";
 import FormWrapper from "@/components/wrapper/form-wrapper";
-import { DataOrderProducts } from "@/features/setting/model/type";
+import type { DataOrderProducts } from "@/features/setting/model/type";
 import { useStopListForm } from "../hooks/use-stop-list-form";
 
 export default function StopListPage({

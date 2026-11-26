@@ -4,7 +4,7 @@ import { remarksByUniqueEmployee } from "@/features/archive/penalty-archive/util
 import { getRemarksByYearMonth } from "@/features/penalty/actions/get-penalty";
 import { ResultPage } from "@/features/result";
 import { getScheduleByYearAndMonth } from "@/features/schedule/schedule-edit/actions/get-schedule";
-import { getTipsByYearAndMonth } from "@/features/staff/tips/actions/get-tips";
+import { getTipsByYearAndMonth } from "@/features/tips-month/actions/get-tips";
 import { authOptions } from "@/lib/auth";
 import { MONTHS } from "@/utils/get-month-days";
 import { getServerSession } from "next-auth";

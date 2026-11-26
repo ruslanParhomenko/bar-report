@@ -1,3 +1,5 @@
+"use client";
+
 import NavTabs from "@/components/nav-tabs/nav-tabs";
 import ReportBarCardList from "@/features/archive/bar/ui/card/report-bar-card-list";
 import { ReportBarExpensesTable } from "@/features/archive/bar/ui/table/report-bar-expenses-table";

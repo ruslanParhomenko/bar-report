@@ -1,3 +1,4 @@
+"use client";
 import NavTabs from "@/components/nav-tabs/nav-tabs";
 import PenaltyArchiveListCard from "@/features/archive/penalty-archive/ui/list/penalty-archive-list-card";
 import { PenaltyResult } from "@/features/archive/penalty-result";

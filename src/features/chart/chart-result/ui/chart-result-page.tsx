@@ -9,7 +9,7 @@ import { ChartResultChart } from "@/features/chart/chart-result/ui/chart-result-
 import { ChartResultTable } from "@/features/chart/chart-result/ui/chart-result-table";
 import { GetScheduleData } from "@/features/schedule/schedule-edit/model/type";
 import { Employee } from "@/features/settings/create-employee/model/type";
-import { GetTipsData } from "@/features/staff/tips/model/type";
+import { GetTipsData } from "@/features/tips-month/model/type";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 

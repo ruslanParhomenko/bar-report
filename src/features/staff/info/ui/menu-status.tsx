@@ -38,21 +38,6 @@ export default function StatusMenu({
                 );
               })}
             </ul>
-
-            {/* <ul className="space-y-1 text-sm">
-              {data?.[col].map((item, idx) => (
-              <li
-                key={idx}
-                className={
-                  LABELS.includes(item)
-                    ? "text-bl pb-1 text-center font-bold"
-                    : "truncate"
-                }
-              >
-                {item === "-" ? <span>.</span> : item}
-              </li>
-            ))}
-            </ul> */}
           </div>
         );
       })}

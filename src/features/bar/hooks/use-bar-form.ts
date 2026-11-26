@@ -16,6 +16,7 @@ import {
 import { createTipsAdd } from "@/features/tips-add/actions/create-tips-add";
 import { MONTHS } from "@/utils/get-month-days";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMemo } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -28,6 +29,11 @@ export function useBarForm({
   dataReportBar: Record<string, string[]> | null;
   currencyUSD: number | null;
 }) {
+  const inventoryDefault = (dataReportBar?.inventory ?? []).map((name) => ({
+    name,
+    quantity: "",
+    time: "",
+  }));
   const tobaccoDefault = (dataReportBar?.tobacco ?? []).map((name) => ({
     name,
     stock: 0,
@@ -35,15 +41,8 @@ export function useBarForm({
     outgoing: "",
     finalStock: 0,
   }));
-
-  const inventoryDefault = (dataReportBar?.inventory ?? []).map((name) => ({
-    name,
-    quantity: "",
-    time: "",
-  }));
-
-  const form = useForm<BarForm>({
-    defaultValues: {
+  const defaultValues = useMemo(
+    () => ({
       ...barPageDefault,
       breakForm: breakListDefault(dataBreakList?.rows ?? []),
       report: {
@@ -51,7 +50,14 @@ export function useBarForm({
         tobacco: tobaccoDefault,
         inventory: inventoryDefault,
       },
-    },
+    }),
+    [inventoryDefault, tobaccoDefault],
+  );
+
+  const form = useForm<BarForm>({
+    mode: "onSubmit",
+    reValidateMode: "onSubmit",
+    defaultValues: defaultValues,
     resolver: zodResolver(barPageSchema),
   });
 

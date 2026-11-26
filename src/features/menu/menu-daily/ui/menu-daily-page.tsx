@@ -11,7 +11,7 @@ import { SECTION_1, SECTION_2, SECTION_3, SECTIONS } from "../model/constants";
 import { MenuDailyForm, menuDailySchema } from "../model/schema";
 import MenuSection from "./menu-section";
 
-export function MenuDailyPage({
+export default function MenuDailyPage({
   data,
   menuDaily,
   qrUrl,

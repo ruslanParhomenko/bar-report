@@ -1,11 +1,11 @@
 "use client";
 
-import { createTips } from "@/features/staff/tips/actions/create-tips";
+import { createTips } from "@/features/tips-month/actions/create-tips";
 import {
   defaultTipsForm,
   TipsForm,
   tipsSchema,
-} from "@/features/staff/tips/model/schema";
+} from "@/features/tips-month/model/schema";
 import { useMonthDays } from "@/hooks/use-month-days";
 import { useEdit } from "@/providers/edit-provider";
 import { zodResolver } from "@hookform/resolvers/zod";

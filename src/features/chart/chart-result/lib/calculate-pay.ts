@@ -4,7 +4,7 @@ import {
 } from "@/features/chart/chart-result/model/constants";
 import type { MonthData } from "@/features/chart/chart-result/model/type";
 import type { GetScheduleData } from "@/features/schedule/schedule-edit/model/type";
-import { GetTipsData } from "@/features/staff/tips/model/type";
+import { GetTipsData } from "@/features/tips-month/model/type";
 import { MONTHS } from "@/utils/get-month-days";
 
 export const round5 = (v: number) => Math.round(v / 5) * 5;

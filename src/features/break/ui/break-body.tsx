@@ -38,7 +38,7 @@ export default function BreakTableBody({
         const startTime = +row.id?.split("-")[0];
 
         return (
-          <TableRow key={`${row.id ?? "row"}-${rowIndex}-${row.name}`}>
+          <TableRow key={rowIndex}>
             <TableCell className="text-bl border-0 bg-transparent! p-0 px-0.5 text-xs shadow-none md:px-1">
               {row.isAdded ? (
                 <button

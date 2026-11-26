@@ -3,9 +3,9 @@
 import { Table } from "@/components/ui/table";
 import FormWrapper from "@/components/wrapper/form-wrapper";
 import { Employee } from "@/features/settings/create-employee/model/type";
-import useFormTips from "@/features/staff/tips/hooks/use-form-tips";
-import { TipsEditTableFooter } from "@/features/staff/tips/ui/month/tips-edit-footer";
 import { GetTipsAddData } from "@/features/tips-add/model/type";
+import useFormTips from "@/features/tips-month/hooks/use-form-tips";
+import { TipsEditTableFooter } from "@/features/tips-month/ui/month/tips-edit-footer";
 import { useMonthDays } from "@/hooks/use-month-days";
 import { useEffect, useState } from "react";
 import { useFieldArray } from "react-hook-form";
@@ -18,22 +18,19 @@ import TipsHeaderTable from "./tips-header";
 const SELECTED_ROLE = ["waiters", "barmen"] as const;
 
 export default function TipsEditMonthPage({
-  dataTipsYear,
+  dataTipsMonth,
   employees,
-  dataTipsAdd,
+  dataTipsAddMonth,
 }: {
-  dataTipsYear: GetTipsData[] | null;
+  dataTipsMonth: GetTipsData | null;
   employees: Employee[] | null;
-  dataTipsAdd: GetTipsAddData[] | null;
+  dataTipsAddMonth: GetTipsAddData[] | null;
 }) {
-  const todayDay = new Date().getDate();
-  const [selectedDay, setSelectedDay] = useState<number>(todayDay);
   const { monthDays, month, year } = useMonthDays();
 
   const [selectedDayTips, setSelectedDayTips] = useState<string | null>(null);
 
-  const dataTips =
-    dataTipsYear?.find((data) => data.id === month)?.tipsData || null;
+  const dataTips = dataTipsMonth?.tipsData;
 
   const sortedDataTips = [...(dataTips?.rowEmployeesTips ?? [])].sort(
     (a, b) =>
@@ -93,9 +90,9 @@ export default function TipsEditMonthPage({
   }, [dataTips, month, year, form, monthDays.length]);
 
   useEffect(() => {
-    if (!dataTipsAdd || !selectedDayTips) return;
+    if (!dataTipsAddMonth || !selectedDayTips) return;
 
-    const deletedIds = dataTipsAdd.reduce((ids, d) => {
+    const deletedIds = dataTipsAddMonth.reduce((ids, d) => {
       for (const emp of d.tipsAdd ?? []) {
         for (const amount of emp.amount ?? []) {
           if (amount.isDeleted) ids.add(amount.uniqueId);
@@ -104,7 +101,7 @@ export default function TipsEditMonthPage({
       return ids;
     }, new Set<string>());
 
-    const dayDoc = dataTipsAdd.find((d) => d.id === selectedDayTips);
+    const dayDoc = dataTipsAddMonth.find((d) => d.id === selectedDayTips);
     if (!dayDoc) return;
 
     const rows = form.getValues("rowEmployeesTips");
@@ -135,8 +132,6 @@ export default function TipsEditMonthPage({
 
       <Table className="table-fixed">
         <TipsHeaderTable
-          selectedDay={selectedDay}
-          setSelectedDay={setSelectedDay}
           addNewRow={addNewRow}
           isEdit={true}
           selectedDayTips={selectedDayTips}
@@ -147,7 +142,7 @@ export default function TipsEditMonthPage({
           data={fields}
           remove={removeRow}
           selectedEmployees={activeEmployees}
-          selectedDay={selectedDay}
+
           monthDays={monthDays}
         />
 

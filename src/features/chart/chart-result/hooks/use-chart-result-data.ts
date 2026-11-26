@@ -2,7 +2,7 @@
 
 import type { MonthRange } from "@/components/input-controlled/month-range";
 import { GetScheduleData } from "@/features/schedule/schedule-edit/model/type";
-import { GetTipsData } from "@/features/staff/tips/model/type";
+import { GetTipsData } from "@/features/tips-month/model/type";
 import { MONTHS } from "@/utils/get-month-days";
 import { monthsSince } from "@/utils/month-since";
 import { useState } from "react";

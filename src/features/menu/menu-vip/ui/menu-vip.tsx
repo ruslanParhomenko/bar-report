@@ -3,13 +3,13 @@
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 
+import SinglePage from "@/features/menu/menu-vip/ui/menu-page";
 import { DataMenu } from "@/features/setting/model/type";
 import { ValueOf } from "next/dist/shared/lib/constants";
 import { LOCAL_TRANSLATIONS, PAGE_1, PAGE_2, PAGE_3 } from "../model/constants";
 import { LocalTranslateFn, MenuSection, PageStructure } from "../model/types";
-import { SinglePage } from "./menu-page";
 
-export function MenuVipPage({ data }: { data: DataMenu | null }) {
+export default function MenuVipPage({ data }: { data: DataMenu | null }) {
   const [currentLang, setCurrentLang] = useState<string>("ru");
 
   const globalT = useTranslations("Menu");

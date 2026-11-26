@@ -1,4 +1,4 @@
-import { TipsForm } from "@/features/staff/tips/model/schema";
+import { TipsForm } from "@/features/tips-month/model/schema";
 import { useFormContext } from "react-hook-form";
 
 export default function BidEdit() {

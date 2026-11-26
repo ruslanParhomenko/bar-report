@@ -5,13 +5,13 @@ import useFormOrders from "@/features/staff/orders/use-form-orders";
 import { useLocalStorageForm } from "@/hooks/use-local-storage";
 import OrderCardWrapper from "./order-card-wrapper";
 
-export const OrderForm = ({
+export default function OrderPage({
   data,
   tab,
 }: {
   data: Record<string, string[]>;
   tab: string;
-}) => {
+}) {
   const allKeys = Object.keys(data || {});
   const STORAGE_KEY = `order-new-${tab}`;
 
@@ -32,4 +32,4 @@ export const OrderForm = ({
       </div>
     </FormWrapper>
   );
-};
+}

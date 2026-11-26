@@ -1,74 +1,56 @@
-"use client";
-
-import { InsufficientRights } from "@/components/wrapper/insufficient-rights";
 import { ReportBarArchivePage } from "@/features/archive/bar";
 import { BreakArchivePage } from "@/features/archive/break-archive";
 import ReportCucinaArchive from "@/features/archive/cucina/report-cucina-archive";
 import OrdersArchivePage from "@/features/archive/orders/orders-archive-page";
 import { PenaltyArchivePage } from "@/features/archive/penalty-archive";
 import { TipsArchivePage } from "@/features/archive/tips-archive";
-import { GetBreakData } from "@/features/break/model/type";
-import { GetKitchenData } from "@/features/cucina/model/type";
-import { GetRemarksData } from "@/features/penalty/model/type";
-import { GetReportData } from "@/features/report-bar/model/type";
-import { GetTipsAddData } from "@/features/tips-add/model/type";
-import { useAccessCheck } from "@/hooks/use-tab-access";
-import { useSearchParams } from "next/navigation";
-
-interface ArchiveData {
-  bar: GetReportData[] | null;
-  cucina: GetKitchenData[] | null;
-  breakList: GetBreakData[] | null;
-  penalty: GetRemarksData[] | null;
-  tips: GetTipsAddData[] | null;
-}
+import { getBreakListByYearMonth } from "@/features/break/actions/get-break";
+import { getReportCucinaByYearMonth } from "@/features/cucina/actions/get-report-cucina";
+import { getRemarksByYearMonth } from "@/features/penalty/actions/get-penalty";
+import { getReportBarByYearMonth } from "@/features/report-bar/actions/get-report-bar";
+import { getTipsAddByYearMonth } from "@/features/tips-add/actions/get-tips-add";
 
 interface ArchivePageProps {
-  archiveData: ArchiveData;
   isAdmin: boolean;
+  tab: string;
+  year: string;
+  month: string;
 }
 
-export default function ArchivePage({
-  archiveData,
+export default async function ArchivePage({
   isAdmin,
+  tab,
+  year,
+  month,
 }: ArchivePageProps) {
-  const hasAccess = useAccessCheck();
-  const tab = useSearchParams().get("tab");
+  if (tab === "bar") {
+    const data = await getReportBarByYearMonth(year, month);
+    return <ReportBarArchivePage data={data ?? null} />;
+  }
 
-  const TABS = [
-    {
-      key: "bar",
-      render: () => <ReportBarArchivePage data={archiveData.bar} />,
-    },
-    {
-      key: "cucina",
-      render: () => <ReportCucinaArchive data={archiveData.cucina} />,
-    },
-    {
-      key: "breakList",
-      render: () => <BreakArchivePage data={archiveData.breakList} />,
-    },
-    {
-      key: "penalty",
-      render: () => (
-        <PenaltyArchivePage data={archiveData.penalty} isAdmin={isAdmin} />
-      ),
-    },
-    {
-      key: "tips-add",
-      render: () => (
-        <TipsArchivePage data={archiveData.tips} isAdmin={isAdmin} />
-      ),
-    },
-    {
-      key: "orders",
-      render: () => <OrdersArchivePage />,
-    },
-  ];
+  if (tab === "cucina") {
+    const data = await getReportCucinaByYearMonth(year, month);
+    return <ReportCucinaArchive data={data ?? null} />;
+  }
 
-  const activeTab = TABS.find((t) => t.key === tab);
+  if (tab === "breakList") {
+    const data = await getBreakListByYearMonth(year, month);
+    return <BreakArchivePage data={data ?? null} />;
+  }
 
-  if (!hasAccess) return <InsufficientRights />;
+  if (tab === "penalty") {
+    const data = await getRemarksByYearMonth(year, month);
+    return <PenaltyArchivePage data={data ?? null} isAdmin={isAdmin} />;
+  }
 
-  return activeTab ? activeTab.render() : null;
+  if (tab === "tips-add") {
+    const data = await getTipsAddByYearMonth(year, month);
+    return <TipsArchivePage data={data ?? null} isAdmin={isAdmin} />;
+  }
+
+  if (tab === "orders") {
+    return <OrdersArchivePage />;
+  }
+
+  return null;
 }

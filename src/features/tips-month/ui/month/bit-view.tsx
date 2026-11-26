@@ -1,4 +1,4 @@
-import { TipsForm } from "@/features/staff/tips/model/schema";
+import { TipsForm } from "@/features/tips-month/model/schema";
 
 export default function BidView({ data }: { data: TipsForm }) {
   return (

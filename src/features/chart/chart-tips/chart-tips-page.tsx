@@ -6,7 +6,7 @@ import {
   MonthPicker,
   MonthRange,
 } from "@/components/input-controlled/month-range";
-import { GetTipsData } from "@/features/staff/tips/model/type";
+import { GetTipsData } from "@/features/tips-month/model/type";
 import { cn } from "@/lib/utils";
 import { filterByMonthRange } from "@/utils/filter-by-month-range";
 import { MONTHS } from "@/utils/get-month-days";

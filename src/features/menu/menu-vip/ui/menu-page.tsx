@@ -7,7 +7,7 @@ import { LocalTranslateFn, PageStructure } from "../model/types";
 import { ColCover } from "./col-cover";
 import { ColSingle } from "./col-single";
 
-export function SinglePage({
+export default function SinglePage({
   page,
   label,
   t,

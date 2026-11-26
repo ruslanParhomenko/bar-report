@@ -3,10 +3,9 @@
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import { PlusIcon, Trash2Icon } from "lucide-react";
-import { useTheme } from "next-themes";
 import { UseFieldArrayReturn, useFormContext } from "react-hook-form";
 import TextareaAutosize from "react-textarea-autosize";
-import { AlgorithmData, defaultValues } from "../model/schema";
+import { type AlgorithmData, defaultValues } from "../model/schema";
 
 export default function AlgorithmForm({
   fieldForm,
@@ -17,7 +16,6 @@ export default function AlgorithmForm({
 }) {
   const { fields, append, remove, replace } = fieldForm;
   const { register } = useFormContext();
-  const { theme } = useTheme();
 
   const handleRemove = (idx: number) => {
     fields.length === 1 ? replace([defaultValues]) : remove(idx);
@@ -40,7 +38,6 @@ export default function AlgorithmForm({
                     className={cn(
                       "border-input placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 dark:bg-input/30 flex w-full rounded-md border bg-transparent p-1 shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50",
                       "bg-background! min-h-1 resize-none border-0 text-xs! shadow-none",
-                      theme === "dark" ? "border-0" : "",
                     )}
                   />
                   <TextareaAutosize
@@ -49,7 +46,6 @@ export default function AlgorithmForm({
                     className={cn(
                       "border-input placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 dark:bg-input/30 flex w-full rounded-md border bg-transparent p-1 shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50",
                       "bg-background! text-gr min-h-1 resize-none border-0 text-xs! shadow-none",
-                      theme === "dark" ? "border-0" : "",
                     )}
                   />
                 </div>

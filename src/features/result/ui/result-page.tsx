@@ -8,7 +8,7 @@ import {
 import ResultTableBody from "@/features/result/ui/result-body-table";
 import ResultTableHeader from "@/features/result/ui/result-header-table";
 import { GetScheduleData } from "@/features/schedule/schedule-edit/model/type";
-import { GetTipsData } from "@/features/staff/tips/model/type";
+import { GetTipsData } from "@/features/tips-month/model/type";
 import { useSearchParams } from "next/navigation";
 
 const ROLE = {

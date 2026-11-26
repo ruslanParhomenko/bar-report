@@ -1,38 +1,35 @@
-"use client";
-
 import { InsufficientRights } from "@/components/wrapper/insufficient-rights";
+import { INFO_MAIN_ROUTE } from "@/constants/route-tag";
 import {
   DataPriceList,
   DataStatusParameters,
 } from "@/features/setting/model/type";
-import { useAccessCheck } from "@/hooks/use-tab-access";
-import { useSearchParams } from "next/navigation";
+import { requireTabAccess } from "@/lib/access";
 import StatusMenu from "./menu-status";
 import { PriceListBarTable, PriceListCucinaTable } from "./price-list-table";
 
 type InfoPageProps = {
-  data: {
-    priceList: DataPriceList | null;
-    dataStatusParameters: DataStatusParameters | null;
-  };
+  priceList: DataPriceList | null;
+  dataStatusParameters: DataStatusParameters | null;
+  tab: string;
 };
 
-export function InfoPage({ data }: InfoPageProps) {
-  const tab = useSearchParams().get("tab");
-  const hasAccess = useAccessCheck();
+export default async function InfoPage({
+  priceList,
+  dataStatusParameters,
+  tab,
+}: InfoPageProps) {
+  const { user } = await requireTabAccess(INFO_MAIN_ROUTE, tab);
 
-  if (!hasAccess) {
+  if (!user) {
     return <InsufficientRights />;
   }
-
   return (
     <>
-      {tab === "statusMenu" && <StatusMenu data={data.dataStatusParameters} />}
+      {tab === "statusMenu" && <StatusMenu data={dataStatusParameters} />}
 
-      {tab === "price-list-bar" && <PriceListBarTable data={data.priceList} />}
-      {tab === "price-list-cucina" && (
-        <PriceListCucinaTable data={data.priceList} />
-      )}
+      {tab === "price-list-bar" && <PriceListBarTable data={priceList} />}
+      {tab === "price-list-cucina" && <PriceListCucinaTable data={priceList} />}
     </>
   );
 }

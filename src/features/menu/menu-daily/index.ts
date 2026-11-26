@@ -1,1 +1,1 @@
-export { MenuDailyPage } from "./ui/menu-daily-page";
+export { default as MenuDailyPage } from "./ui/menu-daily-page";

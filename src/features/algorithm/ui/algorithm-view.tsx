@@ -1,4 +1,4 @@
-import { AlgorithmData, FIELD_CONFIG } from "../model/schema";
+import { type AlgorithmData, FIELD_CONFIG } from "../model/schema";
 import AlgorithmTable from "./algorithm-table";
 
 export default function AlgorithmView({

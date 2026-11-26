@@ -1,5 +1,5 @@
 import ChartTipsPage from "@/features/chart/chart-tips/chart-tips-page";
-import { getTipsByYear } from "@/features/staff/tips/actions/get-tips";
+import { getTipsByYear } from "@/features/tips-year/actions/get-tips-year";
 
 export default async function Page({
   searchParams,

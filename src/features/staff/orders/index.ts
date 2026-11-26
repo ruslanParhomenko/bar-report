@@ -1,1 +1,1 @@
-export { OrdersPage } from "@/features/staff/orders/ui/orders-page";
+export { default as OrdersPage } from "./ui/order-page";

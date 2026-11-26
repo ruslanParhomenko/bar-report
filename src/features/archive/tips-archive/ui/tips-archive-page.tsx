@@ -1,3 +1,4 @@
+"use client";
 import NavTabs from "@/components/nav-tabs/nav-tabs";
 import TipsArchiveDataList from "@/features/archive/tips-archive/ui/tips-data-list";
 import TipsArchiveDataTable from "@/features/archive/tips-archive/ui/tips-data-table";

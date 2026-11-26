@@ -4,22 +4,37 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { createAlgorithmData } from "../actions/create-algorithm";
 import {
-  AlgorithmData,
+  type AlgorithmData,
   algorithmSchema,
-  defaultAlgorithm,
+  defaultValues,
+  FIELD_CONFIG,
 } from "../model/schema";
 
-export function useAlgorithmForm({ data }: { data: AlgorithmData | null }) {
+export function useAlgorithmForm({
+  data,
+  tab,
+}: {
+  data: AlgorithmData | null;
+  tab: string;
+}) {
   const { setIsEdit } = useEdit();
+
+  const initData = FIELD_CONFIG.reduce((acc, key) => {
+    acc[key] = data?.[key] || [defaultValues];
+    return acc;
+  }, {} as AlgorithmData);
 
   const form = useForm<AlgorithmData>({
     resolver: zodResolver(algorithmSchema),
-    defaultValues: data || defaultAlgorithm,
+    defaultValues: initData,
   });
 
   const onSubmit: SubmitHandler<AlgorithmData> = async (data) => {
-    await createAlgorithmData(data);
-    toast.success("Алгоритм успешно сохранён!");
+    const dataByTab = { [tab]: data[tab] };
+
+    await createAlgorithmData(dataByTab, tab);
+
+    toast.success(`Алгоритм ${tab} успешно сохранён!`);
     setIsEdit(false);
   };
   return {

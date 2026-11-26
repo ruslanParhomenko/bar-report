@@ -12,7 +12,8 @@ export default function AlgorithmEdit({
   data: AlgorithmData | null;
   tab: string;
 }) {
-  const { form, onSubmit } = useAlgorithmForm({ data });
+  const { form, onSubmit } = useAlgorithmForm({ data, tab });
+
   const fieldArrays = Object.fromEntries(
     FIELD_CONFIG.map((name) => [
       name,

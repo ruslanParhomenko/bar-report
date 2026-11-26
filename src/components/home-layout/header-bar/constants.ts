@@ -39,9 +39,11 @@ export const TABS_BY_ROUTE = {
 
   [ALGORITHM_MAIN_ROUTE]: [
     "tips",
+    "break",
     "cash",
     "shifts",
     "vip",
+    "ttn",
     "algorithm",
     "workflow",
     "kitchen",

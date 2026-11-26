@@ -96,6 +96,7 @@ export function BarPage({
   if (!isLoaded) {
     return null;
   }
+
   return (
     <FormWrapper
       form={form}

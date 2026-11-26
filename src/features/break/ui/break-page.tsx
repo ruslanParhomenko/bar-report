@@ -9,6 +9,7 @@ export function BreakPage({
   return (
     <Table className="my-4 md:table-fixed">
       <BreakTableHeader />
+
       <BreakTableBody employeesName={employeesName} />
     </Table>
   );

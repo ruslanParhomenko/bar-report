@@ -6,15 +6,11 @@ import { useMonthDays } from "@/hooks/use-month-days";
 
 export default function TipsHeaderTable({
   addNewRow,
-  selectedDay,
-  setSelectedDay,
   selectedDayTips,
   setSelectedDayTips,
   isEdit,
 }: {
   addNewRow: () => void;
-  selectedDay: number;
-  setSelectedDay: (day: number) => void;
   selectedDayTips: string | null;
   setSelectedDayTips: (day: string | null) => void;
   isEdit: boolean;
@@ -23,7 +19,7 @@ export default function TipsHeaderTable({
 
   return (
     <TableHeader>
-      <TableRow>
+      <TableRow className="h-12">
         <TableCell className="w-4 p-0"></TableCell>
 
         <TableCell className="w-28 pl-4">
@@ -44,12 +40,7 @@ export default function TipsHeaderTable({
           </div>
         </TableCell>
         <TableCell className="w-10 p-0 text-center font-bold"></TableCell>
-        <MonthDaysCells
-          selectedDay={selectedDay}
-          setSelectedDay={setSelectedDay}
-          monthDays={monthDays}
-          className="w-9"
-        />
+        <MonthDaysCells monthDays={monthDays} className="w-9" />
       </TableRow>
     </TableHeader>
   );

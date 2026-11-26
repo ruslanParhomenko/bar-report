@@ -14,13 +14,11 @@ export function TipsEditTableBody({
   monthDays,
   remove,
   selectedEmployees,
-  selectedDay,
 }: {
   data: FieldArrayWithId<TipsForm, "rowEmployeesTips", "id">[];
   monthDays: { day: number; weekday: string }[];
   remove: (index: number) => void;
   selectedEmployees: { id: string; name: string; role: string }[] | null;
-  selectedDay: number;
 }) {
   const { control, setValue, register } = useFormContext();
 
@@ -38,15 +36,18 @@ export function TipsEditTableBody({
       {data.map((item, index) => {
         const employeeTotal = perEmployee[index]?.total ?? 0;
         return (
-          <TableRow key={item.id} className="group">
+          <TableRow
+            key={item.id}
+            className="group [&>td]:py-1.5 [&>td]:text-xs"
+          >
             <TableCell
-              className="text-rd cursor-pointer p-0.5 text-xs"
+              className="text-rd cursor-pointer"
               onClick={() => remove(index)}
             >
               {index + 1}
             </TableCell>
 
-            <TableCell className="bg-background hover-cell sticky left-0 w-24 p-1 md:bg-transparent">
+            <TableCell className="bg-background hover-cell sticky left-0 w-24 md:bg-transparent">
               <SelectField
                 fieldName={`rowEmployeesTips.${index}.employee`}
                 data={selectedEmployees
@@ -55,7 +56,7 @@ export function TipsEditTableBody({
                   )
                   .map((emp) => emp.name)}
                 className={cn(
-                  "bg-background! h-6! justify-start truncate pl-1 text-xs",
+                  "bg-background! h-6! justify-start truncate text-xs",
                   value[index]?.role === "barmen" &&
                     "text-muted-foreground font-light!",
                 )}
@@ -71,14 +72,13 @@ export function TipsEditTableBody({
                 }}
               />
             </TableCell>
-            <TableCell className="p-0 pr-2 text-end text-xs text-green-600">
+            <TableCell className="text-end text-green-600">
               {employeeTotal}
             </TableCell>
 
             {monthDays.map((_, dayIndex) => {
-              const isSelected = dayIndex + 1 === selectedDay;
               return (
-                <TableCell key={dayIndex} className="border-x p-0.5">
+                <TableCell key={dayIndex} className="border-x">
                   <input
                     {...register(
                       `rowEmployeesTips.${index}.tipsByDay.${dayIndex}`,
@@ -86,10 +86,7 @@ export function TipsEditTableBody({
                     data-row={index}
                     data-col={dayIndex}
                     onKeyDown={handleMultiTableNavigation}
-                    className={cn(
-                      "hover-cell h-6 w-full border-0 p-0 text-center text-xs shadow-none",
-                      isSelected && "text-rd font-bold",
-                    )}
+                    className="hover-cell h-6 w-full border-0 p-0 text-center shadow-none"
                   />
                 </TableCell>
               );

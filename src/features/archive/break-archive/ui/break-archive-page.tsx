@@ -1,3 +1,4 @@
+"use client";
 import NavTabs from "@/components/nav-tabs/nav-tabs";
 import { BreakListArchive } from "@/features/archive/break-archive/ui/break-list-archive";
 import { BreakTableArchive } from "@/features/archive/break-archive/ui/break-table-archive";
