@@ -1,4 +1,5 @@
 "use client";
+import { Card } from "@/components/ui/card";
 import { Table } from "@/components/ui/table";
 import { remarksByUniqueEmployee } from "@/features/archive/penalty-archive/utils";
 import {
@@ -9,7 +10,6 @@ import ResultTableBody from "@/features/result/ui/result-body-table";
 import ResultTableHeader from "@/features/result/ui/result-header-table";
 import { GetScheduleData } from "@/features/schedule/schedule-edit/model/type";
 import { GetTipsData } from "@/features/tips-month/model/type";
-import { useSearchParams } from "next/navigation";
 
 const ROLE = {
   barmen: "bar",
@@ -25,6 +25,7 @@ export function ResultPage({
   month,
   year,
   isAdmin,
+  tab,
 }: {
   dataSchedules: GetScheduleData[] | null;
   dataRemarks: ReturnType<typeof remarksByUniqueEmployee>["formattedData"];
@@ -32,8 +33,9 @@ export function ResultPage({
   month: string;
   year: string;
   isAdmin: boolean;
+  tab: string;
 }) {
-  const role = useSearchParams().get("tab") || "barmen";
+  const role = tab;
 
   const selectedSchedule =
     dataSchedules?.filter(
@@ -61,10 +63,15 @@ export function ResultPage({
         not data
       </div>
     );
+
   return (
-    <Table className="table-fixed">
-      <ResultTableHeader month={month} />
-      <ResultTableBody rows={rows} totals={totals} isAdmin={isAdmin} />
-    </Table>
+    <div className="flex h-full flex-col items-center justify-center py-4">
+      <Card className="bg-gr/10 md:p-2">
+        <Table className="table-auto">
+          <ResultTableHeader month={month} />
+          <ResultTableBody rows={rows} totals={totals} isAdmin={isAdmin} />
+        </Table>
+      </Card>
+    </div>
   );
 }

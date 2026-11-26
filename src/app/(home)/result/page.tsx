@@ -1,42 +1,32 @@
 import { InsufficientRights } from "@/components/wrapper/insufficient-rights";
 import { ADMIN } from "@/constants/roles";
+import { RESULT_MAIN_ROUTE } from "@/constants/route-tag";
 import { remarksByUniqueEmployee } from "@/features/archive/penalty-archive/utils";
 import { getRemarksByYearMonth } from "@/features/penalty/actions/get-penalty";
 import { ResultPage } from "@/features/result";
 import { getScheduleByYearAndMonth } from "@/features/schedule/schedule-edit/actions/get-schedule";
 import { getTipsByYearAndMonth } from "@/features/tips-month/actions/get-tips";
-import { authOptions } from "@/lib/auth";
-import { MONTHS } from "@/utils/get-month-days";
-import { getServerSession } from "next-auth";
+import { requireTabAccess } from "@/lib/access";
+import { canViewSchedule } from "@/utils/can-access-period";
 export default async function Page({
   searchParams,
 }: {
   searchParams: Promise<{ [key: string]: string | undefined }>;
 }) {
-  const { month, year } = await searchParams;
+  const { month, year, tab } = await searchParams;
 
-  if (!month || !year) return null;
+  if (!month || !year || !tab) return null;
 
-  const session = await getServerSession(authOptions);
-  const isAdmin = session?.user?.role === ADMIN;
+  const { user } = await requireTabAccess(RESULT_MAIN_ROUTE, tab);
 
-  if (!isAdmin) {
-    const now = new Date();
-    const currentYear = now.getFullYear();
-    const currentMonth = now.getMonth() + 1;
+  if (!user) {
+    return <InsufficientRights />;
+  }
 
-    const requestedYear = parseInt(year);
-    const requestedMonth = MONTHS.indexOf(month) + 1;
+  const isAdmin = user?.role === ADMIN;
 
-    const isCurrentYearOrNext =
-      requestedYear === currentYear &&
-      (requestedMonth === currentMonth ||
-        requestedMonth === currentMonth + 1 ||
-        requestedMonth === currentMonth - 1);
-
-    if (!isCurrentYearOrNext) {
-      return <InsufficientRights />;
-    }
+  if (!canViewSchedule(year, month, 1, 0) && !isAdmin) {
+    return <InsufficientRights />;
   }
 
   const [schedules, remarks, tipsData] = await Promise.all([
@@ -60,6 +50,7 @@ export default async function Page({
       month={month}
       year={year}
       isAdmin={isAdmin}
+      tab={tab}
     />
   );
 }

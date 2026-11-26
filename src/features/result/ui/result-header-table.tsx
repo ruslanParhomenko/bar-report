@@ -1,11 +1,10 @@
+"use client";
 import { TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { cn } from "@/lib/utils";
 
 export default function ResultTableHeader({ month }: { month: string }) {
-  const classNameRow = "text-center text-gr md:w-10 w-7";
-
   const isMobile = useIsMobile();
+
   return (
     <TableHeader>
       <TableRow className="border-0!">
@@ -16,18 +15,16 @@ export default function ResultTableHeader({ month }: { month: string }) {
           {month}
         </TableHead>
       </TableRow>
-      <TableRow>
-        <TableHead className="w-18 md:w-26" />
-        <TableHead className={cn(classNameRow)} />
-        <TableHead className={classNameRow}>d</TableHead>
-        <TableHead className={classNameRow}>n</TableHead>
-        <TableHead className={classNameRow} />
-        <TableHead className={cn(classNameRow, "w-12 md:w-60")} />
-        <TableHead className={classNameRow}>tips</TableHead>
-        <TableHead className={classNameRow}>-</TableHead>
-        <TableHead className={cn(classNameRow)}>+</TableHead>
-        {!isMobile && <TableHead className="md:w-20"></TableHead>}
-        <TableHead className={cn(classNameRow, "w-12 md:w-30")} />
+      <TableRow className="h-12 [&>th]:text-center [&>th]:text-[10px] md:[&>th]:w-26 md:[&>th]:text-xs">
+        <TableHead>name</TableHead>
+        <TableHead className="border-x">salary</TableHead>
+        <TableHead className="text-gn">tips</TableHead>
+        <TableHead className="text-rd">{isMobile ? "-" : "penalty"}</TableHead>
+        <TableHead className="text-bl">{isMobile ? "-" : "bonus"}</TableHead>
+        <TableHead className="border-x">{isMobile ? "r" : "rate"}</TableHead>
+
+        <TableHead>hours</TableHead>
+        <TableHead className="border-l">total</TableHead>
       </TableRow>
     </TableHeader>
   );

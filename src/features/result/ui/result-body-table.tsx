@@ -14,6 +14,7 @@ export default function ResultTableBody({
   isAdmin: boolean;
 }) {
   const isMobile = useIsMobile();
+
   return (
     <TableBody>
       {rows.map(
@@ -23,75 +24,87 @@ export default function ResultTableBody({
         ) => (
           <TableRow
             key={index}
-            className="hover:text-rd hover:bg-accent [&>td]:text-center [&>td]:text-xs md:[&>td]:text-sm"
+            className="hover:text-rd hover:bg-accent [&>td]:text-center [&>td]:text-[11px] md:[&>td]:text-base"
           >
             <TableCell
-              className="bg-background sticky left-0 cursor-copy px-0 text-start! md:bg-transparent md:pl-4"
+              className="cursor-copy px-1 text-start! md:px-8"
               onClick={() => handleCopy(e.employee)}
             >
-              <p className="truncate text-xs">{e.employee}</p>
-            </TableCell>
-            <TableCell className="border-r px-1">
-              {isMobile ? rate / 1000 : rate}
-            </TableCell>
-            <TableCell className="px-0">{dayH}</TableCell>
-            <TableCell className="px-0">{nightH}</TableCell>
-            <TableCell
-              onClick={() => handleCopy(String(totalHours))}
-              className="text-gn cursor-copy border-r px-0"
-            >
-              {totalHours}
+              {isMobile
+                ? e.employee.split(" ")[0].slice(0, 7) +
+                  ".. " +
+                  e.employee.split(" ")[1][0]
+                : e.employee}
             </TableCell>
             <TableCell
-              className="cursor-copy border-r px-0 md:pl-6"
+              className="cursor-copy border-x"
               onClick={() => handleCopy(String(salary))}
             >
               {isAdmin ? salary : "****"}
             </TableCell>
-
             <TableCell
-              className="cursor-copy px-0"
+              className="text-gn cursor-copy"
               onClick={() => handleCopy(String(sendTips))}
             >
               {sendTips}
             </TableCell>
             <TableCell
-              className="text-rd cursor-copy px-0"
+              className="text-rd cursor-copy"
               onClick={() => handleCopy(String(e.penalty))}
             >
               {e.penalty}
             </TableCell>
             <TableCell
-              className="cursor-copy border-r px-0"
+              className="text-bl cursor-copy"
               onClick={() => handleCopy(String(e.bonus))}
             >
               {e.bonus}
             </TableCell>
-            {!isMobile && (
-              <TableCell
-                className="border-r text-xs!"
-                onClick={() => handleCopy(e.employee)}
-              >
-                {e.employee}
-              </TableCell>
-            )}
-            <TableCell className="px-0">{isAdmin ? result : "*****"}</TableCell>
+            <TableCell className="border-x">
+              {isMobile ? rate / 1000 : rate}
+            </TableCell>
+
+            <TableCell className="border-r p-0">
+              <div className="flex items-center justify-center gap-1 md:gap-3">
+                <div className="divide-gr/20 flex flex-col items-center justify-center divide-y">
+                  <span className="text-[10px] md:text-[11px]">{dayH}</span>
+                  <span className="text-[10px] md:text-[11px]">{nightH}</span>
+                </div>
+                <div className="text-[10px] md:text-[11px]">{totalHours}</div>
+              </div>
+            </TableCell>
+
+            <TableCell>{isAdmin ? result : "*****"}</TableCell>
           </TableRow>
         ),
       )}
 
-      <TableRow className="text-bl font-bold [&>td]:px-0 [&>td]:text-center [&>td]:text-xs md:[&>td]:text-sm">
+      <TableRow className="h-12 md:font-bold [&>td]:text-center [&>td]:text-[11px] md:[&>td]:text-sm">
         <TableCell />
-        <TableCell />
-        <TableCell>{totals.dayH}</TableCell>
-        <TableCell>{totals.nightH}</TableCell>
-        <TableCell>{totals.totalHours}</TableCell>
-        <TableCell>{isAdmin ? totals.salary : "****"}</TableCell>
-        <TableCell>{totals.sendTips}</TableCell>
-        <TableCell>{totals.penalty}</TableCell>
-        <TableCell>{totals.bonus}</TableCell>
-        {!isMobile && <TableCell />}
-        <TableCell>{isAdmin ? totals.result : "*****"}</TableCell>
+        <TableCell className="border-x">
+          {isAdmin ? totals.salary : "****"}
+        </TableCell>
+        <TableCell className="text-gn">{totals.sendTips}</TableCell>
+        <TableCell className="text-rd">{totals.penalty}</TableCell>
+        <TableCell className="text-bl">{totals.bonus}</TableCell>
+        <TableCell className="border-x" />
+
+        <TableCell>
+          <div className="flex items-center justify-center gap-1 md:gap-3">
+            <div className="divide-gr/20 flex flex-col items-center justify-center divide-y">
+              <span className="text-[10px] md:text-[11px]">{totals.dayH}</span>
+              <span className="text-[10px] md:text-[11px]">
+                {totals.nightH}
+              </span>
+            </div>
+            <div className="text-[10px] md:text-[11px]">
+              {totals.totalHours}
+            </div>
+          </div>
+        </TableCell>
+        <TableCell className="border-l">
+          {isAdmin ? totals.result : "*****"}
+        </TableCell>
       </TableRow>
     </TableBody>
   );
