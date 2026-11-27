@@ -1,7 +1,7 @@
 import { InsufficientRights } from "@/components/wrapper/insufficient-rights";
 import { ADMIN, USER } from "@/constants/roles";
+import { getTipsAddByYearMonth } from "@/features/chart/chart-archive/chart-tips-add-day/actions/get-tips-add-by-month";
 import { TipsAddTreePage } from "@/features/tips-add-tree";
-import { getTipsAddByYearMonth } from "@/features/tips-add/actions/get-tips-add";
 import { authOptions } from "@/lib/auth";
 import { MONTHS } from "@/utils/get-month-days";
 import { getServerSession } from "next-auth";

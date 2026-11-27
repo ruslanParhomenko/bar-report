@@ -1,10 +1,10 @@
 import { InsufficientRights } from "@/components/wrapper/insufficient-rights";
 import { ADMIN, USER } from "@/constants/roles";
 import { DIFF_MAIN_ROUTE } from "@/constants/route-tag";
+import { getTipsAddByYearMonth } from "@/features/chart/chart-archive/chart-tips-add-day/actions/get-tips-add-by-month";
 import { DiffPage } from "@/features/diff";
 import { getRemarksByYearMonth } from "@/features/penalty/actions/get-penalty";
 import { getScheduleByYearAndMonth } from "@/features/schedule/schedule-edit/actions/get-schedule";
-import { getTipsAddByYearMonth } from "@/features/tips-add/actions/get-tips-add";
 import { requireTabAccess } from "@/lib/access";
 import { MONTHS } from "@/utils/get-month-days";
 

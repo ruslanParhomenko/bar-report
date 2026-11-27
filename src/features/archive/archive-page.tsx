@@ -5,10 +5,10 @@ import OrdersArchivePage from "@/features/archive/orders/orders-archive-page";
 import { PenaltyArchivePage } from "@/features/archive/penalty-archive";
 import { TipsArchivePage } from "@/features/archive/tips-archive";
 import { getBreakListByYearMonth } from "@/features/break/actions/get-break";
+import { getTipsAddByYearMonth } from "@/features/chart/chart-archive/chart-tips-add-day/actions/get-tips-add-by-month";
 import { getReportCucinaByYearMonth } from "@/features/cucina/actions/get-report-cucina";
 import { getRemarksByYearMonth } from "@/features/penalty/actions/get-penalty";
 import { getReportBarByYearMonth } from "@/features/report-bar/actions/get-report-bar";
-import { getTipsAddByYearMonth } from "@/features/tips-add/actions/get-tips-add";
 
 interface ArchivePageProps {
   isAdmin: boolean;

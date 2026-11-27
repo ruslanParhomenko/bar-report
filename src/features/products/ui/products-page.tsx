@@ -83,16 +83,17 @@ export default function ProductsPage({ data }: { data: ProductType[] }) {
                     key={product.id}
                     className="hover:bg-muted hover:[&>td]:text-rd! [&>td]:py-1"
                   >
-                    <TableCell className="w-3 text-xs md:px-1">
+                    <TableCell className="text-muted-foreground text-xs md:px-1">
                       {colIndex * rows + index + 1}
                     </TableCell>
                     <TableCell className="text-gr cursor-pointer truncate px-1 text-xs">
-                      {product.name.slice(0, 15)}
+                      {product.name.slice(0, 12) +
+                        (product.name.length > 12 ? "..." : "")}
                     </TableCell>
-                    <TableCell className="text-bl w-8 text-xs md:px-1">
+                    <TableCell className="text-bl text-xs md:px-1">
                       {product.id || "-"}
                     </TableCell>
-                    <TableCell className="w-6 text-xs md:px-1">
+                    <TableCell className="text-[10px] md:px-1">
                       {product.coefficient}
                     </TableCell>
                   </TableRow>

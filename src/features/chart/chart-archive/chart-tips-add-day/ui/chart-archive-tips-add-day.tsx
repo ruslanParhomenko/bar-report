@@ -45,6 +45,7 @@ export default function ChartArchiveTipsAddDay({
         chartData={chartData}
         barItem={barKeys.filter(({ visible }) => visible)}
         vertical={chartData.length > 25}
+        className="h-[76dvh]"
       />
 
       <CustomLegend items={barKeys} onToggle={toggleBar} />

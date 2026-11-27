@@ -40,7 +40,7 @@ export function UsersPage({
     }
   };
   return (
-    <Table className="mt-4 [&>tbody>tr]:text-xs">
+    <Table className="mt-4 table-auto [&>tbody>tr]:text-xs">
       <TableBody>
         {localUsers
           ?.filter(
@@ -49,12 +49,12 @@ export function UsersPage({
           )
           .map((user, idx) => (
             <TableRow key={user.id}>
-              <TableCell className="w-6">{idx + 1}</TableCell>
+              <TableCell>{idx + 1}</TableCell>
               <TableCell>{user.mail}</TableCell>
-              <TableCell className="text-center md:px-4">{user.role}</TableCell>
+              <TableCell className="text-center md:px-2">{user.role}</TableCell>
               <TableCell>{user.name}</TableCell>
               <TableCell>
-                <div className="flex justify-center gap-8 pr-4">
+                <div className="flex justify-center gap-6 pr-4">
                   <LinkEditButton
                     url={`/${CREATE_USER_MAIN_ROUTE}/${user.id}`}
                     disabled={!isAdmin}
@@ -85,22 +85,23 @@ export function UsersPage({
                   />
                 </div>
               </TableCell>
-              <TableCell>
-                <div className="flex w-[60dvw] items-center truncate">
-                  <span className="mr-2 text-[10px] text-red-600">page:</span>
-                  {user.accessList?.map((route, idx) => (
-                    <span key={idx} className="mr-2 text-xs">
-                      {route}
-                    </span>
-                  ))}
+              <TableCell className="max-w-[60dvw] min-w-50">
+                <div className="flex items-start">
+                  <span className="mr-2 shrink-0 text-[10px] text-red-600">
+                    page:
+                  </span>
+                  <span className="text-[11px] wrap-break-word whitespace-normal">
+                    {user.accessList?.join(", ")}
+                  </span>
                 </div>
-                <div className="flex w-[60dvw] items-center truncate">
-                  <span className="mr-2 text-[10px] text-red-600">tabs:</span>
-                  {user.accessTabs?.map((route, idx) => (
-                    <span key={idx} className="mr-4 text-xs">
-                      {route}
-                    </span>
-                  ))}
+
+                <div className="mt-1 flex items-start">
+                  <span className="mr-2 shrink-0 text-[10px] text-red-600">
+                    tabs:
+                  </span>
+                  <span className="text-[11px] wrap-break-word whitespace-normal">
+                    {user.accessTabs?.join(", ")}
+                  </span>
                 </div>
               </TableCell>
             </TableRow>

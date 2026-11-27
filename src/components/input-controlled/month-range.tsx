@@ -72,7 +72,7 @@ export function MonthPicker({
   };
 
   return (
-    <div className={cn("flex", className)}>
+    <div className={cn("flex gap-2", className)}>
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button

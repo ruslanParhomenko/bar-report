@@ -1,8 +1,8 @@
 import { InsufficientRights } from "@/components/wrapper/insufficient-rights";
 import { ADMIN, USER } from "@/constants/roles";
 import { TIPS_MAIN_ROUTE } from "@/constants/route-tag";
+import { getTipsAddByYearMonth } from "@/features/chart/chart-archive/chart-tips-add-day/actions/get-tips-add-by-month";
 import { getEmployees } from "@/features/settings/create-employee/actions/get-employees";
-import { getTipsAddByYearMonth } from "@/features/tips-add/actions/get-tips-add";
 import { TipsMonthPage } from "@/features/tips-month";
 import { getTipsByYearAndMonth } from "@/features/tips-month/actions/get-tips";
 import { TipsYearPage } from "@/features/tips-year";

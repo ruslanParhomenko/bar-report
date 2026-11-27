@@ -88,16 +88,17 @@ export default function TechCardPage({
                     key={card.id || `${colIndex}-${index}`}
                     className="hover:bg-muted hover:[&>td]:text-rd! [&>td]:py-1"
                   >
-                    <TableCell className="w-3 text-xs md:px-1">
+                    <TableCell className="text-muted-foreground text-xs md:px-1">
                       {colIndex * rows + index + 1}
                     </TableCell>
                     <TableCell className="text-gr cursor-pointer truncate px-1 text-xs">
-                      {card.name}
+                      {card.name.slice(0, 18) +
+                        (card.name.length > 18 ? "..." : "")}
                     </TableCell>
-                    <TableCell className="w-8 text-xs md:px-1">
+                    <TableCell className="text-[10px] md:px-1">
                       {card.weight}
                     </TableCell>
-                    <TableCell className="text-bl w-8 text-xs md:px-1">
+                    <TableCell className="text-bl text-xs md:px-1">
                       {card.id || "-"}
                     </TableCell>
                   </TableRow>
