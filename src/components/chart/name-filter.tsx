@@ -23,9 +23,9 @@ export default function NameFilter({
         className,
       )}
     >
-      {names.map((name) => (
+      {names.map((name, index) => (
         <span
-          key={name}
+          key={`${name}-${index}`}
           onClick={() => onChange(activeName === name ? "" : name)}
           className={cn(
             "hover:text-rd cursor-pointer rounded-full px-1 py-0.5 text-xs transition-opacity",

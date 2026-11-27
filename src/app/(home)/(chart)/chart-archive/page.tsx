@@ -1,9 +1,13 @@
 import ChartRemarksPage from "@/features/chart/chart-archive/chart-remarks/chart-remarks-page";
+import { ChartArchiveTipsAddDay } from "@/features/chart/chart-archive/chart-tips-add-day";
 import ChartTipsAddPage from "@/features/chart/chart-archive/chart-tips-add-page/chart-tips-add-page";
 import { getRemarksByYear } from "@/features/penalty/actions/get-penalty";
-import { getTipsAddByYear } from "@/features/tips-add/actions/get-tips-add";
+import {
+  getTipsAddByYear,
+  getTipsAddByYearMonth,
+} from "@/features/tips-add/actions/get-tips-add";
 
-const TIPS_TABS = ["tips-day", "tips-year", "tips-employee"] as const;
+const TIPS_TABS = ["tips-year", "tips-employee"] as const;
 const PENALTY_TABS = ["penalty-year", "penalty-employee"] as const;
 
 export default async function Page({
@@ -22,6 +26,11 @@ export default async function Page({
   if (TIPS_TABS.includes(tab as (typeof TIPS_TABS)[number])) {
     const dataTipsAdd = await getTipsAddByYear(year);
     return <ChartTipsAddPage dataTipsAdd={dataTipsAdd} tab={tab} />;
+  }
+
+  if (tab === "tips-day") {
+    const dataTipsAddMonth = await getTipsAddByYearMonth(year, month);
+    return <ChartArchiveTipsAddDay dataTipsAddMonth={dataTipsAddMonth} />;
   }
 
   return null;

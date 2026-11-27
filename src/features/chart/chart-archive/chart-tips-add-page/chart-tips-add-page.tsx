@@ -15,11 +15,7 @@ import { useAccessCheck } from "@/hooks/use-tab-access";
 import { filterByMonthRange } from "@/utils/filter-by-month-range";
 import { toggleBarVisibility } from "@/utils/toggle-bar-visibility";
 import { useMemo, useState } from "react";
-import {
-  getChartDataByEmployee,
-  getChartDataTipsByDay,
-  getChartDataTipsFromYear,
-} from "./utils";
+import { getChartDataByEmployee, getChartDataTipsFromYear } from "./utils";
 
 const ITEM_KEYS = ["mdl", "chips", "total", "result"] as const;
 type BarKey = BarConfig<(typeof ITEM_KEYS)[number]>;
@@ -47,6 +43,7 @@ export default function ChartTipsAddPage({
   const [activeName, setActiveName] = useState<string>("");
 
   const monthData = dataTipsAdd?.find((data) => data.id === month) || null;
+  console.log("dataTipsAdd", monthData);
 
   const dataTipsPrevMonth = useMemo(
     () => filterByMonthRange(dataTipsAdd, range),
@@ -64,11 +61,10 @@ export default function ChartTipsAddPage({
   ];
 
   const chartDataByEmployee = getChartDataByEmployee(dataTipsAdd, activeName);
-  const chartDataTipsByDay = getChartDataTipsByDay(monthData, activeName);
+
   const chartDataTipsFromYear = getChartDataTipsFromYear(dataTipsPrevMonth);
 
   const CHART_DATA_MAP = {
-    "tips-day": chartDataTipsByDay,
     "tips-year": chartDataTipsFromYear,
     "tips-employee": chartDataByEmployee,
   };
