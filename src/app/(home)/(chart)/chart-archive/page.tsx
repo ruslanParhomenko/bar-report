@@ -1,24 +1,28 @@
-import ChartArchivePage from "@/features/chart/chart-archive/chart-arhive-page";
+import ChartRemarksPage from "@/features/chart/chart-archive/chart-remarks/chart-remarks-page";
+import ChartTipsAddPage from "@/features/chart/chart-archive/chart-tips-add-page/chart-tips-add-page";
 import { getRemarksByYear } from "@/features/penalty/actions/get-penalty";
 import { getTipsAddByYear } from "@/features/tips-add/actions/get-tips-add";
+
+const TIPS_TABS = ["tips-day", "tips-year", "tips-employee"] as const;
+const PENALTY_TABS = ["penalty-year", "penalty-employee"] as const;
 
 export default async function Page({
   searchParams,
 }: {
   searchParams: Promise<{ [key: string]: string | undefined }>;
 }) {
-  const { month, year } = await searchParams;
-  if (!month || !year) return null;
+  const { month, year, tab } = await searchParams;
+  if (!month || !year || !tab) return null;
 
-  const [dataRemarks, dataTips] = await Promise.allSettled([
-    getRemarksByYear(String(year)),
-    getTipsAddByYear(String(year)),
-  ]);
+  if (PENALTY_TABS.includes(tab as (typeof PENALTY_TABS)[number])) {
+    const dataRemarks = await getRemarksByYear(year);
+    return <ChartRemarksPage dataRemarks={dataRemarks} tab={tab} />;
+  }
 
-  const data = {
-    dataRemarks: dataRemarks.status === "fulfilled" ? dataRemarks.value : null,
-    dataTips: dataTips.status === "fulfilled" ? dataTips.value : null,
-  };
+  if (TIPS_TABS.includes(tab as (typeof TIPS_TABS)[number])) {
+    const dataTipsAdd = await getTipsAddByYear(year);
+    return <ChartTipsAddPage dataTipsAdd={dataTipsAdd} tab={tab} />;
+  }
 
-  return <ChartArchivePage data={data} />;
+  return null;
 }

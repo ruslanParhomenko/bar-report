@@ -18,6 +18,7 @@ import {
   SCHEDULE_MAIN_ROUTE,
   SETTING_MAIN_ROUTE,
   STOP_LIST_MAIN_ROUTE,
+  TECH_CARD_MAIN_ROUTE,
   TIPS_MAIN_ROUTE,
   TTN_MAIN_ROUTE,
   USERS_MAIN_ROUTE,
@@ -153,5 +154,10 @@ export const SIDEBAR_NAVIGATION = [
     title: PARSER_1C_MAIN_ROUTE,
     icon: ChartCandlestick,
     query: NAV_BY_PATCH[PARSER_1C_MAIN_ROUTE],
+  },
+  {
+    title: TECH_CARD_MAIN_ROUTE,
+    icon: FileTextIcon,
+    query: NAV_BY_PATCH[TECH_CARD_MAIN_ROUTE],
   },
 ];

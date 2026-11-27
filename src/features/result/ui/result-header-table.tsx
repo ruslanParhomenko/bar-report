@@ -15,7 +15,7 @@ export default function ResultTableHeader({ month }: { month: string }) {
           {month}
         </TableHead>
       </TableRow>
-      <TableRow className="h-12 [&>th]:text-center [&>th]:text-[10px] md:[&>th]:w-26 md:[&>th]:text-xs">
+      <TableRow className="h-12 [&>th]:text-center [&>th]:text-[10px] md:[&>th]:w-28 md:[&>th]:text-xs">
         <TableHead>name</TableHead>
         <TableHead className="border-x">salary</TableHead>
         <TableHead className="text-gn">tips</TableHead>

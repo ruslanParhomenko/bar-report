@@ -37,3 +37,4 @@ export const CHART_TTN_ROUTE = "chart-ttn";
 export const CHART_AO_ROUTE = "chart-ao";
 
 export const NEWS_MAIN_ROUTE = "news";
+export const TECH_CARD_MAIN_ROUTE = "tech-card";

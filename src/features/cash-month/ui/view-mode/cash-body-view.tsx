@@ -51,7 +51,6 @@ export function CashMonthBodyView({
         rowsSection={"coll"}
         dataCash={dataCash}
         selectedDay={selectedDay}
-        withTotalByDay={false}
       />
       <CashRowView
         rowsSection={"nbm"}

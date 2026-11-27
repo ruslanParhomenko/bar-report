@@ -21,7 +21,7 @@ export default async function SidebarMenuButtons() {
   );
 
   return (
-    <SidebarMenu className="flex h-full flex-col gap-0.5">
+    <SidebarMenu className="flex h-full flex-col gap-1.5">
       {SIDEBAR_NAVIGATION.filter(
         (item) => accessList.includes(item.title) || isAdmin,
       ).map((item) => {

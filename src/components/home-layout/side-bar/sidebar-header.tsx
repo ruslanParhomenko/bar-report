@@ -8,7 +8,7 @@ export default function SidebarHeader() {
   const role = session.data?.user?.role;
   return (
     <div
-      className="text-rd flex h-8 cursor-pointer items-center justify-center text-xs"
+      className="text-rd flex h-6 cursor-pointer items-center justify-center text-xs"
       onClick={() => router.push("/home")}
     >
       {role?.toLocaleLowerCase()}

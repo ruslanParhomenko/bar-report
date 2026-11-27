@@ -87,17 +87,12 @@ export default function CashRowView({
             </TableCell>
 
             {monthDays.map((_, dayIndex) => {
-              const isSelected = selectedDay === dayIndex + 1;
               const valueByDay = rowValues?.[dayIndex];
 
               return (
                 <TableCell
                   key={dayIndex}
-                  className={cn(
-                    "border-x text-center text-xs",
-                    row.colorText,
-                    isSelected && "text-rd font-bold",
-                  )}
+                  className={cn("border-x text-center text-xs", row.colorText)}
                 >
                   {formatNumber(valueByDay)}
                 </TableCell>
@@ -137,7 +132,7 @@ export default function CashRowView({
               className={cn(
                 "text-bl w-12.5 px-0.5 text-center text-[11px]",
                 diffRowSection && "text-rd",
-                isSelected && "text-rd",
+                isSelected && withTotalByDay && "text-rd font-bold",
               )}
             >
               {withTotalByDay && formatNumber(dayTotal)}

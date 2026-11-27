@@ -26,6 +26,7 @@ import {
   SCHEDULE_MAIN_ROUTE,
   SETTING_MAIN_ROUTE,
   STOP_LIST_MAIN_ROUTE,
+  TECH_CARD_MAIN_ROUTE,
   TIPS_MAIN_ROUTE,
   TTN_MAIN_ROUTE,
   USERS_MAIN_ROUTE,
@@ -33,6 +34,7 @@ import {
 import { Route } from "next";
 
 export const TABS_BY_ROUTE = {
+  [TECH_CARD_MAIN_ROUTE]: ["tech-card", "products"],
   [NEWS_MAIN_ROUTE]: [],
   [SCHEDULE_MAIN_ROUTE]: ["bar", "cucina", "dish"],
   [CHART_SCHEDULE_ROUTE]: ["bar", "cucina", "dish"],
@@ -157,6 +159,10 @@ export type NAV_BY_PATCH_TYPE = Record<
 >;
 
 export const NAV_BY_PATCH: NAV_BY_PATCH_TYPE = {
+  [TECH_CARD_MAIN_ROUTE]: {
+    tabs: TABS_BY_ROUTE[TECH_CARD_MAIN_ROUTE],
+    selectDate: false,
+  },
   [NEWS_MAIN_ROUTE]: {
     tabs: TABS_BY_ROUTE[NEWS_MAIN_ROUTE],
     selectDate: false,

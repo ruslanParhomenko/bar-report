@@ -1,10 +1,11 @@
 import { cn } from "@/lib/utils";
 
 type Props = {
-  names: string[];
+  names: readonly string[];
   activeName: string;
   onChange: (name: string) => void;
   isVisible?: boolean;
+  className?: string;
 };
 
 export default function NameFilter({
@@ -12,10 +13,16 @@ export default function NameFilter({
   activeName,
   onChange,
   isVisible,
+  className,
 }: Props) {
   if (!isVisible) return null;
   return (
-    <div className="flex flex-wrap justify-center gap-1 md:px-4 md:pb-2">
+    <div
+      className={cn(
+        "flex flex-wrap justify-center gap-1 md:px-4 md:pb-2",
+        className,
+      )}
+    >
       {names.map((name) => (
         <span
           key={name}

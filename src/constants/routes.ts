@@ -28,6 +28,7 @@ import {
   SCHEDULE_MAIN_ROUTE,
   SETTING_MAIN_ROUTE,
   STOP_LIST_MAIN_ROUTE,
+  TECH_CARD_MAIN_ROUTE,
   TIPS_ADD_TREE_MAIN_ROUTE,
   TIPS_MAIN_ROUTE,
   TTN_MAIN_ROUTE,
@@ -75,5 +76,5 @@ export const ROUTES: Route[] = [
   CHART_TTN_ROUTE,
   CHART_AO_ROUTE,
   "report-staff",
-  "tech-card",
+  TECH_CARD_MAIN_ROUTE,
 ] as const;

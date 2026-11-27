@@ -65,8 +65,8 @@ export function ResultPage({
     );
 
   return (
-    <div className="flex h-full flex-col items-center justify-center py-4">
-      <Card className="bg-gr/10 md:p-2">
+    <div className="flex h-full flex-col items-center justify-center">
+      <Card className="bg-gr/5 border-0 md:p-4">
         <Table className="table-auto">
           <ResultTableHeader month={month} />
           <ResultTableBody rows={rows} totals={totals} isAdmin={isAdmin} />

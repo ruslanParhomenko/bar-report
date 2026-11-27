@@ -60,17 +60,23 @@ export default function ResultTableBody({
             >
               {e.bonus}
             </TableCell>
-            <TableCell className="border-x">
+            <TableCell className="border-x md:text-xs!">
               {isMobile ? rate / 1000 : rate}
             </TableCell>
 
-            <TableCell className="border-r p-0">
-              <div className="flex items-center justify-center gap-1 md:gap-3">
-                <div className="divide-gr/20 flex flex-col items-center justify-center divide-y">
-                  <span className="text-[10px] md:text-[11px]">{dayH}</span>
-                  <span className="text-[10px] md:text-[11px]">{nightH}</span>
+            <TableCell className="border-r p-0 md:px-2">
+              <div className="flex items-center justify-center gap-1 md:gap-4">
+                <div className="divide-gr/20 flex flex-col items-center justify-center divide-y md:flex-row md:gap-2 md:divide-x md:divide-y-0">
+                  <span className="text-[10px] md:w-8 md:pr-2 md:text-xs">
+                    {dayH}
+                  </span>
+                  <span className="text-[10px] md:w-8 md:text-xs">
+                    {nightH}
+                  </span>
                 </div>
-                <div className="text-[10px] md:text-[11px]">{totalHours}</div>
+                <div className="text-[10px] md:w-8 md:text-xs">
+                  :{totalHours}
+                </div>
               </div>
             </TableCell>
 
@@ -91,14 +97,16 @@ export default function ResultTableBody({
 
         <TableCell>
           <div className="flex items-center justify-center gap-1 md:gap-3">
-            <div className="divide-gr/20 flex flex-col items-center justify-center divide-y">
-              <span className="text-[10px] md:text-[11px]">{totals.dayH}</span>
-              <span className="text-[10px] md:text-[11px]">
+            <div className="divide-gr/20 flex flex-col items-center justify-center divide-y md:flex-row md:gap-2 md:divide-x md:divide-y-0">
+              <span className="text-[10px] md:w-8 md:pr-2 md:text-xs">
+                {totals.dayH}
+              </span>
+              <span className="text-[10px] md:w-8 md:text-xs">
                 {totals.nightH}
               </span>
             </div>
-            <div className="text-[10px] md:text-[11px]">
-              {totals.totalHours}
+            <div className="text-[10px] md:w-8 md:text-xs">
+              :{totals.totalHours}
             </div>
           </div>
         </TableCell>
