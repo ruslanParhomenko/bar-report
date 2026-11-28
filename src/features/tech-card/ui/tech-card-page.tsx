@@ -5,6 +5,8 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 
 import NameFilter from "@/components/chart/name-filter";
+import { CARD_VIEW_MAIN_ROUTE } from "@/constants/route-tag";
+import { useRouter } from "next/navigation";
 import { CalculationCardType } from "../model/type";
 
 const MIN_ROWS_DESKTOP = 32;
@@ -57,6 +59,8 @@ export default function TechCardPage({
 }: {
   data: CalculationCardType[];
 }) {
+  const router = useRouter();
+
   const [ref, width] = useWidth<HTMLDivElement>();
   const [activeTab, setActiveTab] = useState<string>("all");
 
@@ -70,6 +74,10 @@ export default function TechCardPage({
 
   const rows = getRowsPerColumn(filteredData.length, width);
   const columns = chunk(filteredData, rows);
+
+  const handleView = (id: string) => {
+    router.push(`/${CARD_VIEW_MAIN_ROUTE}/${id}`);
+  };
 
   return (
     <div ref={ref} className="mt-2 h-[90dvh] w-full overflow-auto">
@@ -91,7 +99,10 @@ export default function TechCardPage({
                     <TableCell className="text-muted-foreground text-xs md:px-1">
                       {colIndex * rows + index + 1}
                     </TableCell>
-                    <TableCell className="text-gr cursor-pointer truncate px-1 text-xs">
+                    <TableCell
+                      className="text-gr cursor-pointer truncate px-1 text-xs"
+                      onClick={() => handleView(card.id)}
+                    >
                       {card.name.slice(0, 18) +
                         (card.name.length > 18 ? "..." : "")}
                     </TableCell>

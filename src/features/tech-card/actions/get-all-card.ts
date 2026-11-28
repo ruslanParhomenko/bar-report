@@ -10,7 +10,14 @@ export async function _getAllCards() {
   const snapshot = await dbCardAdmin.collection(actionTag).get();
 
   return snapshot.docs.map(
-    (doc) => ({ id: doc.id, ...doc.data() }) as CalculationCardType,
+    (doc) =>
+      ({
+        id: doc.id,
+        name: doc.data().name,
+        unit: doc.data().unit,
+        category: doc.data().category,
+        weight: doc.data().weight,
+      }) as CalculationCardType,
   );
 }
 

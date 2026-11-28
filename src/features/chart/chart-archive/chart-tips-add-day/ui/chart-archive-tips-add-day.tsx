@@ -24,7 +24,7 @@ export default function ChartArchiveTipsAddDay({
   dataTipsAddMonth: GetTipsAddData[] | null;
 }) {
   if (!dataTipsAddMonth) return null;
-  console.log("dataTipsAddMonth", dataTipsAddMonth);
+
   const [barKeys, setBarKeys] = useState(BAR_KEYS);
   const [activeName, setActiveName] = useState<string>("");
 
